@@ -1,3 +1,12 @@
+2019.11.29 - GNU nano 4.6 ""
+• The 'formatter' command has returned, bound by default to M-F.
+  It allows running a syntax-specific command on the contents of
+  the buffer.
+• ^T will try to run 'hunspell' before 'spell', because it checks
+  spellling for the locale's language and understands UTF-8.
+• Multiple errors or warnings on startup will no longer slow nano
+  down but will be indicated on the status bar with trailing dots.
+
 2019.10.04 - GNU nano 4.5 "Košice"
 • The new 'tabgives' command allows you to specify per syntax what
   the <Tab> key should produce: some spaces, a hard TAB, ...

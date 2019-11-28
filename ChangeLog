@@ -1,3 +1,140 @@
+Changes between v4.5 and v4.6:
+------------------------------
+
+Benno Schulenberg (128):
+      bindings: allow to rebind ^/, even though it is synonymous with ^_
+      bindings: don't hard-bind ^H in the help viewer or the file browser
+      bindings: the 'all' keyword should encompass the browser menu too
+      bindings: the 'all' keyword should include the browser menu always
+      build: fix compilation for --enable-tiny --enable-histories
+      build: fix compilation when configured with --disable-color
+      build: slightly speed up the compilation of the tiny version
+      bump version numbers and add a news item for the 4.6 release
+      chars: add a faster version of the character-parsing function
+      commands: rename 'fixer' to 'formatter', to be less misleading
+      cutting: do nothing when trying to chop a word leftward at start of file
+      display: do refresh the edit window when exiting from the help viewer
+      docs: add a note saying that rebinding ^M or ^I is not advisable
+      docs: add the M-F and M-N keystrokes to the cheatsheet
+      docs: adjust the compilation instructions to two-digit version numbers
+      docs: correct the description of the 'spell' menu
+      docs: document the 'fixer' command, a per-syntax content arranger
+      docs: mention that color rules are applied in the order they are listed
+      docs: mention that 'hunspell' is now the first default spelling program
+      docs: mention that the 'nopauses' option is obsolete
+      docs: remove some excessive detail from the sample nanorc file
+      docs: remove the note about the formatter having been removed
+      feedback: say it when spell check or manipulation did not change anything
+      files: distinguish between read error and write error when prepending
+      files: don't mention the name of the temp file when reading goes wrong
+      files: when opening a file for copying, it should NOT be created
+      formatter: accept the formatted result also upon a nonzero exit status
+      formatter: don't let output from the program pollute the screen
+      gnulib: update to its current upstream state
+      history: don't wait when there is something wrong with the history files
+      linter: report it as an error when running the linting program fails
+      rcfile: allow binding also F17...F24
+      rcfile: process extensions to file-matching commands straightaway
+      restored feature: a per-syntax 'fixer' command that processes the buffer
+      softwrap: when switching to another buffer, re-align the starting column
+      speller: prefer 'hunspell' over 'spell', because it can handle UTF-8
+      speller: when 'spell' is not found, try running 'hunspell -l' instead
+      statusbar: show only the first error message, with dots to indicate more
+      syntax: c: recognize some C++ header files by their Emacs modeline
+      syntax: default: don't colorize stuff between two pairs of brackets
+      syntax: html: add a formatter command, making use of 'tidy'
+      syntax: html: colorize only full attributes, and colorize strings later
+      syntax: javascript: colorize also special values 'null' and 'undefined'
+      syntax: javascript: colorize the boolean values 'true' and 'false' too
+      syntax: nanorc: colorize all arguments of 'fixer' and 'linter' as valid
+      syntax: nanorc: colorize in bright red everything that is invalid
+      syntax: nanorc: colorize only lowercase keywords as valid
+      syntax: nanorc: colorize the 'fixer' command as valid
+      syntax: ruby: colorize also lowercase global/instance variables
+      syntaxes: put the 'linter' and 'formatter' commands on a separate line
+      tweaks: add a helper function without the ubiquitous NULL argument
+      tweaks: add a local variable, for clarity, to not preuse another one
+      tweaks: add some "fall-through" comments, and reshuffle some breaks
+      tweaks: add two translator hints
+      tweaks: adjust the indentation after the previous change
+      tweaks: adjust the indentation after the previous change
+      tweaks: adjust the indentation after the previous change, and another
+      tweaks: adjust two comments, to better fit the actual functions
+      tweaks: avoid setting and resetting a variable when there is no need
+      tweaks: avoid three unneeded calls of umask() in the normal case
+      tweaks: be explicit about which program complained
+      tweaks: check the return value of copy_file() also after its other uses
+      tweaks: close the unused reading ends of two more output pipes
+      tweaks: condense a fragment of code by making use of a helper function
+      tweaks: condense or improve some comments
+      tweaks: condense two comments, and rename two parameters
+      tweaks: condense two comments, and rewrap a line
+      tweaks: correct a comment, and retype a variable
+      tweaks: die on an impossible condition -- to be removed later
+      tweaks: don't do in the parent something that only the child needs
+      tweaks: don't wrap calls of statusline() that slightly overshoot 80 cols
+      tweaks: drop the unneeded closing of descriptors when exiting anyway
+      tweaks: elide a duplicate opening of the existing file when prepending
+      tweaks: elide a function call for the plain ASCII case
+      tweaks: elide another two calls of umask(), and rename two variables
+      tweaks: elide an unneeded and leaky function
+      tweaks: elide an unneeded check when making a backup
+      tweaks: elide a variable, and add a condition to elide an assignment
+      tweaks: elide a variable that is the same as another
+      tweaks: exclude two fragments of code from the tiny version
+      tweaks: fuse two regexes into one
+      tweaks: group the closing of descriptors together, for compactness
+      tweaks: group the closing of two descriptors, and reword two comments
+      tweaks: harmonize a message with another
+      tweaks: improve some comments, and trim some repetitive ones
+      tweaks: make a function do a check so its calls don't need to
+      tweaks: mark two strings for translation
+      tweaks: move a call of umask() closer to where it is relevant
+      tweaks: move two functions to after the one that they make use of
+      tweaks: normalize the indentation after the previous change
+      tweaks: order two functions more sensibly
+      tweaks: pass an empty string as an answer instead of a NULL pointer
+      tweaks: pass an empty string for copying instead of a non-existent one
+      tweaks: pass any special undo/redo messages to the add_undo() function
+      tweaks: remove a pointless updating of the title bar
+      tweaks: remove a redundant check for an existing emergency file
+      tweaks: remove the superfluous closing of a file descriptor
+      tweaks: remove two pointless re-inclusion guards
+      tweaks: remove two superfluous conditions when prepending
+      tweaks: rename a function and add a parameter, so it becomes more general
+      tweaks: rename a function, and elide a parameter that is always NULL
+      tweaks: rename a function and elide its first parameter
+      tweaks: rename a local variable, to not shadow another
+      tweaks: rename a variable, to be a bit more fitting
+      tweaks: rename a variable, to be distinct and visible
+      tweaks: rename three variables, and reshuffle some lines
+      tweaks: rename three variables, to be consistent with other linestructs
+      tweaks: rename three variables, to be more descriptive
+      tweaks: rename three variables, to match others elsewhere
+      tweaks: rename two parameters, for contrast and to match others
+      tweaks: rename two parameters plus a variable, to match others
+      tweaks: rename two variables, and add a third, for more contrast
+      tweaks: reshuffle a few declarations, and reduce the scope of one
+      tweaks: reshuffle a fragment of code into two alternatives
+      tweaks: reshuffle an 'if' to avoid a negation, and improve a comment
+      tweaks: reshuffle some declarations, and rename a variable
+      tweaks: reword an undo/redo string that was overlooked during the rename
+      tweaks: silence a warning when configured with --enable-tiny
+      tweaks: simplify the opening of files when prepending
+      tweaks: slightly reword some fragments in the manual's rebinding section
+      tweaks: use a better variable name for the argument of an option
+      tweaks: use a literal NULL instead of a variable that is NULL
+      tweaks: use a simpler positive/negative check for after copy_file()
+      tweaks: use a string-copy function that checks for out-of-memory
+      tweaks: use the given string instead of the found match, for clarity
+      undo: don't try to copy a string that doesn't exist
+      undo: put the cursor back on the original row for a full-buffer operation
+      utils: don't accept NULL for the string to be copied
+
+Jeroen Roovers (1):
+      syntax: gentoo: highlight the BDEPEND variable as well
+
+
 Changes between v4.4 and v4.5:
 ------------------------------
 
