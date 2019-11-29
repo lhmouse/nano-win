@@ -1,4 +1,4 @@
-2019.11.29 - GNU nano 4.6 ""
+2019.11.29 - GNU nano 4.6 "And don't you eat that yellow snow"
 • The 'formatter' command has returned, bound by default to M-F.
   It allows running a syntax-specific command on the contents of
   the buffer.
