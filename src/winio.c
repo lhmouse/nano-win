@@ -3118,14 +3118,14 @@ size_t chunk_for(size_t column, linestruct *line)
  * column is on. */
 size_t leftedge_for(size_t column, linestruct *line)
 {
-	size_t leftedge;
+	if (ISSET(SOFTWRAP)) {
+		size_t leftedge;
 
-	if (!ISSET(SOFTWRAP))
+		get_chunk_and_edge(column, line, &leftedge);
+
+		return leftedge;
+	} else
 		return 0;
-
-	get_chunk_and_edge(column, line, &leftedge);
-
-	return leftedge;
 }
 
 /* Return the row of the last softwrapped chunk of the given line, relative to
