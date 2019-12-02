@@ -658,7 +658,8 @@ int parse_kbinput(WINDOW *win)
 
 #ifndef NANO_TINY
 	/* When <Tab> is pressed while the mark is on, do an indent. */
-	if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN)
+	if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN &&
+							openfile-> mark != openfile->current)
 		return INDENT_KEY;
 #endif
 
