@@ -128,6 +128,7 @@ section), and to edit several files in a row.  Additionally, the cursor
 can be put on a specific line of a file by adding the line number
 with a plus sign before the filename, and even in a specific column by
 adding it with a comma.
+(Negative numbers count from the end of the file or line.)
 The cursor can also be put on the first or last occurrence of a specific string
 by specifying that string after @code{+/} or @code{+?} before the filename.
 The string can be made case sensitive and/or caused to be interpreted as a
