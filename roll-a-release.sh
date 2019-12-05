@@ -22,6 +22,10 @@ gpg --verify nano-$VERSION.tar.xz.asc &&
 
 git tag -u A0ACE884 -a v$VERSION -m "the nano $VERSION release" &&
 
+make pdf &&  rm -rf doc/nano.t2p &&
+scp doc/nano.pdf bens@wh0rd.org:nano.pdf &&
+scp doc/cheatsheet.html bens@wh0rd.org:cheatsheet.html &&
+
 for file in nano-$VERSION.tar.*z*; do scp $file bens@wh0rd.org:$file; done &&
 
 gnupload --to ftp.gnu.org:nano  nano-$VERSION.tar.*z &&
