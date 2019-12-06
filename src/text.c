@@ -31,6 +31,10 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#if defined(__APPLE__) && !defined(st_mtim)
+#define st_mtim  st_mtimespec
+#endif
+
 #ifndef NANO_TINY
 static pid_t pid_of_command = -1;
 		/* The PID of the forked process -- needed when wanting to abort it. */
