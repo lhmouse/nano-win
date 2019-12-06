@@ -102,7 +102,7 @@ void indent_a_line(linestruct *line, char *indentation)
 	/* Add the fabricated indentation to the beginning of the line. */
 	line->data = charealloc(line->data, length + indent_len + 1);
 	memmove(line->data + indent_len, line->data, length + 1);
-	strncpy(line->data, indentation, indent_len);
+	memcpy(line->data, indentation, indent_len);
 
 	openfile->totsize += indent_len;
 

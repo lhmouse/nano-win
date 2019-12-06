@@ -255,7 +255,7 @@ void unpartition_buffer(void)
 				strlen(antedata) + strlen(openfile->filetop->data) + 1);
 	memmove(openfile->filetop->data + strlen(antedata),
 				openfile->filetop->data, strlen(openfile->filetop->data) + 1);
-	strncpy(openfile->filetop->data, antedata, strlen(antedata));
+	memcpy(openfile->filetop->data, antedata, strlen(antedata));
 	free(antedata);
 	antedata = NULL;
 
