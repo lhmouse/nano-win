@@ -486,16 +486,19 @@ functionptrtype func_from_key(int *kbinput)
 int keycode_from_string(const char *keystring)
 {
 	if (keystring[0] == '^') {
-		if (strcasecmp(keystring, "^Space") == 0)
-			return 0;
+		if (keystring[2] == '\0') {
+			if (keystring[1] == '/')
+				return 31;
 #if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)
-		if (strcmp(keystring, "^H") == 0)
-			return KEY_BACKSPACE;
+			if (keystring[1] == 'H')
+				return KEY_BACKSPACE;
 #endif
-		if (keystring[1] == '/' && keystring[2] == '\0')
-			return 31;
-		if (keystring[1] <= '_' && keystring[2] == '\0')
-			return keystring[1] - 64;
+			if (keystring[1] <= '_')
+				return keystring[1] - 64;
+			else
+				return -1;
+		} else if (strcasecmp(keystring, "^Space") == 0)
+			return 0;
 		else
 			return -1;
 	} else if (keystring[0] == 'M') {
