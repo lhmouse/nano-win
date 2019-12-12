@@ -489,7 +489,7 @@ int keycode_from_string(const char *keystring)
 		if (strcasecmp(keystring, "^Space") == 0)
 			return 0;
 #if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)
-		if (strcasecmp(keystring, "^H") == 0)
+		if (strcmp(keystring, "^H") == 0)
 			return KEY_BACKSPACE;
 #endif
 		if (keystring[1] == '/' && keystring[2] == '\0')
@@ -499,10 +499,10 @@ int keycode_from_string(const char *keystring)
 		else
 			return -1;
 	} else if (keystring[0] == 'M') {
-		if (strcasecmp(keystring, "M-Space") == 0)
-			return (int)' ';
 		if (keystring[1] == '-' && keystring[3] == '\0')
 			return tolower((unsigned char)keystring[2]);
+		if (strcasecmp(keystring, "M-Space") == 0)
+			return (int)' ';
 		else
 			return -1;
 	} else if (keystring[0] == 'F') {
@@ -510,9 +510,9 @@ int keycode_from_string(const char *keystring)
 		if (fn < 1 || fn > 24)
 			return -1;
 		return KEY_F0 + fn;
-	} else if (!strcasecmp(keystring, "Ins"))
+	} else if (strcasecmp(keystring, "Ins") == 0)
 		return KEY_IC;
-	else if (!strcasecmp(keystring, "Del"))
+	else if (strcasecmp(keystring, "Del") == 0)
 		return KEY_DC;
 	else
 		return -1;
@@ -523,11 +523,7 @@ void assign_keyinfo(keystruct *s, const char *keystring, const int keycode)
 {
 	s->keystr = keystring;
 	s->meta = (keystring[0] == 'M' && keycode == 0);
-
-	if (keycode)
-		s->keycode = keycode;
-	else
-		s->keycode = keycode_from_string(keystring);
+	s->keycode = (keycode ? keycode : keycode_from_string(keystring));
 }
 
 /* These two tags are used elsewhere too, so they are global. */
