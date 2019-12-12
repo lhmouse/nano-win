@@ -695,6 +695,7 @@ be used to configure @command{nano} on startup without using command-line
 options.  Additionally, there are some commands to define syntax highlighting
 and to rebind keys --- @pxref{Syntax Highlighting} and @ref{Rebinding Keys}.
 @command{nano} will read one command per line.
+All commands and keywords should be written in lowercase.
 
 Options in nanorc files take precedence over @command{nano}'s defaults, and
 command-line options override nanorc settings.  Also, options that do not
