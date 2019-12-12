@@ -492,16 +492,16 @@ int keycode_from_string(const char *keystring)
 		if (strcasecmp(keystring, "^H") == 0)
 			return KEY_BACKSPACE;
 #endif
-		if (keystring[1] == '/' && strlen(keystring) == 2)
+		if (keystring[1] == '/' && keystring[2] == '\0')
 			return 31;
-		if (keystring[1] <= '_' && strlen(keystring) == 2)
+		if (keystring[1] <= '_' && keystring[2] == '\0')
 			return keystring[1] - 64;
 		else
 			return -1;
 	} else if (keystring[0] == 'M') {
 		if (strcasecmp(keystring, "M-Space") == 0)
 			return (int)' ';
-		if (keystring[1] == '-' && strlen(keystring) == 3)
+		if (keystring[1] == '-' && keystring[3] == '\0')
 			return tolower((unsigned char)keystring[2]);
 		else
 			return -1;

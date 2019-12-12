@@ -419,7 +419,7 @@ void parse_binding(char *ptr, bool dobind)
 	ptr = parse_next_word(ptr);
 	keycopy = copy_of(keyptr);
 
-	if (strlen(keycopy) < 2) {
+	if (keycopy[1] == '\0') {
 		jot_error(N_("Key name is too short"));
 		goto free_things;
 	}
@@ -428,7 +428,7 @@ void parse_binding(char *ptr, bool dobind)
 	keycopy[0] = toupper((unsigned char)keycopy[0]);
 	keycopy[1] = toupper((unsigned char)keycopy[1]);
 	if (keycopy[0] == 'M' && keycopy[1] == '-') {
-		if (strlen(keycopy) > 2)
+		if (keycopy[2] != '\0')
 			keycopy[2] = toupper((unsigned char)keycopy[2]);
 		else {
 			jot_error(N_("Key name is too short"));
