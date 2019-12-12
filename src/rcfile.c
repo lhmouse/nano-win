@@ -675,23 +675,23 @@ short color_to_short(const char *colorname, bool *bright)
 	} else
 		*bright = FALSE;
 
-	if (strcasecmp(colorname, "green") == 0)
+	if (strcmp(colorname, "green") == 0)
 		return COLOR_GREEN;
-	else if (strcasecmp(colorname, "red") == 0)
+	else if (strcmp(colorname, "red") == 0)
 		return COLOR_RED;
-	else if (strcasecmp(colorname, "blue") == 0)
+	else if (strcmp(colorname, "blue") == 0)
 		return COLOR_BLUE;
-	else if (strcasecmp(colorname, "white") == 0)
+	else if (strcmp(colorname, "white") == 0)
 		return COLOR_WHITE;
-	else if (strcasecmp(colorname, "yellow") == 0)
+	else if (strcmp(colorname, "yellow") == 0)
 		return COLOR_YELLOW;
-	else if (strcasecmp(colorname, "cyan") == 0)
+	else if (strcmp(colorname, "cyan") == 0)
 		return COLOR_CYAN;
-	else if (strcasecmp(colorname, "magenta") == 0)
+	else if (strcmp(colorname, "magenta") == 0)
 		return COLOR_MAGENTA;
-	else if (strcasecmp(colorname, "black") == 0)
+	else if (strcmp(colorname, "black") == 0)
 		return COLOR_BLACK;
-	else if (strcasecmp(colorname, "normal") == 0)
+	else if (strcmp(colorname, "normal") == 0)
 		return USE_THE_DEFAULT;
 
 	jot_error(N_("Color \"%s\" not understood"), colorname);
@@ -951,21 +951,21 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
 /* Handle the four syntax-only commands. */
 bool parse_syntax_commands(char *keyword, char *ptr)
 {
-	if (strcasecmp(keyword, "color") == 0)
+	if (strcmp(keyword, "color") == 0)
 		parse_colors(ptr, NANO_REG_EXTENDED);
-	else if (strcasecmp(keyword, "icolor") == 0)
+	else if (strcmp(keyword, "icolor") == 0)
 		parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
-	else if (strcasecmp(keyword, "comment") == 0) {
+	else if (strcmp(keyword, "comment") == 0) {
 #ifdef ENABLE_COMMENT
 		pick_up_name("comment", ptr, &live_syntax->comment);
 #endif
-	} else if (strcasecmp(keyword, "tabgives") == 0) {
+	} else if (strcmp(keyword, "tabgives") == 0) {
 #ifdef ENABLE_COLOR
 		pick_up_name("tabgives", ptr, &live_syntax->tab);
 #endif
-	} else if (strcasecmp(keyword, "linter") == 0)
+	} else if (strcmp(keyword, "linter") == 0)
 		pick_up_name("linter", ptr, &live_syntax->linter);
-	else if (strcasecmp(keyword, "formatter") == 0)
+	else if (strcmp(keyword, "formatter") == 0)
 		pick_up_name("formatter", ptr, &live_syntax->formatter);
 	else
 		return FALSE;
@@ -1044,7 +1044,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 
 #ifdef ENABLE_COLOR
 		/* Handle extending first... */
-		if (!just_syntax && strcasecmp(keyword, "extendsyntax") == 0) {
+		if (!just_syntax && strcmp(keyword, "extendsyntax") == 0) {
 			augmentstruct *newitem, *extra;
 			char *syntaxname = ptr;
 			syntaxtype *sint;
@@ -1094,37 +1094,37 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		}
 
 		/* Try to parse the keyword. */
-		if (strcasecmp(keyword, "syntax") == 0) {
+		if (strcmp(keyword, "syntax") == 0) {
 			if (intros_only) {
 				check_for_nonempty_syntax();
 				begin_new_syntax(ptr);
 			} else
 				break;
-		} else if (strcasecmp(keyword, "header") == 0) {
+		} else if (strcmp(keyword, "header") == 0) {
 			if (intros_only)
 				grab_and_store("header", ptr, &live_syntax->headers);
-		} else if (strcasecmp(keyword, "magic") == 0) {
+		} else if (strcmp(keyword, "magic") == 0) {
 #ifdef HAVE_LIBMAGIC
 			if (intros_only)
 				grab_and_store("magic", ptr, &live_syntax->magics);
 #endif
-		} else if (just_syntax && (strcasecmp(keyword, "set") == 0 ||
-								strcasecmp(keyword, "unset") == 0 ||
-								strcasecmp(keyword, "bind") == 0 ||
-								strcasecmp(keyword, "unbind") == 0 ||
-								strcasecmp(keyword, "include") == 0 ||
-								strcasecmp(keyword, "extendsyntax") == 0)) {
+		} else if (just_syntax && (strcmp(keyword, "set") == 0 ||
+								strcmp(keyword, "unset") == 0 ||
+								strcmp(keyword, "bind") == 0 ||
+								strcmp(keyword, "unbind") == 0 ||
+								strcmp(keyword, "include") == 0 ||
+								strcmp(keyword, "extendsyntax") == 0)) {
 			if (intros_only)
 				jot_error(N_("Command \"%s\" not allowed in included file"),
 									keyword);
 			else
 				break;
-		} else if (intros_only && (strcasecmp(keyword, "color") == 0 ||
-								strcasecmp(keyword, "icolor") == 0 ||
-								strcasecmp(keyword, "comment") == 0 ||
-								strcasecmp(keyword, "tabgives") == 0 ||
-								strcasecmp(keyword, "linter") == 0 ||
-								strcasecmp(keyword, "formatter") == 0)) {
+		} else if (intros_only && (strcmp(keyword, "color") == 0 ||
+								strcmp(keyword, "icolor") == 0 ||
+								strcmp(keyword, "comment") == 0 ||
+								strcmp(keyword, "tabgives") == 0 ||
+								strcmp(keyword, "linter") == 0 ||
+								strcmp(keyword, "formatter") == 0)) {
 			if (!opensyntax)
 				jot_error(N_("A '%s' command requires a preceding "
 									"'syntax' command"), keyword);
@@ -1133,17 +1133,17 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			continue;
 		} else if (parse_syntax_commands(keyword, ptr))
 			;
-		else if (strcasecmp(keyword, "include") == 0)
+		else if (strcmp(keyword, "include") == 0)
 			parse_includes(ptr);
 		else
 #endif /* ENABLE_COLOR */
-		if (strcasecmp(keyword, "set") == 0)
+		if (strcmp(keyword, "set") == 0)
 			set = 1;
-		else if (strcasecmp(keyword, "unset") == 0)
+		else if (strcmp(keyword, "unset") == 0)
 			set = -1;
-		else if (strcasecmp(keyword, "bind") == 0)
+		else if (strcmp(keyword, "bind") == 0)
 			parse_binding(ptr, TRUE);
-		else if (strcasecmp(keyword, "unbind") == 0)
+		else if (strcmp(keyword, "unbind") == 0)
 			parse_binding(ptr, FALSE);
 		else if (intros_only)
 			jot_error(N_("Command \"%s\" not understood"), keyword);
@@ -1167,7 +1167,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 
 		/* Find the just parsed option name among the existing names. */
 		for (i = 0; rcopts[i].name != NULL; i++) {
-			if (strcasecmp(option, rcopts[i].name) == 0)
+			if (strcmp(option, rcopts[i].name) == 0)
 				break;
 		}
 
@@ -1211,31 +1211,31 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		argument = copy_of(argument);
 
 #ifdef ENABLE_COLOR
-		if (strcasecmp(option, "titlecolor") == 0)
+		if (strcmp(option, "titlecolor") == 0)
 			color_combo[TITLE_BAR] = parse_interface_color(argument);
-		else if (strcasecmp(option, "numbercolor") == 0)
+		else if (strcmp(option, "numbercolor") == 0)
 			color_combo[LINE_NUMBER] = parse_interface_color(argument);
-		else if (strcasecmp(option, "stripecolor") == 0)
+		else if (strcmp(option, "stripecolor") == 0)
 			color_combo[GUIDE_STRIPE] = parse_interface_color(argument);
-		else if (strcasecmp(option, "selectedcolor") == 0)
+		else if (strcmp(option, "selectedcolor") == 0)
 			color_combo[SELECTED_TEXT] = parse_interface_color(argument);
-		else if (strcasecmp(option, "statuscolor") == 0)
+		else if (strcmp(option, "statuscolor") == 0)
 			color_combo[STATUS_BAR] = parse_interface_color(argument);
-		else if (strcasecmp(option, "errorcolor") == 0)
+		else if (strcmp(option, "errorcolor") == 0)
 			color_combo[ERROR_MESSAGE] = parse_interface_color(argument);
-		else if (strcasecmp(option, "keycolor") == 0)
+		else if (strcmp(option, "keycolor") == 0)
 			color_combo[KEY_COMBO] = parse_interface_color(argument);
-		else if (strcasecmp(option, "functioncolor") == 0)
+		else if (strcmp(option, "functioncolor") == 0)
 			color_combo[FUNCTION_TAG] = parse_interface_color(argument);
 		else
 #endif
 #ifdef ENABLE_OPERATINGDIR
-		if (strcasecmp(option, "operatingdir") == 0)
+		if (strcmp(option, "operatingdir") == 0)
 			operating_dir = argument;
 		else
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
-		if (strcasecmp(option, "fill") == 0) {
+		if (strcmp(option, "fill") == 0) {
 			if (!parse_num(argument, &fill)) {
 				jot_error(N_("Requested fill size \"%s\" is invalid"), argument);
 				fill = -COLUMNS_FROM_EOL;
@@ -1244,13 +1244,13 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		} else
 #endif
 #ifndef NANO_TINY
-		if (strcasecmp(option, "guidestripe") == 0) {
+		if (strcmp(option, "guidestripe") == 0) {
 			if (!parse_num(argument, &stripe_column) || stripe_column <= 0) {
 				jot_error(N_("Guide column \"%s\" is invalid"), argument);
 				stripe_column = 0;
 			}
 			free(argument);
-		} else if (strcasecmp(option, "matchbrackets") == 0) {
+		} else if (strcmp(option, "matchbrackets") == 0) {
 			if (has_blank_char(argument)) {
 				jot_error(N_("Non-blank characters required"));
 				free(argument);
@@ -1259,7 +1259,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 				free(argument);
 			} else
 				matchbrackets = argument;
-		} else if (strcasecmp(option, "whitespace") == 0) {
+		} else if (strcmp(option, "whitespace") == 0) {
 			if (mbstrlen(argument) != 2 || breadth(argument) != 2) {
 				jot_error(N_("Two single-column characters required"));
 				free(argument);
@@ -1271,36 +1271,36 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		} else
 #endif
 #ifdef ENABLE_JUSTIFY
-		if (strcasecmp(option, "punct") == 0) {
+		if (strcmp(option, "punct") == 0) {
 			if (has_blank_char(argument)) {
 				jot_error(N_("Non-blank characters required"));
 				free(argument);
 			} else
 				punct = argument;
-		} else if (strcasecmp(option, "brackets") == 0) {
+		} else if (strcmp(option, "brackets") == 0) {
 			if (has_blank_char(argument)) {
 				jot_error(N_("Non-blank characters required"));
 				free(argument);
 			} else
 				brackets = argument;
-		} else if (strcasecmp(option, "quotestr") == 0)
+		} else if (strcmp(option, "quotestr") == 0)
 			quotestr = argument;
 		else
 #endif
 #ifndef NANO_TINY
-		if (strcasecmp(option, "backupdir") == 0)
+		if (strcmp(option, "backupdir") == 0)
 			backup_dir = argument;
 		else
-		if (strcasecmp(option, "wordchars") == 0)
+		if (strcmp(option, "wordchars") == 0)
 			word_chars = argument;
 		else
 #endif
 #ifdef ENABLE_SPELLER
-		if (strcasecmp(option, "speller") == 0)
+		if (strcmp(option, "speller") == 0)
 			alt_speller = argument;
 		else
 #endif
-		if (strcasecmp(option, "tabsize") == 0) {
+		if (strcmp(option, "tabsize") == 0) {
 			if (!parse_num(argument, &tabsize) || tabsize <= 0) {
 				jot_error(N_("Requested tab size \"%s\" is invalid"), argument);
 				tabsize = -1;
