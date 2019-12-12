@@ -543,8 +543,7 @@ void shortcut_init(void)
 	 * they are best kept shorter than 56 characters, but may be longer. */
 	const char *cancel_gist = N_("Cancel the current function");
 	const char *help_gist = N_("Display this help text");
-	const char *exit_gist =
-		N_("Close the current buffer / Exit from nano");
+	const char *exit_gist = N_("Close the current buffer / Exit from nano");
 	const char *writeout_gist =
 		N_("Write the current buffer (or the marked region) to disk");
 	const char *readfile_gist =
@@ -553,19 +552,6 @@ void shortcut_init(void)
 		N_("Search forward for a string or a regular expression");
 	const char *wherewas_gist =
 		N_("Search backward for a string or a regular expression");
-#ifdef ENABLE_BROWSER
-	const char *browserwhereis_gist = N_("Search forward for a string");
-	const char *browserwherewas_gist = N_("Search backward for a string");
-	const char *browserrefresh_gist = N_("Refresh the file list");
-#ifndef NANO_TINY
-	const char *browserlefthand_gist = N_("Go to lefthand column");
-	const char *browserrighthand_gist = N_("Go to righthand column");
-	const char *browsertoprow_gist = N_("Go to first row in this column");
-	const char *browserbottomrow_gist = N_("Go to last row in this column");
-#endif
-#endif
-	const char *prevpage_gist = N_("Go one screenful up");
-	const char *nextpage_gist = N_("Go one screenful down");
 	const char *cut_gist =
 		N_("Cut current line (or marked region) and store it in cutbuffer");
 	const char *uncut_gist =
@@ -602,6 +588,8 @@ void shortcut_init(void)
 	const char *paraend_gist =
 		N_("Go just beyond end of paragraph; then of next paragraph");
 #endif
+	const char *prevpage_gist = N_("Go one screenful up");
+	const char *nextpage_gist = N_("Go one screenful down");
 	const char *firstline_gist = N_("Go to the first line of the file");
 	const char *lastline_gist = N_("Go to the last line of the file");
 #ifndef NANO_TINY
@@ -657,12 +645,9 @@ void shortcut_init(void)
 	const char *recordmacro_gist = N_("Start/stop recording a macro");
 	const char *runmacro_gist = N_("Run the last recorded macro");
 #endif
-	const char *case_gist =
-		N_("Toggle the case sensitivity of the search");
-	const char *reverse_gist =
-		N_("Reverse the direction of the search");
-	const char *regexp_gist =
-		N_("Toggle the use of regular expressions");
+	const char *case_gist = N_("Toggle the case sensitivity of the search");
+	const char *reverse_gist = N_("Reverse the direction of the search");
+	const char *regexp_gist = N_("Toggle the use of regular expressions");
 #ifdef ENABLE_HISTORIES
 	const char *older_gist =
 		N_("Recall the previous search/replace string");
@@ -691,6 +676,15 @@ void shortcut_init(void)
 	const char *lastfile_gist = N_("Go to the last file in the list");
 	const char *backfile_gist = N_("Go to the previous file in the list");
 	const char *forwardfile_gist = N_("Go to the next file in the list");
+#ifndef NANO_TINY
+	const char *browserlefthand_gist = N_("Go to lefthand column");
+	const char *browserrighthand_gist = N_("Go to righthand column");
+	const char *browsertoprow_gist = N_("Go to first row in this column");
+	const char *browserbottomrow_gist = N_("Go to last row in this column");
+#endif
+	const char *browserwhereis_gist = N_("Search forward for a string");
+	const char *browserwherewas_gist = N_("Search backward for a string");
+	const char *browserrefresh_gist = N_("Refresh the file list");
 	const char *gotodir_gist = N_("Go to directory");
 #endif
 #ifdef ENABLE_COLOR
