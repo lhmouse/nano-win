@@ -223,250 +223,250 @@ keystruct *strtosc(const char *input)
 #endif
 
 #ifdef ENABLE_HELP
-	if (!strcasecmp(input, "help"))
+	if (!strcmp(input, "help"))
 		s->func = do_help_void;
 	else
 #endif
-	if (!strcasecmp(input, "cancel"))
+	if (!strcmp(input, "cancel"))
 		s->func = do_cancel;
-	else if (!strcasecmp(input, "exit"))
+	else if (!strcmp(input, "exit"))
 		s->func = do_exit;
-	else if (!strcasecmp(input, "discardbuffer"))
+	else if (!strcmp(input, "discardbuffer"))
 		s->func = discard_buffer;
-	else if (!strcasecmp(input, "writeout"))
+	else if (!strcmp(input, "writeout"))
 		s->func = do_writeout_void;
-	else if (!strcasecmp(input, "savefile"))
+	else if (!strcmp(input, "savefile"))
 		s->func = do_savefile;
-	else if (!strcasecmp(input, "insert"))
+	else if (!strcmp(input, "insert"))
 		s->func = do_insertfile_void;
-	else if (!strcasecmp(input, "whereis"))
+	else if (!strcmp(input, "whereis"))
 		s->func = do_search_forward;
-	else if (!strcasecmp(input, "wherewas"))
+	else if (!strcmp(input, "wherewas"))
 		s->func = do_search_backward;
-	else if (!strcasecmp(input, "findprevious"))
+	else if (!strcmp(input, "findprevious"))
 		s->func = do_findprevious;
-	else if (!strcasecmp(input, "findnext"))
+	else if (!strcmp(input, "findnext"))
 		s->func = do_findnext;
-	else if (!strcasecmp(input, "replace"))
+	else if (!strcmp(input, "replace"))
 		s->func = do_replace;
-	else if (!strcasecmp(input, "cut"))
+	else if (!strcmp(input, "cut"))
 		s->func = cut_text;
-	else if (!strcasecmp(input, "paste"))
+	else if (!strcmp(input, "paste"))
 		s->func = paste_text;
 #ifndef NANO_TINY
-	else if (!strcasecmp(input, "cutrestoffile"))
+	else if (!strcmp(input, "cutrestoffile"))
 		s->func = cut_till_eof;
-	else if (!strcasecmp(input, "copy"))
+	else if (!strcmp(input, "copy"))
 		s->func = copy_text;
-	else if (!strcasecmp(input, "zap"))
+	else if (!strcmp(input, "zap"))
 		s->func = zap_text;
-	else if (!strcasecmp(input, "mark"))
+	else if (!strcmp(input, "mark"))
 		s->func = do_mark;
 #endif
 #ifdef ENABLE_SPELLER
-	else if (!strcasecmp(input, "tospell") ||
-			 !strcasecmp(input, "speller"))
+	else if (!strcmp(input, "tospell") ||
+			 !strcmp(input, "speller"))
 		s->func = do_spell;
 #endif
 #ifdef ENABLE_COLOR
-	else if (!strcasecmp(input, "linter"))
+	else if (!strcmp(input, "linter"))
 		s->func = do_linter;
 #ifdef ENABLE_SPELLER
-	else if (!strcasecmp(input, "formatter"))
+	else if (!strcmp(input, "formatter"))
 		s->func = do_formatter;
 #endif
 #endif
-	else if (!strcasecmp(input, "curpos"))
+	else if (!strcmp(input, "curpos"))
 		s->func = do_cursorpos_void;
-	else if (!strcasecmp(input, "gotoline"))
+	else if (!strcmp(input, "gotoline"))
 		s->func = do_gotolinecolumn_void;
 #ifdef ENABLE_JUSTIFY
-	else if (!strcasecmp(input, "justify"))
+	else if (!strcmp(input, "justify"))
 		s->func = do_justify_void;
-	else if (!strcasecmp(input, "fulljustify"))
+	else if (!strcmp(input, "fulljustify"))
 		s->func = do_full_justify;
-	else if (!strcasecmp(input, "beginpara"))
+	else if (!strcmp(input, "beginpara"))
 		s->func = do_para_begin_void;
-	else if (!strcasecmp(input, "endpara"))
+	else if (!strcmp(input, "endpara"))
 		s->func = do_para_end_void;
 #endif
 #ifdef ENABLE_COMMENT
-	else if (!strcasecmp(input, "comment"))
+	else if (!strcmp(input, "comment"))
 		s->func = do_comment;
 #endif
 #ifdef ENABLE_WORDCOMPLETION
-	else if (!strcasecmp(input, "complete"))
+	else if (!strcmp(input, "complete"))
 		s->func = complete_a_word;
 #endif
 #ifndef NANO_TINY
-	else if (!strcasecmp(input, "indent"))
+	else if (!strcmp(input, "indent"))
 		s->func = do_indent;
-	else if (!strcasecmp(input, "unindent"))
+	else if (!strcmp(input, "unindent"))
 		s->func = do_unindent;
-	else if (!strcasecmp(input, "chopwordleft") ||
-			 !strcasecmp(input, "cutwordleft"))  /* Deprecated; remove in 2021. */
+	else if (!strcmp(input, "chopwordleft") ||
+			 !strcmp(input, "cutwordleft"))  /* Deprecated; remove in 2021. */
 		s->func = chop_previous_word;
-	else if (!strcasecmp(input, "chopwordright") ||
-			 !strcasecmp(input, "cutwordright"))  /* Deprecated; remove in 2021. */
+	else if (!strcmp(input, "chopwordright") ||
+			 !strcmp(input, "cutwordright"))  /* Deprecated; remove in 2021. */
 		s->func = chop_next_word;
-	else if (!strcasecmp(input, "findbracket"))
+	else if (!strcmp(input, "findbracket"))
 		s->func = do_find_bracket;
-	else if (!strcasecmp(input, "wordcount"))
+	else if (!strcmp(input, "wordcount"))
 		s->func = do_wordlinechar_count;
-	else if (!strcasecmp(input, "recordmacro"))
+	else if (!strcmp(input, "recordmacro"))
 		s->func = record_macro;
-	else if (!strcasecmp(input, "runmacro"))
+	else if (!strcmp(input, "runmacro"))
 		s->func = run_macro;
-	else if (!strcasecmp(input, "undo"))
+	else if (!strcmp(input, "undo"))
 		s->func = do_undo;
-	else if (!strcasecmp(input, "redo"))
+	else if (!strcmp(input, "redo"))
 		s->func = do_redo;
 #endif
-	else if (!strcasecmp(input, "left") ||
-			 !strcasecmp(input, "back"))
+	else if (!strcmp(input, "left") ||
+			 !strcmp(input, "back"))
 		s->func = do_left;
-	else if (!strcasecmp(input, "right") ||
-			 !strcasecmp(input, "forward"))
+	else if (!strcmp(input, "right") ||
+			 !strcmp(input, "forward"))
 		s->func = do_right;
-	else if (!strcasecmp(input, "up") ||
-			 !strcasecmp(input, "prevline"))
+	else if (!strcmp(input, "up") ||
+			 !strcmp(input, "prevline"))
 		s->func = do_up;
-	else if (!strcasecmp(input, "down") ||
-			 !strcasecmp(input, "nextline"))
+	else if (!strcmp(input, "down") ||
+			 !strcmp(input, "nextline"))
 		s->func = do_down;
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
-	else if (!strcasecmp(input, "scrollup"))
+	else if (!strcmp(input, "scrollup"))
 		s->func = do_scroll_up;
-	else if (!strcasecmp(input, "scrolldown"))
+	else if (!strcmp(input, "scrolldown"))
 		s->func = do_scroll_down;
 #endif
-	else if (!strcasecmp(input, "prevword"))
+	else if (!strcmp(input, "prevword"))
 		s->func = do_prev_word_void;
-	else if (!strcasecmp(input, "nextword"))
+	else if (!strcmp(input, "nextword"))
 		s->func = do_next_word_void;
-	else if (!strcasecmp(input, "home"))
+	else if (!strcmp(input, "home"))
 		s->func = do_home;
-	else if (!strcasecmp(input, "end"))
+	else if (!strcmp(input, "end"))
 		s->func = do_end;
-	else if (!strcasecmp(input, "prevblock"))
+	else if (!strcmp(input, "prevblock"))
 		s->func = do_prev_block;
-	else if (!strcasecmp(input, "nextblock"))
+	else if (!strcmp(input, "nextblock"))
 		s->func = do_next_block;
-	else if (!strcasecmp(input, "pageup") ||
-			 !strcasecmp(input, "prevpage"))
+	else if (!strcmp(input, "pageup") ||
+			 !strcmp(input, "prevpage"))
 		s->func = do_page_up;
-	else if (!strcasecmp(input, "pagedown") ||
-			 !strcasecmp(input, "nextpage"))
+	else if (!strcmp(input, "pagedown") ||
+			 !strcmp(input, "nextpage"))
 		s->func = do_page_down;
-	else if (!strcasecmp(input, "firstline"))
+	else if (!strcmp(input, "firstline"))
 		s->func = to_first_line;
-	else if (!strcasecmp(input, "lastline"))
+	else if (!strcmp(input, "lastline"))
 		s->func = to_last_line;
 #ifdef ENABLE_MULTIBUFFER
-	else if (!strcasecmp(input, "prevbuf"))
+	else if (!strcmp(input, "prevbuf"))
 		s->func = switch_to_prev_buffer;
-	else if (!strcasecmp(input, "nextbuf"))
+	else if (!strcmp(input, "nextbuf"))
 		s->func = switch_to_next_buffer;
 #endif
-	else if (!strcasecmp(input, "verbatim"))
+	else if (!strcmp(input, "verbatim"))
 		s->func = do_verbatim_input;
-	else if (!strcasecmp(input, "tab"))
+	else if (!strcmp(input, "tab"))
 		s->func = do_tab;
-	else if (!strcasecmp(input, "enter"))
+	else if (!strcmp(input, "enter"))
 		s->func = do_enter;
-	else if (!strcasecmp(input, "delete"))
+	else if (!strcmp(input, "delete"))
 		s->func = do_delete;
-	else if (!strcasecmp(input, "backspace"))
+	else if (!strcmp(input, "backspace"))
 		s->func = do_backspace;
-	else if (!strcasecmp(input, "refresh"))
+	else if (!strcmp(input, "refresh"))
 		s->func = total_refresh;
-	else if (!strcasecmp(input, "suspend"))
+	else if (!strcmp(input, "suspend"))
 		s->func = do_suspend_void;
-	else if (!strcasecmp(input, "casesens"))
+	else if (!strcmp(input, "casesens"))
 		s->func = case_sens_void;
-	else if (!strcasecmp(input, "regexp"))
+	else if (!strcmp(input, "regexp"))
 		s->func = regexp_void;
-	else if (!strcasecmp(input, "backwards"))
+	else if (!strcmp(input, "backwards"))
 		s->func = backwards_void;
-	else if (!strcasecmp(input, "flipreplace"))
+	else if (!strcmp(input, "flipreplace"))
 		s->func = flip_replace;
-	else if (!strcasecmp(input, "flipgoto"))
+	else if (!strcmp(input, "flipgoto"))
 		s->func = flip_goto;
 #ifdef ENABLE_HISTORIES
-	else if (!strcasecmp(input, "older"))
+	else if (!strcmp(input, "older"))
 		s->func = get_history_older_void;
-	else if (!strcasecmp(input, "newer"))
+	else if (!strcmp(input, "newer"))
 		s->func = get_history_newer_void;
 #endif
 #ifndef NANO_TINY
-	else if (!strcasecmp(input, "dosformat"))
+	else if (!strcmp(input, "dosformat"))
 		s->func = dos_format_void;
-	else if (!strcasecmp(input, "macformat"))
+	else if (!strcmp(input, "macformat"))
 		s->func = mac_format_void;
-	else if (!strcasecmp(input, "append"))
+	else if (!strcmp(input, "append"))
 		s->func = append_void;
-	else if (!strcasecmp(input, "prepend"))
+	else if (!strcmp(input, "prepend"))
 		s->func = prepend_void;
-	else if (!strcasecmp(input, "backup"))
+	else if (!strcmp(input, "backup"))
 		s->func = backup_file_void;
-	else if (!strcasecmp(input, "flipexecute"))
+	else if (!strcmp(input, "flipexecute"))
 		s->func = flip_execute;
-	else if (!strcasecmp(input, "flippipe"))
+	else if (!strcmp(input, "flippipe"))
 		s->func = flip_pipe;
-	else if (!strcasecmp(input, "flipconvert"))
+	else if (!strcmp(input, "flipconvert"))
 		s->func = flip_convert;
 #endif
 #ifdef ENABLE_MULTIBUFFER
-	else if (!strcasecmp(input, "flipnewbuffer"))
+	else if (!strcmp(input, "flipnewbuffer"))
 		s->func = flip_newbuffer;
 #endif
 #ifdef ENABLE_BROWSER
-	else if (!strcasecmp(input, "tofiles") ||
-			 !strcasecmp(input, "browser"))
+	else if (!strcmp(input, "tofiles") ||
+			 !strcmp(input, "browser"))
 		s->func = to_files_void;
-	else if (!strcasecmp(input, "gotodir"))
+	else if (!strcmp(input, "gotodir"))
 		s->func = goto_dir_void;
-	else if (!strcasecmp(input, "firstfile"))
+	else if (!strcmp(input, "firstfile"))
 		s->func = to_first_file;
-	else if (!strcasecmp(input, "lastfile"))
+	else if (!strcmp(input, "lastfile"))
 		s->func = to_last_file;
 #endif
 	else {
 #ifndef NANO_TINY
 		s->func = do_toggle_void;
-		if (!strcasecmp(input, "nohelp"))
+		if (!strcmp(input, "nohelp"))
 			s->toggle = NO_HELP;
-		else if (!strcasecmp(input, "constantshow"))
+		else if (!strcmp(input, "constantshow"))
 			s->toggle = CONSTANT_SHOW;
-		else if (!strcasecmp(input, "softwrap"))
+		else if (!strcmp(input, "softwrap"))
 			s->toggle = SOFTWRAP;
 #ifdef ENABLE_LINENUMBERS
-		else if (!strcasecmp(input, "linenumbers"))
+		else if (!strcmp(input, "linenumbers"))
 			s->toggle = LINE_NUMBERS;
 #endif
-		else if (!strcasecmp(input, "whitespacedisplay"))
+		else if (!strcmp(input, "whitespacedisplay"))
 			s->toggle = WHITESPACE_DISPLAY;
 #ifdef ENABLE_COLOR
-		else if (!strcasecmp(input, "nosyntax"))
+		else if (!strcmp(input, "nosyntax"))
 			s->toggle = NO_COLOR_SYNTAX;
 #endif
-		else if (!strcasecmp(input, "smarthome"))
+		else if (!strcmp(input, "smarthome"))
 			s->toggle = SMART_HOME;
-		else if (!strcasecmp(input, "autoindent"))
+		else if (!strcmp(input, "autoindent"))
 			s->toggle = AUTOINDENT;
-		else if (!strcasecmp(input, "cutfromcursor"))
+		else if (!strcmp(input, "cutfromcursor"))
 			s->toggle = CUT_FROM_CURSOR;
 #ifdef ENABLE_WRAPPING
-		else if (!strcasecmp(input, "nowrap"))
+		else if (!strcmp(input, "nowrap"))
 			s->toggle = BREAK_LONG_LINES;
 #endif
-		else if (!strcasecmp(input, "tabstospaces"))
+		else if (!strcmp(input, "tabstospaces"))
 			s->toggle = TABS_TO_SPACES;
 #ifdef ENABLE_MOUSE
-		else if (!strcasecmp(input, "mouse"))
+		else if (!strcmp(input, "mouse"))
 			s->toggle = USE_MOUSE;
 #endif
-		else if (!strcasecmp(input, "suspendenable"))
+		else if (!strcmp(input, "suspendenable"))
 			s->toggle = SUSPEND;
 		else
 #endif /* !NANO_TINY */
@@ -484,7 +484,7 @@ int name_to_menu(const char *name)
 	int index = -1;
 
 	while (++index < NUMBER_OF_MENUS)
-		if (strcasecmp(name, menunames[index]) == 0)
+		if (strcmp(name, menunames[index]) == 0)
 			return menusymbols[index];
 
 	return -1;
