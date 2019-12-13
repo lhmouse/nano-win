@@ -222,13 +222,12 @@ keystruct *strtosc(const char *input)
 	s->toggle = 0;
 #endif
 
-#ifdef ENABLE_HELP
-	if (!strcmp(input, "help"))
-		s->func = do_help_void;
-	else
-#endif
 	if (!strcmp(input, "cancel"))
 		s->func = do_cancel;
+#ifdef ENABLE_HELP
+	else if (!strcmp(input, "help"))
+		s->func = do_help_void;
+#endif
 	else if (!strcmp(input, "exit"))
 		s->func = do_exit;
 	else if (!strcmp(input, "discardbuffer"))
