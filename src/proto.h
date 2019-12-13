@@ -328,11 +328,6 @@ int keycode_from_string(const char *keystring);
 void assign_keyinfo(keystruct *s, const char *keystring, const int keycode);
 void shortcut_init(void);
 const char *flagtostr(int flag);
-#ifdef ENABLE_NANORC
-keystruct *strtosc(const char *input);
-int name_to_menu(const char *name);
-char *menu_to_name(int menu);
-#endif
 
 /* All functions in help.c. */
 #ifdef ENABLE_HELP
