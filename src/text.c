@@ -1751,10 +1751,18 @@ bool begpar(const linestruct *const line, int depth)
 	if (line->prev->data[quote_len + prev_dent_len] == '\0')
 		return TRUE;
 
+	/* If the indentation of the preceding line differs characterwise
+	 * from the indentation of this line, this IS a BOP. */
+	if (prev_dent_len > 0 && indent_len > 0) {
+		size_t lowest = (prev_dent_len < indent_len ? prev_dent_len : indent_len);
+
+		if (strncmp(line->prev->data + quote_len, line->data + quote_len, lowest) != 0)
+			return TRUE;
+	}
+
 	/* If the indentation of the preceding line equals the indentation
 	 * of this line, this is not a BOP. */
-	if (prev_dent_len == indent_len && strncmp(line->prev->data + quote_len,
-									line->data + quote_len, indent_len) == 0)
+	if (prev_dent_len == indent_len)
 		return FALSE;
 
 	/* Otherwise, this is a BOP if the preceding line is not. */
