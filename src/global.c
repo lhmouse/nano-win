@@ -1195,8 +1195,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-F", 0, do_next_word_void, 0);
 	add_to_sclist(MMAIN, "M-N", 0, do_next_word_void, 0);
 #endif
-	add_to_sclist(MMOST|MBROWSER, "M-Space", 0, do_prev_word_void, 0);
-	add_to_sclist(MMOST|MBROWSER, "^Space", 0, do_next_word_void, 0);
+	add_to_sclist(MMOST, "M-Space", 0, do_prev_word_void, 0);
+	add_to_sclist(MMOST, "^Space", 0, do_next_word_void, 0);
 	add_to_sclist(MMOST, "^A", 0, do_home, 0);
 	add_to_sclist(MMOST, "Home", KEY_HOME, do_home, 0);
 	add_to_sclist(MMOST, "^E", 0, do_end, 0);
