@@ -1281,9 +1281,9 @@ static void check_vitals_mapped(void)
 {
 	funcstruct *f;
 	int v;
-#define VITALS 3
-	void (*vitals[VITALS])(void) = { do_exit, do_exit, do_cancel };
-	int inmenus[VITALS] = { MMAIN, MHELP, MYESNO };
+#define VITALS  4
+	void (*vitals[VITALS])(void) = { do_exit, do_exit, do_exit, do_cancel };
+	int inmenus[VITALS] = { MMAIN, MBROWSER, MHELP, MYESNO };
 
 	for  (v = 0; v < VITALS; v++) {
 		for (f = allfuncs; f != NULL; f = f->next) {
