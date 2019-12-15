@@ -2404,11 +2404,12 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		wattron(edit, interface_color_pair[LINE_NUMBER]);
 #ifndef NANO_TINY
 		if (ISSET(SOFTWRAP) && from_col != 0)
-			mvwprintw(edit, row, 0, "%*s", margin, " ");
+			mvwprintw(edit, row, 0, "%*s", margin - 1, " ");
 		else
 #endif
-			mvwprintw(edit, row, 0, "%*zd ", margin - 1, line->lineno);
+			mvwprintw(edit, row, 0, "%*zd", margin - 1, line->lineno);
 		wattroff(edit, interface_color_pair[LINE_NUMBER]);
+		wprintw(edit, " ");
 	}
 #endif
 
