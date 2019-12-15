@@ -153,9 +153,9 @@ char *do_browser(char *path)
 			/* Simulate a window resize to force a directory reread. */
 			kbinput = KEY_WINCH;
 #endif
-		} else if (func == do_help_void) {
+		} else if (func == do_help) {
 #ifdef ENABLE_HELP
-			do_help_void();
+			do_help();
 #ifndef NANO_TINY
 			/* The window dimensions might have changed, so act as if. */
 			kbinput = KEY_WINCH;
@@ -469,7 +469,7 @@ functionptrtype parse_browser_input(int *kbinput)
 			case 'g':
 				return goto_dir_void;
 			case '?':
-				return do_help_void;
+				return do_help;
 			case 'S':
 			case 's':
 				return do_enter;

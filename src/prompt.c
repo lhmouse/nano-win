@@ -543,9 +543,9 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 			}
 		} else
 #endif /* ENABLE_HISTORIES */
-		if (func == do_help_void) {
+		if (func == do_help) {
 			/* This key has a shortcut-list entry when it's used to go to
-			 * the help browser or display a message indicating that help
+			 * the help viewer or display a message indicating that help
 			 * is disabled, which means that finished has been set to TRUE.
 			 * Set it back to FALSE here, so that we aren't kicked out of
 			 * the statusbar prompt. */

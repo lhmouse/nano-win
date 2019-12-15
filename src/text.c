@@ -2983,9 +2983,9 @@ void do_linter(void)
 		if (func == do_cancel || func == do_enter) {
 			wipe_statusbar();
 			break;
-		} else if (func == do_help_void) {
+		} else if (func == do_help) {
 			tmplint = NULL;
-			do_help_void();
+			do_help();
 		} else if (func == do_page_up || func == do_prev_block) {
 			if (curlint->prev != NULL)
 				curlint = curlint->prev;

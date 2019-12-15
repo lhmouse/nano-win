@@ -604,7 +604,7 @@ size_t help_line_len(const char *ptr)
 #endif /* ENABLE_HELP */
 
 /* Start the help viewer, or indicate that there is no help. */
-void do_help_void(void)
+void do_help(void)
 {
 #ifdef ENABLE_HELP
 	show_help();

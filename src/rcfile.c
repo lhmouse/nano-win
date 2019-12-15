@@ -226,7 +226,7 @@ keystruct *strtosc(const char *input)
 		s->func = do_cancel;
 #ifdef ENABLE_HELP
 	else if (!strcmp(input, "help"))
-		s->func = do_help_void;
+		s->func = do_help;
 #endif
 	else if (!strcmp(input, "exit"))
 		s->func = do_exit;

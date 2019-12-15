@@ -691,7 +691,7 @@ void shortcut_init(void)
 
 	/* Start populating the different menus with functions. */
 
-	add_to_funcs(do_help_void, (MMOST | MBROWSER) & ~MFINDINHELP,
+	add_to_funcs(do_help, (MMOST | MBROWSER) & ~MFINDINHELP,
 		/* TRANSLATORS: Try to keep the next eleven strings at most 10 characters. */
 		N_("Get Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
 
@@ -1094,7 +1094,7 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "Del", 0, do_delete, 0);
 	add_to_sclist(MMOST, "^I", 0, do_tab, 0);
 	add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
-	add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help_void, 0);
+	add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^X", 0, do_exit, 0);
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
@@ -1380,7 +1380,7 @@ void shortcut_init(void)
 #ifdef ENABLE_COLOR
 	add_to_sclist(MLINTER, "^X", 0, do_cancel, 0);
 #endif
-	add_to_sclist(MMOST & ~MFINDINHELP, "F1", 0, do_help_void, 0);
+	add_to_sclist(MMOST & ~MFINDINHELP, "F1", 0, do_help, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", 0, do_exit, 0);
 	add_to_sclist(MMAIN, "F3", 0, do_writeout_void, 0);
 #ifdef ENABLE_JUSTIFY

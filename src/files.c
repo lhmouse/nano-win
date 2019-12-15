@@ -2074,7 +2074,7 @@ int do_writeout(bool exiting, bool withprompt)
 			continue;
 		}
 #endif /* !NANO_TINY */
-		if (func == do_help_void) {
+		if (func == do_help) {
 			continue;
 		}
 #ifdef ENABLE_EXTRA

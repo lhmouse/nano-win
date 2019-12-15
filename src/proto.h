@@ -332,12 +332,11 @@ const char *flagtostr(int flag);
 /* All functions in help.c. */
 #ifdef ENABLE_HELP
 void wrap_help_text_into_buffer(void);
-void do_help(void);
 void help_init(void);
 functionptrtype parse_help_input(int *kbinput);
 size_t help_line_len(const char *ptr);
 #endif
-void do_help_void(void);
+void do_help(void);
 
 /* Most functions in history.c. */
 #ifdef ENABLE_HISTORIES
