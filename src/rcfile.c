@@ -1279,14 +1279,12 @@ bool parse_syntax_commands(char *keyword, char *ptr)
  * function that we consider 'vital' (such as "Exit"). */
 static void check_vitals_mapped(void)
 {
-	funcstruct *f;
-	int v;
 #define VITALS  4
 	void (*vitals[VITALS])(void) = { do_exit, do_exit, do_exit, do_cancel };
 	int inmenus[VITALS] = { MMAIN, MBROWSER, MHELP, MYESNO };
 
-	for  (v = 0; v < VITALS; v++) {
-		for (f = allfuncs; f != NULL; f = f->next) {
+	for (int v = 0; v < VITALS; v++) {
+		for (funcstruct *f = allfuncs; f != NULL; f = f->next) {
 			if (f->func == vitals[v] && f->menus & inmenus[v]) {
 				const keystruct *s = first_sc_for(inmenus[v], f->func);
 				if (!s) {
