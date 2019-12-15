@@ -88,8 +88,8 @@ void wrap_help_text_into_buffer(void)
 	openfile->edittop = openfile->current;
 }
 
-/* Our main help-viewer function. */
-void do_help(void)
+/* Assemble a help text, display it, and allow scrolling through it. */
+void show_help(void)
 {
 	int kbinput = ERR;
 	functionptrtype func;
@@ -140,8 +140,9 @@ void do_help(void)
 #endif
 	curs_set(0);
 
-	/* Compose the help text from all the pieces. */
+	/* Compose the help text from all the relevant pieces. */
 	help_init();
+
 	inhelp = TRUE;
 	location = 0;
 	didfind = 0;
@@ -600,14 +601,13 @@ size_t help_line_len(const char *ptr)
 	else
 		return 1;
 }
-
 #endif /* ENABLE_HELP */
 
-/* Start the help viewer. */
+/* Start the help viewer, or indicate that there is no help. */
 void do_help_void(void)
 {
 #ifdef ENABLE_HELP
-	do_help();
+	show_help();
 #else
 	if (currmenu == MMAIN)
 		say_there_is_no_help();
