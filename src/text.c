@@ -2991,6 +2991,7 @@ void do_linter(void)
 				curlint = curlint->prev;
 			else if (last_wait != time(NULL)) {
 				statusbar(_("At first message"));
+				beep();
 				napms(600);
 				last_wait = time(NULL);
 				statusline(NOTICE, curlint->msg);
@@ -3000,6 +3001,7 @@ void do_linter(void)
 				curlint = curlint->next;
 			else if (last_wait != time(NULL)) {
 				statusbar(_("At last message"));
+				beep();
 				napms(600);
 				last_wait = time(NULL);
 				statusline(NOTICE, curlint->msg);
