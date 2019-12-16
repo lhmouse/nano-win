@@ -1405,6 +1405,8 @@ bool do_wrap(void)
 		/* The line to be wrapped, if needed and possible. */
 	size_t line_len = strlen(line->data);
 		/* The length of this line. */
+	size_t pre_len = quote_length(line->data);
+		/* The length of the leading quoting, plus later also indentation. */
 	size_t cursor_x = openfile->current_x;
 		/* The current cursor position, for comparison with the wrap point. */
 	ssize_t wrap_loc;
@@ -1414,25 +1416,24 @@ bool do_wrap(void)
 	size_t rest_length;
 		/* The length of the remainder. */
 
+	pre_len += indent_length(line->data + pre_len);
+
 	/* First find the last blank character where we can break the line. */
-	wrap_loc = break_line(line->data, wrap_at, FALSE);
+	wrap_loc = break_line(line->data + pre_len,
+							wrap_at - wideness(line->data, pre_len), FALSE);
 
 	/* If no wrapping point was found before end-of-line, we don't wrap. */
-	if (wrap_loc == -1 || line->data[wrap_loc] == '\0')
+	if (wrap_loc == -1 || wrap_loc + pre_len == line_len)
 		return FALSE;
 
 	/* Step forward to the character just after the blank. */
-	wrap_loc = step_right(line->data, wrap_loc);
+	wrap_loc = step_right(line->data + pre_len, wrap_loc) + pre_len;
 
 	/* When now at end-of-line, no need to wrap. */
 	if (line->data[wrap_loc] == '\0')
 		return FALSE;
 
 #ifndef NANO_TINY
-	/* When autoindenting, we don't wrap right after the indentation. */
-	if (ISSET(AUTOINDENT) && wrap_loc == indent_length(line->data))
-		return FALSE;
-
 	add_undo(SPLIT_BEGIN, NULL);
 #endif
 #ifdef ENABLE_JUSTIFY
