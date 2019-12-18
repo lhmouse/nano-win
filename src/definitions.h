@@ -543,7 +543,8 @@ enum
 	BREAK_LONG_LINES,
 	JUMPY_SCROLLING,
 	EMPTY_LINE,
-	INDICATOR
+	INDICATOR,
+	BOOKSTYLE
 };
 
 /* Flags for the menus in which a given function should be present. */

@@ -103,6 +103,7 @@ static const rcoption rcopts[] = {
 	{"autoindent", AUTOINDENT},
 	{"backup", MAKE_BACKUP},
 	{"backupdir", 0},
+	{"bookstyle", BOOKSTYLE},
 	{"cutfromcursor", CUT_FROM_CURSOR},
 	{"guidestripe", 0},
 	{"indicator", INDICATOR},

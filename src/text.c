@@ -1510,6 +1510,10 @@ bool begpar(const linestruct *const line, int depth)
 	if (line->data[quot_len + indent_len] == '\0')
 		return FALSE;
 
+	/* When requested, treat a line that starts with whitespace as a BOP. */
+	if (ISSET(BOOKSTYLE) && !ISSET(AUTOINDENT) && is_blank_char(line->data))
+		return TRUE;
+
 	/* If the quote part of the preceding line differs, this is a BOP. */
 	if (quot_len != quote_length(line->prev->data) ||
 					strncmp(line->data, line->prev->data, quot_len) != 0)

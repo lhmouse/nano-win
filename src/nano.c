@@ -541,6 +541,8 @@ void usage(void)
 #ifndef NANO_TINY
 	print_opt("-N", "--noconvert",
 					N_("Don't convert files from DOS/Mac format"));
+	print_opt("-O", "--bookstyle",
+					N_("Leading whitespace means new paragraph"));
 #endif
 #ifdef ENABLE_HISTORIES
 	if (!ISSET(RESTRICTED))
@@ -1737,6 +1739,7 @@ int main(int argc, char **argv)
 		{"guidestripe", 1, NULL, 'J'},
 		{"nonewlines", 0, NULL, 'L'},
 		{"noconvert", 0, NULL, 'N'},
+		{"bookstyle", 0, NULL, 'O'},
 		{"positionlog", 0, NULL, 'P'},
 		{"softwrap", 0, NULL, 'S'},
 		{"wordbounds", 0, NULL, 'W'},
@@ -1803,7 +1806,7 @@ int main(int argc, char **argv)
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
 
-	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNPQ:RST:UVWX:Y:Z"
+	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
 				"abcdef:ghijklmno:pqr:s:tuvwxyz$", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -1870,6 +1873,9 @@ int main(int argc, char **argv)
 #ifndef NANO_TINY
 			case 'N':
 				SET(NO_CONVERT);
+				break;
+			case 'O':
+				SET(BOOKSTYLE);
 				break;
 #endif
 #ifdef ENABLE_HISTORIES
