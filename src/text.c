@@ -1854,10 +1854,9 @@ void rewrap_paragraph(linestruct **line, char *lead_string, size_t lead_len)
 		strncpy((*line)->next->data, lead_string, lead_len);
 		strcpy((*line)->next->data + lead_len, (*line)->data + break_pos);
 
-		/* When requested, snip all trailing blanks. */
+		/* When requested, snip the one or two trailing spaces. */
 		if (ISSET(TRIM_BLANKS)) {
-			while (break_pos > 0 &&
-						is_blank_mbchar(&(*line)->data[break_pos - 1]))
+			while (break_pos > 0 && (*line)->data[break_pos - 1] == ' ')
 				break_pos--;
 		}
 
