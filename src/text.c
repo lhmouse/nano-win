@@ -1423,11 +1423,12 @@ bool do_wrap(void)
 							wrap_at - wideness(line->data, lead_len), FALSE);
 
 	/* If no wrapping point was found before end-of-line, we don't wrap. */
-	if (wrap_loc == -1 || wrap_loc + lead_len == line_len)
+	if (wrap_loc < 0 || lead_len + wrap_loc == line_len)
 		return FALSE;
 
-	/* Step forward to the character just after the blank. */
-	wrap_loc = step_right(line->data + lead_len, wrap_loc) + lead_len;
+	/* Adjust the wrap location to its position in the full line,
+	 * and step forward to the character just after the blank. */
+	wrap_loc = lead_len + step_right(line->data + lead_len, wrap_loc);
 
 	/* When now at end-of-line, no need to wrap. */
 	if (line->data[wrap_loc] == '\0')
@@ -1475,8 +1476,8 @@ bool do_wrap(void)
 		do_delete();
 
 #ifdef ENABLE_JUSTIFY
-		/* If the quoting part of the current line equals the quoting part of
-		 * what was the next line, then strip this second quoting part. */
+		/* If the leading part of the current line equals the leading part of
+		 * what was the next line, then strip this second leading part. */
 		if (strncmp(line->data, line->data + openfile->current_x, lead_len) == 0)
 			for (size_t i = lead_len; i > 0; i--)
 				do_delete();
@@ -1839,7 +1840,7 @@ void rewrap_paragraph(linestruct **line, char *lead_string, size_t lead_len)
 						wrap_at - wideness((*line)->data, lead_len), FALSE);
 
 		/* If we can't break the line, or don't need to, we're done. */
-		if (break_pos == -1 || break_pos + lead_len == line_len)
+		if (break_pos < 0 || lead_len + break_pos == line_len)
 			break;
 
 		/* Adjust the breaking position for the leading part and
