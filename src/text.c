@@ -1405,8 +1405,10 @@ bool do_wrap(void)
 		/* The line to be wrapped, if needed and possible. */
 	size_t line_len = strlen(line->data);
 		/* The length of this line. */
-	size_t pre_len = quote_length(line->data);
-		/* The length of the leading quoting, plus later also indentation. */
+	size_t quot_len = quote_length(line->data);
+		/* The length of the quoting part of this line. */
+	size_t lead_len = quot_len + indent_length(line->data + quot_len);
+		/* The length of the quoting part plus subsequent whitespace. */
 	size_t cursor_x = openfile->current_x;
 		/* The current cursor position, for comparison with the wrap point. */
 	ssize_t wrap_loc;
@@ -1416,18 +1418,16 @@ bool do_wrap(void)
 	size_t rest_length;
 		/* The length of the remainder. */
 
-	pre_len += indent_length(line->data + pre_len);
-
 	/* First find the last blank character where we can break the line. */
-	wrap_loc = break_line(line->data + pre_len,
-							wrap_at - wideness(line->data, pre_len), FALSE);
+	wrap_loc = break_line(line->data + lead_len,
+							wrap_at - wideness(line->data, lead_len), FALSE);
 
 	/* If no wrapping point was found before end-of-line, we don't wrap. */
-	if (wrap_loc == -1 || wrap_loc + pre_len == line_len)
+	if (wrap_loc == -1 || wrap_loc + lead_len == line_len)
 		return FALSE;
 
 	/* Step forward to the character just after the blank. */
-	wrap_loc = step_right(line->data + pre_len, wrap_loc) + pre_len;
+	wrap_loc = step_right(line->data + lead_len, wrap_loc) + lead_len;
 
 	/* When now at end-of-line, no need to wrap. */
 	if (line->data[wrap_loc] == '\0')
@@ -1438,9 +1438,8 @@ bool do_wrap(void)
 #endif
 #ifdef ENABLE_JUSTIFY
 	bool autowhite = ISSET(AUTOINDENT);
-	size_t lead_len = quote_length(line->data);
 
-	if (lead_len > 0)
+	if (quot_len > 0)
 		UNSET(AUTOINDENT);
 #endif
 
@@ -1508,9 +1507,7 @@ bool do_wrap(void)
 
 #ifdef ENABLE_JUSTIFY
 	/* If the original line has quoting, copy it to the spillage line. */
-	if (lead_len > 0) {
-		lead_len += indent_length(line->data + lead_len);
-
+	if (quot_len > 0) {
 		line = line->next;
 		line_len = strlen(line->data);
 		line->data = charealloc(line->data, lead_len + line_len + 1);
