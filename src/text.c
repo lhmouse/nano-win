@@ -1562,13 +1562,14 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 
 	/* Find the last blank that does not overshoot the target column. */
 	while (*line != '\0' && ((ssize_t)column <= goal)) {
-		if (is_blank_mbchar(line) || (snap_at_nl && *line == '\n')) {
+		if (is_blank_mbchar(line))
 			lastblank = index;
-
-			if (*line == '\n')
-				break;
+#ifdef ENABLE_HELP
+		else if (snap_at_nl && *line == '\n') {
+			lastblank = index;
+			break;
 		}
-
+#endif
 		charlen = advance_over(line, &column);
 		line += charlen;
 		index += charlen;
