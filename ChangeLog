@@ -1,3 +1,48 @@
+Changes between v4.6 and v4.7:
+------------------------------
+
+Benno Schulenberg (39):
+      build: add the uploading of PDF and cheatsheet to the release script
+      build: avoid three compiler warnings when using gcc-9.2 or newer
+      build: fix compilation for --enable-tiny --enable-wrapping
+      build: fix compilation on macOS, where 'st_mtim' is unknown
+      build: fix compilation when configured with --disable-justify
+      bump version numbers and add a news item for the 4.7 release
+      display: don't color the space that separates line numbers from text
+      docs: add or improve the 'description' meta tag in the two HTML pages
+      docs: add the 'lang' attribute in the right place to the two HTML pages
+      docs: mention that all keywords in a nanorc file should be in lowercase
+      docs: mention that a negative number after "+" counts from the end
+      gnulib: update to its current upstream state
+      input: make <Tab> indent only when mark and cursor are on different lines
+      justify: distinguish between tabs and spaces when comparing indentation
+      justify: treat consecutive indentations that look the same as the same
+      linter: beep when trying to go beyond first or last message
+      rcfile: accept also function names and menu names only in lowercase
+      rcfile: accept only keywords in all lowercase, for speed of comparison
+      rcfile: demand that function 'exit' is bound in the file browser
+      syntax: nanohelp: colorize also ^/ as a possible keystroke
+      syntax: sh: recognize shell rc files also in dedicated directories
+      tweaks: avoid using strlen() where it is not needed
+      tweaks: drop M-Space and ^Space from the browser's key list
+      tweaks: improve two comments and the ordering of some operands
+      tweaks: move three functions to the file where they are used
+      tweaks: optimize the trimming of trailing whitespace
+      tweaks: remove a stray space
+      tweaks: rename a function, to get out of the way for another rename
+      tweaks: rename a function, to get rid of a useless suffix
+      tweaks: reshuffle a few lines, for brevity or speed or consistency
+      tweaks: reshuffle a few lines, for symmetry with the preceding function
+      tweaks: reshuffle a fragment of code, for efficiency
+      tweaks: reshuffle and rename a few things, to elide duplication
+      tweaks: reshuffle an item, to avoid a lone 'else'
+      tweaks: reshuffle two declarations, for compactness
+      tweaks: slightly streamline the search for a possible wrapping point
+      tweaks: trim or adjust some whitespace in HTML, and add two keywords
+      tweaks: unwrap a few lines, and move some strings to among their peers
+      wrapping: never break in the quoting part nor in the indentation part
+
+
 Changes between v4.5 and v4.6:
 ------------------------------
 

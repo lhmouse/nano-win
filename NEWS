@@ -1,3 +1,12 @@
+2019.12.23 - GNU nano 4.7 "Havikskruid"
+• A <Tab> will indent a marked region only when mark and cursor are
+  on different lines.
+• Two indentations (any mix of tabs and spaces) are considered the
+  same when they look the same (that is: indent to the same level).
+• When using --breaklonglines or ^J, a line will never be broken in
+  its leading whitespace or quoting.
+• The keywords in nanorc files must be in lowercase.
+
 2019.11.29 - GNU nano 4.6 "And don't you eat that yellow snow"
 • The 'formatter' command has returned, bound by default to M-F.
   It allows running a syntax-specific command on the contents of
