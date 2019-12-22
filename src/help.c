@@ -576,28 +576,13 @@ functionptrtype parse_help_input(int *kbinput)
 /* Calculate the displayable length of the help-text line starting at ptr. */
 size_t help_line_len(const char *ptr)
 {
-	size_t wrapping_point = (COLS > 24) ? COLS - 1 : 24;
-		/* The target width for wrapping long lines. */
-	ssize_t wrap_location;
-		/* Actual position where the line can be wrapped. */
-	size_t length = 0;
-		/* Full length of the line, until the first newline. */
+	size_t wrapping_point = (COLS < 24) ? 24 : COLS;
 
 	/* Avoid overwide paragraphs in the introductory text. */
 	if (ptr < end_of_intro && COLS > 74)
 		wrapping_point = 74;
 
-	wrap_location = break_line(ptr, wrapping_point, TRUE);
-
-	/* Get the length of the entire line up to a null or a newline. */
-	while (*(ptr + length) != '\0' && *(ptr + length) != '\n')
-		length = step_right(ptr, length);
-
-	/* If the entire line will just fit the screen, don't wrap it. */
-	if (wideness(ptr, length) <= wrapping_point + 1)
-		return length;
-	else
-		return wrap_location;
+	return break_line(ptr, wrapping_point, TRUE);
 }
 #endif /* ENABLE_HELP */
 
