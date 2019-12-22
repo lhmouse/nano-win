@@ -531,7 +531,7 @@ bool do_wrap(void);
 #if defined(ENABLE_HELP) || defined(ENABLED_WRAPORJUSTIFY)
 ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl);
 #endif
-#if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
+#if !defined(NANO_TINY) || defined(ENABLED_WRAPORJUSTIFY)
 size_t indent_length(const char *line);
 #endif
 #ifdef ENABLE_JUSTIFY

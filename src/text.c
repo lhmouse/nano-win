@@ -1622,7 +1622,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 }
 #endif /* ENABLE_HELP || ENABLED_WRAPORJUSTIFY */
 
-#if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
+#if !defined(NANO_TINY) || defined(ENABLED_WRAPORJUSTIFY)
 /* Return the length of the indentation part of the given line.  The
  * "indentation" of a line is the leading consecutive whitespace. */
 size_t indent_length(const char *line)
@@ -1643,7 +1643,7 @@ size_t indent_length(const char *line)
 
 	return len;
 }
-#endif /* !NANO_TINY || ENABLE_JUSTIFY */
+#endif
 
 #ifdef ENABLE_JUSTIFY
 /* Copy a character from one place to another. */
