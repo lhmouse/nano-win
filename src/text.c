@@ -1405,10 +1405,14 @@ bool do_wrap(void)
 		/* The line to be wrapped, if needed and possible. */
 	size_t line_len = strlen(line->data);
 		/* The length of this line. */
+#ifdef ENABLE_JUSTIFY
 	size_t quot_len = quote_length(line->data);
 		/* The length of the quoting part of this line. */
 	size_t lead_len = quot_len + indent_length(line->data + quot_len);
 		/* The length of the quoting part plus subsequent whitespace. */
+#else
+	size_t lead_len = indent_length(line->data);
+#endif
 	size_t cursor_x = openfile->current_x;
 		/* The current cursor position, for comparison with the wrap point. */
 	ssize_t wrap_loc;
