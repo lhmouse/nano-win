@@ -904,13 +904,13 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						return KEY_F(9);
 					case 'Y': /* Esc O Y == F10 on Mach console. */
 						return KEY_F(10);
-					case 'a': /* Esc O a == Ctrl-Up on rxvt. */
+					case 'a': /* Esc O a == Ctrl-Up on rxvt/Eterm. */
 						return CONTROL_UP;
-					case 'b': /* Esc O b == Ctrl-Down on rxvt. */
+					case 'b': /* Esc O b == Ctrl-Down on rxvt/Eterm. */
 						return CONTROL_DOWN;
-					case 'c': /* Esc O c == Ctrl-Right on rxvt. */
+					case 'c': /* Esc O c == Ctrl-Right on rxvt/Eterm. */
 						return CONTROL_RIGHT;
-					case 'd': /* Esc O d == Ctrl-Left on rxvt. */
+					case 'd': /* Esc O d == Ctrl-Left on rxvt/Eterm. */
 						return CONTROL_LEFT;
 					case 'j': /* Esc O j == '*' on numeric keypad with
 							   * NumLock off on VT100/VT220/VT320/xterm/
@@ -952,18 +952,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						return KEY_UP;
 					case 'y': /* Esc O y == PageUp (9) on the same. */
 						return KEY_PPAGE;
-				}
-				break;
-			case 'o':
-				switch (seq[1]) {
-					case 'a': /* Esc o a == Ctrl-Up on Eterm. */
-						return CONTROL_UP;
-					case 'b': /* Esc o b == Ctrl-Down on Eterm. */
-						return CONTROL_DOWN;
-					case 'c': /* Esc o c == Ctrl-Right on Eterm. */
-						return CONTROL_RIGHT;
-					case 'd': /* Esc o d == Ctrl-Left on Eterm. */
-						return CONTROL_LEFT;
 				}
 				break;
 			case '[':
