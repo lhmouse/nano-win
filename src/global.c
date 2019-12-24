@@ -384,7 +384,7 @@ int keycode_from_string(const char *keystring)
 {
 	if (keystring[0] == '^') {
 		if (keystring[2] == '\0') {
-			if (keystring[1] == '/')
+			if (keystring[1] == '/' || keystring[1] == '-')
 				return 31;
 			if (keystring[1] <= '_')
 				return keystring[1] - 64;
@@ -1192,6 +1192,12 @@ void shortcut_init(void)
 		N_("Next Linter message"), WITHORSANS(nextlint_gist), TOGETHER, VIEW);
 #endif
 
+#ifdef __linux__
+#define SLASH_OR_DASH  (on_a_vt) ? "^-" : "^/"
+#else
+#define SLASH_OR_DASH  "^/"
+#endif
+
 	/* Link key combos to functions in certain menus. */
 	add_to_sclist(MMOST|MBROWSER, "^M", '\r', do_enter, 0);
 	add_to_sclist(MMOST|MBROWSER, "Enter", KEY_ENTER, do_enter, 0);
@@ -1233,8 +1239,9 @@ void shortcut_init(void)
 	add_to_sclist(MEXECUTE, "^O", 0, do_formatter, 0);
 #endif
 	add_to_sclist(MMAIN, "^C", 0, report_cursor_position, 0);
-	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);
+	add_to_sclist(MMAIN, SLASH_OR_DASH, 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN, "M-G", 0, do_gotolinecolumn_void, 0);
+	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "^Y", 0, do_page_up, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "PgUp", KEY_PPAGE, do_page_up, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "^V", 0, do_page_down, 0);
@@ -1455,8 +1462,9 @@ void shortcut_init(void)
 	add_to_sclist(MBROWSER, "End", KEY_END, to_last_file, 0);
 	add_to_sclist(MBROWSER, "^Home", CONTROL_HOME, to_first_file, 0);
 	add_to_sclist(MBROWSER, "^End", CONTROL_END, to_last_file, 0);
-	add_to_sclist(MBROWSER, "^_", 0, goto_dir, 0);
+	add_to_sclist(MBROWSER, SLASH_OR_DASH, 0, goto_dir, 0);
 	add_to_sclist(MBROWSER, "M-G", 0, goto_dir, 0);
+	add_to_sclist(MBROWSER, "^_", 0, goto_dir, 0);
 #endif
 	if (ISSET(SAVE_ON_EXIT) && !ISSET(PRESERVE))
 		add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
