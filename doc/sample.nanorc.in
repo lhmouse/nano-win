@@ -54,9 +54,9 @@
 ## Do not use the line below the title bar, leaving it entirely blank.
 # set emptyline
 
-## Enable hard-wrapping and set the target width, both for automatic
-## line wrapping and for justifying paragraphs.  If the value is 0 or
-## less, the wrapping point will be the screen width minus this number.
+## Set the target width for automatic hard-wrapping and for justifying
+## paragraphs.  If the specified value is 0 or less, the wrapping point
+## will be the terminal's width minus this number.
 # set fill -8
 
 ## Remember the used search/replace strings for the next session.
