@@ -140,9 +140,9 @@ void run_macro(void)
  * Escape sequence compatibility:
  *
  * We support escape sequences for ANSI, VT100, VT220, VT320, the Linux
- * console, the FreeBSD console, the Mach console, xterm, rxvt, Eterm,
- * and Terminal, and some for iTerm2.  Among these, there are several
- * conflicts and omissions, outlined as follows:
+ * console, the FreeBSD console, the Mach console, xterm, and Terminal,
+ * and some for Konsole, rxvt, Eterm, and iTerm2.  Among these sequences,
+ * there are several conflicts and omissions:
  *
  * - Tab on ANSI == PageUp on FreeBSD console; the former is omitted.
  *   (Ctrl-I is also Tab on ANSI, which we already support.)
@@ -812,13 +812,13 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'D': /* Esc O 1 ; 2 D == Shift-Left on Terminal. */
 						shift_held = TRUE;
 						return arrow_from_abcd(seq[4]);
-					case 'P': /* Esc O 1 ; 2 P == F13 on Terminal. */
+					case 'P': /* Esc O 1 ; 2 P == F13 on Gnome Terminal. */
 						return KEY_F(13);
-					case 'Q': /* Esc O 1 ; 2 Q == F14 on Terminal. */
+					case 'Q': /* Esc O 1 ; 2 Q == F14 on Gnome Terminal. */
 						return KEY_F(14);
-					case 'R': /* Esc O 1 ; 2 R == F15 on Terminal. */
+					case 'R': /* Esc O 1 ; 2 R == F15 on Gnome Terminal. */
 						return KEY_F(15);
-					case 'S': /* Esc O 1 ; 2 S == F16 on Terminal. */
+					case 'S': /* Esc O 1 ; 2 S == F16 on Gnome Terminal. */
 						return KEY_F(16);
 				}
 				break;
@@ -842,13 +842,13 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						if (length > 2) {
 							*consumed = 3;
 							switch (seq[2]) {
-								case 'P': /* Esc O 2 P == F13 on xterm. */
+								case 'P': /* Esc O 2 P == F13 on Konsole. */
 									return KEY_F(13);
-								case 'Q': /* Esc O 2 Q == F14 on xterm. */
+								case 'Q': /* Esc O 2 Q == F14 on Konsole. */
 									return KEY_F(14);
-								case 'R': /* Esc O 2 R == F15 on xterm. */
+								case 'R': /* Esc O 2 R == F15 on Konsole. */
 									return KEY_F(15);
-								case 'S': /* Esc O 2 S == F16 on xterm. */
+								case 'S': /* Esc O 2 S == F16 on Konsole. */
 									return KEY_F(16);
 							}
 						}
