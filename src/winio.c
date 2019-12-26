@@ -1140,9 +1140,8 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							return KEY_END;
 						break;
 					case '5': /* Esc [ 5 ~ == PageUp on VT220/VT320/
-							   * Linux console/xterm/Terminal;
-							   * Esc [ 5 ^ == PageUp on Eterm. */
-						if (length > 2 && (seq[2] == '~' || seq[2] == '^'))
+							   * Linux console/xterm/Eterm/urxvt/Terminal */
+						if (length > 2 && seq[2] == '~')
 							return KEY_PPAGE;
 						else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
@@ -1153,9 +1152,8 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						}
 						break;
 					case '6': /* Esc [ 6 ~ == PageDown on VT220/VT320/
-							   * Linux console/xterm/Terminal;
-							   * Esc [ 6 ^ == PageDown on Eterm. */
-						if (length > 2 && (seq[2] == '~' || seq[2] == '^'))
+							   * Linux console/xterm/Eterm/urxvt/Terminal */
+						if (length > 2 && seq[2] == '~')
 							return KEY_NPAGE;
 						else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
 							*consumed = 5;
