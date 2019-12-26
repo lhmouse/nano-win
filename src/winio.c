@@ -813,13 +813,10 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						shift_held = TRUE;
 						return arrow_from_abcd(seq[4]);
 					case 'P': /* Esc O 1 ; 2 P == F13 on Gnome Terminal. */
-						return KEY_F(13);
 					case 'Q': /* Esc O 1 ; 2 Q == F14 on Gnome Terminal. */
-						return KEY_F(14);
 					case 'R': /* Esc O 1 ; 2 R == F15 on Gnome Terminal. */
-						return KEY_F(15);
 					case 'S': /* Esc O 1 ; 2 S == F16 on Gnome Terminal. */
-						return KEY_F(16);
+						return KEY_F(13 + seq[4] - 'P');
 				}
 				break;
 			case '5':
@@ -841,16 +838,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case '2':
 						if (length > 2) {
 							*consumed = 3;
-							switch (seq[2]) {
-								case 'P': /* Esc O 2 P == F13 on Konsole. */
-									return KEY_F(13);
-								case 'Q': /* Esc O 2 Q == F14 on Konsole. */
-									return KEY_F(14);
-								case 'R': /* Esc O 2 R == F15 on Konsole. */
-									return KEY_F(15);
-								case 'S': /* Esc O 2 S == F16 on Konsole. */
-									return KEY_F(16);
-							}
+							/* Esc O 2 P == F13 (and further) on Konsole. */
+							if ('O' < seq[2] && seq[2] < 'T')
+								return KEY_F(13 + seq[2] - 'P');
 						}
 						break;
 					case '5':
@@ -1082,14 +1072,11 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 								case '1': /* Esc [ 2 1 ~ == F10 on the same. */
 									return KEY_F(10);
 								case '3': /* Esc [ 2 3 ~ == F11 on the same. */
-									return KEY_F(11);
 								case '4': /* Esc [ 2 4 ~ == F12 on the same. */
-									return KEY_F(12);
 								case '5': /* Esc [ 2 5 ~ == F13 on VT220/VT320/
 										   * Linux console/rxvt/Eterm. */
-									return KEY_F(13);
 								case '6': /* Esc [ 2 6 ~ == F14 on the same. */
-									return KEY_F(14);
+									return KEY_F(11 + seq[2] - '3');
 								case '8': /* Esc [ 2 8 ~ == F15 on the same. */
 									return KEY_F(15);
 								case '9': /* Esc [ 2 9 ~ == F16 on the same. */
