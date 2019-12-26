@@ -1068,7 +1068,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 #endif
 		}
 		/* ->->->->->->-> */
-						}
+						} else if (length > 5 && seq[3] == ';' && seq[5] == '~')
+							/* Esc [ 1 n ; 2 ~ == F17...F20 on some terminals. */
+							*consumed = 6;
 						break;
 					case '2':
 						if (length > 3 && seq[3] == '~') {
@@ -1100,6 +1102,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						else if (length > 4 && seq[2] == ';' && seq[4] == '~')
 							/* Esc [ 2 ; x ~ == modified Insert on xterm. */
 							*consumed = 5;
+						else if (length > 5 && seq[3] == ';' && seq[5] == '~')
+							/* Esc [ 2 n ; 2 ~ == F21...F24 on some terminals. */
+							*consumed = 6;
 						break;
 					case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 							   * Linux console/xterm/Terminal. */
@@ -1132,6 +1137,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						if (length > 2 && seq[2] == '@')
 							/* Esc [ 3 @ == Ctrl-Shift-Delete on urxvt. */
 							return controlshiftdelete;
+						if (length > 3 && seq[3] == '~')
+							/* Esc [ 3 n ~ == F17...F20 on some terminals. */
+							*consumed = 4;
 #endif
 						break;
 					case '4': /* Esc [ 4 ~ == End on VT220/VT320/
@@ -1321,7 +1329,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	 * (the longest possible escape sequence) from the keybuffer and
 	 * translate the sequence into its corresponding keycode. */
 	put_back(kbinput);
-	length = (key_buffer_len < 5 ? key_buffer_len : 5);
+	length = (key_buffer_len < 6 ? key_buffer_len : 6);
 	sequence = get_input(NULL, length);
 	retval = convert_sequence(sequence, length, &consumed);
 
