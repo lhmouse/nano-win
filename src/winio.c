@@ -990,6 +990,11 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						return SHIFT_END;
 					case 'H': /* Esc [ 1 ; 2 H == Shift-Home on xterm. */
 						return SHIFT_HOME;
+					case 'P': /* Esc [ 1 ; 2 P == F13 on xterm. */
+					case 'Q': /* Esc [ 1 ; 2 Q == F14 on xterm. */
+					case 'R': /* Esc [ 1 ; 2 R == F15 on xterm. */
+					case 'S': /* Esc [ 1 ; 2 S == F16 on xterm. */
+						return KEY_F(13 + seq[4] - 'P');
 #endif
 				}
 				break;
