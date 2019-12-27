@@ -873,25 +873,16 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							   * rxvt/Eterm. */
 						return KEY_ENTER;
 					case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Mach console. */
-						return KEY_F(1);
 					case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/Mach console. */
-						return KEY_F(2);
 					case 'R': /* Esc O R == F3 on VT100/VT220/VT320/Mach console. */
-						return KEY_F(3);
 					case 'S': /* Esc O S == F4 on VT100/VT220/VT320/Mach console. */
-						return KEY_F(4);
 					case 'T': /* Esc O T == F5 on Mach console. */
-						return KEY_F(5);
 					case 'U': /* Esc O U == F6 on Mach console. */
-						return KEY_F(6);
 					case 'V': /* Esc O V == F7 on Mach console. */
-						return KEY_F(7);
 					case 'W': /* Esc O W == F8 on Mach console. */
-						return KEY_F(8);
 					case 'X': /* Esc O X == F9 on Mach console. */
-						return KEY_F(9);
 					case 'Y': /* Esc O Y == F10 on Mach console. */
-						return KEY_F(10);
+						return KEY_F(seq[1] - 'O');
 					case 'a': /* Esc O a == Ctrl-Up on rxvt/Eterm. */
 						return CONTROL_UP;
 					case 'b': /* Esc O b == Ctrl-Down on rxvt/Eterm. */
@@ -950,22 +941,16 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							*consumed = 4;
 							switch (seq[2]) {
 								case '1': /* Esc [ 1 1 ~ == F1 on rxvt/Eterm. */
-									return KEY_F(1);
 								case '2': /* Esc [ 1 2 ~ == F2 on rxvt/Eterm. */
-									return KEY_F(2);
 								case '3': /* Esc [ 1 3 ~ == F3 on rxvt/Eterm. */
-									return KEY_F(3);
 								case '4': /* Esc [ 1 4 ~ == F4 on rxvt/Eterm. */
-									return KEY_F(4);
 								case '5': /* Esc [ 1 5 ~ == F5 on xterm/rxvt/Eterm. */
-									return KEY_F(5);
+									return KEY_F(seq[2] - '0');
 								case '7': /* Esc [ 1 7 ~ == F6 on VT220/VT320/
 										   * Linux console/xterm/rxvt/Eterm. */
-									return KEY_F(6);
 								case '8': /* Esc [ 1 8 ~ == F7 on the same. */
-									return KEY_F(7);
 								case '9': /* Esc [ 1 9 ~ == F8 on the same. */
-									return KEY_F(8);
+									return KEY_F(seq[2] - '1');
 							}
 						} else if (length > 4 && seq[2] == ';') {
 		/* <-<-<-<-<-<-<- */
@@ -1216,30 +1201,22 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'O':
 						if (length > 2) {
 							*consumed = 3;
-							switch (seq[2]) {
-								case 'P': /* Esc [ O P == F1 on xterm. */
-									return KEY_F(1);
-								case 'Q': /* Esc [ O Q == F2 on xterm. */
-									return KEY_F(2);
-								case 'R': /* Esc [ O R == F3 on xterm. */
-									return KEY_F(3);
-								case 'S': /* Esc [ O S == F4 on xterm. */
-									return KEY_F(4);
-							}
+							if ('O' < seq[2] && seq[2] < 'T')
+								/* Esc [ O P == F1 on xterm. */
+								/* Esc [ O Q == F2 on xterm. */
+								/* Esc [ O R == F3 on xterm. */
+								/* Esc [ O S == F4 on xterm. */
+								return KEY_F(seq[2] - 'O');
 						} else
 							/* Esc [ O == F3 on FreeBSD console. */
 							return KEY_F(3);
 						break;
 					case 'P': /* Esc [ P == F4 on FreeBSD console. */
-						return KEY_F(4);
 					case 'Q': /* Esc [ Q == F5 on FreeBSD console. */
-						return KEY_F(5);
 					case 'R': /* Esc [ R == F6 on FreeBSD console. */
-						return KEY_F(6);
 					case 'S': /* Esc [ S == F7 on FreeBSD console. */
-						return KEY_F(7);
 					case 'T': /* Esc [ T == F8 on FreeBSD console. */
-						return KEY_F(8);
+						return KEY_F(4 + seq[1] - 'P');
 					case 'U': /* Esc [ U == PageDown on Mach console. */
 						return KEY_NPAGE;
 					case 'V': /* Esc [ V == PageUp on Mach console. */
@@ -1262,18 +1239,13 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case '[':
 						if (length > 2) {
 							*consumed = 3;
-							switch (seq[2]) {
-								case 'A': /* Esc [ [ A == F1 on Linux console. */
-									return KEY_F(1);
-								case 'B': /* Esc [ [ B == F2 on Linux console. */
-									return KEY_F(2);
-								case 'C': /* Esc [ [ C == F3 on Linux console. */
-									return KEY_F(3);
-								case 'D': /* Esc [ [ D == F4 on Linux console. */
-									return KEY_F(4);
-								case 'E': /* Esc [ [ E == F5 on Linux console. */
-									return KEY_F(5);
-							}
+							if ('@' < seq[2] && seq[2] < 'F')
+								/* Esc [ [ A == F1 on Linux console. */
+								/* Esc [ [ B == F2 on Linux console. */
+								/* Esc [ [ C == F3 on Linux console. */
+								/* Esc [ [ D == F4 on Linux console. */
+								/* Esc [ [ E == F5 on Linux console. */
+								return KEY_F(seq[2] - '@');
 						}
 						break;
 				}
