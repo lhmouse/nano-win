@@ -863,9 +863,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'C': /* Esc O C == Right on VT100/VT320/xterm. */
 					case 'D': /* Esc O D == Left on VT100/VT320/xterm. */
 						return arrow_from_abcd(seq[1]);
-					case 'E': /* Esc O E == Center (5) on numeric keypad
-							   * with NumLock off on xterm. */
-						return KEY_B2;
 					case 'F': /* Esc O F == End on xterm/Terminal. */
 						return KEY_END;
 					case 'H': /* Esc O H == Home on xterm/Terminal. */
@@ -928,10 +925,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						return KEY_NPAGE;
 					case 't': /* Esc O t == Left (4) on the same. */
 						return KEY_LEFT;
-					case 'u': /* Esc O u == Center (5) on numeric keypad
-							   * with NumLock off on VT100/VT220/VT320/
-							   * rxvt/Eterm. */
-						return KEY_B2;
 					case 'v': /* Esc O v == Right (6) on numeric keypad
 							   * with NumLock off on VT100/VT220/VT320/
 							   * rxvt/Eterm/Terminal. */
@@ -1203,9 +1196,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'C': /* Esc [ C == Right on the same. */
 					case 'D': /* Esc [ D == Left on the same. */
 						return arrow_from_abcd(seq[1]);
-					case 'E': /* Esc [ E == Center (5) on numeric keypad with
-							   * NumLock off on FreeBSD console/Terminal. */
-						return KEY_B2;
 					case 'F': /* Esc [ F == End on FreeBSD console/Eterm. */
 						return KEY_END;
 					case 'G': /* Esc [ G == PageDown on FreeBSD console. */
