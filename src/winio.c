@@ -740,14 +740,6 @@ int parse_kbinput(WINDOW *win)
 		case KEY_SIC:
 			return the_code_for(do_insertfile_void, KEY_IC);
 #endif
-#ifdef KEY_SBEG  /* Slang doesn't support KEY_SBEG. */
-		case KEY_SBEG:
-#endif
-#ifdef KEY_BEG  /* Slang doesn't support KEY_BEG. */
-		case KEY_BEG:
-#endif
-		case KEY_B2:    /* Center (5) on keypad with NumLock off. */
-			return ERR;
 #ifdef KEY_CANCEL  /* Slang doesn't support KEY_CANCEL. */
 #ifdef KEY_SCANCEL  /* Slang doesn't support KEY_SCANCEL. */
 		case KEY_SCANCEL:
@@ -766,6 +758,13 @@ int parse_kbinput(WINDOW *win)
 		case KEY_BTAB:
 			return SHIFT_TAB;
 #endif
+#ifdef KEY_SBEG  /* Slang doesn't support KEY_SBEG. */
+		case KEY_SBEG:
+#endif
+#ifdef KEY_BEG  /* Slang doesn't support KEY_BEG. */
+		case KEY_BEG:
+#endif
+		case KEY_B2:    /* Center (5) on keypad with NumLock off. */
 #ifdef PDCURSES
 		case KEY_SHIFT_L:
 		case KEY_SHIFT_R:
@@ -773,7 +772,6 @@ int parse_kbinput(WINDOW *win)
 		case KEY_CONTROL_R:
 		case KEY_ALT_L:
 		case KEY_ALT_R:
-			return ERR;
 #endif
 #ifdef KEY_RESIZE  /* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
 		case KEY_RESIZE:
@@ -782,7 +780,7 @@ int parse_kbinput(WINDOW *win)
 		case KEY_BAD:
 #endif
 		case KEY_FLUSH:
-			return ERR;
+			return ERR;    /* Ignore this keystroke. */
 	}
 
 	return retval;
