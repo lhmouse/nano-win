@@ -610,7 +610,7 @@ void implant(const char *string);
 #endif
 int get_kbinput(WINDOW *win, bool showcursor);
 int parse_kbinput(WINDOW *win);
-int arrow_from_abcd(int kbinput);
+int arrow_from_ABCD(int letter);
 int parse_escape_sequence(WINDOW *win, int kbinput);
 int get_byte_kbinput(int kbinput);
 int get_control_kbinput(int kbinput);

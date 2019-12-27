@@ -809,7 +809,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'C': /* Esc O 1 ; 2 C == Shift-Right on Terminal. */
 					case 'D': /* Esc O 1 ; 2 D == Shift-Left on Terminal. */
 						shift_held = TRUE;
-						return arrow_from_abcd(seq[4]);
+						return arrow_from_ABCD(seq[4]);
 					case 'P': /* Esc O 1 ; 2 P == F13 on Gnome Terminal. */
 					case 'Q': /* Esc O 1 ; 2 Q == F14 on Gnome Terminal. */
 					case 'R': /* Esc O 1 ; 2 R == F15 on Gnome Terminal. */
@@ -863,7 +863,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'B': /* Esc O B == Down on VT100/VT320. */
 					case 'C': /* Esc O C == Right on VT100/VT320. */
 					case 'D': /* Esc O D == Left on VT100/VT320. */
-						return arrow_from_abcd(seq[1]);
+						return arrow_from_ABCD(seq[1]);
 					case 'F': /* Esc O F == End on Gnome and Xfce Terminal. */
 						return KEY_END;
 					case 'H': /* Esc O H == Home on Gnome and Xfce Terminal. */
@@ -963,7 +963,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'C': /* Esc [ 1 ; 2 C == Shift-Right on xterm. */
 					case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
 						shift_held = TRUE;
-						return arrow_from_abcd(seq[4]);
+						return arrow_from_ABCD(seq[4]);
 #ifndef NANO_TINY
 					case 'F': /* Esc [ 1 ; 2 F == Shift-End on xterm. */
 						return SHIFT_END;
@@ -1182,7 +1182,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'B': /* Esc [ B == Down on the same. */
 					case 'C': /* Esc [ C == Right on the same. */
 					case 'D': /* Esc [ D == Left on the same. */
-						return arrow_from_abcd(seq[1]);
+						return arrow_from_ABCD(seq[1]);
 					case 'F': /* Esc [ F == End on FreeBSD console/Eterm. */
 						return KEY_END;
 					case 'G': /* Esc [ G == PageDown on FreeBSD console. */
@@ -1235,7 +1235,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */
 					case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
 						shift_held = TRUE;
-						return arrow_from_abcd(seq[1]);
+						return arrow_from_ABCD(toupper(seq[1]));
 					case '[':
 						if (length > 2) {
 							*consumed = 3;
@@ -1258,19 +1258,17 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 
 /* Return the equivalent arrow-key value for the first four letters
  * in the alphabet, common to many escape sequences. */
-int arrow_from_abcd(int kbinput)
+int arrow_from_ABCD(int letter)
 {
-	switch (tolower(kbinput)) {
-		case 'a':
+	switch (letter) {
+		case 'A':
 			return KEY_UP;
-		case 'b':
+		case 'B':
 			return KEY_DOWN;
-		case 'c':
+		case 'C':
 			return KEY_RIGHT;
-		case 'd':
-			return KEY_LEFT;
 		default:
-			return ERR;
+			return KEY_LEFT;
 	}
 }
 
