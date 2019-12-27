@@ -786,6 +786,16 @@ int parse_kbinput(WINDOW *win)
 	return retval;
 }
 
+/* Return the arrow-key code that corresponds to the given letter.
+ * (This mapping is common to a handful of escape sequences.) */
+int arrow_from_ABCD(int letter)
+{
+	if (letter < 'C')
+		return (letter == 'A' ? KEY_UP : KEY_DOWN);
+	else
+		return (letter == 'D' ? KEY_LEFT : KEY_RIGHT);
+}
+
 /* Translate escape sequences, most of which correspond to extended
  * keypad values, into their corresponding key values.  These sequences
  * are generated when the keypad doesn't support the needed keys.
@@ -1254,22 +1264,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 	}
 
 	return ERR;
-}
-
-/* Return the equivalent arrow-key value for the first four letters
- * in the alphabet, common to many escape sequences. */
-int arrow_from_ABCD(int letter)
-{
-	switch (letter) {
-		case 'A':
-			return KEY_UP;
-		case 'B':
-			return KEY_DOWN;
-		case 'C':
-			return KEY_RIGHT;
-		default:
-			return KEY_LEFT;
-	}
 }
 
 /* Interpret the escape sequence in the keystroke buffer, the first
