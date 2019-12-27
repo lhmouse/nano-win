@@ -836,8 +836,11 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case '2':
 						if (length > 2) {
 							*consumed = 3;
-							/* Esc O 2 P == F13 (and further) on Konsole. */
 							if ('O' < seq[2] && seq[2] < 'T')
+								/* Esc O 2 P == F13 on Konsole. */
+								/* Esc O 2 Q == F14 on Konsole. */
+								/* Esc O 2 R == F15 on Konsole. */
+								/* Esc O 2 S == F16 on Konsole. */
 								return KEY_F(13 + seq[2] - 'P');
 						}
 						break;
@@ -856,14 +859,14 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							}
 						}
 						break;
-					case 'A': /* Esc O A == Up on VT100/VT320/xterm. */
-					case 'B': /* Esc O B == Down on VT100/VT320/xterm. */
-					case 'C': /* Esc O C == Right on VT100/VT320/xterm. */
-					case 'D': /* Esc O D == Left on VT100/VT320/xterm. */
+					case 'A': /* Esc O A == Up on VT100/VT320. */
+					case 'B': /* Esc O B == Down on VT100/VT320. */
+					case 'C': /* Esc O C == Right on VT100/VT320. */
+					case 'D': /* Esc O D == Left on VT100/VT320. */
 						return arrow_from_abcd(seq[1]);
-					case 'F': /* Esc O F == End on xterm/Terminal. */
+					case 'F': /* Esc O F == End on Gnome and Xfce Terminal. */
 						return KEY_END;
-					case 'H': /* Esc O H == Home on xterm/Terminal. */
+					case 'H': /* Esc O H == Home on Gnome and Xfce Terminal. */
 						return KEY_HOME;
 					case 'M': /* Esc O M == Enter on numeric keypad with
 							   * NumLock off on VT100/VT220/VT320/xterm/
@@ -1188,8 +1191,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						return KEY_DC;
 					case '@': /* Esc [ @ == Insert on Mach console. */
 						return KEY_IC;
-					case 'A': /* Esc [ A == Up on ANSI/VT220/Linux console/rxvt/
-							   * FreeBSD console/Mach console/Eterm/Terminal. */
+					case 'A': /* Esc [ A == Up on ANSI/VT220/Linux console/
+							   * FreeBSD console/Mach console/xterm/Eterm/
+							   * urxvt/Gnome and Xfce Terminal. */
 					case 'B': /* Esc [ B == Down on the same. */
 					case 'C': /* Esc [ C == Right on the same. */
 					case 'D': /* Esc [ D == Left on the same. */
