@@ -128,14 +128,13 @@ void run_macro(void)
  * - Ctrl-? is Delete under ASCII, ANSI, VT100, and VT220,
  *          but is Backspace under VT320.
  *
- * Note: VT220 and VT320 also generate Esc [ 3 ~ for Delete.  By default,
- * xterm assumes it's running on a VT320 and generates Ctrl-?
- * for Backspace and Esc [ 3 ~ for Delete.  This causes problems for
- * VT100-derived terminals such as the FreeBSD console, which expect
- * Ctrl-H for Backspace and Ctrl-? for Delete, and on which the
- * VT320 sequences are translated by the keypad to KEY_DC and [nothing].
- * We work around this conflict via the REBIND_DELETE flag: if it's not set,
- * we assume VT320 compatibility, and if it is, we assume VT100 compatibility.
+ * Note: the VT220 and VT320 also generate Esc [ 3 ~ for Delete.  By default,
+ * xterm assumes it's running on a VT320 and generates Ctrl-? for Backspace
+ * and Esc [ 3 ~ for Delete.  This causes problems for VT100-derived terminals
+ * such as the FreeBSD console, which expect Ctrl-H for Backspace and Ctrl-?
+ * for Delete, and on which ncurses translates the VT320 sequences to KEY_DC
+ * and [nothing].  We work around this conflict via the REBIND_DELETE flag:
+ * if it's set, we assume VT100 compatibility, and VT320 otherwise.
  *
  * Escape sequence compatibility:
  *
@@ -156,8 +155,8 @@ void run_macro(void)
  *   instead of the escape sequence.)
  * - F9 on FreeBSD console == PageDown on Mach console; the former is
  *   omitted.  (The editing keypad is more important to have working
- *   than the function keys, because the functions of the former are not
- *   arbitrary and the functions of the latter are.)
+ *   than the function keys, because the functions of the former are
+ *   not arbitrary and the functions of the latter are.)
  * - F10 on FreeBSD console == PageUp on Mach console; the former is
  *   omitted.  (Same as above.)
  * - F13 on FreeBSD console == End on Mach console; the former is
@@ -323,8 +322,7 @@ int *get_input(WINDOW *win, size_t input_len)
 
 	/* If the buffer still contains keystrokes, move them to the front. */
 	if (key_buffer_len > 0)
-		memmove(key_buffer, key_buffer + input_len, key_buffer_len *
-				sizeof(int));
+		memmove(key_buffer, key_buffer + input_len, key_buffer_len * sizeof(int));
 
 	return input;
 }
@@ -1512,13 +1510,13 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
  * multibyte sequence), or 2 (for an iTerm/Eterm/rxvt double Escape). */
 int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 {
-	int *kbinput;
+	int *kbinput = NULL;
 
 	reveal_cursor = TRUE;
 
 	/* Read in the first code. */
-	while ((kbinput = get_input(win, 1)) == NULL)
-		;
+	while (kbinput == NULL)
+		kbinput = get_input(win, 1);
 
 #ifndef NANO_TINY
 	/* When the window was resized, abort and return nothing. */
