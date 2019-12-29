@@ -646,7 +646,6 @@ void window_init(void)
 
 	/* When not disabled, turn escape-sequence translation on. */
 	if (!ISSET(RAW_SEQUENCES)) {
-		keypad(topwin, TRUE);
 		keypad(edit, TRUE);
 		keypad(bottomwin, TRUE);
 	}
