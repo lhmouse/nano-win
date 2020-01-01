@@ -1308,7 +1308,7 @@ void regenerate_screen(void)
 
 	/* We could check whether COLS or LINES changed, and return otherwise,
 	 * but it seems curses does not always update these global variables. */
-#ifdef REDEFINING_MACROS_OK
+#if defined(USE_SLANG) || defined(REDEFINING_MACROS_OK)
 	COLS = win.ws_col;
 	LINES = win.ws_row;
 #endif
