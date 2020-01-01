@@ -173,6 +173,9 @@ void run_macro(void)
  * in the keystroke buffer. */
 void read_keys_from(WINDOW *win)
 {
+#if defined(USE_SLANG) && !defined(NANO_TINY)
+	bool skip_others = FALSE;
+#endif
 	int input = ERR;
 	size_t errcount = 0;
 
@@ -193,7 +196,11 @@ void read_keys_from(WINDOW *win)
 #ifndef NANO_TINY
 		if (the_window_resized) {
 			regenerate_screen();
+#ifdef USE_SLANG
+			skip_others = TRUE;
+#else
 			input = KEY_WINCH;
+#endif
 		}
 #endif
 		if (input == ERR && !waiting_mode) {
@@ -220,6 +227,10 @@ void read_keys_from(WINDOW *win)
 	/* If we got a SIGWINCH, get out as the win argument is no longer valid. */
 	if (input == KEY_WINCH)
 		return;
+#ifdef USE_SLANG
+	if (skip_others)
+		return;
+#endif
 #endif
 
 	/* Read in the remaining characters using non-blocking input. */
