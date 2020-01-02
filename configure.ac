@@ -89,6 +89,12 @@ AC_CHECK_HEADERS(libintl.h limits.h pwd.h termios.h sys/param.h)
 
 dnl Checks for options.
 
+if test "x$with_slang" = xyes; then
+	if test "x$enable_tiny" != xyes; then
+		AC_MSG_ERROR([--with-slang is supported only together with --enable-tiny])
+	fi
+fi
+
 AC_ARG_ENABLE(browser,
 AS_HELP_STRING([--disable-browser], [Disable the built-in file browser]))
 if test "x$enable_tiny" = xyes; then
@@ -515,7 +521,6 @@ int main(void)
 		fi
 		;;
 	esac], [AC_MSG_RESULT(no)])
-
 
 dnl Checks for functions.
 
