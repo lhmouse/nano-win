@@ -1059,6 +1059,11 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						} else if (length > 5 && seq[3] == ';' && seq[5] == '~')
 							/* Esc [ 1 n ; 2 ~ == F17...F20 on some terminals. */
 							*consumed = 6;
+#ifdef USE_SLANG
+						else if (length == 4 && seq[3] == ';')
+							/* Discard broken sequences that Slang produces. */
+							*consumed = 4;
+#endif
 						break;
 					case '2':
 						if (length > 3 && seq[3] == '~') {
@@ -1095,6 +1100,11 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						else if (length > 5 && seq[3] == ';' && seq[5] == '~')
 							/* Esc [ 2 n ; 2 ~ == F21...F24 on some terminals. */
 							*consumed = 6;
+#ifdef USE_SLANG
+						else if (length == 4 && seq[3] == ';')
+							/* Discard broken sequences that Slang produces. */
+							*consumed = 4;
+#endif
 						break;
 					case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 							   * Linux console/xterm/Terminal. */
