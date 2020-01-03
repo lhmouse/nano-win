@@ -1213,6 +1213,7 @@ RETSIGTYPE do_suspend(int signal)
 
 	/* Move the cursor to the last line of the screen. */
 	move(LINES - 1, 0);
+	curs_set(1);
 	endwin();
 
 	/* Display our helpful message. */
