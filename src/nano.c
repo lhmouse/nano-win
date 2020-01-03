@@ -1308,7 +1308,7 @@ void regenerate_screen(void)
 
 	/* We could check whether COLS or LINES changed, and return otherwise,
 	 * but it seems curses does not always update these global variables. */
-#if defined(USE_SLANG) || defined(REDEFINING_MACROS_OK)
+#ifdef REDEFINING_MACROS_OK
 	COLS = win.ws_col;
 	LINES = win.ws_row;
 #endif
@@ -1317,19 +1317,10 @@ void regenerate_screen(void)
 	/* Ensure that firstcolumn is the starting column of its chunk. */
 	ensure_firstcolumn_is_aligned();
 
-#ifdef USE_SLANG
-	/* Slang curses emulation brain damage, part 1: If we just do what
-	 * curses does here, it'll only work properly if the resize made the
-	 * window smaller.  Do what mutt does: Leave and immediately reenter
-	 * Slang screen management mode. */
-	SLsmg_reset_smg();
-	SLsmg_init_smg();
-#else
 	/* Do the equivalent of what Minimum Profit does: leave and immediately
 	 * reenter curses mode. */
 	endwin();
 	doupdate();
-#endif
 
 	/* Put the terminal in the desired state again, recreate the subwindows
 	 * with their (new) sizes, and redraw the contents of these windows. */
