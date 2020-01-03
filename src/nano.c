@@ -304,6 +304,13 @@ void say_there_is_no_help(void)
 }
 #endif
 
+/* Tell the terminal to disable bracketed pastes. */
+void disable_bracketed_paste(void)
+{
+	printf("\e[?2004l");
+	fflush(stdout);
+}
+
 /* Exit normally: restore the terminal state and save history files. */
 void finish(void)
 {
@@ -322,6 +329,8 @@ void finish(void)
 	/* Switch on the cursor and exit from curses mode. */
 	curs_set(1);
 	endwin();
+
+	disable_bracketed_paste();
 
 	/* Restore the old terminal settings. */
 	tcsetattr(0, TCSANOW, &original_state);
@@ -353,6 +362,8 @@ void die(const char *msg, ...)
 	/* Switch on the cursor and leave curses mode. */
 	curs_set(1);
 	endwin();
+
+	disable_bracketed_paste();
 
 	/* Restore the old terminal settings. */
 	tcsetattr(0, TCSANOW, &original_state);
@@ -919,6 +930,8 @@ bool scoop_stdin(void)
 	endwin();
 	tcsetattr(0, TCSANOW, &original_state);
 
+	disable_bracketed_paste();
+
 	/* When input comes from a terminal, show a helpful message. */
 	if (isatty(STANDARD_INPUT))
 		fprintf(stderr, _("Reading data from keyboard; "
@@ -1034,6 +1047,8 @@ RETSIGTYPE do_suspend(int signal)
 #endif
 	curs_set(1);
 	endwin();
+
+	disable_bracketed_paste();
 
 	printf("\n\n");
 
@@ -1300,6 +1315,10 @@ void terminal_init(void)
 	} else
 		tcsetattr(0, TCSANOW, &desired_state);
 #endif
+
+	/* Tell the terminal to enable bracketed pastes. */
+	printf("\e[?2004h");
+	fflush(stdout);
 }
 
 /* Ask ncurses for a keycode, or assign a default one. */

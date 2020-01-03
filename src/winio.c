@@ -1105,6 +1105,18 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							/* Discard broken sequences that Slang produces. */
 							*consumed = 4;
 #endif
+						else if (length > 4 && seq[2] == '0' && seq[4] == '~') {
+							/* Esc [ 2 0 0 ~ == start of a bracketed paste,
+							 * Esc [ 2 0 1 ~ == end of a bracketed paste. */
+							*consumed = 5;
+							if (seq[3] == '0') {
+								bracketed_paste = TRUE;
+								return BRACKETED_PASTE_MARKER;
+							} else if (seq[3] == '1') {
+								bracketed_paste = FALSE;
+								return BRACKETED_PASTE_MARKER;
+							}
+						}
 						break;
 					case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 							   * Linux console/xterm/Terminal. */

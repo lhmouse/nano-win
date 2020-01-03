@@ -485,6 +485,8 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 
 		if (func == do_cancel || func == do_enter)
 			break;
+		if (func == do_nothing)
+			finished = FALSE;
 
 #ifdef ENABLE_TABCOMP
 		if (func != do_tab)

@@ -30,6 +30,7 @@ extern bool on_a_vt;
 
 extern bool meta_key;
 extern bool shift_held;
+extern bool bracketed_paste;
 
 extern bool focusing;
 
@@ -697,3 +698,4 @@ void flip_newbuffer(void);
 #endif
 void discard_buffer(void);
 void do_cancel(void);
+void do_nothing(void);

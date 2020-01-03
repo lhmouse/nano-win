@@ -38,6 +38,8 @@ bool meta_key;
 		/* Whether the current keystroke is a Meta key. */
 bool shift_held;
 		/* Whether Shift was being held together with a movement key. */
+bool bracketed_paste = FALSE;
+		/* Whether text is being pasted into nano from outside. */
 bool focusing = TRUE;
 		/* Whether an update of the edit window should center the cursor. */
 
@@ -336,6 +338,11 @@ void do_cancel(void)
 {
 }
 
+/* Ignore the start and stop sequences of a bracketed paste. */
+void do_nothing(void)
+{
+}
+
 /* Add a function to the linked list of functions. */
 void add_to_funcs(void (*func)(void), int menus, const char *desc,
 					const char *help, bool blank_after, bool viewok)
@@ -446,6 +453,16 @@ const keystruct *get_shortcut(int *kbinput)
 	if (!meta_key && ((*kbinput >= 0x20 && *kbinput < 0x7F) ||
 						(*kbinput >= 0xA0 && *kbinput <= 0xFF)))
 		return NULL;
+
+	if (bracketed_paste && *kbinput != BRACKETED_PASTE_MARKER) {
+		/* Beep and ignore all non-printable characters in prompts. */
+		if (currmenu != MMAIN)
+			return NULL;
+
+		/* Beep and ignore most non-printable characters in buffer. */
+		if (*kbinput != 0x09 && *kbinput != 0xD)
+			return NULL;
+	}
 
 	for (keystruct *s = sclist; s != NULL; s = s->next) {
 		if ((s->menus & currmenu) && *kbinput == s->keycode &&
@@ -1397,6 +1414,9 @@ void shortcut_init(void)
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
 #endif
+
+	/* Catch and ignore bracketed paste marker keys. */
+	add_to_sclist(MMOST|MHELP|MBROWSER|MYESNO, "", BRACKETED_PASTE_MARKER, do_nothing, 0);
 }
 
 #ifndef NANO_TINY

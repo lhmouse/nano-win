@@ -610,6 +610,9 @@ enum
 /* A special keycode for when <Tab> is pressed while the mark is on. */
 #define INDENT_KEY 0x4F1
 
+/* A special keycode to signal the beginning and end of a bracketed paste. */
+#define BRACKETED_PASTE_MARKER 0x4FB
+
 #ifdef USE_SLANG
 #ifdef ENABLE_UTF8
 #define KEY_BAD 0xFF  /* Clipped error code. */
