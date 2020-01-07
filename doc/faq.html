@@ -36,6 +36,7 @@
   <a href="#3.6">3.6. Tell me more about this multibuffer stuff!</a><br>
   <a href="#3.7">3.7. Tell me more about this verbatim input stuff!</a><br>
   <a href="#3.8">3.8. How do I make a .nanorc file that nano will read when I start it?</a><br>
+  <a href="#3.9">3.9. Why does my self-compiled nano not read /etc/nanorc?</a><br>
 </p></blockquote>
 <h3><a href="#4">4. Running</a></h3>
 <blockquote><p>
@@ -169,6 +170,8 @@
   <p>Alternatively, if Unicode support is enabled (see section <a href="#5.3">5.3</a>), you can press <b>Meta-V</b> and then type a six-digit hexadecimal code (from 000000 to 10FFFF, case-insensitive), and the character with the corresponding value will be inserted. The status bar will change to &quot;Unicode Input: ......&quot; when you do this.</p></blockquote>
 <h3><a name="3.8"></a>3.8. How do I make a .nanorc file that will be read when I start nano?</h3>
 <blockquote><p>It's not hard at all! But, your nano must <b>not</b> have been compiled with <b>--disable-nanorc</b>. Then simply copy the <b>sample.nanorc</b> that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc in your home directory. If you didn't get one, the syntax of the file is simple. Flags are turned on and off by using the words <b>set</b> and <b>unset</b> plus the long option name for the feature. For example, &quot;set nowrap&quot; or &quot;set smarthome&quot;.</p></blockquote>
+<h3><a name="3.9"></a>3.9. Why does my self-compiled nano not read /etc/nanorc?</h3>
+<blockquote><p>By default (see <a href="#3.3">3.3</a>), nano gets installed into /usr/local. This also means that at startup nano will read <b>/usr/local/etc/nanorc</b> instead of <b>/etc/nanorc</b>. You can make a symlink from the former to the latter if you want your self-compiled nano to read the same nanorc as the system-installed nano. Or you can configure your nano to overwrite the system nano (again, see <a href="#3.3">3.3</a>).</p></blockquote>
 <hr width="100%">
 
 <h1><a name="4"></a>4. Running</h1>
