@@ -31,11 +31,11 @@
   <a href="#3.1">3.1. How do I install the RPM or DEB package?</a><br>
   <a href="#3.2">3.2. Compiling from source: WHAT THE HECK DO I DO NOW?</a><br>
   <a href="#3.3">3.3. Why does everything go into /usr/local?</a><br>
-  <a href="#3.5">3.5. nano should automatically run strip on the binary when installing it!</a><br>
-  <a href="#3.6">3.6. How can I make the executable smaller? This is too bloated!</a><br>
-  <a href="#3.7">3.7. Tell me more about this multibuffer stuff!</a><br>
-  <a href="#3.8">3.8. Tell me more about this verbatim input stuff!</a><br>
-  <a href="#3.9">3.9. How do I make a .nanorc file that nano will read when I start it?</a><br>
+  <a href="#3.4">3.4. nano should automatically run strip on the binary when installing it!</a><br>
+  <a href="#3.5">3.5. How can I make the executable smaller? This is too bloated!</a><br>
+  <a href="#3.6">3.6. Tell me more about this multibuffer stuff!</a><br>
+  <a href="#3.7">3.7. Tell me more about this verbatim input stuff!</a><br>
+  <a href="#3.8">3.8. How do I make a .nanorc file that nano will read when I start it?</a><br>
 </p></blockquote>
 <h3><a href="#4">4. Running</a></h3>
 <blockquote><p>
@@ -137,9 +137,9 @@
 <blockquote><p>Well, that's what the <b>configure</b> script defaults to. If you wish to change this, simply do this:</p>
   <p><b>./configure --prefix=/usr</b></p>
   <p>to put nano into /usr/bin when you run <b>make install</b>.</p></blockquote>
-<h3><a name="3.5"></a>3.5. nano should automatically run strip on the binary when installing it!</h3>
+<h3><a name="3.4"></a>3.4. nano should automatically run strip on the binary when installing it!</h3>
 <blockquote><p>Actually, it does, but you have to use <b>make install-strip</b>. The default make install does not, and will not, run strip automatically.</p></blockquote>
-<h3><a name="3.6"></a>3.6. How can I make the executable smaller? This is too bloated!</h3>
+<h3><a name="3.5"></a>3.5. How can I make the executable smaller? This is too bloated!</h3>
 <blockquote><p>Actually, there are several parts of the editor that can be disabled. You can pass arguments to the <b>configure</b> script that disable certain features. Here's a brief list:</p>
   <pre>
   <b>--disable-browser</b>       Disable the built-in file browser
@@ -161,13 +161,13 @@
   <b>--disable-wrapping</b>      Disable all hard-wrapping of text</pre>
   <p>There's also the <b>--enable-tiny</b> option which disables everything above, as well as some larger chunks of the program (like the marker code that you use with Control-^ to select text). Also, if you know you aren't going to be using other languages, you can use <b>--disable-nls</b> to disable internationalization and save a few K to a few dozen K depending on whether you have locale support on your system. And finally, there's always good old <b>strip</b> to strip all debugging code and code that exists in libraries on your system.</p>
 </blockquote>
-<h3><a name="3.7"></a>3.7. Tell me more about this multibuffer stuff!</h3>
+<h3><a name="3.6"></a>3.6. Tell me more about this multibuffer stuff!</h3>
 <blockquote><p>To use multiple file buffers, you must not have configured nano with <b>--disable-multibuffer</b> nor with <b>--enable-tiny</b> (use <b>nano -V</b> to check the compilation options). Then when you want to insert a file into its own buffer instead of into the current file, just hit <b>Meta-F</b> after typing <b>^R</b>. If you always want files to be loaded into their own buffers, use the <b>-F</b> or <b>--multibuffer</b> flag when you invoke nano, or add <b>set multibuffer</b> to your .nanorc file.</p>
   <p>You can move between the buffers you have open with the <b>Meta-&lt;</b> and <b>Meta-&gt;</b> keys, or more easily without holding Shift: <b>Meta-,</b> and <b>Meta-.</b> (clear as mud, right? =-). When you have more than one buffer open, the ^X shortcut will say &quot;Close&quot;, instead of &quot;Exit&quot;.</p></blockquote>
-<h3><a name="3.8"></a>3.8. Tell me more about this verbatim input stuff!</h3>
+<h3><a name="3.7"></a>3.7. Tell me more about this verbatim input stuff!</h3>
 <blockquote><p>When you want to insert a literal character into the file you're editing, such as a control character that nano usually treats as a command, first press <b>Meta-V</b> (if you're not at a prompt, you'll get the message &quot;Verbatim Input&quot; on the status bar), then press the key(s) that generate the character you want.</p>
   <p>Alternatively, if Unicode support is enabled (see section <a href="#5.3">5.3</a>), you can press <b>Meta-V</b> and then type a six-digit hexadecimal code (from 000000 to 10FFFF, case-insensitive), and the character with the corresponding value will be inserted. The status bar will change to &quot;Unicode Input: ......&quot; when you do this.</p></blockquote>
-<h3><a name="3.9"></a>3.9. How do I make a .nanorc file that will be read when I start nano?</h3>
+<h3><a name="3.8"></a>3.8. How do I make a .nanorc file that will be read when I start nano?</h3>
 <blockquote><p>It's not hard at all! But, your nano must <b>not</b> have been compiled with <b>--disable-nanorc</b>. Then simply copy the <b>sample.nanorc</b> that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc in your home directory. If you didn't get one, the syntax of the file is simple. Flags are turned on and off by using the words <b>set</b> and <b>unset</b> plus the long option name for the feature. For example, &quot;set nowrap&quot; or &quot;set smarthome&quot;.</p></blockquote>
 <hr width="100%">
 
