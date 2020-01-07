@@ -1317,8 +1317,7 @@ void regenerate_screen(void)
 	/* Ensure that firstcolumn is the starting column of its chunk. */
 	ensure_firstcolumn_is_aligned();
 
-	/* Do the equivalent of what Minimum Profit does: leave and immediately
-	 * reenter curses mode. */
+	/* Do as the website suggests: leave and immediately reenter curses mode. */
 	endwin();
 	doupdate();
 
