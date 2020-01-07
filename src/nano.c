@@ -1210,11 +1210,10 @@ RETSIGTYPE do_suspend(int signal)
 #ifdef ENABLE_MOUSE
 	disable_mouse_support();
 #endif
-
-	/* Move the cursor to the last line of the screen. */
-	move(LINES - 1, 0);
 	curs_set(1);
 	endwin();
+
+	printf("\n\n");
 
 	/* Display our helpful message. */
 	printf(_("Use \"fg\" to return to nano.\n"));
