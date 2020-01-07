@@ -98,8 +98,8 @@
 <h3><a name="2.1"></a>2.1. Web sites that carry nano.</h3>
 <blockquote><p>The nano source tarballs can be downloaded from the following web sites:</p>
   <ul>
-    <li><a href="https://nano-editor.org/dist/">https://nano-editor.org/dist/</a></li>
-    <li><a href="https://ftp.gnu.org/gnu/nano/">https://ftp.gnu.org/gnu/nano/</a></li>
+    <li><a href="https://nano-editor.org/dist/latest/">https://nano-editor.org/dist/latest/</a></li>
+    <li><a href="https://ftpmirror.gnu.org/gnu/nano/">https://ftpmirror.gnu.org/gnu/nano/</a></li>
   </ul>
 </blockquote>
 <h3><a name="2.2"></a>2.2. RPM packages (RedHat, OpenSuse, and derivatives).</h3>
@@ -137,9 +137,9 @@
 <h3><a name="3.3"></a>3.3. Why does everything go into /usr/local?</h3>
 <blockquote><p>Well, that's what the <b>configure</b> script defaults to. If you wish to change this, simply do this:</p>
   <p><b>./configure --prefix=/usr</b></p>
-  <p>to put nano into /usr/bin when you run <b>make install</b>.</p></blockquote>
+  <p>This will put nano into /usr/bin when you run <b>make install</b>.</p></blockquote>
 <h3><a name="3.4"></a>3.4. nano should automatically run strip on the binary when installing it!</h3>
-<blockquote><p>Actually, it does, but you have to use <b>make install-strip</b>. The default make install does not, and will not, run strip automatically.</p></blockquote>
+<blockquote><p>It does when you use <b>make install-strip</b>. The default <b>make install</b> does not, and will not, run strip automatically.</p></blockquote>
 <h3><a name="3.5"></a>3.5. How can I make the executable smaller? This is too bloated!</h3>
 <blockquote><p>Actually, there are several parts of the editor that can be disabled. You can pass arguments to the <b>configure</b> script that disable certain features. Here's a brief list:</p>
   <pre>
@@ -160,7 +160,7 @@
   <b>--disable-tabcomp</b>       Disable the tab-completion functions
   <b>--disable-wordcomp</b>      Disable the word-completion function
   <b>--disable-wrapping</b>      Disable all hard-wrapping of text</pre>
-  <p>There's also the <b>--enable-tiny</b> option which disables everything above, as well as some larger chunks of the program (like the marker code that you use with Control-^ to select text). Also, if you know you aren't going to be using other languages, you can use <b>--disable-nls</b> to disable internationalization and save a few K to a few dozen K depending on whether you have locale support on your system. And finally, there's always good old <b>strip</b> to strip all debugging code and code that exists in libraries on your system.</p>
+  <p>There's also the <b>--enable-tiny</b> option which disables everything above, as well as some larger chunks of the program (like the undo/redo code and the code for selecting text). Also, if you know you don't need other languages, you can use <b>--disable-nls</b> to disable internationalization and save a few kilobytes. And finally, there's always good old <b>strip</b> to remove all unneeded symbols.</p>
 </blockquote>
 <h3><a name="3.6"></a>3.6. Tell me more about this multibuffer stuff!</h3>
 <blockquote><p>To use multiple file buffers, you must not have configured nano with <b>--disable-multibuffer</b> nor with <b>--enable-tiny</b> (use <b>nano -V</b> to check the compilation options). Then when you want to insert a file into its own buffer instead of into the current file, just hit <b>Meta-F</b> after typing <b>^R</b>. If you always want files to be loaded into their own buffers, use the <b>-F</b> or <b>--multibuffer</b> flag when you invoke nano, or add <b>set multibuffer</b> to your .nanorc file.</p>
@@ -169,19 +169,19 @@
 <blockquote><p>When you want to insert a literal character into the file you're editing, such as a control character that nano usually treats as a command, first press <b>Meta-V</b> (if you're not at a prompt, you'll get the message &quot;Verbatim Input&quot; on the status bar), then press the key(s) that generate the character you want.</p>
   <p>Alternatively, if Unicode support is enabled (see section <a href="#5.3">5.3</a>), you can press <b>Meta-V</b> and then type a six-digit hexadecimal code (from 000000 to 10FFFF, case-insensitive), and the character with the corresponding value will be inserted. The status bar will change to &quot;Unicode Input: ......&quot; when you do this.</p></blockquote>
 <h3><a name="3.8"></a>3.8. How do I make a .nanorc file that will be read when I start nano?</h3>
-<blockquote><p>It's not hard at all! But, your nano must <b>not</b> have been compiled with <b>--disable-nanorc</b>. Then simply copy the <b>sample.nanorc</b> that came with the nano source or your nano package (most likely in /usr/doc/nano) to .nanorc in your home directory. If you didn't get one, the syntax of the file is simple. Flags are turned on and off by using the words <b>set</b> and <b>unset</b> plus the long option name for the feature. For example, &quot;set nowrap&quot; or &quot;set smarthome&quot;.</p></blockquote>
+<blockquote><p>It's not hard at all! Simply copy the <b>sample.nanorc</b> from the doc/ directory in the nano source package (or from /usr/doc/nano on your system) to <b>.nanorc</b> in your home directory, and then edit it. If you didn't get a sample nanorc, the syntax of the file is simple: features are turned on and off by using the words <b>set</b> and <b>unset</b> followed by the long option name of the feature (see <b>man nanorc</b> for the full list of options). For example, &quot;set quickblank&quot; or &quot;set smarthome&quot;. Of course, for this to work, your nano must <b>not</b> have been compiled with <b>--disable-nanorc</b>.</p></blockquote>
 <h3><a name="3.9"></a>3.9. Why does my self-compiled nano not read /etc/nanorc?</h3>
-<blockquote><p>By default (see <a href="#3.3">3.3</a>), nano gets installed into /usr/local. This also means that at startup nano will read <b>/usr/local/etc/nanorc</b> instead of <b>/etc/nanorc</b>. You can make a symlink from the former to the latter if you want your self-compiled nano to read the same nanorc as the system-installed nano. Or you can configure your nano to overwrite the system nano (again, see <a href="#3.3">3.3</a>).</p></blockquote>
+<blockquote><p>By default (see <a href="#3.3">3.3</a>), nano gets installed into /usr/local. This also means that, at startup, nano will read <b>/usr/local/etc/nanorc</b> instead of <b>/etc/nanorc</b>. You can make a symlink from the former to the latter if you want your self-compiled nano to read the same nanorc as the system-installed nano. Or you can configure your nano to overwrite the system nano (again, see <a href="#3.3">3.3</a>).</p></blockquote>
 <hr width="100%">
 
 <h1><a name="4"></a>4. Running</h1>
 <h3><a name="4.1"></a>4.1. How do I open a file with a name beginning with '+' from the command line?</h3>
-<blockquote><p>If a command-line option that begins with '+' is followed by another option, the former is always treated as a starting line and column number, and the latter is always treated as a filename. If a command-line option that begins with '+' isn't followed by another option, it's always treated as a filename. Examples:</p>
-  <p>To open '+filename.txt' starting on line 1: <b>nano +filename.txt</b><br>
+<blockquote><p>If a command-line argument that begins with '+' is followed by another argument, the former is always treated as a starting line (plus column number), and the latter always as a filename. If a command-line argument that begins with '+' isn't followed by another argument, it's treated as a filename. Examples:</p>
+  <p>To open '+filename.txt': <b>nano +filename.txt</b><br>
   To open '+filename.txt' starting on line 10: <b>nano +10 +filename.txt</b><br>
   To open '+filename.txt' starting on line 1, column 20: <b>nano +,20 +filename.txt</b><br>
   To open '+filename.txt' starting on line 10, column 20: <b>nano +10,20 +filename.txt</b><br>
-  To open '+filename.txt' starting on line 1 and 'filename.txt' starting on line 40 (if nano has been compiled with multibuffer support): <b>nano +1 +filename.txt +40 filename.txt</b></p></blockquote>
+  To open '+filename.txt' starting on line 1 and 'filename.txt' starting on line 40: <b>nano +1 +filename.txt +40 filename.txt</b></p></blockquote>
 <h3><a name="4.2"></a>4.2. Ack! My Backspace/Delete/Enter/Meta/double bucky key doesn't seem to work! What can I do?</h3>
 <blockquote><p>Try setting your $TERM variable to 'vt100'. nano doesn't yet support every term entry under the sun.</p>
   <p>Bourne shell users (bash and sh): <b>export TERM=vt100</b><br>
