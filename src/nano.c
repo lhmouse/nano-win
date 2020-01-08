@@ -1688,9 +1688,9 @@ void do_input(void)
 	if (shortcut || get_key_buffer_len() == 0) {
 		if (puddle != NULL) {
 			/* Insert all bytes in the input buffer into the edit buffer
-			 * at once, filtering out any low control codes. */
+			 * at once, filtering out any ASCII control codes. */
 			puddle[depth] = '\0';
-			do_output(puddle, depth, FALSE);
+			do_output(puddle, depth, TRUE);
 
 			/* Empty the input buffer. */
 			free(puddle);
@@ -1775,9 +1775,8 @@ void do_input(void)
 }
 
 /* The user typed output_len multibyte characters.  Add them to the edit
- * buffer, filtering out all ASCII control characters if allow_cntrls is
- * TRUE. */
-void do_output(char *output, size_t output_len, bool allow_cntrls)
+ * buffer, filtering out ASCII control characters when filtering is TRUE. */
+void do_output(char *output, size_t output_len, bool filtering)
 {
 	char onechar[MAXCHARLEN];
 	int charlen;
@@ -1804,7 +1803,7 @@ void do_output(char *output, size_t output_len, bool allow_cntrls)
 		i += charlen;
 
 		/* If controls are not allowed, ignore an ASCII control character. */
-		if (!allow_cntrls && is_ascii_cntrl_char(*(output + i - charlen)))
+		if (filtering && is_ascii_cntrl_char(*(output + i - charlen)))
 			continue;
 
 		/* Make room for the new character and copy it into the line. */

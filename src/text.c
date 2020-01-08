@@ -69,7 +69,7 @@ void do_tab(void)
 {
 #ifdef ENABLE_COLOR
 	if (openfile->syntax && openfile->syntax->tab)
-		do_output(openfile->syntax->tab, strlen(openfile->syntax->tab), TRUE);
+		do_output(openfile->syntax->tab, strlen(openfile->syntax->tab), FALSE);
 	else
 #endif
 #ifndef NANO_TINY
@@ -80,12 +80,12 @@ void do_tab(void)
 		memset(spaces, ' ', length);
 		spaces[length] = '\0';
 
-		do_output(spaces, length, TRUE);
+		do_output(spaces, length, FALSE);
 
 		free(spaces);
 	} else
 #endif
-		do_output((char *)"\t", 1, TRUE);
+		do_output((char *)"\t", 1, FALSE);
 }
 
 #ifndef NANO_TINY
@@ -3144,8 +3144,6 @@ void do_verbatim_input(void)
 	else
 		wipe_statusbar();
 
-	/* Display all the verbatim characters at once, not filtering out
-	 * control characters. */
 	output = charalloc(kbinput_len + 1);
 
 	for (i = 0; i < kbinput_len; i++)
@@ -3154,7 +3152,8 @@ void do_verbatim_input(void)
 
 	free(kbinput);
 
-	do_output(output, kbinput_len, TRUE);
+	/* Insert the keystroke verbatim, without filtering control characters. */
+	do_output(output, kbinput_len, FALSE);
 
 	free(output);
 }
@@ -3301,7 +3300,7 @@ void complete_a_word(void)
 #endif
 			/* Inject the completion into the buffer. */
 			do_output(&completion[shard_length],
-						strlen(completion) - shard_length, FALSE);
+						strlen(completion) - shard_length, TRUE);
 #ifdef ENABLE_WRAPPING
 			/* If needed, reenable wrapping and wrap the current line. */
 			if (was_set_wrapping) {
