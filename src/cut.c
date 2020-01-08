@@ -210,6 +210,182 @@ void chop_next_word(void)
 }
 #endif /* !NANO_TINY */
 
+/* Move all text between (top, top_x) and (bot, bot_x) from the current buffer
+ * into the cutbuffer. */
+void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
+{
+	bool edittop_inside;
+#ifndef NANO_TINY
+	bool mark_inside = FALSE;
+	bool same_line = FALSE;
+
+	if (top == bot && top_x == bot_x)
+		return;
+#endif
+
+	/* Partition the buffer so that it contains only the text from
+	 * (top, top_x) to (bot, bot_x), keep track of whether the top of
+	 * the edit window is inside the partition, and keep track of
+	 * whether the mark begins inside the partition. */
+	partition_buffer(top, top_x, bot, bot_x);
+	edittop_inside = (openfile->edittop->lineno >= openfile->filetop->lineno &&
+						openfile->edittop->lineno <= openfile->filebot->lineno);
+#ifndef NANO_TINY
+	if (openfile->mark) {
+		mark_inside = (openfile->mark->lineno >= openfile->filetop->lineno &&
+						openfile->mark->lineno <= openfile->filebot->lineno &&
+						(openfile->mark != openfile->filetop ||
+												openfile->mark_x >= top_x) &&
+						(openfile->mark != openfile->filebot ||
+												openfile->mark_x <= bot_x));
+		same_line = (openfile->mark == openfile->filetop);
+	}
+#endif
+
+	/* Subtract the number of characters in the text from the file size. */
+	openfile->totsize -= get_totsize(top, bot);
+
+	/* If the given buffer is empty, just move all the text directly into it;
+	 * otherwise, append the text to what is already there. */
+	if (cutbuffer == NULL) {
+		cutbuffer = openfile->filetop;
+		cutbottom = openfile->filebot;
+	} else {
+		/* Tack the data of the first line of the text onto the data of
+		 * the last line in the given buffer. */
+		cutbottom->data = charealloc(cutbottom->data,
+								strlen(cutbottom->data) +
+								strlen(openfile->filetop->data) + 1);
+		strcat(cutbottom->data, openfile->filetop->data);
+
+		/* Attach the second line of the text (if any) to the last line
+		 * of the buffer, then remove the now superfluous first line. */
+		cutbottom->next = openfile->filetop->next;
+		delete_node(openfile->filetop);
+
+		/* If there is a second line, make the reverse attachment too and
+		 * update the buffer pointer to point at the end of the text. */
+		if (cutbottom->next != NULL) {
+			cutbottom->next->prev = cutbottom;
+			cutbottom = openfile->filebot;
+		}
+	}
+
+	/* Since the text has now been saved, remove it from the file buffer. */
+	openfile->filetop = make_new_node(NULL);
+	openfile->filetop->data = copy_of("");
+	openfile->filebot = openfile->filetop;
+
+	/* Set the cursor at the point where the text was removed. */
+	openfile->current = openfile->filetop;
+	openfile->current_x = top_x;
+#ifndef NANO_TINY
+	/* If the mark was inside the partition, put it where the cursor now is. */
+	if (mark_inside) {
+		openfile->mark = openfile->current;
+		openfile->mark_x = openfile->current_x;
+	} else if (same_line)
+		/* Update the pointer to this partially cut line. */
+		openfile->mark = openfile->current;
+#endif
+
+	/* Glue the texts before and after the extraction together. */
+	unpartition_buffer();
+
+	renumber_from(openfile->current);
+
+	/* If the top of the edit window was inside the old partition, put
+	 * it in range of current. */
+	if (edittop_inside) {
+		adjust_viewport(STATIONARY);
+		refresh_needed = TRUE;
+	}
+
+	/* If the text doesn't end with a newline, and it should, add one. */
+	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
+		new_magicline();
+}
+
+/* Meld the buffer that starts at topline into the current file buffer
+ * at the current cursor position. */
+void ingraft_buffer(linestruct *topline)
+{
+	size_t current_x_save = openfile->current_x;
+	bool edittop_inside;
+#ifndef NANO_TINY
+	bool right_side_up = FALSE;
+	bool same_line = FALSE;
+
+	/* Remember whether mark and cursor are on the same line, and their order. */
+	if (openfile->mark) {
+		same_line = (openfile->mark == openfile->current);
+		right_side_up = (openfile->mark->lineno < openfile->current->lineno ||
+						(same_line && openfile->mark_x < openfile->current_x));
+	}
+#endif
+
+	/* Partition the buffer so that it contains no text, and remember
+	 * whether the current line is at the top of the edit window. */
+	partition_buffer(openfile->current, openfile->current_x,
+						openfile->current, openfile->current_x);
+	edittop_inside = (openfile->edittop == openfile->filetop);
+	delete_node(openfile->filetop);
+
+	/* Put the top and bottom of the current buffer at the top and
+	 * bottom of the passed buffer. */
+	openfile->filetop = topline;
+	openfile->filebot = topline;
+	while (openfile->filebot->next != NULL)
+		openfile->filebot = openfile->filebot->next;
+
+	/* Put the cursor at the end of the pasted text. */
+	openfile->current = openfile->filebot;
+	openfile->current_x = strlen(openfile->filebot->data);
+
+	/* When the pasted stuff contains no newline, adjust the cursor's
+	 * x coordinate for the text that is before the pasted stuff. */
+	if (openfile->filetop == openfile->filebot)
+		openfile->current_x += current_x_save;
+
+#ifndef NANO_TINY
+	/* When needed, refresh the mark's pointer and compensate the mark's
+	 * x coordinate for the change in the current line. */
+	if (same_line) {
+		if (!right_side_up) {
+			openfile->mark = openfile->filebot;
+			openfile->mark_x += openfile->current_x - current_x_save;
+		} else
+			openfile->mark = openfile->filetop;
+	}
+#endif
+
+	/* Add the number of characters in the copied text to the file size. */
+	openfile->totsize += get_totsize(openfile->filetop, openfile->filebot);
+
+	/* If we pasted onto the first line of the edit window, the corresponding
+	 * record has been freed, so... point at the start of the copied text. */
+	if (edittop_inside)
+		openfile->edittop = openfile->filetop;
+
+	/* Unpartition the buffer so that it contains all the text
+	 * again, plus the copied text. */
+	unpartition_buffer();
+
+	renumber_from(topline);
+
+	/* If the text doesn't end with a newline, and it should, add one. */
+	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
+		new_magicline();
+}
+
+/* Meld a copy of the given buffer into the current file buffer. */
+void copy_from_buffer(linestruct *somebuffer)
+{
+	linestruct *the_copy = copy_buffer(somebuffer);
+
+	ingraft_buffer(the_copy);
+}
+
 /* Move the whole current line from the current buffer to the cutbuffer. */
 void cut_line(void)
 {

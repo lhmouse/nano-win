@@ -257,6 +257,11 @@ void do_backspace(void);
 #ifndef NANO_TINY
 void chop_previous_word(void);
 void chop_next_word(void);
+#endif
+void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
+void ingraft_buffer(linestruct *somebuffer);
+void copy_from_buffer(linestruct *somebuffer);
+#ifndef NANO_TINY
 void cut_marked(bool *right_side_up);
 #endif
 void do_snip(bool copying, bool marked, bool until_eof, bool append);
@@ -397,9 +402,6 @@ void renumber_from(linestruct *line);
 void partition_buffer(linestruct *top, size_t top_x,
 		linestruct *bot, size_t bot_x);
 void unpartition_buffer(void);
-void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
-void ingraft_buffer(linestruct *somebuffer);
-void copy_from_buffer(linestruct *somebuffer);
 void print_view_warning(void);
 bool in_restricted_mode(void);
 #ifndef ENABLE_HELP
