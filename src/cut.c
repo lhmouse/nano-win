@@ -214,39 +214,28 @@ void chop_next_word(void)
  * into the cutbuffer. */
 void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 {
-	bool edittop_inside;
+	bool edittop_inside = (openfile->edittop->lineno >= top->lineno &&
+							openfile->edittop->lineno <= bot->lineno);
 #ifndef NANO_TINY
-	bool mark_inside = FALSE;
-	bool same_line = FALSE;
+	bool mark_inside = (openfile->mark &&
+						openfile->mark->lineno >= top->lineno &&
+						openfile->mark->lineno <= bot->lineno &&
+						(openfile->mark != top || openfile->mark_x >= top_x) &&
+						(openfile->mark != bot || openfile->mark_x <= bot_x));
+	bool same_line = (openfile->mark == top);
 
 	if (top == bot && top_x == bot_x)
 		return;
 #endif
 
-	/* Partition the buffer so that it contains only the text from
-	 * (top, top_x) to (bot, bot_x), keep track of whether the top of
-	 * the edit window is inside the partition, and keep track of
-	 * whether the mark begins inside the partition. */
+	/* Reduce the buffer to cover just the text that needs to be extracted. */
 	partition_buffer(top, top_x, bot, bot_x);
-	edittop_inside = (openfile->edittop->lineno >= openfile->filetop->lineno &&
-						openfile->edittop->lineno <= openfile->filebot->lineno);
-#ifndef NANO_TINY
-	if (openfile->mark) {
-		mark_inside = (openfile->mark->lineno >= openfile->filetop->lineno &&
-						openfile->mark->lineno <= openfile->filebot->lineno &&
-						(openfile->mark != openfile->filetop ||
-												openfile->mark_x >= top_x) &&
-						(openfile->mark != openfile->filebot ||
-												openfile->mark_x <= bot_x));
-		same_line = (openfile->mark == openfile->filetop);
-	}
-#endif
 
-	/* Subtract the number of characters in the text from the file size. */
+	/* Subtract the number of characters in that text from the file size. */
 	openfile->totsize -= get_totsize(top, bot);
 
-	/* If the given buffer is empty, just move all the text directly into it;
-	 * otherwise, append the text to what is already there. */
+	/* If the cutbuffer is currently empty, just move all the text directly
+	 * into it; otherwise, append the text to what is already there. */
 	if (cutbuffer == NULL) {
 		cutbuffer = openfile->filetop;
 		cutbottom = openfile->filebot;
