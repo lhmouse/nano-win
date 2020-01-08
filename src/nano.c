@@ -345,12 +345,11 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 	openfile->filetop->data = copy_of("");
 	openfile->filebot = openfile->filetop;
 
-	/* Restore the current line and cursor position.  If the mark begins
-	 * inside the partition, set the beginning of the mark to where the
-	 * saved text used to start. */
+	/* Set the cursor at the point where the text was removed. */
 	openfile->current = openfile->filetop;
 	openfile->current_x = top_x;
 #ifndef NANO_TINY
+	/* If the mark was inside the partition, put it where the cursor now is. */
 	if (mark_inside) {
 		openfile->mark = openfile->current;
 		openfile->mark_x = openfile->current_x;
@@ -359,8 +358,7 @@ void extract(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 		openfile->mark = openfile->current;
 #endif
 
-	/* Unpartition the buffer so that it contains all the text
-	 * again, minus the saved text. */
+	/* Glue the texts before and after the extraction together. */
 	unpartition_buffer();
 
 	renumber_from(openfile->current);
@@ -1378,8 +1376,7 @@ void do_toggle(int flag)
 }
 #endif /* !NANO_TINY */
 
-/* Disable extended input and output processing in our terminal
- * settings. */
+/* Disable extended input and output processing in our terminal settings. */
 void disable_extended_io(void)
 {
 #ifdef HAVE_TERMIOS_H
