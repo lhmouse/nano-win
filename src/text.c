@@ -2050,7 +2050,7 @@ void do_justify(bool full_justify)
 
 	/* Do the equivalent of a marked cut into an empty cutbuffer. */
 	cutbuffer = NULL;
-	extract(first_par_line, top_x, last_par_line, bot_x);
+	extract_segment(first_par_line, top_x, last_par_line, bot_x);
 #ifndef NANO_TINY
 	update_undo(CUT);
 
