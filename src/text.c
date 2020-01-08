@@ -3127,8 +3127,8 @@ void do_wordlinechar_count(void)
 void do_verbatim_input(void)
 {
 	int *kbinput;
-	size_t kbinput_len, i;
-	char *output;
+	size_t count;
+	char *keycodes;
 
 	/* TRANSLATORS: This is displayed when the next keystroke will be
 	 * inserted verbatim. */
@@ -3136,7 +3136,7 @@ void do_verbatim_input(void)
 	place_the_cursor();
 
 	/* Read in all the verbatim characters. */
-	kbinput = get_verbatim_kbinput(edit, &kbinput_len);
+	kbinput = get_verbatim_kbinput(edit, &count);
 
 	/* Unsuppress cursor-position display or blank the statusbar. */
 	if (ISSET(CONSTANT_SHOW))
@@ -3144,18 +3144,17 @@ void do_verbatim_input(void)
 	else
 		wipe_statusbar();
 
-	output = charalloc(kbinput_len + 1);
+	keycodes = charalloc(count + 1);
 
-	for (i = 0; i < kbinput_len; i++)
-		output[i] = (char)kbinput[i];
-	output[i] = '\0';
-
-	free(kbinput);
+	for (size_t i = 0; i < count; i++)
+		keycodes[i] = (char)kbinput[i];
+	keycodes[count] = '\0';
 
 	/* Insert the keystroke verbatim, without filtering control characters. */
-	do_output(output, kbinput_len, FALSE);
+	do_output(keycodes, count, FALSE);
 
-	free(output);
+	free(keycodes);
+	free(kbinput);
 }
 
 #ifdef ENABLE_WORDCOMPLETION
