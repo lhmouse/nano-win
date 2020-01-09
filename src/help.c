@@ -51,7 +51,7 @@ void wrap_help_text_into_buffer(void)
 
 	/* Copy the help text into the just-created new buffer. */
 	while (*ptr != '\0') {
-		int length;
+		int length, shim;
 		char *oneline;
 
 		if (ptr >= end_of_intro)
@@ -64,7 +64,8 @@ void wrap_help_text_into_buffer(void)
 		} else {
 			length = break_line(ptr, wrapping_point, TRUE);
 			oneline = nmalloc(length + 1);
-			snprintf(oneline, length + 1, "%s", ptr);
+			shim = (*(ptr + length - 1) == ' ') ? 0 : 1;
+			snprintf(oneline, length + shim, "%s", ptr);
 		}
 
 		free(openfile->current->data);
