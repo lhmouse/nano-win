@@ -300,28 +300,22 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 void ingraft_buffer(linestruct *topline)
 {
 	size_t current_x_save = openfile->current_x;
-	bool edittop_inside;
+	/* Remember whether the current line is at the top of the edit window. */
+	bool edittop_inside = (openfile->edittop == openfile->current);
 #ifndef NANO_TINY
-	bool right_side_up = FALSE;
-	bool same_line = FALSE;
-
 	/* Remember whether mark and cursor are on the same line, and their order. */
-	if (openfile->mark) {
-		same_line = (openfile->mark == openfile->current);
-		right_side_up = (openfile->mark->lineno < openfile->current->lineno ||
-						(same_line && openfile->mark_x < openfile->current_x));
-	}
+	bool same_line = (openfile->mark == openfile->current);
+	bool right_side_up = (openfile->mark &&
+						(openfile->mark->lineno < openfile->current->lineno ||
+						(same_line && openfile->mark_x < openfile->current_x)));
 #endif
 
-	/* Partition the buffer so that it contains no text, and remember
-	 * whether the current line is at the top of the edit window. */
+	/* Partition the buffer so that it contains no text, then delete it.*/
 	partition_buffer(openfile->current, openfile->current_x,
 						openfile->current, openfile->current_x);
-	edittop_inside = (openfile->edittop == openfile->filetop);
 	delete_node(openfile->filetop);
 
-	/* Put the top and bottom of the current buffer at the top and
-	 * bottom of the passed buffer. */
+	/* Replace the current buffer with the passed buffer. */
 	openfile->filetop = topline;
 	openfile->filebot = topline;
 	while (openfile->filebot->next != NULL)
@@ -356,8 +350,7 @@ void ingraft_buffer(linestruct *topline)
 	if (edittop_inside)
 		openfile->edittop = openfile->filetop;
 
-	/* Unpartition the buffer so that it contains all the text
-	 * again, plus the copied text. */
+	/* Weld the pasted text into the surrounding content of the buffer. */
 	unpartition_buffer();
 
 	renumber_from(topline);
