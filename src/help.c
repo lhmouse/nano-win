@@ -43,14 +43,22 @@ static size_t location;
 void wrap_help_text_into_buffer(void)
 {
 	size_t sum = 0;
+	/* Avoid overtight and overwide paragraphs in the introductory text. */
+	size_t wrapping_point = (COLS < 24) ? 24 : (COLS > 74) ? 74 : COLS;
 	const char *ptr = start_of_body;
 
 	make_new_buffer();
 
 	/* Copy the help text into the just-created new buffer. */
 	while (*ptr != '\0') {
-		int length = help_line_len(ptr);
-		char *oneline = nmalloc(length + 1);
+		int length;
+		char *oneline;
+
+		if (ptr >= end_of_intro)
+			wrapping_point = (COLS < 24) ? 24 : COLS;
+
+		length = break_line(ptr, wrapping_point, TRUE);
+		oneline = nmalloc(length + 1);
 
 		snprintf(oneline, length + 1, "%s", ptr);
 		free(openfile->current->data);
@@ -571,18 +579,6 @@ functionptrtype parse_help_input(int *kbinput)
 		}
 	}
 	return func_from_key(kbinput);
-}
-
-/* Calculate the displayable length of the help-text line starting at ptr. */
-size_t help_line_len(const char *ptr)
-{
-	size_t wrapping_point = (COLS < 24) ? 24 : COLS;
-
-	/* Avoid overwide paragraphs in the introductory text. */
-	if (ptr < end_of_intro && COLS > 74)
-		wrapping_point = 74;
-
-	return break_line(ptr, wrapping_point, TRUE);
 }
 #endif /* ENABLE_HELP */
 

@@ -340,7 +340,6 @@ const char *flagtostr(int flag);
 void wrap_help_text_into_buffer(void);
 void help_init(void);
 functionptrtype parse_help_input(int *kbinput);
-size_t help_line_len(const char *ptr);
 #endif
 void do_help(void);
 
