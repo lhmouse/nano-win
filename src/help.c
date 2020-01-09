@@ -54,7 +54,7 @@ void wrap_help_text_into_buffer(void)
 		int length, shim;
 		char *oneline;
 
-		if (ptr >= end_of_intro)
+		if (ptr == end_of_intro)
 			wrapping_point = (COLS < 24) ? 24 : COLS;
 
 		if (ptr > end_of_intro && *(ptr - 1) != '\n') {
