@@ -57,10 +57,16 @@ void wrap_help_text_into_buffer(void)
 		if (ptr >= end_of_intro)
 			wrapping_point = (COLS < 24) ? 24 : COLS;
 
-		length = break_line(ptr, wrapping_point, TRUE);
-		oneline = nmalloc(length + 1);
+		if (ptr > end_of_intro && *(ptr - 1) != '\n') {
+			length = break_line(ptr, (COLS < 24) ? 6 : COLS - 18, TRUE);
+			oneline = nmalloc(length + 5);
+			snprintf(oneline, length + 5, "\t\t  %s", ptr);
+		} else {
+			length = break_line(ptr, wrapping_point, TRUE);
+			oneline = nmalloc(length + 1);
+			snprintf(oneline, length + 1, "%s", ptr);
+		}
 
-		snprintf(oneline, length + 1, "%s", ptr);
 		free(openfile->current->data);
 		openfile->current->data = oneline;
 
