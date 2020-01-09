@@ -44,7 +44,7 @@ void wrap_help_text_into_buffer(void)
 {
 	size_t sum = 0;
 	/* Avoid overtight and overwide paragraphs in the introductory text. */
-	size_t wrapping_point = (COLS < 24) ? 24 : (COLS > 74) ? 74 : COLS;
+	size_t wrapping_point = (COLS < 32) ? 32 : (COLS > 74) ? 74 : COLS;
 	const char *ptr = start_of_body;
 
 	make_new_buffer();
@@ -55,10 +55,10 @@ void wrap_help_text_into_buffer(void)
 		char *oneline;
 
 		if (ptr == end_of_intro)
-			wrapping_point = (COLS < 24) ? 24 : COLS;
+			wrapping_point = (COLS < 32) ? 32 : COLS;
 
 		if (ptr > end_of_intro && *(ptr - 1) != '\n') {
-			length = break_line(ptr, (COLS < 24) ? 6 : COLS - 18, TRUE);
+			length = break_line(ptr, (COLS < 32) ? 14 : COLS - 18, TRUE);
 			oneline = nmalloc(length + 5);
 			snprintf(oneline, length + 5, "\t\t  %s", ptr);
 		} else {
