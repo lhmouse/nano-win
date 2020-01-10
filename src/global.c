@@ -1255,7 +1255,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-D", 0, do_wordlinechar_count, 0);
 #endif
 #ifdef ENABLE_JUSTIFY
-	add_to_sclist(MMAIN|MWHEREIS, "M-J", 0, do_full_justify, 0);
+	if (!ISSET(VIEW_MODE))
+		add_to_sclist(MMAIN|MWHEREIS, "M-J", 0, do_full_justify, 0);
 #endif
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MMAIN|MHELP|MBROWSER, "^L", 0, total_refresh, 0);
