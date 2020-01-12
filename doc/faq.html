@@ -193,9 +193,11 @@
 <h3><a name="4.5"></a>4.5. How do I select text for or paste text from the clipboard when nano's mouse support is turned on?</h3>
 <blockquote><p>Try holding down the Shift key and selecting or pasting the text as you normally would.</p></blockquote>
 <h3><a name="4.6"></a>4.6. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</h3>
-<blockquote><p>You have the <i>autoindent</i> feature turned on. Hit <b>Meta-I</b> to turn it off, paste your text, and then hit <b>Meta-I</b> again to turn it back on.</p></blockquote>
+<blockquote><p>You have the <i>autoindent</i> feature turned on. Hit <b>Meta-I</b> to turn it off, paste your text, and then hit <b>Meta-I</b> again to turn it back on.</p>
+  <p><i>Update:</i> Since version 4.8, nano will suppress auto-indentation during a paste, so you no longer need to toggle it off and on manually.</p></blockquote>
 <h3><a name="4.7"></a>4.7. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?</h3>
-<blockquote><p>When pasting from Windows, in some situations linefeeds are sent instead of carriage returns (Enters). And linefeeds are <b>^J</b>s, which make nano justify (rewrap) the current paragraph. To prevent these linefeeds from causing these unwanted justifications, add this line to your .nanorc on the remote Linux box: <b>unbind ^J main</b> or <b>bind ^J enter main</b>, depending on whether the paste contains CR + LF or only LF.</p></blockquote>
+<blockquote><p>When pasting from Windows, in some situations linefeeds are sent instead of carriage returns (Enters). And linefeeds are <b>^J</b>s, which make nano justify (rewrap) the current paragraph. To prevent these linefeeds from causing these unwanted justifications, add this line to your .nanorc on the remote Linux box: <b>unbind ^J main</b> or <b>bind ^J enter main</b>, depending on whether the paste contains CR + LF or only LF.</p>
+  <p><i>Update:</i> Since version 4.8, nano will ignore linefeed characters in a paste, so you no longer need the above workaround.</p></blockquote>
 <h3><a name="4.8"></a>4.8. I've compiled nano with color support, but I don't see any color when I run it!</h3>
 <blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Several example configurations are in the <b>syntax/</b> subdirectory of the nano source, which are normally installed to <b>/usr/local/share/nano/</b>. To enable all of them, uncomment the line <b># include "/usr/local/share/nano/*.nanorc"</b> in your nanorc. See also section <a href="#3.9">3.9</a>.</p></blockquote>
 <h3><a name="4.9"></a>4.9. How do I make nano my default editor (in Pine, mutt, etc.)?</h3>
