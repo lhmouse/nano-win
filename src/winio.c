@@ -1292,7 +1292,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 {
 	int retval, *sequence, length, consumed;
 
-	/* Put back the non-escape code, then grab at most five integers
+	/* Put back the non-escape code, then grab at most six integers
 	 * (the longest possible escape sequence) from the keybuffer and
 	 * translate the sequence into its corresponding keycode. */
 	put_back(kbinput);
