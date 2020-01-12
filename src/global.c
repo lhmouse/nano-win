@@ -454,15 +454,12 @@ const keystruct *get_shortcut(int *kbinput)
 						(*kbinput >= 0xA0 && *kbinput <= 0xFF)))
 		return NULL;
 
-	if (bracketed_paste && *kbinput != BRACKETED_PASTE_MARKER) {
-		/* Beep and ignore all non-printable characters in prompts. */
-		if (currmenu != MMAIN)
-			return NULL;
-
-		/* Beep and ignore most non-printable characters in buffer. */
-		if (*kbinput != 0x09 && *kbinput != 0xD)
-			return NULL;
-	}
+	/* During a paste, ignore all command keycodes at a prompt, and
+	 * allow only <Tab> and <Enter> to pass into the edit window. */
+	if (bracketed_paste && *kbinput != BRACKETED_PASTE_MARKER &&
+						(currmenu != MMAIN ||
+						(*kbinput != TAB_CODE && *kbinput != CR_CODE)))
+		return NULL;
 
 	for (keystruct *s = sclist; s != NULL; s = s->next) {
 		if ((s->menus & currmenu) && *kbinput == s->keycode &&
