@@ -214,8 +214,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	filestream = fdopen(fd, "wb");
 
 	if (filestream == NULL) {
-		statusline(MILD, _("Error writing lock file %s: %s"), lockfilename,
-						strerror(errno));
+		statusline(MILD, _("Error writing lock file %s: %s"),
+						lockfilename, strerror(errno));
 		goto free_the_data;
 	}
 
@@ -281,8 +281,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 int delete_lockfile(const char *lockfilename)
 {
 	if (unlink(lockfilename) < 0 && errno != ENOENT) {
-		statusline(MILD, _("Error deleting lock file %s: %s"), lockfilename,
-						strerror(errno));
+		statusline(MILD, _("Error deleting lock file %s: %s"),
+						lockfilename, strerror(errno));
 		return -1;
 	}
 	return 1;
