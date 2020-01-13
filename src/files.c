@@ -306,6 +306,8 @@ int do_lockfile(const char *filename, bool ask_the_user)
 				locking_prefix, basename(secondcopy), locking_suffix);
 
 	if (!ask_the_user && stat(lockfilename, &fileinfo) != -1) {
+		blank_bottombars();
+		lastmessage = HUSH;
 		warn_and_shortly_pause(_("Someone else is also editing this file"));
 	} else if (stat(lockfilename, &fileinfo) != -1) {
 		size_t readtot = 0;
@@ -2158,6 +2160,8 @@ int do_writeout(bool exiting, bool withprompt)
 
 					sprintf(message, question, name);
 
+					blank_bottombars();
+					warn_and_shortly_pause(_("File already exists"));
 					choice = do_yesno_prompt(FALSE, message);
 
 					free(message);
