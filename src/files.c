@@ -1867,8 +1867,17 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 	/* When having written an entire buffer, update some administrivia. */
 	if (fullbuffer && method == OVERWRITE && !tmp) {
-		/* If the filename was changed, check if this means a new syntax. */
+		/* If the filename was changed, write a new lockfile when needed,
+		 * and check whether it means a different syntax gets used. */
 		if (strcmp(openfile->filename, realname) != 0) {
+#ifndef NANO_TINY
+			if (openfile->lock_filename != NULL) {
+				delete_lockfile(openfile->lock_filename);
+				free(openfile->lock_filename);
+				openfile->lock_filename = NULL;
+				do_lockfile(realname);
+			}
+#endif
 #ifdef ENABLE_COLOR
 			const char *oldname, *newname;
 
