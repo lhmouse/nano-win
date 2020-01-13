@@ -291,7 +291,7 @@ int delete_lockfile(const char *lockfilename)
 /* Deal with lockfiles.  Return -1 on refusing to override the lockfile,
  * and 1 on successfully creating it; 0 means we were not successful in
  * creating the lockfile but we should continue to load the file. */
-int do_lockfile(const char *filename)
+int do_lockfile(const char *filename, bool ask_the_user)
 {
 	char *namecopy = copy_of(filename);
 	char *secondcopy = copy_of(filename);
@@ -305,7 +305,9 @@ int do_lockfile(const char *filename)
 	snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy),
 				locking_prefix, basename(secondcopy), locking_suffix);
 
-	if (stat(lockfilename, &fileinfo) != -1) {
+	if (!ask_the_user && stat(lockfilename, &fileinfo) != -1) {
+		warn_and_shortly_pause(_("Someone else is also editing this file"));
+	} else if (stat(lockfilename, &fileinfo) != -1) {
 		size_t readtot = 0;
 		size_t readamt = 0;
 		char *lockbuf, *question, *pidstring, *postedname, *promptstr;
@@ -457,7 +459,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 #ifndef NANO_TINY
 			if (ISSET(LOCKING) && filename[0] != '\0') {
 				/* When not overriding an existing lock, discard the buffer. */
-				if (do_lockfile(realname) < 0) {
+				if (do_lockfile(realname, TRUE) < 0) {
 #ifdef ENABLE_MULTIBUFFER
 					if (openfile != openfile->next)
 						close_buffer();
@@ -1875,7 +1877,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 				delete_lockfile(openfile->lock_filename);
 				free(openfile->lock_filename);
 				openfile->lock_filename = NULL;
-				do_lockfile(realname);
+				do_lockfile(realname, FALSE);
 			}
 #endif
 #ifdef ENABLE_COLOR
