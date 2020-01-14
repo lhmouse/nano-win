@@ -1642,11 +1642,10 @@ bool have_nanorc(const char *path, const char *name)
 	return is_good_file(nanorc);
 }
 
-/* First read the system-wide rcfile, then the user's rcfile. */
+/* Process the nanorc file that was specified on the command line (if any),
+ * and otherwise the system-wide rcfile followed by the user's rcfile. */
 void do_rcfiles(void)
 {
-	const char *xdgconfdir;
-
 	if (custom_nanorc) {
 		nanorc = get_full_path(custom_nanorc);
 		if (access(nanorc, F_OK) != 0)
@@ -1654,22 +1653,22 @@ void do_rcfiles(void)
 	} else
 		nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 
-	/* First process the system-wide nanorc, if it exists and is suitable. */
 	if (is_good_file(nanorc))
 		parse_one_nanorc();
 
 	if (custom_nanorc == NULL) {
-	get_homedir();
-	xdgconfdir = getenv("XDG_CONFIG_HOME");
+		const char *xdgconfdir = getenv("XDG_CONFIG_HOME");
 
-	/* Now try the to find a nanorc file in the user's home directory or in
-	 * the XDG configuration directories, and process the first one found. */
-	if (have_nanorc(homedir, "/" HOME_RC_NAME) ||
-				have_nanorc(xdgconfdir, "/nano/" RCFILE_NAME) ||
-				have_nanorc(homedir, "/.config/nano/" RCFILE_NAME))
-		parse_one_nanorc();
-	else if (homedir == NULL && xdgconfdir == NULL)
-		jot_error(N_("I can't find my home directory!  Wah!"));
+		get_homedir();
+
+		/* Now try to find a nanorc file in the user's home directory or in the
+		 * XDG configuration directories, and process the first one found. */
+		if (have_nanorc(homedir, "/" HOME_RC_NAME) ||
+					have_nanorc(xdgconfdir, "/nano/" RCFILE_NAME) ||
+					have_nanorc(homedir, "/.config/nano/" RCFILE_NAME))
+			parse_one_nanorc();
+		else if (homedir == NULL && xdgconfdir == NULL)
+			jot_error(N_("I can't find my home directory!  Wah!"));
 	}
 
 	check_vitals_mapped();
