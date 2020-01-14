@@ -175,6 +175,9 @@ extern char *statedir;
 #if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 extern char *startup_problem;
 #endif
+#ifdef ENABLE_NANORC
+extern char *custom_nanorc;
+#endif
 
 extern bool spotlighted;
 extern size_t light_from_col;

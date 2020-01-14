@@ -249,6 +249,9 @@ char *statedir = NULL;
 char *startup_problem = NULL;
 		/* An error message (if any) about nanorc files or history files. */
 #endif
+#ifdef ENABLE_NANORC
+char *custom_nanorc = NULL;
+#endif
 
 bool spotlighted = FALSE;
 	/* Whether any text is spotlighted. */

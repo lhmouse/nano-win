@@ -635,6 +635,10 @@ void usage(void)
 	print_opt("-d", "--rebinddelete",
 					N_("Fix Backspace/Delete confusion problem"));
 	print_opt("-e", "--emptyline", N_("Keep the line below the title bar empty"));
+#ifdef ENABLE_NANORC
+	print_opt(_("-f <file>"), _("--rcfile=<file>"),
+					N_("Use only this file for configuring nano"));
+#endif
 #ifdef ENABLE_BROWSER
 	if (!ISSET(RESTRICTED))
 		print_opt("-g", "--showcursor", N_("Show cursor in file browser & help text"));
@@ -1781,6 +1785,9 @@ int main(int argc, char **argv)
 		{"constantshow", 0, NULL, 'c'},
 		{"rebinddelete", 0, NULL, 'd'},
 		{"emptyline", 0, NULL, 'e'},
+#ifdef ENABLE_NANORC
+		{"rcfile", 1, NULL, 'f'},
+#endif
 #ifdef ENABLE_BROWSER
 		{"showcursor", 0, NULL, 'g'},
 #endif
@@ -1889,7 +1896,7 @@ int main(int argc, char **argv)
 
 	while ((optchr =
 		getopt_long(argc, argv,
-				"ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Zabcdeghijklmno:pr:s:tuvwxyz$",
+				"ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Zabcdef:ghijklmno:pr:s:tuvwxyz$",
 				long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2029,6 +2036,11 @@ int main(int argc, char **argv)
 			case 'e':
 				SET(EMPTY_LINE);
 				break;
+#ifdef ENABLE_NANORC
+			case 'f':
+				custom_nanorc = mallocstrcpy(custom_nanorc, optarg);
+				break;
+#endif
 			case 'g':
 				SET(SHOW_CURSOR);
 				break;

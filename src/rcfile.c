@@ -1647,11 +1647,18 @@ void do_rcfiles(void)
 {
 	const char *xdgconfdir;
 
+	if (custom_nanorc) {
+		nanorc = get_full_path(custom_nanorc);
+		if (access(nanorc, F_OK) != 0)
+			die(_("Specified rcfile does not exist\n"));
+	} else
+		nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
+
 	/* First process the system-wide nanorc, if it exists and is suitable. */
-	nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
 	if (is_good_file(nanorc))
 		parse_one_nanorc();
 
+	if (custom_nanorc == NULL) {
 	get_homedir();
 	xdgconfdir = getenv("XDG_CONFIG_HOME");
 
@@ -1663,6 +1670,7 @@ void do_rcfiles(void)
 		parse_one_nanorc();
 	else if (homedir == NULL && xdgconfdir == NULL)
 		jot_error(N_("I can't find my home directory!  Wah!"));
+	}
 
 	check_vitals_mapped();
 
