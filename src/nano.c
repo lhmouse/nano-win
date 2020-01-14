@@ -1745,8 +1745,10 @@ int main(int argc, char **argv)
 	bool fill_used = FALSE;
 		/* Was the fill option used on the command line? */
 #endif
+#ifdef ENABLE_WRAPPING
 	int hardwrap = -2;
 		/* Becomes 0 when --nowrap and 1 when --breaklonglines is used. */
+#endif
 #ifdef ENABLE_JUSTIFY
 	int quoterc;
 		/* Whether the quoting regex was compiled successfully. */
@@ -2221,10 +2223,12 @@ int main(int argc, char **argv)
 	}
 #endif /* ENABLE_NANORC */
 
+#ifdef ENABLE_WRAPPING
 	if (hardwrap == 0)
 		UNSET(BREAK_LONG_LINES);
 	else if (hardwrap == 1)
 		SET(BREAK_LONG_LINES);
+#endif
 
 	/* If the user wants bold instead of reverse video for hilited text... */
 	if (ISSET(BOLD_TEXT))
