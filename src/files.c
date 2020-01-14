@@ -30,7 +30,12 @@
 #include <string.h>
 #include <unistd.h>
 
+#ifndef NANO_TINY
 #define LOCKBUFSIZE 8192
+const char *locking_prefix = ".";
+const char *locking_suffix = ".swp";
+		/* Prefix and suffix for the name of the vim-style lock file. */
+#endif
 
 /* Verify that the containing directory of the given filename exists. */
 bool has_valid_path(const char *filename)
@@ -295,12 +300,11 @@ int do_lockfile(const char *filename, bool ask_the_user)
 {
 	char *namecopy = copy_of(filename);
 	char *secondcopy = copy_of(filename);
-	size_t locknamesize = strlen(filename) + strlen(locking_prefix)
-				+ strlen(locking_suffix) + 3;
+	size_t locknamesize = strlen(filename) + strlen(locking_prefix) +
+							strlen(locking_suffix) + 3;
 	char *lockfilename = charalloc(locknamesize);
-	static char lockprog[11], lockuser[17];
 	struct stat fileinfo;
-	int lockfd, lockpid, retval = -1;
+	int retval = -1;
 
 	snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy),
 				locking_prefix, basename(secondcopy), locking_suffix);
@@ -308,10 +312,10 @@ int do_lockfile(const char *filename, bool ask_the_user)
 	if (!ask_the_user && stat(lockfilename, &fileinfo) != -1)
 		warn_and_shortly_pause(_("Someone else is also editing this file"));
 	else if (stat(lockfilename, &fileinfo) != -1) {
-		size_t readtot = 0;
-		size_t readamt = 0;
 		char *lockbuf, *question, *pidstring, *postedname, *promptstr;
-		int room, choice;
+		static char lockprog[11], lockuser[17];
+		int lockfd, lockpid, room, choice;
+		size_t readamt = 0, readtot = 0;
 
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 			statusline(MILD, _("Error opening lock file %s: %s"),
