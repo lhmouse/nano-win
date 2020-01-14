@@ -2247,8 +2247,9 @@ void statusbar(const char *msg)
  * message can be noticed and read. */
 void warn_and_shortly_pause(const char *msg)
 {
+	blank_bottombars();
 	statusline(ALERT, msg);
-	napms(1800);
+	napms(1500);
 }
 
 /* Display the shortcut list corresponding to menu on the last two rows
