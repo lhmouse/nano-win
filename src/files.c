@@ -308,6 +308,8 @@ int do_lockfile(const char *filename, bool ask_the_user)
 
 	snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy),
 				locking_prefix, basename(secondcopy), locking_suffix);
+	free(secondcopy);
+	free(namecopy);
 
 	if (!ask_the_user && stat(lockfilename, &fileinfo) != -1)
 		warn_and_shortly_pause(_("Someone else is also editing this file"));
@@ -385,8 +387,6 @@ int do_lockfile(const char *filename, bool ask_the_user)
 	retval = write_lockfile(lockfilename, filename, FALSE);
 
   free_the_name:
-	free(namecopy);
-	free(secondcopy);
 	if (retval < 1)
 		free(lockfilename);
 
