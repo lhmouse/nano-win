@@ -524,9 +524,9 @@ bool is_cuttable(bool test_cliff)
 #endif
 					)) {
 #ifndef NANO_TINY
+		statusbar(_("Nothing was cut"));
 		openfile->mark = NULL;
 #endif
-		statusbar(_("Nothing was cut"));
 		return FALSE;
 	} else
 		return TRUE;
