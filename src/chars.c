@@ -2,7 +2,7 @@
  *   chars.c  --  This file is part of GNU nano.                          *
  *                                                                        *
  *   Copyright (C) 2001-2011, 2013-2020 Free Software Foundation, Inc.    *
- *   Copyright (C) 2016-2018 Benno Schulenberg                            *
+ *   Copyright (C) 2016-2019 Benno Schulenberg                            *
  *                                                                        *
  *   GNU nano is free software: you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published    *
