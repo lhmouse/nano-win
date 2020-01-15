@@ -1939,12 +1939,20 @@ char *display_string(const char *buf, size_t column, size_t span,
 			continue;
 		}
 
+		/* Determine whether the character takes zero, one, or two columns. */
+		charwidth = wcwidth(wc);
+
+#ifdef __linux__
+		/* On a Linux console, skip zero-width characters, as it would show
+		 * them WITH a width, thus messing up the display.  See bug #52954. */
+		if (on_a_vt && charwidth == 0) {
+			buf += charlength;
+			continue;
+		}
+#endif
 		/* For any valid character, just copy its bytes. */
 		for (; charlength > 0; charlength--)
 			converted[index++] = *(buf++);
-
-		/* Determine whether the character occupies one or two columns. */
-		charwidth = wcwidth(wc);
 
 		/* If the codepoint is unassigned, assume a width of one. */
 		column += (charwidth < 0 ? 1 : charwidth);
