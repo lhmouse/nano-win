@@ -78,9 +78,6 @@ static linestruct *hindline;
 static linestruct *filetail;
 		/* What was the bottom line of the buffer. */
 
-static bool pasting_from_outside = FALSE;
-		/* Whether a bracketed paste is in progress. */
-
 /* Create a new linestruct node.  Note that we do not set prevnode->next. */
 linestruct *make_new_node(linestruct *prevnode)
 {
@@ -1534,9 +1531,6 @@ void do_input(void)
 	}
 #endif
 
-	if (bracketed_paste)
-		pasting_from_outside = TRUE;
-
 	/* Check for a shortcut in the main list. */
 	shortcut = get_shortcut(&input);
 
@@ -1578,7 +1572,6 @@ void do_input(void)
 			 * at once, filtering out any ASCII control codes. */
 			puddle[depth] = '\0';
 			inject(puddle, depth, TRUE);
-			pasting_from_outside = FALSE;
 
 			/* Empty the input buffer. */
 			free(puddle);
@@ -1747,7 +1740,7 @@ void inject(char *output, size_t output_len, bool filtering)
 
 #ifdef ENABLE_WRAPPING
 		/* If text gets wrapped, the edit window needs a refresh. */
-		if (ISSET(BREAK_LONG_LINES) && !pasting_from_outside && do_wrap())
+		if (ISSET(BREAK_LONG_LINES) && do_wrap())
 			refresh_needed = TRUE;
 #endif
 	}

@@ -68,12 +68,12 @@ void do_mark(void)
 void do_tab(void)
 {
 #ifdef ENABLE_COLOR
-	if (openfile->syntax && openfile->syntax->tab && !bracketed_paste)
+	if (openfile->syntax && openfile->syntax->tab)
 		inject(openfile->syntax->tab, strlen(openfile->syntax->tab), FALSE);
 	else
 #endif
 #ifndef NANO_TINY
-	if (ISSET(TABS_TO_SPACES) && !bracketed_paste) {
+	if (ISSET(TABS_TO_SPACES)) {
 		char *spaces = charalloc(tabsize + 1);
 		size_t length = tabsize - (xplustabs() % tabsize);
 
@@ -853,7 +853,7 @@ void do_enter(void)
 	linestruct *sampleline = openfile->current;
 	bool allblanks = FALSE;
 
-	if (ISSET(AUTOINDENT) && !bracketed_paste) {
+	if (ISSET(AUTOINDENT)) {
 #ifdef ENABLE_JUSTIFY
 		/* When doing automatic long-line wrapping and the next line is
 		 * in this same paragraph, use its indentation as the model. */
@@ -875,7 +875,7 @@ void do_enter(void)
 	strcpy(&newnode->data[extra], openfile->current->data +
 										openfile->current_x);
 #ifndef NANO_TINY
-	if (ISSET(AUTOINDENT) && !bracketed_paste) {
+	if (ISSET(AUTOINDENT)) {
 		/* Copy the whitespace from the sample line to the new one. */
 		strncpy(newnode->data, sampleline->data, extra);
 		/* If there were only blanks before the cursor, trim them. */
