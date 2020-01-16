@@ -1467,6 +1467,40 @@ bool okay_for_view(const keystruct *shortcut)
 	return (item == NULL || item->viewok);
 }
 
+/* Read in all waiting input bytes and paste them into the buffer in one go. */
+void suck_up_input_and_paste_it(void)
+{
+	linestruct *was_cutbuffer = cutbuffer;
+	linestruct *line = make_new_node(NULL);
+	size_t index = 0;
+
+	line->data = copy_of("");
+	cutbuffer = line;
+
+	while (bracketed_paste) {
+		int input = get_kbinput(edit, BLIND);
+
+		if (input == CR_CODE) {
+			line->next = make_new_node(line);
+			line = line->next;
+			line->data = copy_of("");
+			index = 0;
+		} else if ((input >= 0x20 && input <= 0xFF && input != DEL_CODE) ||
+													input == TAB_CODE) {
+			line->data = charealloc(line->data, index + 2);
+			line->data[index++] = (char)input;
+			line->data[index] = '\0';
+		} else if (input != BRACKETED_PASTE_MARKER)
+			beep();
+	}
+
+	cutbottom = line;
+
+	paste_text();
+
+	cutbuffer = was_cutbuffer;
+}
+
 /* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;
  * otherwise, insert it into the edit buffer. */
 void do_input(void)
@@ -1626,6 +1660,9 @@ void do_input(void)
 	if (!refresh_needed && (shortcut->func == do_delete ||
 							shortcut->func == do_backspace))
 		update_line(openfile->current, openfile->current_x);
+
+	if (bracketed_paste)
+		suck_up_input_and_paste_it();
 }
 
 /* The user typed output_len multibyte characters.  Add them to the edit
