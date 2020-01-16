@@ -24,18 +24,18 @@
 #include <string.h>
 
 static char *prompt = NULL;
-		/* The prompt string used for statusbar questions. */
+		/* The prompt string used for status-bar questions. */
 static size_t typing_x = HIGHEST_POSITIVE;
 		/* The cursor position in answer. */
 
 #ifdef ENABLE_MOUSE
-/* Handle a mouse click on the statusbar prompt or the shortcut list. */
+/* Handle a mouse click on the status-bar prompt or the shortcut list. */
 int do_statusbar_mouse(void)
 {
 	int click_row, click_col;
 	int retval = get_mouseinput(&click_row, &click_col, TRUE);
 
-	/* We can click on the statusbar window text to move the cursor. */
+	/* We can click on the status-bar window text to move the cursor. */
 	if (retval == 0 && wmouse_trafo(bottomwin, &click_row, &click_col, FALSE)) {
 		size_t start_col = breadth(prompt) + 2;
 
@@ -362,7 +362,7 @@ void do_statusbar_uncut_text(void)
 }
 
 /* Return the column number of the first character of the answer that is
- * displayed in the statusbar when the cursor is at the given column,
+ * displayed in the status bar when the cursor is at the given column,
  * with the available room for the answer starting at base.  Note that
  * (0 <= column - get_statusbar_page_start(column) < COLS). */
 size_t get_statusbar_page_start(size_t base, size_t column)
@@ -435,7 +435,7 @@ void add_or_remove_pipe_symbol_from_answer(void)
 }
 #endif
 
-/* Get a string of input at the statusbar prompt. */
+/* Get a string of input at the status-bar prompt. */
 functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 		bool allow_files, bool *listed, linestruct **history_list,
 		void (*refresh_func)(void))
@@ -549,7 +549,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 			 * the help viewer or display a message indicating that help
 			 * is disabled, which means that finished has been set to TRUE.
 			 * Set it back to FALSE here, so that we aren't kicked out of
-			 * the statusbar prompt. */
+			 * the status-bar prompt. */
 			finished = FALSE;
 		}
 
@@ -576,7 +576,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 	return func;
 }
 
-/* Ask a question on the statusbar.  Return 0 when text was entered,
+/* Ask a question on the status bar.  Return 0 when text was entered,
  * -1 for a cancelled entry, -2 for a blank string, and the relevant
  * keycode when a valid shortcut key was pressed.
  *
@@ -592,7 +592,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
 	int retval;
 	functionptrtype func = NULL;
 	bool listed = FALSE;
-	/* Save a possible current statusbar x position and prompt. */
+	/* Save a possible current status-bar x position and prompt. */
 	size_t was_typing_x = typing_x;
 	char *saved_prompt = prompt;
 
@@ -646,7 +646,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
 }
 
 /* Ask a simple Yes/No (and optionally All) question, specified in msg,
- * on the statusbar.  Return 1 for Yes, 0 for No, 2 for All (if all is
+ * on the status bar.  Return 1 for Yes, 0 for No, 2 for All (if all is
  * TRUE when passed in), and -1 for Cancel. */
 int do_yesno_prompt(bool all, const char *msg)
 {

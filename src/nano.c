@@ -317,7 +317,7 @@ void disable_bracketed_paste(void)
 /* Exit normally: restore the terminal state and save history files. */
 void finish(void)
 {
-	/* Blank the statusbar and (if applicable) the shortcut list. */
+	/* Blank the status bar and (if applicable) the shortcut list. */
 	blank_statusbar();
 	blank_bottombars();
 	wrefresh(bottomwin);
@@ -457,12 +457,12 @@ void window_init(void)
 		delwin(bottomwin);
 	}
 
-	/* If the terminal is very flat, don't set up a titlebar. */
+	/* If the terminal is very flat, don't set up a title bar. */
 	if (LINES < 3) {
 		topwin = NULL;
 		editwinrows = 1;
 		/* Set up two subwindows.  If the terminal is just one line,
-		 * edit window and statusbar window will cover each other. */
+		 * edit window and status-bar window will cover each other. */
 		edit = newwin(1, COLS, 0, 0);
 		bottomwin = newwin(1, COLS, LINES - 1, 0);
 	} else {

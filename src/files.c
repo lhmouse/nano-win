@@ -129,8 +129,8 @@ void make_new_buffer(void)
 #endif
 }
 
-/* Mark the current file as modified if it isn't already, and then
- * update the titlebar to display the file's new status. */
+/* Mark the current file as modified if it isn't already, and
+ * then update the title bar to display the file's new status. */
 void set_modified(void)
 {
 	if (openfile->modified)
@@ -562,10 +562,10 @@ bool replace_buffer(const char *filename, undo_type action, bool marked,
 }
 #endif /* ENABLE_SPELLER */
 
-/* Update the titlebar and the multiline cache to match the current buffer. */
+/* Update the title bar and the multiline cache to match the current buffer. */
 void prepare_for_display(void)
 {
-	/* Update the titlebar, since the filename may have changed. */
+	/* Update the title bar, since the filename may have changed. */
 	if (!inhelp)
 		titlebar(NULL);
 
@@ -620,7 +620,7 @@ void redecorate_after_switch(void)
 		openfile->firstcolumn = 0;
 #endif
 
-	/* Update titlebar and multiline info to match the current buffer. */
+	/* Update title bar and multiline info to match the current buffer. */
 	prepare_for_display();
 
 	/* Ensure that the main loop will redraw the help lines. */
@@ -1032,7 +1032,7 @@ void do_insertfile(void)
 	int response;
 	const char *msg;
 	char *given = copy_of("");
-		/* The last answer the user typed at the statusbar prompt. */
+		/* The last answer the user typed at the status-bar prompt. */
 #ifndef NANO_TINY
 	format_type was_fmt = openfile->fmt;
 	bool execute = FALSE;
@@ -2468,7 +2468,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 	return matches;
 }
 
-/* Do tab completion.  place refers to how much the statusbar cursor
+/* Do tab completion.  place refers to how much the status-bar cursor
  * position should be advanced.  refresh_func is the function we will
  * call to refresh the edit window. */
 char *input_tab(char *buf, bool allow_files, size_t *place,

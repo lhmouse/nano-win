@@ -48,7 +48,7 @@ static int digit_count = 0;
 static bool waiting_mode = TRUE;
 		/* Whether getting a character will wait for a key to be pressed. */
 static int statusblank = 0;
-		/* The number of keystrokes left before we blank the statusbar. */
+		/* The number of keystrokes left before we blank the status bar. */
 #ifdef USING_OLD_NCURSES
 static bool seen_wide = FALSE;
 		/* Whether we've seen a multicolumn character in the current line. */
@@ -338,7 +338,7 @@ int get_kbinput(WINDOW *win, bool showcursor)
 	while (kbinput == ERR)
 		kbinput = parse_kbinput(win);
 
-	/* If we read from the edit window, blank the statusbar if needed. */
+	/* If we read from the edit window, blank the status bar if needed. */
 	if (win == edit)
 		check_statusblank();
 
@@ -1777,8 +1777,8 @@ void blank_bottombars(void)
 	}
 }
 
-/* Check if the number of keystrokes needed to blank the statusbar has
- * been pressed.  If so, blank the statusbar, unless constant cursor
+/* Check if the number of keystrokes needed to blank the status bar has
+ * been pressed.  If so, blank the status bar, unless constant cursor
  * position display is on and we are in the editing screen. */
 void check_statusblank(void)
 {
@@ -2005,17 +2005,17 @@ int buffer_number(openfilestruct *buffer)
 
 /* If path is NULL, we're in normal editing mode, so display the current
  * version of nano, the current filename, and whether the current file
- * has been modified on the titlebar.  If path isn't NULL, we're either
+ * has been modified on the title bar.  If path isn't NULL, we're either
  * in the file browser or the help viewer, so show either the current
  * directory or the title of help text, that is: whatever is in path. */
 void titlebar(const char *path)
 {
 	size_t verlen, prefixlen, pathlen, statelen;
-		/* The width of the different titlebar elements, in columns. */
+		/* The width of the different title-bar elements, in columns. */
 	size_t pluglen = 0;
 		/* The width that "Modified" would take up. */
 	size_t offset = 0;
-		/* The position at which the center part of the titlebar starts. */
+		/* The position at which the center part of the title bar starts. */
 	const char *upperleft = "";
 		/* What is shown in the top left corner. */
 	const char *prefix = "";
@@ -2027,7 +2027,7 @@ void titlebar(const char *path)
 	char *indicator = NULL;
 		/* The buffer sequence number plus buffer count. */
 
-	/* If the screen is too small, there is no titlebar. */
+	/* If the screen is too small, there is no title bar. */
 	if (topwin == NULL)
 		return;
 
@@ -2144,7 +2144,7 @@ void titlebar(const char *path)
 	wrefresh(topwin);
 }
 
-/* Display a message on the statusbar, and set suppress_cursorpos to
+/* Display a message on the status bar, and set suppress_cursorpos to
  * TRUE, so that the message won't be immediately overwritten if
  * constant cursor position display is on. */
 void statusline(message_type importance, const char *msg, ...)
@@ -2237,7 +2237,7 @@ void statusline(message_type importance, const char *msg, ...)
 		SET(WHITESPACE_DISPLAY);
 #endif
 
-	/* If doing quick blanking, blank the statusbar after just one keystroke.
+	/* If doing quick blanking, blank the status bar after just one keystroke.
 	 * Otherwise, blank it after twenty-six keystrokes, as Pico does. */
 	if (ISSET(QUICK_BLANK))
 		statusblank = 1;
@@ -2245,13 +2245,13 @@ void statusline(message_type importance, const char *msg, ...)
 		statusblank = 26;
 }
 
-/* Display a normal message on the statusbar, quietly. */
+/* Display a normal message on the status bar, quietly. */
 void statusbar(const char *msg)
 {
 	statusline(HUSH, msg);
 }
 
-/* Warn the user on the statusbar and pause for a moment, so that the
+/* Warn the user on the status bar and pause for a moment, so that the
  * message can be noticed and read. */
 void warn_and_shortly_pause(const char *msg)
 {
@@ -3338,7 +3338,7 @@ void total_refresh(void)
 	bottombars(currmenu);
 }
 
-/* Show info about the current cursor position on the statusbar.
+/* Show info about the current cursor position on the status bar.
  * Do this unconditionally when force is TRUE; otherwise, only if
  * suppress_cursorpos is FALSE.  In any case, reset the latter. */
 void do_cursorpos(bool force)
@@ -3366,7 +3366,7 @@ void do_cursorpos(bool force)
 	if (openfile->current != openfile->filebot)
 		sum--;
 
-	/* Display the current cursor position on the statusbar. */
+	/* Display the current cursor position on the status bar. */
 	linepct = 100 * openfile->current->lineno / openfile->filebot->lineno;
 	colpct = 100 * cur_xpt / cur_lenpt;
 	charpct = (openfile->totsize == 0) ? 0 : 100 * sum / openfile->totsize;

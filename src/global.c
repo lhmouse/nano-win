@@ -112,7 +112,7 @@ WINDOW *edit = NULL;
 		 * contents of the current buffer, the file we are editing. */
 WINDOW *bottomwin = NULL;
 		/* The bottom portion of the screen, where we display statusbar
-		 * messages, the statusbar prompt, and a list of shortcuts. */
+		 * messages, the status-bar prompt, and a list of shortcuts. */
 int editwinrows = 0;
 		/* How many rows does the edit window take up? */
 int editwincols = -1;
@@ -163,7 +163,7 @@ char *word_chars = NULL;
 		/* Nonalphanumeric characters that also form words. */
 
 char *answer = NULL;
-		/* The answer string used by the statusbar prompt. */
+		/* The answer string used by the status-bar prompt. */
 
 ssize_t tabsize = -1;
 		/* The width of a tab in spaces.  The default is set in main(). */

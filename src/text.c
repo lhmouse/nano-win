@@ -3117,7 +3117,7 @@ void do_wordlinechar_count(void)
 	openfile->current = was_current;
 	openfile->current_x = was_x;
 
-	/* Display the total word, line, and character counts on the statusbar. */
+	/* Display the total word, line, and character counts on the status bar. */
 	statusline(HUSH, _("%sWords: %zu  Lines: %zd  Chars: %zu"), openfile->mark ?
 						_("In Selection:  ") : "", words, lines, chars);
 }
@@ -3138,7 +3138,7 @@ void do_verbatim_input(void)
 	/* Read in all the verbatim characters. */
 	kbinput = get_verbatim_kbinput(edit, &count);
 
-	/* Unsuppress cursor-position display or blank the statusbar. */
+	/* Unsuppress cursor-position display or blank the status bar. */
 	if (ISSET(CONSTANT_SHOW))
 		suppress_cursorpos = FALSE;
 	else
