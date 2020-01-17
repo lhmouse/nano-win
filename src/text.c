@@ -3008,7 +3008,8 @@ void do_linter(void)
 				last_wait = time(NULL);
 				statusline(NOTICE, curlint->msg);
 			}
-		}
+		} else
+			beep();
 	}
 
 	for (curlint = lints; curlint != NULL;) {

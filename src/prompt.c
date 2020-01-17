@@ -763,6 +763,8 @@ int do_yesno_prompt(bool all, const char *msg)
 			}
 		}
 #endif /* ENABLE_MOUSE */
+		else
+			beep();
 	}
 
 	return choice;
