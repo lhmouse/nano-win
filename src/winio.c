@@ -278,15 +278,17 @@ void put_back(int keycode)
 	*key_buffer = keycode;
 }
 
-/* Put the character given in kbinput back into the input stream.  If it
+#ifdef ENABLE_MOUSE
+/* Insert the given keycode at the start of the keyboard buffer.  If it
  * is a Meta key, also insert an Escape character in front of it. */
-void unget_kbinput(int kbinput, bool metakey)
+void stuff_into_keybuffer(int keycode, bool is_metakey)
 {
-	put_back(kbinput);
+	put_back(keycode);
 
-	if (metakey)
+	if (is_metakey)
 		put_back(ESC_CODE);
 }
+#endif
 
 #ifdef ENABLE_NANORC
 /* Insert the given string into the keyboard buffer. */
@@ -1700,7 +1702,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			/* And put the corresponding key into the keyboard buffer. */
 			if (f != NULL) {
 				const keystruct *s = first_sc_for(currmenu, f->func);
-				unget_kbinput(s->keycode, s->meta);
+				stuff_into_keybuffer(s->keycode, s->meta);
 			}
 			return 1;
 		} else
@@ -1721,7 +1723,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 		if (in_edit || (in_bottomwin && *mouse_y == 0)) {
 			/* One roll of the mouse wheel should move three lines. */
 			for (int count = 1; count <= 3; count++)
-				unget_kbinput((mevent.bstate & BUTTON4_PRESSED) ?
+				stuff_into_keybuffer((mevent.bstate & BUTTON4_PRESSED) ?
 								KEY_UP : KEY_DOWN, FALSE);
 			return 1;
 		} else
