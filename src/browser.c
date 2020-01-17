@@ -138,10 +138,11 @@ char *do_browser(char *path)
 				/* If we selected the same filename as last time, fake a
 				 * press of the Enter key so that the file is read in. */
 				if (old_selected == selected)
-					unget_kbinput(KEY_ENTER, FALSE);
+					kbinput = KEY_ENTER;
 			}
 
-			continue;
+			if (kbinput == KEY_MOUSE)
+				continue;
 		}
 #endif /* ENABLE_MOUSE */
 

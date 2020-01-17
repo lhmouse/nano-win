@@ -608,7 +608,6 @@ void record_macro(void);
 void run_macro(void);
 size_t get_key_buffer_len(void);
 void put_back(int keycode);
-void unget_kbinput(int kbinput, bool metakey);
 #ifdef ENABLE_NANORC
 void implant(const char *string);
 #endif
