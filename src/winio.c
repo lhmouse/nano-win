@@ -278,18 +278,6 @@ void put_back(int keycode)
 	*key_buffer = keycode;
 }
 
-#ifdef ENABLE_MOUSE
-/* Insert the given keycode at the start of the keyboard buffer.  If it
- * is a Meta key, also insert an Escape character in front of it. */
-void stuff_into_keybuffer(int keycode, bool is_metakey)
-{
-	put_back(keycode);
-
-	if (is_metakey)
-		put_back(ESC_CODE);
-}
-#endif
-
 #ifdef ENABLE_NANORC
 /* Insert the given string into the keyboard buffer. */
 void implant(const char *string)
@@ -1702,7 +1690,9 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			/* And put the corresponding key into the keyboard buffer. */
 			if (f != NULL) {
 				const keystruct *s = first_sc_for(currmenu, f->func);
-				stuff_into_keybuffer(s->keycode, s->meta);
+				put_back(s->keycode);
+				if (s->meta)
+					put_back(ESC_CODE);
 			}
 			return 1;
 		} else
@@ -1721,10 +1711,12 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
 
 		if (in_edit || (in_bottomwin && *mouse_y == 0)) {
+			int keycode = (mevent.bstate & BUTTON4_PRESSED) ? KEY_UP : KEY_DOWN;
+
 			/* One roll of the mouse wheel should move three lines. */
-			for (int count = 1; count <= 3; count++)
-				stuff_into_keybuffer((mevent.bstate & BUTTON4_PRESSED) ?
-								KEY_UP : KEY_DOWN, FALSE);
+			for (int count = 3; count > 0; count--)
+				put_back(keycode);
+
 			return 1;
 		} else
 			/* Ignore presses of the fourth and fifth mouse buttons
