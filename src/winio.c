@@ -1617,7 +1617,6 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 {
 	MEVENT mevent;
 	bool in_bottomwin;
-	funcstruct *f;
 
 	/* First, get the actual mouse event. */
 	if (getmouse(&mevent) == ERR)
@@ -1675,25 +1674,24 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			if (index > number)
 				return 2;
 
-			/* Go through the list of functions to determine which
-			 * shortcut in the current menu we clicked/released on. */
-			for (f = allfuncs; f != NULL; f = f->next) {
+			/* Search through the list of functions to determine which
+			 * shortcut in the current menu the user clicked on; then
+			 * put the corresponding keystroke into the keyboard buffer. */
+			for (funcstruct *f = allfuncs; f != NULL; f = f->next) {
 				if ((f->menus & currmenu) == 0)
 					continue;
 				if (first_sc_for(currmenu, f->func) == NULL)
 					continue;
-				/* Tick off an actually shown shortcut. */
-				if (--index == 0)
+				if (--index == 0) {
+					const keystruct *shortcut = first_sc_for(currmenu, f->func);
+
+					put_back(shortcut->keycode);
+					if (shortcut->meta)
+						put_back(ESC_CODE);
 					break;
+				}
 			}
 
-			/* And put the corresponding key into the keyboard buffer. */
-			if (f != NULL) {
-				const keystruct *s = first_sc_for(currmenu, f->func);
-				put_back(s->keycode);
-				if (s->meta)
-					put_back(ESC_CODE);
-			}
 			return 1;
 		} else
 			/* Clicks outside of bottomwin are handled elsewhere. */
