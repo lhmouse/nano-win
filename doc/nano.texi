@@ -690,10 +690,13 @@ The following global toggles are available:
 
 The nanorc files contain the default settings for @command{nano}.  They
 should be in Unix format, not in DOS or Mac format.  During startup,
-@command{nano} will first read the system-wide settings, from /etc/nanorc
-(the exact path might be different), and then the user-specific settings,
+if @option{--rcfile} is not given, @command{nano} will read two files:
+first the system-wide settings, from @file{/etc/nanorc} (the exact path
+might be different on your system), and then the user-specific settings,
 either from @file{~/.nanorc} or from @file{$XDG_CONFIG_HOME/nano/nanorc}
 or from @file{.config/nano/nanorc}, whichever exists first.
+If @option{--rcfile} is given, @command{nano} will read just the
+specified settings file.
 
 A nanorc file accepts a series of "set" and "unset" commands, which can
 be used to configure @command{nano} on startup without using command-line
