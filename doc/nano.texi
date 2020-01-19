@@ -334,6 +334,11 @@ system either Backspace acts like Delete or Delete acts like Backspace.
 @itemx --emptyline
 Do not use the line below the title bar, leaving it entirely blank.
 
+@item -f @var{file}
+@itemx --rcfile=@var{file}
+Read only this @var{file} for setting nano's options, instead of reading
+both the system-wide and the user's nanorc files.
+
 @item -g
 @itemx --showcursor
 Make the cursor visible in the file browser (putting it on the
