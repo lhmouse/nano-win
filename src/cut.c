@@ -307,7 +307,7 @@ void ingraft_buffer(linestruct *topline)
 	bool same_line = (openfile->mark == openfile->current);
 	bool right_side_up = (openfile->mark &&
 						(openfile->mark->lineno < openfile->current->lineno ||
-						(same_line && openfile->mark_x < openfile->current_x)));
+						(same_line && openfile->mark_x <= openfile->current_x)));
 #endif
 
 	/* Partition the buffer so that it contains no text, then delete it.*/
