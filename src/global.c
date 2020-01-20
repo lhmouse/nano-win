@@ -490,6 +490,8 @@ int keycode_from_string(const char *keystring)
 #endif
 			if (keystring[1] <= '_')
 				return keystring[1] - 64;
+			else if (keystring[1] == '`')
+				return 0;
 			else
 				return -1;
 		} else if (strcasecmp(keystring, "^Space") == 0)
