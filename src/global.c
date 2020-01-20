@@ -520,7 +520,7 @@ int keycode_from_string(const char *keystring)
 void assign_keyinfo(keystruct *s, const char *keystring, const int keycode)
 {
 	s->keystr = keystring;
-	s->meta = (keystring[0] == 'M' && keycode == 0);
+	s->meta = (keystring[0] == 'M' && keycode < 0x7F);
 	s->keycode = (keycode ? keycode : keycode_from_string(keystring));
 }
 
