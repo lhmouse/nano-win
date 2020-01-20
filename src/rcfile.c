@@ -800,7 +800,7 @@ void parse_binding(char *ptr, bool dobind)
 
 	/* Wipe the given shortcut from the given menu. */
 	for (s = sclist; s != NULL; s = s->next)
-		if ((s->menus & menu) && strcmp(s->keystr, keycopy) == 0)
+		if ((s->menus & menu) && s->keycode == keycode)
 			s->menus &= ~menu;
 
 	/* When unbinding, we are done now. */
