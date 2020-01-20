@@ -806,22 +806,25 @@ void parse_binding(char *ptr, bool dobind)
 	if (!dobind)
 		goto free_things;
 
-	/* Tally up the menus where the function exists. */
-	for (funcstruct *f = allfuncs; f != NULL; f = f->next)
-		if (f->func == newsc->func)
-			mask = mask | f->menus;
-
+	if (is_universal(newsc->func))
+		mask = MMOST|MBROWSER;
 #ifndef NANO_TINY
 	/* Handle the special case of the toggles. */
-	if (newsc->func == do_toggle_void)
+	else if (newsc->func == do_toggle_void)
 		mask = MMAIN;
 #endif
 	/* Handle the special case of a key defined as a string. */
-	if (newsc->func == (functionptrtype)implant)
+	else if (newsc->func == (functionptrtype)implant)
 		mask = MMOST|MBROWSER|MHELP;
+	else {
+		/* Tally up the menus where the function exists. */
+		for (funcstruct *f = allfuncs; f != NULL; f = f->next)
+			if (f->func == newsc->func)
+				mask = mask | f->menus;
+	}
 
 	/* Now limit the given menu to those where the function exists. */
-	menu = menu & (is_universal(newsc->func) ? (MMOST|MBROWSER) : mask);
+	menu = menu & mask;
 
 	if (!menu) {
 		if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE))
