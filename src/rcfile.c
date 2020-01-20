@@ -705,9 +705,8 @@ bool is_universal(void (*func)(void))
 void parse_binding(char *ptr, bool dobind)
 {
 	char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
-	keystruct *s, *newsc = NULL;
 	int keycode, menu, mask = 0;
-	funcstruct *f;
+	keystruct *newsc = NULL;
 
 	check_for_nonempty_syntax();
 
@@ -799,7 +798,7 @@ void parse_binding(char *ptr, bool dobind)
 	}
 
 	/* Wipe the given shortcut from the given menu. */
-	for (s = sclist; s != NULL; s = s->next)
+	for (keystruct *s = sclist; s != NULL; s = s->next)
 		if ((s->menus & menu) && s->keycode == keycode)
 			s->menus &= ~menu;
 
@@ -808,7 +807,7 @@ void parse_binding(char *ptr, bool dobind)
 		goto free_things;
 
 	/* Tally up the menus where the function exists. */
-	for (f = allfuncs; f != NULL; f = f->next)
+	for (funcstruct *f = allfuncs; f != NULL; f = f->next)
 		if (f->func == newsc->func)
 			mask = mask | f->menus;
 
@@ -847,7 +846,7 @@ void parse_binding(char *ptr, bool dobind)
 #ifndef NANO_TINY
 	/* If this is a toggle, find and copy its sequence number. */
 	if (newsc->func == do_toggle_void) {
-		for (s = sclist; s != NULL; s = s->next)
+		for (keystruct *s = sclist; s != NULL; s = s->next)
 			if (s->func == do_toggle_void && s->toggle == newsc->toggle)
 				newsc->ordinal = s->ordinal;
 	} else
