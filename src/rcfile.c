@@ -706,7 +706,7 @@ void parse_binding(char *ptr, bool dobind)
 {
 	char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
 	keystruct *s, *newsc = NULL;
-	int menu, mask = 0;
+	int keycode, menu, mask = 0;
 	funcstruct *f;
 
 	check_for_nonempty_syntax();
@@ -743,7 +743,11 @@ void parse_binding(char *ptr, bool dobind)
 	else if (keycopy[0] != '^' && keycopy[0] != 'M' && keycopy[0] != 'F') {
 		jot_error(N_("Key name must begin with \"^\", \"M\", or \"F\""));
 		goto free_things;
-	} else if (keycode_from_string(keycopy) < 0) {
+	}
+
+	keycode = keycode_from_string(keycopy);
+
+	if (keycode < 0) {
 		jot_error(N_("Key name %s is invalid"), keycopy);
 		goto free_things;
 	}
@@ -828,7 +832,7 @@ void parse_binding(char *ptr, bool dobind)
 	}
 
 	newsc->menus = menu;
-	assign_keyinfo(newsc, keycopy, 0);
+	assign_keyinfo(newsc, keycopy, keycode);
 
 	/* Disallow rebinding ^[ and frequent escape-sequence starter "Esc [". */
 	if ((!newsc->meta && newsc->keycode == ESC_CODE) ||
