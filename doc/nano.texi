@@ -1163,7 +1163,14 @@ Example: @code{^C}.
 @item
 @code{M-@var{X}} ------ where @var{X} is any ASCII character except [,
 or the word "Space".
-Example: @code{M-C}.
+Example: @code{M-8}.
+
+@item
+@code{Sh-M-@var{X}} ------ where @var{X} is a Latin letter.
+Example: @code{Sh-M-U}.
+By default, each Meta+letter keystroke does the same as the corresponding
+Shift+Meta+letter.  But when any Shift+Meta bind is made, that will
+no longer be the case, for all letters.
 
 @item
 @code{F@var{n}} ------ where @var{n} is a numeric value from 1 to 24.

@@ -475,7 +475,7 @@ menus where the key exists when \fBall\fP is used).
 .TP
 The format of \fIkey\fP should be one of:
 .RS 3
-.TP 5
+.TP 7
 .BI ^ X
 where \fIX\fR is a Latin letter, or one of several ASCII characters
 (@, ], \\, ^, _), or the word "Space".
@@ -483,7 +483,14 @@ Example: ^C.
 .TP
 .BI M\- X
 where \fIX\fR is any ASCII character except [, or the word "Space".
-Example: M\-C.
+Example: M\-8.
+.TP
+.BI Sh\-M\- X
+where \fIX\fR is a Latin letter.
+Example: Sh\-M\-U.
+By default, each Meta+letter keystroke does the same as the corresponding
+Shift+Meta+letter.  But when any Shift+Meta bind is made, that will
+no longer be the case, for all letters.
 .TP
 .BI F N
 where \fIN\fR is a numeric value from 1 to 24.
