@@ -1102,7 +1102,7 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
 	add_to_sclist(MMOST, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
 	add_to_sclist(MMOST, "^D", 0, do_delete, 0);
-	add_to_sclist(MMOST, "Del", 0, do_delete, 0);
+	add_to_sclist(MMOST, "Del", KEY_DC, do_delete, 0);
 	add_to_sclist(MMOST, "^I", 0, do_tab, 0);
 	add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
 	add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help, 0);
@@ -1111,7 +1111,7 @@ void shortcut_init(void)
 		add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
 	add_to_sclist(MMAIN, "^O", 0, do_writeout_void, 0);
 	add_to_sclist(MMAIN, "^R", 0, do_insertfile_void, 0);
-	add_to_sclist(MMAIN, "Ins", 0, do_insertfile_void, 0);
+	add_to_sclist(MMAIN, "Ins", KEY_IC, do_insertfile_void, 0);
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MMAIN|MHELP|MBROWSER, "^Q", 0, do_search_backward, 0);
 	add_to_sclist(MMAIN|MHELP|MBROWSER, "^W", 0, do_search_forward, 0);
@@ -1385,28 +1385,28 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_HELP
 	add_to_sclist(MHELP, "^G", 0, do_exit, 0);
-	add_to_sclist(MHELP, "F1", 0, do_exit, 0);
+	add_to_sclist(MHELP, "F1", KEY_F(1), do_exit, 0);
 	add_to_sclist(MHELP, "Home", KEY_HOME, to_first_line, 0);
 	add_to_sclist(MHELP, "End", KEY_END, to_last_line, 0);
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MLINTER, "^X", 0, do_cancel, 0);
 #endif
-	add_to_sclist(MMOST & ~MFINDINHELP, "F1", 0, do_help, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", 0, do_exit, 0);
-	add_to_sclist(MMAIN, "F3", 0, do_writeout_void, 0);
+	add_to_sclist(MMOST & ~MFINDINHELP, "F1", KEY_F(1), do_help, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "F2", KEY_F(2), do_exit, 0);
+	add_to_sclist(MMAIN, "F3", KEY_F(3), do_writeout_void, 0);
 #ifdef ENABLE_JUSTIFY
-	add_to_sclist(MMAIN, "F4", 0, do_justify_void, 0);
+	add_to_sclist(MMAIN, "F4", KEY_F(4), do_justify_void, 0);
 #endif
-	add_to_sclist(MMAIN, "F5", 0, do_insertfile_void, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", 0, do_search_forward, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F7", 0, do_page_up, 0);
-	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F8", 0, do_page_down, 0);
-	add_to_sclist(MMOST, "F9", 0, cut_text, 0);
-	add_to_sclist(MMOST, "F10", 0, paste_text, 0);
-	add_to_sclist(MMAIN, "F11", 0, do_cursorpos_void, 0);
+	add_to_sclist(MMAIN, "F5", KEY_F(5), do_insertfile_void, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER, "F6", KEY_F(6), do_search_forward, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F7", KEY_F(7), do_page_up, 0);
+	add_to_sclist(MMAIN|MHELP|MBROWSER|MLINTER, "F8", KEY_F(8), do_page_down, 0);
+	add_to_sclist(MMOST, "F9", KEY_F(9), cut_text, 0);
+	add_to_sclist(MMOST, "F10", KEY_F(10), paste_text, 0);
+	add_to_sclist(MMAIN, "F11", KEY_F(11), do_cursorpos_void, 0);
 #ifdef ENABLE_SPELLER
-	add_to_sclist(MMAIN, "F12", 0, do_spell, 0);
+	add_to_sclist(MMAIN, "F12", KEY_F(12), do_spell, 0);
 #endif
 
 	/* Catch and ignore bracketed paste marker keys. */
