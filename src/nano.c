@@ -1360,6 +1360,10 @@ void unbound_key(int code)
 		else if (code < 0x20)
 			statusline(ALERT, _("Unbindable key: M-^%c"), code + 0x40);
 #endif
+#ifdef ENABLE_NANORC
+		else if (shifted_metas && 'A' <= code && code <= 'Z')
+			statusline(ALERT, _("Unbound key: Sh-M-%c"), code);
+#endif
 		else
 			statusline(ALERT, _("Unbound key: M-%c"), toupper(code));
 	} else if (code == ESC_CODE)

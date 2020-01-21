@@ -27,6 +27,7 @@ extern volatile sig_atomic_t the_window_resized;
 #endif
 
 extern bool on_a_vt;
+extern bool shifted_metas;
 
 extern bool meta_key;
 extern bool shift_held;

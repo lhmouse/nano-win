@@ -391,7 +391,7 @@ int parse_kbinput(WINDOW *win)
 				 * meta key sequence mode. */
 				if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
 					meta_key = TRUE;
-				retval = tolower(keycode);
+				retval = (shifted_metas) ? keycode : tolower(keycode);
 			} else
 				/* One escape followed by a non-escape, and there
 				 * are more codes waiting: escape sequence mode. */
@@ -466,7 +466,7 @@ int parse_kbinput(WINDOW *win)
 						 * or control character sequence mode. */
 						if (!solitary) {
 							meta_key = TRUE;
-							retval = tolower(keycode);
+							retval = (shifted_metas) ? keycode : tolower(keycode);
 						} else
 							retval = get_control_kbinput(keycode);
 					else {
@@ -495,7 +495,7 @@ int parse_kbinput(WINDOW *win)
 			if (key_buffer_len == 0) {
 				if (!solitary) {
 					meta_key = TRUE;
-					retval = tolower(keycode);
+					retval = (shifted_metas) ? keycode : tolower(keycode);
 				} else
 					/* Three escapes followed by a non-escape, and no
 					 * other codes are waiting: normal input mode. */

@@ -33,6 +33,8 @@ volatile sig_atomic_t the_window_resized = FALSE;
 
 bool on_a_vt = FALSE;
 		/* Whether we're running on a Linux console (a VT). */
+bool shifted_metas = FALSE;
+		/* Whether any Sh-M-<letter> combo has been bound. */
 
 bool meta_key;
 		/* Whether the current keystroke is a Meta key. */
@@ -505,6 +507,13 @@ int keycode_from_string(const char *keystring)
 			return (int)' ';
 		else
 			return -1;
+#ifdef ENABLE_NANORC
+	} else if (strncasecmp(keystring, "Sh-M-", 5) == 0 &&
+				'a' <= (keystring[5] | 0x20) && (keystring[5] | 0x20) <= 'z' &&
+				keystring[6] == '\0') {
+		shifted_metas = TRUE;
+		return (keystring[5] & 0x5F);
+#endif
 	} else if (keystring[0] == 'F') {
 		int fn = atoi(&keystring[1]);
 		if (fn < 1 || fn > 24)
@@ -522,7 +531,7 @@ int keycode_from_string(const char *keystring)
 void assign_keyinfo(keystruct *s, const char *keystring, const int keycode)
 {
 	s->keystr = keystring;
-	s->meta = (keystring[0] == 'M' && keycode < 0x7F);
+	s->meta = ((keystring[0] == 'M' || keystring[0] == 'S') && keycode < 0x7F);
 	s->keycode = (keycode ? keycode : keycode_from_string(keystring));
 }
 
