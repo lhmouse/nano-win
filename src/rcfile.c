@@ -719,28 +719,12 @@ void parse_binding(char *ptr, bool dobind)
 	ptr = parse_next_word(ptr);
 	keycopy = copy_of(keyptr);
 
-	if (keycopy[1] == '\0') {
-		jot_error(N_("Key name is too short"));
-		goto free_things;
-	}
-
-	/* Uppercase only the first two or three characters of the key name. */
+	/* Force the first character of the key name to uppercase. */
 	keycopy[0] = toupper((unsigned char)keycopy[0]);
-	keycopy[1] = toupper((unsigned char)keycopy[1]);
-	if (keycopy[0] == 'M' && keycopy[1] == '-') {
-		if (keycopy[2] == '\0') {
-			jot_error(N_("Key name is too short"));
-			goto free_things;
-		} else
-			keycopy[2] = toupper((unsigned char)keycopy[2]);
-	}
 
-	/* Allow the codes for Insert and Delete to be rebound, but apart
-	 * from those two only Control, Meta and Function sequences. */
-	if (!strcasecmp(keycopy, "Ins") || !strcasecmp(keycopy, "Del"))
-		keycopy[1] = tolower((unsigned char)keycopy[1]);
-	else if (keycopy[0] != '^' && keycopy[0] != 'M' && keycopy[0] != 'F') {
-		jot_error(N_("Key name must begin with \"^\", \"M\", or \"F\""));
+	/* Verify that the key name is not too short, to allow the next call. */
+	if (keycopy[1] == '\0' || (keycopy[0] == 'M' && keycopy[2] == '\0')) {
+		jot_error(N_("Key name %s is invalid"), keycopy);
 		goto free_things;
 	}
 
