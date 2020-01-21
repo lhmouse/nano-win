@@ -599,7 +599,8 @@ int parse_kbinput(WINDOW *win)
 		if (modifiers & 0x01) {
 			if (retval == TAB_CODE)
 				return SHIFT_TAB;
-			shift_held = TRUE;
+			if (!meta_key)
+				shift_held = TRUE;
 		}
 		/* Is Alt being held? */
 		if (modifiers == 0x08) {
