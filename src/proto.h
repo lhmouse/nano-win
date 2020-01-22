@@ -334,7 +334,6 @@ size_t shown_entries_for(int menu);
 const keystruct *get_shortcut(int *kbinput);
 functionptrtype func_from_key(int *kbinput);
 int keycode_from_string(const char *keystring);
-void assign_keyinfo(keystruct *s, const char *keystring, const int keycode);
 void shortcut_init(void);
 const char *flagtostr(int flag);
 

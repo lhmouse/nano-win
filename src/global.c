@@ -392,7 +392,8 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 	if (toggle)
 		s->ordinal = (tailsc->toggle == toggle) ? counter : ++counter;
 #endif
-	assign_keyinfo(s, scstring, keycode);
+	s->keystr = scstring;
+	s->keycode = (keycode ? keycode : keycode_from_string(scstring));
 
 	tailsc = s;
 }
@@ -525,13 +526,6 @@ int keycode_from_string(const char *keystring)
 		return KEY_DC;
 	else
 		return -1;
-}
-
-/* Set the string and its corresponding keycode for the given shortcut s. */
-void assign_keyinfo(keystruct *s, const char *keystring, const int keycode)
-{
-	s->keystr = keystring;
-	s->keycode = (keycode ? keycode : keycode_from_string(keystring));
 }
 
 /* These two tags are used elsewhere too, so they are global. */

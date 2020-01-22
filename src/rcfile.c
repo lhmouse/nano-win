@@ -820,7 +820,8 @@ void parse_binding(char *ptr, bool dobind)
 	}
 
 	newsc->menus = menu;
-	assign_keyinfo(newsc, keycopy, keycode);
+	newsc->keystr = keycopy;
+	newsc->keycode = keycode;
 
 	/* Disallow rebinding ^[ and frequent escape-sequence starter "Esc [". */
 	if (newsc->keycode == ESC_CODE || newsc->keycode == '[') {
