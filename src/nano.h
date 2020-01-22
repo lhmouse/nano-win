@@ -422,8 +422,6 @@ typedef struct rcoption {
 typedef struct keystruct {
 	const char *keystr;
 		/* The string that describes the keystroke, like "^C" or "M-R". */
-	bool meta;
-		/* Whether this is a Meta keystroke. */
 	int keycode;
 		/* The integer that, together with meta, identifies the keystroke. */
 	int menus;
