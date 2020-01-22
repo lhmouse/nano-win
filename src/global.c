@@ -443,10 +443,7 @@ size_t shown_entries_for(int menu)
 	return count;
 }
 
-/* Return the shortcut that corresponds to the values of kbinput (the
- * key itself) and meta_key (whether the key is a meta sequence).  The
- * returned shortcut will be the first in the list that corresponds to
- * the given sequence. */
+/* Return the first shortcut in the current menu that matches the given input. */
 const keystruct *get_shortcut(int *kbinput)
 {
 	/* Plain characters and upper control codes cannot be shortcuts. */
@@ -462,8 +459,7 @@ const keystruct *get_shortcut(int *kbinput)
 		return NULL;
 
 	for (keystruct *s = sclist; s != NULL; s = s->next) {
-		if ((s->menus & currmenu) && *kbinput == s->keycode &&
-										meta_key == s->meta)
+		if ((s->menus & currmenu) && *kbinput == s->keycode)
 			return s;
 	}
 
