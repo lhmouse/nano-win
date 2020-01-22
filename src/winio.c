@@ -1689,7 +1689,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 					const keystruct *shortcut = first_sc_for(currmenu, f->func);
 
 					put_back(shortcut->keycode);
-					if (shortcut->meta)
+					if (0x20 <= shortcut->keycode && shortcut->keycode <= 0x7E)
 						put_back(ESC_CODE);
 					break;
 				}

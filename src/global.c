@@ -419,7 +419,8 @@ int the_code_for(void (*func)(void), int defaultval)
 	if (s == NULL)
 		return defaultval;
 
-	meta_key = s->meta;
+	meta_key = (0x20 <= s->keycode && s->keycode <= 0x7E);
+
 	return s->keycode;
 }
 
