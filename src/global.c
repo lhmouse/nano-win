@@ -1408,9 +1408,10 @@ void shortcut_init(void)
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", KEY_F(12), do_spell, 0);
 #endif
-
+#ifndef NANO_TINY
 	/* Catch and ignore bracketed paste marker keys. */
 	add_to_sclist(MMOST|MHELP|MBROWSER|MYESNO, "", BRACKETED_PASTE_MARKER, do_nothing, 0);
+#endif
 }
 
 #ifndef NANO_TINY

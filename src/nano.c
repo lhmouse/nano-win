@@ -310,10 +310,10 @@ void restore_terminal(void)
 {
 	curs_set(1);
 	endwin();
-
+#ifndef NANO_TINY
 	printf("\e[?2004l");
 	fflush(stdout);
-
+#endif
 	tcsetattr(0, TCSANOW, &original_state);
 }
 
@@ -1447,6 +1447,7 @@ bool okay_for_view(const keystruct *shortcut)
 	return (item == NULL || item->viewok);
 }
 
+#ifndef NANO_TINY
 /* Read in all waiting input bytes and paste them into the buffer in one go. */
 void suck_up_input_and_paste_it(void)
 {
@@ -1480,6 +1481,7 @@ void suck_up_input_and_paste_it(void)
 
 	cutbuffer = was_cutbuffer;
 }
+#endif
 
 /* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;
  * otherwise, insert it into the edit buffer. */
@@ -1637,8 +1639,10 @@ void do_input(void)
 							shortcut->func == do_backspace))
 		update_line(openfile->current, openfile->current_x);
 
+#ifndef NANO_TINY
 	if (bracketed_paste)
 		suck_up_input_and_paste_it();
+#endif
 }
 
 /* The user typed output_len multibyte characters.  Add them to the edit
