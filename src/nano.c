@@ -1356,6 +1356,10 @@ void unbound_key(int code)
 	else if (meta_key) {
 		if (code == '[')
 			statusline(ALERT, _("Unbindable key: M-["));
+#ifndef NANO_TINY
+		else if (code < 0x20)
+			statusline(ALERT, _("Unbindable key: M-^%c"), code + 0x40);
+#endif
 		else
 			statusline(ALERT, _("Unbound key: M-%c"), toupper(code));
 	} else if (code == ESC_CODE)
