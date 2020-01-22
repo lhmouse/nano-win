@@ -449,9 +449,12 @@ size_t shown_entries_for(int menu)
  * the given sequence. */
 const keystruct *get_shortcut(int *kbinput)
 {
-	/* Plain characters cannot be shortcuts, so just skip those. */
-	if (!meta_key && ((*kbinput >= 0x20 && *kbinput < 0x7F) ||
-						(*kbinput >= 0xA0 && *kbinput <= 0xFF)))
+	/* Plain characters and upper control codes cannot be shortcuts. */
+	if (!meta_key && 0x20 <= *kbinput && *kbinput <= 0xFF)
+		return NULL;
+
+	/* Lower control codes with Meta cannot be shortcuts either. */
+	if (meta_key && *kbinput < 0x20)
 		return NULL;
 
 	/* During a paste at a prompt, ignore all command keycodes. */
