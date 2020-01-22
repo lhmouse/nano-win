@@ -304,11 +304,17 @@ void say_there_is_no_help(void)
 }
 #endif
 
-/* Tell the terminal to disable bracketed pastes. */
-void disable_bracketed_paste(void)
+/* Make sure the cursor is visible, then exit from curses mode, disable
+ * bracketed-paste mode, and restore the original terminal settings. */
+void restore_terminal(void)
 {
+	curs_set(1);
+	endwin();
+
 	printf("\e[?2004l");
 	fflush(stdout);
+
+	tcsetattr(0, TCSANOW, &original_state);
 }
 
 /* Exit normally: restore the terminal state and save history files. */
@@ -326,14 +332,8 @@ void finish(void)
 	delwin(edit);
 	delwin(bottomwin);
 #endif
-	/* Switch on the cursor and exit from curses mode. */
-	curs_set(1);
-	endwin();
-
-	disable_bracketed_paste();
-
-	/* Restore the old terminal settings. */
-	tcsetattr(0, TCSANOW, &original_state);
+	/* Switch the cursor on, exit from curses, and restore terminal settings. */
+	restore_terminal();
 
 #if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
 	display_rcfile_errors();
@@ -359,14 +359,7 @@ void die(const char *msg, ...)
 	va_list ap;
 	openfilestruct *firstone = openfile;
 
-	/* Switch on the cursor and leave curses mode. */
-	curs_set(1);
-	endwin();
-
-	disable_bracketed_paste();
-
-	/* Restore the old terminal settings. */
-	tcsetattr(0, TCSANOW, &original_state);
+	restore_terminal();
 
 #ifdef ENABLE_NANORC
 	display_rcfile_errors();
@@ -930,11 +923,7 @@ bool scoop_stdin(void)
 {
 	FILE *stream;
 
-	/* Exit from curses mode and put the terminal into its original state. */
-	endwin();
-	tcsetattr(0, TCSANOW, &original_state);
-
-	disable_bracketed_paste();
+	restore_terminal();
 
 	/* When input comes from a terminal, show a helpful message. */
 	if (isatty(STANDARD_INPUT))
@@ -1049,19 +1038,13 @@ RETSIGTYPE do_suspend(int signal)
 #ifdef ENABLE_MOUSE
 	disable_mouse_support();
 #endif
-	curs_set(1);
-	endwin();
-
-	disable_bracketed_paste();
+	restore_terminal();
 
 	printf("\n\n");
 
 	/* Display our helpful message. */
 	printf(_("Use \"fg\" to return to nano.\n"));
 	fflush(stdout);
-
-	/* Restore the old terminal settings. */
-	tcsetattr(0, TCSANOW, &original_state);
 
 	/* The suspend keystroke must not elicit cursor-position display. */
 	suppress_cursorpos=TRUE;
