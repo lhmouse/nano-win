@@ -40,8 +40,11 @@ bool meta_key;
 		/* Whether the current keystroke is a Meta key. */
 bool shift_held;
 		/* Whether Shift was being held together with a movement key. */
+bool mute_modifiers = FALSE;
+		/* Whether to ignore modifier keys while running a macro or string bind. */
 bool bracketed_paste = FALSE;
 		/* Whether text is being pasted into nano from outside. */
+
 bool focusing = TRUE;
 		/* Whether an update of the edit window should center the cursor. */
 

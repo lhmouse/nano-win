@@ -115,6 +115,8 @@ void run_macro(void)
 
 	for (i = 0; i < macro_length; i++)
 		key_buffer[i] = macro_buffer[i];
+
+	mute_modifiers = TRUE;
 }
 #endif /* !NANO_TINY */
 
@@ -284,6 +286,8 @@ void implant(const char *string)
 {
 	for (int i = strlen(string); i > 0; i--)
 		put_back((unsigned char)string[i - 1]);
+
+	mute_modifiers = TRUE;
 }
 #endif
 
@@ -586,7 +590,7 @@ int parse_kbinput(WINDOW *win)
 	unsigned char modifiers = 6;
 
 	/* Modifiers are: Alt (8), Ctrl (4), Shift (1). */
-	if (on_a_vt && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
+	if (on_a_vt && !mute_modifiers && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
 #ifndef NANO_TINY
 		/* Is Delete pressed together with Shift or Shift+Ctrl? */
 		if (retval == KEY_DC) {

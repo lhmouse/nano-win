@@ -2571,6 +2571,10 @@ int main(int argc, char **argv)
 #ifdef ENABLE_LINENUMBERS
 		confirm_margin();
 #endif
+#ifdef __linux__
+		if (on_a_vt && get_key_buffer_len() == 0)
+			mute_modifiers = FALSE;
+#endif
 		if (currmenu != MMAIN)
 			bottombars(MMAIN);
 

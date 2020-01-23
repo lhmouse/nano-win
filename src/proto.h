@@ -31,6 +31,7 @@ extern bool shifted_metas;
 
 extern bool meta_key;
 extern bool shift_held;
+extern bool mute_modifiers;
 extern bool bracketed_paste;
 
 extern bool focusing;
