@@ -1369,8 +1369,12 @@ void unbound_key(int code)
 			statusline(ALERT, _("Unbound key: M-%c"), toupper(code));
 	} else if (code == ESC_CODE)
 		statusline(ALERT, _("Unbindable key: ^["));
-	else
+	else if (code < 0x20)
 		statusline(ALERT, _("Unbound key: ^%c"), code + 0x40);
+#if defined(ENABLE_BROWSER) || defined (ENABLE_HELP)
+	else
+		statusline(ALERT, _("Unbound key: %c"), code);
+#endif
 }
 
 #ifdef ENABLE_MOUSE
