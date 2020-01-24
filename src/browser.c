@@ -145,7 +145,12 @@ char *do_browser(char *path)
 				continue;
 		}
 #endif /* ENABLE_MOUSE */
-
+#ifndef NANO_TINY
+		if (bracketed_paste || kbinput == BRACKETED_PASTE_MARKER) {
+			beep();
+			continue;
+		}
+#endif
 		func = parse_browser_input(&kbinput);
 
 		if (func == total_refresh) {

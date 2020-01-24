@@ -187,6 +187,12 @@ void show_help(void)
 		kbinput = get_kbinput(edit, didfind == 1 || ISSET(SHOW_CURSOR));
 		didfind = 0;
 
+#ifndef NANO_TINY
+		if (bracketed_paste || kbinput == BRACKETED_PASTE_MARKER) {
+			beep();
+			continue;
+		}
+#endif
 		func = parse_help_input(&kbinput);
 
 		if (func == total_refresh) {
