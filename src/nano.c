@@ -1302,10 +1302,11 @@ void terminal_init(void)
 	} else
 		tcsetattr(0, TCSANOW, &desired_state);
 #endif
-
+#ifndef NANO_TINY
 	/* Tell the terminal to enable bracketed pastes. */
 	printf("\e[?2004h");
 	fflush(stdout);
+#endif
 }
 
 /* Ask ncurses for a keycode, or assign a default one. */
