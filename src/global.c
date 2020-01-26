@@ -482,6 +482,48 @@ functionptrtype func_from_key(int *kbinput)
 		return NULL;
 }
 
+#if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
+/* Return the function that is bound to the given key in the file browser or
+ * the help viewer.  Accept also certain plain characters, for compatibility
+ * with Pico or to mimic 'less' and similar text viewers. */
+functionptrtype interpret(int *keycode)
+{
+	if (!meta_key) {
+		switch (*keycode) {
+			case '-':
+				return do_page_up;
+			case ' ':
+				return do_page_down;
+			case 'W':
+			case 'w':
+			case '/':
+				return do_search_forward;
+			case 'N':
+				return do_findprevious;
+			case 'n':
+				return do_findnext;
+			case 'G':
+			case 'g':
+				return goto_dir_void;
+			case '?':
+				return do_help;
+			case 'S':
+			case 's':
+				return do_enter;
+			case 'E':
+			case 'e':
+			case 'Q':
+			case 'q':
+			case 'X':
+			case 'x':
+				return do_exit;
+		}
+	}
+
+	return func_from_key(keycode);
+}
+#endif /* ENABLE_BROWSER || ENABLE_HELP */
+
 /* Parse the given keystring and return the corresponding keycode,
  * or return -1 when the string is invalid. */
 int keycode_from_string(const char *keystring)

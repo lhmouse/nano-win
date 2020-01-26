@@ -334,6 +334,9 @@ int the_code_for(void (*func)(void), int defaultval);
 size_t shown_entries_for(int menu);
 const keystruct *get_shortcut(int *kbinput);
 functionptrtype func_from_key(int *kbinput);
+#if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
+functionptrtype interpret(int *keycode);
+#endif
 int keycode_from_string(const char *keystring);
 void shortcut_init(void);
 const char *flagtostr(int flag);

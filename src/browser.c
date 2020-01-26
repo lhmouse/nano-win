@@ -151,7 +151,7 @@ char *do_browser(char *path)
 			continue;
 		}
 #endif
-		func = parse_browser_input(&kbinput);
+		func = interpret(&kbinput);
 
 		if (func == total_refresh) {
 			total_redraw();
@@ -451,44 +451,6 @@ void read_the_list(const char *path, DIR *dir)
 	 * spaces beyond the right edge, and adding two spaces of padding
 	 * between columns. */
 	width = (COLS + 2) / (longest + 2);
-}
-
-/* Return the function that is bound to the given key, accepting certain
- * plain characters too, for compatibility with Pico. */
-functionptrtype parse_browser_input(int *kbinput)
-{
-	if (!meta_key) {
-		switch (*kbinput) {
-			case '-':
-				return do_page_up;
-			case ' ':
-				return do_page_down;
-			case 'W':
-			case 'w':
-			case '/':
-				return do_search_forward;
-			case 'N':
-				return do_findprevious;
-			case 'n':
-				return do_findnext;
-			case 'G':
-			case 'g':
-				return goto_dir_void;
-			case '?':
-				return do_help;
-			case 'S':
-			case 's':
-				return do_enter;
-			case 'E':
-			case 'e':
-			case 'Q':
-			case 'q':
-			case 'X':
-			case 'x':
-				return do_exit;
-		}
-	}
-	return func_from_key(kbinput);
 }
 
 /* Set width to the number of files that we can display per screen row,

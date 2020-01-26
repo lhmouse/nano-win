@@ -193,7 +193,7 @@ void show_help(void)
 			continue;
 		}
 #endif
-		func = parse_help_input(&kbinput);
+		func = interpret(&kbinput);
 
 		if (func == total_refresh) {
 			total_redraw();
@@ -562,36 +562,6 @@ void help_init(void)
 		}
 	}
 #endif /* !NANO_TINY */
-}
-
-/* Return the function that is bound to the given key, accepting certain
- * plain characters too, for consistency with the file browser. */
-functionptrtype parse_help_input(int *kbinput)
-{
-	if (!meta_key) {
-		switch (*kbinput) {
-			case '-':
-				return do_page_up;
-			case ' ':
-				return do_page_down;
-			case 'W':
-			case 'w':
-			case '/':
-				return do_search_forward;
-			case 'N':
-				return do_findprevious;
-			case 'n':
-				return do_findnext;
-			case 'E':
-			case 'e':
-			case 'Q':
-			case 'q':
-			case 'X':
-			case 'x':
-				return do_exit;
-		}
-	}
-	return func_from_key(kbinput);
 }
 #endif /* ENABLE_HELP */
 
