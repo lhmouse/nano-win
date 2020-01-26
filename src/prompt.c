@@ -708,6 +708,12 @@ int do_yesno_prompt(bool all, const char *msg)
 		/* When not replacing, show the cursor while waiting for a key. */
 		kbinput = get_kbinput(bottomwin, !all);
 
+#ifndef NANO_TINY
+		/* Accept the first character of an external paste. */
+		if (bracketed_paste && kbinput == BRACKETED_PASTE_MARKER)
+			kbinput = get_kbinput(bottomwin, BLIND);
+#endif
+
 #ifdef ENABLE_NLS
 		letter[index++] = (unsigned char)kbinput;
 #ifdef ENABLE_UTF8
@@ -765,6 +771,12 @@ int do_yesno_prompt(bool all, const char *msg)
 #endif /* ENABLE_MOUSE */
 		else
 			beep();
+
+#ifndef NANO_TINY
+		/* Ignore the rest of an external paste. */
+		while (bracketed_paste)
+			kbinput = get_kbinput(bottomwin, BLIND);
+#endif
 	}
 
 	return choice;
