@@ -321,24 +321,6 @@ int *get_input(WINDOW *win, size_t input_len)
 	return input;
 }
 
-/* Read in a single keystroke, ignoring any that are invalid. */
-int get_kbinput(WINDOW *win, bool showcursor)
-{
-	int kbinput = ERR;
-
-	reveal_cursor = showcursor;
-
-	/* Extract one keystroke from the input stream. */
-	while (kbinput == ERR)
-		kbinput = parse_kbinput(win);
-
-	/* If we read from the edit window, blank the status bar if needed. */
-	if (win == edit)
-		check_statusblank();
-
-	return kbinput;
-}
-
 /* Extract a single keystroke from the input stream.  Translate escape
  * sequences and extended keypad codes into their corresponding values.
  * Set meta_key to TRUE when appropriate.  Supported extended keypad values
@@ -1332,6 +1314,24 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 	}
 
 	return retval;
+}
+
+/* Read in a single keystroke, ignoring any that are invalid. */
+int get_kbinput(WINDOW *win, bool showcursor)
+{
+	int kbinput = ERR;
+
+	reveal_cursor = showcursor;
+
+	/* Extract one keystroke from the input stream. */
+	while (kbinput == ERR)
+		kbinput = parse_kbinput(win);
+
+	/* If we read from the edit window, blank the status bar if needed. */
+	if (win == edit)
+		check_statusblank();
+
+	return kbinput;
 }
 
 /* Turn a three-digit decimal number (from 000 to 255) into its corresponding
