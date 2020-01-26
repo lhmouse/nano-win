@@ -615,7 +615,6 @@ size_t get_key_buffer_len(void);
 void implant(const char *string);
 #endif
 int parse_kbinput(WINDOW *win);
-int parse_escape_sequence(WINDOW *win, int kbinput);
 int get_kbinput(WINDOW *win, bool showcursor);
 int get_byte_kbinput(int kbinput);
 int get_control_kbinput(int kbinput);

@@ -321,446 +321,6 @@ int *get_input(WINDOW *win, size_t input_len)
 	return input;
 }
 
-/* Extract a single keystroke from the input stream.  Translate escape
- * sequences and extended keypad codes into their corresponding values.
- * Set meta_key to TRUE when appropriate.  Supported extended keypad values
- * are: [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace,
- * the editing keypad (Insert, Delete, Home, End, PageUp, and PageDown),
- * the function keys (F1-F16), and the numeric keypad with NumLock off. */
-int parse_kbinput(WINDOW *win)
-{
-	static int escapes = 0;
-	static bool double_esc = FALSE;
-	int *kbinput, keycode, retval = ERR;
-
-	meta_key = FALSE;
-	shift_held = FALSE;
-
-	/* Read in a character. */
-	kbinput = get_input(win, 1);
-
-	if (kbinput == NULL && !waiting_mode)
-		return ERR;
-
-	while (kbinput == NULL)
-		kbinput = get_input(win, 1);
-
-	keycode = *kbinput;
-	free(kbinput);
-
-	if (keycode == ERR)
-		return ERR;
-
-	if (keycode == ESC_CODE) {
-		/* Increment the escape counter, but trim an overabundance. */
-		escapes++;
-		if (escapes > 3)
-			escapes = 1;
-		/* Take note when an Esc arrived by itself. */
-		solitary = (key_buffer_len == 0);
-		return ERR;
-	}
-
-	switch (escapes) {
-		case 0:
-			/* One non-escape: normal input mode. */
-			retval = keycode;
-			break;
-		case 1:
-			if (keycode >= 0x80)
-				retval = keycode;
-			else if (keycode == TAB_CODE)
-				retval = SHIFT_TAB;
-			else if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
-						key_buffer_len == 0 || *key_buffer == ESC_CODE) {
-				/* One escape followed by a single non-escape:
-				 * meta key sequence mode. */
-				if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
-					meta_key = TRUE;
-				retval = (shifted_metas) ? keycode : tolower(keycode);
-			} else
-				/* One escape followed by a non-escape, and there
-				 * are more codes waiting: escape sequence mode. */
-				retval = parse_escape_sequence(win, keycode);
-			escapes = 0;
-			break;
-		case 2:
-			if (double_esc) {
-				/* An "ESC ESC [ X" sequence from Option+arrow, or
-				 * an "ESC ESC [ x" sequence from Shift+Alt+arrow. */
-				switch (keycode) {
-					case 'A':
-						retval = KEY_HOME;
-						break;
-					case 'B':
-						retval = KEY_END;
-						break;
-					case 'C':
-						retval = CONTROL_RIGHT;
-						break;
-					case 'D':
-						retval = CONTROL_LEFT;
-						break;
-#ifndef NANO_TINY
-					case 'a':
-						retval = shiftaltup;
-						break;
-					case 'b':
-						retval = shiftaltdown;
-						break;
-					case 'c':
-						retval = shiftaltright;
-						break;
-					case 'd':
-						retval = shiftaltleft;
-						break;
-#endif
-				}
-				double_esc = FALSE;
-				escapes = 0;
-			} else if (key_buffer_len == 0) {
-				if ('0' <= keycode && ((keycode <= '2' && digit_count == 0) ||
-										(keycode <= '9' && digit_count > 0))) {
-					/* Two escapes followed by one or more decimal
-					 * digits, and there aren't any other codes
-					 * waiting: byte sequence mode.  If the range of the
-					 * byte sequence is limited to 2XX, interpret it. */
-					int byte = get_byte_kbinput(keycode);
-
-					/* If the decimal byte value is complete, convert it and
-					 * put the obtained byte(s) back into the input buffer. */
-					if (byte != ERR) {
-						char *multibyte;
-						int count, onebyte, i;
-
-						/* Convert the decimal code to one or two bytes. */
-						multibyte = make_mbchar((long)byte, &count);
-
-						/* Insert the byte(s) into the input buffer. */
-						for (i = count; i > 0 ; i--) {
-							onebyte = (unsigned char)multibyte[i - 1];
-							put_back(onebyte);
-						}
-
-						free(multibyte);
-
-						escapes = 0;
-					}
-				} else {
-					if (digit_count == 0)
-						/* Two escapes followed by a non-digit: meta key
-						 * or control character sequence mode. */
-						if (!solitary) {
-							meta_key = TRUE;
-							retval = (shifted_metas) ? keycode : tolower(keycode);
-						} else
-							retval = get_control_kbinput(keycode);
-					else {
-						/* An invalid digit in the middle of a byte
-						 * sequence: reset the byte sequence counter
-						 * and save the code we got as the result. */
-						digit_count = 0;
-						retval = keycode;
-					}
-					escapes = 0;
-				}
-			} else if (keycode == '[' && key_buffer_len > 0 &&
-						(('A' <= *key_buffer && *key_buffer <= 'D') ||
-						('a' <= *key_buffer && *key_buffer <= 'd'))) {
-				/* An iTerm2/Eterm/rxvt sequence: ^[ ^[ [ X. */
-				double_esc = TRUE;
-			} else {
-				/* Two escapes followed by a non-escape, and there are more
-				 * codes waiting: combined meta and escape sequence mode. */
-				retval = parse_escape_sequence(win, keycode);
-				meta_key = TRUE;
-				escapes = 0;
-			}
-			break;
-		case 3:
-			if (key_buffer_len == 0) {
-				if (!solitary) {
-					meta_key = TRUE;
-					retval = (shifted_metas) ? keycode : tolower(keycode);
-				} else
-					/* Three escapes followed by a non-escape, and no
-					 * other codes are waiting: normal input mode. */
-					retval = keycode;
-			} else
-				/* Three escapes followed by a non-escape, and more
-				 * codes are waiting: combined control character and
-				 * escape sequence mode.  First interpret the escape
-				 * sequence, then the result as a control sequence. */
-				retval = get_control_kbinput(
-						parse_escape_sequence(win, keycode));
-			escapes = 0;
-			break;
-	}
-
-	if (retval == ERR)
-		return ERR;
-
-	if (retval == controlleft)
-		return CONTROL_LEFT;
-	else if (retval == controlright)
-		return CONTROL_RIGHT;
-	else if (retval == controlup)
-		return CONTROL_UP;
-	else if (retval == controldown)
-		return CONTROL_DOWN;
-	else if (retval == controlhome)
-		return CONTROL_HOME;
-	else if (retval == controlend)
-		return CONTROL_END;
-#ifndef NANO_TINY
-	else if (retval == controldelete)
-		return CONTROL_DELETE;
-	else if (retval == controlshiftdelete)
-		return CONTROL_SHIFT_DELETE;
-	else if (retval == shiftup) {
-		shift_held = TRUE;
-		return KEY_UP;
-	} else if (retval == shiftdown) {
-		shift_held = TRUE;
-		return KEY_DOWN;
-	} else if (retval == shiftcontrolleft) {
-		shift_held = TRUE;
-		return CONTROL_LEFT;
-	} else if (retval == shiftcontrolright) {
-		shift_held = TRUE;
-		return CONTROL_RIGHT;
-	} else if (retval == shiftcontrolup) {
-		shift_held = TRUE;
-		return CONTROL_UP;
-	} else if (retval == shiftcontroldown) {
-		shift_held = TRUE;
-		return CONTROL_DOWN;
-	} else if (retval == shiftcontrolhome) {
-		shift_held = TRUE;
-		return CONTROL_HOME;
-	} else if (retval == shiftcontrolend) {
-		shift_held = TRUE;
-		return CONTROL_END;
-	} else if (retval == altleft)
-		return ALT_LEFT;
-	else if (retval == altright)
-		return ALT_RIGHT;
-	else if (retval == altup)
-		return ALT_UP;
-	else if (retval == altdown)
-		return ALT_DOWN;
-	else if (retval == altdelete)
-		return ALT_DELETE;
-	else if (retval == shiftaltleft) {
-		shift_held = TRUE;
-		return KEY_HOME;
-	} else if (retval == shiftaltright) {
-		shift_held = TRUE;
-		return KEY_END;
-	} else if (retval == shiftaltup) {
-		shift_held = TRUE;
-		return KEY_PPAGE;
-	} else if (retval == shiftaltdown) {
-		shift_held = TRUE;
-		return KEY_NPAGE;
-	}
-#endif
-
-#ifdef __linux__
-	/* When not running under X, check for the bare arrow keys whether
-	 * Shift/Ctrl/Alt are being held together with them. */
-	unsigned char modifiers = 6;
-
-	/* Modifiers are: Alt (8), Ctrl (4), Shift (1). */
-	if (on_a_vt && !mute_modifiers && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
-#ifndef NANO_TINY
-		/* Is Delete pressed together with Shift or Shift+Ctrl? */
-		if (retval == KEY_DC) {
-			if (modifiers == 0x01)
-				return SHIFT_DELETE;
-			if (modifiers == 0x05)
-				return CONTROL_SHIFT_DELETE;
-		}
-		/* Is Shift being held? */
-		if (modifiers & 0x01) {
-			if (retval == TAB_CODE)
-				return SHIFT_TAB;
-			if (!meta_key)
-				shift_held = TRUE;
-		}
-		/* Is Alt being held? */
-		if (modifiers == 0x08) {
-			if (retval == KEY_DC)
-				return ALT_DELETE;
-			if (retval == KEY_UP)
-				return ALT_UP;
-			if (retval == KEY_DOWN)
-				return ALT_DOWN;
-		}
-#endif
-		/* Is Ctrl being held? */
-		if (modifiers & 0x04) {
-			if (retval == KEY_UP)
-				return CONTROL_UP;
-			else if (retval == KEY_DOWN)
-				return CONTROL_DOWN;
-			else if (retval == KEY_LEFT)
-				return CONTROL_LEFT;
-			else if (retval == KEY_RIGHT)
-				return CONTROL_RIGHT;
-			else if (retval == KEY_HOME)
-				return CONTROL_HOME;
-			else if (retval == KEY_END)
-				return CONTROL_END;
-			else if (retval == KEY_DC)
-				return CONTROL_DELETE;
-		}
-#ifndef NANO_TINY
-		/* Are both Shift and Alt being held? */
-		if ((modifiers & 0x09) == 0x09) {
-			if (retval == KEY_UP)
-				return KEY_PPAGE;
-			else if (retval == KEY_DOWN)
-				return KEY_NPAGE;
-			else if (retval == KEY_LEFT)
-				return KEY_HOME;
-			else if (retval == KEY_RIGHT)
-				return KEY_END;
-		}
-#endif
-	}
-#endif /* __linux__ */
-
-#ifndef NANO_TINY
-	/* When <Tab> is pressed while the mark is on, do an indent. */
-	if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN &&
-				!bracketed_paste && openfile->mark != openfile->current)
-		return INDENT_KEY;
-#endif
-
-	switch (retval) {
-#ifdef KEY_SLEFT  /* Slang doesn't support KEY_SLEFT. */
-		case KEY_SLEFT:
-			shift_held = TRUE;
-			return KEY_LEFT;
-#endif
-#ifdef KEY_SRIGHT  /* Slang doesn't support KEY_SRIGHT. */
-		case KEY_SRIGHT:
-			shift_held = TRUE;
-			return KEY_RIGHT;
-#endif
-#ifdef KEY_SR
-#ifdef KEY_SUP  /* ncurses and Slang don't support KEY_SUP. */
-		case KEY_SUP:
-#endif
-		case KEY_SR:    /* Scroll backward, on Xfce4-terminal. */
-			shift_held = TRUE;
-			return KEY_UP;
-#endif
-#ifdef KEY_SF
-#ifdef KEY_SDOWN  /* ncurses and Slang don't support KEY_SDOWN. */
-		case KEY_SDOWN:
-#endif
-		case KEY_SF:    /* Scroll forward, on Xfce4-terminal. */
-			shift_held = TRUE;
-			return KEY_DOWN;
-#endif
-#ifdef KEY_SHOME  /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
-		case KEY_SHOME:
-#endif
-		case SHIFT_HOME:
-			shift_held = TRUE;
-		case KEY_A1:    /* Home (7) on keypad with NumLock off. */
-			return KEY_HOME;
-#ifdef KEY_SEND  /* HP-UX 10-11 and Slang don't support KEY_SEND. */
-		case KEY_SEND:
-#endif
-		case SHIFT_END:
-			shift_held = TRUE;
-		case KEY_C1:    /* End (1) on keypad with NumLock off. */
-			return KEY_END;
-#ifdef KEY_EOL
-		case KEY_EOL:    /* Ctrl+End on rxvt-unicode. */
-			return CONTROL_END;
-#endif
-#ifndef NANO_TINY
-#ifdef KEY_SPREVIOUS
-		case KEY_SPREVIOUS:
-#endif
-		case SHIFT_PAGEUP:    /* Fake key, from Shift+Alt+Up. */
-			shift_held = TRUE;
-#endif
-		case KEY_A3:    /* PageUp (9) on keypad with NumLock off. */
-			return KEY_PPAGE;
-#ifndef NANO_TINY
-#ifdef KEY_SNEXT
-		case KEY_SNEXT:
-#endif
-		case SHIFT_PAGEDOWN:    /* Fake key, from Shift+Alt+Down. */
-			shift_held = TRUE;
-#endif
-		case KEY_C3:    /* PageDown (3) on keypad with NumLock off. */
-			return KEY_NPAGE;
-		/* When requested, swap meanings of keycodes for <Bsp> and <Del>. */
-		case DEL_CODE:
-		case KEY_BACKSPACE:
-			return (ISSET(REBIND_DELETE) ? KEY_DC : KEY_BACKSPACE);
-		case KEY_DC:
-			return (ISSET(REBIND_DELETE) ? KEY_BACKSPACE : KEY_DC);
-#ifdef KEY_SDC  /* Slang doesn't support KEY_SDC. */
-		case KEY_SDC:
-			return SHIFT_DELETE;
-#endif
-#ifdef KEY_SIC  /* Slang doesn't support KEY_SIC. */
-		case KEY_SIC:
-			return the_code_for(do_insertfile_void, KEY_IC);
-#endif
-#ifdef KEY_CANCEL  /* Slang doesn't support KEY_CANCEL. */
-#ifdef KEY_SCANCEL  /* Slang doesn't support KEY_SCANCEL. */
-		case KEY_SCANCEL:
-#endif
-		case KEY_CANCEL:
-			return the_code_for(do_cancel, 0x03);
-#endif
-#ifdef KEY_SUSPEND  /* Slang doesn't support KEY_SUSPEND. */
-#ifdef KEY_SSUSPEND  /* Slang doesn't support KEY_SSUSPEND. */
-		case KEY_SSUSPEND:
-#endif
-		case KEY_SUSPEND:
-			return the_code_for(do_suspend_void, KEY_SUSPEND);
-#endif
-#ifdef KEY_BTAB  /* Slang doesn't support KEY_BTAB. */
-		case KEY_BTAB:
-			return SHIFT_TAB;
-#endif
-#ifdef KEY_SBEG  /* Slang doesn't support KEY_SBEG. */
-		case KEY_SBEG:
-#endif
-#ifdef KEY_BEG  /* Slang doesn't support KEY_BEG. */
-		case KEY_BEG:
-#endif
-		case KEY_B2:    /* Center (5) on keypad with NumLock off. */
-#ifdef PDCURSES
-		case KEY_SHIFT_L:
-		case KEY_SHIFT_R:
-		case KEY_CONTROL_L:
-		case KEY_CONTROL_R:
-		case KEY_ALT_L:
-		case KEY_ALT_R:
-#endif
-#ifdef KEY_RESIZE  /* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
-		case KEY_RESIZE:
-#endif
-#if defined(USE_SLANG) && defined(ENABLE_UTF8)
-		case KEY_BAD:
-#endif
-		case KEY_FLUSH:
-			return ERR;    /* Ignore this keystroke. */
-	}
-
-	return retval;
-}
-
 /* Return the arrow-key code that corresponds to the given letter.
  * (This mapping is common to a handful of escape sequences.) */
 int arrow_from_ABCD(int letter)
@@ -1311,6 +871,446 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 #endif
 			curs_set(1);
 		}
+	}
+
+	return retval;
+}
+
+/* Extract a single keystroke from the input stream.  Translate escape
+ * sequences and extended keypad codes into their corresponding values.
+ * Set meta_key to TRUE when appropriate.  Supported extended keypad values
+ * are: [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace,
+ * the editing keypad (Insert, Delete, Home, End, PageUp, and PageDown),
+ * the function keys (F1-F16), and the numeric keypad with NumLock off. */
+int parse_kbinput(WINDOW *win)
+{
+	static int escapes = 0;
+	static bool double_esc = FALSE;
+	int *kbinput, keycode, retval = ERR;
+
+	meta_key = FALSE;
+	shift_held = FALSE;
+
+	/* Read in a character. */
+	kbinput = get_input(win, 1);
+
+	if (kbinput == NULL && !waiting_mode)
+		return ERR;
+
+	while (kbinput == NULL)
+		kbinput = get_input(win, 1);
+
+	keycode = *kbinput;
+	free(kbinput);
+
+	if (keycode == ERR)
+		return ERR;
+
+	if (keycode == ESC_CODE) {
+		/* Increment the escape counter, but trim an overabundance. */
+		escapes++;
+		if (escapes > 3)
+			escapes = 1;
+		/* Take note when an Esc arrived by itself. */
+		solitary = (key_buffer_len == 0);
+		return ERR;
+	}
+
+	switch (escapes) {
+		case 0:
+			/* One non-escape: normal input mode. */
+			retval = keycode;
+			break;
+		case 1:
+			if (keycode >= 0x80)
+				retval = keycode;
+			else if (keycode == TAB_CODE)
+				retval = SHIFT_TAB;
+			else if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
+						key_buffer_len == 0 || *key_buffer == ESC_CODE) {
+				/* One escape followed by a single non-escape:
+				 * meta key sequence mode. */
+				if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
+					meta_key = TRUE;
+				retval = (shifted_metas) ? keycode : tolower(keycode);
+			} else
+				/* One escape followed by a non-escape, and there
+				 * are more codes waiting: escape sequence mode. */
+				retval = parse_escape_sequence(win, keycode);
+			escapes = 0;
+			break;
+		case 2:
+			if (double_esc) {
+				/* An "ESC ESC [ X" sequence from Option+arrow, or
+				 * an "ESC ESC [ x" sequence from Shift+Alt+arrow. */
+				switch (keycode) {
+					case 'A':
+						retval = KEY_HOME;
+						break;
+					case 'B':
+						retval = KEY_END;
+						break;
+					case 'C':
+						retval = CONTROL_RIGHT;
+						break;
+					case 'D':
+						retval = CONTROL_LEFT;
+						break;
+#ifndef NANO_TINY
+					case 'a':
+						retval = shiftaltup;
+						break;
+					case 'b':
+						retval = shiftaltdown;
+						break;
+					case 'c':
+						retval = shiftaltright;
+						break;
+					case 'd':
+						retval = shiftaltleft;
+						break;
+#endif
+				}
+				double_esc = FALSE;
+				escapes = 0;
+			} else if (key_buffer_len == 0) {
+				if ('0' <= keycode && ((keycode <= '2' && digit_count == 0) ||
+										(keycode <= '9' && digit_count > 0))) {
+					/* Two escapes followed by one or more decimal
+					 * digits, and there aren't any other codes
+					 * waiting: byte sequence mode.  If the range of the
+					 * byte sequence is limited to 2XX, interpret it. */
+					int byte = get_byte_kbinput(keycode);
+
+					/* If the decimal byte value is complete, convert it and
+					 * put the obtained byte(s) back into the input buffer. */
+					if (byte != ERR) {
+						char *multibyte;
+						int count, onebyte, i;
+
+						/* Convert the decimal code to one or two bytes. */
+						multibyte = make_mbchar((long)byte, &count);
+
+						/* Insert the byte(s) into the input buffer. */
+						for (i = count; i > 0 ; i--) {
+							onebyte = (unsigned char)multibyte[i - 1];
+							put_back(onebyte);
+						}
+
+						free(multibyte);
+
+						escapes = 0;
+					}
+				} else {
+					if (digit_count == 0)
+						/* Two escapes followed by a non-digit: meta key
+						 * or control character sequence mode. */
+						if (!solitary) {
+							meta_key = TRUE;
+							retval = (shifted_metas) ? keycode : tolower(keycode);
+						} else
+							retval = get_control_kbinput(keycode);
+					else {
+						/* An invalid digit in the middle of a byte
+						 * sequence: reset the byte sequence counter
+						 * and save the code we got as the result. */
+						digit_count = 0;
+						retval = keycode;
+					}
+					escapes = 0;
+				}
+			} else if (keycode == '[' && key_buffer_len > 0 &&
+						(('A' <= *key_buffer && *key_buffer <= 'D') ||
+						('a' <= *key_buffer && *key_buffer <= 'd'))) {
+				/* An iTerm2/Eterm/rxvt sequence: ^[ ^[ [ X. */
+				double_esc = TRUE;
+			} else {
+				/* Two escapes followed by a non-escape, and there are more
+				 * codes waiting: combined meta and escape sequence mode. */
+				retval = parse_escape_sequence(win, keycode);
+				meta_key = TRUE;
+				escapes = 0;
+			}
+			break;
+		case 3:
+			if (key_buffer_len == 0) {
+				if (!solitary) {
+					meta_key = TRUE;
+					retval = (shifted_metas) ? keycode : tolower(keycode);
+				} else
+					/* Three escapes followed by a non-escape, and no
+					 * other codes are waiting: normal input mode. */
+					retval = keycode;
+			} else
+				/* Three escapes followed by a non-escape, and more
+				 * codes are waiting: combined control character and
+				 * escape sequence mode.  First interpret the escape
+				 * sequence, then the result as a control sequence. */
+				retval = get_control_kbinput(
+						parse_escape_sequence(win, keycode));
+			escapes = 0;
+			break;
+	}
+
+	if (retval == ERR)
+		return ERR;
+
+	if (retval == controlleft)
+		return CONTROL_LEFT;
+	else if (retval == controlright)
+		return CONTROL_RIGHT;
+	else if (retval == controlup)
+		return CONTROL_UP;
+	else if (retval == controldown)
+		return CONTROL_DOWN;
+	else if (retval == controlhome)
+		return CONTROL_HOME;
+	else if (retval == controlend)
+		return CONTROL_END;
+#ifndef NANO_TINY
+	else if (retval == controldelete)
+		return CONTROL_DELETE;
+	else if (retval == controlshiftdelete)
+		return CONTROL_SHIFT_DELETE;
+	else if (retval == shiftup) {
+		shift_held = TRUE;
+		return KEY_UP;
+	} else if (retval == shiftdown) {
+		shift_held = TRUE;
+		return KEY_DOWN;
+	} else if (retval == shiftcontrolleft) {
+		shift_held = TRUE;
+		return CONTROL_LEFT;
+	} else if (retval == shiftcontrolright) {
+		shift_held = TRUE;
+		return CONTROL_RIGHT;
+	} else if (retval == shiftcontrolup) {
+		shift_held = TRUE;
+		return CONTROL_UP;
+	} else if (retval == shiftcontroldown) {
+		shift_held = TRUE;
+		return CONTROL_DOWN;
+	} else if (retval == shiftcontrolhome) {
+		shift_held = TRUE;
+		return CONTROL_HOME;
+	} else if (retval == shiftcontrolend) {
+		shift_held = TRUE;
+		return CONTROL_END;
+	} else if (retval == altleft)
+		return ALT_LEFT;
+	else if (retval == altright)
+		return ALT_RIGHT;
+	else if (retval == altup)
+		return ALT_UP;
+	else if (retval == altdown)
+		return ALT_DOWN;
+	else if (retval == altdelete)
+		return ALT_DELETE;
+	else if (retval == shiftaltleft) {
+		shift_held = TRUE;
+		return KEY_HOME;
+	} else if (retval == shiftaltright) {
+		shift_held = TRUE;
+		return KEY_END;
+	} else if (retval == shiftaltup) {
+		shift_held = TRUE;
+		return KEY_PPAGE;
+	} else if (retval == shiftaltdown) {
+		shift_held = TRUE;
+		return KEY_NPAGE;
+	}
+#endif
+
+#ifdef __linux__
+	/* When not running under X, check for the bare arrow keys whether
+	 * Shift/Ctrl/Alt are being held together with them. */
+	unsigned char modifiers = 6;
+
+	/* Modifiers are: Alt (8), Ctrl (4), Shift (1). */
+	if (on_a_vt && !mute_modifiers && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
+#ifndef NANO_TINY
+		/* Is Delete pressed together with Shift or Shift+Ctrl? */
+		if (retval == KEY_DC) {
+			if (modifiers == 0x01)
+				return SHIFT_DELETE;
+			if (modifiers == 0x05)
+				return CONTROL_SHIFT_DELETE;
+		}
+		/* Is Shift being held? */
+		if (modifiers & 0x01) {
+			if (retval == TAB_CODE)
+				return SHIFT_TAB;
+			if (!meta_key)
+				shift_held = TRUE;
+		}
+		/* Is Alt being held? */
+		if (modifiers == 0x08) {
+			if (retval == KEY_DC)
+				return ALT_DELETE;
+			if (retval == KEY_UP)
+				return ALT_UP;
+			if (retval == KEY_DOWN)
+				return ALT_DOWN;
+		}
+#endif
+		/* Is Ctrl being held? */
+		if (modifiers & 0x04) {
+			if (retval == KEY_UP)
+				return CONTROL_UP;
+			else if (retval == KEY_DOWN)
+				return CONTROL_DOWN;
+			else if (retval == KEY_LEFT)
+				return CONTROL_LEFT;
+			else if (retval == KEY_RIGHT)
+				return CONTROL_RIGHT;
+			else if (retval == KEY_HOME)
+				return CONTROL_HOME;
+			else if (retval == KEY_END)
+				return CONTROL_END;
+			else if (retval == KEY_DC)
+				return CONTROL_DELETE;
+		}
+#ifndef NANO_TINY
+		/* Are both Shift and Alt being held? */
+		if ((modifiers & 0x09) == 0x09) {
+			if (retval == KEY_UP)
+				return KEY_PPAGE;
+			else if (retval == KEY_DOWN)
+				return KEY_NPAGE;
+			else if (retval == KEY_LEFT)
+				return KEY_HOME;
+			else if (retval == KEY_RIGHT)
+				return KEY_END;
+		}
+#endif
+	}
+#endif /* __linux__ */
+
+#ifndef NANO_TINY
+	/* When <Tab> is pressed while the mark is on, do an indent. */
+	if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN &&
+				!bracketed_paste && openfile->mark != openfile->current)
+		return INDENT_KEY;
+#endif
+
+	switch (retval) {
+#ifdef KEY_SLEFT  /* Slang doesn't support KEY_SLEFT. */
+		case KEY_SLEFT:
+			shift_held = TRUE;
+			return KEY_LEFT;
+#endif
+#ifdef KEY_SRIGHT  /* Slang doesn't support KEY_SRIGHT. */
+		case KEY_SRIGHT:
+			shift_held = TRUE;
+			return KEY_RIGHT;
+#endif
+#ifdef KEY_SR
+#ifdef KEY_SUP  /* ncurses and Slang don't support KEY_SUP. */
+		case KEY_SUP:
+#endif
+		case KEY_SR:    /* Scroll backward, on Xfce4-terminal. */
+			shift_held = TRUE;
+			return KEY_UP;
+#endif
+#ifdef KEY_SF
+#ifdef KEY_SDOWN  /* ncurses and Slang don't support KEY_SDOWN. */
+		case KEY_SDOWN:
+#endif
+		case KEY_SF:    /* Scroll forward, on Xfce4-terminal. */
+			shift_held = TRUE;
+			return KEY_DOWN;
+#endif
+#ifdef KEY_SHOME  /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
+		case KEY_SHOME:
+#endif
+		case SHIFT_HOME:
+			shift_held = TRUE;
+		case KEY_A1:    /* Home (7) on keypad with NumLock off. */
+			return KEY_HOME;
+#ifdef KEY_SEND  /* HP-UX 10-11 and Slang don't support KEY_SEND. */
+		case KEY_SEND:
+#endif
+		case SHIFT_END:
+			shift_held = TRUE;
+		case KEY_C1:    /* End (1) on keypad with NumLock off. */
+			return KEY_END;
+#ifdef KEY_EOL
+		case KEY_EOL:    /* Ctrl+End on rxvt-unicode. */
+			return CONTROL_END;
+#endif
+#ifndef NANO_TINY
+#ifdef KEY_SPREVIOUS
+		case KEY_SPREVIOUS:
+#endif
+		case SHIFT_PAGEUP:    /* Fake key, from Shift+Alt+Up. */
+			shift_held = TRUE;
+#endif
+		case KEY_A3:    /* PageUp (9) on keypad with NumLock off. */
+			return KEY_PPAGE;
+#ifndef NANO_TINY
+#ifdef KEY_SNEXT
+		case KEY_SNEXT:
+#endif
+		case SHIFT_PAGEDOWN:    /* Fake key, from Shift+Alt+Down. */
+			shift_held = TRUE;
+#endif
+		case KEY_C3:    /* PageDown (3) on keypad with NumLock off. */
+			return KEY_NPAGE;
+		/* When requested, swap meanings of keycodes for <Bsp> and <Del>. */
+		case DEL_CODE:
+		case KEY_BACKSPACE:
+			return (ISSET(REBIND_DELETE) ? KEY_DC : KEY_BACKSPACE);
+		case KEY_DC:
+			return (ISSET(REBIND_DELETE) ? KEY_BACKSPACE : KEY_DC);
+#ifdef KEY_SDC  /* Slang doesn't support KEY_SDC. */
+		case KEY_SDC:
+			return SHIFT_DELETE;
+#endif
+#ifdef KEY_SIC  /* Slang doesn't support KEY_SIC. */
+		case KEY_SIC:
+			return the_code_for(do_insertfile_void, KEY_IC);
+#endif
+#ifdef KEY_CANCEL  /* Slang doesn't support KEY_CANCEL. */
+#ifdef KEY_SCANCEL  /* Slang doesn't support KEY_SCANCEL. */
+		case KEY_SCANCEL:
+#endif
+		case KEY_CANCEL:
+			return the_code_for(do_cancel, 0x03);
+#endif
+#ifdef KEY_SUSPEND  /* Slang doesn't support KEY_SUSPEND. */
+#ifdef KEY_SSUSPEND  /* Slang doesn't support KEY_SSUSPEND. */
+		case KEY_SSUSPEND:
+#endif
+		case KEY_SUSPEND:
+			return the_code_for(do_suspend_void, KEY_SUSPEND);
+#endif
+#ifdef KEY_BTAB  /* Slang doesn't support KEY_BTAB. */
+		case KEY_BTAB:
+			return SHIFT_TAB;
+#endif
+#ifdef KEY_SBEG  /* Slang doesn't support KEY_SBEG. */
+		case KEY_SBEG:
+#endif
+#ifdef KEY_BEG  /* Slang doesn't support KEY_BEG. */
+		case KEY_BEG:
+#endif
+		case KEY_B2:    /* Center (5) on keypad with NumLock off. */
+#ifdef PDCURSES
+		case KEY_SHIFT_L:
+		case KEY_SHIFT_R:
+		case KEY_CONTROL_L:
+		case KEY_CONTROL_R:
+		case KEY_ALT_L:
+		case KEY_ALT_R:
+#endif
+#ifdef KEY_RESIZE  /* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
+		case KEY_RESIZE:
+#endif
+#if defined(USE_SLANG) && defined(ENABLE_UTF8)
+		case KEY_BAD:
+#endif
+		case KEY_FLUSH:
+			return ERR;    /* Ignore this keystroke. */
 	}
 
 	return retval;
