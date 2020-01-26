@@ -53,6 +53,8 @@ static int statusblank = 0;
 static bool seen_wide = FALSE;
 		/* Whether we've seen a multicolumn character in the current line. */
 #endif
+static bool has_more = FALSE;
+		/* Whether the current line has more text after the displayed part. */
 static bool reveal_cursor = FALSE;
 		/* Whether the cursor should be shown when waiting for input. */
 #ifndef NANO_TINY
@@ -1977,7 +1979,9 @@ char *display_string(const char *buf, size_t column, size_t span,
 #else
 		index--;
 #endif
-	}
+		has_more = TRUE;
+	} else
+		has_more = FALSE;
 
 	is_shorter = (column < beyond);
 
@@ -2769,7 +2773,7 @@ int update_line(linestruct *line, size_t index)
 		mvwaddch(edit, row, margin, '<');
 		wattroff(edit, hilite_attribute);
 	}
-	if (breadth(line->data) > from_col + editwincols) {
+	if (has_more) {
 		wattron(edit, hilite_attribute);
 		mvwaddch(edit, row, COLS - 1, '>');
 		wattroff(edit, hilite_attribute);
