@@ -489,32 +489,27 @@ functionptrtype func_from_key(int *kbinput)
 functionptrtype interpret(int *keycode)
 {
 	if (!meta_key) {
-		switch (*keycode) {
+		if (*keycode == 'N')
+			return do_findprevious;
+		if (*keycode == 'n')
+			return do_findnext;
+
+		switch (tolower(*keycode)) {
 			case '-':
 				return do_page_up;
 			case ' ':
 				return do_page_down;
-			case 'W':
 			case 'w':
 			case '/':
 				return do_search_forward;
-			case 'N':
-				return do_findprevious;
-			case 'n':
-				return do_findnext;
-			case 'G':
 			case 'g':
 				return goto_dir_void;
 			case '?':
 				return do_help;
-			case 'S':
 			case 's':
 				return do_enter;
-			case 'E':
 			case 'e':
-			case 'Q':
 			case 'q':
-			case 'X':
 			case 'x':
 				return do_exit;
 		}
