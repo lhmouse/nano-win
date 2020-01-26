@@ -422,9 +422,9 @@ keystruct *strtosc(const char *input)
 #ifdef ENABLE_BROWSER
 	else if (!strcmp(input, "tofiles") ||
 			 !strcmp(input, "browser"))
-		s->func = to_files_void;
+		s->func = to_files;
 	else if (!strcmp(input, "gotodir"))
-		s->func = goto_dir_void;
+		s->func = goto_dir;
 	else if (!strcmp(input, "firstfile"))
 		s->func = to_first_file;
 	else if (!strcmp(input, "lastfile"))

@@ -1127,7 +1127,7 @@ void do_insertfile(void)
 			}
 #endif
 #ifdef ENABLE_BROWSER
-			if (func == to_files_void) {
+			if (func == to_files) {
 				char *chosen = do_browse_from(answer);
 
 				/* If no file was chosen, go back to the prompt. */
@@ -2061,7 +2061,7 @@ int do_writeout(bool exiting, bool withprompt)
 		given = mallocstrcpy(given, answer);
 
 #ifdef ENABLE_BROWSER
-		if (func == to_files_void) {
+		if (func == to_files) {
 			char *chosen = do_browse_from(answer);
 
 			if (chosen == NULL)

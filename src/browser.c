@@ -225,7 +225,7 @@ char *do_browser(char *path)
 			selected = 0;
 		} else if (func == to_last_file) {
 			selected = filelist_len - 1;
-		} else if (func == goto_dir_void) {
+		} else if (func == goto_dir) {
 			/* Ask for the directory to go to. */
 			if (do_prompt(TRUE, FALSE, MGOTODIR, "", NULL,
 							/* TRANSLATORS: This is a prompt. */

@@ -293,10 +293,10 @@ void flip_goto(void)
 {
 }
 #ifdef ENABLE_BROWSER
-void to_files_void(void)
+void to_files(void)
 {
 }
-void goto_dir_void(void)
+void goto_dir(void)
 {
 }
 #endif
@@ -503,7 +503,7 @@ functionptrtype interpret(int *keycode)
 			case '/':
 				return do_search_forward;
 			case 'g':
-				return goto_dir_void;
+				return goto_dir;
 			case '?':
 				return do_help;
 			case 's':
@@ -863,7 +863,7 @@ void shortcut_init(void)
 #endif
 
 #ifdef ENABLE_BROWSER
-	add_to_funcs(goto_dir_void, MBROWSER,
+	add_to_funcs(goto_dir, MBROWSER,
 		/* TRANSLATORS: Try to keep the next seven strings at most 10 characters. */
 		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
 
@@ -1102,7 +1102,7 @@ void shortcut_init(void)
 #ifdef ENABLE_BROWSER
 	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
-		add_to_funcs(to_files_void, MWRITEFILE|MINSERTFILE,
+		add_to_funcs(to_files, MWRITEFILE|MINSERTFILE,
 			N_("To Files"), WITHORSANS(tofiles_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_page_up, MBROWSER,
@@ -1387,8 +1387,8 @@ void shortcut_init(void)
 	add_to_sclist(MBROWSER, "End", KEY_END, to_last_file, 0);
 	add_to_sclist(MBROWSER, "^Home", CONTROL_HOME, to_first_file, 0);
 	add_to_sclist(MBROWSER, "^End", CONTROL_END, to_last_file, 0);
-	add_to_sclist(MBROWSER, "^_", 0, goto_dir_void, 0);
-	add_to_sclist(MBROWSER, "M-G", 0, goto_dir_void, 0);
+	add_to_sclist(MBROWSER, "^_", 0, goto_dir, 0);
+	add_to_sclist(MBROWSER, "M-G", 0, goto_dir, 0);
 #endif
 	if (ISSET(TEMP_FILE) && !ISSET(PRESERVE))
 		add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
@@ -1417,7 +1417,7 @@ void shortcut_init(void)
 #ifdef ENABLE_BROWSER
 	/* Only when not in restricted mode, allow entering the file browser. */
 	if (!ISSET(RESTRICTED))
-		add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", 0, to_files_void, 0);
+		add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", 0, to_files, 0);
 #endif
 	add_to_sclist(MHELP|MBROWSER, "^C", 0, do_exit, 0);
 	/* Allow exiting from the file browser and the help viewer with

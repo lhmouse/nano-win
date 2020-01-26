@@ -681,8 +681,8 @@ void backwards_void(void);
 void flip_replace(void);
 void flip_goto(void);
 #ifdef ENABLE_BROWSER
-void to_files_void(void);
-void goto_dir_void(void);
+void to_files(void);
+void goto_dir(void);
 #endif
 #ifndef NANO_TINY
 void do_toggle_void(void);
