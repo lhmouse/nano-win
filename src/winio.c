@@ -2331,7 +2331,7 @@ void post_one_key(const char *keystroke, const char *tag, int width)
 void place_the_cursor(void)
 {
 	ssize_t row = 0;
-	size_t col, xpt = xplustabs();
+	size_t column = xplustabs();
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
@@ -2347,17 +2347,17 @@ void place_the_cursor(void)
 		}
 
 		/* Add the number of wraps in the current line before the cursor. */
-		row += get_chunk_and_edge(xpt, openfile->current, &leftedge);
-		col = xpt - leftedge;
+		row += get_chunk_and_edge(column, openfile->current, &leftedge);
+		column -= leftedge;
 	} else
 #endif
 	{
 		row = openfile->current->lineno - openfile->edittop->lineno;
-		col = xpt - get_page_start(xpt);
+		column -= get_page_start(column);
 	}
 
 	if (row < editwinrows)
-		wmove(edit, row, margin + col);
+		wmove(edit, row, margin + column);
 
 	openfile->current_y = row;
 }
