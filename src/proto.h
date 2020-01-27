@@ -55,8 +55,6 @@ extern bool more_than_one;
 
 extern bool also_the_last;
 
-extern bool is_shorter;
-
 extern int didfind;
 
 extern int controlleft, controlright;

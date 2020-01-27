@@ -47,6 +47,8 @@ static int digit_count = 0;
 		/* How many digits of a three-digit character code we've eaten. */
 static bool waiting_mode = TRUE;
 		/* Whether getting a character will wait for a key to be pressed. */
+static bool reveal_cursor = FALSE;
+		/* Whether the cursor should be shown when waiting for input. */
 static int statusblank = 0;
 		/* The number of keystrokes left before we blank the status bar. */
 #ifdef USING_OLD_NCURSES
@@ -55,8 +57,8 @@ static bool seen_wide = FALSE;
 #endif
 static bool has_more = FALSE;
 		/* Whether the current line has more text after the displayed part. */
-static bool reveal_cursor = FALSE;
-		/* Whether the cursor should be shown when waiting for input. */
+static bool is_shorter = TRUE;
+		/* Whether a row's text is narrower than the screen's width. */
 #ifndef NANO_TINY
 static bool recording = FALSE;
 		/* Whether we are in the process of recording a macro. */
