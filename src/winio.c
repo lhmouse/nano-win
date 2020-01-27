@@ -60,6 +60,8 @@ static bool has_more = FALSE;
 static bool is_shorter = TRUE;
 		/* Whether a row's text is narrower than the screen's width. */
 #ifndef NANO_TINY
+static size_t sequel_column = 0;
+		/* The starting column of the next chunk when softwrapping. */
 static bool recording = FALSE;
 		/* Whether we are in the process of recording a macro. */
 static int *macro_buffer = NULL;
@@ -2670,7 +2672,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 
 #ifndef NANO_TINY
 	if (stripe_column > from_col && !inhelp &&
-						stripe_column <= from_col + editwincols) {
+					(sequel_column == 0 || stripe_column <= sequel_column) &&
+					stripe_column <= from_col + editwincols) {
 		ssize_t target_column = stripe_column - from_col - 1;
 		size_t target_x = actual_x(converted, target_column);
 		char striped_char[MAXCHARLEN];
@@ -2830,6 +2833,8 @@ int update_softwrapped_line(linestruct *line)
 		bool end_of_line = FALSE;
 
 		to_col = get_softwrap_breakpoint(line->data, from_col, &end_of_line);
+
+		sequel_column = (end_of_line) ? 0 : to_col;
 
 		/* Convert the chunk to its displayable form and draw it. */
 		converted = display_string(line->data, from_col, to_col - from_col,
