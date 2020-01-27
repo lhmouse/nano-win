@@ -2358,6 +2358,10 @@ void place_the_cursor(void)
 
 	if (row < editwinrows)
 		wmove(edit, row, margin + column);
+#ifndef NANO_TINY
+	else
+		statusline(ALERT, "Misplaced cursor -- please report a bug");
+#endif
 
 	openfile->current_y = row;
 }
