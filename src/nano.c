@@ -1289,7 +1289,6 @@ void terminal_init(void)
 		nonl();
 		noecho();
 		disable_extended_io();
-		disable_kb_interrupt();
 
 		if (ISSET(PRESERVE))
 			enable_flow_control();
@@ -1301,7 +1300,11 @@ void terminal_init(void)
 		have_new_state = TRUE;
 	} else
 		tcsetattr(0, TCSANOW, &desired_state);
+
+	SLang_init_tty(-1, 0, 0);
 #endif
+	disable_kb_interrupt();
+
 #ifndef NANO_TINY
 	/* Tell the terminal to enable bracketed pastes. */
 	printf("\e[?2004h");
