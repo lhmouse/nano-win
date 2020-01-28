@@ -629,9 +629,8 @@ void usage(void)
 	print_opt(_("-f <file>"), _("--rcfile=<file>"),
 					N_("Use only this file for configuring nano"));
 #endif
-#ifdef ENABLE_BROWSER
-	if (!ISSET(RESTRICTED))
-		print_opt("-g", "--showcursor", N_("Show cursor in file browser & help text"));
+#if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
+	print_opt("-g", "--showcursor", N_("Show cursor in file browser & help text"));
 #endif
 	print_opt("-h", "--help", N_("Show this help text and exit"));
 #ifndef NANO_TINY
