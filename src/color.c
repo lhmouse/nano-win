@@ -67,7 +67,6 @@ void set_colorpairs(void)
 {
 	syntaxtype *sint;
 	bool using_defaults = FALSE;
-	size_t i;
 
 	/* Tell ncurses to enable colors. */
 	start_color();
@@ -78,30 +77,31 @@ void set_colorpairs(void)
 #endif
 
 	/* Initialize the color pairs for nano's interface elements. */
-	for (i = 0; i < NUMBER_OF_ELEMENTS; i++) {
-		colortype *combo = color_combo[i];
+	for (size_t index = 0; index < NUMBER_OF_ELEMENTS; index++) {
+		colortype *combo = color_combo[index];
 
 		if (combo != NULL) {
 			if (combo->fg == USE_THE_DEFAULT && !using_defaults)
 				combo->fg = COLOR_WHITE;
 			if (combo->bg == USE_THE_DEFAULT && !using_defaults)
 				combo->bg = COLOR_BLACK;
-			init_pair(i + 1, combo->fg, combo->bg);
-			interface_color_pair[i] = COLOR_PAIR(i + 1) | A_BANDAID |
-										combo->attributes;
+			init_pair(index + 1, combo->fg, combo->bg);
+			interface_color_pair[index] = COLOR_PAIR(index + 1) | A_BANDAID |
+												combo->attributes;
 		} else {
-			if (i == FUNCTION_TAG)
-				interface_color_pair[i] = A_NORMAL;
-			else if (i == GUIDE_STRIPE)
-				interface_color_pair[i] = A_REVERSE;
-			else if (i == ERROR_MESSAGE) {
-				init_pair(i + 1, COLOR_WHITE, COLOR_RED);
-				interface_color_pair[i] = COLOR_PAIR(i + 1) | A_BOLD | A_BANDAID;
+			if (index == FUNCTION_TAG)
+				interface_color_pair[index] = A_NORMAL;
+			else if (index == GUIDE_STRIPE)
+				interface_color_pair[index] = A_REVERSE;
+			else if (index == ERROR_MESSAGE) {
+				init_pair(index + 1, COLOR_WHITE, COLOR_RED);
+				interface_color_pair[index] = COLOR_PAIR(index + 1) |
+												A_BOLD | A_BANDAID;
 			} else
-				interface_color_pair[i] = hilite_attribute;
+				interface_color_pair[index] = hilite_attribute;
 		}
 
-		free(color_combo[i]);
+		free(color_combo[index]);
 	}
 
 	/* For each loaded syntax, assign pair numbers to color combinations. */

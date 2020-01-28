@@ -457,7 +457,6 @@ void read_the_list(const char *path, DIR *dir)
  * if necessary, and display the list of files. */
 void browser_refresh(void)
 {
-	size_t i;
 	int row = 0, col = 0;
 		/* The current row and column while the list is getting displayed. */
 	int the_row = 0, the_column = 0;
@@ -470,11 +469,10 @@ void browser_refresh(void)
 
 	wmove(edit, 0, 0);
 
-	i = selected - selected % (editwinrows * width);
-
-	for (; i < filelist_len && row < editwinrows; i++) {
+	for (size_t index = selected - selected % (editwinrows * width);
+					index < filelist_len && row < editwinrows; index++) {
 		struct stat st;
-		const char *thename = tail(filelist[i]);
+		const char *thename = tail(filelist[index]);
 				/* The filename we display, minus the path. */
 		size_t namelen = breadth(thename);
 				/* The length of the filename in columns. */
@@ -493,7 +491,7 @@ void browser_refresh(void)
 
 		/* If this is the selected item, draw its highlighted bar upfront, and
 		 * remember its location to be able to place the cursor on it. */
-		if (i == selected) {
+		if (index == selected) {
 			wattron(edit, interface_color_pair[SELECTED_TEXT]);
 			mvwprintw(edit, row, col, "%*s", longest, " ");
 			the_row = row;
@@ -512,8 +510,8 @@ void browser_refresh(void)
 		/* Show information about the file: "--" for symlinks (except when
 		 * they point to a directory) and for files that have disappeared,
 		 * "(dir)" for directories, and the file size for normal files. */
-		if (lstat(filelist[i], &st) == -1 || S_ISLNK(st.st_mode)) {
-			if (stat(filelist[i], &st) == -1 || !S_ISDIR(st.st_mode))
+		if (lstat(filelist[index], &st) == -1 || S_ISLNK(st.st_mode)) {
+			if (stat(filelist[index], &st) == -1 || !S_ISDIR(st.st_mode))
 				info = copy_of("--");
 			else
 				/* TRANSLATORS: Try to keep this at most 7 characters. */
@@ -564,7 +562,7 @@ void browser_refresh(void)
 		mvwaddstr(edit, row, col - infolen, info);
 
 		/* If this is the selected item, finish its highlighting. */
-		if (i == selected)
+		if (index == selected)
 			wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 		free(info);

@@ -103,8 +103,6 @@ void record_macro(void)
  * so they will be "executed" again. */
 void run_macro(void)
 {
-	size_t i;
-
 	if (recording) {
 		statusbar(_("Cannot run macro while recording"));
 		snip_last_keystroke();
@@ -119,7 +117,7 @@ void run_macro(void)
 	key_buffer = (int *)nrealloc(key_buffer, macro_length * sizeof(int));
 	key_buffer_len = macro_length;
 
-	for (i = 0; i < macro_length; i++)
+	for (size_t i = 0; i < macro_length; i++)
 		key_buffer[i] = macro_buffer[i];
 
 	mute_modifiers = TRUE;
