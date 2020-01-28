@@ -598,10 +598,10 @@ void usage(void)
 					N_("Regular expression to match quoting"));
 #endif
 	if (!ISSET(RESTRICTED))
-		print_opt("-R", "--restricted", N_("Restricted mode"));
+		print_opt("-R", "--restricted", N_("Restrict access to the filesystem"));
 	print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
 					N_("Set width of a tab to #cols columns"));
-	print_opt("-U", "--quickblank", N_("Do quick statusbar blanking"));
+	print_opt("-U", "--quickblank", N_("Wipe status bar upon next keystroke"));
 	print_opt("-V", "--version", N_("Print version information and exit"));
 #ifndef NANO_TINY
 	print_opt("-W", "--wordbounds",
