@@ -2763,6 +2763,8 @@ int update_line(linestruct *line, size_t index)
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP))
 		return update_softwrapped_line(line);
+
+	sequel_column = 0;
 #endif
 
 	row = line->lineno - openfile->edittop->lineno;
