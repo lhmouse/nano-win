@@ -1819,7 +1819,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_NANORC
 		{"rcfile", 1, NULL, 'f'},
 #endif
-#ifdef ENABLE_BROWSER
+#if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
 		{"showcursor", 0, NULL, 'g'},
 #endif
 		{"help", 0, NULL, 'h'},
@@ -2070,9 +2070,11 @@ int main(int argc, char **argv)
 				custom_nanorc = mallocstrcpy(custom_nanorc, optarg);
 				break;
 #endif
+#if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
 			case 'g':
 				SET(SHOW_CURSOR);
 				break;
+#endif
 			case 'h':
 				usage();
 				exit(0);
