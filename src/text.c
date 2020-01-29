@@ -627,7 +627,6 @@ void do_undo(void)
 		openfile->mark_x = u->mark_begin_x;
 		goto_line_posx(u->lineno, u->begin);
 		cut_marked(NULL);
-		free_lines(u->cutbuffer);
 		u->cutbuffer = cutbuffer;
 		cutbuffer = oldcutbuffer;
 		break;
