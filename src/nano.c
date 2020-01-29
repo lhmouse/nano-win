@@ -83,14 +83,13 @@ linestruct *make_new_node(linestruct *prevnode)
 {
 	linestruct *newnode = nmalloc(sizeof(linestruct));
 
-	newnode->data = NULL;
 	newnode->prev = prevnode;
 	newnode->next = NULL;
-	newnode->lineno = (prevnode != NULL) ? prevnode->lineno + 1 : 1;
-
+	newnode->data = NULL;
 #ifdef ENABLE_COLOR
 	newnode->multidata = NULL;
 #endif
+	newnode->lineno = (prevnode) ? prevnode->lineno + 1 : 1;
 
 	return newnode;
 }
