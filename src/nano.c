@@ -109,21 +109,6 @@ void splice_node(linestruct *afterthis, linestruct *newnode)
 		openfile->filebot = newnode;
 }
 
-/* Disconnect a node from a linked list of linestructs and delete it. */
-void unlink_node(linestruct *line)
-{
-	if (line->prev != NULL)
-		line->prev->next = line->next;
-	if (line->next != NULL)
-		line->next->prev = line->prev;
-
-	/* Update filebot when removing a node at the end of file. */
-	if (openfile && openfile->filebot == line)
-		openfile->filebot = line->prev;
-
-	delete_node(line);
-}
-
 /* Free the data structures in the given node. */
 void delete_node(linestruct *line)
 {
@@ -137,6 +122,21 @@ void delete_node(linestruct *line)
 	free(line->multidata);
 #endif
 	free(line);
+}
+
+/* Disconnect a node from a linked list of linestructs and delete it. */
+void unlink_node(linestruct *line)
+{
+	if (line->prev != NULL)
+		line->prev->next = line->next;
+	if (line->next != NULL)
+		line->next->prev = line->prev;
+
+	/* Update filebot when removing a node at the end of file. */
+	if (openfile && openfile->filebot == line)
+		openfile->filebot = line->prev;
+
+	delete_node(line);
 }
 
 /* Make a copy of a linestruct node. */
