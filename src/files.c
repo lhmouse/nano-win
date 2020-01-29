@@ -54,8 +54,10 @@ bool has_valid_path(const char *filename)
 		statusline(ALERT, _("Path '%s' is not a directory"), parentdir);
 	else if (access(parentdir, X_OK) == -1)
 		statusline(ALERT, _("Path '%s' is not accessible"), parentdir);
-	else if (ISSET(LOCKING) && access(parentdir, W_OK) == -1)
+#ifndef NANO_TINY
+	else if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && access(parentdir, W_OK) < 0)
 		statusline(MILD, _("Directory '%s' is not writable"), parentdir);
+#endif
 	else
 		validity = TRUE;
 
@@ -140,7 +142,7 @@ void set_modified(void)
 	titlebar(NULL);
 
 #ifndef NANO_TINY
-	if (!ISSET(LOCKING) || openfile->filename[0] == '\0')
+	if (!ISSET(LOCKING) || ISSET(VIEW_MODE) || openfile->filename[0] == '\0')
 		return;
 
 	if (openfile->lock_filename != NULL) {
@@ -461,7 +463,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 
 		if (has_valid_path(realname)) {
 #ifndef NANO_TINY
-			if (ISSET(LOCKING) && filename[0] != '\0') {
+			if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
 				/* When not overriding an existing lock, discard the buffer. */
 				if (do_lockfile(realname, TRUE) < 0) {
 #ifdef ENABLE_MULTIBUFFER
