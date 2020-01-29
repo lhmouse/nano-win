@@ -142,9 +142,6 @@ void set_modified(void)
 	titlebar(NULL);
 
 #ifndef NANO_TINY
-	if (!ISSET(LOCKING) || ISSET(VIEW_MODE) || openfile->filename[0] == '\0')
-		return;
-
 	if (openfile->lock_filename != NULL) {
 		char *fullname = get_full_path(openfile->filename);
 
