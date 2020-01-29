@@ -139,6 +139,20 @@ void unlink_node(linestruct *line)
 	delete_node(line);
 }
 
+/* Free an entire linked list of linestructs. */
+void free_lines(linestruct *src)
+{
+	if (src == NULL)
+		return;
+
+	while (src->next != NULL) {
+		src = src->next;
+		delete_node(src->prev);
+	}
+
+	delete_node(src);
+}
+
 /* Make a copy of a linestruct node. */
 linestruct *copy_node(const linestruct *src)
 {
@@ -175,20 +189,6 @@ linestruct *copy_buffer(const linestruct *src)
 	item->next = NULL;
 
 	return head;
-}
-
-/* Free an entire linked list of linestructs. */
-void free_lines(linestruct *src)
-{
-	if (src == NULL)
-		return;
-
-	while (src->next != NULL) {
-		src = src->next;
-		delete_node(src->prev);
-	}
-
-	delete_node(src);
 }
 
 /* Renumber the lines in a buffer, from the given line onwards. */
