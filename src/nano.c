@@ -95,20 +95,6 @@ linestruct *make_new_node(linestruct *prevnode)
 	return newnode;
 }
 
-/* Make a copy of a linestruct node. */
-linestruct *copy_node(const linestruct *src)
-{
-	linestruct *dst = nmalloc(sizeof(linestruct));
-
-	dst->data = copy_of(src->data);
-	dst->lineno = src->lineno;
-#ifdef ENABLE_COLOR
-	dst->multidata = NULL;
-#endif
-
-	return dst;
-}
-
 /* Splice a new node into an existing linked list of linestructs. */
 void splice_node(linestruct *afterthis, linestruct *newnode)
 {
@@ -151,6 +137,20 @@ void delete_node(linestruct *line)
 	free(line->multidata);
 #endif
 	free(line);
+}
+
+/* Make a copy of a linestruct node. */
+linestruct *copy_node(const linestruct *src)
+{
+	linestruct *dst = nmalloc(sizeof(linestruct));
+
+	dst->data = copy_of(src->data);
+#ifdef ENABLE_COLOR
+	dst->multidata = NULL;
+#endif
+	dst->lineno = src->lineno;
+
+	return dst;
 }
 
 /* Duplicate an entire linked list of linestructs. */
