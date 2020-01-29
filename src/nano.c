@@ -101,10 +101,7 @@ linestruct *copy_node(const linestruct *src)
 	linestruct *dst = nmalloc(sizeof(linestruct));
 
 	dst->data = copy_of(src->data);
-	dst->next = src->next;
-	dst->prev = src->prev;
 	dst->lineno = src->lineno;
-
 #ifdef ENABLE_COLOR
 	dst->multidata = NULL;
 #endif
@@ -159,22 +156,23 @@ void delete_node(linestruct *line)
 /* Duplicate an entire linked list of linestructs. */
 linestruct *copy_buffer(const linestruct *src)
 {
-	linestruct *head, *copy;
+	linestruct *head, *item;
 
-	copy = copy_node(src);
-	copy->prev = NULL;
-	head = copy;
+	head = copy_node(src);
+	head->prev = NULL;
+
+	item = head;
 	src = src->next;
 
 	while (src != NULL) {
-		copy->next = copy_node(src);
-		copy->next->prev = copy;
-		copy = copy->next;
+		item->next = copy_node(src);
+		item->next->prev = item;
 
+		item = item->next;
 		src = src->next;
 	}
 
-	copy->next = NULL;
+	item->next = NULL;
 
 	return head;
 }
