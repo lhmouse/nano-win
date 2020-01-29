@@ -360,10 +360,10 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						shift_held = TRUE;
 						return arrow_from_ABCD(seq[4]);
 #ifdef ENABLE_NANORC
-					case 'P': /* Esc O 1 ; 2 P == F13 on Gnome Terminal. */
-					case 'Q': /* Esc O 1 ; 2 Q == F14 on Gnome Terminal. */
-					case 'R': /* Esc O 1 ; 2 R == F15 on Gnome Terminal. */
-					case 'S': /* Esc O 1 ; 2 S == F16 on Gnome Terminal. */
+					case 'P': /* Esc O 1 ; 2 P == F13 on old xterm. */
+					case 'Q': /* Esc O 1 ; 2 Q == F14 on old xterm. */
+					case 'R': /* Esc O 1 ; 2 R == F15 on old xterm. */
+					case 'S': /* Esc O 1 ; 2 S == F16 on old xterm. */
 						return KEY_F(13 + seq[4] - 'P');
 #endif
 				}
@@ -417,9 +417,9 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'C': /* Esc O C == Right on VT100/VT320. */
 					case 'D': /* Esc O D == Left on VT100/VT320. */
 						return arrow_from_ABCD(seq[1]);
-					case 'F': /* Esc O F == End on Gnome and Xfce Terminal. */
+					case 'F': /* Esc O F == End on old xterm. */
 						return KEY_END;
-					case 'H': /* Esc O H == Home on Gnome and Xfce Terminal. */
+					case 'H': /* Esc O H == Home on old xterm. */
 						return KEY_HOME;
 					case 'M': /* Esc O M == Enter on numeric keypad with
 							   * NumLock off on VT100/VT220/VT320/xterm/
