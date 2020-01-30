@@ -225,28 +225,25 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
 	/* This is the lock data we will store:
 	 *
-	 * byte 0        - 0x62
-	 * byte 1        - 0x30
-	 * bytes 2-12    - program name which created the lock
-	 * bytes 24-27   - PID (little endian) of creator process
-	 * bytes 28-44   - username of who created the lock
-	 * bytes 68-100  - hostname of where the lock was created
-	 * bytes 108-876 - filename the lock is for
-	 * byte 1007     - 0x55 if file is modified
+	 *   byte 0        - 0x62
+	 *   byte 1        - 0x30
+	 *   bytes 2-12    - name of program that created the lock
+	 *   bytes 24-27   - PID (little endian) of creator process
+	 *   bytes 28-44   - username of who created the lock
+	 *   bytes 68-100  - hostname of where the lock was created
+	 *   bytes 108-876 - filename the lock is for
+	 *   byte 1007     - 0x55 if file is modified
+	 *   other bytes   - 0x00
 	 *
-	 * Looks like VIM also stores undo state in this file, so we're
-	 * gonna have to figure out how to slap a 'OMG don't use recover on
-	 * our lockfile' message in here...
-	 *
-	 * This is likely very wrong, so this is a WIP. */
+	 * This is likely not enough, so this is a WIP. */
 	memset(lockdata, 0, lockdatalen);
 	lockdata[0] = 0x62;
 	lockdata[1] = 0x30;
+	snprintf(&lockdata[2], 11, "nano %s", VERSION);
 	lockdata[24] = mypid % 256;
 	lockdata[25] = (mypid / 256) % 256;
 	lockdata[26] = (mypid / (256 * 256)) % 256;
 	lockdata[27] = mypid / (256 * 256 * 256);
-	snprintf(&lockdata[2], 11, "nano %s", VERSION);
 	strncpy(&lockdata[28], mypwuid->pw_name, 16);
 	strncpy(&lockdata[68], myhostname, 32);
 	if (origfilename != NULL)
