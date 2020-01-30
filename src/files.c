@@ -210,7 +210,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	if (fd < 0) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
-						lockfilename, strerror(errno));
+							lockfilename, strerror(errno));
 		goto free_the_data;
 	}
 
@@ -219,7 +219,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
 	if (filestream == NULL) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
-						lockfilename, strerror(errno));
+							lockfilename, strerror(errno));
 		goto free_the_data;
 	}
 
@@ -256,16 +256,17 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 		lockdata[1007] = 0x55;
 
 	wroteamt = fwrite(lockdata, sizeof(char), lockdatalen, filestream);
+
 	if (wroteamt < lockdatalen) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
-						lockfilename, ferror(filestream));
+							lockfilename, ferror(filestream));
 		fclose(filestream);
 		goto free_the_data;
 	}
 
 	if (fclose(filestream) == EOF) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
-						lockfilename, strerror(errno));
+							lockfilename, strerror(errno));
 		goto free_the_data;
 	}
 
@@ -287,7 +288,7 @@ int delete_lockfile(const char *lockfilename)
 {
 	if (unlink(lockfilename) < 0 && errno != ENOENT) {
 		statusline(MILD, _("Error deleting lock file %s: %s"),
-						lockfilename, strerror(errno));
+							lockfilename, strerror(errno));
 		return -1;
 	}
 	return 1;
@@ -321,11 +322,12 @@ int do_lockfile(const char *filename, bool ask_the_user)
 
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 			statusline(ALERT, _("Error opening lock file %s: %s"),
-						lockfilename, strerror(errno));
+								lockfilename, strerror(errno));
 			goto free_the_name;
 		}
 
 		lockbuf = charalloc(LOCKBUFSIZE);
+
 		do {
 			readamt = read(lockfd, &lockbuf[readtot], LOCKBUFSIZE - readtot);
 			readtot += readamt;
