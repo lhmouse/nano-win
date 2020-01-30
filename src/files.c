@@ -227,19 +227,23 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	 *
 	 *   byte 0        - 0x62
 	 *   byte 1        - 0x30
-	 *   bytes 2-12    - name of program that created the lock
+	 *   bytes 2-11    - name of program that created the lock
 	 *   bytes 24-27   - PID (little endian) of creator process
-	 *   bytes 28-44   - username of who created the lock
-	 *   bytes 68-100  - hostname of where the lock was created
+	 *   bytes 28-43   - username of who created the lock
+	 *   bytes 68-99   - hostname of where the lock was created
 	 *   bytes 108-876 - filename the lock is for
 	 *   byte 1007     - 0x55 if file is modified
 	 *   other bytes   - 0x00
 	 *
-	 * This is likely not enough, so this is a WIP. */
+	 * Nano does not write the page size (bytes 12-15), nor the modification
+	 * time (bytes 16-19), nor the inode of the relevant file (bytes 20-23).
+	 * Nano also does not use all available space for user name (40 bytes),
+	 * host name (40 bytes), and file name (890 bytes).  Nor does nano write
+	 * some byte-order-checking numbers (bytes 1008-1022). */
 	memset(lockdata, 0, lockdatalen);
 	lockdata[0] = 0x62;
 	lockdata[1] = 0x30;
-	snprintf(&lockdata[2], 11, "nano %s", VERSION);
+	snprintf(&lockdata[2], 10, "nano %s", VERSION);
 	lockdata[24] = mypid % 256;
 	lockdata[25] = (mypid / 256) % 256;
 	lockdata[26] = (mypid / (256 * 256)) % 256;
