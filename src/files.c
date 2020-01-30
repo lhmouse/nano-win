@@ -304,7 +304,7 @@ int do_lockfile(const char *filename, bool ask_the_user)
 							strlen(locking_suffix) + 3;
 	char *lockfilename = charalloc(locknamesize);
 	struct stat fileinfo;
-	int retval = -1;
+	int retval = 0;
 
 	snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy),
 				locking_prefix, basename(secondcopy), locking_suffix);
@@ -322,7 +322,6 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 			statusline(ALERT, _("Error opening lock file %s: %s"),
 						lockfilename, strerror(errno));
-			retval = 0;
 			goto free_the_name;
 		}
 
@@ -337,7 +336,6 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		if (readtot < 1024 || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
 			statusline(ALERT, _("Bad lock file is ignored: %s"), lockfilename);
 			free(lockbuf);
-			retval = 0;
 			goto free_the_name;
 		}
 
@@ -380,6 +378,7 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		free(promptstr);
 
 		if (choice < 1) {
+			retval = -1;
 			wipe_statusbar();
 			goto free_the_name;
 		}
