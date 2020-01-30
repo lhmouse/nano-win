@@ -342,9 +342,11 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		}
 
 		strncpy(lockprog, &lockbuf[2], 10);
+		lockprog[10] = '\0';
 		lockpid = (((unsigned char)lockbuf[27] * 256 + (unsigned char)lockbuf[26]) * 256 +
 						(unsigned char)lockbuf[25]) * 256 + (unsigned char)lockbuf[24];
 		strncpy(lockuser, &lockbuf[28], 16);
+		lockuser[16] = '\0';
 		free(lockbuf);
 
 		pidstring = charalloc(11);
