@@ -320,8 +320,9 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		size_t readamt = 0, readtot = 0;
 
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
-			statusline(MILD, _("Error opening lock file %s: %s"),
+			statusline(ALERT, _("Error opening lock file %s: %s"),
 						lockfilename, strerror(errno));
+			retval = 0;
 			goto free_the_name;
 		}
 
@@ -333,14 +334,7 @@ int do_lockfile(const char *filename, bool ask_the_user)
 
 		close(lockfd);
 
-		if (readtot < 1024) {
-			statusline(MILD, _("Error reading lock file %s: "
-						"Not enough data read"), lockfilename);
-			free(lockbuf);
-			goto free_the_name;
-		}
-
-		if (lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
+		if (readtot < 1024 || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
 			statusline(ALERT, _("Bad lock file is ignored: %s"), lockfilename);
 			free(lockbuf);
 			retval = 0;
