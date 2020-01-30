@@ -352,7 +352,7 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		as_an_at = FALSE;
 
 		/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
-		question = _("File %s is being edited (by %s with %s, PID %s); continue?");
+		question = _("File %s is being edited by %s (with %s, PID %s); open anyway?");
 		room = COLS - breadth(question) + 7 - breadth(lockuser) -
 								breadth(lockprog) - breadth(pidstring);
 		if (room < 4)
