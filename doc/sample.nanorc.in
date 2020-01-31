@@ -281,7 +281,7 @@
 #unbind ^Y all
 #bind M-X flipnewbuffer all
 #bind ^X cut all
-#bind ^C copy all
+#bind ^C copy main
 #bind ^V paste all
 #bind ^P curpos main
 #bind ^T gotoline main
