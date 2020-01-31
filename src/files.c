@@ -246,14 +246,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
 	wroteamt = fwrite(lockdata, sizeof(char), LOCKSIZE, filestream);
 
-	if (wroteamt < LOCKSIZE) {
-		statusline(MILD, _("Error writing lock file %s: %s"),
-							lockfilename, ferror(filestream));
-		fclose(filestream);
-		goto free_the_data;
-	}
-
-	if (fclose(filestream) == EOF) {
+	if (fclose(filestream) == EOF || wroteamt < LOCKSIZE) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
 		goto free_the_data;
