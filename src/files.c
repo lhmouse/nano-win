@@ -152,16 +152,8 @@ void set_modified(void)
 }
 
 #ifndef NANO_TINY
-/* Actually write the lockfile.  This function will ALWAYS annihilate
- * any previous version of the file.  We'll borrow INSECURE_BACKUP here
- * to decide about lockfile paranoia here as well...
- *
- * Args:
- *     lockfilename: file name for lock
- *     origfilename: name of the file the lock is for
- *     modified: whether to set the modified bit in the file
- *
- * Returns 1 on success, and 0 on failure (but continue anyway). */
+/* Write a lockfile, under the given lockfilename.  This ALWAYS annihilates
+ * an existing version of that file.  Return 1 on success, and 0 on failure. */
 int write_lockfile(const char *lockfilename, const char *origfilename, bool modified)
 {
 #ifdef HAVE_PWD_H
@@ -222,17 +214,15 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 		goto free_the_data;
 	}
 
-	/* This is the lock data we will store:
+	/* This is the lock data we will store (other bytes are 0x00):
 	 *
-	 *   byte 0        - 0x62
-	 *   byte 1        - 0x30
+	 *   bytes 0-1     - 0x62 0x30
 	 *   bytes 2-11    - name of program that created the lock
 	 *   bytes 24-27   - PID (little endian) of creator process
 	 *   bytes 28-43   - username of who created the lock
 	 *   bytes 68-99   - hostname of where the lock was created
 	 *   bytes 108-876 - filename the lock is for
 	 *   byte 1007     - 0x55 if file is modified
-	 *   other bytes   - 0x00
 	 *
 	 * Nano does not write the page size (bytes 12-15), nor the modification
 	 * time (bytes 16-19), nor the inode of the relevant file (bytes 20-23).
@@ -276,10 +266,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 
   free_the_data:
 	free(lockdata);
-	return 0;
-#else
-	return 1;
 #endif
+	return 0;
 }
 
 /* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
