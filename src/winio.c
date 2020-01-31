@@ -934,7 +934,7 @@ int parse_kbinput(WINDOW *win)
 						key_buffer_len == 0 || *key_buffer == ESC_CODE) {
 				/* One escape followed by a single non-escape:
 				 * meta key sequence mode. */
-				if (!solitary || (keycode >= 0x20 && keycode < 0x7F))
+				if (!solitary || (0x20 <= keycode && keycode <= 0x7E))
 					meta_key = TRUE;
 				retval = (shifted_metas) ? keycode : tolower(keycode);
 			} else
@@ -3091,7 +3091,7 @@ size_t get_chunk_and_edge(size_t column, linestruct *line, size_t *leftedge)
 		end_col = get_softwrap_breakpoint(line->data, start_col, &end_of_line);
 
 		/* We reached the end of the line and/or found column, so get out. */
-		if (end_of_line || (column >= start_col && column < end_col)) {
+		if (end_of_line || (start_col <= column && column < end_col)) {
 			if (leftedge != NULL)
 				*leftedge = start_col;
 			return current_chunk;

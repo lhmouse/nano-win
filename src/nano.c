@@ -1476,7 +1476,7 @@ void suck_up_input_and_paste_it(void)
 			line = line->next;
 			line->data = copy_of("");
 			index = 0;
-		} else if ((input >= 0x20 && input <= 0xFF && input != DEL_CODE) ||
+		} else if ((0x20 <= input && input <= 0xFF && input != DEL_CODE) ||
 													input == TAB_CODE) {
 			line->data = charealloc(line->data, index + 2);
 			line->data[index++] = (char)input;
