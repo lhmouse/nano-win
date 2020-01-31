@@ -31,7 +31,7 @@
 #include <unistd.h>
 
 #ifndef NANO_TINY
-#define LOCKBUFSIZE 8192
+#define LOCKSIZE  1024
 const char *locking_prefix = ".";
 const char *locking_suffix = ".swp";
 		/* Prefix and suffix for the name of the vim-style lock file. */
@@ -171,9 +171,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	uid_t myuid;
 	struct passwd *mypwuid;
 	struct stat fileinfo;
-	char *lockdata = charalloc(1024);
+	char *lockdata = charalloc(LOCKSIZE);
 	char myhostname[32];
-	size_t lockdatalen = 1024;
 	size_t wroteamt;
 
 	mypid = getpid();
@@ -240,7 +239,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	 * Nano also does not use all available space for user name (40 bytes),
 	 * host name (40 bytes), and file name (890 bytes).  Nor does nano write
 	 * some byte-order-checking numbers (bytes 1008-1022). */
-	memset(lockdata, 0, lockdatalen);
+	memset(lockdata, 0, LOCKSIZE);
 	lockdata[0] = 0x62;
 	lockdata[1] = 0x30;
 	snprintf(&lockdata[2], 10, "nano %s", VERSION);
@@ -255,9 +254,9 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	if (modified == TRUE)
 		lockdata[1007] = 0x55;
 
-	wroteamt = fwrite(lockdata, sizeof(char), lockdatalen, filestream);
+	wroteamt = fwrite(lockdata, sizeof(char), LOCKSIZE, filestream);
 
-	if (wroteamt < lockdatalen) {
+	if (wroteamt < LOCKSIZE) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, ferror(filestream));
 		fclose(filestream);
@@ -326,16 +325,16 @@ int do_lockfile(const char *filename, bool ask_the_user)
 			goto free_the_name;
 		}
 
-		lockbuf = charalloc(LOCKBUFSIZE);
+		lockbuf = charalloc(LOCKSIZE);
 
 		do {
-			readamt = read(lockfd, &lockbuf[readtot], LOCKBUFSIZE - readtot);
+			readamt = read(lockfd, &lockbuf[readtot], LOCKSIZE - readtot);
 			readtot += readamt;
-		} while (readamt > 0 && readtot < LOCKBUFSIZE);
+		} while (readamt > 0 && readtot < LOCKSIZE);
 
 		close(lockfd);
 
-		if (readtot < 1024 || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
+		if (readtot < LOCKSIZE || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
 			statusline(ALERT, _("Bad lock file is ignored: %s"), lockfilename);
 			free(lockbuf);
 			goto free_the_name;
