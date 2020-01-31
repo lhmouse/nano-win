@@ -962,7 +962,7 @@ void parse_includes(char *ptr)
  * and set bright to TRUE if that color is bright. */
 short color_to_short(const char *colorname, bool *bright)
 {
-	if (strncasecmp(colorname, "bright", 6) == 0) {
+	if (strncmp(colorname, "bright", 6) == 0) {
 		*bright = TRUE;
 		colorname += 6;
 	} else
@@ -1059,7 +1059,7 @@ void parse_colors(char *ptr, int rex_flags)
 		bool expectend = FALSE;
 			/* Whether to expect an end= line. */
 
-		if (strncasecmp(ptr, "start=", 6) == 0) {
+		if (strncmp(ptr, "start=", 6) == 0) {
 			ptr += 6;
 			expectend = TRUE;
 		}
@@ -1105,7 +1105,7 @@ void parse_colors(char *ptr, int rex_flags)
 		if (!expectend)
 			continue;
 
-		if (ptr == NULL || strncasecmp(ptr, "end=", 4) != 0) {
+		if (ptr == NULL || strncmp(ptr, "end=", 4) != 0) {
 			jot_error(N_("\"start=\" requires a corresponding \"end=\""));
 			return;
 		}
