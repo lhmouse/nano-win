@@ -45,6 +45,21 @@ bool mute_modifiers = FALSE;
 bool bracketed_paste = FALSE;
 		/* Whether text is being pasted into nano from outside. */
 
+bool started_curses = FALSE;
+		/* Becomes TRUE when curses mode has been entered the first time. */
+bool we_are_running = FALSE;
+		/* Becomes TRUE as soon as all options and files have been read. */
+bool more_than_one = FALSE;
+		/* Whether more than one buffer is or has been open. */
+
+bool inhelp = FALSE;
+		/* Whether we are in the help viewer. */
+char *title = NULL;
+		/* When not NULL: the title of the current help text. */
+
+bool refresh_needed = FALSE;
+		/* Did a command mangle enough of the buffer that we should
+		 * repaint the screen? */
 bool focusing = TRUE;
 		/* Whether an update of the edit window should center the cursor. */
 
@@ -54,13 +69,8 @@ bool as_an_at = TRUE;
 bool control_C_was_pressed = FALSE;
 		/* Whether Ctrl+C was pressed (when a keyboard interrupt is enabled). */
 
-bool started_curses = FALSE;
-
 bool suppress_cursorpos = FALSE;
 		/* Should we skip constant position display for current keystroke? */
-
-bool we_are_running = FALSE;
-		/* Will become TRUE as soon as all options and files have been read. */
 
 message_type lastmessage = HUSH;
 		/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
@@ -68,19 +78,23 @@ message_type lastmessage = HUSH;
 linestruct *pletion_line = NULL;
 		/* The line where the last completion was found, if any. */
 
-bool inhelp = FALSE;
-		/* Whether we are in the help viewer. */
-char *title = NULL;
-		/* When not NULL: the title of the current help text. */
-
-bool more_than_one = FALSE;
-		/* Whether more than one buffer is or has been open. */
 bool also_the_last = FALSE;
 		/* Whether indenting/commenting should include the last line of
 		 * the marked region. */
 
+char *answer = NULL;
+		/* The answer string used by the status-bar prompt. */
+
+char *last_search = NULL;
+		/* The last string we searched for. */
 int didfind = 0;
 		/* Whether the last search found something. */
+
+char *present_path = NULL;
+		/* The current browser directory when trying to do tab completion. */
+
+unsigned flags[4] = {0, 0, 0, 0};
+		/* Our flags array, containing the states of all global options. */
 
 int controlleft, controlright, controlup, controldown;
 int controlhome, controlend;
@@ -100,15 +114,6 @@ ssize_t fill = -COLUMNS_FROM_EOL;
 size_t wrap_at = 0;
 		/* The actual column where we will wrap lines, based on fill. */
 #endif
-
-char *last_search = NULL;
-		/* The last string we searched for. */
-
-char *present_path = NULL;
-		/* The current browser directory when trying to do tab completion. */
-
-unsigned flags[4] = {0, 0, 0, 0};
-		/* Our flag containing the states of all global options. */
 
 WINDOW *topwin = NULL;
 		/* The top portion of the screen, showing the version number of nano,
@@ -168,9 +173,6 @@ regex_t quotereg;
 char *word_chars = NULL;
 		/* Nonalphanumeric characters that also form words. */
 
-char *answer = NULL;
-		/* The answer string used by the status-bar prompt. */
-
 ssize_t tabsize = -1;
 		/* The width of a tab in spaces.  The default is set in main(). */
 
@@ -196,10 +198,6 @@ char *syntaxstr = NULL;
 bool have_palette = FALSE;
 		/* Whether the colors for the current syntax have been initialized. */
 #endif
-
-bool refresh_needed = FALSE;
-		/* Did a command mangle enough of the buffer that we should
-		 * repaint the screen? */
 
 int currmenu = MMOST;
 		/* The currently active menu, initialized to a dummy value. */

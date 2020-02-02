@@ -34,6 +34,13 @@ extern bool shift_held;
 extern bool mute_modifiers;
 extern bool bracketed_paste;
 
+extern bool started_curses;
+extern bool we_are_running;
+extern bool more_than_one;
+
+extern bool inhelp;
+extern char *title;
+
 extern bool focusing;
 
 extern bool as_an_at;
@@ -42,21 +49,20 @@ extern bool control_C_was_pressed;
 
 extern bool suppress_cursorpos;
 
-extern bool started_curses;
-extern bool we_are_running;
-
 extern message_type lastmessage;
 
 extern linestruct *pletion_line;
 
-extern bool inhelp;
-extern char *title;
-
-extern bool more_than_one;
-
 extern bool also_the_last;
 
+extern char *answer;
+
+extern char *last_search;
 extern int didfind;
+
+extern char *present_path;
+
+extern unsigned flags[4];
 
 extern int controlleft, controlright;
 extern int controlup, controldown;
@@ -79,12 +85,6 @@ extern int shiftaltup, shiftaltdown;
 extern ssize_t fill;
 extern size_t wrap_at;
 #endif
-
-extern char *last_search;
-
-extern char *present_path;
-
-extern unsigned flags[4];
 
 extern WINDOW *topwin;
 extern WINDOW *edit;
@@ -121,8 +121,6 @@ extern regex_t quotereg;
 #endif
 
 extern char *word_chars;
-
-extern char *answer;
 
 extern ssize_t tabsize;
 
