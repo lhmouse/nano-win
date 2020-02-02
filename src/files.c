@@ -211,6 +211,7 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	if (filestream == NULL) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
+		close(fd);
 		goto free_the_data;
 	}
 
