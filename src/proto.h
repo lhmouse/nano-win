@@ -43,6 +43,7 @@ extern bool control_C_was_pressed;
 extern bool suppress_cursorpos;
 
 extern bool started_curses;
+extern bool we_are_running;
 
 extern message_type lastmessage;
 

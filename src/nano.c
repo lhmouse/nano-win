@@ -2573,6 +2573,8 @@ int main(int argc, char **argv)
 		statusbar(_("Welcome to nano.  For basic help, type Ctrl+G."));
 #endif
 
+	we_are_running = TRUE;
+
 	while (TRUE) {
 #ifdef ENABLE_LINENUMBERS
 		confirm_margin();

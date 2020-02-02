@@ -335,6 +335,10 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		choice = do_yesno_prompt(FALSE, promptstr);
 		free(promptstr);
 
+		/* When the user cancelled while we're still starting up, quit. */
+		if (choice < 0 && !we_are_running)
+			finish();
+
 		if (choice < 1) {
 			retval = -1;
 			wipe_statusbar();

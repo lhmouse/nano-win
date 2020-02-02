@@ -59,6 +59,9 @@ bool started_curses = FALSE;
 bool suppress_cursorpos = FALSE;
 		/* Should we skip constant position display for current keystroke? */
 
+bool we_are_running = FALSE;
+		/* Will become TRUE as soon as all options and files have been read. */
+
 message_type lastmessage = HUSH;
 		/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
