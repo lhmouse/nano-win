@@ -142,19 +142,15 @@ void set_modified(void)
 	titlebar(NULL);
 
 #ifndef NANO_TINY
-	if (openfile->lock_filename != NULL) {
-		char *fullname = get_full_path(openfile->filename);
-
-		write_lockfile(openfile->lock_filename, fullname, TRUE);
-		free(fullname);
-	}
+	if (openfile->lock_filename != NULL)
+		write_lockfile(openfile->lock_filename, openfile->filename, TRUE);
 #endif
 }
 
 #ifndef NANO_TINY
 /* Write a lockfile, under the given lockfilename.  This ALWAYS annihilates
  * an existing version of that file.  Return 1 on success, and 0 on failure. */
-int write_lockfile(const char *lockfilename, const char *origfilename, bool modified)
+int write_lockfile(const char *lockfilename, const char *filename, bool modified)
 {
 #ifdef HAVE_PWD_H
 	int cflags, fd;
@@ -240,10 +236,8 @@ int write_lockfile(const char *lockfilename, const char *origfilename, bool modi
 	lockdata[27] = mypid / (256 * 256 * 256);
 	strncpy(&lockdata[28], mypwuid->pw_name, 16);
 	strncpy(&lockdata[68], myhostname, 32);
-	if (origfilename != NULL)
-		strncpy(&lockdata[108], origfilename, 768);
-	if (modified == TRUE)
-		lockdata[1007] = 0x55;
+	strncpy(&lockdata[108], filename, 768);
+	lockdata[1007] = (modified) ? 0x55 : 0x00;
 
 	wroteamt = fwrite(lockdata, sizeof(char), LOCKSIZE, filestream);
 
