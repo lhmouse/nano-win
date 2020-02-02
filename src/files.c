@@ -293,7 +293,7 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		char *lockbuf, *question, *pidstring, *postedname, *promptstr;
 		static char lockprog[11], lockuser[17];
 		int lockfd, lockpid, room, choice;
-		size_t readamt = 0, readtot = 0;
+		ssize_t readamt;
 
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 			statusline(ALERT, _("Error opening lock file %s: %s"),
@@ -303,14 +303,11 @@ int do_lockfile(const char *filename, bool ask_the_user)
 
 		lockbuf = charalloc(LOCKSIZE);
 
-		do {
-			readamt = read(lockfd, &lockbuf[readtot], LOCKSIZE - readtot);
-			readtot += readamt;
-		} while (readamt > 0 && readtot < LOCKSIZE);
+		readamt = read(lockfd, lockbuf, LOCKSIZE);
 
 		close(lockfd);
 
-		if (readtot < LOCKSIZE || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
+		if (readamt < LOCKSIZE || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
 			statusline(ALERT, _("Bad lock file is ignored: %s"), lockfilename);
 			free(lockbuf);
 			goto free_the_name;
