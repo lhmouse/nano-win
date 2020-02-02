@@ -148,6 +148,17 @@ void set_modified(void)
 }
 
 #ifndef NANO_TINY
+/* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
+int delete_lockfile(const char *lockfilename)
+{
+	if (unlink(lockfilename) < 0 && errno != ENOENT) {
+		statusline(MILD, _("Error deleting lock file %s: %s"),
+							lockfilename, strerror(errno));
+		return -1;
+	}
+	return 1;
+}
+
 /* Write a lockfile, under the given lockfilename.  This ALWAYS annihilates
  * an existing version of that file.  Return 1 on success, and 0 on failure. */
 int write_lockfile(const char *lockfilename, const char *filename, bool modified)
@@ -253,17 +264,6 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 
 	openfile->lock_filename = (char *)lockfilename;
 #endif
-	return 1;
-}
-
-/* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
-int delete_lockfile(const char *lockfilename)
-{
-	if (unlink(lockfilename) < 0 && errno != ENOENT) {
-		statusline(MILD, _("Error deleting lock file %s: %s"),
-							lockfilename, strerror(errno));
-		return -1;
-	}
 	return 1;
 }
 

@@ -279,6 +279,9 @@ void paste_text(void);
 
 /* Most functions in files.c. */
 void make_new_buffer(void);
+#ifndef NANO_TINY
+int delete_lockfile(const char *lockfilename);
+#endif
 void set_modified(void);
 bool open_buffer(const char *filename, bool new_buffer);
 #ifdef ENABLE_SPELLER
@@ -304,7 +307,6 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp);
 #endif
 #ifndef NANO_TINY
 void init_backup_dir(void);
-int delete_lockfile(const char *lockfilename);
 int write_lockfile(const char *lockfilename, const char *filename, bool modified);
 #endif
 int copy_file(FILE *inn, FILE *out, bool close_out);
