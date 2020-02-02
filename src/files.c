@@ -159,7 +159,7 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 	uid_t myuid;
 	struct passwd *mypwuid;
 	struct stat fileinfo;
-	char *lockdata = charalloc(LOCKSIZE);
+	char *lockdata;
 	char myhostname[32];
 	size_t wroteamt;
 
@@ -170,7 +170,7 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 	if ((mypwuid = getpwuid(myuid)) == NULL) {
 		/* TRANSLATORS: Keep the next eight messages at most 76 characters. */
 		statusline(MILD, _("Couldn't determine my identity for lock file"));
-		goto free_the_data;
+		return 0;
 	}
 
 	if (gethostname(myhostname, 31) < 0) {
@@ -178,14 +178,14 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 			myhostname[31] = '\0';
 		else {
 			statusline(MILD, _("Couldn't determine hostname: %s"), strerror(errno));
-			goto free_the_data;
+			return 0;
 		}
 	}
 
 	/* If the lockfile exists, try to delete it. */
 	if (stat(lockfilename, &fileinfo) != -1)
 		if (delete_lockfile(lockfilename) < 0)
-			goto free_the_data;
+			return 0;
 
 	if (ISSET(INSECURE_BACKUP))
 		cflags = O_WRONLY | O_CREAT | O_APPEND;
@@ -198,7 +198,7 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 	if (fd < 0) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
-		goto free_the_data;
+		return 0;
 	}
 
 	/* Try to associate a stream with the now open lockfile. */
@@ -208,8 +208,11 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
 		close(fd);
-		goto free_the_data;
+		return 0;
 	}
+
+	lockdata = charalloc(LOCKSIZE);
+	memset(lockdata, 0, LOCKSIZE);
 
 	/* This is the lock data we will store (other bytes are 0x00):
 	 *
@@ -226,7 +229,6 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 	 * Nano also does not use all available space for user name (40 bytes),
 	 * host name (40 bytes), and file name (890 bytes).  Nor does nano write
 	 * some byte-order-checking numbers (bytes 1008-1022). */
-	memset(lockdata, 0, LOCKSIZE);
 	lockdata[0] = 0x62;
 	lockdata[1] = 0x30;
 	snprintf(&lockdata[2], 10, "nano %s", VERSION);
@@ -241,21 +243,17 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 
 	wroteamt = fwrite(lockdata, sizeof(char), LOCKSIZE, filestream);
 
+	free(lockdata);
+
 	if (fclose(filestream) == EOF || wroteamt < LOCKSIZE) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
-		goto free_the_data;
+		return 0;
 	}
 
 	openfile->lock_filename = (char *)lockfilename;
-
-	free(lockdata);
-	return 1;
-
-  free_the_data:
-	free(lockdata);
 #endif
-	return 0;
+	return 1;
 }
 
 /* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
