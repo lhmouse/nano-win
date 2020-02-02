@@ -131,22 +131,6 @@ void make_new_buffer(void)
 #endif
 }
 
-/* Mark the current file as modified if it isn't already, and
- * then update the title bar to display the file's new status. */
-void set_modified(void)
-{
-	if (openfile->modified)
-		return;
-
-	openfile->modified = TRUE;
-	titlebar(NULL);
-
-#ifndef NANO_TINY
-	if (openfile->lock_filename != NULL)
-		write_lockfile(openfile->lock_filename, openfile->filename, TRUE);
-#endif
-}
-
 #ifndef NANO_TINY
 /* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
 int delete_lockfile(const char *lockfilename)
@@ -535,6 +519,22 @@ bool replace_buffer(const char *filename, undo_type action, bool marked,
 	return TRUE;
 }
 #endif /* ENABLE_SPELLER */
+
+/* Mark the current file as modified if it isn't already, and
+ * then update the title bar to display the file's new status. */
+void set_modified(void)
+{
+	if (openfile->modified)
+		return;
+
+	openfile->modified = TRUE;
+	titlebar(NULL);
+
+#ifndef NANO_TINY
+	if (openfile->lock_filename != NULL)
+		write_lockfile(openfile->lock_filename, openfile->filename, TRUE);
+#endif
+}
 
 /* Update the title bar and the multiline cache to match the current buffer. */
 void prepare_for_display(void)

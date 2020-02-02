@@ -282,12 +282,12 @@ void make_new_buffer(void);
 #ifndef NANO_TINY
 int delete_lockfile(const char *lockfilename);
 #endif
-void set_modified(void);
 bool open_buffer(const char *filename, bool new_buffer);
 #ifdef ENABLE_SPELLER
 bool replace_buffer(const char *filename, undo_type action, bool marked,
 		const char *operation);
 #endif
+void set_modified(void);
 void prepare_for_display(void);
 #ifdef ENABLE_MULTIBUFFER
 void mention_name_and_linecount(void);
@@ -307,7 +307,6 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp);
 #endif
 #ifndef NANO_TINY
 void init_backup_dir(void);
-int write_lockfile(const char *lockfilename, const char *filename, bool modified);
 #endif
 int copy_file(FILE *inn, FILE *out, bool close_out);
 bool write_file(const char *name, FILE *f_open, bool tmp,
