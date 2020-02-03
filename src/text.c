@@ -2446,6 +2446,9 @@ const char *do_int_speller(const char *tempfile_name)
 		return _("Could not get size of pipe buffer");
 	}
 
+	/* Leave curses mode so that error messages go to the original screen. */
+	endwin();
+
 	/* Block SIGWINCHes while reading misspelled words from the third pipe. */
 	block_sigwinch(TRUE);
 
@@ -2465,6 +2468,10 @@ const char *do_int_speller(const char *tempfile_name)
 	close(uniq_fd[0]);
 
 	block_sigwinch(FALSE);
+
+	/* Re-enter curses mode. */
+	terminal_init();
+	doupdate();
 
 	/* Do any replacements case-sensitively, forward, and without regexes. */
 	SET(CASE_SENSITIVE);
