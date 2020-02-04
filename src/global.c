@@ -501,8 +501,10 @@ functionptrtype interpret(int *keycode)
 			case 'w':
 			case '/':
 				return do_search_forward;
+#ifdef ENABLE_BROWSER
 			case 'g':
 				return goto_dir;
+#endif
 			case '?':
 				return do_help;
 			case 's':
