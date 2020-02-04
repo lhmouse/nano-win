@@ -403,8 +403,8 @@ point to vary along with the width of the screen if the screen is resized.
 The default value is @t{-8}.
 
 @anchor{@option{--speller}}
-@item -s "@var{program} [@var{arg} @dots{}]"
-@itemx --speller="@var{program} [@var{arg} @dots{}]"
+@item -s "@var{program} [@var{argument} @dots{}]"
+@itemx --speller="@var{program} [@var{argument} @dots{}]"
 Use the given program to do spell checking and correcting.  By default,
 @command{nano} uses the command specified in the @env{SPELL} environment
 variable.  If @env{SPELL} is not set, and @option{--speller} is
@@ -935,7 +935,7 @@ When needed, use @code{unset jumpyscrolling} instead.
 @item set softwrap
 Enable soft line wrapping for easier viewing of very long lines.
 
-@item set speller "@var{program} [@var{arg} @dots{}]"
+@item set speller "@var{program} [@var{argument} @dots{}]"
 Use the given program to do spell checking and correcting.
 @xref{@option{--speller}} for details.
 
@@ -1058,13 +1058,13 @@ file, to determine whether this syntax should be used for it.
 (This functionality only works when @code{libmagic} is installed
 on the system and will be silently ignored otherwise.)
 
-@item formatter @var{program} [@var{arg} @dots{}]
+@item formatter @var{program} [@var{argument} @dots{}]
 Run the given @var{program} on the full contents of the current buffer.
 (The current buffer is written out to a temporary file, the program is
 run on it, and then the temporary file is read back in, replacing the
 contents of the buffer.)
 
-@item linter @var{program} [@var{arg} @dots{}]
+@item linter @var{program} [@var{argument} @dots{}]
 Use the given @var{program} to do a syntax check on the current buffer.
 
 @item comment "@var{string}"
@@ -1117,10 +1117,11 @@ Read in self-contained color syntaxes from "syntaxfile".  Note that
 "syntaxfile" may contain only the above commands, from @code{syntax}
 to @code{icolor}.
 
-@item extendsyntax @var{name} @var{command} [@var{arg} @dots{}]
+@item extendsyntax @var{name} @var{command} @var{argument} @dots{}
 Extend the syntax previously defined as "@var{name}" with another @var{command}.
 This allows you to add a new @code{color}, @code{icolor}, @code{header},
-@code{magic}, @code{comment}, @code{linter}, or @code{formatter} command to an already
+@code{magic}, @code{formatter}, @code{linter}, @code{comment},
+or @code{tabgives} command to an already
 defined syntax --- useful when you want to slightly improve a syntax defined
 in one of the system-installed files (which normally are not writable).
 
