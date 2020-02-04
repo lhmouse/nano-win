@@ -446,22 +446,22 @@ size_t shown_entries_for(int menu)
 }
 
 /* Return the first shortcut in the current menu that matches the given input. */
-const keystruct *get_shortcut(int *kbinput)
+const keystruct *get_shortcut(int *keycode)
 {
 	/* Plain characters and upper control codes cannot be shortcuts. */
-	if (!meta_key && 0x20 <= *kbinput && *kbinput <= 0xFF)
+	if (!meta_key && 0x20 <= *keycode && *keycode <= 0xFF)
 		return NULL;
 
 	/* Lower control codes with Meta cannot be shortcuts either. */
-	if (meta_key && *kbinput < 0x20)
+	if (meta_key && *keycode < 0x20)
 		return NULL;
 
 	/* During a paste at a prompt, ignore all command keycodes. */
-	if (bracketed_paste && *kbinput != BRACKETED_PASTE_MARKER)
+	if (bracketed_paste && *keycode != BRACKETED_PASTE_MARKER)
 		return NULL;
 
 	for (keystruct *sc = sclist; sc != NULL; sc = sc->next) {
-		if ((sc->menus & currmenu) && *kbinput == sc->keycode)
+		if ((sc->menus & currmenu) && *keycode == sc->keycode)
 			return sc;
 	}
 
@@ -469,9 +469,9 @@ const keystruct *get_shortcut(int *kbinput)
 }
 
 /* Return a pointer to the function that is bound to the given key. */
-functionptrtype func_from_key(int *kbinput)
+functionptrtype func_from_key(int *keycode)
 {
-	const keystruct *sc = get_shortcut(kbinput);
+	const keystruct *sc = get_shortcut(keycode);
 
 	return (sc) ? sc->func : NULL;
 }
