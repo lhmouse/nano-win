@@ -376,39 +376,37 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 #ifndef NANO_TINY
 	static int counter = 0;
 #endif
-	keystruct *s = nmalloc(sizeof(keystruct));
+	keystruct *sc = nmalloc(sizeof(keystruct));
 
 	/* Start the list, or tack on the next item. */
 	if (sclist == NULL)
-		sclist = s;
+		sclist = sc;
 	else
-		tailsc->next = s;
-	s->next = NULL;
+		tailsc->next = sc;
+	sc->next = NULL;
 
 	/* Fill in the data. */
-	s->menus = menus;
-	s->func = func;
+	sc->menus = menus;
+	sc->func = func;
 #ifndef NANO_TINY
-	s->toggle = toggle;
+	sc->toggle = toggle;
 	/* When not the same toggle as the previous one, increment the ID. */
 	if (toggle)
-		s->ordinal = (tailsc->toggle == toggle) ? counter : ++counter;
+		sc->ordinal = (tailsc->toggle == toggle) ? counter : ++counter;
 #endif
-	s->keystr = scstring;
-	s->keycode = (keycode ? keycode : keycode_from_string(scstring));
+	sc->keystr = scstring;
+	sc->keycode = (keycode ? keycode : keycode_from_string(scstring));
 
-	tailsc = s;
+	tailsc = sc;
 }
 
 /* Return the first shortcut in the list of shortcuts that
  * matches the given func in the given menu. */
 const keystruct *first_sc_for(int menu, void (*func)(void))
 {
-	const keystruct *s;
-
-	for (s = sclist; s != NULL; s = s->next)
-		if ((s->menus & menu) && s->func == func)
-			return s;
+	for (keystruct *sc = sclist; sc != NULL; sc = sc->next)
+		if ((sc->menus & menu) && sc->func == func)
+			return sc;
 
 	return NULL;
 }
@@ -417,14 +415,14 @@ const keystruct *first_sc_for(int menu, void (*func)(void))
  * current menu, if any; otherwise, return the given default value. */
 int the_code_for(void (*func)(void), int defaultval)
 {
-	const keystruct *s = first_sc_for(currmenu, func);
+	const keystruct *sc = first_sc_for(currmenu, func);
 
-	if (s == NULL)
+	if (sc == NULL)
 		return defaultval;
 
-	meta_key = (0x20 <= s->keycode && s->keycode <= 0x7E);
+	meta_key = (0x20 <= sc->keycode && sc->keycode <= 0x7E);
 
-	return s->keycode;
+	return sc->keycode;
 }
 
 /* Return the number of entries that can be shown in the given menu. */
@@ -462,9 +460,9 @@ const keystruct *get_shortcut(int *kbinput)
 	if (bracketed_paste && *kbinput != BRACKETED_PASTE_MARKER)
 		return NULL;
 
-	for (keystruct *s = sclist; s != NULL; s = s->next) {
-		if ((s->menus & currmenu) && *kbinput == s->keycode)
-			return s;
+	for (keystruct *sc = sclist; sc != NULL; sc = sc->next) {
+		if ((sc->menus & currmenu) && *kbinput == sc->keycode)
+			return sc;
 	}
 
 	return NULL;
@@ -473,12 +471,9 @@ const keystruct *get_shortcut(int *kbinput)
 /* Return a pointer to the function that is bound to the given key. */
 functionptrtype func_from_key(int *kbinput)
 {
-	const keystruct *s = get_shortcut(kbinput);
+	const keystruct *sc = get_shortcut(kbinput);
 
-	if (s)
-		return s->func;
-	else
-		return NULL;
+	return (sc) ? sc->func : NULL;
 }
 
 #if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
