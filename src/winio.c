@@ -397,6 +397,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 #endif
 						}
 						break;
+#ifndef NANO_TINY
 					case '5':
 						if (length > 2) {
 							*consumed = 3;
@@ -412,6 +413,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 							}
 						}
 						break;
+#endif
 					case 'A': /* Esc O A == Up on VT100/VT320. */
 					case 'B': /* Esc O B == Down on VT100/VT320. */
 					case 'C': /* Esc O C == Right on VT100/VT320. */
