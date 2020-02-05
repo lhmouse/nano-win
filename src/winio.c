@@ -819,7 +819,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */
 					case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
 						shift_held = TRUE;
-						return arrow_from_ABCD(toupper(seq[1]));
+						return arrow_from_ABCD(seq[1] - 0x20);
 					case '[':
 						if (length > 2) {
 							*consumed = 3;
