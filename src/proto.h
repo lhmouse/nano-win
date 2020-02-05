@@ -683,6 +683,7 @@ void to_files(void);
 void goto_dir(void);
 #endif
 #ifndef NANO_TINY
+void do_nothing(void);
 void do_toggle_void(void);
 void dos_format_void(void);
 void mac_format_void(void);
@@ -698,4 +699,3 @@ void flip_newbuffer(void);
 #endif
 void discard_buffer(void);
 void do_cancel(void);
-void do_nothing(void);

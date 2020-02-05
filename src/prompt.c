@@ -485,8 +485,6 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 
 		if (func == do_cancel || func == do_enter)
 			break;
-		if (func == do_nothing)
-			finished = FALSE;
 
 #ifdef ENABLE_TABCOMP
 		if (func != do_tab)
@@ -552,6 +550,10 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 			 * the status-bar prompt. */
 			finished = FALSE;
 		}
+#ifndef NANO_TINY
+		else if (func == do_nothing)
+			finished = FALSE;
+#endif
 
 		/* If we have a shortcut with an associated function, break out if
 		 * we're finished after running or trying to run the function. */

@@ -300,6 +300,9 @@ void goto_dir(void)
 }
 #endif
 #ifndef NANO_TINY
+void do_nothing(void)
+{
+}
 void do_toggle_void(void)
 {
 }
@@ -337,11 +340,6 @@ void discard_buffer(void)
 {
 }
 void do_cancel(void)
-{
-}
-
-/* Ignore the start and stop sequences of a bracketed paste. */
-void do_nothing(void)
 {
 }
 
