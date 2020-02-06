@@ -28,12 +28,18 @@ nano \- Nano's ANOther editor, inspired by Pico
 .BR nano " [" \fIoptions "] [[" + [ crCR ]( / | ? ) \fIstring "] " \fIfile ]...
 
 .SH NOTICE
-Starting with version 4.0, \fBnano\fR no longer hard-wraps an overlong
-line by default.  It further uses smooth scrolling by default, and by
-default includes the line below the title bar into the editing area.
+Since version 4.0, \fBnano\fR by default:
+.sp
+.RS 4
+\(bu does not automatically hard-wrap lines that become overlong,
+.br
+\(bu includes the line below the title bar in the editing area,
+.br
+\(bu does linewise (smooth) scrolling.
+.RE
 .sp
 If you want the old, Pico behavior back, you can use \fB\-\-breaklonglines\fR,
-\fB\-\-jumpyscrolling\fR, and \fB\-\-emptyline\fR (or \fB\-bje\fR for short).
+\fB\-\-emptyline\fR, and \fB\-\-jumpyscrolling\fR (or \fB\-bej\fR for short).
 
 .SH DESCRIPTION
 \fBnano\fP is a small and friendly editor.  It copies the look and feel

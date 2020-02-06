@@ -21,14 +21,6 @@
 .SH NAME
 nanorc \- GNU nano's configuration file
 
-.SH NOTICE
-Starting with version 4.0, \fBnano\fR no longer hard-wraps an overlong
-line by default.  It further uses smooth scrolling by default, and by
-default includes the line below the title bar into the editing area.
-.sp
-If you want the old, Pico behavior back, you can use \fBset breaklonglines\fR,
-\fBset jumpyscrolling\fR, and \fBset emptyline\fR.
-
 .SH DESCRIPTION
 The \fInanorc\fP files contain the default settings for \fBnano\fP, a
 small and friendly editor.  They should be in Unix format, not in
@@ -40,6 +32,20 @@ from \fI~/.nanorc\fR or from \fI$XDG_CONFIG_HOME/nano/nanorc\fR
 or from \fI~/.config/nano/nanorc\fR, whichever is encountered first.
 If \fB\-\-rcfile\fR is given, \fBnano\fR will read just the specified
 settings file.
+
+.SH NOTICE
+Since version 4.0, \fBnano\fR by default:
+.sp
+.RS 4
+\(bu does not automatically hard-wrap lines that become overlong,
+.br
+\(bu includes the line below the title bar in the editing area,
+.br
+\(bu does linewise (smooth) scrolling.
+.RE
+.sp
+To get the old, Pico behavior back, you can use \fBset breaklonglines\fR,
+\fBset emptyline\fR, and \fBset jumpyscrolling\fR.
 
 .SH OPTIONS
 The configuration file accepts a series of \fBset\fP and \fBunset\fP
