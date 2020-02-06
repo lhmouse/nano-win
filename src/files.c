@@ -289,7 +289,9 @@ int do_lockfile(const char *filename, bool ask_the_user)
 
 		close(lockfd);
 
-		if (readamt < LOCKSIZE || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
+		/* If not enough data has been read to show the needed things,
+		 * or the two magic bytes are not there, skip the lock file. */
+		if (readamt < 68 || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
 			statusline(ALERT, _("Bad lock file is ignored: %s"), lockfilename);
 			free(lockbuf);
 			goto free_the_name;
