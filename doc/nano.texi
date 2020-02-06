@@ -186,7 +186,10 @@ The uniquely numbered files are stored in the specified directory.
 
 @item -D
 @itemx --boldtext
-Use bold text instead of reverse video text.
+For the interface, use bold instead of reverse video.  This will be overridden
+by setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
+@code{functioncolor}, @code{numbercolor}, and/or @code{selectedcolor} in your
+nanorc file.  @xref{@code{set functioncolor}} for details.
 
 @item -E
 @itemx --tabstospaces
@@ -439,7 +442,6 @@ This is the default.  (This option is the opposite of @option{-b}
 (@option{--breaklonglines}) --- the last one given takes effect.)
 
 
-@anchor{Expert Mode}
 @item -x
 @itemx --nohelp
 Expert Mode: don't show the Shortcut List at the bottom of the screen.
@@ -756,9 +758,9 @@ The uniquely numbered files are stored in the specified directory.
 
 @item set boldtext
 Use bold instead of reverse video for the title bar, status bar, key combos,
-function tags, line numbers, and selected text.  This can be overridden by
+function tags, line numbers, and selected text.  This is overridden by
 setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
-@code{functioncolor}, @code{numbercolor}, and @code{selectedcolor}.
+@code{functioncolor}, @code{numbercolor}, and/or @code{selectedcolor}.
 
 @item set brackets "@var{characters}"
 Set the characters treated as closing brackets when justifying
@@ -1616,7 +1618,7 @@ whereas Pico does it at screen width minus six columns. You can make
 By default, @command{nano} will scroll just one line (instead of half
 a screen) when the cursor is moved to a line that is just out of view.
 And when paging up or down, @command{nano} keeps the cursor in the same
-screen position as much as possible, instead always placing it on the
+screen position as much as possible, instead of always placing it on the
 first line of the viewport.  The Pico-like behavior can be obtained
 with the @option{--jumpyscrolling} option.
 
