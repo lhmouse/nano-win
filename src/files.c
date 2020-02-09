@@ -378,9 +378,8 @@ bool open_buffer(const char *filename, bool new_buffer)
 #endif
 	struct stat fileinfo;
 	FILE *f;
-	int rc;
-		/* rc == -2 means that we have a new file.  -1 means that the
-		 * open() failed.  0 means that the open() succeeded. */
+	int descriptor = 0;
+		/* Code 0 means new file, -1 means failure, and else it's the fd. */
 
 	/* Display newlines in filenames as ^J. */
 	as_an_at = FALSE;
@@ -438,15 +437,15 @@ bool open_buffer(const char *filename, bool new_buffer)
 
 	/* If the filename isn't blank, and we are not in NOREAD_MODE,
 	 * open the file.  Otherwise, treat it as a new file. */
-	rc = (filename[0] != '\0' && !ISSET(NOREAD_MODE)) ?
-						open_file(realname, new_buffer, &f) : -2;
+	if (filename[0] != '\0' && !ISSET(NOREAD_MODE))
+		descriptor = open_file(realname, new_buffer, &f);
 
 	/* If we have a non-new file, read it in.  Then, if the buffer has
 	 * no stat, update the stat, if applicable. */
-	if (rc > 0) {
+	if (descriptor > 0) {
 		install_handler_for_Ctrl_C();
 
-		read_file(f, rc, realname, !new_buffer);
+		read_file(f, descriptor, realname, !new_buffer);
 
 		restore_handler_for_Ctrl_C();
 
@@ -458,7 +457,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 
 	/* If we have a file, and we've loaded it into a new buffer, set
 	 * the filename and put the cursor at the start of the buffer. */
-	if (rc != -1 && new_buffer) {
+	if (descriptor >= 0 && new_buffer) {
 		openfile->filename = mallocstrcpy(openfile->filename, realname);
 #ifndef NANO_TINY
 		openfile->lock_filename = thelocksname;
