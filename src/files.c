@@ -256,7 +256,6 @@ int do_lockfile(const char *filename, bool ask_the_user)
 							strlen(locking_suffix) + 3;
 	char *lockfilename = charalloc(locknamesize);
 	struct stat fileinfo;
-	int retval = 0;
 
 	snprintf(lockfilename, locknamesize, "%s/%s%s%s", dirname(namecopy),
 				locking_prefix, basename(secondcopy), locking_suffix);
@@ -274,7 +273,8 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
 			statusline(ALERT, _("Error opening lock file %s: %s"),
 								lockfilename, strerror(errno));
-			goto free_the_name;
+			free(lockfilename);
+			return 0;
 		}
 
 		lockbuf = charalloc(LOCKSIZE);
@@ -287,8 +287,9 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		 * or the two magic bytes are not there, skip the lock file. */
 		if (readamt < 68 || lockbuf[0] != 0x62 || lockbuf[1] != 0x30) {
 			statusline(ALERT, _("Bad lock file is ignored: %s"), lockfilename);
+			free(lockfilename);
 			free(lockbuf);
-			goto free_the_name;
+			return 0;
 		}
 
 		strncpy(lockprog, &lockbuf[2], 10);
@@ -336,22 +337,19 @@ int do_lockfile(const char *filename, bool ask_the_user)
 			finish();
 
 		if (choice < 1) {
-			retval = -1;
+			free(lockfilename);
 			wipe_statusbar();
-			goto free_the_name;
+			return -1;
 		}
 	}
 
 	if (write_lockfile(lockfilename, filename, FALSE)) {
 		openfile->lock_filename = lockfilename;
-		retval = 1;
+		return 1;
 	}
 
-  free_the_name:
-	if (retval < 1)
-		free(lockfilename);
-
-	return retval;
+	free(lockfilename);
+	return 0;
 }
 
 /* Perform a stat call on the given filename, allocating a stat struct
