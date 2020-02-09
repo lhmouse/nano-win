@@ -1317,9 +1317,11 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		if (just_syntax && !intros_only && lineno <= live_syntax->lineno)
 			continue;
 #endif
-		/* Strip the terminating newline, if any. */
+		/* Strip the terminating newline and possibly a carriage return. */
 		if (buffer[len - 1] == '\n')
-			buffer[len - 1] = '\0';
+			buffer[--len] = '\0';
+		if (buffer[len - 1] == '\r')
+			buffer[--len] = '\0';
 
 		ptr = buffer;
 		while (isblank((unsigned char)*ptr))
