@@ -133,7 +133,7 @@ void make_new_buffer(void)
 }
 
 #ifndef NANO_TINY
-/* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
+/* Delete the lockfile.  Return TRUE on success, and FALSE otherwise. */
 bool delete_lockfile(const char *lockfilename)
 {
 	if (unlink(lockfilename) < 0 && errno != ENOENT) {
@@ -144,8 +144,8 @@ bool delete_lockfile(const char *lockfilename)
 		return TRUE;
 }
 
-/* Write a lockfile, under the given lockfilename.  This ALWAYS annihilates
- * an existing version of that file.  Return 1 on success, and 0 on failure. */
+/* Write a lock file, under the given lockfilename.  This always annihilates an
+ * existing version of that file.  Return TRUE on success; FALSE otherwise. */
 bool write_lockfile(const char *lockfilename, const char *filename, bool modified)
 {
 #ifdef HAVE_PWD_H
@@ -246,9 +246,10 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	return TRUE;
 }
 
-/* Deal with lockfiles.  Return -1 on refusing to override the lockfile,
- * and 1 on successfully creating it; 0 means we were not successful in
- * creating the lockfile but we should continue to load the file. */
+/* First check if a lock file already exists.  If so, and ask_the_user is TRUE,
+ * then ask whether to open the corresponding file anyway.  Return SKIPTHISFILE
+ * when the user answers "No", return the name of the lock file on success, and
+ * return NULL on failure. */
 char *do_lockfile(const char *filename, bool ask_the_user)
 {
 	char *namecopy = copy_of(filename);
@@ -377,9 +378,9 @@ bool open_buffer(const char *filename, bool new_buffer)
 	char *thelocksname = NULL;
 #endif
 	struct stat fileinfo;
-	FILE *f;
 	int descriptor = 0;
 		/* Code 0 means new file, -1 means failure, and else it's the fd. */
+	FILE *f;
 
 	/* Display newlines in filenames as ^J. */
 	as_an_at = FALSE;
@@ -414,10 +415,9 @@ bool open_buffer(const char *filename, bool new_buffer)
 #endif
 	}
 
-	/* If we're going to load into a new buffer, first create the new
-	 * buffer and (if possible) lock the corresponding file. */
-	if (new_buffer) {
-		if (has_valid_path(realname)) {
+	/* When loading into a new buffer, first check the file's path is valid,
+	 * and then (if requested and possible) create a lock file for it. */
+	if (new_buffer && has_valid_path(realname)) {
 #ifndef NANO_TINY
 			if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
 				thelocksname = do_lockfile(realname, TRUE);
@@ -428,20 +428,17 @@ bool open_buffer(const char *filename, bool new_buffer)
 					return FALSE;
 				}
 			}
-#endif /* !NANO_TINY */
-		}
+#endif
 	}
 
 	if (new_buffer)
 		make_new_buffer();
 
-	/* If the filename isn't blank, and we are not in NOREAD_MODE,
-	 * open the file.  Otherwise, treat it as a new file. */
+	/* If we have a filename and are not in NOREAD mode, open the file. */
 	if (filename[0] != '\0' && !ISSET(NOREAD_MODE))
 		descriptor = open_file(realname, new_buffer, &f);
 
-	/* If we have a non-new file, read it in.  Then, if the buffer has
-	 * no stat, update the stat, if applicable. */
+	/* If we've successfully opened an existing file, read it in. */
 	if (descriptor > 0) {
 		install_handler_for_Ctrl_C();
 
@@ -455,8 +452,8 @@ bool open_buffer(const char *filename, bool new_buffer)
 #endif
 	}
 
-	/* If we have a file, and we've loaded it into a new buffer, set
-	 * the filename and put the cursor at the start of the buffer. */
+	/* When we've loaded a file into a new buffer, set the filename
+	 * and put the cursor at the start of the buffer. */
 	if (descriptor >= 0 && new_buffer) {
 		openfile->filename = mallocstrcpy(openfile->filename, realname);
 #ifndef NANO_TINY
