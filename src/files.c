@@ -148,33 +148,28 @@ bool delete_lockfile(const char *lockfilename)
 bool write_lockfile(const char *lockfilename, const char *filename, bool modified)
 {
 #ifdef HAVE_PWD_H
+	pid_t mypid = getpid();
+	uid_t myuid = geteuid();
+	struct passwd *mypwuid = getpwuid(myuid);
+	char myhostname[32];
+	struct stat fileinfo;
 	int cflags, fd;
 	FILE *filestream;
-	pid_t mypid;
-	uid_t myuid;
-	struct passwd *mypwuid;
-	struct stat fileinfo;
 	char *lockdata;
-	char myhostname[32];
 	size_t wroteamt;
 
-	mypid = getpid();
-	myuid = geteuid();
-
-	/* First run things that might fail before blowing away the old state. */
-	if ((mypwuid = getpwuid(myuid)) == NULL) {
+	if (mypwuid == NULL) {
 		/* TRANSLATORS: Keep the next eight messages at most 76 characters. */
 		statusline(MILD, _("Couldn't determine my identity for lock file"));
 		return FALSE;
 	}
 
 	if (gethostname(myhostname, 31) < 0) {
-		if (errno == ENAMETOOLONG)
-			myhostname[31] = '\0';
-		else {
+		if (errno != ENAMETOOLONG) {
 			statusline(MILD, _("Couldn't determine hostname: %s"), strerror(errno));
 			return FALSE;
-		}
+		} else
+			myhostname[31] = '\0';
 	}
 
 	/* If the lockfile exists, try to delete it. */
@@ -190,6 +185,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	/* Try to create the lockfile. */
 	fd = open(lockfilename, cflags,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+
 	if (fd < 0) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
@@ -245,8 +241,6 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 							lockfilename, strerror(errno));
 		return FALSE;
 	}
-
-	openfile->lock_filename = (char *)lockfilename;
 #endif
 	return TRUE;
 }
@@ -348,8 +342,10 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		}
 	}
 
-	if (write_lockfile(lockfilename, filename, FALSE))
+	if (write_lockfile(lockfilename, filename, FALSE)) {
+		openfile->lock_filename = lockfilename;
 		retval = 1;
+	}
 
   free_the_name:
 	if (retval < 1)
