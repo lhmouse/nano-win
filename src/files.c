@@ -32,6 +32,7 @@
 
 #ifndef NANO_TINY
 #define LOCKSIZE  1024
+#define SKIPTHISFILE  (char *)-1
 const char *locking_prefix = ".";
 const char *locking_suffix = ".swp";
 		/* Prefix and suffix for the name of the vim-style lock file. */
@@ -248,7 +249,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 /* Deal with lockfiles.  Return -1 on refusing to override the lockfile,
  * and 1 on successfully creating it; 0 means we were not successful in
  * creating the lockfile but we should continue to load the file. */
-int do_lockfile(const char *filename, bool ask_the_user)
+char *do_lockfile(const char *filename, bool ask_the_user)
 {
 	char *namecopy = copy_of(filename);
 	char *secondcopy = copy_of(filename);
@@ -274,7 +275,7 @@ int do_lockfile(const char *filename, bool ask_the_user)
 			statusline(ALERT, _("Error opening lock file %s: %s"),
 								lockfilename, strerror(errno));
 			free(lockfilename);
-			return 0;
+			return NULL;
 		}
 
 		lockbuf = charalloc(LOCKSIZE);
@@ -289,7 +290,7 @@ int do_lockfile(const char *filename, bool ask_the_user)
 			statusline(ALERT, _("Bad lock file is ignored: %s"), lockfilename);
 			free(lockfilename);
 			free(lockbuf);
-			return 0;
+			return NULL;
 		}
 
 		strncpy(lockprog, &lockbuf[2], 10);
@@ -339,17 +340,15 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		if (choice < 1) {
 			free(lockfilename);
 			wipe_statusbar();
-			return -1;
+			return SKIPTHISFILE;
 		}
 	}
 
-	if (write_lockfile(lockfilename, filename, FALSE)) {
-		openfile->lock_filename = lockfilename;
-		return 1;
-	}
+	if (write_lockfile(lockfilename, filename, FALSE))
+		return lockfilename;
 
 	free(lockfilename);
-	return 0;
+	return NULL;
 }
 
 /* Perform a stat call on the given filename, allocating a stat struct
@@ -421,15 +420,18 @@ bool open_buffer(const char *filename, bool new_buffer)
 		if (has_valid_path(realname)) {
 #ifndef NANO_TINY
 			if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
+				char *thelocksname = do_lockfile(realname, TRUE);
+
 				/* When not overriding an existing lock, discard the buffer. */
-				if (do_lockfile(realname, TRUE) < 0) {
+				if (thelocksname == SKIPTHISFILE) {
 #ifdef ENABLE_MULTIBUFFER
 					if (openfile != openfile->next)
 						close_buffer();
 #endif
 					free(realname);
 					return FALSE;
-				}
+				} else
+					openfile->lock_filename = thelocksname;
 			}
 #endif /* !NANO_TINY */
 		}
