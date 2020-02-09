@@ -145,7 +145,7 @@ bool delete_lockfile(const char *lockfilename)
 
 /* Write a lockfile, under the given lockfilename.  This ALWAYS annihilates
  * an existing version of that file.  Return 1 on success, and 0 on failure. */
-int write_lockfile(const char *lockfilename, const char *filename, bool modified)
+bool write_lockfile(const char *lockfilename, const char *filename, bool modified)
 {
 #ifdef HAVE_PWD_H
 	int cflags, fd;
@@ -165,7 +165,7 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 	if ((mypwuid = getpwuid(myuid)) == NULL) {
 		/* TRANSLATORS: Keep the next eight messages at most 76 characters. */
 		statusline(MILD, _("Couldn't determine my identity for lock file"));
-		return 0;
+		return FALSE;
 	}
 
 	if (gethostname(myhostname, 31) < 0) {
@@ -173,14 +173,14 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 			myhostname[31] = '\0';
 		else {
 			statusline(MILD, _("Couldn't determine hostname: %s"), strerror(errno));
-			return 0;
+			return FALSE;
 		}
 	}
 
 	/* If the lockfile exists, try to delete it. */
 	if (stat(lockfilename, &fileinfo) != -1)
 		if (!delete_lockfile(lockfilename))
-			return 0;
+			return FALSE;
 
 	if (ISSET(INSECURE_BACKUP))
 		cflags = O_WRONLY | O_CREAT | O_APPEND;
@@ -193,7 +193,7 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 	if (fd < 0) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
-		return 0;
+		return FALSE;
 	}
 
 	/* Try to associate a stream with the now open lockfile. */
@@ -203,7 +203,7 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
 		close(fd);
-		return 0;
+		return FALSE;
 	}
 
 	lockdata = charalloc(LOCKSIZE);
@@ -243,12 +243,12 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 	if (fclose(filestream) == EOF || wroteamt < LOCKSIZE) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
-		return 0;
+		return FALSE;
 	}
 
 	openfile->lock_filename = (char *)lockfilename;
 #endif
-	return 1;
+	return TRUE;
 }
 
 /* Deal with lockfiles.  Return -1 on refusing to override the lockfile,
@@ -348,7 +348,8 @@ int do_lockfile(const char *filename, bool ask_the_user)
 		}
 	}
 
-	retval = write_lockfile(lockfilename, filename, FALSE);
+	if (write_lockfile(lockfilename, filename, FALSE))
+		retval = 1;
 
   free_the_name:
 	if (retval < 1)
