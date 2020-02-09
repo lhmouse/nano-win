@@ -1299,10 +1299,10 @@ static void check_vitals_mapped(void)
 void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 {
 	char *buffer = NULL;
-	ssize_t len;
 	size_t size = 0;
+	ssize_t length;
 
-	while ((len = getline(&buffer, &size, rcstream)) > 0) {
+	while ((length = getline(&buffer, &size, rcstream)) > 0) {
 		char *ptr, *keyword, *option, *argument;
 #ifdef ENABLE_COLOR
 		bool drop_open = FALSE;
@@ -1318,10 +1318,10 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			continue;
 #endif
 		/* Strip the terminating newline and possibly a carriage return. */
-		if (buffer[len - 1] == '\n')
-			buffer[--len] = '\0';
-		if (buffer[len - 1] == '\r')
-			buffer[--len] = '\0';
+		if (buffer[length - 1] == '\n')
+			buffer[--length] = '\0';
+		if (buffer[length - 1] == '\r')
+			buffer[--length] = '\0';
 
 		ptr = buffer;
 		while (isblank((unsigned char)*ptr))
