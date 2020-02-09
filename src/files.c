@@ -373,6 +373,9 @@ bool open_buffer(const char *filename, bool new_buffer)
 {
 	char *realname;
 		/* The filename after tilde expansion. */
+#ifndef NANO_TINY
+	char *thelocksname = NULL;
+#endif
 	struct stat fileinfo;
 	FILE *f;
 	int rc;
@@ -415,27 +418,23 @@ bool open_buffer(const char *filename, bool new_buffer)
 	/* If we're going to load into a new buffer, first create the new
 	 * buffer and (if possible) lock the corresponding file. */
 	if (new_buffer) {
-		make_new_buffer();
-
 		if (has_valid_path(realname)) {
 #ifndef NANO_TINY
 			if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
-				char *thelocksname = do_lockfile(realname, TRUE);
+				thelocksname = do_lockfile(realname, TRUE);
 
-				/* When not overriding an existing lock, discard the buffer. */
+				/* When not overriding an existing lock, don't open a buffer. */
 				if (thelocksname == SKIPTHISFILE) {
-#ifdef ENABLE_MULTIBUFFER
-					if (openfile != openfile->next)
-						close_buffer();
-#endif
 					free(realname);
 					return FALSE;
-				} else
-					openfile->lock_filename = thelocksname;
+				}
 			}
 #endif /* !NANO_TINY */
 		}
 	}
+
+	if (new_buffer)
+		make_new_buffer();
 
 	/* If the filename isn't blank, and we are not in NOREAD_MODE,
 	 * open the file.  Otherwise, treat it as a new file. */
@@ -461,6 +460,9 @@ bool open_buffer(const char *filename, bool new_buffer)
 	 * the filename and put the cursor at the start of the buffer. */
 	if (rc != -1 && new_buffer) {
 		openfile->filename = mallocstrcpy(openfile->filename, realname);
+#ifndef NANO_TINY
+		openfile->lock_filename = thelocksname;
+#endif
 		openfile->current = openfile->filetop;
 		openfile->current_x = 0;
 		openfile->placewewant = 0;
