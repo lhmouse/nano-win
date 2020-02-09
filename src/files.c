@@ -419,15 +419,15 @@ bool open_buffer(const char *filename, bool new_buffer)
 	 * and then (if requested and possible) create a lock file for it. */
 	if (new_buffer && has_valid_path(realname)) {
 #ifndef NANO_TINY
-			if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
-				thelocksname = do_lockfile(realname, TRUE);
+		if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
+			thelocksname = do_lockfile(realname, TRUE);
 
-				/* When not overriding an existing lock, don't open a buffer. */
-				if (thelocksname == SKIPTHISFILE) {
-					free(realname);
-					return FALSE;
-				}
+			/* When not overriding an existing lock, don't open a buffer. */
+			if (thelocksname == SKIPTHISFILE) {
+				free(realname);
+				return FALSE;
 			}
+		}
 #endif
 	}
 
