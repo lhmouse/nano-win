@@ -133,14 +133,14 @@ void make_new_buffer(void)
 
 #ifndef NANO_TINY
 /* Delete the lockfile.  Return -1 if unsuccessful, and 1 otherwise. */
-int delete_lockfile(const char *lockfilename)
+bool delete_lockfile(const char *lockfilename)
 {
 	if (unlink(lockfilename) < 0 && errno != ENOENT) {
 		statusline(MILD, _("Error deleting lock file %s: %s"),
 							lockfilename, strerror(errno));
-		return -1;
-	}
-	return 1;
+		return FALSE;
+	} else
+		return TRUE;
 }
 
 /* Write a lockfile, under the given lockfilename.  This ALWAYS annihilates
@@ -179,7 +179,7 @@ int write_lockfile(const char *lockfilename, const char *filename, bool modified
 
 	/* If the lockfile exists, try to delete it. */
 	if (stat(lockfilename, &fileinfo) != -1)
-		if (delete_lockfile(lockfilename) < 0)
+		if (!delete_lockfile(lockfilename))
 			return 0;
 
 	if (ISSET(INSECURE_BACKUP))

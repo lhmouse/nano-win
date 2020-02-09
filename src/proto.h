@@ -279,7 +279,7 @@ void paste_text(void);
 /* Most functions in files.c. */
 void make_new_buffer(void);
 #ifndef NANO_TINY
-int delete_lockfile(const char *lockfilename);
+bool delete_lockfile(const char *lockfilename);
 #endif
 bool open_buffer(const char *filename, bool new_buffer);
 #ifdef ENABLE_SPELLER
