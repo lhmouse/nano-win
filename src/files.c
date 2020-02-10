@@ -895,16 +895,16 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 /* Open the file with the given name.  If the file does not exist, display
  * "New File" if new_one is TRUE, and say "File not found" otherwise.
- * Return 0 if we say "New File", -1 if the file isn't opened, and the
- * obtained fd otherwise.  *f is set to the opened file. */
+ * Return 0 if we say "New File", -1 upon failure, and the obtained file
+ * descriptor otherwise.  The opened filestream is returned in *f. */
 int open_file(const char *filename, bool new_one, FILE **f)
 {
 	char *full_filename = get_full_path(filename);
 	struct stat fileinfo;
 	int fd;
 
-	/* If the full path is unusable (due to some component's permissions),
-	 * but the relative path is okay, then just use that one. */
+	/* If the absolute path is unusable (due to some component's permissions),
+	 * try the given path instead (as it is probably relative). */
 	if (full_filename == NULL || stat(full_filename, &fileinfo) == -1)
 		full_filename = mallocstrcpy(full_filename, filename);
 
