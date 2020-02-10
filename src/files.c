@@ -365,7 +365,7 @@ bool has_valid_path(const char *filename)
 /* This does one of three things.  If the filename is "", it just creates
  * a new empty buffer.  When the filename is not empty, it reads that file
  * into a new buffer when requested, otherwise into the existing buffer. */
-bool open_buffer(const char *filename, bool new_buffer)
+bool open_buffer(const char *filename, bool new_one)
 {
 	char *realname;
 		/* The filename after tilde expansion. */
@@ -412,7 +412,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 
 	/* When loading into a new buffer, first check the file's path is valid,
 	 * and then (if requested and possible) create a lock file for it. */
-	if (new_buffer && has_valid_path(realname)) {
+	if (new_one && has_valid_path(realname)) {
 #ifndef NANO_TINY
 		if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
 			thelocksname = do_lockfile(realname, TRUE);
@@ -426,18 +426,18 @@ bool open_buffer(const char *filename, bool new_buffer)
 #endif
 	}
 
-	if (new_buffer)
+	if (new_one)
 		make_new_buffer();
 
 	/* If we have a filename and are not in NOREAD mode, open the file. */
 	if (filename[0] != '\0' && !ISSET(NOREAD_MODE))
-		descriptor = open_file(realname, new_buffer, &f);
+		descriptor = open_file(realname, new_one, &f);
 
 	/* If we've successfully opened an existing file, read it in. */
 	if (descriptor > 0) {
 		install_handler_for_Ctrl_C();
 
-		read_file(f, descriptor, realname, !new_buffer);
+		read_file(f, descriptor, realname, !new_one);
 
 		restore_handler_for_Ctrl_C();
 
@@ -449,7 +449,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 
 	/* When we've loaded a file into a new buffer, set the filename
 	 * and put the cursor at the start of the buffer. */
-	if (descriptor >= 0 && new_buffer) {
+	if (descriptor >= 0 && new_one) {
 		openfile->filename = mallocstrcpy(openfile->filename, realname);
 #ifndef NANO_TINY
 		openfile->lock_filename = thelocksname;
@@ -462,7 +462,7 @@ bool open_buffer(const char *filename, bool new_buffer)
 #ifdef ENABLE_COLOR
 	/* If we're loading into a new buffer, update the colors to account
 	 * for it, if applicable. */
-	if (new_buffer)
+	if (new_one)
 		color_update();
 #endif
 	free(realname);
@@ -894,10 +894,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 }
 
 /* Open the file with the given name.  If the file does not exist, display
- * "New File" if newfie is TRUE, and say "File not found" otherwise.
+ * "New File" if new_one is TRUE, and say "File not found" otherwise.
  * Return 0 if we say "New File", -1 if the file isn't opened, and the
  * obtained fd otherwise.  *f is set to the opened file. */
-int open_file(const char *filename, bool newfie, FILE **f)
+int open_file(const char *filename, bool new_one, FILE **f)
 {
 	struct stat fileinfo, fileinfo2;
 	int fd;
@@ -910,7 +910,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 		full_filename = mallocstrcpy(full_filename, filename);
 
 	if (stat(full_filename, &fileinfo) == -1) {
-		if (newfie) {
+		if (new_one) {
 			statusbar(_("New File"));
 			free(full_filename);
 			return 0;
