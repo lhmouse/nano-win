@@ -30,14 +30,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#ifndef NANO_TINY
-#define LOCKSIZE  1024
-#define SKIPTHISFILE  (char *)-1
-const char *locking_prefix = ".";
-const char *locking_suffix = ".swp";
-		/* Prefix and suffix for the name of the vim-style lock file. */
-#endif
-
 /* Verify that the containing directory of the given filename exists. */
 bool has_valid_path(const char *filename)
 {
@@ -144,6 +136,11 @@ bool delete_lockfile(const char *lockfilename)
 		return TRUE;
 }
 
+#define LOCKSIZE  1024
+#define SKIPTHISFILE  (char *)-1
+const char *locking_prefix = ".";
+const char *locking_suffix = ".swp";
+
 /* Write a lock file, under the given lockfilename.  This always annihilates an
  * existing version of that file.  Return TRUE on success; FALSE otherwise. */
 bool write_lockfile(const char *lockfilename, const char *filename, bool modified)
@@ -204,14 +201,14 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	lockdata = charalloc(LOCKSIZE);
 	memset(lockdata, 0, LOCKSIZE);
 
-	/* This is the lock data we will store (other bytes are 0x00):
+	/* This is the lock data we will store (other bytes remain 0x00):
 	 *
 	 *   bytes 0-1     - 0x62 0x30
 	 *   bytes 2-11    - name of program that created the lock
 	 *   bytes 24-27   - PID (little endian) of creator process
-	 *   bytes 28-43   - username of who created the lock
-	 *   bytes 68-99   - hostname of where the lock was created
-	 *   bytes 108-876 - filename the lock is for
+	 *   bytes 28-43   - username of the user who created the lock
+	 *   bytes 68-99   - hostname of machine from where the lock was created
+	 *   bytes 108-876 - filename that the lock is for
 	 *   byte 1007     - 0x55 if file is modified
 	 *
 	 * Nano does not write the page size (bytes 12-15), nor the modification
