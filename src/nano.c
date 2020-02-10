@@ -340,9 +340,8 @@ void finish(void)
 	/* If the user wants history persistence, write the relevant files. */
 	if (ISSET(HISTORYLOG))
 		save_history();
-	if (ISSET(POSITIONLOG)) {
+	if (ISSET(POSITIONLOG) && openfile)
 		update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
-	}
 #endif
 
 	/* Get out. */
