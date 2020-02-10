@@ -30,35 +30,6 @@
 #include <string.h>
 #include <unistd.h>
 
-/* Verify that the containing directory of the given filename exists. */
-bool has_valid_path(const char *filename)
-{
-	char *namecopy = copy_of(filename);
-	char *parentdir = dirname(namecopy);
-	struct stat parentinfo;
-	bool validity = FALSE;
-
-	if (stat(parentdir, &parentinfo) == -1) {
-		if (errno == ENOENT)
-			statusline(ALERT, _("Directory '%s' does not exist"), parentdir);
-		else
-			statusline(ALERT, _("Path '%s': %s"), parentdir, strerror(errno));
-	} else if (!S_ISDIR(parentinfo.st_mode))
-		statusline(ALERT, _("Path '%s' is not a directory"), parentdir);
-	else if (access(parentdir, X_OK) == -1)
-		statusline(ALERT, _("Path '%s' is not accessible"), parentdir);
-#ifndef NANO_TINY
-	else if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && access(parentdir, W_OK) < 0)
-		statusline(MILD, _("Directory '%s' is not writable"), parentdir);
-#endif
-	else
-		validity = TRUE;
-
-	free(namecopy);
-
-	return validity;
-}
-
 /* Add an item to the circular list of openfile structs. */
 void make_new_buffer(void)
 {
@@ -361,6 +332,35 @@ void stat_with_alloc(const char *filename, struct stat **pstat)
 	}
 }
 #endif /* !NANO_TINY */
+
+/* Verify that the containing directory of the given filename exists. */
+bool has_valid_path(const char *filename)
+{
+	char *namecopy = copy_of(filename);
+	char *parentdir = dirname(namecopy);
+	struct stat parentinfo;
+	bool validity = FALSE;
+
+	if (stat(parentdir, &parentinfo) == -1) {
+		if (errno == ENOENT)
+			statusline(ALERT, _("Directory '%s' does not exist"), parentdir);
+		else
+			statusline(ALERT, _("Path '%s': %s"), parentdir, strerror(errno));
+	} else if (!S_ISDIR(parentinfo.st_mode))
+		statusline(ALERT, _("Path '%s' is not a directory"), parentdir);
+	else if (access(parentdir, X_OK) == -1)
+		statusline(ALERT, _("Path '%s' is not accessible"), parentdir);
+#ifndef NANO_TINY
+	else if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && access(parentdir, W_OK) < 0)
+		statusline(MILD, _("Directory '%s' is not writable"), parentdir);
+#endif
+	else
+		validity = TRUE;
+
+	free(namecopy);
+
+	return validity;
+}
 
 /* This does one of three things.  If the filename is "", it just creates
  * a new empty buffer.  When the filename is not empty, it reads that file
