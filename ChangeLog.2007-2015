@@ -3448,14 +3448,14 @@ GNU nano 2.1.8 - 2009.02.07
 2009-01-25 Chris Allegretta <chrisa@asty.org>
 	* files.c (open_file), nanorc.c (parse_include): Don't get_full_path on included
 	  rc files, due to it potentially impacting the ability to read files in nano's
-	  cwd().  Fixes Savnanah bug #25297 reported by Mike Frysinger.
+	  cwd().  Fixes Savannah bug #25297 reported by Mike Frysinger.
 
 2009-01-24 Chris Allegretta <chrisa@asty.org>
-	* First pass at some caching of caching color info.  Right now it's only for
+	* First pass at some caching of color info.  Right now it's only for
 	  multi-line regexes but this may not be enough to increase performance.
 	* Add interruptability to search functions.  New functions enable_nodelay and
 	  disable_nodelay and changes to the routines to handle checking for pending
-	  searches.  Fixes Savnnah bug #24946: Need interrrupt for search.
+	  searches.  Fixes Savannah bug #24946: Need interrrupt for search.
 
 2009-01-19 Chris Allegretta <chrisa@asty.org>
 	* Change function definitions to shorts instead of (void *)s.  New mapping function
