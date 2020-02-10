@@ -165,13 +165,11 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 		return FALSE;
 	}
 
-	if (gethostname(myhostname, 31) < 0) {
-		if (errno != ENAMETOOLONG) {
-			statusline(MILD, _("Couldn't determine hostname: %s"), strerror(errno));
-			return FALSE;
-		} else
-			myhostname[31] = '\0';
-	}
+	if (gethostname(myhostname, 31) < 0 && errno != ENAMETOOLONG) {
+		statusline(MILD, _("Couldn't determine hostname: %s"), strerror(errno));
+		return FALSE;
+	} else
+		myhostname[31] = '\0';
 
 	/* If the lockfile exists, try to delete it. */
 	if (stat(lockfilename, &fileinfo) != -1)
@@ -1855,8 +1853,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			if (openfile->lock_filename != NULL) {
 				delete_lockfile(openfile->lock_filename);
 				free(openfile->lock_filename);
-				openfile->lock_filename = NULL;
-				do_lockfile(realname, FALSE);
+				openfile->lock_filename = do_lockfile(realname, FALSE);
 			}
 #endif
 #ifdef ENABLE_COLOR
