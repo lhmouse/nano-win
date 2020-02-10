@@ -895,7 +895,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 /* Open the file with the given name.  If the file does not exist, display
  * "New File" if newfie is TRUE, and say "File not found" otherwise.
- * Return -2 if we say "New File", -1 if the file isn't opened, and the
+ * Return 0 if we say "New File", -1 if the file isn't opened, and the
  * obtained fd otherwise.  *f is set to the opened file. */
 int open_file(const char *filename, bool newfie, FILE **f)
 {
@@ -913,7 +913,7 @@ int open_file(const char *filename, bool newfie, FILE **f)
 		if (newfie) {
 			statusbar(_("New File"));
 			free(full_filename);
-			return -2;
+			return 0;
 		}
 
 		statusline(ALERT, _("File \"%s\" not found"), filename);
