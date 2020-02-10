@@ -899,26 +899,25 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
  * obtained fd otherwise.  *f is set to the opened file. */
 int open_file(const char *filename, bool new_one, FILE **f)
 {
-	struct stat fileinfo, fileinfo2;
-	int fd;
 	char *full_filename = get_full_path(filename);
+	struct stat fileinfo;
+	int fd;
 
 	/* If the full path is unusable (due to some component's permissions),
 	 * but the relative path is okay, then just use that one. */
-	if (full_filename == NULL || (stat(full_filename, &fileinfo) == -1 &&
-										stat(filename, &fileinfo2) != -1))
+	if (full_filename == NULL || stat(full_filename, &fileinfo) == -1)
 		full_filename = mallocstrcpy(full_filename, filename);
 
 	if (stat(full_filename, &fileinfo) == -1) {
+		free(full_filename);
+
 		if (new_one) {
 			statusbar(_("New File"));
-			free(full_filename);
 			return 0;
+		} else {
+			statusline(ALERT, _("File \"%s\" not found"), filename);
+			return -1;
 		}
-
-		statusline(ALERT, _("File \"%s\" not found"), filename);
-		free(full_filename);
-		return -1;
 	}
 
 #ifndef NANO_TINY
