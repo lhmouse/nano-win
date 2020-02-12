@@ -90,18 +90,11 @@ int do_statusbar_input(bool *finished)
 	/* If we got a non-high-bit control key, a meta key sequence, or a
 	 * function key, and it's not a shortcut or toggle, throw it out. */
 	if (shortcut == NULL) {
-		if (input < 0x20 || input > 0xFF || meta_key) {
+		if (input < 0x20 || input > 0xFF || meta_key)
 			beep();
-			input = ERR;
-		}
-	}
-
-	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
-	 * character: add the it to the input buffer, when allowed. */
-	if (input != ERR && shortcut == NULL) {
 		/* Only accept input when not in restricted mode, or when not at
 		 * the "Write File" prompt, or when there is no filename yet. */
-		if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
+		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
 						openfile->filename[0] == '\0') {
 			kbinput_len++;
 			kbinput = (int *)nrealloc(kbinput, kbinput_len * sizeof(int));

@@ -1531,17 +1531,9 @@ void do_input(void)
 	/* If we got a non-high-bit control key, a meta key sequence, or a
 	 * function key, and it's not a shortcut or toggle, throw it out. */
 	if (shortcut == NULL) {
-		if (input < 0x20 || input > 0xFF || meta_key) {
+		if (input < 0x20 || input > 0xFF || meta_key)
 			unbound_key(input);
-			input = ERR;
-		}
-	}
-
-	/* If the keystroke isn't a shortcut nor a toggle, it's a normal text
-	 * character: add the character to the input buffer -- or display a
-	 * warning when we're in view mode. */
-	if (input != ERR && shortcut == NULL) {
-		if (ISSET(VIEW_MODE))
+		else if (ISSET(VIEW_MODE))
 			print_view_warning();
 		else {
 			/* Store the byte, and leave room for a terminating zero. */
