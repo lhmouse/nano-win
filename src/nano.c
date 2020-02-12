@@ -1549,16 +1549,14 @@ void do_input(void)
 
 	/* If we have a command, or if there aren't any other key codes waiting,
 	 * it's time to insert the gathered bytes into the current buffer. */
-	if (shortcut || get_key_buffer_len() == 0) {
-		if (puddle != NULL) {
-			puddle[depth] = '\0';
-			inject(puddle, depth);
+	if ((shortcut || get_key_buffer_len() == 0) && puddle != NULL) {
+		puddle[depth] = '\0';
 
-			/* Empty the little input buffer. */
-			free(puddle);
-			puddle = NULL;
-			depth = 0;
-		}
+		inject(puddle, depth);
+
+		free(puddle);
+		puddle = NULL;
+		depth = 0;
 	}
 
 	if (shortcut == NULL) {
