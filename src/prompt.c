@@ -115,7 +115,7 @@ int do_statusbar_input(bool *finished)
 	if ((shortcut || get_key_buffer_len() == 0) && kbinput != NULL) {
 		/* Inject all characters in the input buffer at once, filtering out
 		 * control characters. */
-		inject_into_answer(kbinput, kbinput_len, TRUE);
+		inject_into_answer(kbinput, kbinput_len);
 
 		/* Empty the input buffer. */
 		kbinput_len = 0;
@@ -185,7 +185,7 @@ int do_statusbar_input(bool *finished)
 
 /* The user typed input_len multibyte characters.  Add them to the answer,
  * filtering out ASCII control characters if filtering is TRUE. */
-void inject_into_answer(int *the_input, size_t input_len, bool filtering)
+void inject_into_answer(int *the_input, size_t input_len)
 {
 	char *output = charalloc(input_len + 1);
 	char onechar[MAXCHARLEN];
@@ -205,10 +205,6 @@ void inject_into_answer(int *the_input, size_t input_len, bool filtering)
 		charlen = collect_char(output + j, onechar);
 
 		j += charlen;
-
-		/* When filtering, skip any ASCII control character. */
-		if (filtering && is_ascii_cntrl_char(*(output + j - charlen)))
-			continue;
 
 		/* Insert the typed character into the existing answer string. */
 		answer = charealloc(answer, strlen(answer) + charlen + 1);
@@ -339,7 +335,7 @@ void do_statusbar_verbatim_input(void)
 
 	kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
 
-	inject_into_answer(kbinput, kbinput_len, FALSE);
+	inject_into_answer(kbinput, kbinput_len);
 
 	free(kbinput);
 }

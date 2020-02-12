@@ -1565,7 +1565,7 @@ void do_input(void)
 			/* Insert all bytes in the input buffer into the edit buffer
 			 * at once, filtering out any ASCII control codes. */
 			puddle[depth] = '\0';
-			inject(puddle, depth, TRUE);
+			inject(puddle, depth);
 
 			/* Empty the input buffer. */
 			free(puddle);
@@ -1656,7 +1656,7 @@ void do_input(void)
 
 /* The user typed output_len multibyte characters.  Add them to the edit
  * buffer, filtering out ASCII control characters when filtering is TRUE. */
-void inject(char *output, size_t output_len, bool filtering)
+void inject(char *output, size_t output_len)
 {
 	char onechar[MAXCHARLEN];
 	int charlen;
@@ -1681,10 +1681,6 @@ void inject(char *output, size_t output_len, bool filtering)
 		charlen = collect_char(output + i, onechar);
 
 		i += charlen;
-
-		/* If controls are not allowed, ignore an ASCII control character. */
-		if (filtering && is_ascii_cntrl_char(*(output + i - charlen)))
-			continue;
 
 		/* Make room for the new character and copy it into the line. */
 		openfile->current->data = charealloc(openfile->current->data,

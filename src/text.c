@@ -69,7 +69,7 @@ void do_tab(void)
 {
 #ifdef ENABLE_COLOR
 	if (openfile->syntax && openfile->syntax->tab)
-		inject(openfile->syntax->tab, strlen(openfile->syntax->tab), FALSE);
+		inject(openfile->syntax->tab, strlen(openfile->syntax->tab));
 	else
 #endif
 #ifndef NANO_TINY
@@ -80,12 +80,12 @@ void do_tab(void)
 		memset(spaces, ' ', length);
 		spaces[length] = '\0';
 
-		inject(spaces, length, FALSE);
+		inject(spaces, length);
 
 		free(spaces);
 	} else
 #endif
-		inject((char *)"\t", 1, FALSE);
+		inject((char *)"\t", 1);
 }
 
 #ifndef NANO_TINY
@@ -3156,7 +3156,7 @@ void do_verbatim_input(void)
 	keycodes[count] = '\0';
 
 	/* Insert the keystroke verbatim, without filtering control characters. */
-	inject(keycodes, count, FALSE);
+	inject(keycodes, count);
 
 	free(keycodes);
 	free(kbinput);
@@ -3303,8 +3303,8 @@ void complete_a_word(void)
 			UNSET(BREAK_LONG_LINES);
 #endif
 			/* Inject the completion into the buffer. */
-			inject(&completion[shard_length],
-						strlen(completion) - shard_length, TRUE);
+			inject(&completion[shard_length], strlen(completion) - shard_length);
+
 #ifdef ENABLE_WRAPPING
 			/* If needed, reenable wrapping and wrap the current line. */
 			if (was_set_wrapping) {
