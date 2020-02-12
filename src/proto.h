@@ -614,7 +614,7 @@ int parse_kbinput(WINDOW *win);
 int get_kbinput(WINDOW *win, bool showcursor);
 int get_byte_kbinput(int kbinput);
 int get_control_kbinput(int kbinput);
-int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len);
+int *get_verbatim_kbinput(WINDOW *win, size_t *count);
 int *parse_verbatim_kbinput(WINDOW *win, size_t *count);
 #ifdef ENABLE_MOUSE
 int get_mouseinput(int *mouse_row, int *mouse_col, bool allow_shortcuts);

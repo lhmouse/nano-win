@@ -1502,11 +1502,11 @@ int get_control_kbinput(int kbinput)
 	return kbinput;
 }
 
-/* Read in a stream of characters verbatim, and return the length of the
- * string in kbinput_len.  Assume nodelay(win) is FALSE. */
-int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
+/* Read in one control code, one character byte, or the leading escapes of
+ * an escape sequence, and return the resulting number of bytes in count. */
+int *get_verbatim_kbinput(WINDOW *win, size_t *count)
 {
-	int *retval;
+	int *input;
 
 	/* Turn off flow control characters if necessary so that we can type
 	 * them in verbatim, and turn the keypad off if necessary so that we
@@ -1516,13 +1516,13 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 	if (!ISSET(RAW_SEQUENCES))
 		keypad(win, FALSE);
 
-	/* Read in one keycode, or one or two escapes. */
-	retval = parse_verbatim_kbinput(win, kbinput_len);
+	/* Read in a single byte or two escapes. */
+	input = parse_verbatim_kbinput(win, count);
 
 	/* If the code is invalid in the current mode, discard it. */
-	if (retval != NULL && ((*retval == '\n' && as_an_at) ||
-								(*retval == '\0' && !as_an_at))) {
-		*kbinput_len = 0;
+	if (input != NULL && ((*input == '\n' && as_an_at) ||
+								(*input == '\0' && !as_an_at))) {
+		*count = 0;
 		beep();
 	}
 
@@ -1537,7 +1537,7 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *kbinput_len)
 		keypad(bottomwin, TRUE);
 	}
 
-	return retval;
+	return input;
 }
 
 /* Read in one control character (or an iTerm/Eterm/rxvt double Escape),
@@ -1577,7 +1577,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		 * Unicode value, and put back the corresponding byte(s). */
 		else {
 			char *multibyte;
-			int onebyte, i;
+			int onebyte;
 
 			reveal_cursor = FALSE;
 
@@ -1592,7 +1592,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 			multibyte = make_mbchar(unicode, (int *)count);
 
 			/* Insert the multibyte sequence into the input buffer. */
-			for (i = *count; i > 0 ; i--) {
+			for (size_t i = *count; i > 0 ; i--) {
 				onebyte = (unsigned char)multibyte[i - 1];
 				put_back(onebyte);
 			}
