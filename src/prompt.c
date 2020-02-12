@@ -313,15 +313,15 @@ void do_statusbar_prev_word(void)
 }
 #endif /* !NANO_TINY */
 
-/* Get verbatim input and inject it into the answer, without filtering. */
+/* Get a verbatim keystroke and insert it into the answer. */
 void do_statusbar_verbatim_input(void)
 {
 	int *kbinput;
-	size_t kbinput_len;
+	size_t count;
 
-	kbinput = get_verbatim_kbinput(bottomwin, &kbinput_len);
+	kbinput = get_verbatim_kbinput(bottomwin, &count);
 
-	inject_into_answer(kbinput, kbinput_len);
+	inject_into_answer(kbinput, count);
 
 	free(kbinput);
 }

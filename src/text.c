@@ -3133,14 +3133,14 @@ void do_verbatim_input(void)
 {
 	int *kbinput;
 	size_t count;
-	char *keycodes;
+	char *bytes;
 
 	/* TRANSLATORS: This is displayed when the next keystroke will be
 	 * inserted verbatim. */
 	statusbar(_("Verbatim Input"));
 	place_the_cursor();
 
-	/* Read in all the verbatim characters. */
+	/* Read in the first one or two bytes of the next keystroke. */
 	kbinput = get_verbatim_kbinput(edit, &count);
 
 	/* Unsuppress cursor-position display or blank the status bar. */
@@ -3149,16 +3149,16 @@ void do_verbatim_input(void)
 	else
 		wipe_statusbar();
 
-	keycodes = charalloc(count + 1);
+	bytes = charalloc(count + 1);
 
 	for (size_t i = 0; i < count; i++)
-		keycodes[i] = (char)kbinput[i];
-	keycodes[count] = '\0';
+		bytes[i] = (char)kbinput[i];
+	bytes[count] = '\0';
 
-	/* Insert the keystroke verbatim. */
-	inject(keycodes, count);
+	/* Insert the bytes into the edit buffer. */
+	inject(bytes, count);
 
-	free(keycodes);
+	free(bytes);
 	free(kbinput);
 }
 

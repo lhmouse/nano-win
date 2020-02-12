@@ -1544,7 +1544,7 @@ void process_a_keystroke(void)
 	}
 
 	/* If we have a command, or if there aren't any other key codes waiting,
-	 * it's time to insert the gathered bytes into the current buffer. */
+	 * it's time to insert the gathered bytes into the edit buffer. */
 	if ((shortcut || get_key_buffer_len() == 0) && puddle != NULL) {
 		puddle[depth] = '\0';
 
