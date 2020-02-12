@@ -310,22 +310,14 @@ void do_statusbar_prev_word(void)
 /* Get a verbatim keystroke and insert it into the answer. */
 void do_statusbar_verbatim_input(void)
 {
-	int *kbinput;
 	char *bytes;
 	size_t count;
 
-	kbinput = get_verbatim_kbinput(bottomwin, &count);
-
-	bytes = charalloc(count + 1);
-
-	for (size_t i = 0; i < count; i++)
-		bytes[i] = (char)kbinput[i];
-	bytes[count] = '\0';
+	bytes = get_verbatim_kbinput(bottomwin, &count);
 
 	inject_into_answer(bytes, count);
 
 	free(bytes);
-	free(kbinput);
 }
 
 /* Paste the first line of the cutbuffer into the current answer. */

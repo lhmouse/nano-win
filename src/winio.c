@@ -1578,8 +1578,9 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 /* Read in one control code, one character byte, or the leading escapes of
  * an escape sequence, and return the resulting number of bytes in count. */
-int *get_verbatim_kbinput(WINDOW *win, size_t *count)
+char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 {
+	char *bytes = charalloc(3);
 	int *input;
 
 	/* Turn off flow control characters if necessary so that we can type
@@ -1611,7 +1612,13 @@ int *get_verbatim_kbinput(WINDOW *win, size_t *count)
 		keypad(bottomwin, TRUE);
 	}
 
-	return input;
+	for (size_t i = 0; i < *count; i++)
+		bytes[i] = (char)input[i];
+	bytes[*count] = '\0';
+
+	free(input);
+
+	return bytes;
 }
 
 #ifdef ENABLE_MOUSE

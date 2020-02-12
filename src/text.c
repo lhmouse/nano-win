@@ -3131,9 +3131,8 @@ void do_wordlinechar_count(void)
 /* Get verbatim input. */
 void do_verbatim_input(void)
 {
-	int *kbinput;
-	size_t count;
 	char *bytes;
+	size_t count;
 
 	/* TRANSLATORS: This is displayed when the next keystroke will be
 	 * inserted verbatim. */
@@ -3141,7 +3140,7 @@ void do_verbatim_input(void)
 	place_the_cursor();
 
 	/* Read in the first one or two bytes of the next keystroke. */
-	kbinput = get_verbatim_kbinput(edit, &count);
+	bytes = get_verbatim_kbinput(edit, &count);
 
 	/* Unsuppress cursor-position display or blank the status bar. */
 	if (ISSET(CONSTANT_SHOW))
@@ -3149,17 +3148,10 @@ void do_verbatim_input(void)
 	else
 		wipe_statusbar();
 
-	bytes = charalloc(count + 1);
-
-	for (size_t i = 0; i < count; i++)
-		bytes[i] = (char)kbinput[i];
-	bytes[count] = '\0';
-
 	/* Insert the bytes into the edit buffer. */
 	inject(bytes, count);
 
 	free(bytes);
-	free(kbinput);
 }
 
 #ifdef ENABLE_WORDCOMPLETION
