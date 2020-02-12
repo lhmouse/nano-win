@@ -3155,7 +3155,7 @@ void do_verbatim_input(void)
 		keycodes[i] = (char)kbinput[i];
 	keycodes[count] = '\0';
 
-	/* Insert the keystroke verbatim, without filtering control characters. */
+	/* Insert the keystroke verbatim. */
 	inject(keycodes, count);
 
 	free(keycodes);

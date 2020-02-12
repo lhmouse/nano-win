@@ -1528,8 +1528,7 @@ void do_input(void)
 	/* Check for a shortcut in the main list. */
 	shortcut = get_shortcut(&input);
 
-	/* If we got a non-high-bit control key, a meta key sequence, or a
-	 * function key, and it's not a shortcut or toggle, throw it out. */
+	/* If not a command, discard anything that is not a normal character byte. */
 	if (shortcut == NULL) {
 		if (input < 0x20 || input > 0xFF || meta_key)
 			unbound_key(input);
@@ -1548,18 +1547,14 @@ void do_input(void)
 #endif
 	}
 
-	/* If we got a shortcut or toggle, or if there aren't any other
-	 * characters waiting after the one we read in, we need to output
-	 * all available characters in the input puddle.  Note that this
-	 * puddle will be empty if we're in view mode. */
+	/* If we have a command, or if there aren't any other key codes waiting,
+	 * it's time to insert the gathered bytes into the current buffer. */
 	if (shortcut || get_key_buffer_len() == 0) {
 		if (puddle != NULL) {
-			/* Insert all bytes in the input buffer into the edit buffer
-			 * at once, filtering out any ASCII control codes. */
 			puddle[depth] = '\0';
 			inject(puddle, depth);
 
-			/* Empty the input buffer. */
+			/* Empty the little input buffer. */
 			free(puddle);
 			puddle = NULL;
 			depth = 0;
@@ -1646,8 +1641,7 @@ void do_input(void)
 #endif
 }
 
-/* The user typed output_len multibyte characters.  Add them to the edit
- * buffer, filtering out ASCII control characters when filtering is TRUE. */
+/* The user typed output_len multibyte characters.  Add them to the buffer. */
 void inject(char *output, size_t output_len)
 {
 	char onechar[MAXCHARLEN];

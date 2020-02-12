@@ -87,13 +87,12 @@ int do_statusbar_input(bool *finished)
 	/* Check for a shortcut in the current list. */
 	shortcut = get_shortcut(&input);
 
-	/* If we got a non-high-bit control key, a meta key sequence, or a
-	 * function key, and it's not a shortcut or toggle, throw it out. */
+	/* If not a command, discard anything that is not a normal character byte.
+	 * Apart from that, only accept input when not in restricted mode, or when
+	 * not at the "Write File" prompt, or when there is no filename yet. */
 	if (shortcut == NULL) {
 		if (input < 0x20 || input > 0xFF || meta_key)
 			beep();
-		/* Only accept input when not in restricted mode, or when not at
-		 * the "Write File" prompt, or when there is no filename yet. */
 		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
 						openfile->filename[0] == '\0') {
 			kbinput_len++;
@@ -102,15 +101,11 @@ int do_statusbar_input(bool *finished)
 		}
 	}
 
-	/* If we got a shortcut, or if there aren't any other keystrokes waiting
-	 * after the one we read in, we need to insert all the characters in the
-	 * input buffer (if not empty) into the answer. */
+	/* If we got a shortcut, or if there aren't any other keystrokes waiting,
+	 * it's time to insert all characters in the input buffer (if not empty)
+	 * into the answer, and then clear the input buffer. */
 	if ((shortcut || get_key_buffer_len() == 0) && kbinput != NULL) {
-		/* Inject all characters in the input buffer at once, filtering out
-		 * control characters. */
 		inject_into_answer(kbinput, kbinput_len);
-
-		/* Empty the input buffer. */
 		kbinput_len = 0;
 		free(kbinput);
 		kbinput = NULL;
@@ -176,8 +171,7 @@ int do_statusbar_input(bool *finished)
 	return input;
 }
 
-/* The user typed input_len multibyte characters.  Add them to the answer,
- * filtering out ASCII control characters if filtering is TRUE. */
+/* The user typed input_len multibyte characters.  Add them to the answer. */
 void inject_into_answer(int *the_input, size_t input_len)
 {
 	char *output = charalloc(input_len + 1);
