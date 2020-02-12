@@ -1531,7 +1531,7 @@ void do_input(void)
 	/* If we got a non-high-bit control key, a meta key sequence, or a
 	 * function key, and it's not a shortcut or toggle, throw it out. */
 	if (shortcut == NULL) {
-		if (is_ascii_cntrl_char(input) || meta_key || !is_byte(input)) {
+		if (input < 0x20 || input > 0xFF || meta_key) {
 			unbound_key(input);
 			input = ERR;
 		}

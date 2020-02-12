@@ -56,12 +56,6 @@ char *addstrings(char* str1, size_t len1, char* str2, size_t len2)
 	return str1;
 }
 
-/* Return TRUE if the value of c is in byte range, and FALSE otherwise. */
-bool is_byte(int c)
-{
-	return ((unsigned int)c == (unsigned char)c);
-}
-
 /* This function is equivalent to isalpha() for multibyte characters. */
 bool is_alpha_mbchar(const char *c)
 {
@@ -108,13 +102,6 @@ bool is_blank_mbchar(const char *c)
 	} else
 #endif
 		return isblank((unsigned char)*c);
-}
-
-/* This function is equivalent to iscntrl(), except in that it only
- * handles non-high-bit control characters. */
-bool is_ascii_cntrl_char(int c)
-{
-	return (0 <= c && c < 32);
 }
 
 /* This function is equivalent to iscntrl() for multibyte characters,
