@@ -445,7 +445,7 @@ bool okay_for_view(const keystruct *shortcut);
 void inject(char *output, size_t output_len);
 
 /* Most functions in prompt.c. */
-void inject_into_answer(int *the_input, size_t input_len);
+void inject_into_answer(char *output, size_t input_len);
 void do_statusbar_home(void);
 void do_statusbar_end(void);
 void do_statusbar_left(void);

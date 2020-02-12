@@ -57,9 +57,9 @@ int do_statusbar_input(bool *finished)
 {
 	int input;
 		/* The character we read in. */
-	static int *kbinput = NULL;
+	static char *puddle = NULL;
 		/* The input buffer. */
-	static size_t kbinput_len = 0;
+	static size_t depth = 0;
 		/* The length of the input buffer. */
 	const keystruct *shortcut;
 
@@ -95,20 +95,22 @@ int do_statusbar_input(bool *finished)
 			beep();
 		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
 						openfile->filename[0] == '\0') {
-			kbinput_len++;
-			kbinput = (int *)nrealloc(kbinput, kbinput_len * sizeof(int));
-			kbinput[kbinput_len - 1] = input;
+			puddle = charealloc(puddle, depth + 2);
+			puddle[depth++] = (char)input;
 		}
 	}
 
 	/* If we got a shortcut, or if there aren't any other keystrokes waiting,
 	 * it's time to insert all characters in the input buffer (if not empty)
 	 * into the answer, and then clear the input buffer. */
-	if ((shortcut || get_key_buffer_len() == 0) && kbinput != NULL) {
-		inject_into_answer(kbinput, kbinput_len);
-		kbinput_len = 0;
-		free(kbinput);
-		kbinput = NULL;
+	if ((shortcut || get_key_buffer_len() == 0) && puddle != NULL) {
+		puddle[depth] = '\0';
+
+		inject_into_answer(puddle, depth);
+
+		free(puddle);
+		puddle = NULL;
+		depth = 0;
 	}
 
 	if (shortcut) {
@@ -172,16 +174,10 @@ int do_statusbar_input(bool *finished)
 }
 
 /* The user typed input_len multibyte characters.  Add them to the answer. */
-void inject_into_answer(int *the_input, size_t input_len)
+void inject_into_answer(char *output, size_t input_len)
 {
-	char *output = charalloc(input_len + 1);
 	char onechar[MAXCHARLEN];
 	size_t charlen, index = 0;
-
-	/* Copy the typed stuff so it can be treated. */
-	for (size_t i = 0; i < input_len; i++)
-		output[i] = (char)the_input[i];
-	output[input_len] = '\0';
 
 	while (index < input_len) {
 		/* Encode any NUL byte as 0x0A. */
@@ -200,8 +196,6 @@ void inject_into_answer(int *the_input, size_t input_len)
 		typing_x += charlen;
 		index += charlen;
 	}
-
-	free(output);
 }
 
 /* Move to the beginning of the answer. */
@@ -317,12 +311,20 @@ void do_statusbar_prev_word(void)
 void do_statusbar_verbatim_input(void)
 {
 	int *kbinput;
+	char *bytes;
 	size_t count;
 
 	kbinput = get_verbatim_kbinput(bottomwin, &count);
 
-	inject_into_answer(kbinput, count);
+	bytes = charalloc(count + 1);
 
+	for (size_t i = 0; i < count; i++)
+		bytes[i] = (char)kbinput[i];
+	bytes[count] = '\0';
+
+	inject_into_answer(bytes, count);
+
+	free(bytes);
 	free(kbinput);
 }
 
