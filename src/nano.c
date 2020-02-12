@@ -1492,9 +1492,8 @@ void suck_up_input_and_paste_it(void)
 }
 #endif
 
-/* Read in a keystroke.  Act on the keystroke if it is a shortcut or a toggle;
- * otherwise, insert it into the edit buffer. */
-void do_input(void)
+/* Read in a keystroke, and execute its command or insert it into the buffer. */
+void process_a_keystroke(void)
 {
 	int input;
 		/* The keystroke we read in: a character or a shortcut. */
@@ -1511,16 +1510,13 @@ void do_input(void)
 	if (input == KEY_WINCH)
 		return;
 #endif
-
 #ifdef ENABLE_MOUSE
 	if (input == KEY_MOUSE) {
-		/* We received a mouse click. */
+		/* If the user clicked on a shortcut, read in the key code that it was
+		 * converted into.  Else the click has been handled or was invalid. */
 		if (do_mouse() == 1)
-			/* The click was on a shortcut -- read in the character
-			 * that it was converted into. */
 			input = get_kbinput(edit, BLIND);
 		else
-			/* The click was invalid or has been handled -- get out. */
 			return;
 	}
 #endif
@@ -2587,6 +2583,6 @@ int main(int argc, char **argv)
 		put_cursor_at_end_of_answer();
 
 		/* Read in and interpret a single keystroke. */
-		do_input();
+		process_a_keystroke();
 	}
 }
