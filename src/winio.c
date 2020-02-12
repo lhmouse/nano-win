@@ -1502,44 +1502,6 @@ int get_control_kbinput(int kbinput)
 	return kbinput;
 }
 
-/* Read in one control code, one character byte, or the leading escapes of
- * an escape sequence, and return the resulting number of bytes in count. */
-int *get_verbatim_kbinput(WINDOW *win, size_t *count)
-{
-	int *input;
-
-	/* Turn off flow control characters if necessary so that we can type
-	 * them in verbatim, and turn the keypad off if necessary so that we
-	 * don't get extended keypad values. */
-	if (ISSET(PRESERVE))
-		disable_flow_control();
-	if (!ISSET(RAW_SEQUENCES))
-		keypad(win, FALSE);
-
-	/* Read in a single byte or two escapes. */
-	input = parse_verbatim_kbinput(win, count);
-
-	/* If the code is invalid in the current mode, discard it. */
-	if (input != NULL && ((*input == '\n' && as_an_at) ||
-								(*input == '\0' && !as_an_at))) {
-		*count = 0;
-		beep();
-	}
-
-	/* Turn flow control characters back on if necessary and turn the
-	 * keypad back on if necessary now that we're done. */
-	if (ISSET(PRESERVE))
-		enable_flow_control();
-	/* Use the global window pointers, because a resize may have freed
-	 * the data that the win parameter points to. */
-	if (!ISSET(RAW_SEQUENCES)) {
-		keypad(edit, TRUE);
-		keypad(bottomwin, TRUE);
-	}
-
-	return input;
-}
-
 /* Read in one control character (or an iTerm/Eterm/rxvt double Escape),
  * or convert a series of six digits into a Unicode codepoint.  Return
  * in count either 1 (for a control character or the first byte of a
@@ -1612,6 +1574,44 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		*count = 2;
 
 	return get_input(NULL, *count);
+}
+
+/* Read in one control code, one character byte, or the leading escapes of
+ * an escape sequence, and return the resulting number of bytes in count. */
+int *get_verbatim_kbinput(WINDOW *win, size_t *count)
+{
+	int *input;
+
+	/* Turn off flow control characters if necessary so that we can type
+	 * them in verbatim, and turn the keypad off if necessary so that we
+	 * don't get extended keypad values. */
+	if (ISSET(PRESERVE))
+		disable_flow_control();
+	if (!ISSET(RAW_SEQUENCES))
+		keypad(win, FALSE);
+
+	/* Read in a single byte or two escapes. */
+	input = parse_verbatim_kbinput(win, count);
+
+	/* If the code is invalid in the current mode, discard it. */
+	if (input != NULL && ((*input == '\n' && as_an_at) ||
+								(*input == '\0' && !as_an_at))) {
+		*count = 0;
+		beep();
+	}
+
+	/* Turn flow control characters back on if necessary and turn the
+	 * keypad back on if necessary now that we're done. */
+	if (ISSET(PRESERVE))
+		enable_flow_control();
+	/* Use the global window pointers, because a resize may have freed
+	 * the data that the win parameter points to. */
+	if (!ISSET(RAW_SEQUENCES)) {
+		keypad(edit, TRUE);
+		keypad(bottomwin, TRUE);
+	}
+
+	return input;
 }
 
 #ifdef ENABLE_MOUSE
