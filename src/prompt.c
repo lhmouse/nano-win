@@ -176,22 +176,20 @@ void inject_into_answer(int *the_input, size_t input_len)
 {
 	char *output = charalloc(input_len + 1);
 	char onechar[MAXCHARLEN];
-	size_t charlen, i, j = 0;
+	size_t charlen, index = 0;
 
 	/* Copy the typed stuff so it can be treated. */
-	for (i = 0; i < input_len; i++)
+	for (size_t i = 0; i < input_len; i++)
 		output[i] = (char)the_input[i];
-	output[i] = '\0';
+	output[input_len] = '\0';
 
-	while (j < input_len) {
+	while (index < input_len) {
 		/* Encode any NUL byte as 0x0A. */
-		if (output[j] == '\0')
-			output[j] = '\n';
+		if (output[index] == '\0')
+			output[index] = '\n';
 
 		/* Interpret the next multibyte character. */
-		charlen = collect_char(output + j, onechar);
-
-		j += charlen;
+		charlen = collect_char(output + index, onechar);
 
 		/* Insert the typed character into the existing answer string. */
 		answer = charealloc(answer, strlen(answer) + charlen + 1);
@@ -200,6 +198,7 @@ void inject_into_answer(int *the_input, size_t input_len)
 		strncpy(answer + typing_x, onechar, charlen);
 
 		typing_x += charlen;
+		index += charlen;
 	}
 
 	free(output);
