@@ -1580,7 +1580,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
  * an escape sequence, and return the resulting number of bytes in count. */
 char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 {
-	char *bytes = charalloc(3);
+	char *bytes = charalloc(MAXCHARLEN + 1);
 	int *input;
 
 	/* Turn off flow control characters if necessary so that we can type
