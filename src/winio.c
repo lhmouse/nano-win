@@ -1601,6 +1601,12 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 		beep();
 	}
 
+	/* If it is an incomplete Unicode sequence, stuff it back. */
+	if (input != NULL && *input >= 0x80 && *count == 1) {
+		put_back(*input);
+		*count = 0;
+	}
+
 	/* Turn flow control characters back on if necessary and turn the
 	 * keypad back on if necessary now that we're done. */
 	if (ISSET(PRESERVE))
