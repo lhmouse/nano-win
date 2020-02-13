@@ -176,24 +176,17 @@ int do_statusbar_input(bool *finished)
 /* Insert the given short burst of bytes into the anwer. */
 void inject_into_answer(char *burst, size_t count)
 {
-	size_t charlen, index = 0;
-
-	while (index < count) {
-		/* Encode any NUL byte as 0x0A. */
+	/* First encode any embedded NUL byte as 0x0A. */
+	for (size_t index = 0; index < count; index++)
 		if (burst[index] == '\0')
 			burst[index] = '\n';
 
-		charlen = char_length(burst + index);
-
-		/* Insert the typed character into the existing answer string. */
-		answer = charealloc(answer, strlen(answer) + charlen + 1);
-		memmove(answer + typing_x + charlen, answer + typing_x,
+	answer = charealloc(answer, strlen(answer) + count + 1);
+	memmove(answer + typing_x + count, answer + typing_x,
 								strlen(answer) - typing_x + 1);
-		strncpy(answer + typing_x, burst + index, charlen);
+	strncpy(answer + typing_x, burst , count);
 
-		typing_x += charlen;
-		index += charlen;
-	}
+	typing_x += count;
 }
 
 /* Move to the beginning of the answer. */
