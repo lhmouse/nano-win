@@ -1290,7 +1290,8 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
 void update_undo(undo_type action)
 {
 	undostruct *u = openfile->undotop;
-	char *char_buf;
+	char *char_buf, *textposition;
+	size_t datalen;
 	int charlen;
 
 	if (u->type != action)
@@ -1314,22 +1315,24 @@ void update_undo(undo_type action)
 		break;
 	case BACK:
 	case DEL:
-		char_buf = charalloc(MAXCHARLEN);
-		charlen = collect_char(&openfile->current->data[openfile->current_x],
-								char_buf);
+		textposition = openfile->current->data + openfile->current_x;
+		charlen = char_length(textposition);
+		datalen = strlen(u->strdata);
 		if (openfile->current_x == u->begin) {
 			/* They deleted more: add removed character after earlier stuff. */
-			u->strdata = addstrings(u->strdata, strlen(u->strdata), char_buf, charlen);
+			u->strdata = charealloc(u->strdata, datalen + charlen + 1);
+			strncpy(u->strdata + datalen, textposition, charlen);
+			u->strdata[datalen + charlen] = '\0';
 			u->mark_begin_x = openfile->current_x;
 		} else if (openfile->current_x == u->begin - charlen) {
 			/* They backspaced further: add removed character before earlier. */
-			u->strdata = addstrings(char_buf, charlen, u->strdata, strlen(u->strdata));
+			u->strdata = charealloc(u->strdata, datalen + charlen + 1);
+			memmove(u->strdata + charlen, u->strdata, datalen + 1);
+			strncpy(u->strdata, textposition, charlen);
 			u->begin = openfile->current_x;
 		} else {
 			/* They deleted *elsewhere* on the line: start a new undo item. */
-			free(char_buf);
 			add_undo(u->type, NULL);
-			return;
 		}
 		break;
 	case JOIN:
