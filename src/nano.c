@@ -1638,10 +1638,9 @@ void process_a_keystroke(void)
 /* The user typed output_len multibyte characters.  Add them to the buffer. */
 void inject(char *output, size_t output_len)
 {
-	char onechar[MAXCHARLEN];
-	int charlen;
 	size_t current_len = strlen(openfile->current->data);
 	size_t index = 0;
+	int charlen;
 #ifndef NANO_TINY
 	size_t original_row = 0, old_amount = 0;
 
@@ -1657,8 +1656,7 @@ void inject(char *output, size_t output_len)
 		if (output[index] == '\0')
 			output[index] = '\n';
 
-		/* Get the next multibyte character. */
-		charlen = collect_char(output + index, onechar);
+		charlen = char_length(output + index);
 
 		/* Make room for the new character and copy it into the line. */
 		openfile->current->data = charealloc(openfile->current->data,
@@ -1666,7 +1664,8 @@ void inject(char *output, size_t output_len)
 		memmove(openfile->current->data + openfile->current_x + charlen,
 						openfile->current->data + openfile->current_x,
 						current_len - openfile->current_x + 1);
-		strncpy(openfile->current->data + openfile->current_x, onechar, charlen);
+		strncpy(openfile->current->data + openfile->current_x,
+						output + index, charlen);
 
 		current_len += charlen;
 		index += charlen;

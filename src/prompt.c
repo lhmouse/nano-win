@@ -176,7 +176,6 @@ int do_statusbar_input(bool *finished)
 /* The user typed input_len multibyte characters.  Add them to the answer. */
 void inject_into_answer(char *output, size_t input_len)
 {
-	char onechar[MAXCHARLEN];
 	size_t charlen, index = 0;
 
 	while (index < input_len) {
@@ -184,14 +183,13 @@ void inject_into_answer(char *output, size_t input_len)
 		if (output[index] == '\0')
 			output[index] = '\n';
 
-		/* Interpret the next multibyte character. */
-		charlen = collect_char(output + index, onechar);
+		charlen = char_length(output + index);
 
 		/* Insert the typed character into the existing answer string. */
 		answer = charealloc(answer, strlen(answer) + charlen + 1);
 		memmove(answer + typing_x + charlen, answer + typing_x,
 								strlen(answer) - typing_x + 1);
-		strncpy(answer + typing_x, onechar, charlen);
+		strncpy(answer + typing_x, output + index, charlen);
 
 		typing_x += charlen;
 		index += charlen;
