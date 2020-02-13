@@ -1290,8 +1290,8 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
 void update_undo(undo_type action)
 {
 	undostruct *u = openfile->undotop;
-	char *char_buf, *textposition;
-	size_t datalen;
+	size_t datalen, newlen;
+	char *textposition;
 	int charlen;
 
 	if (u->type != action)
@@ -1301,11 +1301,10 @@ void update_undo(undo_type action)
 
 	switch (u->type) {
 	case ADD:
-		char_buf = charalloc(MAXCHARLEN);
-		charlen = collect_char(&openfile->current->data[u->mark_begin_x],
-								char_buf);
-		u->strdata = addstrings(u->strdata, u->strdata ? strlen(u->strdata) : 0,
-								char_buf, charlen);
+		newlen = openfile->current_x - u->begin;
+		u->strdata = charealloc(u->strdata, newlen + 1);
+		strncpy(u->strdata, openfile->current->data + u->begin, newlen);
+		u->strdata[newlen] = '\0';
 		u->mark_begin_lineno = openfile->current->lineno;
 		u->mark_begin_x = openfile->current_x;
 		break;
