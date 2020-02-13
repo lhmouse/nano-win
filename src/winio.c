@@ -1594,17 +1594,16 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	/* Read in a single byte or two escapes. */
 	input = parse_verbatim_kbinput(win, count);
 
-	/* If the code is invalid in the current mode, discard it. */
-	if (input != NULL && ((*input == '\n' && as_an_at) ||
-								(*input == '\0' && !as_an_at))) {
-		*count = 0;
-		beep();
-	}
-
-	/* If it is an incomplete Unicode sequence, stuff it back. */
-	if (input != NULL && *input >= 0x80 && *count == 1) {
-		put_back(*input);
-		*count = 0;
+	/* If the byte is invalid in the current mode, discard it;
+	 * if it is an incomplete Unicode sequence, stuff it back. */
+	if (input != NULL) {
+		if ((*input == '\n' && as_an_at) || (*input == '\0' && !as_an_at)) {
+			*count = 0;
+			beep();
+		} else if (*input >= 0x80 && *count == 1) {
+			put_back(*input);
+			*count = 0;
+		}
 	}
 
 	/* Turn flow control characters back on if necessary and turn the
