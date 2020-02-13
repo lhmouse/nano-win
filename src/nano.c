@@ -1635,8 +1635,8 @@ void process_a_keystroke(void)
 #endif
 }
 
-/* The user typed output_len multibyte characters.  Add them to the buffer. */
-void inject(char *output, size_t output_len)
+/* Insert the given short burst of bytes into the edit buffer. */
+void inject(char *burst, size_t count)
 {
 	size_t current_len = strlen(openfile->current->data);
 	size_t index = 0;
@@ -1651,12 +1651,12 @@ void inject(char *output, size_t output_len)
 	}
 #endif
 
-	while (index < output_len) {
+	while (index < count) {
 		/* Encode an embedded NUL byte as 0x0A. */
-		if (output[index] == '\0')
-			output[index] = '\n';
+		if (burst[index] == '\0')
+			burst[index] = '\n';
 
-		charlen = char_length(output + index);
+		charlen = char_length(burst + index);
 
 		/* Make room for the new character and copy it into the line. */
 		openfile->current->data = charealloc(openfile->current->data,
@@ -1665,7 +1665,7 @@ void inject(char *output, size_t output_len)
 						openfile->current->data + openfile->current_x,
 						current_len - openfile->current_x + 1);
 		strncpy(openfile->current->data + openfile->current_x,
-						output + index, charlen);
+						burst + index, charlen);
 
 		current_len += charlen;
 		index += charlen;

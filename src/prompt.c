@@ -173,23 +173,23 @@ int do_statusbar_input(bool *finished)
 	return input;
 }
 
-/* The user typed input_len multibyte characters.  Add them to the answer. */
-void inject_into_answer(char *output, size_t input_len)
+/* Insert the given short burst of bytes into the anwer. */
+void inject_into_answer(char *burst, size_t count)
 {
 	size_t charlen, index = 0;
 
-	while (index < input_len) {
+	while (index < count) {
 		/* Encode any NUL byte as 0x0A. */
-		if (output[index] == '\0')
-			output[index] = '\n';
+		if (burst[index] == '\0')
+			burst[index] = '\n';
 
-		charlen = char_length(output + index);
+		charlen = char_length(burst + index);
 
 		/* Insert the typed character into the existing answer string. */
 		answer = charealloc(answer, strlen(answer) + charlen + 1);
 		memmove(answer + typing_x + charlen, answer + typing_x,
 								strlen(answer) - typing_x + 1);
-		strncpy(answer + typing_x, output + index, charlen);
+		strncpy(answer + typing_x, burst + index, charlen);
 
 		typing_x += charlen;
 		index += charlen;

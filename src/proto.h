@@ -442,10 +442,10 @@ void confirm_margin(void);
 #endif
 void unbound_key(int code);
 bool okay_for_view(const keystruct *shortcut);
-void inject(char *output, size_t output_len);
+void inject(char *burst, size_t count);
 
 /* Most functions in prompt.c. */
-void inject_into_answer(char *output, size_t input_len);
+void inject_into_answer(char *burst, size_t count);
 void do_statusbar_home(void);
 void do_statusbar_end(void);
 void do_statusbar_left(void);
