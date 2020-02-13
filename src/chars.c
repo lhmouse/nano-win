@@ -44,18 +44,6 @@ bool using_utf8(void)
 }
 #endif /* ENABLE_UTF8 */
 
-/* Concatenate two allocated strings, and free the second. */
-char *addstrings(char* str1, size_t len1, char* str2, size_t len2)
-{
-	str1 = charealloc(str1, len1 + len2 + 1);
-	str1[len1] = '\0';
-
-	strncat(&str1[len1], str2, len2);
-	free(str2);
-
-	return str1;
-}
-
 /* This function is equivalent to isalpha() for multibyte characters. */
 bool is_alpha_mbchar(const char *c)
 {
