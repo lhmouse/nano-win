@@ -28,6 +28,23 @@ static char *prompt = NULL;
 static size_t typing_x = HIGHEST_POSITIVE;
 		/* The cursor position in answer. */
 
+/* Paste the first line of the cutbuffer into the current answer. */
+void paste_into_answer(void)
+{
+	size_t pastelen = strlen(cutbuffer->data);
+	char *fusion = charalloc(strlen(answer) + pastelen + 1);
+
+	/* Concatenate: the current answer before the cursor, the first line
+	 * of the cutbuffer, plus the rest of the current answer. */
+	strncpy(fusion, answer, typing_x);
+	strncpy(fusion + typing_x, cutbuffer->data, pastelen);
+	strcpy(fusion + typing_x + pastelen, answer + typing_x);
+
+	free(answer);
+	answer = fusion;
+	typing_x += pastelen;
+}
+
 #ifdef ENABLE_MOUSE
 /* Handle a mouse click on the status-bar prompt or the shortcut list. */
 int do_statusbar_mouse(void)
@@ -159,7 +176,7 @@ int do_statusbar_input(bool *finished)
 			do_statusbar_backspace();
 		else if (shortcut->func == paste_text) {
 			if (cutbuffer != NULL)
-				do_statusbar_uncut_text();
+				paste_into_answer();
 		} else {
 			/* Handle any other shortcut in the current menu, setting finished
 			 * to TRUE to indicate that we're done after running or trying to
@@ -309,23 +326,6 @@ void do_statusbar_verbatim_input(void)
 	inject_into_answer(bytes, count);
 
 	free(bytes);
-}
-
-/* Paste the first line of the cutbuffer into the current answer. */
-void do_statusbar_uncut_text(void)
-{
-	size_t pastelen = strlen(cutbuffer->data);
-	char *fusion = charalloc(strlen(answer) + pastelen + 1);
-
-	/* Concatenate: the current answer before the cursor, the first line
-	 * of the cutbuffer, plus the rest of the current answer. */
-	strncpy(fusion, answer, typing_x);
-	strncpy(fusion + typing_x, cutbuffer->data, pastelen);
-	strcpy(fusion + typing_x + pastelen, answer + typing_x);
-
-	free(answer);
-	answer = fusion;
-	typing_x += pastelen;
 }
 
 /* Return the column number of the first character of the answer that is

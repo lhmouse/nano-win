@@ -586,7 +586,7 @@ void shortcut_init(void)
 		N_("Search backward for a string or a regular expression");
 	const char *cut_gist =
 		N_("Cut current line (or marked region) and store it in cutbuffer");
-	const char *uncut_gist =
+	const char *paste_gist =
 		N_("Paste the contents of cutbuffer at current cursor position");
 	const char *cursorpos_gist = N_("Display the position of the cursor");
 #ifdef ENABLE_SPELLER
@@ -791,7 +791,7 @@ void shortcut_init(void)
 		N_("Cut Text"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(paste_text, MMAIN,
-		N_("Paste Text"), WITHORSANS(uncut_gist), BLANKAFTER, NOVIEW);
+		N_("Paste Text"), WITHORSANS(paste_gist), BLANKAFTER, NOVIEW);
 
 	if (!ISSET(RESTRICTED)) {
 #ifdef ENABLE_JUSTIFY
