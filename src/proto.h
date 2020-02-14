@@ -445,19 +445,6 @@ bool okay_for_view(const keystruct *shortcut);
 void inject(char *burst, size_t count);
 
 /* Most functions in prompt.c. */
-void inject_into_answer(char *burst, size_t count);
-void do_statusbar_home(void);
-void do_statusbar_end(void);
-void do_statusbar_left(void);
-void do_statusbar_right(void);
-void do_statusbar_backspace(void);
-void do_statusbar_delete(void);
-void do_statusbar_cut_text(void);
-#ifndef NANO_TINY
-void do_statusbar_prev_word(void);
-void do_statusbar_next_word(void);
-#endif
-void do_statusbar_verbatim_input(void);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
 void put_cursor_at_end_of_answer(void);
 void add_or_remove_pipe_symbol_from_answer(void);

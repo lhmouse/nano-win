@@ -28,6 +28,115 @@ static char *prompt = NULL;
 static size_t typing_x = HIGHEST_POSITIVE;
 		/* The cursor position in answer. */
 
+/* Move to the beginning of the answer. */
+void do_statusbar_home(void)
+{
+	typing_x = 0;
+}
+
+/* Move to the end of the answer. */
+void do_statusbar_end(void)
+{
+	typing_x = strlen(answer);
+}
+
+#ifndef NANO_TINY
+/* Move to the next word in the answer. */
+void do_statusbar_next_word(void)
+{
+	bool seen_space = !is_word_mbchar(answer + typing_x, FALSE);
+	bool seen_word = !seen_space;
+
+	/* Move forward until we reach either the end or the start of a word,
+	 * depending on whether the AFTER_ENDS flag is set or not. */
+	while (answer[typing_x] != '\0') {
+		typing_x = step_right(answer, typing_x);
+
+		if (ISSET(AFTER_ENDS)) {
+			/* If this is a word character, continue; else it's a separator,
+			 * and if we've already seen a word, then it's a word end. */
+			if (is_word_mbchar(answer + typing_x, FALSE))
+				seen_word = TRUE;
+			else if (seen_word)
+				break;
+		} else {
+			/* If this is not a word character, then it's a separator; else
+			 * if we've already seen a separator, then it's a word start. */
+			if (!is_word_mbchar(answer + typing_x, FALSE))
+				seen_space = TRUE;
+			else if (seen_space)
+				break;
+		}
+	}
+}
+
+/* Move to the previous word in the answer. */
+void do_statusbar_prev_word(void)
+{
+	bool seen_a_word = FALSE, step_forward = FALSE;
+
+	/* Move backward until we pass over the start of a word. */
+	while (typing_x != 0) {
+		typing_x = step_left(answer, typing_x);
+
+		if (is_word_mbchar(answer + typing_x, FALSE))
+			seen_a_word = TRUE;
+		else if (seen_a_word) {
+			/* This is space now: we've overshot the start of the word. */
+			step_forward = TRUE;
+			break;
+		}
+	}
+
+	if (step_forward)
+		/* Move one character forward again to sit on the start of the word. */
+		typing_x = step_right(answer, typing_x);
+}
+#endif /* !NANO_TINY */
+
+/* Move left one character in the answer. */
+void do_statusbar_left(void)
+{
+	if (typing_x > 0)
+		typing_x = step_left(answer, typing_x);
+}
+
+/* Move right one character in the answer. */
+void do_statusbar_right(void)
+{
+	if (answer[typing_x] != '\0')
+		typing_x = step_right(answer, typing_x);
+}
+
+/* Delete one character in the answer. */
+void do_statusbar_delete(void)
+{
+	if (answer[typing_x] != '\0') {
+		int charlen = char_length(answer + typing_x);
+
+		memmove(answer + typing_x, answer + typing_x + charlen,
+						strlen(answer) - typing_x - charlen + 1);
+	}
+}
+
+/* Backspace over one character in the answer. */
+void do_statusbar_backspace(void)
+{
+	if (typing_x > 0) {
+		typing_x = step_left(answer, typing_x);
+		do_statusbar_delete();
+	}
+}
+
+/* Zap some or all text from the answer. */
+void do_statusbar_cut_text(void)
+{
+	if (!ISSET(CUT_FROM_CURSOR))
+		typing_x = 0;
+
+	answer[typing_x] = '\0';
+}
+
 /* Paste the first line of the cutbuffer into the current answer. */
 void paste_into_answer(void)
 {
@@ -66,6 +175,35 @@ int do_statusbar_mouse(void)
 	return retval;
 }
 #endif
+
+/* Insert the given short burst of bytes into the answer. */
+void inject_into_answer(char *burst, size_t count)
+{
+	/* First encode any embedded NUL byte as 0x0A. */
+	for (size_t index = 0; index < count; index++)
+		if (burst[index] == '\0')
+			burst[index] = '\n';
+
+	answer = charealloc(answer, strlen(answer) + count + 1);
+	memmove(answer + typing_x + count, answer + typing_x,
+								strlen(answer) - typing_x + 1);
+	strncpy(answer + typing_x, burst , count);
+
+	typing_x += count;
+}
+
+/* Get a verbatim keystroke and insert it into the answer. */
+void do_statusbar_verbatim_input(void)
+{
+	char *bytes;
+	size_t count;
+
+	bytes = get_verbatim_kbinput(bottomwin, &count);
+
+	inject_into_answer(bytes, count);
+
+	free(bytes);
+}
 
 /* Read in a keystroke, interpret it if it is a shortcut or toggle, and
  * return it.  Set finished to TRUE if we're done after running
@@ -188,144 +326,6 @@ int do_statusbar_input(bool *finished)
 	}
 
 	return input;
-}
-
-/* Insert the given short burst of bytes into the answer. */
-void inject_into_answer(char *burst, size_t count)
-{
-	/* First encode any embedded NUL byte as 0x0A. */
-	for (size_t index = 0; index < count; index++)
-		if (burst[index] == '\0')
-			burst[index] = '\n';
-
-	answer = charealloc(answer, strlen(answer) + count + 1);
-	memmove(answer + typing_x + count, answer + typing_x,
-								strlen(answer) - typing_x + 1);
-	strncpy(answer + typing_x, burst , count);
-
-	typing_x += count;
-}
-
-/* Move to the beginning of the answer. */
-void do_statusbar_home(void)
-{
-	typing_x = 0;
-}
-
-/* Move to the end of the answer. */
-void do_statusbar_end(void)
-{
-	typing_x = strlen(answer);
-}
-
-/* Move left one character. */
-void do_statusbar_left(void)
-{
-	if (typing_x > 0)
-		typing_x = step_left(answer, typing_x);
-}
-
-/* Move right one character. */
-void do_statusbar_right(void)
-{
-	if (answer[typing_x] != '\0')
-		typing_x = step_right(answer, typing_x);
-}
-
-/* Delete one character. */
-void do_statusbar_delete(void)
-{
-	if (answer[typing_x] != '\0') {
-		int charlen = char_length(answer + typing_x);
-
-		memmove(answer + typing_x, answer + typing_x + charlen,
-						strlen(answer) - typing_x - charlen + 1);
-	}
-}
-
-/* Backspace over one character. */
-void do_statusbar_backspace(void)
-{
-	if (typing_x > 0) {
-		typing_x = step_left(answer, typing_x);
-		do_statusbar_delete();
-	}
-}
-
-/* Zap some or all text from the answer. */
-void do_statusbar_cut_text(void)
-{
-	if (!ISSET(CUT_FROM_CURSOR))
-		typing_x = 0;
-
-	answer[typing_x] = '\0';
-}
-
-#ifndef NANO_TINY
-/* Move to the next word in the answer. */
-void do_statusbar_next_word(void)
-{
-	bool seen_space = !is_word_mbchar(answer + typing_x, FALSE);
-	bool seen_word = !seen_space;
-
-	/* Move forward until we reach either the end or the start of a word,
-	 * depending on whether the AFTER_ENDS flag is set or not. */
-	while (answer[typing_x] != '\0') {
-		typing_x = step_right(answer, typing_x);
-
-		if (ISSET(AFTER_ENDS)) {
-			/* If this is a word character, continue; else it's a separator,
-			 * and if we've already seen a word, then it's a word end. */
-			if (is_word_mbchar(answer + typing_x, FALSE))
-				seen_word = TRUE;
-			else if (seen_word)
-				break;
-		} else {
-			/* If this is not a word character, then it's a separator; else
-			 * if we've already seen a separator, then it's a word start. */
-			if (!is_word_mbchar(answer + typing_x, FALSE))
-				seen_space = TRUE;
-			else if (seen_space)
-				break;
-		}
-	}
-}
-
-/* Move to the previous word in the answer. */
-void do_statusbar_prev_word(void)
-{
-	bool seen_a_word = FALSE, step_forward = FALSE;
-
-	/* Move backward until we pass over the start of a word. */
-	while (typing_x != 0) {
-		typing_x = step_left(answer, typing_x);
-
-		if (is_word_mbchar(answer + typing_x, FALSE))
-			seen_a_word = TRUE;
-		else if (seen_a_word) {
-			/* This is space now: we've overshot the start of the word. */
-			step_forward = TRUE;
-			break;
-		}
-	}
-
-	if (step_forward)
-		/* Move one character forward again to sit on the start of the word. */
-		typing_x = step_right(answer, typing_x);
-}
-#endif /* !NANO_TINY */
-
-/* Get a verbatim keystroke and insert it into the answer. */
-void do_statusbar_verbatim_input(void)
-{
-	char *bytes;
-	size_t count;
-
-	bytes = get_verbatim_kbinput(bottomwin, &count);
-
-	inject_into_answer(bytes, count);
-
-	free(bytes);
 }
 
 /* Return the column number of the first character of the answer that is
