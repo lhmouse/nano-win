@@ -173,7 +173,7 @@ int do_statusbar_input(bool *finished)
 	return input;
 }
 
-/* Insert the given short burst of bytes into the anwer. */
+/* Insert the given short burst of bytes into the answer. */
 void inject_into_answer(char *burst, size_t count)
 {
 	/* First encode any embedded NUL byte as 0x0A. */

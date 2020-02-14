@@ -3113,7 +3113,7 @@ void do_wordlinechar_count(void)
 	 * until we reach the end of the file, incrementing the total word
 	 * count whenever we're on a word just before moving. */
 	while (openfile->current != openfile->filebot ||
-		openfile->current->data[openfile->current_x] != '\0') {
+					openfile->current->data[openfile->current_x] != '\0') {
 		if (do_next_word(FALSE, TRUE))
 			words++;
 	}
@@ -3145,8 +3145,7 @@ void do_verbatim_input(void)
 	char *bytes;
 	size_t count;
 
-	/* TRANSLATORS: This is displayed when the next keystroke will be
-	 * inserted verbatim. */
+	/* TRANSLATORS: Shown when the next keystroke will be inserted verbatim. */
 	statusbar(_("Verbatim Input"));
 	place_the_cursor();
 
@@ -3279,7 +3278,7 @@ void complete_a_word(void)
 
 			/* If this match is the shard itself, ignore it. */
 			if (pletion_line == openfile->current &&
-						i == openfile->current_x - shard_length)
+								i == openfile->current_x - shard_length)
 				continue;
 
 			completion = copy_completion(pletion_line->data + i);
