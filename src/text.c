@@ -481,9 +481,10 @@ void undo_cut(undostruct *u)
 
 	copy_from_buffer(u->cutbuffer);
 
-	/* If the final line was originally cut, remove the extra magic line. */
+	/* If originally the last line was cut too, remove an extra magic line. */
 	if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
-			openfile->current != openfile->filebot)
+						openfile->filebot != openfile->current &&
+						openfile->filebot->prev->data[0] == '\0')
 		remove_magicline();
 
 	if (!(u->xflags & WAS_MARKED_FORWARD) && u->type != PASTE)
@@ -618,6 +619,9 @@ void do_undo(void)
 	case PASTE:
 		undidmsg = _("paste");
 		undo_paste(u);
+		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
+							openfile->filebot != openfile->current)
+			remove_magicline();
 		break;
 	case INSERT:
 		undidmsg = _("insertion");
@@ -629,6 +633,9 @@ void do_undo(void)
 		cut_marked(NULL);
 		u->cutbuffer = cutbuffer;
 		cutbuffer = oldcutbuffer;
+		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
+							openfile->filebot != openfile->current)
+			remove_magicline();
 		break;
 	case COUPLE_BEGIN:
 		undidmsg = u->strdata;
@@ -1216,10 +1223,14 @@ void add_undo(undo_type action, const char *message)
 		}
 		break;
 	case PASTE:
+		if (openfile->current == openfile->filebot)
+			u->xflags |= WAS_FINAL_LINE;
 		u->cutbuffer = copy_buffer(cutbuffer);
 		u->lineno += cutbottom->lineno - cutbuffer->lineno;
 		break;
 	case INSERT:
+		if (openfile->current == openfile->filebot)
+			u->xflags |= WAS_FINAL_LINE;
 		break;
 	case COUPLE_BEGIN:
 		u->mark_begin_lineno = openfile->current_y;
