@@ -1159,7 +1159,6 @@ void add_undo(undo_type action, const char *message)
 		/* If a new magic line will be added, an undo should remove it. */
 		if (openfile->current == openfile->filebot)
 			u->xflags |= WAS_FINAL_LINE;
-		u->wassize--;
 		break;
 	case ENTER:
 		break;

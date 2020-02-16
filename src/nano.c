@@ -1656,6 +1656,15 @@ void inject(char *burst, size_t count)
 		if (burst[index] == '\0')
 			burst[index] = '\n';
 
+#ifndef NANO_TINY
+		/* Only add a new undo item when the current item is not an ADD or when
+		 * the current typing is not contiguous with the previous typing. */
+		if (openfile->last_action != ADD ||
+				openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
+				openfile->current_undo->mark_begin_x != openfile->current_x)
+			add_undo(ADD, NULL);
+#endif
+
 		charlen = char_length(burst + index);
 
 		/* Make room for the new character and copy it into the line. */
@@ -1674,13 +1683,6 @@ void inject(char *burst, size_t count)
 		set_modified();
 
 #ifndef NANO_TINY
-		/* Only add a new undo item when the current item is not an ADD or when
-		 * the current typing is not contiguous with the previous typing. */
-		if (openfile->last_action != ADD ||
-				openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
-				openfile->current_undo->mark_begin_x != openfile->current_x)
-			add_undo(ADD, NULL);
-
 		/* Note that current_x has not yet been incremented. */
 		if (openfile->current == openfile->mark &&
 						openfile->current_x < openfile->mark_x)
