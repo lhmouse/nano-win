@@ -1320,7 +1320,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		/* Strip the terminating newline and possibly a carriage return. */
 		if (buffer[length - 1] == '\n')
 			buffer[--length] = '\0';
-		if (buffer[length - 1] == '\r')
+		if (length > 0 && buffer[length - 1] == '\r')
 			buffer[--length] = '\0';
 
 		ptr = buffer;
