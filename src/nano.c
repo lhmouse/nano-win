@@ -1638,7 +1638,8 @@ void process_a_keystroke(void)
 /* Insert the given short burst of bytes into the edit buffer. */
 void inject(char *burst, size_t count)
 {
-	size_t current_len = strlen(openfile->current->data);
+	size_t datalen = strlen(openfile->current->data);
+	char *thepoint = openfile->current->data + openfile->current_x;
 #ifndef NANO_TINY
 	size_t original_row = 0, old_amount = 0;
 
@@ -1665,11 +1666,9 @@ void inject(char *burst, size_t count)
 
 	/* Make room for the new bytes and copy them into the line. */
 	openfile->current->data = charealloc(openfile->current->data,
-									current_len + count + 1);
-	memmove(openfile->current->data + openfile->current_x + count,
-						openfile->current->data + openfile->current_x,
-						current_len - openfile->current_x + 1);
-	strncpy(openfile->current->data + openfile->current_x, burst, count);
+											datalen + count + 1);
+	memmove(thepoint + count, thepoint, datalen - openfile->current_x + 1);
+	strncpy(thepoint, burst, count);
 
 #ifndef NANO_TINY
 	/* When the mark is to the right of the cursor, compensate its position. */
