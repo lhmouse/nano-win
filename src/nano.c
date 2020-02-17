@@ -1639,8 +1639,6 @@ void process_a_keystroke(void)
 void inject(char *burst, size_t count)
 {
 	size_t current_len = strlen(openfile->current->data);
-	size_t index = 0;
-	int charlen;
 #ifndef NANO_TINY
 	size_t original_row = 0, old_amount = 0;
 
@@ -1651,8 +1649,8 @@ void inject(char *burst, size_t count)
 	}
 #endif
 
-	while (index < count) {
 		/* Encode an embedded NUL byte as 0x0A. */
+	for (size_t index = 0; index < count; index++)
 		if (burst[index] == '\0')
 			burst[index] = '\n';
 
@@ -1665,28 +1663,23 @@ void inject(char *burst, size_t count)
 			add_undo(ADD, NULL);
 #endif
 
-		charlen = char_length(burst + index);
-
-		/* Make room for the new character and copy it into the line. */
+		/* Make room for the new bytes and copy them into the line. */
 		openfile->current->data = charealloc(openfile->current->data,
-										current_len + charlen + 1);
-		memmove(openfile->current->data + openfile->current_x + charlen,
+										current_len + count + 1);
+		memmove(openfile->current->data + openfile->current_x + count,
 						openfile->current->data + openfile->current_x,
 						current_len - openfile->current_x + 1);
 		strncpy(openfile->current->data + openfile->current_x,
-						burst + index, charlen);
+						burst, count);
 
-		current_len += charlen;
-		index += charlen;
-
-		openfile->totsize++;
+		openfile->totsize += mbstrlen(burst);
 		set_modified();
 
 #ifndef NANO_TINY
 		/* Note that current_x has not yet been incremented. */
 		if (openfile->current == openfile->mark &&
 						openfile->current_x < openfile->mark_x)
-			openfile->mark_x += charlen;
+			openfile->mark_x += count;
 
 		/* When the cursor is on the top row and not on the first chunk
 		 * of a line, adding text there might change the preceding chunk
@@ -1698,11 +1691,7 @@ void inject(char *burst, size_t count)
 		}
 #endif
 
-		openfile->current_x += charlen;
-
-#ifndef NANO_TINY
-		update_undo(ADD);
-#endif
+		openfile->current_x += count;
 
 		/* If we've added text to the magic line, create a new magic line. */
 		if (openfile->filebot == openfile->current && !ISSET(NO_NEWLINES)) {
@@ -1711,12 +1700,15 @@ void inject(char *burst, size_t count)
 				refresh_needed = TRUE;
 		}
 
+#ifndef NANO_TINY
+		update_undo(ADD);
+#endif
+
 #ifdef ENABLE_WRAPPING
 		/* If text gets wrapped, the edit window needs a refresh. */
 		if (ISSET(BREAK_LONG_LINES) && do_wrap())
 			refresh_needed = TRUE;
 #endif
-	}
 
 #ifndef NANO_TINY
 	/* If the number of screen rows that a softwrapped line occupies has
