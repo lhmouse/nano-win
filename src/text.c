@@ -1142,6 +1142,7 @@ void add_undo(undo_type action, const char *message)
 	 * SPLIT_BEGIN item underneath that action's undo item.  Otherwise,
 	 * just add the new item to the top of the undo stack. */
 	if (u->type == SPLIT_BEGIN) {
+		u->wassize = openfile->undotop->wassize;
 		u->next = openfile->undotop->next;
 		openfile->undotop->next = u;
 	} else
