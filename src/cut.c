@@ -120,7 +120,7 @@ void do_delete(void)
 		zap_text();
 	else
 #endif
-	do_deletion(DEL);
+		do_deletion(DEL);
 }
 
 /* Backspace over one character.  That is, move the cursor left one
@@ -132,7 +132,7 @@ void do_backspace(void)
 		zap_text();
 	else
 #endif
-	if (openfile->current != openfile->filetop || openfile->current_x > 0) {
+	if (openfile->current_x > 0 || openfile->current != openfile->filetop) {
 		do_left();
 		do_deletion(BACK);
 	}

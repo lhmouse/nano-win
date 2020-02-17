@@ -1734,7 +1734,6 @@ void inject(char *burst, size_t count)
 	if (!refresh_needed)
 		check_the_multis(openfile->current);
 #endif
-
 	if (!refresh_needed)
 		update_line(openfile->current, openfile->current_x);
 }

@@ -1062,10 +1062,9 @@ bool execute_command(const char *command)
 	else
 		read_file(stream, 0, "pipe", TRUE);
 
-	if (should_pipe && !ISSET(MULTIBUFFER)) {
+	if (should_pipe && !ISSET(MULTIBUFFER))
 		/* TRANSLATORS: The next two go with Undid/Redid messages. */
 		add_undo(COUPLE_END, N_("filtering"));
-	}
 
 	/* Wait for the external command (and possibly data sender) to terminate. */
 	wait(NULL);
@@ -1223,10 +1222,10 @@ void add_undo(undo_type action, const char *message)
 		}
 		break;
 	case PASTE:
-		if (openfile->current == openfile->filebot)
-			u->xflags |= WAS_FINAL_LINE;
 		u->cutbuffer = copy_buffer(cutbuffer);
 		u->lineno += cutbottom->lineno - cutbuffer->lineno;
+		if (openfile->current == openfile->filebot)
+			u->xflags |= WAS_FINAL_LINE;
 		break;
 	case INSERT:
 		if (openfile->current == openfile->filebot)
