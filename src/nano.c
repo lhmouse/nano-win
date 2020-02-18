@@ -1707,14 +1707,12 @@ void inject(char *burst, size_t count)
 #endif
 
 #ifndef NANO_TINY
-	/* If the number of screen rows that a softwrapped line occupies has
-	 * changed, we need a full refresh.  And if we were on the last line
-	 * of the edit window, and we moved one screen row, we're now below
-	 * the last line of the edit window, so we need a full refresh too. */
-	if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
-				(number_of_chunks_in(openfile->current) != old_amount ||
-				(openfile->current_y == editwinrows - 1 &&
-				chunk_for(xplustabs(), openfile->current) > original_row))) {
+	/* If we were on the last row of the edit window and moved to a new chunk,
+	 * or if the number of chunks that the current softwrapped line occupies
+	 * changed, we need a full refresh. */
+	if (ISSET(SOFTWRAP) && ((openfile->current_y == editwinrows - 1 &&
+				chunk_for(xplustabs(), openfile->current) > original_row) ||
+				number_of_chunks_in(openfile->current) != old_amount)) {
 		refresh_needed = TRUE;
 		focusing = FALSE;
 	}
