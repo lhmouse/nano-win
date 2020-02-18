@@ -1714,8 +1714,10 @@ void inject(char *burst, size_t count)
 	if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
 				(number_of_chunks_in(openfile->current) != old_amount ||
 				(openfile->current_y == editwinrows - 1 &&
-				chunk_for(xplustabs(), openfile->current) != original_row)))
+				chunk_for(xplustabs(), openfile->current) > original_row))) {
 		refresh_needed = TRUE;
+		focusing = FALSE;
+	}
 #endif
 
 	openfile->placewewant = xplustabs();
