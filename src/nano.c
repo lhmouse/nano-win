@@ -1638,14 +1638,15 @@ void process_a_keystroke(void)
 /* Insert the given short burst of bytes into the edit buffer. */
 void inject(char *burst, size_t count)
 {
-	size_t datalen = strlen(openfile->current->data);
+	linestruct *thisline = openfile->current;
+	size_t datalen = strlen(thisline->data);
 #ifndef NANO_TINY
 	size_t original_row = 0, old_amount = 0;
 
 	if (ISSET(SOFTWRAP)) {
 		if (openfile->current_y == editwinrows - 1)
-			original_row = chunk_for(xplustabs(), openfile->current);
-		old_amount = number_of_chunks_in(openfile->current);
+			original_row = chunk_for(xplustabs(), thisline);
+		old_amount = number_of_chunks_in(thisline);
 	}
 #endif
 
@@ -1658,35 +1659,33 @@ void inject(char *burst, size_t count)
 	/* Only add a new undo item when the current item is not an ADD or when
 	 * the current typing is not contiguous with the previous typing. */
 	if (openfile->last_action != ADD ||
-				openfile->current_undo->mark_begin_lineno != openfile->current->lineno ||
+				openfile->current_undo->mark_begin_lineno != thisline->lineno ||
 				openfile->current_undo->mark_begin_x != openfile->current_x)
 		add_undo(ADD, NULL);
 #endif
 
 	/* Make room for the new bytes and copy them into the line. */
-	openfile->current->data = charealloc(openfile->current->data,
-											datalen + count + 1);
-	memmove(openfile->current->data + openfile->current_x + count,
-						openfile->current->data + openfile->current_x,
+	thisline->data = charealloc(thisline->data, datalen + count + 1);
+	memmove(thisline->data + openfile->current_x + count,
+						thisline->data + openfile->current_x,
 						datalen - openfile->current_x + 1);
-	strncpy(openfile->current->data + openfile->current_x, burst, count);
+	strncpy(thisline->data + openfile->current_x, burst, count);
 
 #ifndef NANO_TINY
 	/* When the mark is to the right of the cursor, compensate its position. */
-	if (openfile->current == openfile->mark &&
-						openfile->current_x < openfile->mark_x)
+	if (thisline == openfile->mark && openfile->current_x < openfile->mark_x)
 		openfile->mark_x += count;
 
 	/* When the cursor is on the top row and not on the first chunk
 	 * of a line, adding text there might change the preceding chunk
 	 * and thus require an adjustment of firstcolumn. */
-	if (openfile->current == openfile->edittop && openfile->firstcolumn > 0) {
+	if (thisline == openfile->edittop && openfile->firstcolumn > 0) {
 		ensure_firstcolumn_is_aligned();
 		refresh_needed = TRUE;
 	}
 #endif
 	/* If text was added to the magic line, create a new magic line. */
-	if (openfile->filebot == openfile->current && !ISSET(NO_NEWLINES)) {
+	if (thisline == openfile->filebot && !ISSET(NO_NEWLINES)) {
 		new_magicline();
 		if (margin > 0)
 			refresh_needed = TRUE;
