@@ -223,8 +223,7 @@ void partition_buffer(linestruct *top, size_t top_x,
 	 * top of the partition from it, and save the text before top_x. */
 	foreline = top->prev;
 	top->prev = NULL;
-	antedata = measured_copy(top->data, top_x + 1);
-	antedata[top_x] = '\0';
+	antedata = measured_copy(top->data, top_x);
 
 	/* Remember which line is below the bottom of the partition, detach the
 	 * bottom of the partition from it, and save the text after bot_x. */

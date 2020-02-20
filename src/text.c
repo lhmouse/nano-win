@@ -261,9 +261,7 @@ void do_unindent(void)
 	 * possible, and saving the removed whitespace in the undo item. */
 	for (line = top; line != bot->next; line = line->next) {
 		size_t indent_len = length_of_white(line->data);
-		char *indentation = measured_copy(line->data, indent_len + 1);
-
-		indentation[indent_len] = '\0';
+		char *indentation = measured_copy(line->data, indent_len);
 
 		unindent_a_line(line, indent_len);
 		update_multiline_undo(line->lineno, indentation);
@@ -579,8 +577,7 @@ void do_undo(void)
 		}
 		t = make_new_node(f);
 		t->data = copy_of(u->strdata);
-		data = measured_copy(f->data, u->mark_begin_x + 1);
-		data[u->mark_begin_x] = '\0';
+		data = measured_copy(f->data, u->mark_begin_x);
 		free(f->data);
 		f->data = data;
 		splice_node(f, t);
@@ -725,8 +722,7 @@ void do_redo(void)
 		redidmsg = _("line break");
 		shoveline = make_new_node(f);
 		shoveline->data = copy_of(u->strdata);
-		data = measured_copy(f->data, u->begin + 1);
-		data[u->begin] = '\0';
+		data = measured_copy(f->data, u->begin);
 		free(f->data);
 		f->data = data;
 		splice_node(f, shoveline);
@@ -1906,8 +1902,7 @@ void justify_paragraph(linestruct **line, size_t par_len)
 	/* Copy the leading part (quoting + indentation) of the sample line. */
 	quote_len = quote_length(sampleline->data);
 	lead_len = quote_len + indent_length(sampleline->data + quote_len);
-	lead_string = measured_copy(sampleline->data, lead_len + 1);
-	lead_string[lead_len] = '\0';
+	lead_string = measured_copy(sampleline->data, lead_len);
 
 	/* Concatenate all lines of the paragraph into a single line. */
 	concat_paragraph(line, par_len);
@@ -1988,8 +1983,7 @@ void do_justify(bool full_justify)
 		/* Copy the leading part that is to be used for the new paragraph. */
 		quote_len = quote_length(first_par_line->data);
 		lead_len = quote_len + indent_length(first_par_line->data + quote_len);
-		the_lead = measured_copy(first_par_line->data, lead_len + 1);
-		the_lead[lead_len] = '\0';
+		the_lead = measured_copy(first_par_line->data, lead_len);
 
 		/* Copy the leading part that is to be used for the new paragraph after
 		 * its first line (if any): the quoting of the first line, plus the

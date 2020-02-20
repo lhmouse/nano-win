@@ -166,8 +166,7 @@ void show_help(void)
 
 	/* Extract the title from the head of the help text. */
 	length = break_line(help_text, MAX_BUF_SIZE, TRUE);
-	title = measured_copy(help_text, length + 1);
-	title[length] = '\0';
+	title = measured_copy(help_text, length);
 
 	titlebar(title);
 
