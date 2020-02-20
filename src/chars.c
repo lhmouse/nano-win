@@ -204,11 +204,10 @@ int mbwidth(const char *c)
  * allocated) multibyte character and a length of zero. */
 char *make_mbchar(long code, int *length)
 {
-	char *mb_char;
+	char *mb_char = charalloc(MAXCHARLEN);
 
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
-		mb_char = charalloc(MAXCHARLEN);
 		*length = wctomb(mb_char, (wchar_t)code);
 
 		/* Reject invalid Unicode characters. */
@@ -219,7 +218,7 @@ char *make_mbchar(long code, int *length)
 	} else
 #endif
 	{
-		mb_char = measured_copy((char *)&code, 1);
+		*mb_char = (char)code;
 		*length = 1;
 	}
 
