@@ -178,10 +178,9 @@ void color_update(void)
 		if (strcmp(syntaxstr, "none") == 0)
 			return;
 
-		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next) {
+		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
 			if (strcmp(sntx->name, syntaxstr) == 0)
 				break;
-		}
 
 		if (sntx == NULL && !inhelp)
 			statusline(ALERT, _("Unknown syntax name: %s"), syntaxstr);
@@ -195,20 +194,18 @@ void color_update(void)
 		if (fullname == NULL)
 			fullname = mallocstrcpy(fullname, openfile->filename);
 
-		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next) {
+		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
 			if (found_in_list(sntx->extensions, fullname))
 				break;
-		}
 
 		free(fullname);
 	}
 
 	/* If the filename didn't match anything, try the first line. */
 	if (sntx == NULL && !inhelp) {
-		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next) {
+		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
 			if (found_in_list(sntx->headers, openfile->filetop->data))
 				break;
-		}
 	}
 
 #ifdef HAVE_LIBMAGIC
@@ -237,10 +234,9 @@ void color_update(void)
 
 		/* Now try and find a syntax that matches the magic string. */
 		if (magicstring != NULL) {
-			for (sntx = syntaxes; sntx != NULL; sntx = sntx->next) {
+			for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
 				if (found_in_list(sntx->magics, magicstring))
 					break;
-			}
 		}
 
 		if (stat(openfile->filename, &fileinfo) == 0)
@@ -250,10 +246,9 @@ void color_update(void)
 
 	/* If nothing at all matched, see if there is a default syntax. */
 	if (sntx == NULL && !inhelp) {
-		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next) {
+		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
 			if (strcmp(sntx->name, "default") == 0)
 				break;
-		}
 	}
 
 	/* When the syntax isn't loaded yet, parse it and initialize its colors. */
