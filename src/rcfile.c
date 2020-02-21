@@ -1340,17 +1340,17 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		if (!just_syntax && strcmp(keyword, "extendsyntax") == 0) {
 			augmentstruct *newitem, *extra;
 			char *syntaxname = ptr;
-			syntaxtype *sint;
+			syntaxtype *sntx;
 
 			check_for_nonempty_syntax();
 
 			ptr = parse_next_word(ptr);
 
-			for (sint = syntaxes; sint != NULL; sint = sint->next)
-				if (!strcmp(sint->name, syntaxname))
+			for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
+				if (!strcmp(sntx->name, syntaxname))
 					break;
 
-			if (sint == NULL) {
+			if (sntx == NULL) {
 				jot_error(N_("Could not find syntax \"%s\" to extend"), syntaxname);
 				continue;
 			}
@@ -1363,7 +1363,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			 * other commands are stored for possible later processing. */
 			if (strcmp(keyword, "header") == 0 || strcmp(keyword, "magic") == 0) {
 				free(argument);
-				live_syntax = sint;
+				live_syntax = sntx;
 				opensyntax = TRUE;
 				drop_open = TRUE;
 			} else {
@@ -1374,13 +1374,13 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 				newitem->data = argument;
 				newitem->next = NULL;
 
-				if (sint->augmentations != NULL) {
-					extra = sint->augmentations;
+				if (sntx->augmentations != NULL) {
+					extra = sntx->augmentations;
 					while (extra->next != NULL)
 						extra = extra->next;
 					extra->next = newitem;
 				} else
-					sint->augmentations = newitem;
+					sntx->augmentations = newitem;
 
 				continue;
 			}
