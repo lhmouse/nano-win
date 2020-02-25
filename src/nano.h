@@ -324,9 +324,9 @@ typedef struct undostruct {
 		/* Undo info specific to groups of lines. */
 	linestruct *cutbuffer;
 		/* A copy of the cutbuffer. */
-	ssize_t mark_begin_lineno;
+	ssize_t tail_lineno;
 		/* Mostly the line number of the current line; sometimes something else. */
-	size_t mark_begin_x;
+	size_t tail_x;
 		/* The x position corresponding to the above line number. */
 	struct undostruct *next;
 		/* A pointer to the undo item of the preceding action. */

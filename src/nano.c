@@ -1658,8 +1658,8 @@ void inject(char *burst, size_t count)
 	/* Only add a new undo item when the current item is not an ADD or when
 	 * the current typing is not contiguous with the previous typing. */
 	if (openfile->last_action != ADD ||
-				openfile->current_undo->mark_begin_lineno != thisline->lineno ||
-				openfile->current_undo->mark_begin_x != openfile->current_x)
+				openfile->current_undo->tail_lineno != thisline->lineno ||
+				openfile->current_undo->tail_x != openfile->current_x)
 		add_undo(ADD, NULL);
 #endif
 

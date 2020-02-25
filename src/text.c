@@ -469,9 +469,9 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 void undo_cut(undostruct *u)
 {
 	if (u->xflags & WAS_WHOLE_LINE)
-		goto_line_posx(u->mark_begin_lineno, 0);
+		goto_line_posx(u->tail_lineno, 0);
 	else
-		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
+		goto_line_posx(u->tail_lineno, u->tail_x);
 
 	if (!u->cutbuffer)
 		die("Empty cut -- please report a bug\n");
@@ -485,7 +485,7 @@ void undo_cut(undostruct *u)
 		remove_magicline();
 
 	if (!(u->xflags & WAS_MARKED_FORWARD) && u->type != PASTE)
-		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
+		goto_line_posx(u->tail_lineno, u->tail_x);
 }
 
 /* Redo a cut, or undo a paste. */
@@ -500,8 +500,8 @@ void redo_cut(undostruct *u)
 
 	cutbuffer = NULL;
 
-	openfile->mark = line_from_number(u->mark_begin_lineno);
-	openfile->mark_x = (u->xflags & WAS_WHOLE_LINE) ? 0 : u->mark_begin_x;
+	openfile->mark = line_from_number(u->tail_lineno);
+	openfile->mark_x = (u->xflags & WAS_WHOLE_LINE) ? 0 : u->tail_x;
 
 	do_snip(FALSE, TRUE, FALSE, u->type == ZAP);
 
@@ -524,7 +524,7 @@ void do_undo(void)
 	}
 
 	if (u->type <= REPLACE)
-		f = line_from_number(u->mark_begin_lineno);
+		f = line_from_number(u->tail_lineno);
 
 	openfile->current_x = u->head_x;
 
@@ -544,8 +544,8 @@ void do_undo(void)
 		break;
 	case ENTER:
 		undidmsg = _("line break");
-		from_x = (u->head_x == 0) ? 0 : u->mark_begin_x;
-		to_x = (u->head_x == 0) ? u->mark_begin_x : u->head_x;
+		from_x = (u->head_x == 0) ? 0 : u->tail_x;
+		to_x = (u->head_x == 0) ? u->tail_x : u->head_x;
 		f->data = charealloc(f->data, strlen(f->data) +
 								strlen(&u->strdata[from_x]) + 1);
 		strcat(f->data, &u->strdata[from_x]);
@@ -562,7 +562,7 @@ void do_undo(void)
 		strcpy(&data[u->head_x + strlen(u->strdata)], &f->data[u->head_x]);
 		free(f->data);
 		f->data = data;
-		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
+		goto_line_posx(u->tail_lineno, u->tail_x);
 		break;
 	case JOIN:
 		undidmsg = _("line join");
@@ -575,7 +575,7 @@ void do_undo(void)
 		}
 		t = make_new_node(f);
 		t->data = copy_of(u->strdata);
-		data = measured_copy(f->data, u->mark_begin_x);
+		data = measured_copy(f->data, u->tail_x);
 		free(f->data);
 		f->data = data;
 		splice_node(f, t);
@@ -622,9 +622,9 @@ void do_undo(void)
 		undidmsg = _("insertion");
 		oldcutbuffer = cutbuffer;
 		cutbuffer = NULL;
-		openfile->mark = line_from_number(u->mark_begin_lineno);
-		openfile->mark_x = u->mark_begin_x;
 		goto_line_posx(u->head_lineno, u->head_x);
+		openfile->mark = line_from_number(u->tail_lineno);
+		openfile->mark_x = u->tail_x;
 		cut_marked(NULL);
 		u->cutbuffer = cutbuffer;
 		cutbuffer = oldcutbuffer;
@@ -635,7 +635,7 @@ void do_undo(void)
 	case COUPLE_BEGIN:
 		undidmsg = u->strdata;
 		goto_line_posx(u->head_lineno, u->head_x);
-		openfile->current_y = u->mark_begin_lineno;
+		openfile->current_y = u->tail_lineno;
 		adjust_viewport(STATIONARY);
 		break;
 	case COUPLE_END:
@@ -701,7 +701,7 @@ void do_redo(void)
 		u = u->next;
 
 	if (u->type <= REPLACE)
-		f = line_from_number(u->mark_begin_lineno);
+		f = line_from_number(u->tail_lineno);
 
 	switch (u->type) {
 	case ADD:
@@ -714,7 +714,7 @@ void do_redo(void)
 		strcpy(&data[u->head_x + strlen(u->strdata)], &f->data[u->head_x]);
 		free(f->data);
 		f->data = data;
-		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
+		goto_line_posx(u->tail_lineno, u->tail_x);
 		break;
 	case ENTER:
 		redidmsg = _("line break");
@@ -725,7 +725,7 @@ void do_redo(void)
 		f->data = data;
 		splice_node(f, shoveline);
 		renumber_from(shoveline);
-		goto_line_posx(u->head_lineno + 1, u->mark_begin_x);
+		goto_line_posx(u->head_lineno + 1, u->tail_x);
 		break;
 	case BACK:
 	case DEL:
@@ -743,14 +743,14 @@ void do_redo(void)
 		 * and the nonewlines flag isn't set, do not join anything, as
 		 * nothing was actually deleted; just position the cursor. */
 		if ((u->xflags & WAS_FINAL_BACKSPACE) && !ISSET(NO_NEWLINES)) {
-			goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
+			goto_line_posx(u->tail_lineno, u->tail_x);
 			break;
 		}
 		f->data = charealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
 		strcat(f->data, u->strdata);
 		unlink_node(f->next);
 		renumber_from(f);
-		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
+		goto_line_posx(u->tail_lineno, u->tail_x);
 		break;
 	case REPLACE:
 		redidmsg = _("replacement");
@@ -1121,8 +1121,8 @@ void add_undo(undo_type action, const char *message)
 	u->cutbuffer = NULL;
 	u->head_lineno = openfile->current->lineno;
 	u->head_x = openfile->current_x;
-	u->mark_begin_lineno = openfile->current->lineno;
-	u->mark_begin_x = openfile->current_x;
+	u->tail_lineno = openfile->current->lineno;
+	u->tail_x = openfile->current_x;
 	u->wassize = openfile->totsize;
 	u->newsize = openfile->totsize;
 	u->grouping = NULL;
@@ -1173,7 +1173,7 @@ void add_undo(undo_type action, const char *message)
 			char_buf[charlen] = '\0';
 			u->strdata = char_buf;
 			if (u->type == BACK)
-				u->mark_begin_x += charlen;
+				u->tail_x += charlen;
 			break;
 		}
 		/* Fall-through. */
@@ -1203,8 +1203,8 @@ void add_undo(undo_type action, const char *message)
 	case ZAP:
 	case CUT:
 		if (openfile->mark) {
-			u->mark_begin_lineno = openfile->mark->lineno;
-			u->mark_begin_x = openfile->mark_x;
+			u->tail_lineno = openfile->mark->lineno;
+			u->tail_x = openfile->mark_x;
 			u->xflags |= MARK_WAS_SET;
 			if (openfile->current == openfile->filebot ||
 						openfile->mark == openfile->filebot)
@@ -1226,7 +1226,7 @@ void add_undo(undo_type action, const char *message)
 			u->xflags |= WAS_FINAL_LINE;
 		break;
 	case COUPLE_BEGIN:
-		u->mark_begin_lineno = openfile->current_y;
+		u->tail_lineno = openfile->current_y;
 		/* Fall-through. */
 	case COUPLE_END:
 		u->strdata = copy_of(_(message));
@@ -1298,12 +1298,12 @@ void update_undo(undo_type action)
 		u->strdata = charealloc(u->strdata, newlen + 1);
 		strncpy(u->strdata, openfile->current->data + u->head_x, newlen);
 		u->strdata[newlen] = '\0';
-		u->mark_begin_lineno = openfile->current->lineno;
-		u->mark_begin_x = openfile->current_x;
+		u->tail_lineno = openfile->current->lineno;
+		u->tail_x = openfile->current_x;
 		break;
 	case ENTER:
 		u->strdata = copy_of(openfile->current->data);
-		u->mark_begin_x = openfile->current_x;
+		u->tail_x = openfile->current_x;
 		break;
 	case BACK:
 	case DEL:
@@ -1315,7 +1315,7 @@ void update_undo(undo_type action)
 			u->strdata = charealloc(u->strdata, datalen + charlen + 1);
 			strncpy(u->strdata + datalen, textposition, charlen);
 			u->strdata[datalen + charlen] = '\0';
-			u->mark_begin_x = openfile->current_x;
+			u->tail_x = openfile->current_x;
 		} else if (openfile->current_x == u->head_x - charlen) {
 			/* They backspaced further: add removed character before earlier. */
 			u->strdata = charealloc(u->strdata, datalen + charlen + 1);
@@ -1352,17 +1352,17 @@ void update_undo(undo_type action)
 		}
 		if (u->xflags & MARK_WAS_SET) {
 			/* If the region was marked backwards, swap the end points. */
-			if (u->head_lineno < u->mark_begin_lineno ||
-						(u->head_lineno == u->mark_begin_lineno &&
-						u->head_x < u->mark_begin_x)) {
+			if (u->head_lineno < u->tail_lineno ||
+						(u->head_lineno == u->tail_lineno &&
+						u->head_x < u->tail_x)) {
 				ssize_t number = u->head_lineno;
 				size_t position = u->head_x;
 
-				u->head_lineno = u->mark_begin_lineno;
-				u->head_x = u->mark_begin_x;
+				u->head_lineno = u->tail_lineno;
+				u->head_x = u->tail_x;
 
-				u->mark_begin_lineno = number;
-				u->mark_begin_x = position;
+				u->tail_lineno = number;
+				u->tail_x = position;
 			} else
 				u->xflags |= WAS_MARKED_FORWARD;
 		} else {
@@ -1374,19 +1374,19 @@ void update_undo(undo_type action)
 				bottomline = bottomline->next;
 				count++;
 			}
-			u->head_lineno = u->mark_begin_lineno + count;
+			u->head_lineno = u->tail_lineno + count;
 			if (ISSET(CUT_FROM_CURSOR) || u->type == CUT_TO_EOF) {
 				u->head_x = strlen(bottomline->data);
-				if (u->head_lineno == u->mark_begin_lineno)
-					u->head_x += u->mark_begin_x;
+				if (u->head_lineno == u->tail_lineno)
+					u->head_x += u->tail_x;
 			} else if (openfile->current == openfile->filebot &&
 						ISSET(NO_NEWLINES))
 				u->head_x = strlen(bottomline->data);
 		}
 		break;
 	case INSERT:
-		u->mark_begin_lineno = openfile->current->lineno;
-		u->mark_begin_x = openfile->current_x;
+		u->tail_lineno = openfile->current->lineno;
+		u->tail_x = openfile->current_x;
 		break;
 	case COUPLE_BEGIN:
 		break;
