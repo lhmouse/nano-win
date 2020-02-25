@@ -2245,11 +2245,9 @@ bool fix_spello(const char *word)
 	bool result;
 		/* The return value of searching for a misspelled word. */
 #ifndef NANO_TINY
-	bool right_side_up = FALSE;
-		/* TRUE if (mark_begin, mark_begin_x) is the top of the mark,
-		 * FALSE if (current, current_x) is. */
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
+	bool right_side_up = FALSE;
 #endif
 
 	/* Save the current search string, then set it to the misspelled word. */
