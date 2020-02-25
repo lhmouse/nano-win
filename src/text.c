@@ -473,9 +473,8 @@ void undo_cut(undostruct *u)
 	else
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
 
-	/* If nothing was actually cut, positioning the cursor was enough. */
 	if (!u->cutbuffer)
-		return;
+		die("Empty cut -- please report a bug\n");
 
 	copy_from_buffer(u->cutbuffer);
 
@@ -496,9 +495,8 @@ void redo_cut(undostruct *u)
 
 	goto_line_posx(u->lineno, u->begin);
 
-	/* If nothing was actually cut, positioning the cursor was enough. */
 	if (!u->cutbuffer)
-		return;
+		die("Empty paste -- please report a bug\n");
 
 	cutbuffer = NULL;
 
@@ -1345,7 +1343,7 @@ void update_undo(undo_type action)
 	case CUT_TO_EOF:
 	case CUT:
 		if (!cutbuffer)
-			break;
+			die("Adding empty undo item -- please report a bug\n");
 		if (u->type == ZAP)
 			u->cutbuffer = cutbuffer;
 		else {
