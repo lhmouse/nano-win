@@ -41,7 +41,7 @@ void do_deletion(undo_type action)
 		/* If the type of action changed or the cursor moved to a different
 		 * line, create a new undo item, otherwise update the existing item. */
 		if (action != openfile->last_action ||
-					openfile->current->lineno != openfile->current_undo->lineno)
+					openfile->current->lineno != openfile->current_undo->head_lineno)
 			add_undo(action, NULL);
 		else
 			update_undo(action);

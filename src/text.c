@@ -286,7 +286,7 @@ void handle_indent_action(undostruct *u, bool undoing, bool add_indent)
 
 	/* When redoing, reposition the cursor and let the indenter adjust it. */
 	if (!undoing)
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 
 	/* For each line in the group, add or remove the individual indent. */
 	while (line && line->lineno <= group->bottom_line) {
@@ -302,7 +302,7 @@ void handle_indent_action(undostruct *u, bool undoing, bool add_indent)
 
 	/* When undoing, reposition the cursor to the recorded location. */
 	if (undoing)
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 
 	refresh_needed = TRUE;
 }
@@ -439,7 +439,7 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 
 	/* When redoing, reposition the cursor and let the commenter adjust it. */
 	if (!undoing)
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 
 	while (group) {
 		linestruct *f = line_from_number(group->top_line);
@@ -455,7 +455,7 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 
 	/* When undoing, reposition the cursor to the recorded location. */
 	if (undoing)
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 
 	refresh_needed = TRUE;
 }
@@ -493,7 +493,7 @@ void redo_cut(undostruct *u)
 {
 	linestruct *oldcutbuffer = cutbuffer;
 
-	goto_line_posx(u->lineno, u->begin);
+	goto_line_posx(u->head_lineno, u->head_x);
 
 	if (!u->cutbuffer)
 		die("Empty paste -- please report a bug\n");
@@ -526,7 +526,7 @@ void do_undo(void)
 	if (u->type <= REPLACE)
 		f = line_from_number(u->mark_begin_lineno);
 
-	openfile->current_x = u->begin;
+	openfile->current_x = u->head_x;
 
 	switch (u->type) {
 	case ADD:
@@ -536,30 +536,30 @@ void do_undo(void)
 		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			remove_magicline();
 		data = charalloc(strlen(f->data) - strlen(u->strdata) + 1);
-		strncpy(data, f->data, u->begin);
-		strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
+		strncpy(data, f->data, u->head_x);
+		strcpy(&data[u->head_x], &f->data[u->head_x + strlen(u->strdata)]);
 		free(f->data);
 		f->data = data;
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case ENTER:
 		undidmsg = _("line break");
-		from_x = (u->begin == 0) ? 0 : u->mark_begin_x;
-		to_x = (u->begin == 0) ? u->mark_begin_x : u->begin;
+		from_x = (u->head_x == 0) ? 0 : u->mark_begin_x;
+		to_x = (u->head_x == 0) ? u->mark_begin_x : u->head_x;
 		f->data = charealloc(f->data, strlen(f->data) +
 								strlen(&u->strdata[from_x]) + 1);
 		strcat(f->data, &u->strdata[from_x]);
 		unlink_node(f->next);
 		renumber_from(f);
-		goto_line_posx(u->lineno, to_x);
+		goto_line_posx(u->head_lineno, to_x);
 		break;
 	case BACK:
 	case DEL:
 		undidmsg = _("deletion");
 		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
-		strncpy(data, f->data, u->begin);
-		strcpy(&data[u->begin], u->strdata);
-		strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
+		strncpy(data, f->data, u->head_x);
+		strcpy(&data[u->head_x], u->strdata);
+		strcpy(&data[u->head_x + strlen(u->strdata)], &f->data[u->head_x]);
 		free(f->data);
 		f->data = data;
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
@@ -580,18 +580,18 @@ void do_undo(void)
 		f->data = data;
 		splice_node(f, t);
 		renumber_from(t);
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case REPLACE:
 		undidmsg = _("replacement");
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		data = u->strdata;
 		u->strdata = f->data;
 		f->data = data;
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_END:
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		openfile->current_undo = openfile->current_undo->next;
 		while (openfile->current_undo->type != SPLIT_BEGIN)
 			do_undo();
@@ -624,7 +624,7 @@ void do_undo(void)
 		cutbuffer = NULL;
 		openfile->mark = line_from_number(u->mark_begin_lineno);
 		openfile->mark_x = u->mark_begin_x;
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		cut_marked(NULL);
 		u->cutbuffer = cutbuffer;
 		cutbuffer = oldcutbuffer;
@@ -634,7 +634,7 @@ void do_undo(void)
 		break;
 	case COUPLE_BEGIN:
 		undidmsg = u->strdata;
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		openfile->current_y = u->mark_begin_lineno;
 		adjust_viewport(STATIONARY);
 		break;
@@ -709,9 +709,9 @@ void do_redo(void)
 		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			new_magicline();
 		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
-		strncpy(data, f->data, u->begin);
-		strcpy(&data[u->begin], u->strdata);
-		strcpy(&data[u->begin + strlen(u->strdata)], &f->data[u->begin]);
+		strncpy(data, f->data, u->head_x);
+		strcpy(&data[u->head_x], u->strdata);
+		strcpy(&data[u->head_x + strlen(u->strdata)], &f->data[u->head_x]);
 		free(f->data);
 		f->data = data;
 		goto_line_posx(u->mark_begin_lineno, u->mark_begin_x);
@@ -720,22 +720,22 @@ void do_redo(void)
 		redidmsg = _("line break");
 		shoveline = make_new_node(f);
 		shoveline->data = copy_of(u->strdata);
-		data = measured_copy(f->data, u->begin);
+		data = measured_copy(f->data, u->head_x);
 		free(f->data);
 		f->data = data;
 		splice_node(f, shoveline);
 		renumber_from(shoveline);
-		goto_line_posx(u->lineno + 1, u->mark_begin_x);
+		goto_line_posx(u->head_lineno + 1, u->mark_begin_x);
 		break;
 	case BACK:
 	case DEL:
 		redidmsg = _("deletion");
 		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
-		strncpy(data, f->data, u->begin);
-		strcpy(&data[u->begin], &f->data[u->begin + strlen(u->strdata)]);
+		strncpy(data, f->data, u->head_x);
+		strcpy(&data[u->head_x], &f->data[u->head_x + strlen(u->strdata)]);
 		free(f->data);
 		f->data = data;
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case JOIN:
 		redidmsg = _("line join");
@@ -757,16 +757,16 @@ void do_redo(void)
 		data = u->strdata;
 		u->strdata = f->data;
 		f->data = data;
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		openfile->current_undo = u;
 		while (openfile->current_undo->type != SPLIT_END)
 			do_redo();
 		u = openfile->current_undo;
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		/* Fall-through. */
 	case SPLIT_END:
 		redidmsg = _("addition");
@@ -787,7 +787,7 @@ void do_redo(void)
 		break;
 	case INSERT:
 		redidmsg = _("insertion");
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		copy_from_buffer(u->cutbuffer);
 		free_lines(u->cutbuffer);
 		u->cutbuffer = NULL;
@@ -800,7 +800,7 @@ void do_redo(void)
 		return;
 	case COUPLE_END:
 		redidmsg = u->strdata;
-		goto_line_posx(u->lineno, u->begin);
+		goto_line_posx(u->head_lineno, u->head_x);
 		adjust_viewport(STATIONARY);
 		break;
 	case INDENT:
@@ -1119,8 +1119,8 @@ void add_undo(undo_type action, const char *message)
 	u->type = action;
 	u->strdata = NULL;
 	u->cutbuffer = NULL;
-	u->lineno = openfile->current->lineno;
-	u->begin = openfile->current_x;
+	u->head_lineno = openfile->current->lineno;
+	u->head_x = openfile->current_x;
 	u->mark_begin_lineno = openfile->current->lineno;
 	u->mark_begin_x = openfile->current_x;
 	u->wassize = openfile->totsize;
@@ -1168,7 +1168,7 @@ void add_undo(undo_type action, const char *message)
 		 * else purposely fall into the line-joining code. */
 		if (openfile->current->data[openfile->current_x] != '\0') {
 			char *char_buf = charalloc(MAXCHARLEN + 1);
-			int charlen = collect_char(&openfile->current->data[u->begin],
+			int charlen = collect_char(&openfile->current->data[u->head_x],
 												char_buf);
 			char_buf[charlen] = '\0';
 			u->strdata = char_buf;
@@ -1180,8 +1180,8 @@ void add_undo(undo_type action, const char *message)
 	case JOIN:
 		if (openfile->current->next) {
 			if (u->type == BACK) {
-				u->lineno = openfile->current->next->lineno;
-				u->begin = 0;
+				u->head_lineno = openfile->current->next->lineno;
+				u->head_x = 0;
 			}
 			u->strdata = copy_of(openfile->current->next->data);
 		}
@@ -1211,13 +1211,13 @@ void add_undo(undo_type action, const char *message)
 				u->xflags |= WAS_FINAL_LINE;
 		} else if (!ISSET(CUT_FROM_CURSOR)) {
 			/* The entire line is being cut regardless of the cursor position. */
-			u->begin = 0;
+			u->head_x = 0;
 			u->xflags |= WAS_WHOLE_LINE;
 		}
 		break;
 	case PASTE:
 		u->cutbuffer = copy_buffer(cutbuffer);
-		u->lineno += cutbottom->lineno - cutbuffer->lineno;
+		u->head_lineno += cutbottom->lineno - cutbuffer->lineno;
 		if (openfile->current == openfile->filebot)
 			u->xflags |= WAS_FINAL_LINE;
 		break;
@@ -1294,9 +1294,9 @@ void update_undo(undo_type action)
 
 	switch (u->type) {
 	case ADD:
-		newlen = openfile->current_x - u->begin;
+		newlen = openfile->current_x - u->head_x;
 		u->strdata = charealloc(u->strdata, newlen + 1);
-		strncpy(u->strdata, openfile->current->data + u->begin, newlen);
+		strncpy(u->strdata, openfile->current->data + u->head_x, newlen);
 		u->strdata[newlen] = '\0';
 		u->mark_begin_lineno = openfile->current->lineno;
 		u->mark_begin_x = openfile->current_x;
@@ -1310,18 +1310,18 @@ void update_undo(undo_type action)
 		textposition = openfile->current->data + openfile->current_x;
 		charlen = char_length(textposition);
 		datalen = strlen(u->strdata);
-		if (openfile->current_x == u->begin) {
+		if (openfile->current_x == u->head_x) {
 			/* They deleted more: add removed character after earlier stuff. */
 			u->strdata = charealloc(u->strdata, datalen + charlen + 1);
 			strncpy(u->strdata + datalen, textposition, charlen);
 			u->strdata[datalen + charlen] = '\0';
 			u->mark_begin_x = openfile->current_x;
-		} else if (openfile->current_x == u->begin - charlen) {
+		} else if (openfile->current_x == u->head_x - charlen) {
 			/* They backspaced further: add removed character before earlier. */
 			u->strdata = charealloc(u->strdata, datalen + charlen + 1);
 			memmove(u->strdata + charlen, u->strdata, datalen + 1);
 			strncpy(u->strdata, textposition, charlen);
-			u->begin = openfile->current_x;
+			u->head_x = openfile->current_x;
 		} else {
 			/* They deleted *elsewhere* on the line: start a new undo item. */
 			add_undo(u->type, NULL);
@@ -1331,8 +1331,8 @@ void update_undo(undo_type action)
 		break;
 	case REPLACE:
 	case PASTE:
-		u->lineno = openfile->current->lineno;
-		u->begin = openfile->current_x;
+		u->head_lineno = openfile->current->lineno;
+		u->head_x = openfile->current_x;
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
@@ -1352,14 +1352,14 @@ void update_undo(undo_type action)
 		}
 		if (u->xflags & MARK_WAS_SET) {
 			/* If the region was marked backwards, swap the end points. */
-			if (u->lineno < u->mark_begin_lineno ||
-						(u->lineno == u->mark_begin_lineno &&
-						u->begin < u->mark_begin_x)) {
-				ssize_t number = u->lineno;
-				size_t position = u->begin;
+			if (u->head_lineno < u->mark_begin_lineno ||
+						(u->head_lineno == u->mark_begin_lineno &&
+						u->head_x < u->mark_begin_x)) {
+				ssize_t number = u->head_lineno;
+				size_t position = u->head_x;
 
-				u->lineno = u->mark_begin_lineno;
-				u->begin = u->mark_begin_x;
+				u->head_lineno = u->mark_begin_lineno;
+				u->head_x = u->mark_begin_x;
 
 				u->mark_begin_lineno = number;
 				u->mark_begin_x = position;
@@ -1374,14 +1374,14 @@ void update_undo(undo_type action)
 				bottomline = bottomline->next;
 				count++;
 			}
-			u->lineno = u->mark_begin_lineno + count;
+			u->head_lineno = u->mark_begin_lineno + count;
 			if (ISSET(CUT_FROM_CURSOR) || u->type == CUT_TO_EOF) {
-				u->begin = strlen(bottomline->data);
-				if (u->lineno == u->mark_begin_lineno)
-					u->begin += u->mark_begin_x;
+				u->head_x = strlen(bottomline->data);
+				if (u->head_lineno == u->mark_begin_lineno)
+					u->head_x += u->mark_begin_x;
 			} else if (openfile->current == openfile->filebot &&
 						ISSET(NO_NEWLINES))
-				u->begin = strlen(bottomline->data);
+				u->head_x = strlen(bottomline->data);
 		}
 		break;
 	case INSERT:
@@ -1391,8 +1391,8 @@ void update_undo(undo_type action)
 	case COUPLE_BEGIN:
 		break;
 	case COUPLE_END:
-		u->lineno = openfile->current->lineno;
-		u->begin = openfile->current_x;
+		u->head_lineno = openfile->current->lineno;
+		u->head_x = openfile->current_x;
 		break;
 	default:
 		break;
@@ -2045,8 +2045,8 @@ void do_justify(bool full_justify)
 	add_undo(COUPLE_BEGIN, N_("justification"));
 
 	/* Store the original cursor position, in case we unjustify. */
-	openfile->undotop->lineno = was_lineno;
-	openfile->undotop->begin = was_current_x;
+	openfile->undotop->head_lineno = was_lineno;
+	openfile->undotop->head_x = was_current_x;
 
 	add_undo(CUT, NULL);
 #endif

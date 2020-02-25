@@ -310,9 +310,9 @@ typedef struct undostruct {
 		/* The operation type that this undo item is for. */
 	int xflags;
 		/* Some flag data to mark certain corner cases. */
-	ssize_t lineno;
+	ssize_t head_lineno;
 		/* The line number where the operation began or ended. */
-	size_t begin;
+	size_t head_x;
 		/* The x position where the operation began or ended. */
 	char *strdata;
 		/* String data to help restore the affected line. */
