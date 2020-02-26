@@ -589,9 +589,10 @@ void copy_text(void)
 /* Cut from the current cursor position to the end of the file. */
 void cut_till_eof(void)
 {
-	if ((openfile->current == openfile->filebot && openfile->current->data[0] == '\0') ||
-				(!ISSET(NO_NEWLINES) && openfile->current->next == openfile->filebot &&
-				openfile->current->data[openfile->current_x] == '\0')) {
+	if (openfile->current->data[openfile->current_x] == '\0' &&
+				(openfile->current->next == NULL ||
+				(!ISSET(NO_NEWLINES) && openfile->current_x > 0 &&
+				openfile->current->next == openfile->filebot))) {
 		statusbar(_("Nothing was cut"));
 		return;
 	}
