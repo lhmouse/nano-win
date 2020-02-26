@@ -1485,7 +1485,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	struct stat st;
 		/* The status fields filled in by stat(). */
 #endif
-	char *realname;
+	char *realname = real_dir_from_tilde(name);
 		/* The filename after tilde expansion. */
 	char *tempname = NULL;
 		/* The name of the temporary file we use when prepending. */
@@ -1495,13 +1495,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		/* The number of lines written, for feedback on the status bar. */
 	bool retval = FALSE;
 		/* The return value, to become TRUE when writing has succeeded. */
-
-#ifndef NANO_TINY
-	if (*name == '\0')
-		die("Tried to write a nameless file -- please report a bug\n");
-#endif
-
-	realname = real_dir_from_tilde(name);
 
 #ifdef ENABLE_OPERATINGDIR
 	/* If we're writing a temporary file, we're probably going outside
