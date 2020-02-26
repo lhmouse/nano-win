@@ -205,7 +205,7 @@ void chop_next_word(void)
 {
 	openfile->mark = NULL;
 
-	if (is_cuttable(openfile->current_x > 0))
+	if (is_cuttable(TRUE))
 		chop_word(FORWARD);
 }
 #endif /* !NANO_TINY */
@@ -513,15 +513,16 @@ void do_snip(bool copying, bool marked, bool until_eof, bool append)
  * (when test_cliff is TRUE) when the magic line would be cut. */
 bool is_cuttable(bool test_cliff)
 {
-	if ((openfile->current->next == NULL && openfile->current->data[0] == '\0'
+	size_t from = (test_cliff) ? openfile->current_x : 0;
+
+	if ((openfile->current->next == NULL && openfile->current->data[from] == '\0'
 #ifndef NANO_TINY
 					&& openfile->mark == NULL) ||
 					(openfile->mark == openfile->current &&
 					openfile->mark_x == openfile->current_x) ||
-					(test_cliff && openfile->current->data[openfile->current_x] == '\0' &&
-					openfile->current_x > 0 &&
-					((ISSET(NO_NEWLINES) && openfile->current == openfile->filebot) ||
-					(!ISSET(NO_NEWLINES) && openfile->current == openfile->filebot->prev))
+					(from > 0 && !ISSET(NO_NEWLINES) &&
+					openfile->current->data[from] == '\0' &&
+					openfile->current->next == openfile->filebot
 #endif
 					)) {
 #ifndef NANO_TINY
