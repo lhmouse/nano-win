@@ -264,7 +264,6 @@ void copy_from_buffer(linestruct *somebuffer);
 void cut_marked(bool *right_side_up);
 #endif
 void do_snip(bool copying, bool marked, bool until_eof, bool append);
-bool is_cuttable(bool test_cliff);
 void cut_text(void);
 #ifndef NANO_TINY
 void copy_text(void);

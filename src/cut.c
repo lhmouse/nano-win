@@ -138,6 +138,32 @@ void do_backspace(void)
 	}
 }
 
+/* Return FALSE when a cut command would not actually cut anything: when
+ * on an empty line at EOF, or when the mark covers zero characters, or
+ * (when test_cliff is TRUE) when the magic line would be cut. */
+bool is_cuttable(bool test_cliff)
+{
+	size_t from = (test_cliff) ? openfile->current_x : 0;
+
+	if ((openfile->current->next == NULL && openfile->current->data[from] == '\0'
+#ifndef NANO_TINY
+					&& openfile->mark == NULL) ||
+					(openfile->mark == openfile->current &&
+					openfile->mark_x == openfile->current_x) ||
+					(from > 0 && !ISSET(NO_NEWLINES) &&
+					openfile->current->data[from] == '\0' &&
+					openfile->current->next == openfile->filebot
+#endif
+					)) {
+#ifndef NANO_TINY
+		statusbar(_("Nothing was cut"));
+		openfile->mark = NULL;
+#endif
+		return FALSE;
+	} else
+		return TRUE;
+}
+
 #ifndef NANO_TINY
 /* Delete text from the cursor until the first start of a word to
  * the left, or to the right when forward is TRUE. */
@@ -506,32 +532,6 @@ void do_snip(bool copying, bool marked, bool until_eof, bool append)
 		set_modified();
 
 	refresh_needed = TRUE;
-}
-
-/* Return FALSE when a cut command would not actually cut anything: when
- * on an empty line at EOF, or when the mark covers zero characters, or
- * (when test_cliff is TRUE) when the magic line would be cut. */
-bool is_cuttable(bool test_cliff)
-{
-	size_t from = (test_cliff) ? openfile->current_x : 0;
-
-	if ((openfile->current->next == NULL && openfile->current->data[from] == '\0'
-#ifndef NANO_TINY
-					&& openfile->mark == NULL) ||
-					(openfile->mark == openfile->current &&
-					openfile->mark_x == openfile->current_x) ||
-					(from > 0 && !ISSET(NO_NEWLINES) &&
-					openfile->current->data[from] == '\0' &&
-					openfile->current->next == openfile->filebot
-#endif
-					)) {
-#ifndef NANO_TINY
-		statusbar(_("Nothing was cut"));
-		openfile->mark = NULL;
-#endif
-		return FALSE;
-	} else
-		return TRUE;
 }
 
 /* Move text from the current buffer into the cutbuffer. */
