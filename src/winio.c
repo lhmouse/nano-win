@@ -2276,6 +2276,7 @@ void warn_and_shortly_pause(const char *msg)
 {
 	blank_bottombars();
 	statusline(ALERT, msg);
+	lastmessage = HUSH;
 	napms(1500);
 }
 
