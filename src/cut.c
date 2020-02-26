@@ -519,6 +519,7 @@ bool is_cuttable(bool test_cliff)
 					(openfile->mark == openfile->current &&
 					openfile->mark_x == openfile->current_x) ||
 					(test_cliff && openfile->current->data[openfile->current_x] == '\0' &&
+					openfile->current_x > 0 &&
 					((ISSET(NO_NEWLINES) && openfile->current == openfile->filebot) ||
 					(!ISSET(NO_NEWLINES) && openfile->current == openfile->filebot->prev))
 #endif
