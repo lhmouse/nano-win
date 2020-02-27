@@ -513,7 +513,7 @@ void redo_cut(undostruct *u)
 void do_undo(void)
 {
 	undostruct *u = openfile->current_undo;
-	linestruct *line = NULL, *t = NULL;
+	linestruct *line = NULL, *intruder;
 	linestruct *oldcutbuffer;
 	char *data, *undidmsg = NULL;
 
@@ -570,13 +570,13 @@ void do_undo(void)
 			goto_line_posx(openfile->filebot->lineno, 0);
 			break;
 		}
-		t = make_new_node(line);
-		t->data = copy_of(u->strdata);
+		intruder = make_new_node(line);
+		intruder->data = copy_of(u->strdata);
 		data = measured_copy(line->data, u->tail_x);
 		free(line->data);
 		line->data = data;
-		splice_node(line, t);
-		renumber_from(t);
+		splice_node(line, intruder);
+		renumber_from(intruder);
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case REPLACE:
@@ -684,7 +684,7 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-	linestruct *line = NULL, *shoveline;
+	linestruct *line = NULL, *intruder;
 	char *data, *redidmsg = NULL;
 	undostruct *u = openfile->undotop;
 
@@ -716,10 +716,10 @@ void do_redo(void)
 	case ENTER:
 		redidmsg = _("line break");
 		line->data[u->head_x] = '\0';
-		shoveline = make_new_node(line);
-		shoveline->data = copy_of(u->strdata);
-		splice_node(line, shoveline);
-		renumber_from(shoveline);
+		intruder = make_new_node(line);
+		intruder->data = copy_of(u->strdata);
+		splice_node(line, intruder);
+		renumber_from(intruder);
 		goto_line_posx(u->head_lineno + 1, u->tail_x);
 		break;
 	case BACK:
