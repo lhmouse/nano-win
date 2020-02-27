@@ -570,11 +570,9 @@ void do_undo(void)
 			goto_line_posx(openfile->filebot->lineno, 0);
 			break;
 		}
+		line->data[u->head_x] = '\0';
 		intruder = make_new_node(line);
 		intruder->data = copy_of(u->strdata);
-		data = measured_copy(line->data, u->tail_x);
-		free(line->data);
-		line->data = data;
 		splice_node(line, intruder);
 		renumber_from(intruder);
 		goto_line_posx(u->head_lineno, u->head_x);
