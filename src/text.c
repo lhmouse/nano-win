@@ -1325,9 +1325,6 @@ void update_undo(undo_type action)
 	case JOIN:
 		break;
 	case REPLACE:
-	case PASTE:
-		u->head_lineno = openfile->current->lineno;
-		u->head_x = openfile->current_x;
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
@@ -1378,6 +1375,10 @@ void update_undo(undo_type action)
 						ISSET(NO_NEWLINES))
 				u->head_x = strlen(bottomline->data);
 		}
+		break;
+	case PASTE:
+		u->head_lineno = openfile->current->lineno;
+		u->head_x = openfile->current_x;
 		break;
 	case INSERT:
 		u->tail_lineno = openfile->current->lineno;
