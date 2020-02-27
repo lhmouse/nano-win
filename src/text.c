@@ -516,7 +516,6 @@ void do_undo(void)
 	linestruct *f = NULL, *t = NULL;
 	linestruct *oldcutbuffer;
 	char *data, *undidmsg = NULL;
-	size_t from_x, to_x;
 
 	if (u == NULL) {
 		statusbar(_("Nothing to undo"));
@@ -544,14 +543,12 @@ void do_undo(void)
 		break;
 	case ENTER:
 		undidmsg = _("line break");
-		from_x = (u->head_x == 0) ? 0 : u->tail_x;
-		to_x = (u->head_x == 0) ? u->tail_x : u->head_x;
 		f->data = charealloc(f->data, strlen(f->data) +
-								strlen(&u->strdata[from_x]) + 1);
-		strcat(f->data, &u->strdata[from_x]);
+								strlen(&u->strdata[u->tail_x]) + 1);
+		strcat(f->data, &u->strdata[u->tail_x]);
 		unlink_node(f->next);
 		renumber_from(f);
-		goto_line_posx(u->head_lineno, to_x);
+		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case BACK:
 	case DEL:
@@ -718,11 +715,9 @@ void do_redo(void)
 		break;
 	case ENTER:
 		redidmsg = _("line break");
+		f->data[u->head_x] = '\0';
 		shoveline = make_new_node(f);
 		shoveline->data = copy_of(u->strdata);
-		data = measured_copy(f->data, u->head_x);
-		free(f->data);
-		f->data = data;
 		splice_node(f, shoveline);
 		renumber_from(shoveline);
 		goto_line_posx(u->head_lineno + 1, u->tail_x);
