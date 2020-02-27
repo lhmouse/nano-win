@@ -442,12 +442,12 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 		goto_line_posx(u->head_lineno, u->head_x);
 
 	while (group) {
-		linestruct *f = line_from_number(group->top_line);
+		linestruct *line = line_from_number(group->top_line);
 
-		while (f && f->lineno <= group->bottom_line) {
+		while (line != NULL && line->lineno <= group->bottom_line) {
 			comment_line(undoing ^ add_comment ?
-								COMMENT : UNCOMMENT, f, u->strdata);
-			f = f->next;
+								COMMENT : UNCOMMENT, line, u->strdata);
+			line = line->next;
 		}
 
 		group = group->next;
@@ -513,7 +513,7 @@ void redo_cut(undostruct *u)
 void do_undo(void)
 {
 	undostruct *u = openfile->current_undo;
-	linestruct *f = NULL, *t = NULL;
+	linestruct *line = NULL, *t = NULL;
 	linestruct *oldcutbuffer;
 	char *data, *undidmsg = NULL;
 
@@ -523,7 +523,7 @@ void do_undo(void)
 	}
 
 	if (u->type <= REPLACE)
-		f = line_from_number(u->tail_lineno);
+		line = line_from_number(u->tail_lineno);
 
 	openfile->current_x = u->head_x;
 
@@ -534,31 +534,31 @@ void do_undo(void)
 		undidmsg = _("addition");
 		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			remove_magicline();
-		data = charalloc(strlen(f->data) - strlen(u->strdata) + 1);
-		strncpy(data, f->data, u->head_x);
-		strcpy(&data[u->head_x], &f->data[u->head_x + strlen(u->strdata)]);
-		free(f->data);
-		f->data = data;
+		data = charalloc(strlen(line->data) - strlen(u->strdata) + 1);
+		strncpy(data, line->data, u->head_x);
+		strcpy(&data[u->head_x], &line->data[u->head_x + strlen(u->strdata)]);
+		free(line->data);
+		line->data = data;
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case ENTER:
 		undidmsg = _("line break");
-		f->data = charealloc(f->data, strlen(f->data) +
+		line->data = charealloc(line->data, strlen(line->data) +
 								strlen(&u->strdata[u->tail_x]) + 1);
-		strcat(f->data, &u->strdata[u->tail_x]);
-		unlink_node(f->next);
-		renumber_from(f);
+		strcat(line->data, &u->strdata[u->tail_x]);
+		unlink_node(line->next);
+		renumber_from(line);
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case BACK:
 	case DEL:
 		undidmsg = _("deletion");
-		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
-		strncpy(data, f->data, u->head_x);
+		data = charalloc(strlen(line->data) + strlen(u->strdata) + 1);
+		strncpy(data, line->data, u->head_x);
 		strcpy(&data[u->head_x], u->strdata);
-		strcpy(&data[u->head_x + strlen(u->strdata)], &f->data[u->head_x]);
-		free(f->data);
-		f->data = data;
+		strcpy(&data[u->head_x + strlen(u->strdata)], &line->data[u->head_x]);
+		free(line->data);
+		line->data = data;
 		goto_line_posx(u->tail_lineno, u->tail_x);
 		break;
 	case JOIN:
@@ -570,12 +570,12 @@ void do_undo(void)
 			goto_line_posx(openfile->filebot->lineno, 0);
 			break;
 		}
-		t = make_new_node(f);
+		t = make_new_node(line);
 		t->data = copy_of(u->strdata);
-		data = measured_copy(f->data, u->tail_x);
-		free(f->data);
-		f->data = data;
-		splice_node(f, t);
+		data = measured_copy(line->data, u->tail_x);
+		free(line->data);
+		line->data = data;
+		splice_node(line, t);
 		renumber_from(t);
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
@@ -583,8 +583,8 @@ void do_undo(void)
 		undidmsg = _("replacement");
 		goto_line_posx(u->head_lineno, u->head_x);
 		data = u->strdata;
-		u->strdata = f->data;
-		f->data = data;
+		u->strdata = line->data;
+		line->data = data;
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_END:
@@ -684,7 +684,7 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-	linestruct *f = NULL, *shoveline;
+	linestruct *line = NULL, *shoveline;
 	char *data, *redidmsg = NULL;
 	undostruct *u = openfile->undotop;
 
@@ -698,38 +698,38 @@ void do_redo(void)
 		u = u->next;
 
 	if (u->type <= REPLACE)
-		f = line_from_number(u->tail_lineno);
+		line = line_from_number(u->tail_lineno);
 
 	switch (u->type) {
 	case ADD:
 		redidmsg = _("addition");
 		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			new_magicline();
-		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
-		strncpy(data, f->data, u->head_x);
+		data = charalloc(strlen(line->data) + strlen(u->strdata) + 1);
+		strncpy(data, line->data, u->head_x);
 		strcpy(&data[u->head_x], u->strdata);
-		strcpy(&data[u->head_x + strlen(u->strdata)], &f->data[u->head_x]);
-		free(f->data);
-		f->data = data;
+		strcpy(&data[u->head_x + strlen(u->strdata)], &line->data[u->head_x]);
+		free(line->data);
+		line->data = data;
 		goto_line_posx(u->tail_lineno, u->tail_x);
 		break;
 	case ENTER:
 		redidmsg = _("line break");
-		f->data[u->head_x] = '\0';
-		shoveline = make_new_node(f);
+		line->data[u->head_x] = '\0';
+		shoveline = make_new_node(line);
 		shoveline->data = copy_of(u->strdata);
-		splice_node(f, shoveline);
+		splice_node(line, shoveline);
 		renumber_from(shoveline);
 		goto_line_posx(u->head_lineno + 1, u->tail_x);
 		break;
 	case BACK:
 	case DEL:
 		redidmsg = _("deletion");
-		data = charalloc(strlen(f->data) + strlen(u->strdata) + 1);
-		strncpy(data, f->data, u->head_x);
-		strcpy(&data[u->head_x], &f->data[u->head_x + strlen(u->strdata)]);
-		free(f->data);
-		f->data = data;
+		data = charalloc(strlen(line->data) + strlen(u->strdata) + 1);
+		strncpy(data, line->data, u->head_x);
+		strcpy(&data[u->head_x], &line->data[u->head_x + strlen(u->strdata)]);
+		free(line->data);
+		line->data = data;
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case JOIN:
@@ -741,17 +741,17 @@ void do_redo(void)
 			goto_line_posx(u->tail_lineno, u->tail_x);
 			break;
 		}
-		f->data = charealloc(f->data, strlen(f->data) + strlen(u->strdata) + 1);
-		strcat(f->data, u->strdata);
-		unlink_node(f->next);
-		renumber_from(f);
+		line->data = charealloc(line->data, strlen(line->data) + strlen(u->strdata) + 1);
+		strcat(line->data, u->strdata);
+		unlink_node(line->next);
+		renumber_from(line);
 		goto_line_posx(u->tail_lineno, u->tail_x);
 		break;
 	case REPLACE:
 		redidmsg = _("replacement");
 		data = u->strdata;
-		u->strdata = f->data;
-		f->data = data;
+		u->strdata = line->data;
+		line->data = data;
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 #ifdef ENABLE_WRAPPING
