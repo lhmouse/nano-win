@@ -1501,14 +1501,14 @@ bool do_wrap(void)
 
 	/* When requested, snip trailing blanks off the wrapped line. */
 	if (ISSET(TRIM_BLANKS)) {
-		size_t tail_x = step_left(line->data, wrap_loc);
+		size_t end_x = step_left(line->data, wrap_loc);
 		size_t typed_x = step_left(line->data, cursor_x);
 
-		while ((tail_x != typed_x || cursor_x >= wrap_loc) &&
-						is_blank_mbchar(line->data + tail_x)) {
-			openfile->current_x = tail_x;
+		while ((end_x != typed_x || cursor_x >= wrap_loc) &&
+						is_blank_mbchar(line->data + end_x)) {
+			openfile->current_x = end_x;
 			do_delete();
-			tail_x = step_left(line->data, tail_x);
+			end_x = step_left(line->data, end_x);
 		}
 	}
 
