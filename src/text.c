@@ -525,8 +525,6 @@ void do_undo(void)
 	if (u->type <= REPLACE)
 		line = line_from_number(u->tail_lineno);
 
-	openfile->current_x = u->head_x;
-
 	switch (u->type) {
 	case ADD:
 		/* TRANSLATORS: The next thirteen strings describe actions
@@ -576,10 +574,10 @@ void do_undo(void)
 		break;
 	case REPLACE:
 		undidmsg = _("replacement");
-		goto_line_posx(u->head_lineno, u->head_x);
 		data = u->strdata;
 		u->strdata = line->data;
 		line->data = data;
+		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_END:
