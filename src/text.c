@@ -534,11 +534,8 @@ void do_undo(void)
 		undidmsg = _("addition");
 		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
 			remove_magicline();
-		data = charalloc(strlen(line->data) - strlen(u->strdata) + 1);
-		strncpy(data, line->data, u->head_x);
-		strcpy(&data[u->head_x], &line->data[u->head_x + strlen(u->strdata)]);
-		free(line->data);
-		line->data = data;
+		memmove(line->data + u->head_x, line->data + u->head_x + strlen(u->strdata),
+						strlen(line->data + u->head_x) - strlen(u->strdata) + 1);
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case ENTER:
@@ -723,11 +720,8 @@ void do_redo(void)
 	case BACK:
 	case DEL:
 		redidmsg = _("deletion");
-		data = charalloc(strlen(line->data) + strlen(u->strdata) + 1);
-		strncpy(data, line->data, u->head_x);
-		strcpy(&data[u->head_x], &line->data[u->head_x + strlen(u->strdata)]);
-		free(line->data);
-		line->data = data;
+		memmove(line->data + u->head_x, line->data + u->head_x + strlen(u->strdata),
+						strlen(line->data + u->head_x) - strlen(u->strdata) + 1);
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 	case JOIN:
