@@ -580,15 +580,14 @@ void do_undo(void)
 		goto_line_posx(u->head_lineno, u->head_x);
 		break;
 #ifdef ENABLE_WRAPPING
+	case SPLIT_BEGIN:
+		undidmsg = _("addition");
+		break;
 	case SPLIT_END:
-		goto_line_posx(u->head_lineno, u->head_x);
 		openfile->current_undo = openfile->current_undo->next;
 		while (openfile->current_undo->type != SPLIT_BEGIN)
 			do_undo();
 		u = openfile->current_undo;
-		/* Fall-through. */
-	case SPLIT_BEGIN:
-		undidmsg = _("addition");
 		break;
 #endif
 	case ZAP:
@@ -746,13 +745,12 @@ void do_redo(void)
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
-		goto_line_posx(u->head_lineno, u->head_x);
 		openfile->current_undo = u;
 		while (openfile->current_undo->type != SPLIT_END)
 			do_redo();
 		u = openfile->current_undo;
 		goto_line_posx(u->head_lineno, u->head_x);
-		/* Fall-through. */
+		break;
 	case SPLIT_END:
 		redidmsg = _("addition");
 		break;
@@ -1121,6 +1119,7 @@ void add_undo(undo_type action, const char *message)
 	 * SPLIT_BEGIN item underneath that action's undo item.  Otherwise,
 	 * just add the new item to the top of the undo stack. */
 	if (u->type == SPLIT_BEGIN) {
+		action = openfile->undotop->type;
 		u->wassize = openfile->undotop->wassize;
 		u->next = openfile->undotop->next;
 		openfile->undotop->next = u;
@@ -1177,8 +1176,6 @@ void add_undo(undo_type action, const char *message)
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
-		action = openfile->undotop->type;
-		break;
 	case SPLIT_END:
 		break;
 #endif
