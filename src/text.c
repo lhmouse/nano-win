@@ -1179,9 +1179,17 @@ void add_undo(undo_type action, const char *message)
 	case ZAP:
 	case CUT:
 		if (openfile->mark) {
-			u->tail_lineno = openfile->mark->lineno;
-			u->tail_x = openfile->mark_x;
 			u->xflags |= MARK_WAS_SET;
+			if (openfile->mark->lineno < openfile->current->lineno ||
+							(openfile->mark == openfile->current &&
+							openfile->mark_x < openfile->current_x)) {
+				u->tail_lineno = openfile->mark->lineno;
+				u->tail_x = openfile->mark_x;
+				u->xflags |= WAS_MARKED_FORWARD;
+			} else {
+				u->head_lineno = openfile->mark->lineno;
+				u->head_x = openfile->mark_x;
+			}
 			if (openfile->current == openfile->filebot ||
 						openfile->mark == openfile->filebot)
 				u->xflags |= WAS_FINAL_LINE;
@@ -1323,22 +1331,7 @@ void update_undo(undo_type action)
 			free_lines(u->cutbuffer);
 			u->cutbuffer = copy_buffer(cutbuffer);
 		}
-		if (u->xflags & MARK_WAS_SET) {
-			/* If the region was marked backwards, swap the end points. */
-			if (u->head_lineno < u->tail_lineno ||
-						(u->head_lineno == u->tail_lineno &&
-						u->head_x < u->tail_x)) {
-				ssize_t number = u->head_lineno;
-				size_t position = u->head_x;
-
-				u->head_lineno = u->tail_lineno;
-				u->head_x = u->tail_x;
-
-				u->tail_lineno = number;
-				u->tail_x = position;
-			} else
-				u->xflags |= WAS_MARKED_FORWARD;
-		} else {
+		if (!(u->xflags & MARK_WAS_SET)) {
 			linestruct *bottomline = u->cutbuffer;
 			size_t count = 0;
 
