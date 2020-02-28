@@ -1156,14 +1156,15 @@ void add_undo(undo_type action, const char *message)
 		}
 		/* Fall-through. */
 	case JOIN:
-		if (openfile->current->next) {
+		if (openfile->current->next != NULL) {
 			if (u->type == BACK) {
 				u->head_lineno = openfile->current->next->lineno;
 				u->head_x = 0;
 			}
 			u->strdata = copy_of(openfile->current->next->data);
 		}
-		action = u->type = JOIN;
+		u->type = JOIN;
+		action = JOIN;
 		break;
 	case REPLACE:
 		u->strdata = copy_of(openfile->current->data);
@@ -1306,10 +1307,9 @@ void update_undo(undo_type action)
 			memmove(u->strdata + charlen, u->strdata, datalen + 1);
 			strncpy(u->strdata, textposition, charlen);
 			u->head_x = openfile->current_x;
-		} else {
+		} else
 			/* They deleted *elsewhere* on the line: start a new undo item. */
 			add_undo(u->type, NULL);
-		}
 		break;
 	case JOIN:
 		break;
@@ -1345,8 +1345,7 @@ void update_undo(undo_type action)
 				u->head_x = strlen(bottomline->data);
 				if (u->head_lineno == u->tail_lineno)
 					u->head_x += u->tail_x;
-			} else if (openfile->current == openfile->filebot &&
-						ISSET(NO_NEWLINES))
+			} else if (openfile->current == openfile->filebot && ISSET(NO_NEWLINES))
 				u->head_x = strlen(bottomline->data);
 		}
 		break;
