@@ -669,6 +669,7 @@ void do_redo(void)
 {
 	linestruct *line = NULL, *intruder;
 	char *data, *redidmsg = NULL;
+	bool suppress_modification = FALSE;
 	undostruct *u = openfile->undotop;
 
 	if (u == NULL || u == openfile->current_undo) {
@@ -764,6 +765,8 @@ void do_redo(void)
 		goto_line_posx(u->head_lineno, u->head_x);
 		if (u->cutbuffer)
 			copy_from_buffer(u->cutbuffer);
+		else
+			suppress_modification = TRUE;
 		free_lines(u->cutbuffer);
 		u->cutbuffer = NULL;
 		break;
@@ -814,7 +817,7 @@ void do_redo(void)
 	if (openfile->current_undo == openfile->last_saved) {
 		openfile->modified = FALSE;
 		titlebar(NULL);
-	} else
+	} else if (!suppress_modification)
 		set_modified();
 }
 #endif /* !NANO_TINY */
