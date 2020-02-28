@@ -289,7 +289,7 @@ void handle_indent_action(undostruct *u, bool undoing, bool add_indent)
 		goto_line_posx(u->head_lineno, u->head_x);
 
 	/* For each line in the group, add or remove the individual indent. */
-	while (line && line->lineno <= group->bottom_line) {
+	while (line != NULL && line->lineno <= group->bottom_line) {
 		char *blanks = group->indentations[line->lineno - group->top_line];
 
 		if (undoing ^ add_indent)
@@ -468,10 +468,7 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 /* Undo a cut, or redo a paste. */
 void undo_cut(undostruct *u)
 {
-	if (u->xflags & WAS_WHOLE_LINE)
-		goto_line_posx(u->tail_lineno, 0);
-	else
-		goto_line_posx(u->tail_lineno, u->tail_x);
+	goto_line_posx(u->tail_lineno, (u->xflags & WAS_WHOLE_LINE) ? 0 : u->tail_x);
 
 	copy_from_buffer(u->cutbuffer);
 
@@ -910,7 +907,7 @@ void send_data(const linestruct *line, int fd)
 	FILE *tube = fdopen(fd, "w");
 
 	if (tube == NULL)
-		return;
+		exit(4);
 
 	/* Send each line, except a final empty line. */
 	while (line != NULL && (line->next != NULL || line->data[0] != '\0')) {
@@ -1000,10 +997,9 @@ bool execute_command(const char *command)
 			update_undo(CUT);
 		}
 
+		/* Create a separate process for piping the data to the command. */
 		if (fork() == 0) {
-			close(to_fd[0]);
 			send_data(cutbuffer != NULL ? cutbuffer : openfile->filetop, to_fd[1]);
-			close(to_fd[1]);
 			exit(0);
 		}
 
