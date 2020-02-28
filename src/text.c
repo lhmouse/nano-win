@@ -282,7 +282,7 @@ void handle_indent_action(undostruct *u, bool undoing, bool add_indent)
 	linestruct *line = line_from_number(group->top_line);
 
 	if (group->next != NULL)
-		statusline(ALERT, "Multiple groups -- please report a bug");
+		die("Multiple groups -- please report a bug\n");
 
 	/* When redoing, reposition the cursor and let the indenter adjust it. */
 	if (!undoing)
@@ -1220,8 +1220,9 @@ void add_undo(undo_type action, const char *message)
 	case COMMENT:
 	case UNCOMMENT:
 #endif
-	default:
 		break;
+	default:
+		die("Bad undo type -- please report a bug\n");
 	}
 
 	openfile->last_action = action;
@@ -1271,7 +1272,7 @@ void update_undo(undo_type action)
 	int charlen;
 
 	if (u->type != action)
-		statusline(ALERT, "Mismatching undo type -- please report a bug");
+		die("Mismatching undo type -- please report a bug\n");
 
 	u->newsize = openfile->totsize;
 
@@ -1360,7 +1361,7 @@ void update_undo(undo_type action)
 		u->head_x = openfile->current_x;
 		break;
 	default:
-		break;
+		die("Bad undo type -- please report a bug\n");
 	}
 }
 #endif /* !NANO_TINY */

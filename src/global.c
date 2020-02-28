@@ -1484,7 +1484,8 @@ const char *flagtostr(int flag)
 		case LINE_NUMBERS:
 			return N_("Line numbering");
 		default:
-			return "Bad toggle -- please report a bug";
+			die("Bad toggle -- please report a bug\n");
+			return "";
 	}
 }
 #endif /* !NANO_TINY */
