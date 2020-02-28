@@ -556,7 +556,7 @@ void do_undo(void)
 			goto_line_posx(openfile->filebot->lineno, 0);
 			break;
 		}
-		line->data[u->head_x] = '\0';
+		line->data[u->tail_x] = '\0';
 		intruder = make_new_node(line);
 		intruder->data = copy_of(u->strdata);
 		splice_node(line, intruder);
