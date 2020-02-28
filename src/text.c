@@ -1142,8 +1142,8 @@ void add_undo(undo_type action, const char *message)
 			u->xflags |= WAS_FINAL_BACKSPACE;
 		/* Fall-through. */
 	case DEL:
-		/* When not at the end of a line, store the deleted character,
-		 * else purposely fall into the line-joining code. */
+		/* When not at the end of a line, store the deleted character;
+		 * otherwise, morph the undo item into a line join. */
 		if (openfile->current->data[openfile->current_x] != '\0') {
 			char *char_buf = charalloc(MAXCHARLEN + 1);
 			int charlen = collect_char(&openfile->current->data[u->head_x],
@@ -1154,8 +1154,7 @@ void add_undo(undo_type action, const char *message)
 				u->tail_x += charlen;
 			break;
 		}
-		/* Fall-through. */
-	case JOIN:
+		action = JOIN;
 		if (openfile->current->next != NULL) {
 			if (u->type == BACK) {
 				u->head_lineno = openfile->current->next->lineno;
@@ -1164,7 +1163,6 @@ void add_undo(undo_type action, const char *message)
 			u->strdata = copy_of(openfile->current->next->data);
 		}
 		u->type = JOIN;
-		action = JOIN;
 		break;
 	case REPLACE:
 		u->strdata = copy_of(openfile->current->data);
@@ -1310,8 +1308,6 @@ void update_undo(undo_type action)
 		} else
 			/* They deleted *elsewhere* on the line: start a new undo item. */
 			add_undo(u->type, NULL);
-		break;
-	case JOIN:
 		break;
 	case REPLACE:
 		break;
