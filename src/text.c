@@ -473,9 +473,6 @@ void undo_cut(undostruct *u)
 	else
 		goto_line_posx(u->tail_lineno, u->tail_x);
 
-	if (!u->cutbuffer)
-		die("Empty cut -- please report a bug\n");
-
 	copy_from_buffer(u->cutbuffer);
 
 	/* If originally the last line was cut too, remove an extra magic line. */
@@ -494,9 +491,6 @@ void redo_cut(undostruct *u)
 	linestruct *oldcutbuffer = cutbuffer;
 
 	goto_line_posx(u->head_lineno, u->head_x);
-
-	if (!u->cutbuffer)
-		die("Empty paste -- please report a bug\n");
 
 	cutbuffer = NULL;
 
