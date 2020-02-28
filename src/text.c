@@ -1145,11 +1145,10 @@ void add_undo(undo_type action, const char *message)
 		/* When not at the end of a line, store the deleted character;
 		 * otherwise, morph the undo item into a line join. */
 		if (openfile->current->data[openfile->current_x] != '\0') {
-			char *char_buf = charalloc(MAXCHARLEN + 1);
-			int charlen = collect_char(&openfile->current->data[u->head_x],
-												char_buf);
-			char_buf[charlen] = '\0';
-			u->strdata = char_buf;
+			int charlen = char_length(openfile->current->data + u->head_x);
+
+			u->strdata = measured_copy(openfile->current->data + u->head_x,
+										charlen);
 			if (u->type == BACK)
 				u->tail_x += charlen;
 			break;
