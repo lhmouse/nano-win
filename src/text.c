@@ -762,7 +762,8 @@ void do_redo(void)
 	case INSERT:
 		redidmsg = _("insertion");
 		goto_line_posx(u->head_lineno, u->head_x);
-		copy_from_buffer(u->cutbuffer);
+		if (u->cutbuffer)
+			copy_from_buffer(u->cutbuffer);
 		free_lines(u->cutbuffer);
 		u->cutbuffer = NULL;
 		break;
