@@ -470,7 +470,8 @@ void undo_cut(undostruct *u)
 {
 	goto_line_posx(u->tail_lineno, (u->xflags & WAS_WHOLE_LINE) ? 0 : u->tail_x);
 
-	copy_from_buffer(u->cutbuffer);
+	if (u->cutbuffer)
+		copy_from_buffer(u->cutbuffer);
 
 	/* If originally the last line was cut too, remove an extra magic line. */
 	if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
@@ -1319,11 +1320,9 @@ void update_undo(undo_type action)
 	case ZAP:
 	case CUT_TO_EOF:
 	case CUT:
-		if (!cutbuffer)
-			die("Adding empty undo item -- please report a bug\n");
 		if (u->type == ZAP)
 			u->cutbuffer = cutbuffer;
-		else {
+		else if (cutbuffer != NULL) {
 			free_lines(u->cutbuffer);
 			u->cutbuffer = copy_buffer(cutbuffer);
 		}
