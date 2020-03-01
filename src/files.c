@@ -1480,7 +1480,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		kind_of_writing_type method, bool fullbuffer)
 {
 #ifndef NANO_TINY
-	bool isactualfile = FALSE;
+	bool is_existing_file;
 		/* Becomes TRUE when the file is non-temporary and exists. */
 	struct stat st;
 		/* The status fields filled in by stat(). */
@@ -1506,20 +1506,19 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #endif
 #ifndef NANO_TINY
 	/* Check whether the file (at the end of the symlink) exists. */
-	if (!tmp)
-		isactualfile = (stat(realname, &st) != -1);
+	is_existing_file = (!tmp) && (stat(realname, &st) != -1);
 
 	/* If we haven't stat()d this file before (say, the user just specified
 	 * it interactively), stat and save the value now, or else we will chase
 	 * null pointers when we do modtime checks and such during backup. */
-	if (openfile->current_stat == NULL && isactualfile)
+	if (openfile->current_stat == NULL && is_existing_file)
 		stat_with_alloc(realname, &openfile->current_stat);
 
 	/* We back up only if the backup toggle is set, and the file exists and
 	 * isn't temporary.  Furthermore, if we aren't appending, prepending, or
 	 * writing a selection, we back up only if the file has not been modified
 	 * by someone else since nano opened it. */
-	if (ISSET(BACKUP_FILE) && isactualfile && openfile->current_stat &&
+	if (ISSET(BACKUP_FILE) && is_existing_file && openfile->current_stat &&
 				(method != OVERWRITE || openfile->mark ||
 				openfile->current_stat->st_mtime == st.st_mtime)) {
 		static struct timespec filetime[2];
@@ -1701,7 +1700,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		}
 	}
 
-	if (isactualfile && S_ISFIFO(st.st_mode))
+	if (is_existing_file && S_ISFIFO(st.st_mode))
 		statusbar(_("Writing to FIFO..."));
 #endif /* !NANO_TINY */
 
