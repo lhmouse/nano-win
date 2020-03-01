@@ -1701,7 +1701,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		}
 	}
 
-	if (!tmp && S_ISFIFO(st.st_mode))
+	if (isactualfile && S_ISFIFO(st.st_mode))
 		statusbar(_("Writing to FIFO..."));
 #endif /* !NANO_TINY */
 
