@@ -1004,7 +1004,7 @@ bool execute_command(const char *command)
 
 		/* Create a separate process for piping the data to the command. */
 		if (fork() == 0) {
-			send_data(cutbuffer != NULL ? cutbuffer : openfile->filetop, to_fd[1]);
+			send_data(cutbuffer, to_fd[1]);
 			exit(0);
 		}
 
