@@ -178,10 +178,12 @@ typedef enum {
 /* Structure types. */
 #ifdef ENABLE_COLOR
 typedef struct colortype {
+	short id;
+		/* An ordinal number (if this color combo is for a multiline regex). */
 	short fg;
-		/* This syntax's foreground color. */
+		/* This combo's foreground color. */
 	short bg;
-		/* This syntax's background color. */
+		/* This combo's background color. */
 	short pairnum;
 		/* The pair number for this foreground/background color combination. */
 	int attributes;
@@ -191,9 +193,7 @@ typedef struct colortype {
 	regex_t *end;
 		/* The compiled regular expression for 'end=', if any. */
 	struct colortype *next;
-		/* Next set of colors. */
-	int id;
-		/* Basic id for assigning to lines later. */
+		/* Next color combination. */
 } colortype;
 
 typedef struct regexlisttype {
@@ -241,7 +241,7 @@ typedef struct syntaxtype {
 #endif
 	colortype *color;
 		/* The colors and their regexes used in this syntax. */
-	int nmultis;
+	short nmultis;
 		/* How many multiline regex strings this syntax has. */
 	struct syntaxtype *next;
 		/* Next syntax. */

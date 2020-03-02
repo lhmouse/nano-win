@@ -266,7 +266,7 @@ void set_up_multicache(linestruct *line)
 {
 	line->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
 
-	for (int index = 0; index < openfile->syntax->nmultis; index++)
+	for (short index = 0; index < openfile->syntax->nmultis; index++)
 		line->multidata[index] = -1;
 }
 
