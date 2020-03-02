@@ -474,7 +474,7 @@ void undo_cut(undostruct *u)
 		copy_from_buffer(u->cutbuffer);
 
 	/* If originally the last line was cut too, remove an extra magic line. */
-	if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
+	if ((u->xflags & INCLUDED_LAST_LINE) && !ISSET(NO_NEWLINES) &&
 						openfile->filebot != openfile->current &&
 						openfile->filebot->prev->data[0] == '\0')
 		remove_magicline();
@@ -522,7 +522,7 @@ void do_undo(void)
 		/* TRANSLATORS: The next thirteen strings describe actions
 		 * that are undone or redone.  They are all nouns, not verbs. */
 		undidmsg = _("addition");
-		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
+		if ((u->xflags & INCLUDED_LAST_LINE) && !ISSET(NO_NEWLINES))
 			remove_magicline();
 		memmove(line->data + u->head_x, line->data + u->head_x + strlen(u->strdata),
 						strlen(line->data + u->head_x) - strlen(u->strdata) + 1);
@@ -553,7 +553,7 @@ void do_undo(void)
 		/* When the join was done by a Backspace at the tail of the file,
 		 * and the nonewlines flag isn't set, do not re-add a newline that
 		 * wasn't actually deleted; just position the cursor. */
-		if ((u->xflags & WAS_FINAL_BACKSPACE) && !ISSET(NO_NEWLINES)) {
+		if ((u->xflags & WAS_BACKSPACE_AT_EOF) && !ISSET(NO_NEWLINES)) {
 			goto_line_posx(openfile->filebot->lineno, 0);
 			break;
 		}
@@ -595,7 +595,7 @@ void do_undo(void)
 	case PASTE:
 		undidmsg = _("paste");
 		undo_paste(u);
-		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
+		if ((u->xflags & INCLUDED_LAST_LINE) && !ISSET(NO_NEWLINES) &&
 							openfile->filebot != openfile->current)
 			remove_magicline();
 		break;
@@ -609,7 +609,7 @@ void do_undo(void)
 		cut_marked(NULL);
 		u->cutbuffer = cutbuffer;
 		cutbuffer = oldcutbuffer;
-		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES) &&
+		if ((u->xflags & INCLUDED_LAST_LINE) && !ISSET(NO_NEWLINES) &&
 							openfile->filebot != openfile->current)
 			remove_magicline();
 		break;
@@ -688,7 +688,7 @@ void do_redo(void)
 	switch (u->type) {
 	case ADD:
 		redidmsg = _("addition");
-		if ((u->xflags & WAS_FINAL_LINE) && !ISSET(NO_NEWLINES))
+		if ((u->xflags & INCLUDED_LAST_LINE) && !ISSET(NO_NEWLINES))
 			new_magicline();
 		data = charalloc(strlen(line->data) + strlen(u->strdata) + 1);
 		strncpy(data, line->data, u->head_x);
@@ -719,7 +719,7 @@ void do_redo(void)
 		/* When the join was done by a Backspace at the tail of the file,
 		 * and the nonewlines flag isn't set, do not join anything, as
 		 * nothing was actually deleted; just position the cursor. */
-		if ((u->xflags & WAS_FINAL_BACKSPACE) && !ISSET(NO_NEWLINES)) {
+		if ((u->xflags & WAS_BACKSPACE_AT_EOF) && !ISSET(NO_NEWLINES)) {
 			goto_line_posx(u->tail_lineno, u->tail_x);
 			break;
 		}
@@ -1131,7 +1131,7 @@ void add_undo(undo_type action, const char *message)
 	case ADD:
 		/* If a new magic line will be added, an undo should remove it. */
 		if (openfile->current == openfile->filebot)
-			u->xflags |= WAS_FINAL_LINE;
+			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 	case ENTER:
 		break;
@@ -1140,7 +1140,7 @@ void add_undo(undo_type action, const char *message)
 		 * backspace, as it won't actually have deleted anything. */
 		if (openfile->current->next == openfile->filebot &&
 						openfile->current->data[0] != '\0')
-			u->xflags |= WAS_FINAL_BACKSPACE;
+			u->xflags |= WAS_BACKSPACE_AT_EOF;
 		/* Fall-through. */
 	case DEL:
 		/* When not at the end of a line, store the deleted character;
@@ -1173,7 +1173,7 @@ void add_undo(undo_type action, const char *message)
 		break;
 #endif
 	case CUT_TO_EOF:
-		u->xflags |= WAS_FINAL_LINE;
+		u->xflags |= INCLUDED_LAST_LINE;
 		break;
 	case ZAP:
 	case CUT:
@@ -1191,7 +1191,7 @@ void add_undo(undo_type action, const char *message)
 			}
 			if (openfile->current == openfile->filebot ||
 						openfile->mark == openfile->filebot)
-				u->xflags |= WAS_FINAL_LINE;
+				u->xflags |= INCLUDED_LAST_LINE;
 		} else if (!ISSET(CUT_FROM_CURSOR)) {
 			/* The entire line is being cut regardless of the cursor position. */
 			u->head_x = 0;
@@ -1202,11 +1202,11 @@ void add_undo(undo_type action, const char *message)
 		u->cutbuffer = copy_buffer(cutbuffer);
 		u->head_lineno += cutbottom->lineno - cutbuffer->lineno;
 		if (openfile->current == openfile->filebot)
-			u->xflags |= WAS_FINAL_LINE;
+			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 	case INSERT:
 		if (openfile->current == openfile->filebot)
-			u->xflags |= WAS_FINAL_LINE;
+			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 	case COUPLE_BEGIN:
 		u->tail_lineno = openfile->current_y;

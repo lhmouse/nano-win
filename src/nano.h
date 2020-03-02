@@ -626,9 +626,9 @@ enum
 #define KEY_WINCH -2
 
 /* Some extra flags for the undo function. */
-#define WAS_FINAL_BACKSPACE   (1<<1)
+#define WAS_BACKSPACE_AT_EOF  (1<<1)
 #define WAS_WHOLE_LINE        (1<<2)
-#define WAS_FINAL_LINE        (1<<3)
+#define INCLUDED_LAST_LINE    (1<<3)
 #define MARK_WAS_SET          (1<<4)
 #define WAS_MARKED_FORWARD    (1<<5)
 #endif /* !NANO_TINY */
