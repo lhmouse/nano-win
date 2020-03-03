@@ -553,8 +553,8 @@ char *parse_argument(char *ptr)
 }
 
 #ifdef ENABLE_COLOR
-/* Pass over the current regex string in the line starting at ptr,
- * null-terminate it, and return a pointer to the /next/ word. */
+/* Advance over one regular expression in the line starting at ptr,
+ * null-terminate it, and return a pointer to the succeeding text. */
 char *parse_next_regex(char *ptr)
 {
 	if (*(ptr - 1) != '"') {
@@ -562,10 +562,10 @@ char *parse_next_regex(char *ptr)
 		return NULL;
 	}
 
-	/* Continue until the end of line, or until a " followed by a
-	 * blank character or the end of line. */
+	/* Continue until the end of the line, or until a double quote followed
+	 * by end-of-line or a blank. */
 	while (*ptr != '\0' && (*ptr != '"' ||
-				(*(ptr + 1) != '\0' && !isblank((unsigned char)ptr[1]))))
+						(ptr[1] != '\0' && !isblank((unsigned char)ptr[1]))))
 		ptr++;
 
 	if (*ptr == '\0') {
@@ -573,7 +573,7 @@ char *parse_next_regex(char *ptr)
 		return NULL;
 	}
 
-	/* Null-terminate and advance ptr. */
+	/* Null-terminate the regex and skip until the next non-blank. */
 	*ptr++ = '\0';
 
 	while (isblank((unsigned char)*ptr))
@@ -1151,7 +1151,8 @@ colortype *parse_interface_color(char *combostr)
  * by ptr, and store them quoteless in the passed storage place. */
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 {
-	regexlisttype *lastthing;
+	regexlisttype *lastthing, *newthing;
+	const char *regexstring;
 
 	if (!opensyntax) {
 		jot_error(N_("A '%s' command requires a preceding 'syntax' command"), kind);
@@ -1177,9 +1178,6 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 
 	/* Now gather any valid regexes and add them to the linked list. */
 	while (*ptr != '\0') {
-		const char *regexstring;
-		regexlisttype *newthing;
-
 		regexstring = ++ptr;
 		ptr = parse_next_regex(ptr);
 
