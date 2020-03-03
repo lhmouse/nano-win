@@ -1064,8 +1064,6 @@ void parse_rule(char *ptr, int rex_flags)
 	while (*ptr != '\0') {
 		colortype *newcolor = NULL;
 			/* Container for a regex (or regex pair) and the color it paints. */
-		bool goodstart;
-			/* Whether the expression or start= expression was valid. */
 		bool expectend = FALSE;
 			/* Whether to expect an end= expression. */
 
@@ -1080,14 +1078,14 @@ void parse_rule(char *ptr, int rex_flags)
 		if (ptr == NULL)
 			return;
 
-		{
-			newcolor = (colortype *)nmalloc(sizeof(colortype));
-			goodstart = compile(regexstring, rex_flags, &newcolor->start);
+		newcolor = (colortype *)nmalloc(sizeof(colortype));
+
+		/* When the regex is invalid, abandon the rule. */
+		if (!compile(regexstring, rex_flags, &newcolor->start)) {
+			free(newcolor);
+			return;
 		}
 
-		/* If the start regex is valid, fill in the rest of the data, and
-		 * hook the new color struct in at the tail of the linked list. */
-		if (goodstart) {
 			newcolor->fg = fg;
 			newcolor->bg = bg;
 			newcolor->attributes = attributes;
@@ -1101,8 +1099,6 @@ void parse_rule(char *ptr, int rex_flags)
 				lastcolor->next = newcolor;
 
 			lastcolor = newcolor;
-		} else
-			free(newcolor);
 
 		if (!expectend)
 			continue;
@@ -1118,12 +1114,12 @@ void parse_rule(char *ptr, int rex_flags)
 		if (ptr == NULL)
 			return;
 
-		/* If the start regex was invalid, the end regex cannot be saved. */
-		if (!goodstart)
+		/* When the end= regex is invalid, abandon the whole rule. */
+		if (!compile(regexstring, rex_flags, &newcolor->end)) {
+			regfree(newcolor->start);
+			free(newcolor);
 			return;
-
-		/* Save the compiled ending regex (when it's valid). */
-		compile(regexstring, rex_flags, &newcolor->end);
+		}
 
 		/* Lame way to skip another static counter. */
 		newcolor->id = live_syntax->nmultis;
