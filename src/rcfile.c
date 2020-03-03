@@ -993,7 +993,7 @@ short color_to_short(const char *colorname, bool *bright)
 
 /* Parse the color name (or pair of color names) in the given string.
  * Return FALSE when any color name is invalid; otherwise return TRUE. */
-bool parse_color_names(char *combostr, short *fg, short *bg, int *attributes)
+bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 {
 	char *comma = strchr(combostr, ',');
 	bool bright;
@@ -1030,18 +1030,18 @@ bool parse_color_names(char *combostr, short *fg, short *bg, int *attributes)
  * add a rule to the current syntax. */
 void parse_rule(char *ptr, int rex_flags)
 {
+	char *names, *regexstring;
 	short fg, bg;
 	int attributes;
-	char *item;
 
 	if (*ptr == '\0') {
 		jot_error(N_("Missing color name"));
 		return;
 	}
 
-	item = ptr;
+	names = ptr;
 	ptr = parse_next_word(ptr);
-	if (!parse_color_names(item, &fg, &bg, &attributes))
+	if (!parse_combination(names, &fg, &bg, &attributes))
 		return;
 
 	if (*ptr == '\0') {
@@ -1067,17 +1067,17 @@ void parse_rule(char *ptr, int rex_flags)
 			return;
 		}
 
-		item = ++ptr;
+		regexstring = ++ptr;
 		ptr = parse_next_regex(ptr);
 		if (ptr == NULL)
 			return;
 
-		if (*item == '\0') {
+		if (*regexstring == '\0') {
 			jot_error(N_("Empty regex string"));
 			goodstart = FALSE;
 		} else {
 			newcolor = (colortype *)nmalloc(sizeof(colortype));
-			goodstart = compile(item, rex_flags, &newcolor->start);
+			goodstart = compile(regexstring, rex_flags, &newcolor->start);
 		}
 
 		/* If the start regex is valid, fill in the rest of the data, and
@@ -1113,12 +1113,12 @@ void parse_rule(char *ptr, int rex_flags)
 			return;
 		}
 
-		item = ++ptr;
+		regexstring = ++ptr;
 		ptr = parse_next_regex(ptr);
 		if (ptr == NULL)
 			return;
 
-		if (*item == '\0') {
+		if (*regexstring == '\0') {
 			jot_error(N_("Empty regex string"));
 			return;
 		}
@@ -1128,7 +1128,7 @@ void parse_rule(char *ptr, int rex_flags)
 			return;
 
 		/* Save the compiled ending regex (when it's valid). */
-		compile(item, rex_flags, &newcolor->end);
+		compile(regexstring, rex_flags, &newcolor->end);
 
 		/* Lame way to skip another static counter. */
 		newcolor->id = live_syntax->nmultis;
@@ -1141,7 +1141,7 @@ colortype *parse_interface_color(char *combostr)
 {
 	colortype *trio = nmalloc(sizeof(colortype));
 
-	if (parse_color_names(combostr, &trio->fg, &trio->bg, &trio->attributes)) {
+	if (parse_combination(combostr, &trio->fg, &trio->bg, &trio->attributes)) {
 		free(combostr);
 		return trio;
 	} else {
