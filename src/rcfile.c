@@ -557,6 +557,11 @@ char *parse_argument(char *ptr)
  * null-terminate it, and return a pointer to the /next/ word. */
 char *parse_next_regex(char *ptr)
 {
+	if (*(ptr - 1) != '"') {
+		jot_error(N_("Regex strings must begin and end with a \" character"));
+		return NULL;
+	}
+
 	/* Continue until the end of line, or until a " followed by a
 	 * blank character or the end of line. */
 	while (*ptr != '\0' && (*ptr != '"' ||
@@ -1062,13 +1067,9 @@ void parse_rule(char *ptr, int rex_flags)
 			expectend = TRUE;
 		}
 
-		if (*ptr != '"') {
-			jot_error(N_("Regex strings must begin and end with a \" character"));
-			return;
-		}
-
 		regexstring = ++ptr;
 		ptr = parse_next_regex(ptr);
+
 		if (ptr == NULL)
 			return;
 
@@ -1107,14 +1108,9 @@ void parse_rule(char *ptr, int rex_flags)
 			return;
 		}
 
-		ptr += 4;
-		if (*ptr != '"') {
-			jot_error(N_("Regex strings must begin and end with a \" character"));
-			return;
-		}
+		regexstring = ptr + 5;
+		ptr = parse_next_regex(ptr + 5);
 
-		regexstring = ++ptr;
-		ptr = parse_next_regex(ptr);
 		if (ptr == NULL)
 			return;
 
@@ -1184,13 +1180,9 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 		const char *regexstring;
 		regexlisttype *newthing;
 
-		if (*ptr != '"') {
-			jot_error(N_("Regex strings must begin and end with a \" character"));
-			return;
-		}
-
 		regexstring = ++ptr;
 		ptr = parse_next_regex(ptr);
+
 		if (ptr == NULL)
 			return;
 
