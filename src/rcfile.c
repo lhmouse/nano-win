@@ -557,6 +557,8 @@ char *parse_argument(char *ptr)
  * null-terminate it, and return a pointer to the succeeding text. */
 char *parse_next_regex(char *ptr)
 {
+	char *starting_point = ptr;
+
 	if (*(ptr - 1) != '"') {
 		jot_error(N_("Regex strings must begin and end with a \" character"));
 		return NULL;
@@ -570,6 +572,11 @@ char *parse_next_regex(char *ptr)
 
 	if (*ptr == '\0') {
 		jot_error(N_("Regex strings must begin and end with a \" character"));
+		return NULL;
+	}
+
+	if (ptr == starting_point) {
+		jot_error(N_("Empty regex string"));
 		return NULL;
 	}
 
@@ -1073,10 +1080,7 @@ void parse_rule(char *ptr, int rex_flags)
 		if (ptr == NULL)
 			return;
 
-		if (*regexstring == '\0') {
-			jot_error(N_("Empty regex string"));
-			goodstart = FALSE;
-		} else {
+		{
 			newcolor = (colortype *)nmalloc(sizeof(colortype));
 			goodstart = compile(regexstring, rex_flags, &newcolor->start);
 		}
@@ -1113,11 +1117,6 @@ void parse_rule(char *ptr, int rex_flags)
 
 		if (ptr == NULL)
 			return;
-
-		if (*regexstring == '\0') {
-			jot_error(N_("Empty regex string"));
-			return;
-		}
 
 		/* If the start regex was invalid, the end regex cannot be saved. */
 		if (!goodstart)
