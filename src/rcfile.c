@@ -1066,14 +1066,13 @@ void parse_colors(char *ptr, int rex_flags)
 
 		if (*ptr != '"') {
 			jot_error(N_("Regex strings must begin and end with a \" character"));
-			ptr = parse_next_regex(ptr);
-			continue;
+			return;
 		}
 
 		item = ++ptr;
 		ptr = parse_next_regex(ptr);
 		if (ptr == NULL)
-			break;
+			return;
 
 		if (*item == '\0') {
 			jot_error(N_("Empty regex string"));
@@ -1113,22 +1112,22 @@ void parse_colors(char *ptr, int rex_flags)
 		ptr += 4;
 		if (*ptr != '"') {
 			jot_error(N_("Regex strings must begin and end with a \" character"));
-			continue;
+			return;
 		}
 
 		item = ++ptr;
 		ptr = parse_next_regex(ptr);
 		if (ptr == NULL)
-			break;
+			return;
 
 		if (*item == '\0') {
 			jot_error(N_("Empty regex string"));
-			continue;
+			return;
 		}
 
 		/* If the start regex was invalid, the end regex cannot be saved. */
 		if (!goodstart)
-			continue;
+			return;
 
 		/* Save the compiled ending regex (when it's valid). */
 		compile(item, rex_flags, &newcolor->end);
