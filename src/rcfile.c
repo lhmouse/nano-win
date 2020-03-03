@@ -1049,7 +1049,7 @@ void parse_rule(char *ptr, int rex_flags)
 		return;
 	}
 
-	while (ptr != NULL && *ptr != '\0') {
+	while (*ptr != '\0') {
 		colortype *newcolor = NULL;
 			/* Container for a regex (or regex pair) and the color it paints. */
 		bool goodstart;
@@ -1102,7 +1102,7 @@ void parse_rule(char *ptr, int rex_flags)
 		if (!expectend)
 			continue;
 
-		if (ptr == NULL || strncmp(ptr, "end=", 4) != 0) {
+		if (strncmp(ptr, "end=", 4) != 0) {
 			jot_error(N_("\"start=\" requires a corresponding \"end=\""));
 			return;
 		}
