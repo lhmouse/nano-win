@@ -1086,19 +1086,18 @@ void parse_rule(char *ptr, int rex_flags)
 			return;
 		}
 
-			newcolor->fg = fg;
-			newcolor->bg = bg;
-			newcolor->attributes = attributes;
+		newcolor->fg = fg;
+		newcolor->bg = bg;
+		newcolor->attributes = attributes;
+		newcolor->end = NULL;
 
-			newcolor->end = NULL;
-			newcolor->next = NULL;
+		if (lastcolor == NULL)
+			live_syntax->color = newcolor;
+		else
+			lastcolor->next = newcolor;
 
-			if (lastcolor == NULL)
-				live_syntax->color = newcolor;
-			else
-				lastcolor->next = newcolor;
-
-			lastcolor = newcolor;
+		newcolor->next = NULL;
+		lastcolor = newcolor;
 
 		if (!expectend)
 			continue;
