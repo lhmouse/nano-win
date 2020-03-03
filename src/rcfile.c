@@ -1025,10 +1025,10 @@ bool parse_color_names(char *combostr, short *fg, short *bg, int *attributes)
 	return TRUE;
 }
 
-/* Parse the color string in the line at ptr, and add it to the current
- * file's associated colors.  rex_flags are the regex compilation flags
- * to use, excluding or including REG_ICASE for case (in)sensitivity. */
-void parse_colors(char *ptr, int rex_flags)
+/* Parse the color specification that starts at ptr, and then the one or more
+ * regexes that follow it.  For each valid regex (or start=/end= regex pair),
+ * add a rule to the current syntax. */
+void parse_rule(char *ptr, int rex_flags)
 {
 	short fg, bg;
 	int attributes;
@@ -1049,15 +1049,13 @@ void parse_colors(char *ptr, int rex_flags)
 		return;
 	}
 
-	/* Now for the fun part.  Start adding regexes to individual strings
-	 * in the colorstrings array, woo! */
 	while (ptr != NULL && *ptr != '\0') {
 		colortype *newcolor = NULL;
-			/* The container for a color plus its regexes. */
+			/* Container for a regex (or regex pair) and the color it paints. */
 		bool goodstart;
-			/* Whether the start expression was valid. */
+			/* Whether the expression or start= expression was valid. */
 		bool expectend = FALSE;
-			/* Whether to expect an end= line. */
+			/* Whether to expect an end= expression. */
 
 		if (strncmp(ptr, "start=", 6) == 0) {
 			ptr += 6;
@@ -1244,9 +1242,9 @@ void pick_up_name(const char *kind, char *ptr, char **storage)
 bool parse_syntax_commands(char *keyword, char *ptr)
 {
 	if (strcmp(keyword, "color") == 0)
-		parse_colors(ptr, NANO_REG_EXTENDED);
+		parse_rule(ptr, NANO_REG_EXTENDED);
 	else if (strcmp(keyword, "icolor") == 0)
-		parse_colors(ptr, NANO_REG_EXTENDED | REG_ICASE);
+		parse_rule(ptr, NANO_REG_EXTENDED | REG_ICASE);
 	else if (strcmp(keyword, "comment") == 0) {
 #ifdef ENABLE_COMMENT
 		pick_up_name("comment", ptr, &live_syntax->comment);
