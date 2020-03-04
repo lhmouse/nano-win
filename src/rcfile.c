@@ -1053,6 +1053,7 @@ void parse_rule(char *ptr, int rex_flags)
 
 	names = ptr;
 	ptr = parse_next_word(ptr);
+
 	if (!parse_combination(names, &fg, &bg, &attributes))
 		return;
 
@@ -1065,9 +1066,9 @@ void parse_rule(char *ptr, int rex_flags)
 		regex_t *start_rgx = NULL, *end_rgx = NULL;
 			/* Intermediate storage for compiled regular expressions. */
 		colortype *newcolor = NULL;
-			/* Container for a regex (or regex pair) and the color it paints. */
+			/* Container for compiled regex (pair) and the color it paints. */
 		bool expectend = FALSE;
-			/* Whether to expect an end= expression. */
+			/* Whether it is a start=/end= regex pair. */
 
 		if (strncmp(ptr, "start=", 6) == 0) {
 			ptr += 6;
@@ -1077,11 +1078,8 @@ void parse_rule(char *ptr, int rex_flags)
 		regexstring = ++ptr;
 		ptr = parse_next_regex(ptr);
 
-		if (ptr == NULL)
-			return;
-
-		/* When the regex is invalid, abandon the rule. */
-		if (!compile(regexstring, rex_flags, &start_rgx))
+		/* When there is no regex, or it is invalid, skip this line. */
+		if (ptr == NULL || !compile(regexstring, rex_flags, &start_rgx))
 			return;
 
 		if (expectend) {
@@ -1103,6 +1101,7 @@ void parse_rule(char *ptr, int rex_flags)
 			}
 		}
 
+		/* Allocate a rule, fill in the data, and link it into the list. */
 		newcolor = (colortype *)nmalloc(sizeof(colortype));
 
 		newcolor->start = start_rgx;
@@ -1120,12 +1119,11 @@ void parse_rule(char *ptr, int rex_flags)
 		newcolor->next = NULL;
 		lastcolor = newcolor;
 
-		if (!expectend)
-			continue;
-
-		/* Lame way to skip another static counter. */
-		newcolor->id = live_syntax->nmultis;
-		live_syntax->nmultis++;
+		/* For a multiline rule, give it a number and increase the count. */
+		if (expectend) {
+			newcolor->id = live_syntax->nmultis;
+			live_syntax->nmultis++;
+		}
 	}
 }
 
