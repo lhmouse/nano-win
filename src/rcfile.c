@@ -1062,6 +1062,8 @@ void parse_rule(char *ptr, int rex_flags)
 	}
 
 	while (*ptr != '\0') {
+		regex_t *start_rgx = NULL, *end_rgx = NULL;
+			/* Intermediate storage for compiled regular expressions. */
 		colortype *newcolor = NULL;
 			/* Container for a regex (or regex pair) and the color it paints. */
 		bool expectend = FALSE;
@@ -1078,18 +1080,37 @@ void parse_rule(char *ptr, int rex_flags)
 		if (ptr == NULL)
 			return;
 
+		/* When the regex is invalid, abandon the rule. */
+		if (!compile(regexstring, rex_flags, &start_rgx))
+			return;
+
+		if (expectend) {
+			if (strncmp(ptr, "end=", 4) != 0) {
+				jot_error(N_("\"start=\" requires a corresponding \"end=\""));
+				regfree(start_rgx);
+				free(start_rgx);
+				return;
+			}
+
+			regexstring = ptr + 5;
+			ptr = parse_next_regex(ptr + 5);
+
+			/* When there is no valid end= regex, abandon the rule. */
+			if (ptr == NULL || !compile(regexstring, rex_flags, &end_rgx)) {
+				regfree(start_rgx);
+				free(start_rgx);
+				return;
+			}
+		}
+
 		newcolor = (colortype *)nmalloc(sizeof(colortype));
 
-		/* When the regex is invalid, abandon the rule. */
-		if (!compile(regexstring, rex_flags, &newcolor->start)) {
-			free(newcolor);
-			return;
-		}
+		newcolor->start = start_rgx;
+		newcolor->end = end_rgx;
 
 		newcolor->fg = fg;
 		newcolor->bg = bg;
 		newcolor->attributes = attributes;
-		newcolor->end = NULL;
 
 		if (lastcolor == NULL)
 			live_syntax->color = newcolor;
@@ -1101,24 +1122,6 @@ void parse_rule(char *ptr, int rex_flags)
 
 		if (!expectend)
 			continue;
-
-		if (strncmp(ptr, "end=", 4) != 0) {
-			jot_error(N_("\"start=\" requires a corresponding \"end=\""));
-			return;
-		}
-
-		regexstring = ptr + 5;
-		ptr = parse_next_regex(ptr + 5);
-
-		if (ptr == NULL)
-			return;
-
-		/* When the end= regex is invalid, abandon the whole rule. */
-		if (!compile(regexstring, rex_flags, &newcolor->end)) {
-			regfree(newcolor->start);
-			free(newcolor);
-			return;
-		}
 
 		/* Lame way to skip another static counter. */
 		newcolor->id = live_syntax->nmultis;
