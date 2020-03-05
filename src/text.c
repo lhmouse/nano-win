@@ -1181,9 +1181,7 @@ void add_undo(undo_type action, const char *message)
 	case CUT:
 		if (openfile->mark) {
 			u->xflags |= MARK_WAS_SET;
-			if (openfile->mark->lineno < openfile->current->lineno ||
-							(openfile->mark == openfile->current &&
-							openfile->mark_x < openfile->current_x)) {
+			if (mark_is_before_cursor()){
 				u->head_lineno = openfile->mark->lineno;
 				u->head_x = openfile->mark_x;
 			} else {
@@ -2552,10 +2550,8 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 #ifndef NANO_TINY
 	/* Replace the marked text (or entire text) with the corrected text. */
 	if (spelling && openfile->mark) {
-		bool upright = (openfile->mark->lineno < openfile->current->lineno ||
-								(openfile->mark == openfile->current &&
-								openfile->mark_x < openfile->current_x));
 		ssize_t was_mark_lineno = openfile->mark->lineno;
+		bool upright = mark_is_before_cursor();
 
 		replaced = replace_buffer(tempfile_name, CUT, TRUE, "spelling correction");
 
