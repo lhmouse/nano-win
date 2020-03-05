@@ -468,7 +468,7 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 /* Undo a cut, or redo a paste. */
 void undo_cut(undostruct *u)
 {
-	goto_line_posx(u->tail_lineno, (u->xflags & WAS_WHOLE_LINE) ? 0 : u->tail_x);
+	goto_line_posx(u->head_lineno, (u->xflags & WAS_WHOLE_LINE) ? 0 : u->head_x);
 
 	if (u->cutbuffer)
 		copy_from_buffer(u->cutbuffer);
@@ -480,7 +480,7 @@ void undo_cut(undostruct *u)
 		remove_magicline();
 
 	if (!(u->xflags & WAS_MARKED_FORWARD) && u->type != PASTE)
-		goto_line_posx(u->tail_lineno, u->tail_x);
+		goto_line_posx(u->head_lineno, u->head_x);
 }
 
 /* Redo a cut, or undo a paste. */
@@ -488,12 +488,12 @@ void redo_cut(undostruct *u)
 {
 	linestruct *oldcutbuffer = cutbuffer;
 
-	goto_line_posx(u->head_lineno, u->head_x);
-
 	cutbuffer = NULL;
 
-	openfile->mark = line_from_number(u->tail_lineno);
-	openfile->mark_x = (u->xflags & WAS_WHOLE_LINE) ? 0 : u->tail_x;
+	openfile->mark = line_from_number(u->head_lineno);
+	openfile->mark_x = (u->xflags & WAS_WHOLE_LINE) ? 0 : u->head_x;
+
+	goto_line_posx(u->tail_lineno, u->tail_x);
 
 	do_snip(FALSE, TRUE, FALSE, u->type == ZAP);
 
@@ -1185,25 +1185,25 @@ void add_undo(undo_type action, const char *message)
 			if (openfile->mark->lineno < openfile->current->lineno ||
 							(openfile->mark == openfile->current &&
 							openfile->mark_x < openfile->current_x)) {
-				u->tail_lineno = openfile->mark->lineno;
-				u->tail_x = openfile->mark_x;
-				u->xflags |= WAS_MARKED_FORWARD;
-			} else {
 				u->head_lineno = openfile->mark->lineno;
 				u->head_x = openfile->mark_x;
+				u->xflags |= WAS_MARKED_FORWARD;
+			} else {
+				u->tail_lineno = openfile->mark->lineno;
+				u->tail_x = openfile->mark_x;
 			}
 			if (openfile->current == openfile->filebot ||
 						openfile->mark == openfile->filebot)
 				u->xflags |= INCLUDED_LAST_LINE;
 		} else if (!ISSET(CUT_FROM_CURSOR)) {
 			/* The entire line is being cut regardless of the cursor position. */
-			u->head_x = 0;
 			u->xflags |= WAS_WHOLE_LINE;
+			u->tail_x = 0;
 		}
 		break;
 	case PASTE:
 		u->cutbuffer = copy_buffer(cutbuffer);
-		u->head_lineno += cutbottom->lineno - cutbuffer->lineno;
+		u->tail_lineno += cutbottom->lineno - cutbuffer->lineno;
 		if (openfile->current == openfile->filebot)
 			u->xflags |= INCLUDED_LAST_LINE;
 		break;
@@ -1337,18 +1337,18 @@ void update_undo(undo_type action)
 				bottomline = bottomline->next;
 				count++;
 			}
-			u->head_lineno = u->tail_lineno + count;
+			u->tail_lineno = u->head_lineno + count;
 			if (ISSET(CUT_FROM_CURSOR) || u->type == CUT_TO_EOF) {
-				u->head_x = strlen(bottomline->data);
-				if (u->head_lineno == u->tail_lineno)
-					u->head_x += u->tail_x;
+				u->tail_x = strlen(bottomline->data);
+				if (count == 0)
+					u->tail_x += u->head_x;
 			} else if (openfile->current == openfile->filebot && ISSET(NO_NEWLINES))
-				u->head_x = strlen(bottomline->data);
+				u->tail_x = strlen(bottomline->data);
 		}
 		break;
 	case PASTE:
-		u->head_lineno = openfile->current->lineno;
-		u->head_x = openfile->current_x;
+		u->tail_lineno = openfile->current->lineno;
+		u->tail_x = openfile->current_x;
 		break;
 	case INSERT:
 		u->tail_lineno = openfile->current->lineno;
