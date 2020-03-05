@@ -1285,7 +1285,6 @@ void update_undo(undo_type action)
 		u->strdata = charealloc(u->strdata, newlen + 1);
 		strncpy(u->strdata, openfile->current->data + u->head_x, newlen);
 		u->strdata[newlen] = '\0';
-		u->tail_lineno = openfile->current->lineno;
 		u->tail_x = openfile->current_x;
 		break;
 	case ENTER:
