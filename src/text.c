@@ -1930,6 +1930,12 @@ void do_justify(bool full_justify)
 		get_region((const linestruct **)&first_par_line, &top_x,
 					(const linestruct **)&last_par_line, &bot_x, &right_side_up);
 
+		/* When the marked region is empty, do nothing. */
+		if (first_par_line == last_par_line && top_x == bot_x) {
+			statusline(NOTICE, _("Nothing changed"));
+			return;
+		}
+
 		/* Save the starting point of the marked region. */
 		was_top_lineno = first_par_line->lineno;
 		was_top_x = top_x;
