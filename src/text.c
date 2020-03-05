@@ -620,6 +620,8 @@ void do_undo(void)
 		adjust_viewport(STATIONARY);
 		break;
 	case COUPLE_END:
+		/* Remember the row of the cursor for a possible redo. */
+		openfile->current_undo->head_lineno = openfile->current_y;
 		openfile->current_undo = openfile->current_undo->next;
 		do_undo();
 		do_undo();
@@ -780,6 +782,7 @@ void do_redo(void)
 	case COUPLE_END:
 		redidmsg = u->strdata;
 		goto_line_posx(u->tail_lineno, u->tail_x);
+		openfile->current_y = u->head_lineno;
 		adjust_viewport(STATIONARY);
 		break;
 	case INDENT:
