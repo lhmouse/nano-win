@@ -2131,10 +2131,9 @@ void do_justify(bool full_justify)
 
 	/* If we justified marked text, restore mark or cursor position. */
 	if (openfile->mark) {
-		if (right_side_up) {
-			openfile->mark = line_from_number(was_top_lineno);
-			openfile->mark_x = was_top_x;
-		} else {
+		if (!right_side_up) {
+			openfile->mark = openfile->current;
+			openfile->mark_x = openfile->current_x;
 			openfile->current = line_from_number(was_top_lineno);
 			openfile->current_x = was_top_x;
 		}
