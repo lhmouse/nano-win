@@ -479,7 +479,7 @@ void undo_cut(undostruct *u)
 						openfile->filebot->prev->data[0] == '\0')
 		remove_magicline();
 
-	if (!(u->xflags & WAS_MARKED_FORWARD) && u->type != PASTE)
+	if (u->xflags & WAS_MARKED_BACKWARDS)
 		goto_line_posx(u->head_lineno, u->head_x);
 }
 
@@ -1187,8 +1187,8 @@ void add_undo(undo_type action, const char *message)
 							openfile->mark_x < openfile->current_x)) {
 				u->head_lineno = openfile->mark->lineno;
 				u->head_x = openfile->mark_x;
-				u->xflags |= WAS_MARKED_FORWARD;
 			} else {
+				u->xflags |= WAS_MARKED_BACKWARDS;
 				u->tail_lineno = openfile->mark->lineno;
 				u->tail_x = openfile->mark_x;
 			}
