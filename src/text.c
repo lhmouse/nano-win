@@ -779,7 +779,7 @@ void do_redo(void)
 		return;
 	case COUPLE_END:
 		redidmsg = u->strdata;
-		goto_line_posx(u->head_lineno, u->head_x);
+		goto_line_posx(u->tail_lineno, u->tail_x);
 		adjust_viewport(STATIONARY);
 		break;
 	case INDENT:
@@ -1355,8 +1355,8 @@ void update_undo(undo_type action)
 	case COUPLE_BEGIN:
 		break;
 	case COUPLE_END:
-		u->head_lineno = openfile->current->lineno;
-		u->head_x = openfile->current_x;
+		u->tail_lineno = openfile->current->lineno;
+		u->tail_x = openfile->current_x;
 		break;
 	default:
 		die("Bad undo type -- please report a bug\n");
