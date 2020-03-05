@@ -1095,14 +1095,15 @@ void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool kee
 void add_undo(undo_type action, const char *message)
 {
 	undostruct *u = nmalloc(sizeof(undostruct));
+	linestruct *thisline = openfile->current;
 
 	/* Initialize the newly allocated undo item. */
 	u->type = action;
 	u->strdata = NULL;
 	u->cutbuffer = NULL;
-	u->head_lineno = openfile->current->lineno;
+	u->head_lineno = thisline->lineno;
 	u->head_x = openfile->current_x;
-	u->tail_lineno = openfile->current->lineno;
+	u->tail_lineno = thisline->lineno;
 	u->tail_x = openfile->current_x;
 	u->wassize = openfile->totsize;
 	u->newsize = openfile->totsize;
@@ -1133,7 +1134,7 @@ void add_undo(undo_type action, const char *message)
 	switch (u->type) {
 	case ADD:
 		/* If a new magic line will be added, an undo should remove it. */
-		if (openfile->current == openfile->filebot)
+		if (thisline == openfile->filebot)
 			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 	case ENTER:
@@ -1141,34 +1142,32 @@ void add_undo(undo_type action, const char *message)
 	case BACK:
 		/* If the next line is the magic line, don't ever undo this
 		 * backspace, as it won't actually have deleted anything. */
-		if (openfile->current->next == openfile->filebot &&
-						openfile->current->data[0] != '\0')
+		if (thisline->next == openfile->filebot && thisline->data[0] != '\0')
 			u->xflags |= WAS_BACKSPACE_AT_EOF;
 		/* Fall-through. */
 	case DEL:
 		/* When not at the end of a line, store the deleted character;
 		 * otherwise, morph the undo item into a line join. */
-		if (openfile->current->data[openfile->current_x] != '\0') {
-			int charlen = char_length(openfile->current->data + u->head_x);
+		if (thisline->data[openfile->current_x] != '\0') {
+			int charlen = char_length(thisline->data + u->head_x);
 
-			u->strdata = measured_copy(openfile->current->data + u->head_x,
-										charlen);
+			u->strdata = measured_copy(thisline->data + u->head_x, charlen);
 			if (u->type == BACK)
 				u->tail_x += charlen;
 			break;
 		}
 		action = JOIN;
-		if (openfile->current->next != NULL) {
+		if (thisline->next != NULL) {
 			if (u->type == BACK) {
-				u->head_lineno = openfile->current->next->lineno;
+				u->head_lineno = thisline->next->lineno;
 				u->head_x = 0;
 			}
-			u->strdata = copy_of(openfile->current->next->data);
+			u->strdata = copy_of(thisline->next->data);
 		}
 		u->type = JOIN;
 		break;
 	case REPLACE:
-		u->strdata = copy_of(openfile->current->data);
+		u->strdata = copy_of(thisline->data);
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
@@ -1192,8 +1191,7 @@ void add_undo(undo_type action, const char *message)
 				u->tail_lineno = openfile->mark->lineno;
 				u->tail_x = openfile->mark_x;
 			}
-			if (openfile->current == openfile->filebot ||
-						openfile->mark == openfile->filebot)
+			if (u->tail_lineno == openfile->filebot->lineno)
 				u->xflags |= INCLUDED_LAST_LINE;
 		} else if (!ISSET(CUT_FROM_CURSOR)) {
 			/* The entire line is being cut regardless of the cursor position. */
@@ -1204,11 +1202,11 @@ void add_undo(undo_type action, const char *message)
 	case PASTE:
 		u->cutbuffer = copy_buffer(cutbuffer);
 		u->tail_lineno += cutbottom->lineno - cutbuffer->lineno;
-		if (openfile->current == openfile->filebot)
+		if (thisline == openfile->filebot)
 			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 	case INSERT:
-		if (openfile->current == openfile->filebot)
+		if (thisline == openfile->filebot)
 			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 	case COUPLE_BEGIN:
