@@ -502,8 +502,6 @@ void do_undo(void);
 void do_redo(void);
 void do_enter(void);
 #ifndef NANO_TINY
-RETSIGTYPE cancel_command(int signal);
-bool execute_command(const char *command);
 void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool keep);
 void add_undo(undo_type action, const char *message);
 void update_multiline_undo(ssize_t lineno, char *indentation);

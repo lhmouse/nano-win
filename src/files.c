@@ -29,6 +29,12 @@
 #endif
 #include <string.h>
 #include <unistd.h>
+#include <sys/wait.h>
+
+#ifndef NANO_TINY
+static pid_t pid_of_command = -1;
+		/* The PID of a forked process -- needed when wanting to abort it. */
+#endif
 
 /* Add an item to the circular list of openfile structs. */
 void make_new_buffer(void)
@@ -946,6 +952,161 @@ char *get_next_filename(const char *name, const char *suffix)
 
 	return buf;
 }
+
+#ifndef NANO_TINY
+/* Send an unconditional kill signal to the running external command. */
+RETSIGTYPE cancel_the_command(int signal)
+{
+	kill(pid_of_command, SIGKILL);
+}
+
+/* Send the text that starts at the given line to file descriptor fd. */
+void send_data(const linestruct *line, int fd)
+{
+	FILE *tube = fdopen(fd, "w");
+
+	if (tube == NULL)
+		exit(4);
+
+	/* Send each line, except a final empty line. */
+	while (line != NULL && (line->next != NULL || line->data[0] != '\0')) {
+		fprintf(tube, "%s%s", line->data, line->next == NULL ? "" : "\n");
+		line = line->next;
+	}
+
+	fclose(tube);
+}
+
+/* Execute the given command in a shell.  Return TRUE on success. */
+bool execute_command(const char *command)
+{
+	int from_fd[2], to_fd[2];
+		/* The pipes through which text will be written and read. */
+	const bool should_pipe = (command[0] == '|');
+	FILE *stream;
+	struct sigaction oldaction, newaction = {{0}};
+		/* Original and temporary handlers for SIGINT. */
+
+	/* Create a pipe to read the command's output from, and, if needed,
+	 * a pipe to feed the command's input through. */
+	if (pipe(from_fd) == -1 || (should_pipe && pipe(to_fd) == -1)) {
+		statusline(ALERT, _("Could not create pipe"));
+		return FALSE;
+	}
+
+	/* Fork a child process to run the command in. */
+	if ((pid_of_command = fork()) == 0) {
+		const char *theshell = getenv("SHELL");
+
+		if (theshell == NULL)
+			theshell = (char *)"/bin/sh";
+
+		/* Child: close the unused read end of the output pipe. */
+		close(from_fd[0]);
+
+		/* Connect the write end of the output pipe to the process' output streams. */
+		dup2(from_fd[1], fileno(stdout));
+		dup2(from_fd[1], fileno(stderr));
+
+		/* If the parent sends text, connect the read end of the
+		 * feeding pipe to the child's input stream. */
+		if (should_pipe) {
+			dup2(to_fd[0], fileno(stdin));
+			close(to_fd[1]);
+		}
+
+		/* Run the given command inside the preferred shell. */
+		execl(theshell, tail(theshell), "-c", should_pipe ? &command[1] : command, NULL);
+
+		/* If the exec call returns, there was an error. */
+		exit(1);
+	}
+
+	/* Parent: close the unused write end of the pipe. */
+	close(from_fd[1]);
+
+	if (pid_of_command == -1) {
+		statusline(ALERT, _("Could not fork"));
+		close(from_fd[0]);
+		return FALSE;
+	}
+
+	statusbar(_("Executing..."));
+
+	/* If the command starts with "|", pipe buffer or region to the command. */
+	if (should_pipe) {
+		linestruct *was_cutbuffer = cutbuffer;
+		cutbuffer = NULL;
+
+#ifdef ENABLE_MULTIBUFFER
+		if (ISSET(MULTIBUFFER)) {
+			openfile = openfile->prev;
+			if (openfile->mark)
+				do_snip(TRUE, TRUE, FALSE, FALSE);
+		} else
+#endif
+		{
+			add_undo(COUPLE_BEGIN, "filtering");
+			if (openfile->mark == NULL) {
+				openfile->current = openfile->filetop;
+				openfile->current_x = 0;
+			}
+			add_undo(CUT, NULL);
+			do_snip(FALSE, openfile->mark != NULL, openfile->mark == NULL, FALSE);
+			update_undo(CUT);
+		}
+
+		/* Create a separate process for piping the data to the command. */
+		if (fork() == 0) {
+			send_data(cutbuffer, to_fd[1]);
+			exit(0);
+		}
+
+		close(to_fd[0]);
+		close(to_fd[1]);
+
+#ifdef ENABLE_MULTIBUFFER
+		if (ISSET(MULTIBUFFER))
+			openfile = openfile->next;
+#endif
+		free_lines(cutbuffer);
+		cutbuffer = was_cutbuffer;
+	}
+
+	/* Re-enable interpretation of the special control keys so that we get
+	 * SIGINT when Ctrl-C is pressed. */
+	enable_kb_interrupt();
+
+	/* Set up a signal handler so that ^C will terminate the forked process. */
+	newaction.sa_handler = cancel_the_command;
+	newaction.sa_flags = 0;
+	sigaction(SIGINT, &newaction, &oldaction);
+
+	stream = fdopen(from_fd[0], "rb");
+	if (stream == NULL)
+		statusline(ALERT, _("Failed to open pipe: %s"), strerror(errno));
+	else
+		read_file(stream, 0, "pipe", TRUE);
+
+	if (should_pipe && !ISSET(MULTIBUFFER))
+		/* TRANSLATORS: The next two go with Undid/Redid messages. */
+		add_undo(COUPLE_END, N_("filtering"));
+
+	/* Wait for the external command (and possibly data sender) to terminate. */
+	wait(NULL);
+	if (should_pipe)
+		wait(NULL);
+
+	/* Restore the original handler for SIGINT. */
+	sigaction(SIGINT, &oldaction, NULL);
+
+	/* Restore the terminal to its desired state, and disable
+	 * interpretation of the special control keys again. */
+	terminal_init();
+
+	return TRUE;
+}
+#endif /* NANO_TINY */
 
 /* Insert a file into the current buffer, or into a new buffer when
  * the MULTIBUFFER flag is set. */
