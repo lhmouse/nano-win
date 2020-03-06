@@ -278,10 +278,6 @@ void make_new_buffer(void);
 bool delete_lockfile(const char *lockfilename);
 #endif
 bool open_buffer(const char *filename, bool new_buffer);
-#ifdef ENABLE_SPELLER
-bool replace_buffer(const char *filename, undo_type action, bool marked,
-		const char *operation);
-#endif
 void set_modified(void);
 void prepare_for_display(void);
 #ifdef ENABLE_MULTIBUFFER

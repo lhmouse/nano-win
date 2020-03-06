@@ -469,48 +469,6 @@ bool open_buffer(const char *filename, bool new_one)
 	return TRUE;
 }
 
-#ifdef ENABLE_SPELLER
-/* Open the specified file, and if that succeeds, remove the text of the marked
- * region or of the entire buffer and read the file contents into its place. */
-bool replace_buffer(const char *filename, undo_type action, bool marked,
-		const char *operation)
-{
-	linestruct *was_cutbuffer = cutbuffer;
-	int descriptor;
-	FILE *f;
-
-	descriptor = open_file(filename, FALSE, &f);
-
-	if (descriptor < 0)
-		return FALSE;
-
-	cutbuffer = NULL;
-
-#ifndef NANO_TINY
-	add_undo(COUPLE_BEGIN, operation);
-
-	/* Cut either the marked region or the whole buffer. */
-	add_undo(action, NULL);
-#endif
-	do_snip(FALSE, marked, !marked, FALSE);
-#ifndef NANO_TINY
-	update_undo(action);
-#endif
-
-	/* Discard what was cut. */
-	free_lines(cutbuffer);
-	cutbuffer = was_cutbuffer;
-
-	/* Insert the spell-checked file into the cleared area. */
-	read_file(f, descriptor, filename, TRUE);
-
-#ifndef NANO_TINY
-	add_undo(COUPLE_END, operation);
-#endif
-	return TRUE;
-}
-#endif /* ENABLE_SPELLER */
-
 /* Mark the current file as modified if it isn't already, and
  * then update the title bar to display the file's new status. */
 void set_modified(void)
