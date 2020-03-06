@@ -2127,16 +2127,15 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	update_undo(PASTE);
 
-	add_undo(COUPLE_END, "justification");
-
 	/* After justifying a backward-marked text, swap mark and cursor. */
 	if (openfile->mark && !right_side_up) {
 		openfile->mark = openfile->current;
 		openfile->mark_x = openfile->current_x;
 		openfile->current = line_from_number(was_top_lineno);
 		openfile->current_x = was_top_x;
-		update_undo(COUPLE_END);
 	}
+
+	add_undo(COUPLE_END, "justification");
 #endif
 
 	/* We're done justifying.  Restore the old cutbuffer. */
