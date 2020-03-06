@@ -1894,21 +1894,15 @@ void do_justify(bool full_justify)
 		/* The old cutbuffer, so we can justify in the current cutbuffer. */
 	linestruct *jusline;
 		/* The line that we're justifying in the current cutbuffer. */
-
 #ifndef NANO_TINY
+	bool right_side_up = FALSE;
+		/* Whether the mark (if any) is before the cursor. */
+	bool ends_at_eol = FALSE;
+		/* Whether the end of the marked region is at the end of a line. */
+
 	/* Stash the cursor position, to be stored in the undo item. */
 	ssize_t was_lineno = openfile->current->lineno;
 	size_t was_current_x = openfile->current_x;
-
-	/* We need these to restore the coordinates of the mark after justifying
-	 * marked text. */
-	ssize_t was_top_lineno = 0;
-	size_t was_top_x = 0;
-	bool right_side_up = FALSE;
-
-	/* Whether the bottom of the mark is at the end of its line, in which case
-	 * we don't need to add a new line after it. */
-	bool ends_at_eol = FALSE;
 
 	/* We need these to hold the leading part (quoting + indentation) of the
 	 * line where the marked text begins, whether or not that part is covered
@@ -1935,10 +1929,6 @@ void do_justify(bool full_justify)
 			statusline(NOTICE, _("Nothing changed"));
 			return;
 		}
-
-		/* Save the starting point of the marked region. */
-		was_top_lineno = first_par_line->lineno;
-		was_top_x = top_x;
 
 		par_len = last_par_line->lineno - first_par_line->lineno +
 											(bot_x > 0 ? 1 : 0);
@@ -2129,10 +2119,13 @@ void do_justify(bool full_justify)
 
 	/* After justifying a backward-marked text, swap mark and cursor. */
 	if (openfile->mark && !right_side_up) {
-		openfile->mark = openfile->current;
-		openfile->mark_x = openfile->current_x;
-		openfile->current = line_from_number(was_top_lineno);
-		openfile->current_x = was_top_x;
+		linestruct *bottom = openfile->current;
+		size_t bottom_x = openfile->current_x;
+
+		openfile->current = openfile->mark;
+		openfile->current_x = openfile->mark_x;
+		openfile->mark = bottom;
+		openfile->mark_x = bottom_x;
 	}
 
 	add_undo(COUPLE_END, "justification");
