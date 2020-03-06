@@ -484,25 +484,20 @@ bool replace_buffer(const char *filename, undo_type action, bool marked,
 	if (descriptor < 0)
 		return FALSE;
 
+	cutbuffer = NULL;
+
 #ifndef NANO_TINY
 	add_undo(COUPLE_BEGIN, operation);
-#endif
 
-	/* When nothing is marked, start at the top of the buffer. */
-	if (!marked) {
-		openfile->current = openfile->filetop;
-		openfile->current_x = 0;
-	}
-
-	/* Throw away the marked region or the whole buffer. */
-	cutbuffer = NULL;
-#ifndef NANO_TINY
+	/* Cut either the marked region or the whole buffer. */
 	add_undo(action, NULL);
 #endif
 	do_snip(FALSE, marked, !marked, FALSE);
 #ifndef NANO_TINY
 	update_undo(action);
 #endif
+
+	/* Discard what was cut. */
 	free_lines(cutbuffer);
 	cutbuffer = was_cutbuffer;
 

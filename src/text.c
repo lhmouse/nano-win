@@ -2561,9 +2561,14 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		openfile->mark = line_from_number(was_mark_lineno);
 	} else
 #endif
+	{
+		openfile->current = openfile->filetop;
+		openfile->current_x = 0;
+
 		replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE,
 					/* TRANSLATORS: The next two go with Undid/Redid messages. */
 					(spelling ? N_("spelling correction") : N_("formatting")));
+	}
 
 	/* Go back to the old position. */
 	goto_line_posx(lineno_save, current_x_save);
