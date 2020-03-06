@@ -2481,14 +2481,13 @@ const char *do_int_speller(const char *tempfile_name)
 
 /* Open the specified file, and if that succeeds, remove the text of the marked
  * region or of the entire buffer and read the file contents into its place. */
-bool replace_buffer(const char *filename, undo_type action, bool marked,
-		const char *operation)
+bool replace_buffer(const char *filename, undo_type action, const char *operation)
 {
 	linestruct *was_cutbuffer = cutbuffer;
 	int descriptor;
-	FILE *f;
+	FILE *stream;
 
-	descriptor = open_file(filename, FALSE, &f);
+	descriptor = open_file(filename, FALSE, &stream);
 
 	if (descriptor < 0)
 		return FALSE;
@@ -2501,7 +2500,7 @@ bool replace_buffer(const char *filename, undo_type action, bool marked,
 	/* Cut either the marked region or the whole buffer. */
 	add_undo(action, NULL);
 #endif
-	do_snip(FALSE, marked, !marked, FALSE);
+	do_snip(FALSE, openfile->mark, openfile->mark == NULL, FALSE);
 #ifndef NANO_TINY
 	update_undo(action);
 #endif
@@ -2511,7 +2510,7 @@ bool replace_buffer(const char *filename, undo_type action, bool marked,
 	cutbuffer = was_cutbuffer;
 
 	/* Insert the spell-checked file into the cleared area. */
-	read_file(f, descriptor, filename, TRUE);
+	read_file(stream, descriptor, filename, TRUE);
 
 #ifndef NANO_TINY
 	add_undo(COUPLE_END, operation);
@@ -2588,7 +2587,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		ssize_t was_mark_lineno = openfile->mark->lineno;
 		bool upright = mark_is_before_cursor();
 
-		replaced = replace_buffer(tempfile_name, CUT, TRUE, "spelling correction");
+		replaced = replace_buffer(tempfile_name, CUT, "spelling correction");
 
 		/* Adjust the end point of the marked region for any change in
 		 * length of the region's last line. */
@@ -2605,7 +2604,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		openfile->current = openfile->filetop;
 		openfile->current_x = 0;
 
-		replaced = replace_buffer(tempfile_name, CUT_TO_EOF, FALSE,
+		replaced = replace_buffer(tempfile_name, CUT_TO_EOF,
 					/* TRANSLATORS: The next two go with Undid/Redid messages. */
 					(spelling ? N_("spelling correction") : N_("formatting")));
 	}
@@ -2614,10 +2613,12 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	goto_line_posx(lineno_save, current_x_save);
 	if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
 		openfile->current_x = strlen(openfile->current->data);
+
 #ifndef NANO_TINY
 	if (replaced)
 		update_undo(COUPLE_END);
 #endif
+
 	openfile->placewewant = pww_save;
 	adjust_viewport(STATIONARY);
 
