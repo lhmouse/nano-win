@@ -1806,9 +1806,6 @@ void do_justify(bool full_justify)
 	} else
 #endif /* NANO_TINY */
 	{
-		size_t jus_len;
-			/* The number of lines we're storing in the current cutbuffer. */
-
 		/* When justifying the entire buffer, start at the top.  Otherwise, when
 		 * in a paragraph but not at its beginning, move back to its first line. */
 		if (full_justify)
@@ -1826,18 +1823,18 @@ void do_justify(bool full_justify)
 			return;
 		}
 
+		/* Set the starting point of the paragraph. */
 		startline = openfile->current;
 		start_x = 0;
 
-		/* Set the number of lines to be pulled into the cutbuffer. */
+		/* Set the end point of the paragraph. */
 		if (full_justify)
-			jus_len = openfile->filebot->lineno - startline->lineno + 1;
-		else
-			jus_len = par_len;
-
-		/* Move down to the last line to be extracted. */
-		for (endline = openfile->current; jus_len > 1; jus_len--)
-			endline = endline->next;
+			endline = openfile->filebot;
+		else {
+			endline = startline;
+			for (size_t count = par_len; count > 1; count--)
+				endline = endline->next;
+		}
 
 		/* When possible, step one line further; otherwise, to line's end. */
 		if (endline->next != NULL) {
