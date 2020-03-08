@@ -1300,14 +1300,14 @@ bool do_wrap(void)
 
 	/* When requested, snip trailing blanks off the wrapped line. */
 	if (ISSET(TRIM_BLANKS)) {
-		size_t end_x = step_left(line->data, wrap_loc);
+		size_t rear_x = step_left(line->data, wrap_loc);
 		size_t typed_x = step_left(line->data, cursor_x);
 
-		while ((end_x != typed_x || cursor_x >= wrap_loc) &&
-						is_blank_mbchar(line->data + end_x)) {
-			openfile->current_x = end_x;
+		while ((rear_x != typed_x || cursor_x >= wrap_loc) &&
+						is_blank_mbchar(line->data + rear_x)) {
+			openfile->current_x = rear_x;
 			do_delete();
-			end_x = step_left(line->data, end_x);
+			rear_x = step_left(line->data, rear_x);
 		}
 	}
 
@@ -1734,8 +1734,8 @@ void do_justify(bool full_justify)
 #ifndef NANO_TINY
 	bool right_side_up = FALSE;
 		/* Whether the mark (if any) is before the cursor. */
-	bool ends_at_eol = FALSE;
-		/* Whether the end of the marked region is at the end of a line. */
+	bool before_eol = FALSE;
+		/* Whether the end of a marked region is before the end of its line. */
 
 	/* We need these to hold the leading part (quoting + indentation) of the
 	 * line where the marked text begins, whether or not that part is covered
@@ -1766,8 +1766,8 @@ void do_justify(bool full_justify)
 
 		par_len = endline->lineno - startline->lineno + (end_x > 0 ? 1 : 0);
 
-		/* Remember whether the end of the region was at the end of a line. */
-		ends_at_eol = endline->data[end_x] == '\0';
+		/* Remember whether the end of the region was before the end-of-line. */
+		before_eol = endline->data[end_x] != '\0';
 
 		/* Copy the leading part that is to be used for the new paragraph. */
 		quote_len = quote_length(startline->data);
@@ -1910,7 +1910,7 @@ void do_justify(bool full_justify)
 		 * of a line's leading part, make the new line start with the missing
 		 * portion, so it will become a full leading part when the justified
 		 * region is "pasted" back. */
-		if (end_x > 0 && !ends_at_eol) {
+		if (end_x > 0 && before_eol) {
 			line->next = make_new_node(line);
 			line->next->data = copy_of(the_lead + needed_bot_extra);
 		}
