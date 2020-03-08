@@ -1763,6 +1763,21 @@ void do_justify(bool full_justify)
 			return;
 		}
 
+		/* Recede over any preceding whitespace.  This effectively snips
+		 * trailing blanks from what will become the preceding paragraph. */
+		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
+			start_x--;
+
+		/* Advance over any subsequent whitespace. */
+		while (is_blank_mbchar(&endline->data[end_x]))
+			end_x++;
+
+		/* Include preceding and subsequent whitespace into the marked region. */
+		openfile->mark = startline;
+		openfile->mark_x = start_x;
+		openfile->current = endline;
+		openfile->current_x = end_x;
+
 		par_len = endline->lineno - startline->lineno + (end_x > 0 ? 1 : 0);
 
 		/* Remember whether the end of the region was before the end-of-line. */
