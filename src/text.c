@@ -1036,7 +1036,6 @@ void add_undo(undo_type action, const char *message)
 		break;
 	case PASTE:
 		u->cutbuffer = copy_buffer(cutbuffer);
-		u->tail_lineno += cutbottom->lineno - cutbuffer->lineno;
 		if (thisline == openfile->filebot)
 			u->xflags |= INCLUDED_LAST_LINE;
 		break;
