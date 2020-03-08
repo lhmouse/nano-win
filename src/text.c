@@ -1737,10 +1737,6 @@ void do_justify(bool full_justify)
 	bool ends_at_eol = FALSE;
 		/* Whether the end of the marked region is at the end of a line. */
 
-	/* Stash the cursor position, to be stored in the undo item. */
-	ssize_t was_lineno = openfile->current->lineno;
-	size_t was_current_x = openfile->current_x;
-
 	/* We need these to hold the leading part (quoting + indentation) of the
 	 * line where the marked text begins, whether or not that part is covered
 	 * by the mark. */
@@ -1751,9 +1747,9 @@ void do_justify(bool full_justify)
 	 * the marked text begins (if any). */
 	char *the_second_lead = NULL;
 	size_t second_lead_len = 0;
-#endif
 
-#ifndef NANO_TINY
+	add_undo(COUPLE_BEGIN, N_("justification"));
+
 	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
 	if (openfile->mark) {
 		size_t quote_len;
@@ -1764,6 +1760,7 @@ void do_justify(bool full_justify)
 		/* When the marked region is empty, do nothing. */
 		if (first_par_line == last_par_line && top_x == bot_x) {
 			statusline(NOTICE, _("Nothing changed"));
+			discard_until(openfile->undotop->next);
 			return;
 		}
 
@@ -1794,7 +1791,7 @@ void do_justify(bool full_justify)
 			the_second_lead[second_lead_len] = '\0';
 		}
 	} else
-#endif
+#endif /* NANO_TINY */
 	{
 		size_t jus_len;
 			/* The number of lines we're storing in the current cutbuffer. */
@@ -1812,6 +1809,7 @@ void do_justify(bool full_justify)
 		if (!find_paragraph(&openfile->current, &par_len)) {
 			openfile->current_x = strlen(openfile->filebot->data);
 			refresh_needed = TRUE;
+			discard_until(openfile->undotop->next);
 			return;
 		}
 
@@ -1837,15 +1835,8 @@ void do_justify(bool full_justify)
 	}
 
 #ifndef NANO_TINY
-	add_undo(COUPLE_BEGIN, N_("justification"));
-
-	/* Store the original cursor position, in case we unjustify. */
-	openfile->undotop->head_lineno = was_lineno;
-	openfile->undotop->head_x = was_current_x;
-
 	add_undo(CUT, NULL);
 #endif
-
 	/* Do the equivalent of a marked cut into an empty cutbuffer. */
 	cutbuffer = NULL;
 	extract_segment(first_par_line, top_x, last_par_line, bot_x);
