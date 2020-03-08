@@ -1870,7 +1870,7 @@ void do_justify(bool full_justify)
 		if (indent_len > 0)
 			memmove(cutbuffer->data + lead_len,
 						cutbuffer->data + lead_len + indent_len,
-						line_len - indent_len + 1);
+						line_len - lead_len - indent_len + 1);
 
 		/* If the marked region ends in the middle of a line, and this line
 		 * has a leading part, check if the last line of the extracted region
