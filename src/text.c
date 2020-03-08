@@ -1723,10 +1723,10 @@ void do_justify(bool full_justify)
 		/* The line where the paragraph or region starts. */
 	linestruct *endline;
 		/* The line where the paragraph or region ends. */
-	size_t top_x;
-		/* The top x-coordinate of the paragraph we justify. */
-	size_t bot_x;
-		/* The bottom x-coordinate of the paragraph we justify. */
+	size_t start_x;
+		/* The x position where the paragraph or region starts. */
+	size_t end_x;
+		/* The x position where the paragraph or region ends. */
 	linestruct *was_cutbuffer = cutbuffer;
 		/* The old cutbuffer, so we can justify in the current cutbuffer. */
 	linestruct *jusline;
@@ -1754,20 +1754,20 @@ void do_justify(bool full_justify)
 	if (openfile->mark) {
 		size_t quote_len;
 
-		get_region((const linestruct **)&startline, &top_x,
-					(const linestruct **)&endline, &bot_x, &right_side_up);
+		get_region((const linestruct **)&startline, &start_x,
+					(const linestruct **)&endline, &end_x, &right_side_up);
 
 		/* When the marked region is empty, do nothing. */
-		if (startline == endline && top_x == bot_x) {
+		if (startline == endline && start_x == end_x) {
 			statusline(NOTICE, _("Nothing changed"));
 			discard_until(openfile->undotop->next);
 			return;
 		}
 
-		par_len = endline->lineno - startline->lineno + (bot_x > 0 ? 1 : 0);
+		par_len = endline->lineno - startline->lineno + (end_x > 0 ? 1 : 0);
 
 		/* Remember whether the end of the region was at the end of a line. */
-		ends_at_eol = endline->data[bot_x] == '\0';
+		ends_at_eol = endline->data[end_x] == '\0';
 
 		/* Copy the leading part that is to be used for the new paragraph. */
 		quote_len = quote_length(startline->data);
@@ -1813,7 +1813,7 @@ void do_justify(bool full_justify)
 		}
 
 		startline = openfile->current;
-		top_x = 0;
+		start_x = 0;
 
 		/* Set the number of lines to be pulled into the cutbuffer. */
 		if (full_justify)
@@ -1828,9 +1828,9 @@ void do_justify(bool full_justify)
 		/* When possible, step one line further; otherwise, to line's end. */
 		if (endline->next != NULL) {
 			endline = endline->next;
-			bot_x = 0;
+			end_x = 0;
 		} else
-			bot_x = strlen(endline->data);
+			end_x = strlen(endline->data);
 	}
 
 #ifndef NANO_TINY
@@ -1838,14 +1838,14 @@ void do_justify(bool full_justify)
 #endif
 	/* Do the equivalent of a marked cut into an empty cutbuffer. */
 	cutbuffer = NULL;
-	extract_segment(startline, top_x, endline, bot_x);
+	extract_segment(startline, start_x, endline, end_x);
 #ifndef NANO_TINY
 	update_undo(CUT);
 
 	if (openfile->mark) {
 		size_t line_len = strlen(cutbuffer->data), indent_len;
-		size_t needed_top_extra = (top_x < lead_len ? top_x : lead_len);
-		size_t needed_bot_extra = (bot_x < lead_len ? lead_len - bot_x : 0);
+		size_t needed_top_extra = (start_x < lead_len ? start_x : lead_len);
+		size_t needed_bot_extra = (end_x < lead_len ? lead_len - end_x : 0);
 		linestruct *line;
 
 		/* If the marked region starts in the middle of a line, and this line
@@ -1860,7 +1860,7 @@ void do_justify(bool full_justify)
 			line_len += needed_top_extra;
 
 			/* When no portion was missing, nothing needs removing later. */
-			if (top_x > lead_len)
+			if (start_x > lead_len)
 				needed_top_extra = 0;
 		}
 
@@ -1893,7 +1893,7 @@ void do_justify(bool full_justify)
 		 * a new line before the new paragraph.  But if the region started in
 		 * the middle of the line's leading part, no new line is needed: just
 		 * remove the (now-redundant) addition we made earlier. */
-		if (top_x > 0) {
+		if (start_x > 0) {
 			if (needed_top_extra > 0)
 				memmove(cutbuffer->data, cutbuffer->data + needed_top_extra,
 							strlen(cutbuffer->data) - needed_top_extra + 1);
@@ -1910,7 +1910,7 @@ void do_justify(bool full_justify)
 		 * of a line's leading part, make the new line start with the missing
 		 * portion, so it will become a full leading part when the justified
 		 * region is "pasted" back. */
-		if (bot_x > 0 && !ends_at_eol) {
+		if (end_x > 0 && !ends_at_eol) {
 			line->next = make_new_node(line);
 			line->next->data = copy_of(the_lead + needed_bot_extra);
 		}
