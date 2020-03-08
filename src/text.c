@@ -900,13 +900,13 @@ void do_enter(void)
 
 #ifndef NANO_TINY
 /* Discard undo items that are newer than the given one, or all if NULL. */
-void discard_until(const undostruct *thisitem, openfilestruct *thefile)
+void discard_until(const undostruct *thisitem)
 {
-	undostruct *dropit = thefile->undotop;
+	undostruct *dropit = openfile->undotop;
 	groupstruct *group;
 
 	while (dropit != NULL && dropit != thisitem) {
-		thefile->undotop = dropit->next;
+		openfile->undotop = dropit->next;
 		free(dropit->strdata);
 		free_lines(dropit->cutbuffer);
 		group = dropit->grouping;
@@ -918,14 +918,14 @@ void discard_until(const undostruct *thisitem, openfilestruct *thefile)
 			group = next;
 		}
 		free(dropit);
-		dropit = thefile->undotop;
+		dropit = openfile->undotop;
 	}
 
 	/* Adjust the pointer to the top of the undo stack. */
-	thefile->current_undo = (undostruct *)thisitem;
+	openfile->current_undo = (undostruct *)thisitem;
 
 	/* Prevent a chain of editing actions from continuing. */
-	thefile->last_action = OTHER;
+	openfile->last_action = OTHER;
 }
 
 /* Add a new undo item of the given type to the top of the current pile. */
@@ -948,7 +948,7 @@ void add_undo(undo_type action, const char *message)
 	u->xflags = 0;
 
 	/* Blow away any undone items. */
-	discard_until(openfile->current_undo, openfile);
+	discard_until(openfile->current_undo);
 
 #ifdef ENABLE_WRAPPING
 	/* If some action caused automatic long-line wrapping, insert the
