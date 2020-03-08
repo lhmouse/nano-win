@@ -593,7 +593,7 @@ void close_buffer(void)
 	free(orphan->current_stat);
 	free(orphan->lock_filename);
 	/* Free the undo stack. */
-	discard_until(NULL, orphan, TRUE);
+	discard_until(NULL, orphan);
 #endif
 
 	openfile = orphan->prev;

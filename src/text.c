@@ -899,9 +899,8 @@ void do_enter(void)
 }
 
 #ifndef NANO_TINY
-/* Discard undo items that are newer than the given one, or all if NULL.
- * When keep is TRUE, do not touch the last_saved pointer. */
-void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool keep)
+/* Discard undo items that are newer than the given one, or all if NULL. */
+void discard_until(const undostruct *thisitem, openfilestruct *thefile)
 {
 	undostruct *dropit = thefile->undotop;
 	groupstruct *group;
@@ -927,11 +926,6 @@ void discard_until(const undostruct *thisitem, openfilestruct *thefile, bool kee
 
 	/* Prevent a chain of editing actions from continuing. */
 	thefile->last_action = OTHER;
-
-	/* When requested, record that the undo stack was chopped, and
-	 * that thus there is no point at which the file was last saved. */
-	if (!keep)
-		thefile->last_saved = (undostruct *)0xbeeb;
 }
 
 /* Add a new undo item of the given type to the top of the current pile. */
@@ -954,7 +948,7 @@ void add_undo(undo_type action, const char *message)
 	u->xflags = 0;
 
 	/* Blow away any undone items. */
-	discard_until(openfile->current_undo, openfile, TRUE);
+	discard_until(openfile->current_undo, openfile);
 
 #ifdef ENABLE_WRAPPING
 	/* If some action caused automatic long-line wrapping, insert the
