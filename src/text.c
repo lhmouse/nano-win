@@ -1719,10 +1719,10 @@ void do_justify(bool full_justify)
 {
 	size_t par_len;
 		/* The number of lines in the original paragraph. */
-	linestruct *first_par_line;
-		/* The first line of the paragraph. */
-	linestruct *last_par_line;
-		/* The line after the last line of the paragraph. */
+	linestruct *startline;
+		/* The line where the paragraph or region starts. */
+	linestruct *endline;
+		/* The line where the paragraph or region ends. */
 	size_t top_x;
 		/* The top x-coordinate of the paragraph we justify. */
 	size_t bot_x;
@@ -1754,39 +1754,38 @@ void do_justify(bool full_justify)
 	if (openfile->mark) {
 		size_t quote_len;
 
-		get_region((const linestruct **)&first_par_line, &top_x,
-					(const linestruct **)&last_par_line, &bot_x, &right_side_up);
+		get_region((const linestruct **)&startline, &top_x,
+					(const linestruct **)&endline, &bot_x, &right_side_up);
 
 		/* When the marked region is empty, do nothing. */
-		if (first_par_line == last_par_line && top_x == bot_x) {
+		if (startline == endline && top_x == bot_x) {
 			statusline(NOTICE, _("Nothing changed"));
 			discard_until(openfile->undotop->next);
 			return;
 		}
 
-		par_len = last_par_line->lineno - first_par_line->lineno +
-											(bot_x > 0 ? 1 : 0);
+		par_len = endline->lineno - startline->lineno + (bot_x > 0 ? 1 : 0);
 
 		/* Remember whether the end of the region was at the end of a line. */
-		ends_at_eol = last_par_line->data[bot_x] == '\0';
+		ends_at_eol = endline->data[bot_x] == '\0';
 
 		/* Copy the leading part that is to be used for the new paragraph. */
-		quote_len = quote_length(first_par_line->data);
-		lead_len = quote_len + indent_length(first_par_line->data + quote_len);
-		the_lead = measured_copy(first_par_line->data, lead_len);
+		quote_len = quote_length(startline->data);
+		lead_len = quote_len + indent_length(startline->data + quote_len);
+		the_lead = measured_copy(startline->data, lead_len);
 
 		/* Copy the leading part that is to be used for the new paragraph after
 		 * its first line (if any): the quoting of the first line, plus the
 		 * indentation of the second line. */
-		if (first_par_line != last_par_line) {
-			size_t sample_quote_len = quote_length(first_par_line->next->data);
-			size_t sample_indent_len = indent_length(first_par_line->next->data +
+		if (startline != endline) {
+			size_t sample_quote_len = quote_length(startline->next->data);
+			size_t sample_indent_len = indent_length(startline->next->data +
 														sample_quote_len);
 
 			second_lead_len = quote_len + sample_indent_len;
 			the_second_lead = charalloc(second_lead_len + 1);
-			strncpy(the_second_lead, first_par_line->data, quote_len);
-			strncpy(the_second_lead + quote_len, first_par_line->next->data +
+			strncpy(the_second_lead, startline->data, quote_len);
+			strncpy(the_second_lead + quote_len, startline->next->data +
 					sample_quote_len, sample_indent_len);
 			the_second_lead[second_lead_len] = '\0';
 		}
@@ -1813,25 +1812,25 @@ void do_justify(bool full_justify)
 			return;
 		}
 
-		first_par_line = openfile->current;
+		startline = openfile->current;
 		top_x = 0;
 
 		/* Set the number of lines to be pulled into the cutbuffer. */
 		if (full_justify)
-			jus_len = openfile->filebot->lineno - first_par_line->lineno + 1;
+			jus_len = openfile->filebot->lineno - startline->lineno + 1;
 		else
 			jus_len = par_len;
 
 		/* Move down to the last line to be extracted. */
-		for (last_par_line = openfile->current; jus_len > 1; jus_len--)
-			last_par_line = last_par_line->next;
+		for (endline = openfile->current; jus_len > 1; jus_len--)
+			endline = endline->next;
 
 		/* When possible, step one line further; otherwise, to line's end. */
-		if (last_par_line->next != NULL) {
-			last_par_line = last_par_line->next;
+		if (endline->next != NULL) {
+			endline = endline->next;
 			bot_x = 0;
 		} else
-			bot_x = strlen(last_par_line->data);
+			bot_x = strlen(endline->data);
 	}
 
 #ifndef NANO_TINY
@@ -1839,7 +1838,7 @@ void do_justify(bool full_justify)
 #endif
 	/* Do the equivalent of a marked cut into an empty cutbuffer. */
 	cutbuffer = NULL;
-	extract_segment(first_par_line, top_x, last_par_line, bot_x);
+	extract_segment(startline, top_x, endline, bot_x);
 #ifndef NANO_TINY
 	update_undo(CUT);
 
