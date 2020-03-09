@@ -1763,30 +1763,15 @@ void do_justify(bool full_justify)
 			return;
 		}
 
-		/* Recede over any preceding whitespace.  This effectively snips
-		 * trailing blanks from what will become the preceding paragraph. */
-		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
-			start_x--;
-
-		/* Advance over any subsequent whitespace. */
-		while (is_blank_mbchar(&endline->data[end_x]))
-			end_x++;
-
-		/* Include preceding and subsequent whitespace into the marked region. */
-		openfile->mark = startline;
-		openfile->mark_x = start_x;
-		openfile->current = endline;
-		openfile->current_x = end_x;
-
-		par_len = endline->lineno - startline->lineno + (end_x > 0 ? 1 : 0);
-
-		/* Remember whether the end of the region was before the end-of-line. */
-		before_eol = endline->data[end_x] != '\0';
-
 		/* Copy the leading part that is to be used for the new paragraph. */
 		quote_len = quote_length(startline->data);
 		lead_len = quote_len + indent_length(startline->data + quote_len);
 		the_lead = measured_copy(startline->data, lead_len);
+
+		/* Recede over any preceding whitespace.  This effectively snips
+		 * trailing blanks from what will become the preceding paragraph. */
+		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
+			start_x--;
 
 		/* Copy the leading part that is to be used for the new paragraph after
 		 * its first line (if any): the quoting of the first line, plus the
@@ -1803,6 +1788,21 @@ void do_justify(bool full_justify)
 					sample_quote_len, sample_indent_len);
 			the_second_lead[second_lead_len] = '\0';
 		}
+
+		/* Advance over any subsequent whitespace. */
+		while (is_blank_mbchar(&endline->data[end_x]))
+			end_x++;
+
+		/* Include preceding and subsequent whitespace into the marked region. */
+		openfile->mark = startline;
+		openfile->mark_x = start_x;
+		openfile->current = endline;
+		openfile->current_x = end_x;
+
+		par_len = endline->lineno - startline->lineno + (end_x > 0 ? 1 : 0);
+
+		/* Remember whether the end of the region was before the end-of-line. */
+		before_eol = endline->data[end_x] != '\0';
 	} else
 #endif /* NANO_TINY */
 	{
