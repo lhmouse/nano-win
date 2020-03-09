@@ -1531,8 +1531,8 @@ bool inpar(const linestruct *const line)
 
 /* Find the first occurring paragraph in the forward direction.  Return TRUE
  * when a paragraph was found, and FALSE otherwise.  Furthermore, return the
- * first line and the length (number of lines) of the paragraph. */
-bool find_paragraph(linestruct **firstline, size_t *const parlen)
+ * first line and the number of lines of the paragraph. */
+bool find_paragraph(linestruct **firstline, size_t *const linecount)
 {
 	linestruct *line = *firstline;
 
@@ -1550,17 +1550,17 @@ bool find_paragraph(linestruct **firstline, size_t *const parlen)
 		return FALSE;
 
 	/* We found a paragraph; determine its number of lines. */
-	*parlen = line->lineno - (*firstline)->lineno + 1;
+	*linecount = line->lineno - (*firstline)->lineno + 1;
 
 	return TRUE;
 }
 
 /* Concatenate into a single line all the lines of the paragraph that starts at
- * *line and consists of par_len lines, skipping the quoting and indentation on
+ * *line and consists of 'count' lines, skipping the quoting and indentation on
  * all lines after the first. */
-void concat_paragraph(linestruct **line, size_t par_len)
+void concat_paragraph(linestruct **line, size_t count)
 {
-	while (par_len > 1) {
+	while (count > 1) {
 		linestruct *next_line = (*line)->next;
 		size_t line_len = strlen((*line)->data);
 		size_t next_line_len = strlen(next_line->data);
@@ -1581,7 +1581,7 @@ void concat_paragraph(linestruct **line, size_t par_len)
 		strcat((*line)->data, next_line->data + next_lead_len);
 
 		unlink_node(next_line);
-		par_len--;
+		count--;
 	}
 }
 
@@ -1679,9 +1679,9 @@ void rewrap_paragraph(linestruct **line, char *lead_string, size_t lead_len)
 }
 
 /* Justify the lines of the given paragraph (that starts at *line, and consists
- * of par_len lines) so they all fit within the target width (wrap_at) and have
+ * of 'count' lines) so they all fit within the target width (wrap_at) and have
  * their whitespace normalized. */
-void justify_paragraph(linestruct **line, size_t par_len)
+void justify_paragraph(linestruct **line, size_t count)
 {
 	linestruct *sampleline;
 		/* The line from which the indentation is copied. */
@@ -1693,7 +1693,7 @@ void justify_paragraph(linestruct **line, size_t par_len)
 		/* The quote+indent stuff that is copied from the sample line. */
 
 	/* The sample line is either the only line or the second line. */
-	sampleline = (par_len == 1 ? *line : (*line)->next);
+	sampleline = (count == 1 ? *line : (*line)->next);
 
 	/* Copy the leading part (quoting + indentation) of the sample line. */
 	quote_len = quote_length(sampleline->data);
@@ -1701,7 +1701,7 @@ void justify_paragraph(linestruct **line, size_t par_len)
 	lead_string = measured_copy(sampleline->data, lead_len);
 
 	/* Concatenate all lines of the paragraph into a single line. */
-	concat_paragraph(line, par_len);
+	concat_paragraph(line, count);
 
 	/* Change all blank characters to spaces and remove excess spaces. */
 	squeeze(*line, quote_len + indent_length((*line)->data + quote_len));
@@ -1716,7 +1716,7 @@ void justify_paragraph(linestruct **line, size_t par_len)
  * TRUE.  But if the mark is on, justify only the marked text instead. */
 void do_justify(bool full_justify)
 {
-	size_t par_len;
+	size_t linecount;
 		/* The number of lines in the original paragraph. */
 	linestruct *startline;
 		/* The line where the paragraph or region starts. */
@@ -1799,7 +1799,7 @@ void do_justify(bool full_justify)
 		openfile->current = endline;
 		openfile->current_x = end_x;
 
-		par_len = endline->lineno - startline->lineno + (end_x > 0 ? 1 : 0);
+		linecount = endline->lineno - startline->lineno + (end_x > 0 ? 1 : 0);
 
 		/* Remember whether the end of the region was before the end-of-line. */
 		before_eol = endline->data[end_x] != '\0';
@@ -1816,7 +1816,7 @@ void do_justify(bool full_justify)
 		/* Find the first line of the paragraph(s) to be justified.  If the
 		 * search fails, there is nothing to justify, and we will be on the
 		 * last line of the file, so put the cursor at the end of it. */
-		if (!find_paragraph(&openfile->current, &par_len)) {
+		if (!find_paragraph(&openfile->current, &linecount)) {
 			openfile->current_x = strlen(openfile->filebot->data);
 			refresh_needed = TRUE;
 			discard_until(openfile->undotop->next);
@@ -1832,7 +1832,7 @@ void do_justify(bool full_justify)
 			endline = openfile->filebot;
 		else {
 			endline = startline;
-			for (size_t count = par_len; count > 1; count--)
+			for (size_t count = linecount; count > 1; count--)
 				endline = endline->next;
 		}
 
@@ -1891,7 +1891,7 @@ void do_justify(bool full_justify)
 			needed_bot_extra = 0;
 
 		/* Now justify the extracted region. */
-		concat_paragraph(&cutbuffer, par_len);
+		concat_paragraph(&cutbuffer, linecount);
 		squeeze(cutbuffer, lead_len);
 		line = cutbuffer;
 		if (the_second_lead != NULL) {
@@ -1934,12 +1934,12 @@ void do_justify(bool full_justify)
 		jusline = cutbuffer;
 
 		/* Justify the current paragraph. */
-		justify_paragraph(&jusline, par_len);
+		justify_paragraph(&jusline, linecount);
 
 		/* When justifying the entire buffer, find and justify all paragraphs. */
 		if (full_justify) {
-			while (find_paragraph(&jusline, &par_len)) {
-				justify_paragraph(&jusline, par_len);
+			while (find_paragraph(&jusline, &linecount)) {
+				justify_paragraph(&jusline, linecount);
 
 				if (jusline->next == NULL)
 					break;
