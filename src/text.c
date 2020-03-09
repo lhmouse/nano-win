@@ -1863,7 +1863,7 @@ void do_justify(bool full_justify)
 
 	if (openfile->mark) {
 		size_t line_len = strlen(cutbuffer->data);
-		linestruct *line;
+		linestruct *line = cutbuffer;
 		size_t white_len;
 		char *afterlead;
 
@@ -1886,9 +1886,7 @@ void do_justify(bool full_justify)
 		/* Now justify the extracted region. */
 		concat_paragraph(cutbuffer, linecount);
 		squeeze(cutbuffer, lead_len);
-		line = cutbuffer;
 		rewrap_paragraph(&line, the_second_lead, second_lead_len);
-		free(the_second_lead);
 
 		/* If the marked region started in the middle of a line,
 		 * insert a newline before the new paragraph. */
@@ -1906,6 +1904,7 @@ void do_justify(bool full_justify)
 			line->next->data = copy_of(the_lead);
 		}
 
+		free(the_second_lead);
 		free(the_lead);
 	} else
 #endif
