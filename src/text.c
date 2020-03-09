@@ -1751,7 +1751,7 @@ void do_justify(bool full_justify)
 
 	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
 	if (openfile->mark) {
-		size_t quote_len;
+		size_t quote_len, fore_length;
 
 		get_region((const linestruct **)&startline, &start_x,
 					(const linestruct **)&endline, &end_x, &right_side_up);
@@ -1793,9 +1793,12 @@ void do_justify(bool full_justify)
 			the_second_lead[second_lead_len] = '\0';
 		}
 
-		/* Advance over any subsequent whitespace. */
-		while (is_blank_mbchar(&endline->data[end_x]))
-			end_x++;
+		quote_len = quote_length(endline->data);
+		fore_length = quote_len + indent_length(endline->data + quote_len);
+
+		/* When the region ends IN the lead, take the whole lead. */
+		if (end_x < fore_length)
+			end_x = fore_length;
 
 		/* Include preceding and subsequent whitespace into the marked region. */
 		openfile->mark = startline;
@@ -1860,7 +1863,6 @@ void do_justify(bool full_justify)
 	if (openfile->mark) {
 		size_t line_len = strlen(cutbuffer->data);
 		size_t white_len = indent_length(cutbuffer->data);
-		size_t needed_bot_extra = (end_x < lead_len ? lead_len - end_x : 0);
 		linestruct *line;
 
 		/* Trim any whitespace at the start of the extracted region. */
@@ -1878,13 +1880,6 @@ void do_justify(bool full_justify)
 			memmove(cutbuffer->data + lead_len, cutbuffer->data, line_len + 1);
 			strncpy(cutbuffer->data, the_lead, lead_len);
 		}
-
-		/* If the marked region ends in the middle of a line, and this line
-		 * has a leading part, check if the last line of the extracted region
-		 * contains a missing portion of this leading part.  If it has no
-		 * missing portion, we don't need to append anything below. */
-		if (strncmp(cutbottom->data, the_lead, lead_len - needed_bot_extra) != 0)
-			needed_bot_extra = 0;
 
 		/* Now justify the extracted region. */
 		concat_paragraph(&cutbuffer, linecount);
@@ -1905,14 +1900,11 @@ void do_justify(bool full_justify)
 			cutbuffer = cutbuffer->prev;
 		}
 
-		/* If the marked region ended in the middle of a line, insert a new
-		 * line after the new paragraph.  If the region ended in the middle
-		 * of a line's leading part, make the new line start with the missing
-		 * portion, so it will become a full leading part when the justified
-		 * region is "pasted" back. */
+		/* If the marked region ended in the middle of a line,
+		 * insert a newline after the new paragraph. */
 		if (end_x > 0 && before_eol) {
 			line->next = make_new_node(line);
-			line->next->data = copy_of(the_lead + needed_bot_extra);
+			line->next->data = copy_of(the_lead);
 		}
 
 		free(the_lead);
