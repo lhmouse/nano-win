@@ -1751,7 +1751,8 @@ void do_justify(bool full_justify)
 
 	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
 	if (openfile->mark) {
-		size_t quot_len, fore_length;
+		size_t quot_len, other_quot_len, other_white_len, fore_length;
+		linestruct *sampleline;
 
 		get_region((const linestruct **)&startline, &start_x,
 					(const linestruct **)&endline, &end_x, &right_side_up);
@@ -1777,21 +1778,21 @@ void do_justify(bool full_justify)
 		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
 			start_x--;
 
+		sampleline = (startline == endline) ? startline : startline->next;
+
 		/* Copy the leading part that is to be used for the new paragraph after
 		 * its first line (if any): the quoting of the first line, plus the
 		 * indentation of the second line. */
-		if (startline != endline) {
-			size_t sample_quote_len = quote_length(startline->next->data);
-			size_t sample_indent_len = indent_length(startline->next->data +
-														sample_quote_len);
+		other_quot_len = quote_length(sampleline->data);
+		other_white_len = indent_length(sampleline->data + other_quot_len);
 
-			second_lead_len = quot_len + sample_indent_len;
-			the_second_lead = charalloc(second_lead_len + 1);
-			strncpy(the_second_lead, startline->data, quot_len);
-			strncpy(the_second_lead + quot_len, startline->next->data +
-					sample_quote_len, sample_indent_len);
-			the_second_lead[second_lead_len] = '\0';
-		}
+		second_lead_len = quot_len + other_white_len;
+		the_second_lead = charalloc(second_lead_len + 1);
+
+		strncpy(the_second_lead, startline->data, quot_len);
+		strncpy(the_second_lead + quot_len, sampleline->data + other_quot_len,
+													other_white_len);
+		the_second_lead[second_lead_len] = '\0';
 
 		quot_len = quote_length(endline->data);
 		fore_length = quot_len + indent_length(endline->data + quot_len);
@@ -1886,11 +1887,8 @@ void do_justify(bool full_justify)
 		concat_paragraph(&cutbuffer, linecount);
 		squeeze(cutbuffer, lead_len);
 		line = cutbuffer;
-		if (the_second_lead != NULL) {
-			rewrap_paragraph(&line, the_second_lead, second_lead_len);
-			free(the_second_lead);
-		} else
-			rewrap_paragraph(&line, the_lead, lead_len);
+		rewrap_paragraph(&line, the_second_lead, second_lead_len);
+		free(the_second_lead);
 
 		/* If the marked region started in the middle of a line,
 		 * insert a newline before the new paragraph. */
