@@ -1558,27 +1558,27 @@ bool find_paragraph(linestruct **firstline, size_t *const linecount)
 /* Concatenate into a single line all the lines of the paragraph that starts at
  * *line and consists of 'count' lines, skipping the quoting and indentation on
  * all lines after the first. */
-void concat_paragraph(linestruct **line, size_t count)
+void concat_paragraph(linestruct *line, size_t count)
 {
 	while (count > 1) {
-		linestruct *next_line = (*line)->next;
-		size_t line_len = strlen((*line)->data);
+		linestruct *next_line = line->next;
 		size_t next_line_len = strlen(next_line->data);
 		size_t next_quot_len = quote_length(next_line->data);
 		size_t next_lead_len = next_quot_len +
 							indent_length(next_line->data + next_quot_len);
+		size_t line_len = strlen(line->data);
 
 		/* We're just about to tack the next line onto this one.  If
 		 * this line isn't empty, make sure it ends in a space. */
-		if (line_len > 0 && (*line)->data[line_len - 1] != ' ') {
-			(*line)->data = charealloc((*line)->data, line_len + 2);
-			(*line)->data[line_len++] = ' ';
-			(*line)->data[line_len] = '\0';
+		if (line_len > 0 && line->data[line_len - 1] != ' ') {
+			line->data = charealloc(line->data, line_len + 2);
+			line->data[line_len++] = ' ';
+			line->data[line_len] = '\0';
 		}
 
-		(*line)->data = charealloc((*line)->data,
+		line->data = charealloc(line->data,
 								line_len + next_line_len - next_lead_len + 1);
-		strcat((*line)->data, next_line->data + next_lead_len);
+		strcat(line->data, next_line->data + next_lead_len);
 
 		unlink_node(next_line);
 		count--;
@@ -1701,7 +1701,7 @@ void justify_paragraph(linestruct **line, size_t count)
 	lead_string = measured_copy(sampleline->data, lead_len);
 
 	/* Concatenate all lines of the paragraph into a single line. */
-	concat_paragraph(line, count);
+	concat_paragraph(*line, count);
 
 	/* Change all blank characters to spaces and remove excess spaces. */
 	squeeze(*line, quot_len + indent_length((*line)->data + quot_len));
@@ -1884,7 +1884,7 @@ void do_justify(bool full_justify)
 			memmove(afterlead, afterlead + white_len, line_len - white_len + 1);
 
 		/* Now justify the extracted region. */
-		concat_paragraph(&cutbuffer, linecount);
+		concat_paragraph(cutbuffer, linecount);
 		squeeze(cutbuffer, lead_len);
 		line = cutbuffer;
 		rewrap_paragraph(&line, the_second_lead, second_lead_len);
