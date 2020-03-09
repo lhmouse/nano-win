@@ -1862,15 +1862,9 @@ void do_justify(bool full_justify)
 
 	if (openfile->mark) {
 		size_t line_len = strlen(cutbuffer->data);
-		size_t white_len = indent_length(cutbuffer->data);
 		linestruct *line;
-
-		/* Trim any whitespace at the start of the extracted region. */
-		if (white_len > 0) {
-			memmove(cutbuffer->data, cutbuffer->data + white_len,
-										line_len - white_len + 1);
-			line_len -= white_len;
-		}
+		size_t white_len;
+		char *afterlead;
 
 		/* If the marked region started in the middle of a line, and this line
 		 * has a leading part, then prepend this same leading part also to the
@@ -1880,6 +1874,13 @@ void do_justify(bool full_justify)
 			memmove(cutbuffer->data + lead_len, cutbuffer->data, line_len + 1);
 			strncpy(cutbuffer->data, the_lead, lead_len);
 		}
+
+		afterlead = cutbuffer->data + lead_len;
+		white_len = indent_length(afterlead);
+
+		/* If the marked region started with whitespace, trim it. */
+		if (white_len > 0)
+			memmove(afterlead, afterlead + white_len, line_len - white_len + 1);
 
 		/* Now justify the extracted region. */
 		concat_paragraph(&cutbuffer, linecount);
