@@ -1858,9 +1858,17 @@ void do_justify(bool full_justify)
 	update_undo(CUT);
 
 	if (openfile->mark) {
-		size_t line_len = strlen(cutbuffer->data), indent_len;
+		size_t line_len = strlen(cutbuffer->data);
+		size_t white_len = indent_length(cutbuffer->data);
 		size_t needed_bot_extra = (end_x < lead_len ? lead_len - end_x : 0);
 		linestruct *line;
+
+		/* Trim any whitespace at the start of the extracted region. */
+		if (white_len > 0) {
+			memmove(cutbuffer->data, cutbuffer->data + white_len,
+										line_len - white_len + 1);
+			line_len -= white_len;
+		}
 
 		/* If the marked region started in the middle of a line, and this line
 		 * has a leading part, then prepend this same leading part also to the
@@ -1869,16 +1877,7 @@ void do_justify(bool full_justify)
 			cutbuffer->data = charealloc(cutbuffer->data, line_len + lead_len + 1);
 			memmove(cutbuffer->data + lead_len, cutbuffer->data, line_len + 1);
 			strncpy(cutbuffer->data, the_lead, lead_len);
-			line_len += lead_len;
 		}
-
-		indent_len = indent_length(cutbuffer->data + lead_len);
-
-		/* Remove extra whitespace after the leading part. */
-		if (indent_len > 0)
-			memmove(cutbuffer->data + lead_len,
-						cutbuffer->data + lead_len + indent_len,
-						line_len - lead_len - indent_len + 1);
 
 		/* If the marked region ends in the middle of a line, and this line
 		 * has a leading part, check if the last line of the extracted region
