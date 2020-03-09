@@ -1481,7 +1481,7 @@ size_t quote_length(const char *line)
 /* Return TRUE when the given line is the beginning of a paragraph (BOP). */
 bool begpar(const linestruct *const line, int depth)
 {
-	size_t quote_len, indent_len, prev_dent_len;
+	size_t quot_len, indent_len, prev_dent_len;
 
 	/* If this is the very first line of the buffer, it counts as a BOP
 	 * even when it contains no text. */
@@ -1492,27 +1492,27 @@ bool begpar(const linestruct *const line, int depth)
 	if (depth > RECURSION_LIMIT)
 		return FALSE;
 
-	quote_len = quote_length(line->data);
-	indent_len = indent_length(line->data + quote_len);
+	quot_len = quote_length(line->data);
+	indent_len = indent_length(line->data + quot_len);
 
 	/* If this line contains no text, it is not a BOP. */
-	if (line->data[quote_len + indent_len] == '\0')
+	if (line->data[quot_len + indent_len] == '\0')
 		return FALSE;
 
 	/* If the quote part of the preceding line differs, this is a BOP. */
-	if (quote_len != quote_length(line->prev->data) ||
-					strncmp(line->data, line->prev->data, quote_len) != 0)
+	if (quot_len != quote_length(line->prev->data) ||
+					strncmp(line->data, line->prev->data, quot_len) != 0)
 		return TRUE;
 
-	prev_dent_len = indent_length(line->prev->data + quote_len);
+	prev_dent_len = indent_length(line->prev->data + quot_len);
 
 	/* If the preceding line contains no text, this is a BOP. */
-	if (line->prev->data[quote_len + prev_dent_len] == '\0')
+	if (line->prev->data[quot_len + prev_dent_len] == '\0')
 		return TRUE;
 
 	/* If indentation of this and preceding line are equal, this is not a BOP. */
-	if (wideness(line->prev->data, quote_len + prev_dent_len) ==
-						wideness(line->data, quote_len + indent_len))
+	if (wideness(line->prev->data, quot_len + prev_dent_len) ==
+						wideness(line->data, quot_len + indent_len))
 		return FALSE;
 
 	/* Otherwise, this is a BOP if the preceding line is not. */
@@ -1523,10 +1523,10 @@ bool begpar(const linestruct *const line, int depth)
  * contains something more than quoting and leading whitespace. */
 bool inpar(const linestruct *const line)
 {
-	size_t quote_len = quote_length(line->data);
-	size_t indent_len = indent_length(line->data + quote_len);
+	size_t quot_len = quote_length(line->data);
+	size_t indent_len = indent_length(line->data + quot_len);
 
-	return (line->data[quote_len + indent_len] != '\0');
+	return (line->data[quot_len + indent_len] != '\0');
 }
 
 /* Find the first occurring paragraph in the forward direction.  Return TRUE
@@ -1564,9 +1564,9 @@ void concat_paragraph(linestruct **line, size_t count)
 		linestruct *next_line = (*line)->next;
 		size_t line_len = strlen((*line)->data);
 		size_t next_line_len = strlen(next_line->data);
-		size_t next_quote_len = quote_length(next_line->data);
-		size_t next_lead_len = next_quote_len +
-							indent_length(next_line->data + next_quote_len);
+		size_t next_quot_len = quote_length(next_line->data);
+		size_t next_lead_len = next_quot_len +
+							indent_length(next_line->data + next_quot_len);
 
 		/* We're just about to tack the next line onto this one.  If
 		 * this line isn't empty, make sure it ends in a space. */
@@ -1685,7 +1685,7 @@ void justify_paragraph(linestruct **line, size_t count)
 {
 	linestruct *sampleline;
 		/* The line from which the indentation is copied. */
-	size_t quote_len;
+	size_t quot_len;
 		/* Length of the quote part. */
 	size_t lead_len;
 		/* Length of the quote part plus the indentation part. */
@@ -1696,15 +1696,15 @@ void justify_paragraph(linestruct **line, size_t count)
 	sampleline = (count == 1 ? *line : (*line)->next);
 
 	/* Copy the leading part (quoting + indentation) of the sample line. */
-	quote_len = quote_length(sampleline->data);
-	lead_len = quote_len + indent_length(sampleline->data + quote_len);
+	quot_len = quote_length(sampleline->data);
+	lead_len = quot_len + indent_length(sampleline->data + quot_len);
 	lead_string = measured_copy(sampleline->data, lead_len);
 
 	/* Concatenate all lines of the paragraph into a single line. */
 	concat_paragraph(line, count);
 
 	/* Change all blank characters to spaces and remove excess spaces. */
-	squeeze(*line, quote_len + indent_length((*line)->data + quote_len));
+	squeeze(*line, quot_len + indent_length((*line)->data + quot_len));
 
 	/* Rewrap the line into multiple lines, accounting for the leading part. */
 	rewrap_paragraph(line, lead_string, lead_len);
@@ -1751,7 +1751,7 @@ void do_justify(bool full_justify)
 
 	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
 	if (openfile->mark) {
-		size_t quote_len, fore_length;
+		size_t quot_len, fore_length;
 
 		get_region((const linestruct **)&startline, &start_x,
 					(const linestruct **)&endline, &end_x, &right_side_up);
@@ -1764,8 +1764,8 @@ void do_justify(bool full_justify)
 		}
 
 		/* Copy the leading part that is to be used for the new paragraph. */
-		quote_len = quote_length(startline->data);
-		lead_len = quote_len + indent_length(startline->data + quote_len);
+		quot_len = quote_length(startline->data);
+		lead_len = quot_len + indent_length(startline->data + quot_len);
 		the_lead = measured_copy(startline->data, lead_len);
 
 		/* When the region starts IN the lead, take the whole lead. */
@@ -1785,16 +1785,16 @@ void do_justify(bool full_justify)
 			size_t sample_indent_len = indent_length(startline->next->data +
 														sample_quote_len);
 
-			second_lead_len = quote_len + sample_indent_len;
+			second_lead_len = quot_len + sample_indent_len;
 			the_second_lead = charalloc(second_lead_len + 1);
-			strncpy(the_second_lead, startline->data, quote_len);
-			strncpy(the_second_lead + quote_len, startline->next->data +
+			strncpy(the_second_lead, startline->data, quot_len);
+			strncpy(the_second_lead + quot_len, startline->next->data +
 					sample_quote_len, sample_indent_len);
 			the_second_lead[second_lead_len] = '\0';
 		}
 
-		quote_len = quote_length(endline->data);
-		fore_length = quote_len + indent_length(endline->data + quote_len);
+		quot_len = quote_length(endline->data);
+		fore_length = quot_len + indent_length(endline->data + quot_len);
 
 		/* When the region ends IN the lead, take the whole lead. */
 		if (end_x < fore_length)
