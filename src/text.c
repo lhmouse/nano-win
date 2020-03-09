@@ -1462,54 +1462,6 @@ void copy_character(char **from, char **to)
 			*((*to)++) = *((*from)++);
 }
 
-/* In the given line, replace any series of blanks with a single space,
- * but keep two spaces (if there are two) after any closing punctuation,
- * and remove all blanks from the end of the line.  Leave the first skip
- * number of characters untreated. */
-void squeeze(linestruct *line, size_t skip)
-{
-	char *start = line->data + skip;
-	char *from = start, *to = start;
-
-	/* For each character, 1) when a blank, change it to a space, and pass over
-	 * all blanks after it; 2) if it is punctuation, copy it plus a possible
-	 * tailing bracket, and change at most two subsequent blanks to spaces, and
-	 * pass over all blanks after these; 3) leave anything else unchanged. */
-	while (*from != '\0') {
-		if (is_blank_mbchar(from)) {
-			from += char_length(from);
-			*(to++) = ' ';
-
-			while (*from != '\0' && is_blank_mbchar(from))
-				from += char_length(from);
-		} else if (mbstrchr(punct, from) != NULL) {
-			copy_character(&from, &to);
-
-			if (*from != '\0' && mbstrchr(brackets, from) != NULL)
-				copy_character(&from, &to);
-
-			if (*from != '\0' && is_blank_mbchar(from)) {
-				from += char_length(from);
-				*(to++) = ' ';
-			}
-			if (*from != '\0' && is_blank_mbchar(from)) {
-				from += char_length(from);
-				*(to++) = ' ';
-			}
-
-			while (*from != '\0' && is_blank_mbchar(from))
-				from += char_length(from);
-		} else
-			copy_character(&from, &to);
-	}
-
-	/* If there are spaces at the end of the line, remove them. */
-	while (to > start && *(to - 1) == ' ')
-		to--;
-
-	*to = '\0';
-}
-
 /* Return the length of the quote part of the given line.  The "quote part"
  * of a line is the largest initial substring matching the quoting regex. */
 size_t quote_length(const char *line)
@@ -1631,6 +1583,54 @@ void concat_paragraph(linestruct **line, size_t par_len)
 		unlink_node(next_line);
 		par_len--;
 	}
+}
+
+/* In the given line, replace any series of blanks with a single space,
+ * but keep two spaces (if there are two) after any closing punctuation,
+ * and remove all blanks from the end of the line.  Leave the first skip
+ * number of characters untreated. */
+void squeeze(linestruct *line, size_t skip)
+{
+	char *start = line->data + skip;
+	char *from = start, *to = start;
+
+	/* For each character, 1) when a blank, change it to a space, and pass over
+	 * all blanks after it; 2) if it is punctuation, copy it plus a possible
+	 * tailing bracket, and change at most two subsequent blanks to spaces, and
+	 * pass over all blanks after these; 3) leave anything else unchanged. */
+	while (*from != '\0') {
+		if (is_blank_mbchar(from)) {
+			from += char_length(from);
+			*(to++) = ' ';
+
+			while (*from != '\0' && is_blank_mbchar(from))
+				from += char_length(from);
+		} else if (mbstrchr(punct, from) != NULL) {
+			copy_character(&from, &to);
+
+			if (*from != '\0' && mbstrchr(brackets, from) != NULL)
+				copy_character(&from, &to);
+
+			if (*from != '\0' && is_blank_mbchar(from)) {
+				from += char_length(from);
+				*(to++) = ' ';
+			}
+			if (*from != '\0' && is_blank_mbchar(from)) {
+				from += char_length(from);
+				*(to++) = ' ';
+			}
+
+			while (*from != '\0' && is_blank_mbchar(from))
+				from += char_length(from);
+		} else
+			copy_character(&from, &to);
+	}
+
+	/* If there are spaces at the end of the line, remove them. */
+	while (to > start && *(to - 1) == ' ')
+		to--;
+
+	*to = '\0';
 }
 
 /* Rewrap the given line (that starts with the given lead string which is of
