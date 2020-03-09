@@ -1768,6 +1768,10 @@ void do_justify(bool full_justify)
 		lead_len = quote_len + indent_length(startline->data + quote_len);
 		the_lead = measured_copy(startline->data, lead_len);
 
+		/* When the region starts IN the lead, take the whole lead. */
+		if (start_x <= lead_len)
+			start_x = 0;
+
 		/* Recede over any preceding whitespace.  This effectively snips
 		 * trailing blanks from what will become the preceding paragraph. */
 		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
@@ -1855,24 +1859,17 @@ void do_justify(bool full_justify)
 
 	if (openfile->mark) {
 		size_t line_len = strlen(cutbuffer->data), indent_len;
-		size_t needed_top_extra = (start_x < lead_len ? start_x : lead_len);
 		size_t needed_bot_extra = (end_x < lead_len ? lead_len - end_x : 0);
 		linestruct *line;
 
-		/* If the marked region starts in the middle of a line, and this line
-		 * has a leading part, prepend any missing portion of this leading part
-		 * to the first line of the extracted region. */
-		if (needed_top_extra > 0) {
-			cutbuffer->data = charealloc(cutbuffer->data,
-									line_len + needed_top_extra + 1);
-			memmove(cutbuffer->data + needed_top_extra, cutbuffer->data,
-									line_len + 1);
-			strncpy(cutbuffer->data, the_lead, needed_top_extra);
-			line_len += needed_top_extra;
-
-			/* When no portion was missing, nothing needs removing later. */
-			if (start_x > lead_len)
-				needed_top_extra = 0;
+		/* If the marked region started in the middle of a line, and this line
+		 * has a leading part, then prepend this same leading part also to the
+		 * first line of the extracted region. */
+		if (start_x > 0 && lead_len > 0) {
+			cutbuffer->data = charealloc(cutbuffer->data, line_len + lead_len + 1);
+			memmove(cutbuffer->data + lead_len, cutbuffer->data, line_len + 1);
+			strncpy(cutbuffer->data, the_lead, lead_len);
+			line_len += lead_len;
 		}
 
 		indent_len = indent_length(cutbuffer->data + lead_len);
@@ -1900,20 +1897,13 @@ void do_justify(bool full_justify)
 		} else
 			rewrap_paragraph(&line, the_lead, lead_len);
 
-		/* If the marked region started after the beginning of a line, insert
-		 * a new line before the new paragraph.  But if the region started in
-		 * the middle of the line's leading part, no new line is needed: just
-		 * remove the (now-redundant) addition we made earlier. */
+		/* If the marked region started in the middle of a line,
+		 * insert a newline before the new paragraph. */
 		if (start_x > 0) {
-			if (needed_top_extra > 0)
-				memmove(cutbuffer->data, cutbuffer->data + needed_top_extra,
-							strlen(cutbuffer->data) - needed_top_extra + 1);
-			else {
-				cutbuffer->prev = make_new_node(NULL);
-				cutbuffer->prev->data = copy_of("");
-				cutbuffer->prev->next = cutbuffer;
-				cutbuffer = cutbuffer->prev;
-			}
+			cutbuffer->prev = make_new_node(NULL);
+			cutbuffer->prev->data = copy_of("");
+			cutbuffer->prev->next = cutbuffer;
+			cutbuffer = cutbuffer->prev;
 		}
 
 		/* If the marked region ended in the middle of a line, insert a new
