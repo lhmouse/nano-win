@@ -1808,7 +1808,7 @@ void do_justify(bool full_justify)
 		fore_length = quot_len + indent_length(endline->data + quot_len);
 
 		/* When the region ends IN the lead, take the whole lead. */
-		if (end_x < fore_length)
+		if (0 < end_x && end_x < fore_length)
 			end_x = fore_length;
 
 		/* Include preceding and subsequent whitespace into the marked region. */
