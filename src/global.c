@@ -521,13 +521,9 @@ int keycode_from_string(const char *keystring)
 		if (keystring[2] == '\0') {
 			if (keystring[1] == '/')
 				return 31;
-#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__APPLE__)
-			if (keystring[1] == 'H')
-				return KEY_BACKSPACE;
-#endif
 			if (keystring[1] <= '_')
 				return keystring[1] - 64;
-			else if (keystring[1] == '`')
+			if (keystring[1] == '`')
 				return 0;
 			else
 				return -1;
