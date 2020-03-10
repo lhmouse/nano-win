@@ -1751,7 +1751,7 @@ void do_justify(bool full_justify)
 
 	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
 	if (openfile->mark) {
-		size_t quot_len, other_quot_len, other_white_len, fore_length;
+		size_t quot_len, fore_len, other_quot_len, other_white_len;
 		linestruct *sampleline;
 
 		get_region((const linestruct **)&startline, &start_x,
@@ -1765,11 +1765,23 @@ void do_justify(bool full_justify)
 		}
 
 		quot_len = quote_length(startline->data);
-		lead_len = quot_len + indent_length(startline->data + quot_len);
+		fore_len = quot_len + indent_length(startline->data + quot_len);
 
 		/* When the region starts IN the lead, take the whole lead. */
-		if (start_x <= lead_len)
+		if (start_x <= fore_len)
 			start_x = 0;
+
+		/* Recede over blanks before the region.  This effectively snips
+		 * trailing blanks from what will become the preceding paragraph. */
+		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
+			start_x--;
+
+		quot_len = quote_length(endline->data);
+		fore_len = quot_len + indent_length(endline->data + quot_len);
+
+		/* When the region ends IN the lead, take the whole lead. */
+		if (0 < end_x && end_x < fore_len)
+			end_x = fore_len;
 
 		sampleline = startline;
 
@@ -1781,11 +1793,6 @@ void do_justify(bool full_justify)
 		quot_len = quote_length(sampleline->data);
 		lead_len = quot_len + indent_length(sampleline->data + quot_len);
 		the_lead = measured_copy(sampleline->data, lead_len);
-
-		/* Recede over any preceding whitespace.  This effectively snips
-		 * trailing blanks from what will become the preceding paragraph. */
-		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
-			start_x--;
 
 		if (sampleline->next && startline != endline)
 			sampleline = sampleline->next;
@@ -1804,14 +1811,7 @@ void do_justify(bool full_justify)
 													other_white_len);
 		the_second_lead[second_lead_len] = '\0';
 
-		quot_len = quote_length(endline->data);
-		fore_length = quot_len + indent_length(endline->data + quot_len);
-
-		/* When the region ends IN the lead, take the whole lead. */
-		if (0 < end_x && end_x < fore_length)
-			end_x = fore_length;
-
-		/* Include preceding and subsequent whitespace into the marked region. */
+		/* Include preceding and succeeding leads into the marked region. */
 		openfile->mark = startline;
 		openfile->mark_x = start_x;
 		openfile->current = endline;
@@ -1872,18 +1872,14 @@ void do_justify(bool full_justify)
 	update_undo(CUT);
 
 	if (openfile->mark) {
-		size_t line_len = strlen(cutbuffer->data);
 		linestruct *line = cutbuffer;
-		size_t quot_len, fore_len;
-
-		quot_len = quote_length(cutbuffer->data);
-		fore_len = quot_len + indent_length(cutbuffer->data + quot_len);
+		size_t quot_len = quote_length(line->data);
+		size_t fore_len = quot_len + indent_length(line->data + quot_len);
+		size_t line_len = strlen(line->data) - fore_len;
 
 		/* If the extracted region begins with any leading part, trim it. */
-		if (fore_len > 0) {
-			memmove(line->data, line->data + fore_len, line_len - fore_len + 1);
-			line_len -= fore_len;
-		}
+		if (fore_len > 0)
+			memmove(line->data, line->data + fore_len, line_len + 1);
 
 		/* Then copy back in the leading part that it should have. */
 		if (lead_len > 0) {
