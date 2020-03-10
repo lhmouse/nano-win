@@ -1875,16 +1875,16 @@ void do_justify(bool full_justify)
 		linestruct *line = cutbuffer;
 		size_t quot_len = quote_length(line->data);
 		size_t fore_len = quot_len + indent_length(line->data + quot_len);
-		size_t line_len = strlen(line->data) - fore_len;
+		size_t text_len = strlen(line->data) - fore_len;
 
 		/* If the extracted region begins with any leading part, trim it. */
 		if (fore_len > 0)
-			memmove(line->data, line->data + fore_len, line_len + 1);
+			memmove(line->data, line->data + fore_len, text_len + 1);
 
 		/* Then copy back in the leading part that it should have. */
 		if (lead_len > 0) {
-			cutbuffer->data = charealloc(cutbuffer->data, line_len + lead_len + 1);
-			memmove(cutbuffer->data + lead_len, cutbuffer->data, line_len + 1);
+			cutbuffer->data = charealloc(cutbuffer->data, lead_len + text_len + 1);
+			memmove(cutbuffer->data + lead_len, cutbuffer->data, text_len + 1);
 			strncpy(cutbuffer->data, the_lead, lead_len);
 		}
 
