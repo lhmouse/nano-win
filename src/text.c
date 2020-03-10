@@ -1789,6 +1789,10 @@ void do_justify(bool full_justify)
 		while (sampleline->prev && inpar(sampleline) && !begpar(sampleline, 0))
 			sampleline = sampleline->prev;
 
+		/* Ignore lines that contain no text. */
+		while (sampleline->next && !inpar(sampleline))
+			sampleline = sampleline->next;
+
 		/* Store the leading part that is to be used for the new paragraph. */
 		quot_len = quote_length(sampleline->data);
 		lead_len = quot_len + indent_length(sampleline->data + quot_len);
