@@ -1764,21 +1764,31 @@ void do_justify(bool full_justify)
 			return;
 		}
 
-		/* Copy the leading part that is to be used for the new paragraph. */
 		quot_len = quote_length(startline->data);
 		lead_len = quot_len + indent_length(startline->data + quot_len);
-		the_lead = measured_copy(startline->data, lead_len);
 
 		/* When the region starts IN the lead, take the whole lead. */
 		if (start_x <= lead_len)
 			start_x = 0;
+
+		sampleline = startline;
+
+		/* Find the first line of the paragraph in which the region starts. */
+		while (sampleline->prev && inpar(sampleline) && !begpar(sampleline, 0))
+			sampleline = sampleline->prev;
+
+		/* Store the leading part that is to be used for the new paragraph. */
+		quot_len = quote_length(sampleline->data);
+		lead_len = quot_len + indent_length(sampleline->data + quot_len);
+		the_lead = measured_copy(sampleline->data, lead_len);
 
 		/* Recede over any preceding whitespace.  This effectively snips
 		 * trailing blanks from what will become the preceding paragraph. */
 		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
 			start_x--;
 
-		sampleline = (startline == endline) ? startline : startline->next;
+		if (sampleline->next && startline != endline)
+			sampleline = sampleline->next;
 
 		/* Copy the leading part that is to be used for the new paragraph after
 		 * its first line (if any): the quoting of the first line, plus the
@@ -1864,24 +1874,23 @@ void do_justify(bool full_justify)
 	if (openfile->mark) {
 		size_t line_len = strlen(cutbuffer->data);
 		linestruct *line = cutbuffer;
-		size_t white_len;
-		char *afterlead;
+		size_t quot_len, fore_len;
 
-		/* If the marked region started in the middle of a line, and this line
-		 * has a leading part, then prepend this same leading part also to the
-		 * first line of the extracted region. */
-		if (start_x > 0 && lead_len > 0) {
+		quot_len = quote_length(cutbuffer->data);
+		fore_len = quot_len + indent_length(cutbuffer->data + quot_len);
+
+		/* If the extracted region begins with any leading part, trim it. */
+		if (fore_len > 0) {
+			memmove(line->data, line->data + fore_len, line_len - fore_len + 1);
+			line_len -= fore_len;
+		}
+
+		/* Then copy back in the leading part that it should have. */
+		if (lead_len > 0) {
 			cutbuffer->data = charealloc(cutbuffer->data, line_len + lead_len + 1);
 			memmove(cutbuffer->data + lead_len, cutbuffer->data, line_len + 1);
 			strncpy(cutbuffer->data, the_lead, lead_len);
 		}
-
-		afterlead = cutbuffer->data + lead_len;
-		white_len = indent_length(afterlead);
-
-		/* If the marked region started with whitespace, trim it. */
-		if (white_len > 0)
-			memmove(afterlead, afterlead + white_len, line_len - white_len + 1);
 
 		/* Now justify the extracted region. */
 		concat_paragraph(cutbuffer, linecount);
