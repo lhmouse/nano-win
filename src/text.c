@@ -1759,7 +1759,7 @@ void do_justify(bool full_justify)
 
 		/* When the marked region is empty, do nothing. */
 		if (startline == endline && start_x == end_x) {
-			statusline(NOTICE, _("Nothing changed"));
+			statusline(ALERT, _("Selection is empty"));
 			discard_until(openfile->undotop->next);
 			return;
 		}
