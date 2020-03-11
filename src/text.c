@@ -1735,12 +1735,11 @@ void do_justify(bool full_justify)
 		/* Whether the mark (if any) is before the cursor. */
 	bool before_eol = FALSE;
 		/* Whether the end of a marked region is before the end of its line. */
-
-	/* We need these to hold the leading part (quoting + indentation) of the
-	 * line where the marked text begins, whether or not that part is covered
-	 * by the mark. */
-	char *the_lead = NULL;
-	size_t lead_len = 0;
+	char *primary_lead = NULL;
+		/* The leading part (quoting + indentation) of the first line
+		 * of the paragraph where the marked region begins. */
+	size_t primary_len = 0;
+		/* The length (in bytes) of the above first-line leading part. */
 
 	/* We need these to hold the leading part of the line after the line where
 	 * the marked text begins (if any). */
@@ -1795,8 +1794,8 @@ void do_justify(bool full_justify)
 
 		/* Store the leading part that is to be used for the new paragraph. */
 		quot_len = quote_length(sampleline->data);
-		lead_len = quot_len + indent_length(sampleline->data + quot_len);
-		the_lead = measured_copy(sampleline->data, lead_len);
+		primary_len = quot_len + indent_length(sampleline->data + quot_len);
+		primary_lead = measured_copy(sampleline->data, primary_len);
 
 		if (sampleline->next && startline != endline)
 			sampleline = sampleline->next;
@@ -1886,15 +1885,15 @@ void do_justify(bool full_justify)
 			memmove(line->data, line->data + fore_len, text_len + 1);
 
 		/* Then copy back in the leading part that it should have. */
-		if (lead_len > 0) {
-			cutbuffer->data = charealloc(cutbuffer->data, lead_len + text_len + 1);
-			memmove(cutbuffer->data + lead_len, cutbuffer->data, text_len + 1);
-			strncpy(cutbuffer->data, the_lead, lead_len);
+		if (primary_len > 0) {
+			line->data = charealloc(line->data, primary_len + text_len + 1);
+			memmove(line->data + primary_len, line->data, text_len + 1);
+			strncpy(line->data, primary_lead, primary_len);
 		}
 
 		/* Now justify the extracted region. */
 		concat_paragraph(cutbuffer, linecount);
-		squeeze(cutbuffer, lead_len);
+		squeeze(cutbuffer, primary_len);
 		rewrap_paragraph(&line, the_second_lead, second_lead_len);
 
 		/* If the marked region started in the middle of a line,
@@ -1910,11 +1909,11 @@ void do_justify(bool full_justify)
 		 * insert a newline after the new paragraph. */
 		if (end_x > 0 && before_eol) {
 			line->next = make_new_node(line);
-			line->next->data = copy_of(the_lead);
+			line->next->data = copy_of(primary_lead);
 		}
 
 		free(the_second_lead);
-		free(the_lead);
+		free(primary_lead);
 	} else
 #endif
 	{
