@@ -1740,11 +1740,10 @@ void do_justify(bool full_justify)
 		 * of the paragraph where the marked region begins. */
 	size_t primary_len = 0;
 		/* The length (in bytes) of the above first-line leading part. */
-
-	/* We need these to hold the leading part of the line after the line where
-	 * the marked text begins (if any). */
-	char *the_second_lead = NULL;
-	size_t second_lead_len = 0;
+	char *secondary_lead = NULL;
+		/* The leading part for lines after the first one. */
+	size_t secondary_len = 0;
+		/* The length of that later lead. */
 
 	add_undo(COUPLE_BEGIN, N_("justification"));
 
@@ -1806,13 +1805,13 @@ void do_justify(bool full_justify)
 		other_quot_len = quote_length(sampleline->data);
 		other_white_len = indent_length(sampleline->data + other_quot_len);
 
-		second_lead_len = quot_len + other_white_len;
-		the_second_lead = charalloc(second_lead_len + 1);
+		secondary_len = quot_len + other_white_len;
+		secondary_lead = charalloc(secondary_len + 1);
 
-		strncpy(the_second_lead, startline->data, quot_len);
-		strncpy(the_second_lead + quot_len, sampleline->data + other_quot_len,
+		strncpy(secondary_lead, startline->data, quot_len);
+		strncpy(secondary_lead + quot_len, sampleline->data + other_quot_len,
 													other_white_len);
-		the_second_lead[second_lead_len] = '\0';
+		secondary_lead[secondary_len] = '\0';
 
 		/* Include preceding and succeeding leads into the marked region. */
 		openfile->mark = startline;
@@ -1894,7 +1893,7 @@ void do_justify(bool full_justify)
 		/* Now justify the extracted region. */
 		concat_paragraph(cutbuffer, linecount);
 		squeeze(cutbuffer, primary_len);
-		rewrap_paragraph(&line, the_second_lead, second_lead_len);
+		rewrap_paragraph(&line, secondary_lead, secondary_len);
 
 		/* If the marked region started in the middle of a line,
 		 * insert a newline before the new paragraph. */
@@ -1912,7 +1911,7 @@ void do_justify(bool full_justify)
 			line->next->data = copy_of(primary_lead);
 		}
 
-		free(the_second_lead);
+		free(secondary_lead);
 		free(primary_lead);
 	} else
 #endif
