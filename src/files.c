@@ -518,7 +518,7 @@ void mention_name_and_linecount(void)
 						(openfile->filebot->data[0] == '\0' ? 1 : 0);
 #ifndef NANO_TINY
 	if (openfile->fmt != NIX_FILE)
-		/* TRANSLATORS: first %s is file name, second %s is file format. */
+		/* TRANSLATORS: First %s is file name, second %s is file format. */
 		statusline(HUSH, P_("%s -- %zu line (%s)", "%s -- %zu lines (%s)", count),
 						openfile->filename[0] == '\0' ?
 						_("New Buffer") : tail(openfile->filename), count,
@@ -1046,7 +1046,8 @@ bool execute_command(const char *command)
 		} else
 #endif
 		{
-			add_undo(COUPLE_BEGIN, "filtering");
+			/* TRANSLATORS: This one goes with Undid/Redid messages. */
+			add_undo(COUPLE_BEGIN, N_("filtering"));
 			if (openfile->mark == NULL) {
 				openfile->current = openfile->filetop;
 				openfile->current_x = 0;
@@ -1089,7 +1090,6 @@ bool execute_command(const char *command)
 		read_file(stream, 0, "pipe", TRUE);
 
 	if (should_pipe && !ISSET(MULTIBUFFER))
-		/* TRANSLATORS: The next two go with Undid/Redid messages. */
 		add_undo(COUPLE_END, N_("filtering"));
 
 	/* Wait for the external command (and possibly data sender) to terminate. */

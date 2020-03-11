@@ -1745,6 +1745,7 @@ void do_justify(bool full_justify)
 	size_t secondary_len = 0;
 		/* The length of that later lead. */
 
+	/* TRANSLATORS: This one goes with Undid/Redid messages. */
 	add_undo(COUPLE_BEGIN, N_("justification"));
 
 	/* If the mark is on, do as Pico: treat all marked text as one paragraph. */
@@ -1952,7 +1953,7 @@ void do_justify(bool full_justify)
 		openfile->mark_x = bottom_x;
 	}
 
-	add_undo(COUPLE_END, "justification");
+	add_undo(COUPLE_END, N_("justification"));
 #endif
 
 	/* We're done justifying.  Restore the old cutbuffer. */
