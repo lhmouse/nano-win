@@ -192,7 +192,7 @@ void do_para_end(linestruct **line)
 }
 
 /* Move up to first start of a paragraph before the current line. */
-void do_para_begin_void(void)
+void to_para_begin(void)
 {
 	linestruct *was_current = openfile->current;
 
@@ -203,7 +203,7 @@ void do_para_begin_void(void)
 }
 
 /* Move down to just after the first found end of a paragraph. */
-void do_para_end_void(void)
+void to_para_end(void)
 {
 	linestruct *was_current = openfile->current;
 

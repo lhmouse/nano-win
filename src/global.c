@@ -930,9 +930,9 @@ void shortcut_init(void)
 	add_to_funcs(to_next_block, MMAIN,
 		N_("Next Block"), WITHORSANS(nextblock_gist), TOGETHER, VIEW);
 #ifdef ENABLE_JUSTIFY
-	add_to_funcs(do_para_begin_void, MMAIN|MGOTOLINE,
+	add_to_funcs(to_para_begin, MMAIN|MGOTOLINE,
 		N_("Beg of Par"), WITHORSANS(parabegin_gist), TOGETHER, VIEW);
-	add_to_funcs(do_para_end_void, MMAIN|MGOTOLINE,
+	add_to_funcs(to_para_end, MMAIN|MGOTOLINE,
 		N_("End of Par"), WITHORSANS(paraend_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -1263,10 +1263,10 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-7", 0, to_prev_block, 0);
 	add_to_sclist(MMAIN, "M-8", 0, to_next_block, 0);
 #ifdef ENABLE_JUSTIFY
-	add_to_sclist(MMAIN, "M-(", 0, do_para_begin_void, 0);
-	add_to_sclist(MMAIN, "M-9", 0, do_para_begin_void, 0);
-	add_to_sclist(MMAIN, "M-)", 0, do_para_end_void, 0);
-	add_to_sclist(MMAIN, "M-0", 0, do_para_end_void, 0);
+	add_to_sclist(MMAIN, "M-(", 0, to_para_begin, 0);
+	add_to_sclist(MMAIN, "M-9", 0, to_para_begin, 0);
+	add_to_sclist(MMAIN, "M-)", 0, to_para_end, 0);
+	add_to_sclist(MMAIN, "M-0", 0, to_para_end, 0);
 #endif
 #ifndef NANO_TINY
 #ifdef ENABLE_UTF8
@@ -1360,8 +1360,8 @@ void shortcut_init(void)
 	}
 #endif
 #ifdef ENABLE_JUSTIFY
-	add_to_sclist(MGOTOLINE, "^W", 0, do_para_begin_void, 0);
-	add_to_sclist(MGOTOLINE, "^O", 0, do_para_end_void, 0);
+	add_to_sclist(MGOTOLINE, "^W", 0, to_para_begin, 0);
+	add_to_sclist(MGOTOLINE, "^O", 0, to_para_end, 0);
 #endif
 	add_to_sclist(MGOTOLINE, "^Y", 0, to_first_line, 0);
 	add_to_sclist(MGOTOLINE, "^V", 0, to_last_line, 0);

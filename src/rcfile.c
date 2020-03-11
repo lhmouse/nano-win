@@ -285,9 +285,9 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "fulljustify"))
 		s->func = do_full_justify;
 	else if (!strcmp(input, "beginpara"))
-		s->func = do_para_begin_void;
+		s->func = to_para_begin;
 	else if (!strcmp(input, "endpara"))
-		s->func = do_para_end_void;
+		s->func = to_para_end;
 #endif
 #ifdef ENABLE_COMMENT
 	else if (!strcmp(input, "comment"))

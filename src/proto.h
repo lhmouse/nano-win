@@ -367,8 +367,8 @@ void do_page_down(void);
 #ifdef ENABLE_JUSTIFY
 void do_para_begin(linestruct **line);
 void do_para_end(linestruct **line);
-void do_para_begin_void(void);
-void do_para_end_void(void);
+void to_para_begin(void);
+void to_para_end(void);
 #endif
 void to_prev_block(void);
 void to_next_block(void);
