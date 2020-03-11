@@ -348,9 +348,9 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "end"))
 		s->func = do_end;
 	else if (!strcmp(input, "prevblock"))
-		s->func = do_prev_block;
+		s->func = to_prev_block;
 	else if (!strcmp(input, "nextblock"))
-		s->func = do_next_block;
+		s->func = to_next_block;
 	else if (!strcmp(input, "pageup") ||
 			 !strcmp(input, "prevpage"))
 		s->func = do_page_up;

@@ -1438,7 +1438,7 @@ bool wanted_to_move(void (*func)(void))
 #ifdef ENABLE_JUSTIFY
 			func == do_para_begin_void || func == do_para_end_void ||
 #endif
-			func == do_prev_block || func == do_next_block ||
+			func == to_prev_block || func == to_next_block ||
 			func == do_page_up || func == do_page_down ||
 			func == to_first_line || func == to_last_line;
 }

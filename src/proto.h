@@ -370,8 +370,8 @@ void do_para_end(linestruct **line);
 void do_para_begin_void(void);
 void do_para_end_void(void);
 #endif
-void do_prev_block(void);
-void do_next_block(void);
+void to_prev_block(void);
+void to_next_block(void);
 void do_prev_word(bool allow_punct);
 bool do_next_word(bool after_ends, bool allow_punct);
 void to_prev_word(void);

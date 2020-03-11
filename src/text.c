@@ -2820,7 +2820,7 @@ void do_linter(void)
 		} else if (func == do_help) {
 			tmplint = NULL;
 			do_help();
-		} else if (func == do_page_up || func == do_prev_block) {
+		} else if (func == do_page_up || func == to_prev_block) {
 			if (curlint->prev != NULL)
 				curlint = curlint->prev;
 			else if (last_wait != time(NULL)) {
@@ -2830,7 +2830,7 @@ void do_linter(void)
 				last_wait = time(NULL);
 				statusline(NOTICE, curlint->msg);
 			}
-		} else if (func == do_page_down || func == do_next_block) {
+		} else if (func == do_page_down || func == to_next_block) {
 			if (curlint->next != NULL)
 				curlint = curlint->next;
 			else if (last_wait != time(NULL)) {

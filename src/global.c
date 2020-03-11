@@ -925,9 +925,9 @@ void shortcut_init(void)
 		N_("Scroll Down"), WITHORSANS(scrolldown_gist), BLANKAFTER, VIEW);
 #endif
 
-	add_to_funcs(do_prev_block, MMAIN,
+	add_to_funcs(to_prev_block, MMAIN,
 		N_("Prev Block"), WITHORSANS(prevblock_gist), TOGETHER, VIEW);
-	add_to_funcs(do_next_block, MMAIN,
+	add_to_funcs(to_next_block, MMAIN,
 		N_("Next Block"), WITHORSANS(nextblock_gist), TOGETHER, VIEW);
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_para_begin_void, MMAIN|MGOTOLINE,
@@ -1109,9 +1109,9 @@ void shortcut_init(void)
 		N_("Left Column"), WITHORSANS(browserlefthand_gist), TOGETHER, VIEW);
 	add_to_funcs(to_next_word, MBROWSER,
 		N_("Right Column"), WITHORSANS(browserrighthand_gist), TOGETHER, VIEW);
-	add_to_funcs(do_prev_block, MBROWSER,
+	add_to_funcs(to_prev_block, MBROWSER,
 		N_("Top Row"), WITHORSANS(browsertoprow_gist), TOGETHER, VIEW);
-	add_to_funcs(do_next_block, MBROWSER,
+	add_to_funcs(to_next_block, MBROWSER,
 		N_("Bottom Row"), WITHORSANS(browserbottomrow_gist), BLANKAFTER, VIEW);
 #endif
 #endif /* ENABLE_BROWSER */
@@ -1250,18 +1250,18 @@ void shortcut_init(void)
 	if (using_utf8()) {
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "\xE2\x96\xb2", KEY_UP, do_up, 0);
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "\xE2\x96\xbc", KEY_DOWN, do_down, 0);
-		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^\xE2\x96\xb2", CONTROL_UP, do_prev_block, 0);
-		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^\xE2\x96\xbc", CONTROL_DOWN, do_next_block, 0);
+		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^\xE2\x96\xb2", CONTROL_UP, to_prev_block, 0);
+		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^\xE2\x96\xbc", CONTROL_DOWN, to_next_block, 0);
 	} else
 #endif
 	{
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "Up", KEY_UP, do_up, 0);
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "Down", KEY_DOWN, do_down, 0);
-		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^Up", CONTROL_UP, do_prev_block, 0);
-		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^Down", CONTROL_DOWN, do_next_block, 0);
+		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^Up", CONTROL_UP, to_prev_block, 0);
+		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^Down", CONTROL_DOWN, to_next_block, 0);
 	}
-	add_to_sclist(MMAIN, "M-7", 0, do_prev_block, 0);
-	add_to_sclist(MMAIN, "M-8", 0, do_next_block, 0);
+	add_to_sclist(MMAIN, "M-7", 0, to_prev_block, 0);
+	add_to_sclist(MMAIN, "M-8", 0, to_next_block, 0);
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "M-(", 0, do_para_begin_void, 0);
 	add_to_sclist(MMAIN, "M-9", 0, do_para_begin_void, 0);

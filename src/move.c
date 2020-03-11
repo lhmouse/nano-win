@@ -222,7 +222,7 @@ void do_para_end_void(void)
 #endif /* ENABLE_JUSTIFY */
 
 /* Move to the preceding block of text. */
-void do_prev_block(void)
+void to_prev_block(void)
 {
 	linestruct *was_current = openfile->current;
 	bool is_text = FALSE, seen_text = FALSE;
@@ -244,7 +244,7 @@ void do_prev_block(void)
 }
 
 /* Move to the next block of text. */
-void do_next_block(void)
+void to_next_block(void)
 {
 	linestruct *was_current = openfile->current;
 	bool is_white = white_string(openfile->current->data);
