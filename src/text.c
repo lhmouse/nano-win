@@ -2294,7 +2294,7 @@ const char *do_int_speller(const char *tempfile_name)
 		return _("Error invoking \"uniq\"");
 
 	if (WIFEXITED(sort_status) == 0 || WEXITSTATUS(sort_status))
-		return _("Error invoking \"sort -f\"");
+		return _("Error invoking \"sort\"");
 
 	if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
 		return _("Error invoking \"spell\"");
