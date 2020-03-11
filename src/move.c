@@ -355,7 +355,7 @@ bool do_next_word(bool after_ends, bool allow_punct)
 
 /* Move to the previous word in the file, treating punctuation as part of a
  * word if the WORD_BOUNDS flag is set, and update the screen afterwards. */
-void do_prev_word_void(void)
+void to_prev_word(void)
 {
 	linestruct *was_current = openfile->current;
 
@@ -367,7 +367,7 @@ void do_prev_word_void(void)
 /* Move to the next word in the file.  If the AFTER_ENDS flag is set, stop
  * at word ends instead of beginnings.  If the WORD_BOUNDS flag is set, treat
  * punctuation as part of a word.  Update the screen afterwards. */
-void do_next_word_void(void)
+void to_next_word(void)
 {
 	linestruct *was_current = openfile->current;
 

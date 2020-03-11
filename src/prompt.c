@@ -281,9 +281,9 @@ int do_statusbar_input(bool *finished)
 		else if (shortcut->func == do_right)
 			do_statusbar_right();
 #ifndef NANO_TINY
-		else if (shortcut->func == do_prev_word_void)
+		else if (shortcut->func == to_prev_word)
 			do_statusbar_prev_word();
-		else if (shortcut->func == do_next_word_void)
+		else if (shortcut->func == to_next_word)
 			do_statusbar_next_word();
 #endif
 		else if (shortcut->func == do_home)

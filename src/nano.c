@@ -1434,7 +1434,7 @@ bool wanted_to_move(void (*func)(void))
 	return func == do_left || func == do_right ||
 			func == do_up || func == do_down ||
 			func == do_home || func == do_end ||
-			func == do_prev_word_void || func == do_next_word_void ||
+			func == to_prev_word || func == to_next_word ||
 #ifdef ENABLE_JUSTIFY
 			func == do_para_begin_void || func == do_para_end_void ||
 #endif

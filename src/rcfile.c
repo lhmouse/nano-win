@@ -340,9 +340,9 @@ keystruct *strtosc(const char *input)
 		s->func = do_scroll_down;
 #endif
 	else if (!strcmp(input, "prevword"))
-		s->func = do_prev_word_void;
+		s->func = to_prev_word;
 	else if (!strcmp(input, "nextword"))
-		s->func = do_next_word_void;
+		s->func = to_next_word;
 	else if (!strcmp(input, "home"))
 		s->func = do_home;
 	else if (!strcmp(input, "end"))
@@ -706,7 +706,7 @@ bool is_universal(void (*func)(void))
 	return (func == do_left || func == do_right ||
 		func == do_home || func == do_end ||
 #ifndef NANO_TINY
-		func == do_prev_word_void || func == do_next_word_void ||
+		func == to_prev_word || func == to_next_word ||
 #endif
 		func == do_delete || func == do_backspace ||
 		func == cut_text || func == paste_text ||

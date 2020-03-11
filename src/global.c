@@ -903,10 +903,10 @@ void shortcut_init(void)
 		N_("Forward"), WITHORSANS(forwardfile_gist), TOGETHER, VIEW);
 #endif
 
-	add_to_funcs(do_prev_word_void, MMAIN,
+	add_to_funcs(to_prev_word, MMAIN,
 		/* TRANSLATORS: Try to keep the next eighteen strings at most 12 characters. */
 		N_("Prev Word"), WITHORSANS(prevword_gist), TOGETHER, VIEW);
-	add_to_funcs(do_next_word_void, MMAIN,
+	add_to_funcs(to_next_word, MMAIN,
 		N_("Next Word"), WITHORSANS(nextword_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_home, MMAIN,
@@ -1105,9 +1105,9 @@ void shortcut_init(void)
 	add_to_funcs(to_last_file, MBROWSER|MWHEREISFILE,
 		N_("Last File"), WITHORSANS(lastfile_gist), BLANKAFTER, VIEW);
 #ifndef NANO_TINY
-	add_to_funcs(do_prev_word_void, MBROWSER,
+	add_to_funcs(to_prev_word, MBROWSER,
 		N_("Left Column"), WITHORSANS(browserlefthand_gist), TOGETHER, VIEW);
-	add_to_funcs(do_next_word_void, MBROWSER,
+	add_to_funcs(to_next_word, MBROWSER,
 		N_("Right Column"), WITHORSANS(browserrighthand_gist), TOGETHER, VIEW);
 	add_to_funcs(do_prev_block, MBROWSER,
 		N_("Top Row"), WITHORSANS(browsertoprow_gist), TOGETHER, VIEW);
@@ -1210,8 +1210,8 @@ void shortcut_init(void)
 	if (using_utf8()) {
 		add_to_sclist(MMOST|MBROWSER|MHELP, "\xE2\x97\x80", KEY_LEFT, do_left, 0);
 		add_to_sclist(MMOST|MBROWSER|MHELP, "\xE2\x96\xb6", KEY_RIGHT, do_right, 0);
-		add_to_sclist(MSOME, "^\xE2\x97\x80", CONTROL_LEFT, do_prev_word_void, 0);
-		add_to_sclist(MSOME, "^\xE2\x96\xb6", CONTROL_RIGHT, do_next_word_void, 0);
+		add_to_sclist(MSOME, "^\xE2\x97\x80", CONTROL_LEFT, to_prev_word, 0);
+		add_to_sclist(MSOME, "^\xE2\x96\xb6", CONTROL_RIGHT, to_next_word, 0);
 #if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
 		if (!on_a_vt) {
 			add_to_sclist(MMAIN, "M-\xE2\x97\x80", ALT_LEFT, switch_to_prev_buffer, 0);
@@ -1223,8 +1223,8 @@ void shortcut_init(void)
 	{
 		add_to_sclist(MMOST|MBROWSER|MHELP, "Left", KEY_LEFT, do_left, 0);
 		add_to_sclist(MMOST|MBROWSER|MHELP, "Right", KEY_RIGHT, do_right, 0);
-		add_to_sclist(MSOME, "^Left", CONTROL_LEFT, do_prev_word_void, 0);
-		add_to_sclist(MSOME, "^Right", CONTROL_RIGHT, do_next_word_void, 0);
+		add_to_sclist(MSOME, "^Left", CONTROL_LEFT, to_prev_word, 0);
+		add_to_sclist(MSOME, "^Right", CONTROL_RIGHT, to_next_word, 0);
 #ifdef ENABLE_MULTIBUFFER
 		if (!on_a_vt) {
 			add_to_sclist(MMAIN, "M-Left", ALT_LEFT, switch_to_prev_buffer, 0);
@@ -1233,13 +1233,13 @@ void shortcut_init(void)
 #endif
 	}
 #ifdef NANO_TINY
-	add_to_sclist(MMAIN, "M-B", 0, do_prev_word_void, 0);
-	add_to_sclist(MMAIN, "M-D", 0, do_prev_word_void, 0);
-	add_to_sclist(MMAIN, "M-F", 0, do_next_word_void, 0);
-	add_to_sclist(MMAIN, "M-N", 0, do_next_word_void, 0);
+	add_to_sclist(MMAIN, "M-B", 0, to_prev_word, 0);
+	add_to_sclist(MMAIN, "M-D", 0, to_prev_word, 0);
+	add_to_sclist(MMAIN, "M-F", 0, to_next_word, 0);
+	add_to_sclist(MMAIN, "M-N", 0, to_next_word, 0);
 #endif
-	add_to_sclist(MMOST, "M-Space", 0, do_prev_word_void, 0);
-	add_to_sclist(MMOST, "^Space", 0, do_next_word_void, 0);
+	add_to_sclist(MMOST, "M-Space", 0, to_prev_word, 0);
+	add_to_sclist(MMOST, "^Space", 0, to_next_word, 0);
 	add_to_sclist(MMOST, "^A", 0, do_home, 0);
 	add_to_sclist(MMOST, "Home", KEY_HOME, do_home, 0);
 	add_to_sclist(MMOST, "^E", 0, do_end, 0);
