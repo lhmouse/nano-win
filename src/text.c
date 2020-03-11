@@ -1367,6 +1367,13 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	int charlen = 0;
 		/* The length of the current character, in bytes. */
 
+	/* Skip over leading whitespace, where a line should never be broken. */
+	while (*line != '\0' && is_blank_mbchar(line)) {
+		charlen = advance_over(line, &column);
+		line += charlen;
+		index += charlen;
+	}
+
 	/* Find the last blank that does not overshoot the target column. */
 	while (*line != '\0' && ((ssize_t)column <= goal)) {
 		if (is_blank_mbchar(line))
