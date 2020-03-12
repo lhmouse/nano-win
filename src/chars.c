@@ -79,17 +79,15 @@ bool is_alnum_char(const char *c)
 /* Return TRUE when the given character is space or tab or other whitespace. */
 bool is_blank_char(const char *c)
 {
-#ifdef ENABLE_UTF8
-	if (use_utf8) {
 		wchar_t wc;
+
+	if ((signed char)*c >= 0)
+		return (*c == ' ' || *c == TAB_CODE);
 
 		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 			return FALSE;
 
 		return iswblank(wc);
-	} else
-#endif
-		return isblank((unsigned char)*c);
 }
 
 /* Return TRUE when the given character is a control character. */
