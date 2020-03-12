@@ -1351,11 +1351,10 @@ bool do_wrap(void)
 #endif /* ENABLE_WRAPPING */
 
 #if defined(ENABLE_HELP) || defined(ENABLED_WRAPORJUSTIFY)
-/* We are trying to break a chunk off line.  We find the last blank such
- * that the display length to there is at most (goal + 1).  If there is
- * no such blank, then we find the first blank.  We then take the last
- * blank in that group of blanks.  The terminating '\0' counts as a
- * blank, as does a '\n' if snap_at_nl is TRUE. */
+/* Find the last blank in the given piece of text such that the display width
+ * to that point is at most (goal + 1).  When there is no such blank, then find
+ * the first blank.  Return the index of the last blank in that group of blanks.
+ * When snap_at_nl is TRUE, a newline character counts as a blank too. */
 ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl)
 {
 	const char *lastblank = NULL;
@@ -1387,8 +1386,7 @@ ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl)
 		return (pointer - textstart);
 
 #ifdef ENABLE_HELP
-	/* If we're wrapping a help text and no blank was found, or was
-	 * found only as the first character, force a line break. */
+	/* When wrapping a help text and no blank was found, force a line break. */
 	if (snap_at_nl && lastblank == NULL)
 		return step_left(textstart, pointer - textstart);
 #endif
@@ -1404,7 +1402,6 @@ ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl)
 			pointer += char_length(pointer);
 	}
 
-	/* Move the pointer back to the last blank, and then step beyond it. */
 	pointer = lastblank + char_length(lastblank);
 
 	/* Skip any consecutive blanks after the last blank. */
