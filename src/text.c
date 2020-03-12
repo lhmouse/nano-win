@@ -1394,17 +1394,14 @@ ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl)
 #endif
 
 	/* If no blank was found within the goal width, seek one after it. */
-	if (lastblank == NULL) {
-		while (*pointer != '\0') {
-			if (is_blank_char(pointer))
-				lastblank = pointer;
-			else if (lastblank)
-				return (lastblank - textstart);
+	while (lastblank == NULL) {
+		if (*pointer == '\0')
+			return -1;
 
+		if (is_blank_char(pointer))
+			lastblank = pointer;
+		else
 			pointer += char_length(pointer);
-		}
-
-		return -1;
 	}
 
 	/* Move the pointer back to the last blank, and then step beyond it. */
