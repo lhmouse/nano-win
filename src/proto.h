@@ -204,7 +204,7 @@ void utf8_init(void);
 bool using_utf8(void);
 #endif
 bool is_alpha_mbchar(const char *c);
-bool is_blank_mbchar(const char *c);
+bool is_blank_char(const char *c);
 bool is_cntrl_mbchar(const char *c);
 bool is_word_mbchar(const char *c, bool allow_punct);
 char control_mbrep(const char *c, bool isdata);

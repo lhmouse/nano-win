@@ -76,8 +76,8 @@ bool is_alnum_mbchar(const char *c)
 		return isalnum((unsigned char)*c);
 }
 
-/* This function is equivalent to isblank() for multibyte characters. */
-bool is_blank_mbchar(const char *c)
+/* Return TRUE when the given character is space or tab or other whitespace. */
+bool is_blank_char(const char *c)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
@@ -586,7 +586,7 @@ bool has_blank_char(const char *string)
 	while (*string != '\0') {
 		string += collect_char(string, symbol);
 
-		if (is_blank_mbchar(symbol))
+		if (is_blank_char(symbol))
 			return TRUE;
 	}
 
@@ -597,7 +597,7 @@ bool has_blank_char(const char *string)
 /* Return TRUE when the given string is empty or consists of only blanks. */
 bool white_string(const char *string)
 {
-	while (*string != '\0' && (is_blank_mbchar(string) || *string == '\r'))
+	while (*string != '\0' && (is_blank_char(string) || *string == '\r'))
 		string += char_length(string);
 
 	return !*string;

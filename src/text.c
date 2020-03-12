@@ -1264,7 +1264,7 @@ bool do_wrap(void)
 		openfile->current_x = line_len;
 
 		/* If the remainder doesn't end in a blank, add a space. */
-		if (!is_blank_mbchar(remainder + step_left(remainder, rest_length))) {
+		if (!is_blank_char(remainder + step_left(remainder, rest_length))) {
 #ifndef NANO_TINY
 			add_undo(ADD, NULL);
 #endif
@@ -1290,7 +1290,7 @@ bool do_wrap(void)
 				do_delete();
 #endif
 		/* Remove any extra blanks. */
-		while (is_blank_mbchar(&line->data[openfile->current_x]))
+		while (is_blank_char(&line->data[openfile->current_x]))
 			do_delete();
 	}
 
@@ -1303,7 +1303,7 @@ bool do_wrap(void)
 		size_t typed_x = step_left(line->data, cursor_x);
 
 		while ((rear_x != typed_x || cursor_x >= wrap_loc) &&
-						is_blank_mbchar(line->data + rear_x)) {
+						is_blank_char(line->data + rear_x)) {
 			openfile->current_x = rear_x;
 			do_delete();
 			rear_x = step_left(line->data, rear_x);
@@ -1368,7 +1368,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 		/* The length of the current character, in bytes. */
 
 	/* Skip over leading whitespace, where a line should never be broken. */
-	while (*line != '\0' && is_blank_mbchar(line)) {
+	while (*line != '\0' && is_blank_char(line)) {
 		charlen = advance_over(line, &column);
 		line += charlen;
 		index += charlen;
@@ -1376,7 +1376,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 
 	/* Find the last blank that does not overshoot the target column. */
 	while (*line != '\0' && ((ssize_t)column <= goal)) {
-		if (is_blank_mbchar(line))
+		if (is_blank_char(line))
 			lastblank = index;
 #ifdef ENABLE_HELP
 		else if (snap_at_nl && *line == '\n') {
@@ -1403,7 +1403,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	/* If no blank was found within the goal width, seek one after it. */
 	if (lastblank < 0) {
 		while (*line != '\0') {
-			if (is_blank_mbchar(line))
+			if (is_blank_char(line))
 				lastblank = index;
 			else if (lastblank > 0)
 				return lastblank;
@@ -1422,7 +1422,7 @@ ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
 	line += charlen;
 
 	/* Skip any consecutive blanks after the last blank. */
-	while (*line != '\0' && is_blank_mbchar(line)) {
+	while (*line != '\0' && is_blank_char(line)) {
 		lastblank += charlen;
 		charlen = char_length(line);
 		line += charlen;
@@ -1444,7 +1444,7 @@ size_t indent_length(const char *line)
 	while (*line != '\0') {
 		charlen = collect_char(line, onechar);
 
-		if (!is_blank_mbchar(onechar))
+		if (!is_blank_char(onechar))
 			break;
 
 		line += charlen;
@@ -1606,11 +1606,11 @@ void squeeze(linestruct *line, size_t skip)
 	 * tailing bracket, and change at most two subsequent blanks to spaces, and
 	 * pass over all blanks after these; 3) leave anything else unchanged. */
 	while (*from != '\0') {
-		if (is_blank_mbchar(from)) {
+		if (is_blank_char(from)) {
 			from += char_length(from);
 			*(to++) = ' ';
 
-			while (*from != '\0' && is_blank_mbchar(from))
+			while (*from != '\0' && is_blank_char(from))
 				from += char_length(from);
 		} else if (mbstrchr(punct, from) != NULL) {
 			copy_character(&from, &to);
@@ -1618,16 +1618,16 @@ void squeeze(linestruct *line, size_t skip)
 			if (*from != '\0' && mbstrchr(brackets, from) != NULL)
 				copy_character(&from, &to);
 
-			if (*from != '\0' && is_blank_mbchar(from)) {
+			if (*from != '\0' && is_blank_char(from)) {
 				from += char_length(from);
 				*(to++) = ' ';
 			}
-			if (*from != '\0' && is_blank_mbchar(from)) {
+			if (*from != '\0' && is_blank_char(from)) {
 				from += char_length(from);
 				*(to++) = ' ';
 			}
 
-			while (*from != '\0' && is_blank_mbchar(from))
+			while (*from != '\0' && is_blank_char(from))
 				from += char_length(from);
 		} else
 			copy_character(&from, &to);
@@ -1779,7 +1779,7 @@ void do_justify(bool full_justify)
 
 		/* Recede over blanks before the region.  This effectively snips
 		 * trailing blanks from what will become the preceding paragraph. */
-		while (start_x > 0 && is_blank_mbchar(&startline->data[start_x - 1]))
+		while (start_x > 0 && is_blank_char(&startline->data[start_x - 1]))
 			start_x--;
 
 		quot_len = quote_length(endline->data);

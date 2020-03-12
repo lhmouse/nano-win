@@ -3061,7 +3061,7 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 	/* Now find the place in text where this chunk should end. */
 	while (*text != '\0' && column <= goal_column) {
 		/* When breaking at blanks, do it *before* the target column. */
-		if (ISSET(AT_BLANKS) && is_blank_mbchar(text) && column < goal_column) {
+		if (ISSET(AT_BLANKS) && is_blank_char(text) && column < goal_column) {
 			farthest_blank = text;
 			last_blank_col = column;
 		}
