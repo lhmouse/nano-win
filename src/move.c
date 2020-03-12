@@ -281,7 +281,7 @@ void do_prev_word(bool allow_punct)
 		openfile->current_x = step_left(openfile->current->data,
 												openfile->current_x);
 
-		if (is_word_mbchar(openfile->current->data + openfile->current_x,
+		if (is_word_char(openfile->current->data + openfile->current_x,
 								allow_punct)) {
 			seen_a_word = TRUE;
 			/* If at the head of a line now, this surely is a word start. */
@@ -305,7 +305,7 @@ void do_prev_word(bool allow_punct)
  * part of a word.  Return TRUE if we started on a word, and FALSE otherwise. */
 bool do_next_word(bool after_ends, bool allow_punct)
 {
-	bool started_on_word = is_word_mbchar(openfile->current->data +
+	bool started_on_word = is_word_char(openfile->current->data +
 								openfile->current_x, allow_punct);
 	bool seen_space = !started_on_word;
 #ifndef NANO_TINY
@@ -332,7 +332,7 @@ bool do_next_word(bool after_ends, bool allow_punct)
 		if (after_ends) {
 			/* If this is a word character, continue; else it's a separator,
 			 * and if we've already seen a word, then it's a word end. */
-			if (is_word_mbchar(openfile->current->data + openfile->current_x,
+			if (is_word_char(openfile->current->data + openfile->current_x,
 								allow_punct))
 				seen_word = TRUE;
 			else if (seen_word)
@@ -342,7 +342,7 @@ bool do_next_word(bool after_ends, bool allow_punct)
 		{
 			/* If this is not a word character, then it's a separator; else
 			 * if we've already seen a separator, then it's a word start. */
-			if (!is_word_mbchar(openfile->current->data + openfile->current_x,
+			if (!is_word_char(openfile->current->data + openfile->current_x,
 								allow_punct))
 				seen_space = TRUE;
 			else if (seen_space)

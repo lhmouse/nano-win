@@ -44,7 +44,7 @@ void do_statusbar_end(void)
 /* Move to the next word in the answer. */
 void do_statusbar_next_word(void)
 {
-	bool seen_space = !is_word_mbchar(answer + typing_x, FALSE);
+	bool seen_space = !is_word_char(answer + typing_x, FALSE);
 	bool seen_word = !seen_space;
 
 	/* Move forward until we reach either the end or the start of a word,
@@ -55,14 +55,14 @@ void do_statusbar_next_word(void)
 		if (ISSET(AFTER_ENDS)) {
 			/* If this is a word character, continue; else it's a separator,
 			 * and if we've already seen a word, then it's a word end. */
-			if (is_word_mbchar(answer + typing_x, FALSE))
+			if (is_word_char(answer + typing_x, FALSE))
 				seen_word = TRUE;
 			else if (seen_word)
 				break;
 		} else {
 			/* If this is not a word character, then it's a separator; else
 			 * if we've already seen a separator, then it's a word start. */
-			if (!is_word_mbchar(answer + typing_x, FALSE))
+			if (!is_word_char(answer + typing_x, FALSE))
 				seen_space = TRUE;
 			else if (seen_space)
 				break;
@@ -79,7 +79,7 @@ void do_statusbar_prev_word(void)
 	while (typing_x != 0) {
 		typing_x = step_left(answer, typing_x);
 
-		if (is_word_mbchar(answer + typing_x, FALSE))
+		if (is_word_char(answer + typing_x, FALSE))
 			seen_a_word = TRUE;
 		else if (seen_a_word) {
 			/* This is space now: we've overshot the start of the word. */

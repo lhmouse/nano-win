@@ -206,7 +206,7 @@ bool using_utf8(void);
 bool is_alpha_mbchar(const char *c);
 bool is_blank_char(const char *c);
 bool is_cntrl_mbchar(const char *c);
-bool is_word_mbchar(const char *c, bool allow_punct);
+bool is_word_char(const char *c, bool allow_punct);
 char control_mbrep(const char *c, bool isdata);
 #ifdef ENABLE_UTF8
 int mbwidth(const char *c);

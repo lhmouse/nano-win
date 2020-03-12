@@ -2996,7 +2996,7 @@ char *copy_completion(char *text)
 	size_t length = 0, index = 0;
 
 	/* Find the end of the candidate word to get its length. */
-	while (is_word_mbchar(&text[length], FALSE))
+	while (is_word_char(&text[length], FALSE))
 		length = step_right(text, length);
 
 	/* Now copy this candidate to a new string. */
@@ -3051,7 +3051,7 @@ void complete_a_word(void)
 	while (start_of_shard > 0) {
 		size_t oneleft = step_left(openfile->current->data, start_of_shard);
 
-		if (!is_word_mbchar(&openfile->current->data[oneleft], FALSE))
+		if (!is_word_char(&openfile->current->data[oneleft], FALSE))
 			break;
 		start_of_shard = oneleft;
 	}
@@ -3092,11 +3092,11 @@ void complete_a_word(void)
 				continue;
 
 			/* If the found match is not /longer/ than shard, skip it. */
-			if (!is_word_mbchar(&pletion_line->data[i + j], FALSE))
+			if (!is_word_char(&pletion_line->data[i + j], FALSE))
 				continue;
 
 			/* If the match is not a separate word, skip it. */
-			if (i > 0 && is_word_mbchar(&pletion_line->data[
+			if (i > 0 && is_word_char(&pletion_line->data[
 								step_left(pletion_line->data, i)], FALSE))
 				continue;
 

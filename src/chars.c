@@ -122,10 +122,9 @@ bool is_punct_mbchar(const char *c)
 		return ispunct((unsigned char)*c);
 }
 
-/* Return TRUE when the given multibyte character c is a word-forming
- * character (that is: alphanumeric, or specified in wordchars, or
- * punctuation when allow_punct is TRUE), and FALSE otherwise. */
-bool is_word_mbchar(const char *c, bool allow_punct)
+/* Return TRUE when the given character is word-forming (it is alphanumeric or
+ * specified in 'wordchars', or it is punctuation when allow_punct is TRUE). */
+bool is_word_char(const char *c, bool allow_punct)
 {
 	if (*c == '\0')
 		return FALSE;
