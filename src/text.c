@@ -1356,79 +1356,67 @@ bool do_wrap(void)
  * no such blank, then we find the first blank.  We then take the last
  * blank in that group of blanks.  The terminating '\0' counts as a
  * blank, as does a '\n' if snap_at_nl is TRUE. */
-ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl)
+ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl)
 {
-	ssize_t lastblank = -1;
-		/* The index of the last blank we found. */
-	ssize_t index = 0;
-		/* The index of the character we are looking at. */
+	const char *lastblank = NULL;
+		/* The point where the last blank was found, if any. */
+	const char *pointer = textstart;
+		/* An iterator through the given line of text. */
 	size_t column = 0;
-		/* The column position that corresponds with index. */
-	int charlen = 0;
-		/* The length of the current character, in bytes. */
+		/* The column number that corresponds to the position of the pointer. */
 
 	/* Skip over leading whitespace, where a line should never be broken. */
-	while (*line != '\0' && is_blank_char(line)) {
-		charlen = advance_over(line, &column);
-		line += charlen;
-		index += charlen;
-	}
+	while (*pointer != '\0' && is_blank_char(pointer))
+		pointer += advance_over(pointer, &column);
 
 	/* Find the last blank that does not overshoot the target column. */
-	while (*line != '\0' && ((ssize_t)column <= goal)) {
-		if (is_blank_char(line))
-			lastblank = index;
+	while (*pointer != '\0' && ((ssize_t)column <= goal)) {
+		if (is_blank_char(pointer))
+			lastblank = pointer;
 #ifdef ENABLE_HELP
-		else if (snap_at_nl && *line == '\n') {
-			lastblank = index;
+		else if (snap_at_nl && *pointer == '\n') {
+			lastblank = pointer;
 			break;
 		}
 #endif
-		charlen = advance_over(line, &column);
-		line += charlen;
-		index += charlen;
+		pointer += advance_over(pointer, &column);
 	}
 
 	/* If the whole line displays shorter than goal, we're done. */
 	if ((ssize_t)column <= goal)
-		return index;
+		return (pointer - textstart);
 
 #ifdef ENABLE_HELP
 	/* If we're wrapping a help text and no blank was found, or was
 	 * found only as the first character, force a line break. */
-	if (snap_at_nl && lastblank < 1)
-		return (index - charlen);
+	if (snap_at_nl && lastblank == NULL)
+		return step_left(textstart, pointer - textstart);
 #endif
 
 	/* If no blank was found within the goal width, seek one after it. */
-	if (lastblank < 0) {
-		while (*line != '\0') {
-			if (is_blank_char(line))
-				lastblank = index;
-			else if (lastblank > 0)
-				return lastblank;
+	if (lastblank == NULL) {
+		while (*pointer != '\0') {
+			if (is_blank_char(pointer))
+				lastblank = pointer;
+			else if (lastblank)
+				return (lastblank - textstart);
 
-			charlen = char_length(line);
-			line += charlen;
-			index += charlen;
+			pointer += char_length(pointer);
 		}
 
 		return -1;
 	}
 
 	/* Move the pointer back to the last blank, and then step beyond it. */
-	line = line - index + lastblank;
-	charlen = char_length(line);
-	line += charlen;
+	pointer = lastblank + char_length(lastblank);
 
 	/* Skip any consecutive blanks after the last blank. */
-	while (*line != '\0' && is_blank_char(line)) {
-		lastblank += charlen;
-		charlen = char_length(line);
-		line += charlen;
+	while (*pointer != '\0' && is_blank_char(pointer)) {
+		lastblank = pointer;
+		pointer += char_length(pointer);
 	}
 
-	return lastblank;
+	return (lastblank - textstart);
 }
 #endif /* ENABLE_HELP || ENABLED_WRAPORJUSTIFY */
 
