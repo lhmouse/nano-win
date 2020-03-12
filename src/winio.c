@@ -1857,7 +1857,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 	 * overwritten by a "<" token, then show placeholders instead. */
 	if (*buf != '\0' && *buf != '\t' && (start_col < column ||
 						(start_col > 0 && isdata && !ISSET(SOFTWRAP)))) {
-		if (is_cntrl_mbchar(buf)) {
+		if (is_cntrl_char(buf)) {
 			if (start_col < column) {
 				converted[index++] = control_mbrep(buf, isdata);
 				column++;
@@ -1931,7 +1931,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 		}
 
 		/* Represent a control character with a leading caret. */
-		if (is_cntrl_mbchar(buf)) {
+		if (is_cntrl_char(buf)) {
 			converted[index++] = '^';
 			converted[index++] = control_mbrep(buf, isdata);
 			buf += char_length(buf);

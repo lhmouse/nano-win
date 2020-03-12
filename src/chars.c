@@ -44,8 +44,8 @@ bool using_utf8(void)
 }
 #endif /* ENABLE_UTF8 */
 
-/* This function is equivalent to isalpha() for multibyte characters. */
-bool is_alpha_mbchar(const char *c)
+/* Return TRUE when the given character is some kind of letter. */
+bool is_alpha_char(const char *c)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
@@ -60,8 +60,8 @@ bool is_alpha_mbchar(const char *c)
 		return isalpha((unsigned char)*c);
 }
 
-/* This function is equivalent to isalnum() for multibyte characters. */
-bool is_alnum_mbchar(const char *c)
+/* Return TRUE when the given character is some kind of letter or a digit. */
+bool is_alnum_char(const char *c)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
@@ -92,10 +92,8 @@ bool is_blank_char(const char *c)
 		return isblank((unsigned char)*c);
 }
 
-/* This function is equivalent to iscntrl() for multibyte characters,
- * except in that it also handles multibyte control characters with
- * their high bits set. */
-bool is_cntrl_mbchar(const char *c)
+/* Return TRUE when the given character is a control character. */
+bool is_cntrl_char(const char *c)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
@@ -106,8 +104,8 @@ bool is_cntrl_mbchar(const char *c)
 		return (((unsigned char)*c & 0x60) == 0 || (unsigned char)*c == 127);
 }
 
-/* This function is equivalent to ispunct() for multibyte characters. */
-bool is_punct_mbchar(const char *c)
+/* Return TRUE when the given character is a punctuation character. */
+bool is_punct_char(const char *c)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
@@ -129,7 +127,7 @@ bool is_word_char(const char *c, bool allow_punct)
 	if (*c == '\0')
 		return FALSE;
 
-	if (is_alnum_mbchar(c))
+	if (is_alnum_char(c))
 		return TRUE;
 
 	if (word_chars != NULL && *word_chars != '\0') {
@@ -140,7 +138,7 @@ bool is_word_char(const char *c, bool allow_punct)
 		return (strstr(word_chars, symbol) != NULL);
 	}
 
-	return (allow_punct && is_punct_mbchar(c));
+	return (allow_punct && is_punct_char(c));
 }
 
 /* Return the visible representation of control character c. */
@@ -292,7 +290,7 @@ int advance_over(const char *string, size_t *column)
 		int charlen = mblen(string, MAXCHARLEN);
 
 		if (charlen > 0) {
-			if (is_cntrl_mbchar(string))
+			if (is_cntrl_char(string))
 				*column += 2;
 			else
 				*column += mbwidth(string);

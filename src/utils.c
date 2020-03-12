@@ -209,8 +209,8 @@ bool is_separate_word(size_t position, size_t length, const char *buf)
 	/* If the word starts at the beginning of the line OR the character before
 	 * the word isn't a letter, and if the word ends at the end of the line OR
 	 * the character after the word isn't a letter, we have a whole word. */
-	return ((position == 0 || !is_alpha_mbchar(before)) &&
-				(buf[word_end] == '\0' || !is_alpha_mbchar(after)));
+	return ((position == 0 || !is_alpha_char(before)) &&
+				(buf[word_end] == '\0' || !is_alpha_char(after)));
 }
 #endif /* ENABLE_SPELLER */
 
