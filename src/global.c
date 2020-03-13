@@ -804,8 +804,8 @@ void shortcut_init(void)
 		/* TRANSLATORS: Try to keep the next thirteen strings at most 12 characters. */
 		N_("Cur Pos"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
-#if (defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)) || \
-		!defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && !defined(ENABLE_COLOR))
+#if ((defined(ENABLE_JUSTIFY) && defined(ENABLE_SPELLER)) || \
+		(!defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER)))
 	/* Conditionally placing this one here or further on, to keep the
 	 * help items nicely paired in most conditions. */
 	add_to_funcs(do_gotolinecolumn_void, MMAIN,
@@ -953,8 +953,8 @@ void shortcut_init(void)
 		N_("Next File"), WITHORSANS(nextfile_gist), BLANKAFTER, VIEW);
 #endif
 
-#if (!defined(ENABLE_JUSTIFY) && (defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)) || \
-		defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER) && !defined(ENABLE_COLOR))
+#if ((!defined(ENABLE_JUSTIFY) && defined(ENABLE_SPELLER)) || \
+		(defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER)))
 	add_to_funcs(do_gotolinecolumn_void, MMAIN,
 		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
