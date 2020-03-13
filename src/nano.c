@@ -669,7 +669,7 @@ void usage(void)
 	print_opt("-y", "--afterends", N_("Make Ctrl+Right stop at word ends"));
 #endif
 	if (!ISSET(RESTRICTED))
-		print_opt("-z", "--suspend", N_("Enable suspension"));
+		print_opt("-z", "--suspendable", N_("Enable suspension"));
 #ifndef NANO_TINY
 	print_opt("-$", "--softwrap", N_("Enable soft line wrapping"));
 #endif
@@ -1805,7 +1805,7 @@ int main(int argc, char **argv)
 		{"nowrap", 0, NULL, 'w'},
 #endif
 		{"nohelp", 0, NULL, 'x'},
-		{"suspend", 0, NULL, 'z'},
+		{"suspendable", 0, NULL, 'z'},
 #ifndef NANO_TINY
 		{"smarthome", 0, NULL, 'A'},
 		{"backup", 0, NULL, 'B'},

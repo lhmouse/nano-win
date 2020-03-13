@@ -89,7 +89,8 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_SPELLER
 	{"speller", 0},
 #endif
-	{"suspend", SUSPEND},
+	{"suspend", SUSPEND},   /* Deprecated; remove in 2022. */
+	{"suspendable", SUSPEND},
 	{"tabsize", 0},
 	{"tempfile", TEMP_FILE},
 	{"view", VIEW_MODE},
