@@ -37,7 +37,7 @@ void to_first_line(void)
 void to_last_line(void)
 {
 	openfile->current = openfile->filebot;
-	openfile->current_x = strlen(openfile->filebot->data);
+	openfile->current_x = (inhelp) ? 0 : strlen(openfile->filebot->data);
 	openfile->placewewant = xplustabs();
 
 	/* Set the last line of the screen as the target for the cursor. */
