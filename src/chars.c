@@ -44,6 +44,7 @@ bool using_utf8(void)
 }
 #endif /* ENABLE_UTF8 */
 
+#ifdef ENABLE_SPELLER
 /* Return TRUE when the given character is some kind of letter. */
 bool is_alpha_char(const char *c)
 {
@@ -58,6 +59,7 @@ bool is_alpha_char(const char *c)
 	return isalpha((unsigned char)*c);
 #endif
 }
+#endif /* ENABLE_SPELLER */
 
 /* Return TRUE when the given character is some kind of letter or a digit. */
 bool is_alnum_char(const char *c)
