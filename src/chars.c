@@ -47,28 +47,37 @@ bool using_utf8(void)
 /* Return TRUE when the given character is some kind of letter. */
 bool is_alpha_char(const char *c)
 {
+#ifdef ENABLE_UTF8
 	wchar_t wc;
 
 	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 		return FALSE;
 
 	return iswalpha(wc);
+#else
+	return isalpha((unsigned char)*c);
+#endif
 }
 
 /* Return TRUE when the given character is some kind of letter or a digit. */
 bool is_alnum_char(const char *c)
 {
+#ifdef ENABLE_UTF8
 	wchar_t wc;
 
 	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 		return FALSE;
 
 	return iswalnum(wc);
+#else
+	return isalnum((unsigned char)*c);
+#endif
 }
 
 /* Return TRUE when the given character is space or tab or other whitespace. */
 bool is_blank_char(const char *c)
 {
+#ifdef ENABLE_UTF8
 	wchar_t wc;
 
 	if ((signed char)*c >= 0)
@@ -78,6 +87,9 @@ bool is_blank_char(const char *c)
 		return FALSE;
 
 	return iswblank(wc);
+#else
+	return isblank((unsigned char)*c);
+#endif
 }
 
 /* Return TRUE when the given character is a control character. */
@@ -95,12 +107,16 @@ bool is_cntrl_char(const char *c)
 /* Return TRUE when the given character is a punctuation character. */
 bool is_punct_char(const char *c)
 {
+#ifdef ENABLE_UTF8
 	wchar_t wc;
 
 	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 		return FALSE;
 
 	return iswpunct(wc);
+#else
+	return ispunct((unsigned char)*c);
+#endif
 }
 
 /* Return TRUE when the given character is word-forming (it is alphanumeric or
