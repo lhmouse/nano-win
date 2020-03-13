@@ -456,7 +456,7 @@ disabled to display the help-system navigation keys.
 Make Ctrl+Right stop at word ends instead of beginnings.
 
 @item -z
-@itemx --suspend
+@itemx --suspendable
 Enable the ability to suspend @command{nano} using the system's suspend
 keystroke (usually @kbd{^Z}).
 
@@ -682,7 +682,7 @@ The following global toggles are available:
 --- @pxref{Syntax Highlighting}).
 
 @item Suspension
-@kbd{Meta-Z} toggles the @option{-z} (@option{--suspend}) command-line option.
+@kbd{Meta-Z} toggles the @option{-z} (@option{--suspendable}) command-line option.
 
 @end table
 
@@ -948,8 +948,8 @@ Use this color combination for the status bar.
 Use this color combination for the vertical guiding stripe.
 @xref{@code{set functioncolor}} for valid color names.
 
-@item set suspend
-Allow @command{nano} to be suspended.
+@item set suspendable
+Allow @command{nano} to be suspended (with @kbd{^Z} by default).
 
 @item set tabsize @var{number}
 Use a tab size of @var{number} columns.  The value of @var{number} must be
