@@ -1335,7 +1335,7 @@ void shortcut_init(void)
 #ifdef ENABLE_MOUSE
 	add_to_sclist(MMAIN, "M-M", 0, do_toggle_void, USE_MOUSE);
 #endif
-	add_to_sclist(MMAIN, "M-Z", 0, do_toggle_void, SUSPEND);
+	add_to_sclist(MMAIN, "M-Z", 0, do_toggle_void, SUSPENDABLE);
 #endif /* !NANO_TINY */
 
 	add_to_sclist(((MMOST & ~MMAIN) | MYESNO), "^C", 0, do_cancel, 0);
@@ -1475,7 +1475,7 @@ const char *flagtostr(int flag)
 			return N_("Conversion of typed tabs to spaces");
 		case USE_MOUSE:
 			return N_("Mouse support");
-		case SUSPEND:
+		case SUSPENDABLE:
 			return N_("Suspension");
 		case LINE_NUMBERS:
 			return N_("Line numbering");

@@ -979,7 +979,7 @@ void signal_init(void)
 	sigaction(SIGWINCH, &deed, NULL);
 #endif
 
-	if (ISSET(SUSPEND)) {
+	if (ISSET(SUSPENDABLE)) {
 		/* Block all other signals in the suspend and continue handlers.
 		 * If we don't do this, other stuff interrupts them! */
 		sigfillset(&deed.sa_mask);
@@ -1052,7 +1052,7 @@ RETSIGTYPE do_suspend(int signal)
 /* Put nano to sleep (if suspension is enabled). */
 void do_suspend_void(void)
 {
-	if (ISSET(SUSPEND))
+	if (ISSET(SUSPENDABLE))
 		do_suspend(0);
 	else {
 		statusbar(_("Suspension is not enabled"));
@@ -1151,7 +1151,7 @@ void do_toggle(int flag)
 {
 	bool enabled;
 
-	if (flag == SUSPEND && in_restricted_mode())
+	if (flag == SUSPENDABLE && in_restricted_mode())
 		return;
 
 	TOGGLE(flag);
@@ -1167,7 +1167,7 @@ void do_toggle(int flag)
 			mouse_init();
 			break;
 #endif
-		case SUSPEND:
+		case SUSPENDABLE:
 			signal_init();
 			break;
 		case SOFTWRAP:
@@ -2112,7 +2112,7 @@ int main(int argc, char **argv)
 				break;
 #endif
 			case 'z':
-				SET(SUSPEND);
+				SET(SUSPENDABLE);
 				break;
 #ifndef NANO_TINY
 			case '$':
@@ -2239,7 +2239,7 @@ int main(int argc, char **argv)
 	 * since they allow writing to files not specified on the command line. */
 	if (ISSET(RESTRICTED)) {
 		UNSET(BACKUP_FILE);
-		UNSET(SUSPEND);
+		UNSET(SUSPENDABLE);
 #ifdef ENABLE_NANORC
 		UNSET(HISTORYLOG);
 		UNSET(POSITIONLOG);

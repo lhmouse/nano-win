@@ -89,8 +89,8 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_SPELLER
 	{"speller", 0},
 #endif
-	{"suspend", SUSPEND},   /* Deprecated; remove in 2022. */
-	{"suspendable", SUSPEND},
+	{"suspend", SUSPENDABLE},  /* Deprecated; remove in 2022. */
+	{"suspendable", SUSPENDABLE},
 	{"tabsize", 0},
 	{"tempfile", TEMP_FILE},
 	{"view", VIEW_MODE},
@@ -467,7 +467,7 @@ keystruct *strtosc(const char *input)
 			s->toggle = USE_MOUSE;
 #endif
 		else if (!strcmp(input, "suspendenable"))
-			s->toggle = SUSPEND;
+			s->toggle = SUSPENDABLE;
 		else
 #endif /* !NANO_TINY */
 		{
