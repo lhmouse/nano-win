@@ -1518,7 +1518,8 @@ Toggles whether typed tabs will be converted to spaces.
 Toggles mouse support.
 
 @item suspendenable
-Toggles whether the suspend shortcut (normally @kbd{^Z}) will suspend the editor.
+Toggles whether the suspend keystroke (@kbd{^Z} by default)
+will actually suspend the editor.
 
 @end table
 
