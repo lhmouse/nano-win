@@ -1368,9 +1368,10 @@ ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl)
 	while (*pointer != '\0' && is_blank_char(pointer))
 		pointer += advance_over(pointer, &column);
 
-	/* Find the last blank that does not overshoot the target column. */
+	/* Find the last blank that does not overshoot the target column.
+	 * When treating a help text, do not break in the keystrokes area. */
 	while (*pointer != '\0' && ((ssize_t)column <= goal)) {
-		if (is_blank_char(pointer))
+		if (is_blank_char(pointer) && (!inhelp || column > 17 || goal < 32))
 			lastblank = pointer;
 #ifdef ENABLE_HELP
 		else if (snap_at_nl && *pointer == '\n') {
