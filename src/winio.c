@@ -2823,6 +2823,8 @@ int update_softwrapped_line(linestruct *line)
 		/* The end column of the current chunk. */
 	char *converted;
 		/* The data of the chunk with tabs and control characters expanded. */
+	bool end_of_line = FALSE;
+		/* Becomes TRUE when the last chunk of the line has been reached. */
 
 	if (line == openfile->edittop)
 		from_col = openfile->firstcolumn;
@@ -2844,9 +2846,7 @@ int update_softwrapped_line(linestruct *line)
 
 	starting_row = row;
 
-	while (row < editwinrows) {
-		bool end_of_line = FALSE;
-
+	while (!end_of_line && row < editwinrows) {
 		to_col = get_softwrap_breakpoint(line->data, from_col, &end_of_line);
 
 		sequel_column = (end_of_line) ? 0 : to_col;
@@ -2856,9 +2856,6 @@ int update_softwrapped_line(linestruct *line)
 									TRUE, FALSE);
 		draw_row(row++, converted, line, from_col);
 		free(converted);
-
-		if (end_of_line)
-			break;
 
 		from_col = to_col;
 	}
