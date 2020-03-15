@@ -466,7 +466,8 @@ keystruct *strtosc(const char *input)
 		else if (!strcmp(input, "mouse"))
 			s->toggle = USE_MOUSE;
 #endif
-		else if (!strcmp(input, "suspendenable"))
+		else if (!strcmp(input, "suspendable") ||
+		         !strcmp(input, "suspendenable"))  /* Deprecated; remove in 2022. */
 			s->toggle = SUSPENDABLE;
 		else
 #endif /* !NANO_TINY */

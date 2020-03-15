@@ -1406,7 +1406,7 @@ Refreshes the screen.
 
 @item suspend
 Suspends the editor (if the suspending function is enabled, see the
-"suspendenable" entry below).
+@code{suspendable} toggle item below).
 
 @item casesens
 Toggles whether searching/replacing ignores or respects the case of
@@ -1517,9 +1517,10 @@ Toggles whether typed tabs will be converted to spaces.
 @item mouse
 Toggles mouse support.
 
-@item suspendenable
+@item suspendable
 Toggles whether the suspend keystroke (@kbd{^Z} by default)
 will actually suspend the editor.
+(The old name of this function, 'suspendenable', is deprecated.)
 
 @end table
 
