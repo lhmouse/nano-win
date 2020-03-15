@@ -2860,11 +2860,6 @@ int update_softwrapped_line(linestruct *line)
 		if (end_of_line)
 			break;
 
-		/* If the line is softwrapped early (because of a two-column character),
-		 * show a "[" placeholder, unless we're softwrapping at blanks. */
-		if (!ISSET(AT_BLANKS) && to_col - from_col < editwincols)
-			mvwaddch(edit, row - 1, to_col - from_col, '[');
-
 		from_col = to_col;
 	}
 
