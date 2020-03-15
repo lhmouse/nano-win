@@ -265,7 +265,7 @@ keystruct *strtosc(const char *input)
 #endif
 #ifdef ENABLE_SPELLER
 	else if (!strcmp(input, "tospell") ||
-			 !strcmp(input, "speller"))
+	         !strcmp(input, "speller"))
 		s->func = do_spell;
 #endif
 #ifdef ENABLE_COLOR
@@ -304,10 +304,10 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "unindent"))
 		s->func = do_unindent;
 	else if (!strcmp(input, "chopwordleft") ||
-			 !strcmp(input, "cutwordleft"))  /* Deprecated; remove in 2021. */
+	         !strcmp(input, "cutwordleft"))  /* Deprecated; remove in 2021. */
 		s->func = chop_previous_word;
 	else if (!strcmp(input, "chopwordright") ||
-			 !strcmp(input, "cutwordright"))  /* Deprecated; remove in 2021. */
+	         !strcmp(input, "cutwordright"))  /* Deprecated; remove in 2021. */
 		s->func = chop_next_word;
 	else if (!strcmp(input, "findbracket"))
 		s->func = do_find_bracket;
@@ -323,16 +323,16 @@ keystruct *strtosc(const char *input)
 		s->func = do_redo;
 #endif
 	else if (!strcmp(input, "left") ||
-			 !strcmp(input, "back"))
+	         !strcmp(input, "back"))
 		s->func = do_left;
 	else if (!strcmp(input, "right") ||
-			 !strcmp(input, "forward"))
+	         !strcmp(input, "forward"))
 		s->func = do_right;
 	else if (!strcmp(input, "up") ||
-			 !strcmp(input, "prevline"))
+	         !strcmp(input, "prevline"))
 		s->func = do_up;
 	else if (!strcmp(input, "down") ||
-			 !strcmp(input, "nextline"))
+	         !strcmp(input, "nextline"))
 		s->func = do_down;
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	else if (!strcmp(input, "scrollup"))
@@ -353,10 +353,10 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "nextblock"))
 		s->func = to_next_block;
 	else if (!strcmp(input, "pageup") ||
-			 !strcmp(input, "prevpage"))
+	         !strcmp(input, "prevpage"))
 		s->func = do_page_up;
 	else if (!strcmp(input, "pagedown") ||
-			 !strcmp(input, "nextpage"))
+	         !strcmp(input, "nextpage"))
 		s->func = do_page_down;
 	else if (!strcmp(input, "firstline"))
 		s->func = to_first_line;
@@ -422,7 +422,7 @@ keystruct *strtosc(const char *input)
 #endif
 #ifdef ENABLE_BROWSER
 	else if (!strcmp(input, "tofiles") ||
-			 !strcmp(input, "browser"))
+	         !strcmp(input, "browser"))
 		s->func = to_files;
 	else if (!strcmp(input, "gotodir"))
 		s->func = goto_dir;
