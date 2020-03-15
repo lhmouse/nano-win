@@ -1371,7 +1371,7 @@ ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl)
 	/* Find the last blank that does not overshoot the target column.
 	 * When treating a help text, do not break in the keystrokes area. */
 	while (*pointer != '\0' && ((ssize_t)column <= goal)) {
-		if (is_blank_char(pointer) && (!inhelp || column > 17 || goal < 32))
+		if (is_blank_char(pointer) && (!inhelp || column > 17 || goal < 40))
 			lastblank = pointer;
 #ifdef ENABLE_HELP
 		else if (snap_at_nl && *pointer == '\n') {
