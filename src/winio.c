@@ -2318,7 +2318,8 @@ void bottombars(int menu)
 
 		wmove(bottomwin, 1 + i % 2, (i / 2) * itemwidth);
 
-		post_one_key(s->keystr, _(f->desc), itemwidth + (COLS % itemwidth));
+		post_one_key(s->keystr, _(f->desc), itemwidth +
+								((i < number - 2) ? 0 : COLS % itemwidth));
 		i++;
 	}
 
