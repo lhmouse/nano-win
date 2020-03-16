@@ -2284,9 +2284,9 @@ void warn_and_shortly_pause(const char *msg)
  * of the bottom portion of the window. */
 void bottombars(int menu)
 {
-	size_t number, itemwidth, i;
-	funcstruct *f;
+	size_t index, number, itemwidth;
 	const keystruct *s;
+	funcstruct *f;
 
 	/* Set the global variable to the given menu. */
 	currmenu = menu;
@@ -2308,19 +2308,20 @@ void bottombars(int menu)
 
 	/* Display the first number of shortcuts in the given menu that
 	 * have a key combination assigned to them. */
-	for (f = allfuncs, i = 0; i < number && f != NULL; f = f->next) {
+	for (f = allfuncs, index = 0; f != NULL && index < number; f = f->next) {
 		if ((f->menus & menu) == 0)
 			continue;
 
 		s = first_sc_for(menu, f->func);
+
 		if (s == NULL)
 			continue;
 
-		wmove(bottomwin, 1 + i % 2, (i / 2) * itemwidth);
+		wmove(bottomwin, 1 + index % 2, (index / 2) * itemwidth);
 
 		post_one_key(s->keystr, _(f->desc), itemwidth +
-								((i < number - 2) ? 0 : COLS % itemwidth));
-		i++;
+								((index < number - 2) ? 0 : COLS % itemwidth));
+		index++;
 	}
 
 	/* Defeat a VTE bug by homing the cursor and forcing a screen update. */
