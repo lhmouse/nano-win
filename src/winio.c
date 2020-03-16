@@ -2280,6 +2280,26 @@ void warn_and_shortly_pause(const char *msg)
 	napms(1500);
 }
 
+/* Write a key's representation plus a minute description of its function
+ * to the screen.  For example, the key could be "^C" and its tag "Cancel".
+ * Key plus tag may occupy at most width columns. */
+void post_one_key(const char *keystroke, const char *tag, int width)
+{
+	wattron(bottomwin, interface_color_pair[KEY_COMBO]);
+	waddnstr(bottomwin, keystroke, actual_x(keystroke, width));
+	wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
+
+	/* If the remaning space is too small, skip the description. */
+	width -= breadth(keystroke);
+	if (width < 2)
+		return;
+
+	waddch(bottomwin, ' ');
+	wattron(bottomwin, interface_color_pair[FUNCTION_TAG]);
+	waddnstr(bottomwin, tag, actual_x(tag, width - 1));
+	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG]);
+}
+
 /* Display the shortcut list corresponding to menu on the last two rows
  * of the bottom portion of the window. */
 void bottombars(int menu)
@@ -2327,26 +2347,6 @@ void bottombars(int menu)
 	/* Defeat a VTE bug by homing the cursor and forcing a screen update. */
 	wmove(bottomwin, 0, 0);
 	wrefresh(bottomwin);
-}
-
-/* Write a key's representation plus a minute description of its function
- * to the screen.  For example, the key could be "^C" and its tag "Cancel".
- * Key plus tag may occupy at most width columns. */
-void post_one_key(const char *keystroke, const char *tag, int width)
-{
-	wattron(bottomwin, interface_color_pair[KEY_COMBO]);
-	waddnstr(bottomwin, keystroke, actual_x(keystroke, width));
-	wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
-
-	/* If the remaning space is too small, skip the description. */
-	width -= breadth(keystroke);
-	if (width < 2)
-		return;
-
-	waddch(bottomwin, ' ');
-	wattron(bottomwin, interface_color_pair[FUNCTION_TAG]);
-	waddnstr(bottomwin, tag, actual_x(tag, width - 1));
-	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG]);
 }
 
 /* Redetermine current_y from the position of current relative to edittop,
