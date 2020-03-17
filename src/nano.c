@@ -671,7 +671,7 @@ void usage(void)
 	if (!ISSET(RESTRICTED))
 		print_opt("-z", "--suspendable", N_("Enable suspension"));
 #ifndef NANO_TINY
-	print_opt("-$", "--softwrap", N_("Enable soft line wrapping"));
+	print_opt("-$", "--softwrap", N_("Display overlong lines on multiple rows"));
 #endif
 }
 
