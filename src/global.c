@@ -655,10 +655,8 @@ void shortcut_init(void)
 	const char *wordcount_gist =
 		N_("Count the number of words, lines, and characters");
 #endif
-	const char *refresh_gist =
-		N_("Refresh (redraw) the current screen");
-	const char *suspend_gist =
-		N_("Suspend the editor (if suspension is enabled)");
+	const char *refresh_gist = N_("Refresh (redraw) the current screen");
+	const char *suspend_gist = N_("Suspend the editor (if suspension is enabled)");
 #ifdef ENABLE_WORDCOMPLETION
 	const char *completion_gist = N_("Try and complete the current word");
 #endif
@@ -677,10 +675,8 @@ void shortcut_init(void)
 	const char *reverse_gist = N_("Reverse the direction of the search");
 	const char *regexp_gist = N_("Toggle the use of regular expressions");
 #ifdef ENABLE_HISTORIES
-	const char *older_gist =
-		N_("Recall the previous search/replace string");
-	const char *newer_gist =
-		N_("Recall the next search/replace string");
+	const char *older_gist = N_("Recall the previous search/replace string");
+	const char *newer_gist = N_("Recall the next search/replace string");
 #endif
 #ifndef NANO_TINY
 	const char *dos_gist = N_("Toggle the use of DOS format");
@@ -1128,14 +1124,14 @@ void shortcut_init(void)
 #endif
 
 	/* Link key combos to functions in certain menus. */
-	add_to_sclist(MMOST|MBROWSER, "^M", 0, do_enter, 0);
+	add_to_sclist(MMOST|MBROWSER, "^M", '\r', do_enter, 0);
 	add_to_sclist(MMOST|MBROWSER, "Enter", KEY_ENTER, do_enter, 0);
 	add_to_sclist(MMOST, "^H", '\b', do_backspace, 0);
 	add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
 	add_to_sclist(MMOST, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
 	add_to_sclist(MMOST, "^D", 0, do_delete, 0);
 	add_to_sclist(MMOST, "Del", KEY_DC, do_delete, 0);
-	add_to_sclist(MMOST, "^I", 0, do_tab, 0);
+	add_to_sclist(MMOST, "^I", '\t', do_tab, 0);
 	add_to_sclist(MMOST, "Tab", '\t', do_tab, 0);
 	add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "^X", 0, do_exit, 0);
@@ -1152,7 +1148,7 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "^K", 0, cut_text, 0);
 	add_to_sclist(MMOST, "^U", 0, paste_text, 0);
 #ifdef ENABLE_JUSTIFY
-	add_to_sclist(MMAIN, "^J", 0, do_justify_void, 0);
+	add_to_sclist(MMAIN, "^J", '\n', do_justify_void, 0);
 #endif
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "^T", 0, do_spell, 0);
