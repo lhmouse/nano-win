@@ -142,7 +142,7 @@
 ## beginning of the line.
 # set smarthome
 
-## Enable soft line wrapping (AKA full-line display).
+## Spread overlong lines over multiple screen lines.
 # set softwrap
 
 ## Use this spelling checker instead of the internal one.  This option

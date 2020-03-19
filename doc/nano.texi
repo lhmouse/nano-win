@@ -462,9 +462,10 @@ keystroke (usually @kbd{^Z}).
 
 @item -$
 @itemx --softwrap
-Enable 'soft wrapping'.  This will make @command{nano} attempt to display the
-entire contents of any line, even if it is longer than the screen width, by
-continuing it over multiple screen lines.  Since
+Display lines that exceed the screen's width over multiple screen lines.
+(You can make this soft-wrapping occur at whitespace instead of rudely at
+the screen's edge, by using also @code{--atblanks}.)
+Since
 @code{$} normally refers to a variable in the Unix shell, you should specify
 this option last when using other options (e.g.@: @code{nano -wS$}) or pass it
 separately (e.g.@: @code{nano -wS -$}).
@@ -934,7 +935,9 @@ Deprecated option since it has become the default setting.
 When needed, use @code{unset jumpyscrolling} instead.
 
 @item set softwrap
-Enable soft line wrapping for easier viewing of very long lines.
+Display lines that exceed the screen's width over multiple screen lines.
+(You can make this soft-wrapping occur at whitespace instead of rudely at
+the screen's edge, by using also @code{set atblanks}.)
 
 @item set speller "@var{program} [@var{argument} @dots{}]"
 Use the given program to do spell checking and correcting.

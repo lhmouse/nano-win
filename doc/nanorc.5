@@ -267,7 +267,9 @@ Deprecated option since it has become the default setting.
 When needed, use \fBunset jumpyscrolling\fR instead.
 .TP
 .B set softwrap
-Enable soft line wrapping for easier viewing of very long lines.
+Display lines that exceed the screen's width over multiple screen lines.
+(You can make this soft-wrapping occur at whitespace instead of rudely at
+the screen's edge, by using also \fBset atblanks\fR.)
 .TP
 .B set speller """\fIprogram\fR [\fIargument \fR...]\fB"""
 Use the given \fIprogram\fR to do spell checking and correcting, instead of
