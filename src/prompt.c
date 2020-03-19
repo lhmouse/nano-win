@@ -460,7 +460,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 		if (func == do_tab) {
 #ifdef ENABLE_HISTORIES
 			if (history_list != NULL) {
-				if (last_kbinput != the_code_for(do_tab, TAB_CODE))
+				if (last_kbinput != the_code_for(do_tab, '\t'))
 					complete_len = strlen(answer);
 
 				if (complete_len > 0) {

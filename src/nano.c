@@ -1469,13 +1469,13 @@ void suck_up_input_and_paste_it(void)
 	while (bracketed_paste) {
 		int input = get_kbinput(edit, BLIND);
 
-		if (input == CR_CODE) {
+		if (input == '\r') {
 			line->next = make_new_node(line);
 			line = line->next;
 			line->data = copy_of("");
 			index = 0;
 		} else if ((0x20 <= input && input <= 0xFF && input != DEL_CODE) ||
-													input == TAB_CODE) {
+														input == '\t') {
 			line->data = charealloc(line->data, index + 2);
 			line->data[index++] = (char)input;
 			line->data[index] = '\0';

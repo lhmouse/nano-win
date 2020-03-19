@@ -83,7 +83,7 @@ bool is_blank_char(const char *c)
 	wchar_t wc;
 
 	if ((signed char)*c >= 0)
-		return (*c == ' ' || *c == TAB_CODE);
+		return (*c == ' ' || *c == '\t');
 
 	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
 		return FALSE;

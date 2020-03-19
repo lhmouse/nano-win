@@ -930,7 +930,7 @@ int parse_kbinput(WINDOW *win)
 		case 1:
 			if (keycode >= 0x80)
 				retval = keycode;
-			else if (keycode == TAB_CODE)
+			else if (keycode == '\t')
 				retval = SHIFT_TAB;
 			else if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
 						key_buffer_len == 0 || *key_buffer == ESC_CODE) {
@@ -1144,7 +1144,7 @@ int parse_kbinput(WINDOW *win)
 		}
 		/* Is Shift being held? */
 		if (modifiers & 0x01) {
-			if (retval == TAB_CODE)
+			if (retval == '\t')
 				return SHIFT_TAB;
 			if (!meta_key)
 				shift_held = TRUE;
@@ -1194,7 +1194,7 @@ int parse_kbinput(WINDOW *win)
 
 #ifndef NANO_TINY
 	/* When <Tab> is pressed while the mark is on, do an indent. */
-	if (retval == TAB_CODE && openfile->mark && currmenu == MMAIN &&
+	if (retval == '\t' && openfile->mark && currmenu == MMAIN &&
 				!bracketed_paste && openfile->mark != openfile->current)
 		return INDENT_KEY;
 #endif

@@ -1130,13 +1130,13 @@ void shortcut_init(void)
 	/* Link key combos to functions in certain menus. */
 	add_to_sclist(MMOST|MBROWSER, "^M", 0, do_enter, 0);
 	add_to_sclist(MMOST|MBROWSER, "Enter", KEY_ENTER, do_enter, 0);
-	add_to_sclist(MMOST, "^H", BS_CODE, do_backspace, 0);
+	add_to_sclist(MMOST, "^H", '\b', do_backspace, 0);
 	add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
 	add_to_sclist(MMOST, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
 	add_to_sclist(MMOST, "^D", 0, do_delete, 0);
 	add_to_sclist(MMOST, "Del", KEY_DC, do_delete, 0);
 	add_to_sclist(MMOST, "^I", 0, do_tab, 0);
-	add_to_sclist(MMOST, "Tab", TAB_CODE, do_tab, 0);
+	add_to_sclist(MMOST, "Tab", '\t', do_tab, 0);
 	add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "^X", 0, do_exit, 0);
 	if (!ISSET(PRESERVE))
