@@ -1439,19 +1439,6 @@ size_t indent_length(const char *line)
 #endif
 
 #ifdef ENABLE_JUSTIFY
-/* Copy a character from one place to another. */
-void copy_character(char **from, char **to)
-{
-	int charlen = char_length(*from);
-
-	if (*from == *to) {
-		*from += charlen;
-		*to += charlen;
-	} else
-		while (--charlen >= 0)
-			*((*to)++) = *((*from)++);
-}
-
 /* Return the length of the quote part of the given line.  The "quote part"
  * of a line is the largest initial substring matching the quoting regex. */
 size_t quote_length(const char *line)
@@ -1573,6 +1560,19 @@ void concat_paragraph(linestruct *line, size_t count)
 		unlink_node(next_line);
 		count--;
 	}
+}
+
+/* Copy a character from one place to another. */
+void copy_character(char **from, char **to)
+{
+	int charlen = char_length(*from);
+
+	if (*from == *to) {
+		*from += charlen;
+		*to += charlen;
+	} else
+		while (--charlen >= 0)
+			*((*to)++) = *((*from)++);
 }
 
 /* In the given line, replace any series of blanks with a single space,

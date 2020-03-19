@@ -366,6 +366,51 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc,
 #endif
 }
 
+/* Parse the given keystring and return the corresponding keycode,
+ * or return -1 when the string is invalid. */
+int keycode_from_string(const char *keystring)
+{
+	if (keystring[0] == '^') {
+		if (keystring[2] == '\0') {
+			if (keystring[1] == '/')
+				return 31;
+			if (keystring[1] <= '_')
+				return keystring[1] - 64;
+			if (keystring[1] == '`')
+				return 0;
+			else
+				return -1;
+		} else if (strcasecmp(keystring, "^Space") == 0)
+			return 0;
+		else
+			return -1;
+	} else if (keystring[0] == 'M') {
+		if (keystring[1] == '-' && keystring[3] == '\0')
+			return tolower((unsigned char)keystring[2]);
+		if (strcasecmp(keystring, "M-Space") == 0)
+			return (int)' ';
+		else
+			return -1;
+#ifdef ENABLE_NANORC
+	} else if (strncasecmp(keystring, "Sh-M-", 5) == 0 &&
+				'a' <= (keystring[5] | 0x20) && (keystring[5] | 0x20) <= 'z' &&
+				keystring[6] == '\0') {
+		shifted_metas = TRUE;
+		return (keystring[5] & 0x5F);
+#endif
+	} else if (keystring[0] == 'F') {
+		int fn = atoi(&keystring[1]);
+		if (fn < 1 || fn > 24)
+			return -1;
+		return KEY_F0 + fn;
+	} else if (strcasecmp(keystring, "Ins") == 0)
+		return KEY_IC;
+	else if (strcasecmp(keystring, "Del") == 0)
+		return KEY_DC;
+	else
+		return -1;
+}
+
 /* Add a key combo to the linked list of shortcuts. */
 void add_to_sclist(int menus, const char *scstring, const int keycode,
 						void (*func)(void), int toggle)
@@ -512,51 +557,6 @@ functionptrtype interpret(int *keycode)
 	return func_from_key(keycode);
 }
 #endif /* ENABLE_BROWSER || ENABLE_HELP */
-
-/* Parse the given keystring and return the corresponding keycode,
- * or return -1 when the string is invalid. */
-int keycode_from_string(const char *keystring)
-{
-	if (keystring[0] == '^') {
-		if (keystring[2] == '\0') {
-			if (keystring[1] == '/')
-				return 31;
-			if (keystring[1] <= '_')
-				return keystring[1] - 64;
-			if (keystring[1] == '`')
-				return 0;
-			else
-				return -1;
-		} else if (strcasecmp(keystring, "^Space") == 0)
-			return 0;
-		else
-			return -1;
-	} else if (keystring[0] == 'M') {
-		if (keystring[1] == '-' && keystring[3] == '\0')
-			return tolower((unsigned char)keystring[2]);
-		if (strcasecmp(keystring, "M-Space") == 0)
-			return (int)' ';
-		else
-			return -1;
-#ifdef ENABLE_NANORC
-	} else if (strncasecmp(keystring, "Sh-M-", 5) == 0 &&
-				'a' <= (keystring[5] | 0x20) && (keystring[5] | 0x20) <= 'z' &&
-				keystring[6] == '\0') {
-		shifted_metas = TRUE;
-		return (keystring[5] & 0x5F);
-#endif
-	} else if (keystring[0] == 'F') {
-		int fn = atoi(&keystring[1]);
-		if (fn < 1 || fn > 24)
-			return -1;
-		return KEY_F0 + fn;
-	} else if (strcasecmp(keystring, "Ins") == 0)
-		return KEY_IC;
-	else if (strcasecmp(keystring, "Del") == 0)
-		return KEY_DC;
-	else
-		return -1;
-}
 
 /* These two tags are used elsewhere too, so they are global. */
 /* TRANSLATORS: Try to keep the next two strings at most 10 characters. */
