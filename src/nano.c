@@ -1469,7 +1469,7 @@ void suck_up_input_and_paste_it(void)
 	while (bracketed_paste) {
 		int input = get_kbinput(edit, BLIND);
 
-		if (input == '\r') {
+		if (input == '\r' || input == '\n') {
 			line->next = make_new_node(line);
 			line = line->next;
 			line->data = copy_of("");
