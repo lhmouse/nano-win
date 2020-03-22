@@ -99,11 +99,11 @@ bool is_cntrl_char(const char *c)
 {
 #ifdef ENABLE_UTF8
 	if (use_utf8) {
-		return ((c[0] & 0xE0) == 0 || c[0] == 127 ||
+		return ((c[0] & 0xE0) == 0 || c[0] == DEL_CODE ||
 				((signed char)c[0] == -62 && (signed char)c[1] < -96));
 	} else
 #endif
-		return (((unsigned char)*c & 0x60) == 0 || (unsigned char)*c == 127);
+		return ((*c & 0x60) == 0 || *c == DEL_CODE);
 }
 
 /* Return TRUE when the given character is a punctuation character. */
