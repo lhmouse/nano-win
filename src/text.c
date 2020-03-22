@@ -1763,7 +1763,7 @@ void do_justify(bool full_justify)
 		/* Recede over blanks before the region.  This effectively snips
 		 * trailing blanks from what will become the preceding paragraph. */
 		while (start_x > 0 && is_blank_char(&startline->data[start_x - 1]))
-			start_x--;
+			start_x = step_left(startline->data, start_x);
 
 		quot_len = quote_length(endline->data);
 		fore_len = quot_len + indent_length(endline->data + quot_len);
@@ -1774,7 +1774,7 @@ void do_justify(bool full_justify)
 
 		/* Advance over blanks after the region. */
 		while (is_blank_char(&endline->data[end_x]))
-			end_x++;
+			end_x = step_right(endline->data, end_x);
 
 		sampleline = startline;
 
