@@ -1829,8 +1829,10 @@ void do_justify(bool full_justify)
 		 * last line of the file, so put the cursor at the end of it. */
 		if (!find_paragraph(&openfile->current, &linecount)) {
 			openfile->current_x = strlen(openfile->filebot->data);
-			refresh_needed = TRUE;
+#ifndef NANO_TINY
 			discard_until(openfile->undotop->next);
+#endif
+			refresh_needed = TRUE;
 			return;
 		}
 
