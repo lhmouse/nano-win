@@ -1772,6 +1772,10 @@ void do_justify(bool full_justify)
 		if (0 < end_x && end_x < fore_len)
 			end_x = fore_len;
 
+		/* Advance over blanks after the region. */
+		while (is_blank_char(&endline->data[end_x]))
+			end_x++;
+
 		sampleline = startline;
 
 		/* Find the first line of the paragraph in which the region starts. */
