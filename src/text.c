@@ -1012,7 +1012,7 @@ void add_undo(undo_type action, const char *message)
 		break;
 #endif
 	case CUT_TO_EOF:
-		u->xflags |= INCLUDED_LAST_LINE;
+		u->xflags |= (INCLUDED_LAST_LINE | WAS_MARKED_BACKWARDS);
 		break;
 	case ZAP:
 	case CUT:
