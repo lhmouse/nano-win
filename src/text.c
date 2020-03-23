@@ -1772,8 +1772,8 @@ void do_justify(bool full_justify)
 		if (0 < end_x && end_x < fore_len)
 			end_x = fore_len;
 
-		/* Advance over blanks after the region. */
-		while (is_blank_char(&endline->data[end_x]))
+		/* When not at the left edge, advance over blanks after the region. */
+		while (end_x > 0 && is_blank_char(&endline->data[end_x]))
 			end_x = step_right(endline->data, end_x);
 
 		sampleline = startline;
