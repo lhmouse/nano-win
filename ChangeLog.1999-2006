@@ -3007,7 +3007,7 @@ GNU nano 1.3.5 - 2004.11.22
 	- Don't change the file format when we insert another file into
 	  the current one. (DLR)
   do_insertfile()
-	- Simplify by reusing variables whereever possible, and add a
+	- Simplify by reusing variables wherever possible, and add a
 	  parameter execute to indicate whether or not to be in "Execute
 	  Command" mode. (DLR)
 	- Rework so that goto is no longer needed, using do_writeout()
@@ -6847,7 +6847,7 @@ nano-1.0.0 - 2001.03.22
 	  edit update.  Fixes bug #57.
 - search.c:
   print_replaced()
-	- s/occurence/occurrence typos. (Jordi)
+	- Fix typos in "occurrence". (Jordi)
   search_init()
 	- If using Pico mode and regex and same answer is entered, use
 	  last_search string instead of answer.  Fixes bug #56.

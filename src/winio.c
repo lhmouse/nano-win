@@ -2289,7 +2289,7 @@ void post_one_key(const char *keystroke, const char *tag, int width)
 	waddnstr(bottomwin, keystroke, actual_x(keystroke, width));
 	wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
 
-	/* If the remaning space is too small, skip the description. */
+	/* If the remaining space is too small, skip the description. */
 	width -= breadth(keystroke);
 	if (width < 2)
 		return;

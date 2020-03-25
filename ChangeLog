@@ -249,7 +249,7 @@ Benno Schulenberg (166):
       docs: improve the description of which rc-files are read during startup
       docs: mention in the FAQ that auto-indentation is suppressed when pasting
       docs: mention that -D/--boldtext gets overridden by some nanorc options
-      docs: put the three new behaviors in a bulletted list, to catch the eye
+      docs: put the three new behaviors in a bulleted list, to catch the eye
       docs: stop saying that 'set fill' enables hard-wrapping -- it does not
       docs: use more generally available arrows in the cheatsheet
       feedback: ask a clearer question when a valid lock file is encountered
@@ -636,7 +636,7 @@ Benno Schulenberg (60):
       tweaks: sort two keywords strictly alphabetically
       tweaks: speed up determining the width of plain ASCII characters
       tweaks: speed up the counting of the menu entries to be shown
-      tweaks: use a more effecient way to skip storing an empty file name
+      tweaks: use a more efficient way to skip storing an empty file name
       tweaks: use an early return when there is no tilde
       tweaks: use 'void' in prototypes of parameterless functions  [coverity]
       usage: mark the -J/--guidestripe option plus argument as translatable
@@ -1402,7 +1402,7 @@ Benno Schulenberg (87):
       tweaks: remove a check that was made redundant by the previous commit
       tweaks: remove a now-unused parameter from four functions
       tweaks: remove an unneeded check for NULL, and rename a parameter
-      tweaks: remove a stray file that was accidentally comitted
+      tweaks: remove a stray file that was accidentally committed
       tweaks: remove some old debugging code
       tweaks: rename a bunch of variables, to make it clearer what they contain
       tweaks: rename a flag, to match the name of the option
@@ -1917,7 +1917,7 @@ Benno Schulenberg (65):
       undo: when redoing, don't try to find a line number that might not exist
 
 Brand Huntsman (1):
-      color: remove unneeded bright comparision to prevent duplicate pairs
+      color: remove unneeded bright comparison to prevent duplicate pairs
 
 David Lawrence Ramsey (3):
       docs: mention that errorcolor does have default colors
@@ -2141,7 +2141,7 @@ Benno Schulenberg (103):
       docs: mention that macros work correctly only on terminal emulators
       docs: remove another remark about indenting lacking undo capability
       docs: update references to the nanorc files for the XDG changes
-      files: avoid an abortion when excuting a command in a new buffer
+      files: avoid an abortion when executing a command in a new buffer
       gnulib: update to its current upstream state
       help: don't fall back to other syntaxes if there is no nanohelp one
       history: after loading the lists, mark them as unchanged
@@ -2237,7 +2237,7 @@ Brand Huntsman (3):
 David Lawrence Ramsey (18):
       build: add history.c to the list of files with translatable strings
       display: don't cut off zero-width characters at the end of a chunk
-      docs: decribe the bindable functions 'recordmacro' and 'runmacro'
+      docs: describe the bindable functions 'recordmacro' and 'runmacro'
       docs: document the more everyday names of three bindable functions
       docs: remove man page reference to indent/unindent lacking undo/redo
       files: don't change file format when inserting into an existing buffer

@@ -2400,7 +2400,7 @@ bool is_dir(const char *path)
  * adapted from busybox 0.46 (cmdedit.c).  Here is the notice from that
  * file, with the copyright years updated:
  *
- * Termios command line History and Editting, originally
+ * Termios command line History and Editing, originally
  * intended for NetBSD sh (ash)
  * Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
  *      Main code:            Adam Rogoyski <rogoyski@cs.utexas.edu>

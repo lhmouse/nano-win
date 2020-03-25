@@ -437,7 +437,7 @@ void do_home(void)
 }
 
 /* Move to the end of the current line (or softwrapped chunk).
- * When softwrapping and alredy at the end of a chunk, go to the
+ * When softwrapping and already at the end of a chunk, go to the
  * end of the full line. */
 void do_end(void)
 {
