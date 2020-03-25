@@ -6036,7 +6036,7 @@ GNU nano 1.1.8 - 2002.03.30
 	- Catalan and Spanish translation updates. (Jordi)
 	- Typo. (DLR)
 - po/fr.po:
-	- French translation updates (Jean-Philippe Guérard).
+	- French translation updates. (Jean-Philippe Guérard)
 - po/gl.po:
 	- Galician translation updates. (Jacobo Tarrio)
 - po/uk.po, po/ru.po:
@@ -6158,8 +6158,7 @@ GNU nano 1.1.7 - 2002.03.05
 - po/cs.po:
 	- Partial Czech translation updates. (Vaclav Haisman)
 - po/hu.po:
-	- Hungarian translation updates, or to be precise, rewrite.
-	  (Gergely Nagy)
+	- Hungarian translation updates, or to be precise, rewrite. (Gergely Nagy)
 - po/uk.po, po/ru.po:
 	- Russian and Ukrainian translation updates. (Sergey A. Ribalchenko)
 - po/da.po:
@@ -6268,7 +6267,7 @@ nano-1.1.6 - 2002.01.25
 - po/nn.po:
 	- Norwegian nynorsk translation updates. (Kjetil Torgrim Homme)
 - po/nb.po:
-	- New Norwegian bokmål translation. (Stig E Sandoe <stig@ii.uib.no>)
+	- New Norwegian bokmål translation, by Stig E Sandoe <stig@ii.uib.no>.
 - po/da.po:
 	- Danish translation update. (Keld Simonsen)
 
@@ -6380,7 +6379,7 @@ nano-1.1.4 - 2001.12.11
   do_wrap()
 	- Many fixes. (David Lawrence Ramsey)
   do_spell()
-	- Dont prompt for replace if we don't change the word in
+	- Don't prompt for replace if we don't change the word in
 	  question. (Rocco Corsi)
 - po/de.po:
 	- German translation updates. (Karl Eichwalder)
@@ -6770,7 +6769,7 @@ nano-1.1.0 - 2001.07.15
 - po/es.po, po/ca.po:
 	- Updated. (Jordi)
 - po/gl.po:
-	- Galician translation by Jacobo Tarrío.
+	- New Galician translation, by Jacobo Tarrío <jtarrio@trasno.net>.
 - po/uk.po, po/ru.po:
 	- New Ukrainian and Russian translations by Sergey A. Ribalchenko
 	  <fisher@obu.ck.ua>, thanks!
@@ -6779,9 +6778,9 @@ nano-1.1.0 - 2001.07.15
 - po/it.po
 	- Updated Italian translation by Marco Colombo.
 - po/no.po:
-	- New Norwegian translation by Eivind Kjørstad <ekj@vestdata.no>.
+	- New Norwegian translation, by Eivind Kjørstad <ekj@vestdata.no>.
 - po/sv.po:
-	- New Swedish translation by Christian Rose <menthos@menthos.com>.
+	- New Swedish translation, by Christian Rose <menthos@menthos.com>.
 
 nano 1.0.1 - 2001.04.06
 - General:
@@ -6888,13 +6887,13 @@ nano-0.9.99pre3 - 2001.02.19
 - fi.po:
 	- Translation updates by Pauli Virtanen.
 - hu.po:
-	- Hungarian translation by Horvath Szabolcs.
+	- New Hungarian translation, by Horvath Szabolcs <horvaths@penguinpowered.com>.
 - id.po:
 	- Translation updates by Tedi Heriyanto.
 - es.po:
 	- Translation updates and grammatical/typo fixes. (Jordi)
 - ca.po:
-	- Catalan translation by Jordi Mallach :)
+	- Catalan translation by Jordi Mallach. :)
 	- Miquel Vidal <miquel@sindominio.net> went over it and corrected
 	  many typos and completed bits that remained untranslated by error.
 
@@ -6998,7 +6997,6 @@ General
 	  repeated string defs and globals.
   do_justify()
 	- Small fix for totsize calculation. (Rob)
-
 - fi.po:
 	- Update by Pauli Virtanen.
 
@@ -7395,7 +7393,7 @@ nano 0.9.18 - 2000.09.18
 - es.po:
 	- Translated new strings and minor updates. (Jordi)
 - de.po
-	- Revised translations by <floki@bigfoot.com>.
+	- Revised translations by Florian König.
 
 nano-0.9.17 - 2000.09.04
 - General
@@ -7535,7 +7533,7 @@ nano-0.9.14 - 2000.07.27
   do_justify() & do_wrap():
 	- totsize-related fixes. (Rob)
 - de.po
-	- Revised translations by floki@bigfoot.com
+	- Revised translations by Florian König.
 
 nano-0.9.13 - 2000.07.23
 - Implemented Pico's -k mode.  New flag CUT_TO_END, option (-k, --cut),
@@ -7618,11 +7616,10 @@ nano-0.9.12 - 2000.07.07
 	- Magic Line related code in do_char. (Rob)
   do_backspace(), do_delete():
 	- Added magic line code here too.
-
 - de.po:
-	- Revised translations by floki@bigfoot.com.
+	- Revised translations by Florian König.
 - fi.po:
-	- Finnish translation by pauli.virtanen@saunalahti.fi.
+	- New Finnish translation, by Pauli Virtanen <pauli.virtanen@saunalahti.fi>.
 - utils.c:
 	- Added new_magicline()
 - winio.c:
@@ -7649,7 +7646,7 @@ nano-0.9.11 - 2000.06.20
   winio.c, and nano.h.  Many hardcoded "8"s have been changed to the
   TABSIZE int.  Added changes to nano.1 and nano.1.html.
 - id.po:
-	- Indonesian translation by Tedi Heriyanto.
+	- New Indonesian translation, by Tedi Heriyanto <tedi_h@gmx.net>.
 - es.po:
 	- Updated translation. (Jordi Mallach)
 - winio.c
@@ -7787,7 +7784,6 @@ nano-0.9.7 - 2000.05.14
 	  display update (bug discovered by Ken Tyler).
 
 nano-0.9.6 - 2000.05.08
-- New Italian translation (it.po), by Daniele Medri.
 - nano.c:
   page_up(), page_down():
 	- Added reset of placewewant to 0, as it should be.
@@ -7806,6 +7802,12 @@ nano-0.9.6 - 2000.05.08
 	- Removed yucky code that didn't work, this function now just
 	  computes edittop and editbot and calls edit_refresh() to do the
 	  rest, which removes a lot of duplicate code...
+- it.po:
+	- New Italian translation, by Daniele Medri <madrid@linux.it>.
+- fr.po:
+	- New French translation, by Pierre Tane <tanep@bigfoot.com>.
+- de.po:
+	- New German translation, by Florian König <floki@bigfoot.com>.
 
 nano-0.9.5 - 2000.05.01
 - Removed bytes from file struct because it was computationally wasteful.
