@@ -738,7 +738,6 @@ m4/Makefile
 po/Makefile.in
 src/Makefile
 syntax/Makefile
-nano.spec
 ])
 
 AC_OUTPUT
