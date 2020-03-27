@@ -325,7 +325,6 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
  * at the current cursor position. */
 void ingraft_buffer(linestruct *topline)
 {
-	size_t current_x_save = openfile->current_x;
 	/* Remember whether the current line is at the top of the edit window. */
 	bool edittop_inside = (openfile->edittop == openfile->current);
 #ifndef NANO_TINY
@@ -333,6 +332,7 @@ void ingraft_buffer(linestruct *topline)
 	bool right_side_up = (openfile->mark && mark_is_before_cursor());
 	bool same_line = (openfile->mark == openfile->current);
 #endif
+	size_t was_x = openfile->current_x;
 
 	/* Partition the buffer so that it contains no text, then delete it.*/
 	partition_buffer(openfile->current, openfile->current_x,
@@ -352,7 +352,7 @@ void ingraft_buffer(linestruct *topline)
 	/* When the pasted stuff contains no newline, adjust the cursor's
 	 * x coordinate for the text that is before the pasted stuff. */
 	if (openfile->filetop == openfile->filebot)
-		openfile->current_x += current_x_save;
+		openfile->current_x += was_x;
 
 #ifndef NANO_TINY
 	/* When needed, refresh the mark's pointer and compensate the mark's
@@ -360,7 +360,7 @@ void ingraft_buffer(linestruct *topline)
 	if (same_line) {
 		if (!right_side_up) {
 			openfile->mark = openfile->filebot;
-			openfile->mark_x += openfile->current_x - current_x_save;
+			openfile->mark_x += openfile->current_x - was_x;
 		} else
 			openfile->mark = openfile->filetop;
 	}
