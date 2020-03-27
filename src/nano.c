@@ -1816,9 +1816,7 @@ int main(int argc, char **argv)
 		{"guidestripe", 1, NULL, 'J'},
 		{"nonewlines", 0, NULL, 'L'},
 		{"noconvert", 0, NULL, 'N'},
-		{"morespace", 0, NULL, 'O'},
 		{"positionlog", 0, NULL, 'P'},
-		{"smooth", 0, NULL, 'S'},
 		{"wordbounds", 0, NULL, 'W'},
 		{"wordchars", 1, NULL, 'X'},
 		{"zap", 0, NULL, 'Z'},
@@ -1883,7 +1881,7 @@ int main(int argc, char **argv)
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
 
-	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
+	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNPQ:RT:UVWX:Y:Z"
 				"abcdef:ghijklmno:pr:s:tuvwxyz$", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -1951,10 +1949,6 @@ int main(int argc, char **argv)
 			case 'N':
 				SET(NO_CONVERT);
 				break;
-			case 'O':
-				fprintf(stderr, N_("Option %s is ignored; it is the default\n"),
-										"morespace");
-				break;
 #endif
 #ifdef ENABLE_HISTORIES
 			case 'P':
@@ -1969,12 +1963,6 @@ int main(int argc, char **argv)
 			case 'R':
 				SET(RESTRICTED);
 				break;
-#ifndef NANO_TINY
-			case 'S':
-				fprintf(stderr, N_("Option %s is ignored; it is the default\n"),
-										"smooth");
-				break;
-#endif
 			case 'T':
 				if (!parse_num(optarg, &tabsize) || tabsize <= 0) {
 					fprintf(stderr, _("Requested tab size \"%s\" is invalid"), optarg);

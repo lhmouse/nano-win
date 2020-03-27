@@ -97,7 +97,7 @@ as is reasonable while offering a superset of Pico's functionality.
 Pico differ.
 
 Starting with version 4.0, @command{nano} no longer hard-wraps an overlong
-line by default.  It further uses smooth scrolling by default, and by
+line by default.  It further uses linewise scrolling by default, and by
 default includes the line below the title bar into the editing area.
 
 If you want the old, Pico behavior back, you can use the
@@ -239,12 +239,6 @@ hard-wrapping occurs or when text is justified.
 @itemx --noconvert
 Disable automatic conversion of files from DOS/Mac format.
 
-@item -O
-@itemx --morespace
-Obsolete and ignored option, since the line below the title bar is included
-into the editing space by default.  If you prefer to keep this line blank,
-use @option{-e} or @option{--emptyline}.
-
 @item -P
 @itemx --positionlog
 For the 200 most recent files, log the last position of the cursor,
@@ -267,12 +261,6 @@ allow a file to be appended to, prepended to, or saved under a different
 name if it already has one; and don't make backup files.
 Restricted mode can also be activated by invoking @command{nano} with
 any name beginning with @code{r} (e.g.@: @command{rnano}).
-
-@item -S
-@itemx --smooth
-Obsolete and ignored option, since smooth scrolling has become the default.
-If you prefer the chunk-by-chunk scrolling behavior,
-use @option{-j} or @option{--jumpyscrolling}.
 
 @item -T @var{number}
 @itemx --tabsize=@var{number}
