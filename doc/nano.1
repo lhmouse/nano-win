@@ -175,6 +175,12 @@ different name if it already has one; and don't make backup files.
 Restricted mode can also be activated by invoking \fBnano\fP
 with any name beginning with 'r' (e.g. "rnano").
 .TP
+.BR \-S ", " \-\-softwrap
+Display over multiple screen rows lines that exceed the screen's width.
+(You can make this soft-wrapping occur at whitespace instead of rudely at
+the screen's edge, by using also \fB\-\-atblanks\fR.)
+(The old short option, \fB\-$\fR, is deprecated.)
+.TP
 .BR \-T\ \fInumber ", " \-\-tabsize= \fInumber
 Set the size (width) of a tab to \fInumber\fP columns.  The value of
 \fInumber\fP must be greater than 0.  The default value is 8.
@@ -312,15 +318,6 @@ Make Ctrl+Right stop at word ends instead of beginnings.
 .TP
 .BR \-z ", " \-\-suspendable
 Allow the user to suspend the editor (with \fB^Z\fR by default).
-.TP
-.BR \-$ ", " \-\-softwrap
-Display lines that exceed the screen's width over multiple screen lines.
-(You can make this soft-wrapping occur at whitespace instead of rudely at
-the screen's edge, by using also \fB\-\-atblanks\fR.)
-Since
-\&'$' normally refers to a variable in the Unix shell, you should specify
-this option last when using other options (e.g.\& 'nano \-wS$') or pass it
-separately (e.g.\& 'nano \-wS \-$').
 
 .SH TOGGLES
 Several of the above options can be switched on and off also while

@@ -594,6 +594,9 @@ void usage(void)
 #endif
 	if (!ISSET(RESTRICTED))
 		print_opt("-R", "--restricted", N_("Restrict access to the filesystem"));
+#ifndef NANO_TINY
+	print_opt("-S", "--softwrap", N_("Display overlong lines on multiple rows"));
+#endif
 	print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
 					N_("Set width of a tab to #cols columns"));
 	print_opt("-U", "--quickblank", N_("Wipe status bar upon next keystroke"));
@@ -670,9 +673,6 @@ void usage(void)
 #endif
 	if (!ISSET(RESTRICTED))
 		print_opt("-z", "--suspendable", N_("Enable suspension"));
-#ifndef NANO_TINY
-	print_opt("-$", "--softwrap", N_("Display overlong lines on multiple rows"));
-#endif
 }
 
 /* Display the current version of nano, the date and time it was
@@ -1817,6 +1817,7 @@ int main(int argc, char **argv)
 		{"nonewlines", 0, NULL, 'L'},
 		{"noconvert", 0, NULL, 'N'},
 		{"positionlog", 0, NULL, 'P'},
+		{"softwrap", 0, NULL, 'S'},
 		{"wordbounds", 0, NULL, 'W'},
 		{"wordchars", 1, NULL, 'X'},
 		{"zap", 0, NULL, 'Z'},
@@ -1825,7 +1826,6 @@ int main(int argc, char **argv)
 		{"cutfromcursor", 0, NULL, 'k'},
 		{"unix", 0, NULL, 'u'},
 		{"afterends", 0, NULL, 'y'},
-		{"softwrap", 0, NULL, '$'},
 #endif
 		{NULL, 0, NULL, 0}
 	};
@@ -1881,7 +1881,7 @@ int main(int argc, char **argv)
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
 
-	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNPQ:RT:UVWX:Y:Z"
+	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNPQ:RST:UVWX:Y:Z"
 				"abcdef:ghijklmno:pr:s:tuvwxyz$", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -1963,6 +1963,12 @@ int main(int argc, char **argv)
 			case 'R':
 				SET(RESTRICTED);
 				break;
+#ifndef NANO_TINY
+			case 'S':
+			case '$':  /* Deprecated; remove in 2024. */
+				SET(SOFTWRAP);
+				break;
+#endif
 			case 'T':
 				if (!parse_num(optarg, &tabsize) || tabsize <= 0) {
 					fprintf(stderr, _("Requested tab size \"%s\" is invalid"), optarg);
@@ -2102,11 +2108,6 @@ int main(int argc, char **argv)
 			case 'z':
 				SET(SUSPENDABLE);
 				break;
-#ifndef NANO_TINY
-			case '$':
-				SET(SOFTWRAP);
-				break;
-#endif
 			default:
 				printf(_("Type '%s -h' for a list of available options.\n"), argv[0]);
 				exit(1);
