@@ -87,6 +87,8 @@ void do_deletion(undo_type action)
 			openfile->mark = openfile->current;
 			openfile->mark_x += openfile->current_x;
 		}
+
+		openfile->current->bookmarked |= joining->bookmarked;
 #endif
 		unlink_node(joining);
 		renumber_from(openfile->current);
@@ -246,9 +248,14 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 	bool same_line = (openfile->mark == top);
 	bool post_marked = (openfile->mark && (openfile->mark->lineno > top->lineno ||
 						(same_line && openfile->mark_x > top_x)));
+	bool was_bookmarked = top->bookmarked;
 
 	if (top == bot && top_x == bot_x)
 		return;
+
+	if (top != bot)
+		for (linestruct *line = top->next; line != bot->next; line = line->next)
+			was_bookmarked |= line->bookmarked;
 #endif
 
 	if (top == bot) {
@@ -318,6 +325,8 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 	openfile->current_x = top_x;
 
 #ifndef NANO_TINY
+	openfile->current->bookmarked = was_bookmarked;
+
 	if (post_marked || same_line)
 		openfile->mark = openfile->current;
 	if (post_marked)

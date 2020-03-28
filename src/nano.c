@@ -151,7 +151,7 @@ linestruct *copy_node(const linestruct *src)
 #endif
 	dst->lineno = src->lineno;
 #ifndef NANO_TINY
-	dst->bookmarked = src->bookmarked;
+	dst->bookmarked = FALSE;
 #endif
 
 	return dst;
