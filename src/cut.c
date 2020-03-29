@@ -434,8 +434,7 @@ void cut_marked_region(void)
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
-	get_region((const linestruct **)&top, &top_x,
-				(const linestruct **)&bot, &bot_x);
+	get_region(&top, &top_x, &bot, &bot_x);
 
 	extract_segment(top, top_x, bot, bot_x);
 

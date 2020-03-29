@@ -2026,8 +2026,7 @@ bool write_marked_file(const char *name, FILE *stream, bool tmp,
 	size_t top_x, bot_x;
 
 	/* Partition the buffer so that it contains only the marked text. */
-	get_region((const linestruct **)&top, &top_x,
-				(const linestruct **)&bot, &bot_x);
+	get_region(&top, &top_x, &bot, &bot_x);
 	partition_buffer(top, top_x, bot, bot_x);
 
 	/* If we are using a magic line, and the last line of the partition

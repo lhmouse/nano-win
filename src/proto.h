@@ -573,9 +573,8 @@ void remove_magicline(void);
 #endif
 #ifndef NANO_TINY
 bool mark_is_before_cursor(void);
-void get_region(const linestruct **top, size_t *top_x,
-		const linestruct **bot, size_t *bot_x);
-void get_range(const linestruct **top, const linestruct **bot);
+void get_region(linestruct **top, size_t *top_x, linestruct **bot, size_t *bot_x);
+void get_range(linestruct **top, linestruct **bot);
 #endif
 size_t get_totsize(const linestruct *begin, const linestruct *end);
 #ifndef NANO_TINY

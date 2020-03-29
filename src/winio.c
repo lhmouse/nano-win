@@ -2677,7 +2677,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 						line->lineno <= openfile->current->lineno) ||
 						(line->lineno <= openfile->mark->lineno &&
 						line->lineno >= openfile->current->lineno))) {
-		const linestruct *top, *bot;
+		linestruct *top, *bot;
 			/* The lines where the marked region begins and ends. */
 		size_t top_x, bot_x;
 			/* The x positions where the marked region begins and ends. */

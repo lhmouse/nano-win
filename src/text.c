@@ -120,7 +120,7 @@ void do_indent(void)
 	linestruct *top, *bot, *line;
 
 	/* Use either all the marked lines or just the current line. */
-	get_range((const linestruct **)&top, (const linestruct **)&bot);
+	get_range(&top, &bot);
 
 	/* Skip any leading empty lines. */
 	while (top != bot->next && top->data[0] == '\0')
@@ -241,7 +241,7 @@ void do_unindent(void)
 	linestruct *top, *bot, *line;
 
 	/* Use either all the marked lines or just the current line. */
-	get_range((const linestruct **)&top, (const linestruct **)&bot);
+	get_range(&top, &bot);
 
 	/* Skip any leading lines that cannot be unindented. */
 	while (top != bot->next && length_of_white(top->data) == 0)
@@ -386,7 +386,7 @@ void do_comment(void)
 #endif
 
 	/* Determine which lines to work on. */
-	get_range((const linestruct **)&top, (const linestruct **)&bot);
+	get_range(&top, &bot);
 
 	/* If only the magic line is selected, don't do anything. */
 	if (top == bot && bot == openfile->filebot && !ISSET(NO_NEWLINES)) {
@@ -1744,8 +1744,7 @@ void do_justify(bool full_justify)
 		size_t quot_len, fore_len, other_quot_len, other_white_len;
 		linestruct *sampleline;
 
-		get_region((const linestruct **)&startline, &start_x,
-					(const linestruct **)&endline, &end_x);
+		get_region(&startline, &start_x, &endline, &end_x);
 
 		/* When the marked region is empty, do nothing. */
 		if (startline == endline && start_x == end_x) {
@@ -2034,8 +2033,7 @@ bool fix_spello(const char *word)
 #ifndef NANO_TINY
 	/* If the mark is on, start at the beginning of the marked region. */
 	if (openfile->mark) {
-		get_region((const linestruct **)&top, &top_x,
-					(const linestruct **)&bot, &bot_x);
+		get_region(&top, &top_x, &bot, &bot_x);
 		/* If the region is marked normally, swap the end points, so that
 		 * (current, current_x) (where searching starts) is at the top. */
 		if (right_side_up) {
@@ -2913,8 +2911,7 @@ void do_wordlinechar_count(void)
 	/* If the mark is on, partition the buffer so that it
 	 * contains only the marked text, and turn the mark off. */
 	if (openfile->mark) {
-		get_region((const linestruct **)&top, &top_x,
-					(const linestruct **)&bot, &bot_x);
+		get_region(&top, &top_x, &bot, &bot_x);
 		partition_buffer(top, top_x, bot, bot_x);
 	}
 

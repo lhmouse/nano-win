@@ -460,8 +460,7 @@ bool mark_is_before_cursor(void)
 
 /* Return in (top, top_x) and (bot, bot_x) the start and end "coordinates"
  * of the marked region. */
-void get_region(const linestruct **top, size_t *top_x,
-				const linestruct **bot, size_t *bot_x)
+void get_region(linestruct **top, size_t *top_x, linestruct **bot, size_t *bot_x)
 {
 	if (mark_is_before_cursor()) {
 		*top = openfile->mark;
@@ -479,7 +478,7 @@ void get_region(const linestruct **top, size_t *top_x,
 /* Get the set of lines to work on -- either just the current line, or the
  * first to last lines of the marked region.  When the cursor (or mark) is
  * at the start of the last line of the region, exclude that line. */
-void get_range(const linestruct **top, const linestruct **bot)
+void get_range(linestruct **top, linestruct **bot)
 {
 	if (!openfile->mark) {
 		*top = openfile->current;
