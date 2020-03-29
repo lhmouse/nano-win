@@ -164,15 +164,6 @@ void run_macro(void)
  *   than the function keys, because the functions of the former are
  *   not arbitrary and the functions of the latter are.)
  * - F10 on FreeBSD console == PageUp on Mach console; the former is
- *   omitted.  (Same as above.)
- * - F13 on FreeBSD console == End on Mach console; the former is
- *   omitted.  (Same as above.)
- * - F15 on FreeBSD console == Shift-Up on rxvt/Eterm; the former is
- *   omitted.  (The arrow keys, with or without modifiers, are more
- *   important to have working than the function keys, because the
- *   functions of the former are not arbitrary and the functions of the
- *   latter are.)
- * - F16 on FreeBSD console == Shift-Down on rxvt/Eterm; the former is
  *   omitted.  (Same as above.) */
 
 /* Read in a sequence of keystrokes from the given window and save them
@@ -359,13 +350,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'D': /* Esc O 1 ; 2 D == Shift-Left on Terminal. */
 						shift_held = TRUE;
 						return arrow_from_ABCD(seq[4]);
-#ifdef ENABLE_NANORC
-					case 'P': /* Esc O 1 ; 2 P == F13 on old xterm. */
-					case 'Q': /* Esc O 1 ; 2 Q == F14 on old xterm. */
-					case 'R': /* Esc O 1 ; 2 R == F15 on old xterm. */
-					case 'S': /* Esc O 1 ; 2 S == F16 on old xterm. */
-						return KEY_F(13 + seq[4] - 'P');
-#endif
 				}
 				break;
 			case '5':
@@ -385,17 +369,8 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						}
 						break;
 					case '2':
-						if (length > 2) {
+						if (length > 2)
 							*consumed = 3;
-#ifdef ENABLE_NANORC
-							if ('O' < seq[2] && seq[2] < 'T')
-								/* Esc O 2 P == F13 on Konsole. */
-								/* Esc O 2 Q == F14 on Konsole. */
-								/* Esc O 2 R == F15 on Konsole. */
-								/* Esc O 2 S == F16 on Konsole. */
-								return KEY_F(13 + seq[2] - 'P');
-#endif
-						}
 						break;
 #ifndef NANO_TINY
 					case '5':
@@ -525,13 +500,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'H': /* Esc [ 1 ; 2 H == Shift-Home on xterm. */
 						return SHIFT_HOME;
 #endif
-#ifdef ENABLE_NANORC
-					case 'P': /* Esc [ 1 ; 2 P == F13 on xterm. */
-					case 'Q': /* Esc [ 1 ; 2 Q == F14 on xterm. */
-					case 'R': /* Esc [ 1 ; 2 R == F15 on xterm. */
-					case 'S': /* Esc [ 1 ; 2 S == F16 on xterm. */
-						return KEY_F(13 + seq[4] - 'P');
-#endif
 				}
 				break;
 #ifndef NANO_TINY
@@ -621,17 +589,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 									return KEY_F(11);
 								case '4': /* Esc [ 2 4 ~ == F12 on the same. */
 									return KEY_F(12);
-#ifdef ENABLE_NANORC
-								case '5': /* Esc [ 2 5 ~ == F13 on VT220/VT320/
-										   * Linux console/rxvt/Eterm. */
-									return KEY_F(13);
-								case '6': /* Esc [ 2 6 ~ == F14 on the same. */
-									return KEY_F(14);
-								case '8': /* Esc [ 2 8 ~ == F15 on the same. */
-									return KEY_F(15);
-								case '9': /* Esc [ 2 9 ~ == F16 on the same. */
-									return KEY_F(16);
-#endif
 							}
 						} else if (length > 2 && seq[2] == '~')
 							/* Esc [ 2 ~ == Insert on VT220/VT320/
