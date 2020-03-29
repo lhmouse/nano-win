@@ -475,7 +475,7 @@ void undo_cut(undostruct *u)
 						openfile->filebot->prev->data[0] == '\0')
 		remove_magicline();
 
-	if (u->xflags & WAS_MARKED_BACKWARDS)
+	if (u->xflags & CURSOR_WAS_AT_HEAD)
 		goto_line_posx(u->head_lineno, u->head_x);
 }
 
@@ -1012,19 +1012,19 @@ void add_undo(undo_type action, const char *message)
 		break;
 #endif
 	case CUT_TO_EOF:
-		u->xflags |= (INCLUDED_LAST_LINE | WAS_MARKED_BACKWARDS);
+		u->xflags |= (INCLUDED_LAST_LINE | CURSOR_WAS_AT_HEAD);
 		break;
 	case ZAP:
 	case CUT:
 		if (openfile->mark) {
-			u->xflags |= MARK_WAS_SET;
 			if (mark_is_before_cursor()){
 				u->head_lineno = openfile->mark->lineno;
 				u->head_x = openfile->mark_x;
+				u->xflags |= MARK_WAS_SET;
 			} else {
-				u->xflags |= WAS_MARKED_BACKWARDS;
 				u->tail_lineno = openfile->mark->lineno;
 				u->tail_x = openfile->mark_x;
+				u->xflags |= (MARK_WAS_SET | CURSOR_WAS_AT_HEAD);
 			}
 			if (u->tail_lineno == openfile->filebot->lineno)
 				u->xflags |= INCLUDED_LAST_LINE;

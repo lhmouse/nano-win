@@ -627,7 +627,7 @@ enum
 #define WAS_WHOLE_LINE        (1<<2)
 #define INCLUDED_LAST_LINE    (1<<3)
 #define MARK_WAS_SET          (1<<4)
-#define WAS_MARKED_BACKWARDS  (1<<5)
+#define CURSOR_WAS_AT_HEAD    (1<<5)
 #endif /* !NANO_TINY */
 
 /* The default number of columns from end of line where wrapping occurs. */
