@@ -1030,9 +1030,10 @@ void add_undo(undo_type action, const char *message)
 				u->xflags |= INCLUDED_LAST_LINE;
 		} else if (!ISSET(CUT_FROM_CURSOR)) {
 			/* The entire line is being cut regardless of the cursor position. */
-			u->xflags |= WAS_WHOLE_LINE;
+			u->xflags |= (WAS_WHOLE_LINE | CURSOR_WAS_AT_HEAD);
 			u->tail_x = 0;
-		}
+		} else
+			u->xflags |= CURSOR_WAS_AT_HEAD;
 		break;
 	case PASTE:
 		u->cutbuffer = copy_buffer(cutbuffer);
