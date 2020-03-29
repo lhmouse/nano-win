@@ -2688,7 +2688,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		int paintlen = -1;
 			/* The number of characters to paint.  Negative means "all". */
 
-		get_region(&top, &top_x, &bot, &bot_x, NULL);
+		get_region(&top, &top_x, &bot, &bot_x);
 
 		if (top->lineno < line->lineno || top_x < from_x)
 			top_x = from_x;

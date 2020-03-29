@@ -429,13 +429,13 @@ void cut_to_eol(void)
 }
 
 /* Move all marked text from the current buffer into the cutbuffer. */
-void cut_marked(bool *right_side_up)
+void cut_marked_region(void)
 {
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
 
 	get_region((const linestruct **)&top, &top_x,
-				(const linestruct **)&bot, &bot_x, right_side_up);
+				(const linestruct **)&bot, &bot_x);
 
 	extract_segment(top, top_x, bot, bot_x);
 
@@ -465,7 +465,7 @@ void do_snip(bool copying, bool marked, bool until_eof, bool append)
 		 * before we add text to it. */
 	bool using_magicline = !ISSET(NO_NEWLINES);
 		/* Whether an automatic newline should be added at end-of-buffer. */
-	bool right_side_up = TRUE;
+	bool right_side_up = (openfile->mark == NULL || mark_is_before_cursor());
 		/* There *is* no region, *or* it is marked forward. */
 #endif
 	static bool precedent = FALSE;
@@ -497,7 +497,7 @@ void do_snip(bool copying, bool marked, bool until_eof, bool append)
 	if (until_eof)
 		cut_to_eof();
 	else if (openfile->mark) {
-		cut_marked(&right_side_up);
+		cut_marked_region();
 		openfile->mark = NULL;
 	} else if (ISSET(CUT_FROM_CURSOR))
 		cut_to_eol();

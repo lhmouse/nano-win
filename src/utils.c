@@ -459,25 +459,20 @@ bool mark_is_before_cursor(void)
 }
 
 /* Return in (top, top_x) and (bot, bot_x) the start and end "coordinates"
- * of the marked region.  If right_side_up isn't NULL, set it to TRUE when
- * the mark is at the top of the marked region, and to FALSE otherwise. */
+ * of the marked region. */
 void get_region(const linestruct **top, size_t *top_x,
-				const linestruct **bot, size_t *bot_x, bool *right_side_up)
+				const linestruct **bot, size_t *bot_x)
 {
 	if (mark_is_before_cursor()) {
 		*top = openfile->mark;
 		*top_x = openfile->mark_x;
 		*bot = openfile->current;
 		*bot_x = openfile->current_x;
-		if (right_side_up != NULL)
-			*right_side_up = TRUE;
 	} else {
 		*bot = openfile->mark;
 		*bot_x = openfile->mark_x;
 		*top = openfile->current;
 		*top_x = openfile->current_x;
-		if (right_side_up != NULL)
-			*right_side_up = FALSE;
 	}
 }
 
@@ -492,7 +487,7 @@ void get_range(const linestruct **top, const linestruct **bot)
 	} else {
 		size_t top_x, bot_x;
 
-		get_region(top, &top_x, bot, &bot_x, NULL);
+		get_region(top, &top_x, bot, &bot_x);
 
 		if (bot_x == 0 && *bot != *top && !also_the_last)
 			*bot = (*bot)->prev;

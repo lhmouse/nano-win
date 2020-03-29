@@ -261,7 +261,7 @@ void extract_segment(linestruct *top, size_t top_x,
 void ingraft_buffer(linestruct *somebuffer);
 void copy_from_buffer(linestruct *somebuffer);
 #ifndef NANO_TINY
-void cut_marked(bool *right_side_up);
+void cut_marked_region(void);
 #endif
 void do_snip(bool copying, bool marked, bool until_eof, bool append);
 void cut_text(void);
@@ -574,7 +574,7 @@ void remove_magicline(void);
 #ifndef NANO_TINY
 bool mark_is_before_cursor(void);
 void get_region(const linestruct **top, size_t *top_x,
-		const linestruct **bot, size_t *bot_x, bool *right_side_up);
+		const linestruct **bot, size_t *bot_x);
 void get_range(const linestruct **top, const linestruct **bot);
 #endif
 size_t get_totsize(const linestruct *begin, const linestruct *end);

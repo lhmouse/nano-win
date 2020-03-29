@@ -602,7 +602,7 @@ void do_undo(void)
 		goto_line_posx(u->head_lineno, u->head_x);
 		openfile->mark = line_from_number(u->tail_lineno);
 		openfile->mark_x = u->tail_x;
-		cut_marked(NULL);
+		cut_marked_region();
 		u->cutbuffer = cutbuffer;
 		cutbuffer = oldcutbuffer;
 		if ((u->xflags & INCLUDED_LAST_LINE) && !ISSET(NO_NEWLINES) &&
@@ -1721,7 +1721,7 @@ void do_justify(bool full_justify)
 	linestruct *jusline;
 		/* The line that we're justifying in the current cutbuffer. */
 #ifndef NANO_TINY
-	bool right_side_up = FALSE;
+	bool right_side_up = (openfile->mark && mark_is_before_cursor());
 		/* Whether the mark (if any) is before the cursor. */
 	bool before_eol = FALSE;
 		/* Whether the end of a marked region is before the end of its line. */
@@ -1744,7 +1744,7 @@ void do_justify(bool full_justify)
 		linestruct *sampleline;
 
 		get_region((const linestruct **)&startline, &start_x,
-					(const linestruct **)&endline, &end_x, &right_side_up);
+					(const linestruct **)&endline, &end_x);
 
 		/* When the marked region is empty, do nothing. */
 		if (startline == endline && start_x == end_x) {
@@ -2023,7 +2023,7 @@ bool fix_spello(const char *word)
 #ifndef NANO_TINY
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
-	bool right_side_up = FALSE;
+	bool right_side_up = (openfile->mark && mark_is_before_cursor());
 #endif
 
 	/* Save the current search string, then set it to the misspelled word. */
@@ -2034,7 +2034,7 @@ bool fix_spello(const char *word)
 	/* If the mark is on, start at the beginning of the marked region. */
 	if (openfile->mark) {
 		get_region((const linestruct **)&top, &top_x,
-					(const linestruct **)&bot, &bot_x, &right_side_up);
+					(const linestruct **)&bot, &bot_x);
 		/* If the region is marked normally, swap the end points, so that
 		 * (current, current_x) (where searching starts) is at the top. */
 		if (right_side_up) {
@@ -2913,7 +2913,7 @@ void do_wordlinechar_count(void)
 	 * contains only the marked text, and turn the mark off. */
 	if (openfile->mark) {
 		get_region((const linestruct **)&top, &top_x,
-					(const linestruct **)&bot, &bot_x, NULL);
+					(const linestruct **)&bot, &bot_x);
 		partition_buffer(top, top_x, bot, bot_x);
 	}
 
