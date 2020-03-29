@@ -1036,6 +1036,8 @@ bool execute_command(const char *command)
 	/* If the command starts with "|", pipe buffer or region to the command. */
 	if (should_pipe) {
 		linestruct *was_cutbuffer = cutbuffer;
+		bool whole_buffer = FALSE;
+
 		cutbuffer = NULL;
 
 #ifdef ENABLE_MULTIBUFFER
@@ -1043,6 +1045,8 @@ bool execute_command(const char *command)
 			openfile = openfile->prev;
 			if (openfile->mark)
 				do_snip(TRUE, TRUE, FALSE, FALSE);
+			else
+				whole_buffer = TRUE;
 		} else
 #endif
 		{
@@ -1059,7 +1063,7 @@ bool execute_command(const char *command)
 
 		/* Create a separate process for piping the data to the command. */
 		if (fork() == 0) {
-			send_data(cutbuffer, to_fd[1]);
+			send_data(whole_buffer ? openfile->filetop : cutbuffer, to_fd[1]);
 			exit(0);
 		}
 
