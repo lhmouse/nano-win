@@ -1057,7 +1057,7 @@ bool execute_command(const char *command)
 				openfile->current_x = 0;
 			}
 			add_undo(CUT, NULL);
-			do_snip(FALSE, openfile->mark != NULL, openfile->mark == NULL, FALSE);
+			do_snip(openfile->mark != NULL, openfile->mark == NULL, FALSE);
 			update_undo(CUT);
 		}
 

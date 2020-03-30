@@ -491,7 +491,7 @@ void redo_cut(undostruct *u)
 
 	goto_line_posx(u->tail_lineno, u->tail_x);
 
-	do_snip(FALSE, TRUE, FALSE, u->type == ZAP);
+	do_snip(TRUE, FALSE, u->type == ZAP);
 
 	free_lines(cutbuffer);
 	cutbuffer = oldcutbuffer;
@@ -2320,7 +2320,7 @@ bool replace_buffer(const char *filename, undo_type action, const char *operatio
 	/* Cut either the marked region or the whole buffer. */
 	add_undo(action, NULL);
 #endif
-	do_snip(FALSE, openfile->mark, openfile->mark == NULL, FALSE);
+	do_snip(openfile->mark != NULL, openfile->mark == NULL, FALSE);
 #ifndef NANO_TINY
 	update_undo(action);
 #endif

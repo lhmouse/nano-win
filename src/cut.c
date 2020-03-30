@@ -209,7 +209,7 @@ void chop_word(bool forward)
 
 	/* Now kill the marked region and a word is gone. */
 	add_undo(CUT, NULL);
-	do_snip(FALSE, TRUE, FALSE, FALSE);
+	do_snip(TRUE, FALSE, FALSE);
 	update_undo(CUT);
 
 	/* Discard the cut word and restore the cutbuffer. */
@@ -453,7 +453,7 @@ void cut_to_eof(void)
  * If until_eof is TRUE, move all text from the current cursor
  * position to the end of the file into the cutbuffer.  If append
  * is TRUE (when zapping), always append the cut to the cutbuffer. */
-void do_snip(bool copying, bool marked, bool until_eof, bool append)
+void do_snip(bool marked, bool until_eof, bool append)
 {
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
 	if ((!keep_cutbuffer || marked || until_eof ||
@@ -496,12 +496,12 @@ void cut_text(void)
 		add_undo(CUT, NULL);
 	}
 
-	do_snip(FALSE, openfile->mark != NULL, FALSE, FALSE);
+	do_snip(openfile->mark != NULL, FALSE, FALSE);
 
 	update_undo(CUT);
 #else
 	if (is_cuttable(FALSE))
-		do_snip(FALSE, FALSE, FALSE, FALSE);
+		do_snip(FALSE, FALSE, FALSE);
 #endif
 	wipe_statusbar();
 }
@@ -621,7 +621,7 @@ void cut_till_eof(void)
 	}
 
 	add_undo(CUT_TO_EOF, NULL);
-	do_snip(FALSE, FALSE, TRUE, FALSE);
+	do_snip(FALSE, TRUE, FALSE);
 	update_undo(CUT_TO_EOF);
 	wipe_statusbar();
 }
@@ -643,7 +643,7 @@ void zap_text(void)
 	/* Use the cutbuffer from the ZAP undo item, so the cut can be undone. */
 	cutbuffer = openfile->current_undo->cutbuffer;
 
-	do_snip(FALSE, openfile->mark != NULL, FALSE, TRUE);
+	do_snip(openfile->mark != NULL, FALSE, TRUE);
 
 	update_undo(ZAP);
 	wipe_statusbar();
