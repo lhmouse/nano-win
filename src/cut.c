@@ -392,42 +392,7 @@ void copy_from_buffer(linestruct *somebuffer)
 	ingraft_buffer(the_copy);
 }
 
-/* Move the whole current line from the current buffer to the cutbuffer. */
-void cut_line(void)
-{
-	/* When not on the last line of the buffer, move the text from the
-	 * head of this line to the head of the next line into the cutbuffer;
-	 * otherwise, move all of the text of this line into the cutbuffer. */
-	if (openfile->current != openfile->filebot)
-		extract_segment(openfile->current, 0, openfile->current->next, 0);
-	else
-		extract_segment(openfile->current, 0,
-				openfile->current, strlen(openfile->current->data));
-
-	openfile->placewewant = 0;
-}
-
 #ifndef NANO_TINY
-/* Move all text from the cursor position until the end of this line into
- * the cutbuffer.  But when already at the end of a line, then move this
- * "newline" to the cutbuffer. */
-void cut_to_eol(void)
-{
-	size_t data_len = strlen(openfile->current->data);
-
-	/* When not at the end of a line, move the rest of this line into
-	 * the cutbuffer.  Otherwise, when not at the end of the buffer,
-	 * move the line separation into the cutbuffer. */
-	if (openfile->current_x < data_len)
-		extract_segment(openfile->current, openfile->current_x,
-				openfile->current, data_len);
-	else if (openfile->current != openfile->filebot) {
-		extract_segment(openfile->current, openfile->current_x,
-				openfile->current->next, 0);
-		openfile->placewewant = xplustabs();
-	}
-}
-
 /* Move all marked text from the current buffer into the cutbuffer. */
 void cut_marked_region(void)
 {
@@ -440,14 +405,7 @@ void cut_marked_region(void)
 
 	openfile->placewewant = xplustabs();
 }
-
-/* Move all text from the cursor position to end-of-file into the cutbuffer. */
-void cut_to_eof(void)
-{
-	extract_segment(openfile->current, openfile->current_x,
-				openfile->filebot, strlen(openfile->filebot->data));
-}
-#endif /* !NANO_TINY */
+#endif
 
 /* Move text from the current buffer into the cutbuffer.
  * If until_eof is TRUE, move all text from the current cursor
@@ -468,15 +426,36 @@ void do_snip(bool marked, bool until_eof, bool append)
 #ifndef NANO_TINY
 	/* Now move the relevant piece of text into the cutbuffer. */
 	if (until_eof)
-		cut_to_eof();
+		extract_segment(openfile->current, openfile->current_x,
+		                openfile->filebot, strlen(openfile->filebot->data));
 	else if (openfile->mark) {
 		cut_marked_region();
 		openfile->mark = NULL;
-	} else if (ISSET(CUT_FROM_CURSOR))
-		cut_to_eol();
-	else
+	} else if (ISSET(CUT_FROM_CURSOR)) {
+		/* When not at the end of a line, move the rest of this line into
+		 * the cutbuffer.  Otherwise, when not at the end of the buffer,
+		 * move just the "line separator" into the cutbuffer. */
+		if (openfile->current_x < strlen(openfile->current->data))
+			extract_segment(openfile->current, openfile->current_x,
+			                openfile->current, strlen(openfile->current->data));
+		else if (openfile->current != openfile->filebot) {
+			extract_segment(openfile->current, openfile->current_x,
+			                openfile->current->next, 0);
+			openfile->placewewant = xplustabs();
+		}
+	} else
 #endif
-		cut_line();
+	{
+		/* When not at end-of-buffer, move one full line into the cutbuffer;
+		 * otherwise, move all text until end-of-line into the cutbuffer. */
+		if (openfile->current != openfile->filebot)
+			extract_segment(openfile->current, 0, openfile->current->next, 0);
+		else
+			extract_segment(openfile->current, 0,
+			                openfile->current, strlen(openfile->current->data));
+
+		openfile->placewewant = 0;
+	}
 
 	set_modified();
 	refresh_needed = TRUE;
