@@ -413,15 +413,14 @@ void cut_marked_region(void)
  * is TRUE (when zapping), always append the cut to the cutbuffer. */
 void do_snip(bool marked, bool until_eof, bool append)
 {
+	linestruct *line = openfile->current;
+
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
 	if ((!keep_cutbuffer || marked || until_eof ||
 					openfile->last_action == COPY) && !append) {
 		free_lines(cutbuffer);
 		cutbuffer = NULL;
 	}
-
-	/* After a line operation, future ones should add to the cutbuffer. */
-	keep_cutbuffer = !marked && !until_eof;
 
 #ifndef NANO_TINY
 	/* Now move the relevant piece of text into the cutbuffer. */
@@ -436,11 +435,9 @@ void do_snip(bool marked, bool until_eof, bool append)
 		 * the cutbuffer.  Otherwise, when not at the end of the buffer,
 		 * move just the "line separator" into the cutbuffer. */
 		if (openfile->current_x < strlen(openfile->current->data))
-			extract_segment(openfile->current, openfile->current_x,
-			                openfile->current, strlen(openfile->current->data));
+			extract_segment(line, openfile->current_x, line, strlen(line->data));
 		else if (openfile->current != openfile->filebot) {
-			extract_segment(openfile->current, openfile->current_x,
-			                openfile->current->next, 0);
+			extract_segment(line, openfile->current_x, line->next, 0);
 			openfile->placewewant = xplustabs();
 		}
 	} else
@@ -449,13 +446,15 @@ void do_snip(bool marked, bool until_eof, bool append)
 		/* When not at end-of-buffer, move one full line into the cutbuffer;
 		 * otherwise, move all text until end-of-line into the cutbuffer. */
 		if (openfile->current != openfile->filebot)
-			extract_segment(openfile->current, 0, openfile->current->next, 0);
+			extract_segment(line, 0, line->next, 0);
 		else
-			extract_segment(openfile->current, 0,
-			                openfile->current, strlen(openfile->current->data));
+			extract_segment(line, 0, line, strlen(line->data));
 
 		openfile->placewewant = 0;
 	}
+
+	/* After a line operation, future ones should add to the cutbuffer. */
+	keep_cutbuffer = !marked && !until_eof;
 
 	set_modified();
 	refresh_needed = TRUE;
