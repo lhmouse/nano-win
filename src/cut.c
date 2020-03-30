@@ -485,6 +485,48 @@ void cut_text(void)
 }
 
 #ifndef NANO_TINY
+/* Cut from the current cursor position to the end of the file. */
+void cut_till_eof(void)
+{
+	if (openfile->current->data[openfile->current_x] == '\0' &&
+				(openfile->current->next == NULL ||
+				(!ISSET(NO_NEWLINES) && openfile->current_x > 0 &&
+				openfile->current->next == openfile->filebot))) {
+		statusbar(_("Nothing was cut"));
+		return;
+	}
+
+	add_undo(CUT_TO_EOF, NULL);
+	do_snip(FALSE, TRUE, FALSE);
+	update_undo(CUT_TO_EOF);
+	wipe_statusbar();
+}
+
+/* Erase text (current line or marked region), sending it into oblivion. */
+void zap_text(void)
+{
+	/* Remember the current cutbuffer so it can be restored after the zap. */
+	linestruct *was_cutbuffer = cutbuffer;
+
+	if (!is_cuttable(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
+		return;
+
+	/* Add a new undo item only when the current item is not a ZAP or when
+	 * the current zap is not contiguous with the previous zapping. */
+	if (openfile->last_action != ZAP || !keep_cutbuffer)
+		add_undo(ZAP, NULL);
+
+	/* Use the cutbuffer from the ZAP undo item, so the cut can be undone. */
+	cutbuffer = openfile->current_undo->cutbuffer;
+
+	do_snip(openfile->mark != NULL, FALSE, TRUE);
+
+	update_undo(ZAP);
+	wipe_statusbar();
+
+	cutbuffer = was_cutbuffer;
+}
+
 /* Make a copy of the marked region, putting it in the cutbuffer. */
 void copy_marked_region(void)
 {
@@ -585,48 +627,6 @@ void copy_text(void)
 
 	openfile->last_action = COPY;
 	keep_cutbuffer = TRUE;
-}
-
-/* Cut from the current cursor position to the end of the file. */
-void cut_till_eof(void)
-{
-	if (openfile->current->data[openfile->current_x] == '\0' &&
-				(openfile->current->next == NULL ||
-				(!ISSET(NO_NEWLINES) && openfile->current_x > 0 &&
-				openfile->current->next == openfile->filebot))) {
-		statusbar(_("Nothing was cut"));
-		return;
-	}
-
-	add_undo(CUT_TO_EOF, NULL);
-	do_snip(FALSE, TRUE, FALSE);
-	update_undo(CUT_TO_EOF);
-	wipe_statusbar();
-}
-
-/* Erase text (current line or marked region), sending it into oblivion. */
-void zap_text(void)
-{
-	/* Remember the current cutbuffer so it can be restored after the zap. */
-	linestruct *was_cutbuffer = cutbuffer;
-
-	if (!is_cuttable(ISSET(CUT_FROM_CURSOR) && openfile->mark == NULL))
-		return;
-
-	/* Add a new undo item only when the current item is not a ZAP or when
-	 * the current zap is not contiguous with the previous zapping. */
-	if (openfile->last_action != ZAP || !keep_cutbuffer)
-		add_undo(ZAP, NULL);
-
-	/* Use the cutbuffer from the ZAP undo item, so the cut can be undone. */
-	cutbuffer = openfile->current_undo->cutbuffer;
-
-	do_snip(openfile->mark != NULL, FALSE, TRUE);
-
-	update_undo(ZAP);
-	wipe_statusbar();
-
-	cutbuffer = was_cutbuffer;
 }
 #endif /* !NANO_TINY */
 

@@ -266,10 +266,10 @@ void cut_marked_region(void);
 void do_snip(bool marked, bool until_eof, bool append);
 void cut_text(void);
 #ifndef NANO_TINY
-void copy_marked_region(void);
-void copy_text(void);
 void cut_till_eof(void);
 void zap_text(void);
+void copy_marked_region(void);
+void copy_text(void);
 #endif
 void paste_text(void);
 
