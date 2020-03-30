@@ -449,49 +449,23 @@ void cut_to_eof(void)
 }
 #endif /* !NANO_TINY */
 
-/* Move text from the current buffer into the cutbuffer.  If
- * copying is TRUE, copy the text back into the buffer afterward.
+/* Move text from the current buffer into the cutbuffer.
  * If until_eof is TRUE, move all text from the current cursor
  * position to the end of the file into the cutbuffer.  If append
  * is TRUE (when zapping), always append the cut to the cutbuffer. */
 void do_snip(bool copying, bool marked, bool until_eof, bool append)
 {
-#ifndef NANO_TINY
-	linestruct *was_bottom = NULL;
-		/* The current end of the cutbuffer, before we add text to it. */
-	size_t botlen = 0;
-		/* The length of the string at the current end of the cutbuffer,
-		 * before we add text to it. */
-	bool using_magicline = !ISSET(NO_NEWLINES);
-		/* Whether an automatic newline should be added at end-of-buffer. */
-	bool right_side_up = (openfile->mark == NULL || mark_is_before_cursor());
-		/* There *is* no region, *or* it is marked forward. */
-#endif
-	static bool precedent = FALSE;
-		/* Whether the previous operation was a copying operation. */
-
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
-	if ((!keep_cutbuffer || marked || until_eof || copying != precedent) &&
-				!append) {
+	if ((!keep_cutbuffer || marked || until_eof ||
+					openfile->last_action == COPY) && !append) {
 		free_lines(cutbuffer);
 		cutbuffer = NULL;
 	}
 
 	/* After a line operation, future ones should add to the cutbuffer. */
 	keep_cutbuffer = !marked && !until_eof;
-	precedent = copying;
 
 #ifndef NANO_TINY
-	if (copying) {
-		/* If the cutbuffer isn't empty, remember where it currently ends. */
-		if (cutbuffer != NULL) {
-			was_bottom = cutbottom;
-			botlen = strlen(cutbottom->data);
-		}
-		/* Don't add a magic line when moving text to the cutbuffer. */
-		SET(NO_NEWLINES);
-	}
-
 	/* Now move the relevant piece of text into the cutbuffer. */
 	if (until_eof)
 		cut_to_eof();
@@ -504,30 +478,7 @@ void do_snip(bool copying, bool marked, bool until_eof, bool append)
 #endif
 		cut_line();
 
-#ifndef NANO_TINY
-	if (copying) {
-		/* Copy the text that was put into the cutbuffer back into the current
-		 * file buffer, so that in the end nothing has been deleted. */
-		if (cutbuffer != NULL) {
-			if (was_bottom != NULL) {
-				was_bottom->data += botlen;
-				copy_from_buffer(was_bottom);
-				was_bottom->data -= botlen;
-			} else
-				copy_from_buffer(cutbuffer);
-
-			/* If the copied region was marked forward, put the new desired
-			 * x position at its end; otherwise, leave it at its beginning. */
-			if (right_side_up)
-				openfile->placewewant = xplustabs();
-		}
-		/* Restore the magic-line behavior now that we're done fiddling. */
-		if (using_magicline)
-			UNSET(NO_NEWLINES);
-	} else
-#endif
-		set_modified();
-
+	set_modified();
 	refresh_needed = TRUE;
 }
 
@@ -556,31 +507,106 @@ void cut_text(void)
 }
 
 #ifndef NANO_TINY
-/* Move text from the current buffer into the cutbuffer, and copy it
- * back into the buffer afterward.  If the mark is set or the cursor
- * was moved, blow away previous contents of the cutbuffer. */
-void copy_text(void)
+/* Make a copy of the marked region, putting it in the cutbuffer. */
+void copy_marked_region(void)
 {
-	bool mark_is_set = (openfile->mark != NULL);
+	linestruct *topline, *botline, *afterline;
+	char *was_datastart, saved_byte;
+	size_t top_x, bot_x;
 
-	/* Remember the current viewport and cursor position. */
-	ssize_t is_edittop_lineno = openfile->edittop->lineno;
-	size_t is_firstcolumn = openfile->firstcolumn;
-	ssize_t is_current_lineno = openfile->current->lineno;
-	size_t is_current_x = openfile->current_x;
-
-	do_snip(TRUE, mark_is_set, FALSE, FALSE);
-
-	/* If the mark was set, restore the viewport and cursor position. */
-	if (mark_is_set) {
-		openfile->edittop = line_from_number(is_edittop_lineno);
-		openfile->firstcolumn = is_firstcolumn;
-		openfile->current = line_from_number(is_current_lineno);
-		openfile->current_x = is_current_x;
-	} else
-		focusing = FALSE;
+	get_region(&topline, &top_x, &botline, &bot_x);
 
 	openfile->last_action = OTHER;
+	keep_cutbuffer = FALSE;
+	openfile->mark = NULL;
+	refresh_needed = TRUE;
+
+	if (topline == botline && top_x == bot_x)
+		return;
+
+	/* Make the area that was marked look like a separate buffer. */
+	afterline = botline->next;
+	botline->next = NULL;
+	saved_byte = botline->data[bot_x];
+	botline->data[bot_x] = '\0';
+	was_datastart = topline->data;
+	topline->data += top_x;
+
+	cutbuffer = copy_buffer(topline);
+
+	/* Restore the proper state of the buffer. */
+	topline->data = was_datastart;
+	botline->data[bot_x] = saved_byte;
+	botline->next = afterline;
+}
+
+/* Copy text from the current buffer into the cutbuffer. */
+void copy_text(void)
+{
+	bool at_eol = (openfile->current->data[openfile->current_x] == '\0');
+	linestruct *addition;
+
+	if (openfile->mark || openfile->last_action != COPY || !keep_cutbuffer) {
+		free_lines(cutbuffer);
+		cutbuffer = NULL;
+	}
+
+	if (openfile->mark) {
+		copy_marked_region();
+		return;
+	}
+
+	addition = make_new_node(NULL);
+
+	/* Create OR add to the cutbuffer, depending on the mode, the position
+	 * of the cursor, and whether or not the cutbuffer is currently empty. */
+	if (ISSET(CUT_FROM_CURSOR)) {
+		addition->data = copy_of(openfile->current->data + openfile->current_x);
+
+		if (cutbuffer == NULL && !at_eol) {
+			cutbuffer = addition;
+			cutbottom = addition;
+		} else if (cutbuffer == NULL) {
+			cutbuffer = addition;
+			cutbottom = make_new_node(cutbuffer);
+			cutbottom->data = copy_of("");
+			cutbuffer->next = cutbottom;
+		} else if (at_eol) {
+			addition->prev = cutbottom;
+			cutbottom->next = addition;
+			cutbottom = addition;
+		} else {
+			addition->prev = cutbottom->prev;
+			addition->prev->next = addition;
+			delete_node(cutbottom);
+			cutbottom = addition;
+		}
+	} else {
+		addition->data = copy_of(openfile->current->data);
+
+		if (cutbuffer == NULL) {
+			cutbuffer = addition;
+			cutbottom = make_new_node(cutbuffer);
+			cutbottom->data = copy_of("");
+			cutbuffer->next = cutbottom;
+		} else {
+			addition->prev = cutbottom->prev;
+			addition->prev->next = addition;
+			addition->next = cutbottom;
+			cutbottom->prev = addition;
+		}
+	}
+
+	if ((!ISSET(CUT_FROM_CURSOR) || at_eol) && openfile->current->next) {
+		openfile->current = openfile->current->next;
+		openfile->current_x = 0;
+	} else
+		openfile->current_x = strlen(openfile->current->data);
+
+	openfile->placewewant = xplustabs();
+
+	openfile->last_action = COPY;
+	keep_cutbuffer = TRUE;
 }
 
 /* Cut from the current cursor position to the end of the file. */

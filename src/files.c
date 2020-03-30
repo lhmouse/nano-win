@@ -1044,7 +1044,7 @@ bool execute_command(const char *command)
 		if (ISSET(MULTIBUFFER)) {
 			openfile = openfile->prev;
 			if (openfile->mark)
-				do_snip(TRUE, TRUE, FALSE, FALSE);
+				copy_marked_region();
 			else
 				whole_buffer = TRUE;
 		} else
