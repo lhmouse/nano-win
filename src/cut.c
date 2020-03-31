@@ -598,14 +598,14 @@ void copy_text(void)
 			cutbottom = make_new_node(cutbuffer);
 			cutbottom->data = copy_of("");
 			cutbuffer->next = cutbottom;
-		} else if (at_eol) {
-			addition->prev = cutbottom;
-			cutbottom->next = addition;
-			cutbottom = addition;
-		} else {
+		} else if (!at_eol) {
 			addition->prev = cutbottom->prev;
 			addition->prev->next = addition;
 			delete_node(cutbottom);
+			cutbottom = addition;
+		} else {
+			addition->prev = cutbottom;
+			cutbottom->next = addition;
 			cutbottom = addition;
 		}
 	} else {
