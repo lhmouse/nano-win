@@ -564,7 +564,7 @@ void copy_marked_region(void)
 void copy_text(void)
 {
 	bool at_eol = (openfile->current->data[openfile->current_x] == '\0');
-	bool on_last_line = (openfile->current->next == NULL);
+	bool sans_newline = (ISSET(NO_NEWLINES) && openfile->current->next == NULL);
 	size_t from_x = (ISSET(CUT_FROM_CURSOR)) ? openfile->current_x : 0;
 	linestruct *addition;
 
@@ -587,10 +587,13 @@ void copy_text(void)
 	addition = make_new_node(NULL);
 	addition->data = copy_of(openfile->current->data + from_x);
 
+	if (ISSET(CUT_FROM_CURSOR))
+		sans_newline = !at_eol;
+
 	/* Create OR add to the cutbuffer, depending on the mode, the position
 	 * of the cursor, and whether or not the cutbuffer is currently empty. */
 	if (ISSET(CUT_FROM_CURSOR)) {
-		if (cutbuffer == NULL && !at_eol) {
+		if (cutbuffer == NULL && sans_newline) {
 			cutbuffer = addition;
 			cutbottom = addition;
 		} else if (cutbuffer == NULL) {
@@ -598,7 +601,7 @@ void copy_text(void)
 			cutbottom = make_new_node(cutbuffer);
 			cutbottom->data = copy_of("");
 			cutbuffer->next = cutbottom;
-		} else if (!at_eol) {
+		} else if (sans_newline) {
 			addition->prev = cutbottom->prev;
 			addition->prev->next = addition;
 			delete_node(cutbottom);
@@ -609,7 +612,7 @@ void copy_text(void)
 			cutbottom = addition;
 		}
 	} else {
-		if (cutbuffer == NULL && on_last_line && ISSET(NO_NEWLINES)) {
+		if (cutbuffer == NULL && sans_newline ) {
 			cutbuffer = addition;
 			cutbottom = addition;
 		} else if (cutbuffer == NULL) {
@@ -617,7 +620,7 @@ void copy_text(void)
 			cutbottom = make_new_node(cutbuffer);
 			cutbottom->data = copy_of("");
 			cutbuffer->next = cutbottom;
-		} else if (on_last_line && ISSET(NO_NEWLINES)) {
+		} else if (sans_newline) {
 			addition->prev = cutbottom->prev;
 			addition->prev->next = addition;
 			delete_node(cutbottom);
