@@ -1,3 +1,18 @@
+Changes between v4.9 and v4.9.1:
+--------------------------------
+
+Benno Schulenberg (9):
+      bump version numbers and add a news item for the 4.9.1 release
+      files: make filtering of the entire buffer into a new buffer work again
+      tweaks: delete a ChangeLog that is no longer updated and is incomplete
+      tweaks: delete another pointless ChangeLog
+      tweaks: fix twenty typos, in old Changelogs and in some comments
+      tweaks: for each version, mention the changes to the PO files last
+      tweaks: rename a symbol, to be more accurate, and reshuffle two lines
+      tweaks: uniformize some old translator credits
+      undo: when undoing a line cut, place the cursor back where it was
+
+
 Changes between v4.8 and v4.9:
 ------------------------------
 

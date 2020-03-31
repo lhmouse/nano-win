@@ -1,3 +1,8 @@
+2020.03.31 - GNU nano 4.9.1 "Sapperdeflap"
+• Two bugs introduced in version 4.9 are fixed: the cursor
+  getting misplaced when undoing line cuts, and filtering
+  of the whole buffer to a new buffer not working.
+
 2020.03.24 - GNU nano 4.9 "die fetten Jahre sind vorbei"
 • When justifying a selection, the new paragraph and the
   succeeding one get the appropriate first-line indent.
