@@ -541,8 +541,10 @@ void copy_marked_region(void)
 	openfile->mark = NULL;
 	refresh_needed = TRUE;
 
-	if (topline == botline && top_x == bot_x)
+	if (topline == botline && top_x == bot_x) {
+		statusbar(_("Copied nothing"));
 		return;
+	}
 
 	/* Make the area that was marked look like a separate buffer. */
 	afterline = botline->next;
