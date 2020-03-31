@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 4.9-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2020-03-24 11:18+0100\n"
+"POT-Creation-Date: 2020-03-31 12:08+0200\n"
 "PO-Revision-Date: 2020-03-17 18:06-0400\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -31,9 +31,9 @@ msgstr "无法打开目录：%s"
 msgid "Go To Directory"
 msgstr "跳至目录"
 
-#: src/browser.c:233 src/browser.c:648 src/files.c:1177 src/files.c:2123
+#: src/browser.c:233 src/browser.c:648 src/files.c:1181 src/files.c:2127
 #: src/nano.c:844 src/search.c:114 src/search.c:208 src/search.c:712
-#: src/search.c:765 src/text.c:2552 src/text.c:2744
+#: src/search.c:765 src/text.c:2553 src/text.c:2745
 msgid "Cancelled"
 msgstr "已取消"
 
@@ -48,8 +48,8 @@ msgstr "无法访问 %s 外部"
 msgid "Can't move up a directory"
 msgstr "无法上移一个目录"
 
-#: src/browser.c:287 src/files.c:902 src/files.c:908 src/files.c:1651
-#: src/files.c:1760 src/files.c:1793 src/files.c:1807 src/history.c:298
+#: src/browser.c:287 src/files.c:902 src/files.c:908 src/files.c:1655
+#: src/files.c:1764 src/files.c:1797 src/files.c:1811 src/history.c:298
 #: src/history.c:394 src/rcfile.c:899 src/rcfile.c:1609
 #, c-format
 msgid "Error reading %s: %s"
@@ -234,7 +234,7 @@ msgstr[0] "%s -- %zu 行"
 msgid "No more open file buffers"
 msgstr "无多余文件缓冲区可启用"
 
-#: src/files.c:681 src/files.c:900 src/files.c:1850
+#: src/files.c:681 src/files.c:900 src/files.c:1854
 msgid "Interrupted"
 msgstr "被中断"
 
@@ -285,11 +285,11 @@ msgstr "正在从命名管道（FIFO）录制..."
 msgid "Reading..."
 msgstr "正在读取..."
 
-#: src/files.c:993 src/text.c:2139 src/text.c:2560
+#: src/files.c:993 src/text.c:2140 src/text.c:2561
 msgid "Could not create pipe"
 msgstr "无法创建管道"
 
-#: src/files.c:1029 src/text.c:2216 src/text.c:2377 src/text.c:2594
+#: src/files.c:1029 src/text.c:2217 src/text.c:2378 src/text.c:2595
 msgid "Could not fork"
 msgstr "无法 fork"
 
@@ -298,169 +298,169 @@ msgid "Executing..."
 msgstr "正在执行..."
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/files.c:1050 src/files.c:1093
+#: src/files.c:1054 src/files.c:1097
 msgid "filtering"
 msgstr "过滤"
 
-#: src/files.c:1088
+#: src/files.c:1092
 #, c-format
 msgid "Failed to open pipe: %s"
 msgstr "打开管道失败：%s"
 
 #. TRANSLATORS: The next six messages are prompts.
-#: src/files.c:1133
+#: src/files.c:1137
 msgid "Command to execute in new buffer"
 msgstr "在新缓冲区中要执行的命令"
 
-#: src/files.c:1136
+#: src/files.c:1140
 msgid "Command to execute"
 msgstr "要执行的命令"
 
-#: src/files.c:1144
+#: src/files.c:1148
 #, c-format
 msgid "File to read unconverted into new buffer [from %s]"
 msgstr "要不经转换读入新缓冲区的文件 [来自 %s]"
 
-#: src/files.c:1147
+#: src/files.c:1151
 #, c-format
 msgid "File to read into new buffer [from %s]"
 msgstr "要读入新缓冲区的文件 [来自 %s]"
 
-#: src/files.c:1152
+#: src/files.c:1156
 #, c-format
 msgid "File to insert unconverted [from %s]"
 msgstr "要不经转换插入的文件 [来自 %s]"
 
-#: src/files.c:1155
+#: src/files.c:1159
 #, c-format
 msgid "File to insert [from %s]"
 msgstr "要插入的文件 [来自 %s]"
 
-#: src/files.c:1480
+#: src/files.c:1484
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr "无效的操作目录：%s\n"
 
-#: src/files.c:1530
+#: src/files.c:1534
 msgid "Failed to write backup file; continue saving? (Say N if unsure.) "
 msgstr "写入备份文件失败；继续保存吗？（如果不确定请输入N。）"
 
-#: src/files.c:1547
+#: src/files.c:1551
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr "无效的备份目录：%s\n"
 
-#: src/files.c:1617
+#: src/files.c:1621
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "无法写入%s 外部"
 
-#: src/files.c:1681 src/files.c:1705 src/files.c:1723 src/files.c:1737
-#: src/files.c:1749 src/files.c:1766 src/files.c:1776
+#: src/files.c:1685 src/files.c:1709 src/files.c:1727 src/files.c:1741
+#: src/files.c:1753 src/files.c:1770 src/files.c:1780
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "写入备份文件 %s 出错：%s"
 
-#: src/files.c:1682 src/nano.c:419
+#: src/files.c:1686 src/nano.c:419
 msgid "Too many backup files?"
 msgstr "太多备份文件？"
 
-#: src/files.c:1800 src/files.c:1811 src/text.c:2470 src/text.c:2488
-#: src/text.c:2884
+#: src/files.c:1804 src/files.c:1815 src/text.c:2471 src/text.c:2489
+#: src/text.c:2885
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "写入临时文件%s 出错"
 
-#: src/files.c:1818
+#: src/files.c:1822
 msgid "Writing to FIFO..."
 msgstr "正在写入命名管道（FIFO）..."
 
-#: src/files.c:1852 src/files.c:1863 src/files.c:1884 src/files.c:1900
-#: src/files.c:1909 src/files.c:1937 src/files.c:1945
+#: src/files.c:1856 src/files.c:1867 src/files.c:1888 src/files.c:1904
+#: src/files.c:1913 src/files.c:1941 src/files.c:1949
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "写入%s 出错：%s"
 
-#: src/files.c:1870
+#: src/files.c:1874
 msgid "Writing..."
 msgstr "正在写入..."
 
-#: src/files.c:1926 src/files.c:1934
+#: src/files.c:1930 src/files.c:1938
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr "读取临时文件出错：%s"
 
-#: src/files.c:2002
+#: src/files.c:2006
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "已写入 %zu 行"
 
-#: src/files.c:2083
+#: src/files.c:2087
 msgid " [DOS Format]"
 msgstr " [DOS 格式]"
 
-#: src/files.c:2084
+#: src/files.c:2088
 msgid " [Mac Format]"
 msgstr " [Mac 格式]"
 
-#: src/files.c:2085
+#: src/files.c:2089
 msgid " [Backup]"
 msgstr " [备份]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2092
+#: src/files.c:2096
 msgid "Prepend Selection to File"
 msgstr "前引选择部份于文件"
 
-#: src/files.c:2093
+#: src/files.c:2097
 msgid "Append Selection to File"
 msgstr "附加选择部份至文件"
 
-#: src/files.c:2094
+#: src/files.c:2098
 msgid "Write Selection to File"
 msgstr "写入选择部份至文件"
 
-#: src/files.c:2096
+#: src/files.c:2100
 msgid "File Name to Prepend to"
 msgstr "要前引于的文件名"
 
-#: src/files.c:2097
+#: src/files.c:2101
 msgid "File Name to Append to"
 msgstr "要附加至的文件名"
 
-#: src/files.c:2100
+#: src/files.c:2104
 msgid "File Name to Write"
 msgstr "要写入的文件名"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2183
+#: src/files.c:2187
 msgid "Too tiny"
 msgstr "屏幕过小"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2213
+#: src/files.c:2217
 msgid "File exists -- cannot overwrite"
 msgstr "文件已存在——无法覆写"
 
-#: src/files.c:2223
+#: src/files.c:2227
 msgid "Save file under DIFFERENT NAME? "
 msgstr "以不同的名称保存文件？ "
 
-#: src/files.c:2231
+#: src/files.c:2235
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "文件“%s”已存在；要覆盖吗？ "
 
-#: src/files.c:2257
+#: src/files.c:2261
 msgid "File on disk has changed"
 msgstr "磁盘上的文件已改变"
 
-#: src/files.c:2259
+#: src/files.c:2263
 msgid "File was modified since you opened it; continue saving? "
 msgstr "在您打开文件后文件已被改变；是否继续保存？"
 
-#: src/files.c:2661
+#: src/files.c:2665
 msgid "(more)"
 msgstr "(更多)"
 
@@ -2503,155 +2503,155 @@ msgid "Redid %s"
 msgstr "已重做 %s"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1739 src/text.c:1952
+#: src/text.c:1740 src/text.c:1953
 msgid "justification"
 msgstr "对齐"
 
-#: src/text.c:1751
+#: src/text.c:1752
 msgid "Selection is empty"
 msgstr "选择为空"
 
-#: src/text.c:1961
+#: src/text.c:1962
 msgid "Justified selection"
 msgstr "已对齐选中内容"
 
-#: src/text.c:1965
+#: src/text.c:1966
 msgid "Justified file"
 msgstr "已对齐文件"
 
-#: src/text.c:1967
+#: src/text.c:1968
 msgid "Justified paragraph"
 msgstr "已对齐段落"
 
-#: src/text.c:2059
+#: src/text.c:2060
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "无法找到单词：%s"
 
-#: src/text.c:2075
+#: src/text.c:2076
 msgid "Edit a replacement"
 msgstr "编辑替代文字"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2088
+#: src/text.c:2089
 msgid "Next word..."
 msgstr "下一个单词..."
 
-#: src/text.c:2224 src/text.c:2603
+#: src/text.c:2225 src/text.c:2604
 msgid "Could not get size of pipe buffer"
 msgstr "无法获取管道缓冲区大小"
 
-#: src/text.c:2290
+#: src/text.c:2291
 msgid "Error invoking \"uniq\""
 msgstr "调用 \"uniq\" 出现错误"
 
-#: src/text.c:2293
+#: src/text.c:2294
 msgid "Error invoking \"sort\""
 msgstr "调用 \"sort\" 出现错误"
 
-#: src/text.c:2296
+#: src/text.c:2297
 msgid "Error invoking \"spell\""
 msgstr "调用 \"spell\" 出现错误"
 
-#: src/text.c:2299 src/text.c:2447
+#: src/text.c:2300 src/text.c:2448
 msgid "Finished checking spelling"
 msgstr "拼写检查结束"
 
-#: src/text.c:2390 src/text.c:2694
+#: src/text.c:2391 src/text.c:2695
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "调用 '%s' 出现错误"
 
-#: src/text.c:2393
+#: src/text.c:2394
 #, c-format
 msgid "Program '%s' complained"
 msgstr "程序“%s”提示"
 
-#: src/text.c:2401
+#: src/text.c:2402
 msgid "Nothing changed"
 msgstr "数据未被修改"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2430
+#: src/text.c:2431
 msgid "spelling correction"
 msgstr "拼写检查"
 
-#: src/text.c:2430
+#: src/text.c:2431
 msgid "formatting"
 msgstr "正在格式化"
 
-#: src/text.c:2449
+#: src/text.c:2450
 msgid "Buffer has been processed"
 msgstr "缓冲区已处理"
 
-#: src/text.c:2515
+#: src/text.c:2516
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: src/text.c:2539
+#: src/text.c:2540
 msgid "No linter is defined for this type of file"
 msgstr "没有为该类型文件而定义的代码语法检查器"
 
-#: src/text.c:2549
+#: src/text.c:2550
 msgid "Save modified buffer before linting?"
 msgstr "运行代码语法检查之前保存已修改的缓冲区吗？"
 
-#: src/text.c:2566
+#: src/text.c:2567
 msgid "Invoking linter, please wait"
 msgstr "正在调用代码语法检查器，请稍候"
 
-#: src/text.c:2699
+#: src/text.c:2700
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "从命令 %s 获得了 0 行可解析的行"
 
-#: src/text.c:2737
+#: src/text.c:2738
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr "该信息对应于未打开的文件 %s，在新缓冲区打开它吗？"
 
-#: src/text.c:2776
+#: src/text.c:2777
 msgid "No messages for this file"
 msgstr "没有该文件的消息"
 
-#: src/text.c:2823
+#: src/text.c:2824
 msgid "At first message"
 msgstr "在第一条消息"
 
-#: src/text.c:2833
+#: src/text.c:2834
 msgid "At last message"
 msgstr "在最后一条消息"
 
-#: src/text.c:2874
+#: src/text.c:2875
 msgid "No formatter is defined for this type of file"
 msgstr "没有为该类型文件而定义的代码语法检查器"
 
-#: src/text.c:2950
+#: src/text.c:2951
 #, c-format
 msgid "%sWords: %zu  Lines: %zd  Chars: %zu"
 msgstr "%s字数：%zu  行数：%zd  字符数：%zu"
 
-#: src/text.c:2951
+#: src/text.c:2952
 msgid "In Selection:  "
 msgstr "于选择部分："
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2962
+#: src/text.c:2963
 msgid "Verbatim Input"
 msgstr "原形输入"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3051
+#: src/text.c:3052
 msgid "No word fragment"
 msgstr "没有单词片段"
 
-#: src/text.c:3143
+#: src/text.c:3144
 msgid "No further matches"
 msgstr "没有更多匹配"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3147
+#: src/text.c:3148
 msgid "No matches"
 msgstr "没有匹配"
 

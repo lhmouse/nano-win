@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano-4.9-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2020-03-24 11:18+0100\n"
+"POT-Creation-Date: 2020-03-31 12:08+0200\n"
 "PO-Revision-Date: 2020-03-20 11:40+0100\n"
 "Last-Translator: Benno Schulenberg <vertaling@coevern.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -34,9 +34,9 @@ msgstr "Kan map niet openen: %s"
 msgid "Go To Directory"
 msgstr "Naar map"
 
-#: src/browser.c:233 src/browser.c:648 src/files.c:1177 src/files.c:2123
+#: src/browser.c:233 src/browser.c:648 src/files.c:1181 src/files.c:2127
 #: src/nano.c:844 src/search.c:114 src/search.c:208 src/search.c:712
-#: src/search.c:765 src/text.c:2552 src/text.c:2744
+#: src/search.c:765 src/text.c:2553 src/text.c:2745
 msgid "Cancelled"
 msgstr "Geannuleerd"
 
@@ -51,8 +51,8 @@ msgstr "Kan niet buiten %s gaan"
 msgid "Can't move up a directory"
 msgstr "Kan niet naar bovenliggende map gaan"
 
-#: src/browser.c:287 src/files.c:902 src/files.c:908 src/files.c:1651
-#: src/files.c:1760 src/files.c:1793 src/files.c:1807 src/history.c:298
+#: src/browser.c:287 src/files.c:902 src/files.c:908 src/files.c:1655
+#: src/files.c:1764 src/files.c:1797 src/files.c:1811 src/history.c:298
 #: src/history.c:394 src/rcfile.c:899 src/rcfile.c:1609
 #, c-format
 msgid "Error reading %s: %s"
@@ -239,7 +239,7 @@ msgstr[1] "%s -- %zu regels"
 msgid "No more open file buffers"
 msgstr "Geen andere open buffers"
 
-#: src/files.c:681 src/files.c:900 src/files.c:1850
+#: src/files.c:681 src/files.c:900 src/files.c:1854
 msgid "Interrupted"
 msgstr "Afgebroken"
 
@@ -294,11 +294,11 @@ msgstr "Lezen van FIFO..."
 msgid "Reading..."
 msgstr "Lezen..."
 
-#: src/files.c:993 src/text.c:2139 src/text.c:2560
+#: src/files.c:993 src/text.c:2140 src/text.c:2561
 msgid "Could not create pipe"
 msgstr "Kan geen pijp aanmaken"
 
-#: src/files.c:1029 src/text.c:2216 src/text.c:2377 src/text.c:2594
+#: src/files.c:1029 src/text.c:2217 src/text.c:2378 src/text.c:2595
 msgid "Could not fork"
 msgstr "Kan geen nieuw proces starten"
 
@@ -307,170 +307,170 @@ msgid "Executing..."
 msgstr "Uitvoeren..."
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/files.c:1050 src/files.c:1093
+#: src/files.c:1054 src/files.c:1097
 msgid "filtering"
 msgstr "Filteren"
 
-#: src/files.c:1088
+#: src/files.c:1092
 #, c-format
 msgid "Failed to open pipe: %s"
 msgstr "Openen van pijp is mislukt: %s"
 
 #. TRANSLATORS: The next six messages are prompts.
-#: src/files.c:1133
+#: src/files.c:1137
 msgid "Command to execute in new buffer"
 msgstr "In nieuwe buffer uit te voeren opdracht"
 
-#: src/files.c:1136
+#: src/files.c:1140
 msgid "Command to execute"
 msgstr "Uit te voeren opdracht"
 
-#: src/files.c:1144
+#: src/files.c:1148
 #, c-format
 msgid "File to read unconverted into new buffer [from %s]"
 msgstr "In nieuwe buffer in te lezen bestand (ongeconverteerd) [vanuit %s]"
 
-#: src/files.c:1147
+#: src/files.c:1151
 #, c-format
 msgid "File to read into new buffer [from %s]"
 msgstr "In nieuwe buffer in te lezen bestand [vanuit %s]"
 
-#: src/files.c:1152
+#: src/files.c:1156
 #, c-format
 msgid "File to insert unconverted [from %s]"
 msgstr "In te voegen bestand (ongeconverteerd) [vanuit %s]"
 
-#: src/files.c:1155
+#: src/files.c:1159
 #, c-format
 msgid "File to insert [from %s]"
 msgstr "In te voegen bestand [vanuit %s]"
 
-#: src/files.c:1480
+#: src/files.c:1484
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr "Ongeldige werkmap: %s\n"
 
-#: src/files.c:1530
+#: src/files.c:1534
 msgid "Failed to write backup file; continue saving? (Say N if unsure.) "
 msgstr "Maken van reservekopie is mislukt; toch opslaan?  (N als onzeker) "
 
-#: src/files.c:1547
+#: src/files.c:1551
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr "Ongeldige reservekopiemap: %s\n"
 
-#: src/files.c:1617
+#: src/files.c:1621
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Kan buiten %s niets opslaan"
 
-#: src/files.c:1681 src/files.c:1705 src/files.c:1723 src/files.c:1737
-#: src/files.c:1749 src/files.c:1766 src/files.c:1776
+#: src/files.c:1685 src/files.c:1709 src/files.c:1727 src/files.c:1741
+#: src/files.c:1753 src/files.c:1770 src/files.c:1780
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Fout bij schrijven van reservekopiebestand %s: %s"
 
-#: src/files.c:1682 src/nano.c:419
+#: src/files.c:1686 src/nano.c:419
 msgid "Too many backup files?"
 msgstr "Te veel reservekopieën?"
 
-#: src/files.c:1800 src/files.c:1811 src/text.c:2470 src/text.c:2488
-#: src/text.c:2884
+#: src/files.c:1804 src/files.c:1815 src/text.c:2471 src/text.c:2489
+#: src/text.c:2885
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Fout bij schrijven van tijdelijk bestand: %s"
 
-#: src/files.c:1818
+#: src/files.c:1822
 msgid "Writing to FIFO..."
 msgstr "Schrijven naar FIFO..."
 
-#: src/files.c:1852 src/files.c:1863 src/files.c:1884 src/files.c:1900
-#: src/files.c:1909 src/files.c:1937 src/files.c:1945
+#: src/files.c:1856 src/files.c:1867 src/files.c:1888 src/files.c:1904
+#: src/files.c:1913 src/files.c:1941 src/files.c:1949
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Fout bij schrijven van %s: %s"
 
-#: src/files.c:1870
+#: src/files.c:1874
 msgid "Writing..."
 msgstr "Schrijven..."
 
-#: src/files.c:1926 src/files.c:1934
+#: src/files.c:1930 src/files.c:1938
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr "Fout bij lezen van tijdelijk bestand: %s"
 
-#: src/files.c:2002
+#: src/files.c:2006
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "%zu regel geschreven"
 msgstr[1] "%zu regels geschreven"
 
-#: src/files.c:2083
+#: src/files.c:2087
 msgid " [DOS Format]"
 msgstr " [DOS-indeling]"
 
-#: src/files.c:2084
+#: src/files.c:2088
 msgid " [Mac Format]"
 msgstr " [Mac-indeling]"
 
-#: src/files.c:2085
+#: src/files.c:2089
 msgid " [Backup]"
 msgstr " [Kopie maken]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2092
+#: src/files.c:2096
 msgid "Prepend Selection to File"
 msgstr "Selectie toevoegen vooraan bestand"
 
-#: src/files.c:2093
+#: src/files.c:2097
 msgid "Append Selection to File"
 msgstr "Selectie toevoegen achteraan bestand"
 
-#: src/files.c:2094
+#: src/files.c:2098
 msgid "Write Selection to File"
 msgstr "Selectie opslaan in bestand"
 
-#: src/files.c:2096
+#: src/files.c:2100
 msgid "File Name to Prepend to"
 msgstr "Vooraan toevoegen aan bestand"
 
-#: src/files.c:2097
+#: src/files.c:2101
 msgid "File Name to Append to"
 msgstr "Achteraan toevoegen aan bestand"
 
-#: src/files.c:2100
+#: src/files.c:2104
 msgid "File Name to Write"
 msgstr "Opslaan in bestand"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2183
+#: src/files.c:2187
 msgid "Too tiny"
 msgstr "Te klein"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2213
+#: src/files.c:2217
 msgid "File exists -- cannot overwrite"
 msgstr "Bestand bestaat al -- mag deze niet overschrijven"
 
-#: src/files.c:2223
+#: src/files.c:2227
 msgid "Save file under DIFFERENT NAME? "
 msgstr "Bestand opslaan onder een ANDERE NAAM? "
 
-#: src/files.c:2231
+#: src/files.c:2235
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "Bestand '%s' bestaat al; OVERSCHRIJVEN? "
 
-#: src/files.c:2257
+#: src/files.c:2261
 msgid "File on disk has changed"
 msgstr "Bestand op schijf is gewijzigd"
 
-#: src/files.c:2259
+#: src/files.c:2263
 msgid "File was modified since you opened it; continue saving? "
 msgstr "Bestand is gewijzigd na opening; doorgaan met opslaan? "
 
-#: src/files.c:2661
+#: src/files.c:2665
 msgid "(more)"
 msgstr "(meer)"
 
@@ -2552,155 +2552,155 @@ msgid "Redid %s"
 msgstr "%s is opnieuw gedaan"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1739 src/text.c:1952
+#: src/text.c:1740 src/text.c:1953
 msgid "justification"
 msgstr "Uitvullen"
 
-#: src/text.c:1751
+#: src/text.c:1752
 msgid "Selection is empty"
 msgstr "Selectie is leeg"
 
-#: src/text.c:1961
+#: src/text.c:1962
 msgid "Justified selection"
 msgstr "Selectie is uitgevuld"
 
-#: src/text.c:1965
+#: src/text.c:1966
 msgid "Justified file"
 msgstr "Gehele buffer is uitgevuld"
 
-#: src/text.c:1967
+#: src/text.c:1968
 msgid "Justified paragraph"
 msgstr "Alinea is uitgevuld"
 
-#: src/text.c:2059
+#: src/text.c:2060
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "Onvindbaar woord: %s"
 
-#: src/text.c:2075
+#: src/text.c:2076
 msgid "Edit a replacement"
 msgstr "Geef de vervanging"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2088
+#: src/text.c:2089
 msgid "Next word..."
 msgstr "Volgend woord..."
 
-#: src/text.c:2224 src/text.c:2603
+#: src/text.c:2225 src/text.c:2604
 msgid "Could not get size of pipe buffer"
 msgstr "Kan grootte van doorsluisbuffer niet bepalen"
 
-#: src/text.c:2290
+#: src/text.c:2291
 msgid "Error invoking \"uniq\""
 msgstr "Fout bij aanroepen van 'uniq'"
 
-#: src/text.c:2293
+#: src/text.c:2294
 msgid "Error invoking \"sort\""
 msgstr "Fout bij aanroepen van 'sort'"
 
-#: src/text.c:2296
+#: src/text.c:2297
 msgid "Error invoking \"spell\""
 msgstr "Fout bij aanroepen van 'spell'"
 
-#: src/text.c:2299 src/text.c:2447
+#: src/text.c:2300 src/text.c:2448
 msgid "Finished checking spelling"
 msgstr "Spellingscontrole is voltooid"
 
-#: src/text.c:2390 src/text.c:2694
+#: src/text.c:2391 src/text.c:2695
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "Fout bij aanroepen van '%s'"
 
-#: src/text.c:2393
+#: src/text.c:2394
 #, c-format
 msgid "Program '%s' complained"
 msgstr "Programma '%s' had klachten"
 
-#: src/text.c:2401
+#: src/text.c:2402
 msgid "Nothing changed"
 msgstr "Er is niets veranderd"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2430
+#: src/text.c:2431
 msgid "spelling correction"
 msgstr "Spellingscorrectie"
 
-#: src/text.c:2430
+#: src/text.c:2431
 msgid "formatting"
 msgstr "Bewerking"
 
-#: src/text.c:2449
+#: src/text.c:2450
 msgid "Buffer has been processed"
 msgstr "Buffer is bewerkt"
 
-#: src/text.c:2515
+#: src/text.c:2516
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: src/text.c:2539
+#: src/text.c:2540
 msgid "No linter is defined for this type of file"
 msgstr "Er is geen linter gedefinieerd voor dit type bestand"
 
-#: src/text.c:2549
+#: src/text.c:2550
 msgid "Save modified buffer before linting?"
 msgstr "Gewijzigd buffer opslaan alvorens te linten?"
 
-#: src/text.c:2566
+#: src/text.c:2567
 msgid "Invoking linter, please wait"
 msgstr "Aanroepen van de linter; even geduld..."
 
-#: src/text.c:2699
+#: src/text.c:2700
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Kreeg nul ontleedbare regels terug van commando '%s'"
 
-#: src/text.c:2737
+#: src/text.c:2738
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr "Melding is voor ongeopend bestand %s; in nieuwe buffer openen?"
 
-#: src/text.c:2776
+#: src/text.c:2777
 msgid "No messages for this file"
 msgstr "Geen berichten voor dit bestand"
 
-#: src/text.c:2823
+#: src/text.c:2824
 msgid "At first message"
 msgstr "Dit is de eerste melding"
 
-#: src/text.c:2833
+#: src/text.c:2834
 msgid "At last message"
 msgstr "Dit is de laatste melding"
 
-#: src/text.c:2874
+#: src/text.c:2875
 msgid "No formatter is defined for this type of file"
 msgstr "Er is geen bewerker gedefinieerd voor dit type bestand"
 
-#: src/text.c:2950
+#: src/text.c:2951
 #, c-format
 msgid "%sWords: %zu  Lines: %zd  Chars: %zu"
 msgstr "%s%zu woorden,  %zd regels,  %zu tekens"
 
-#: src/text.c:2951
+#: src/text.c:2952
 msgid "In Selection:  "
 msgstr "In de selectie:  "
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2962
+#: src/text.c:2963
 msgid "Verbatim Input"
 msgstr "Verbatim invoer"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3051
+#: src/text.c:3052
 msgid "No word fragment"
 msgstr "Geen woordfragment"
 
-#: src/text.c:3143
+#: src/text.c:3144
 msgid "No further matches"
 msgstr "Geen verdere mogelijkheden"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3147
+#: src/text.c:3148
 msgid "No matches"
 msgstr "Geen overeenkomsten"
 

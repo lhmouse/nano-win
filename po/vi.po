@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 3.2-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2020-03-24 11:18+0100\n"
+"POT-Creation-Date: 2020-03-31 12:08+0200\n"
 "PO-Revision-Date: 2018-11-06 08:59+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <translation-team-vi@lists.sourceforge.net>\n"
@@ -33,9 +33,9 @@ msgstr "Không thể mở thư mục: %s"
 msgid "Go To Directory"
 msgstr "Đi tới thư mục"
 
-#: src/browser.c:233 src/browser.c:648 src/files.c:1177 src/files.c:2123
+#: src/browser.c:233 src/browser.c:648 src/files.c:1181 src/files.c:2127
 #: src/nano.c:844 src/search.c:114 src/search.c:208 src/search.c:712
-#: src/search.c:765 src/text.c:2552 src/text.c:2744
+#: src/search.c:765 src/text.c:2553 src/text.c:2745
 msgid "Cancelled"
 msgstr "Bị hủy bỏ"
 
@@ -50,8 +50,8 @@ msgstr "Không thể đi ra bên ngoài của %s"
 msgid "Can't move up a directory"
 msgstr "Không thể nhảy lên một thư mục"
 
-#: src/browser.c:287 src/files.c:902 src/files.c:908 src/files.c:1651
-#: src/files.c:1760 src/files.c:1793 src/files.c:1807 src/history.c:298
+#: src/browser.c:287 src/files.c:902 src/files.c:908 src/files.c:1655
+#: src/files.c:1764 src/files.c:1797 src/files.c:1811 src/history.c:298
 #: src/history.c:394 src/rcfile.c:899 src/rcfile.c:1609
 #, c-format
 msgid "Error reading %s: %s"
@@ -236,7 +236,7 @@ msgstr[0] "%s -- %zu dòng"
 msgid "No more open file buffers"
 msgstr "Không còn bộ đệm mở tập tin nữa"
 
-#: src/files.c:681 src/files.c:900 src/files.c:1850
+#: src/files.c:681 src/files.c:900 src/files.c:1854
 msgid "Interrupted"
 msgstr ""
 
@@ -287,11 +287,11 @@ msgstr ""
 msgid "Reading..."
 msgstr ""
 
-#: src/files.c:993 src/text.c:2139 src/text.c:2560
+#: src/files.c:993 src/text.c:2140 src/text.c:2561
 msgid "Could not create pipe"
 msgstr "Không thể tạo đường ống"
 
-#: src/files.c:1029 src/text.c:2216 src/text.c:2377 src/text.c:2594
+#: src/files.c:1029 src/text.c:2217 src/text.c:2378 src/text.c:2595
 msgid "Could not fork"
 msgstr "Không thể tạo tiến trình con"
 
@@ -300,171 +300,171 @@ msgid "Executing..."
 msgstr ""
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/files.c:1050 src/files.c:1093
+#: src/files.c:1054 src/files.c:1097
 msgid "filtering"
 msgstr "lọc"
 
-#: src/files.c:1088
+#: src/files.c:1092
 #, c-format
 msgid "Failed to open pipe: %s"
 msgstr "Gặp lỗi khi mở đường ống: %s"
 
 #. TRANSLATORS: The next six messages are prompts.
-#: src/files.c:1133
+#: src/files.c:1137
 msgid "Command to execute in new buffer"
 msgstr "Câu lệnh để thực hiện trong bộ đệm mới"
 
-#: src/files.c:1136
+#: src/files.c:1140
 msgid "Command to execute"
 msgstr "Câu lệnh để thực hiện"
 
-#: src/files.c:1144
+#: src/files.c:1148
 #, c-format
 msgid "File to read unconverted into new buffer [from %s]"
 msgstr "Tập tin để đọc không được chuyển đổi vào bộ đệm mới [từ %s]"
 
-#: src/files.c:1147
+#: src/files.c:1151
 #, c-format
 msgid "File to read into new buffer [from %s]"
 msgstr "Tập tin để đọc vào bộ đệm mới [từ %s]"
 
-#: src/files.c:1152
+#: src/files.c:1156
 #, c-format
 msgid "File to insert unconverted [from %s]"
 msgstr "Tập tin để chèn không được chuyển đổi [từ %s]"
 
-#: src/files.c:1155
+#: src/files.c:1159
 #, c-format
 msgid "File to insert [from %s]"
 msgstr "Tập tin để chèn [từ %s]"
 
-#: src/files.c:1480
+#: src/files.c:1484
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr ""
 
-#: src/files.c:1530
+#: src/files.c:1534
 msgid "Failed to write backup file; continue saving? (Say N if unsure.) "
 msgstr ""
 "Gặp lỗi khi ghi tập tin sao lưu dự phòng, tiếp tục ghi? (Gõ N hay K nếu "
 "không chắc chắn.)"
 
-#: src/files.c:1547
+#: src/files.c:1551
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr ""
 
-#: src/files.c:1617
+#: src/files.c:1621
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Không ghi được ra bên ngoài của %s"
 
-#: src/files.c:1681 src/files.c:1705 src/files.c:1723 src/files.c:1737
-#: src/files.c:1749 src/files.c:1766 src/files.c:1776
+#: src/files.c:1685 src/files.c:1709 src/files.c:1727 src/files.c:1741
+#: src/files.c:1753 src/files.c:1770 src/files.c:1780
 #, c-format
 msgid "Error writing backup file %s: %s"
 msgstr "Gặp lỗi khi ghi tập tin sao lưu %s: %s"
 
-#: src/files.c:1682 src/nano.c:419
+#: src/files.c:1686 src/nano.c:419
 msgid "Too many backup files?"
 msgstr "Quá nhiều tập tin sao lưu dự phòng?"
 
-#: src/files.c:1800 src/files.c:1811 src/text.c:2470 src/text.c:2488
-#: src/text.c:2884
+#: src/files.c:1804 src/files.c:1815 src/text.c:2471 src/text.c:2489
+#: src/text.c:2885
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Gặp lỗi khi ghi tập tin tạm thời: %s"
 
-#: src/files.c:1818
+#: src/files.c:1822
 msgid "Writing to FIFO..."
 msgstr ""
 
-#: src/files.c:1852 src/files.c:1863 src/files.c:1884 src/files.c:1900
-#: src/files.c:1909 src/files.c:1937 src/files.c:1945
+#: src/files.c:1856 src/files.c:1867 src/files.c:1888 src/files.c:1904
+#: src/files.c:1913 src/files.c:1941 src/files.c:1949
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Gặp lỗi khi ghi %s: %s"
 
-#: src/files.c:1870
+#: src/files.c:1874
 msgid "Writing..."
 msgstr ""
 
-#: src/files.c:1926 src/files.c:1934
+#: src/files.c:1930 src/files.c:1938
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr ""
 
-#: src/files.c:2002
+#: src/files.c:2006
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "Đã ghi %zu dòng"
 
-#: src/files.c:2083
+#: src/files.c:2087
 msgid " [DOS Format]"
 msgstr " [Định dạng DOS]"
 
-#: src/files.c:2084
+#: src/files.c:2088
 msgid " [Mac Format]"
 msgstr " [Định dạng Mac]"
 
-#: src/files.c:2085
+#: src/files.c:2089
 msgid " [Backup]"
 msgstr " [Sao lưu dự phòng]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2092
+#: src/files.c:2096
 msgid "Prepend Selection to File"
 msgstr "Thêm lựa chọn vào trước Tập tin"
 
-#: src/files.c:2093
+#: src/files.c:2097
 msgid "Append Selection to File"
 msgstr "Thêm lựa chọn vào sau Tập tin"
 
-#: src/files.c:2094
+#: src/files.c:2098
 msgid "Write Selection to File"
 msgstr "Lưu lựa chọn vào một tập tin"
 
-#: src/files.c:2096
+#: src/files.c:2100
 msgid "File Name to Prepend to"
 msgstr "Tên tập tin để thêm vào trước"
 
-#: src/files.c:2097
+#: src/files.c:2101
 msgid "File Name to Append to"
 msgstr "Tên tập tin để thêm vào sau"
 
-#: src/files.c:2100
+#: src/files.c:2104
 msgid "File Name to Write"
 msgstr "Tên tập tin dùng để ghi vào"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2183
+#: src/files.c:2187
 msgid "Too tiny"
 msgstr "Quá bé"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2213
+#: src/files.c:2217
 msgid "File exists -- cannot overwrite"
 msgstr "Tập tin đã sẵn có -- không thể ghi đè"
 
-#: src/files.c:2223
+#: src/files.c:2227
 msgid "Save file under DIFFERENT NAME? "
 msgstr "Ghi tập tin bằng TÊN MỚI? "
 
-#: src/files.c:2231
+#: src/files.c:2235
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "Tập tin \"%s\" đã có sẵn, GHI ĐÈ LÊN? "
 
-#: src/files.c:2257
+#: src/files.c:2261
 msgid "File on disk has changed"
 msgstr "Tập tin trên đĩa đã bị thay đổi"
 
-#: src/files.c:2259
+#: src/files.c:2263
 msgid "File was modified since you opened it; continue saving? "
 msgstr "Tập tin bị sửa đổi kể từ lần bạn mở cuối cùng, có tiếp tục lưu không? "
 
-#: src/files.c:2661
+#: src/files.c:2665
 msgid "(more)"
 msgstr "(còn nữa)"
 
@@ -2537,156 +2537,156 @@ msgid "Redid %s"
 msgstr ""
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1739 src/text.c:1952
+#: src/text.c:1740 src/text.c:1953
 msgid "justification"
 msgstr ""
 
-#: src/text.c:1751
+#: src/text.c:1752
 msgid "Selection is empty"
 msgstr ""
 
-#: src/text.c:1961
+#: src/text.c:1962
 msgid "Justified selection"
 msgstr ""
 
-#: src/text.c:1965
+#: src/text.c:1966
 msgid "Justified file"
 msgstr ""
 
-#: src/text.c:1967
+#: src/text.c:1968
 msgid "Justified paragraph"
 msgstr ""
 
-#: src/text.c:2059
+#: src/text.c:2060
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "Không thể tìm từ: %s"
 
-#: src/text.c:2075
+#: src/text.c:2076
 msgid "Edit a replacement"
 msgstr "Sửa chuỗi thay thế"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2088
+#: src/text.c:2089
 msgid "Next word..."
 msgstr "Từ kế…"
 
-#: src/text.c:2224 src/text.c:2603
+#: src/text.c:2225 src/text.c:2604
 msgid "Could not get size of pipe buffer"
 msgstr "Không lấy được kích thước của bộ đệm đường ống"
 
-#: src/text.c:2290
+#: src/text.c:2291
 msgid "Error invoking \"uniq\""
 msgstr "Gặp lỗi khi gọi “uniq”"
 
-#: src/text.c:2293
+#: src/text.c:2294
 msgid "Error invoking \"sort\""
 msgstr ""
 
-#: src/text.c:2296
+#: src/text.c:2297
 msgid "Error invoking \"spell\""
 msgstr "Gặp lỗi khi gọi “spell”"
 
-#: src/text.c:2299 src/text.c:2447
+#: src/text.c:2300 src/text.c:2448
 msgid "Finished checking spelling"
 msgstr "Hoàn thành việc kiểm tra chính tả"
 
-#: src/text.c:2390 src/text.c:2694
+#: src/text.c:2391 src/text.c:2695
 #, c-format
 msgid "Error invoking '%s'"
 msgstr ""
 
-#: src/text.c:2393
+#: src/text.c:2394
 #, c-format
 msgid "Program '%s' complained"
 msgstr ""
 
-#: src/text.c:2401
+#: src/text.c:2402
 msgid "Nothing changed"
 msgstr ""
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2430
+#: src/text.c:2431
 msgid "spelling correction"
 msgstr "sửa chính tả"
 
-#: src/text.c:2430
+#: src/text.c:2431
 msgid "formatting"
 msgstr ""
 
-#: src/text.c:2449
+#: src/text.c:2450
 msgid "Buffer has been processed"
 msgstr ""
 
-#: src/text.c:2515
+#: src/text.c:2516
 #, c-format
 msgid "%s: %s"
 msgstr ""
 
-#: src/text.c:2539
+#: src/text.c:2540
 msgid "No linter is defined for this type of file"
 msgstr ""
 
-#: src/text.c:2549
+#: src/text.c:2550
 msgid "Save modified buffer before linting?"
 msgstr "Ghi lại bộ đệm đã sửa trước khi kiểm chuẩn?"
 
-#: src/text.c:2566
+#: src/text.c:2567
 msgid "Invoking linter, please wait"
 msgstr "Đang gọi bộ kiểm chuẩn, vui lòng chờ"
 
-#: src/text.c:2699
+#: src/text.c:2700
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Nhận được 0 dòng có thể phân tích từ lệnh: %s"
 
-#: src/text.c:2737
+#: src/text.c:2738
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "Lời nhắn này là dành cho tập tin %s chưa được mở, mở nó trong bộ đệm mới?"
 
-#: src/text.c:2776
+#: src/text.c:2777
 msgid "No messages for this file"
 msgstr "Không có lời nhắn cho tập tin này"
 
-#: src/text.c:2823
+#: src/text.c:2824
 msgid "At first message"
 msgstr "Tại thông báo đầu"
 
-#: src/text.c:2833
+#: src/text.c:2834
 msgid "At last message"
 msgstr "Tại thông báo cuối"
 
-#: src/text.c:2874
+#: src/text.c:2875
 msgid "No formatter is defined for this type of file"
 msgstr ""
 
-#: src/text.c:2950
+#: src/text.c:2951
 #, c-format
 msgid "%sWords: %zu  Lines: %zd  Chars: %zu"
 msgstr "%sTừ: %zu  Dòng: %zd  Ký tự: %zu"
 
-#: src/text.c:2951
+#: src/text.c:2952
 msgid "In Selection:  "
 msgstr "Trong lựa chọn:  "
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2962
+#: src/text.c:2963
 msgid "Verbatim Input"
 msgstr "Dữ liệu nhập nguyên bản"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3051
+#: src/text.c:3052
 msgid "No word fragment"
 msgstr "Không mảnh chữ nào"
 
-#: src/text.c:3143
+#: src/text.c:3144
 msgid "No further matches"
 msgstr "Không tìm thấy thêm kết quả nào khớp"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3147
+#: src/text.c:3148
 msgid "No matches"
 msgstr "Không tìm thấy"
 
