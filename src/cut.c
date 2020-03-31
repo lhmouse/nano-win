@@ -576,6 +576,12 @@ void copy_text(void)
 		return;
 	}
 
+	if (openfile->current->next == NULL && at_eol && (ISSET(CUT_FROM_CURSOR) ||
+									openfile->current_x == 0 || cutbuffer)) {
+		statusbar(_("Copied nothing"));
+		return;
+	}
+
 	addition = make_new_node(NULL);
 
 	/* Create OR add to the cutbuffer, depending on the mode, the position
