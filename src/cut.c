@@ -564,6 +564,7 @@ void copy_marked_region(void)
 void copy_text(void)
 {
 	bool at_eol = (openfile->current->data[openfile->current_x] == '\0');
+	bool on_last_line = (openfile->current->next == NULL);
 	linestruct *addition;
 
 	if (openfile->mark || openfile->last_action != COPY || !keep_cutbuffer) {
@@ -610,11 +611,19 @@ void copy_text(void)
 	} else {
 		addition->data = copy_of(openfile->current->data);
 
-		if (cutbuffer == NULL) {
+		if (cutbuffer == NULL && on_last_line && ISSET(NO_NEWLINES)) {
+			cutbuffer = addition;
+			cutbottom = addition;
+		} else if (cutbuffer == NULL) {
 			cutbuffer = addition;
 			cutbottom = make_new_node(cutbuffer);
 			cutbottom->data = copy_of("");
 			cutbuffer->next = cutbottom;
+		} else if (on_last_line && ISSET(NO_NEWLINES)) {
+			addition->prev = cutbottom->prev;
+			addition->prev->next = addition;
+			delete_node(cutbottom);
+			cutbottom = addition;
 		} else {
 			addition->prev = cutbottom->prev;
 			addition->prev->next = addition;
