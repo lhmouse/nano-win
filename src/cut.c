@@ -592,7 +592,6 @@ void copy_text(void)
 
 	/* Create OR add to the cutbuffer, depending on the mode, the position
 	 * of the cursor, and whether or not the cutbuffer is currently empty. */
-	if (ISSET(CUT_FROM_CURSOR)) {
 		if (cutbuffer == NULL && sans_newline) {
 			cutbuffer = addition;
 			cutbottom = addition;
@@ -606,24 +605,9 @@ void copy_text(void)
 			addition->prev->next = addition;
 			delete_node(cutbottom);
 			cutbottom = addition;
-		} else {
+		} else if (ISSET(CUT_FROM_CURSOR)) {
 			addition->prev = cutbottom;
 			cutbottom->next = addition;
-			cutbottom = addition;
-		}
-	} else {
-		if (cutbuffer == NULL && sans_newline ) {
-			cutbuffer = addition;
-			cutbottom = addition;
-		} else if (cutbuffer == NULL) {
-			cutbuffer = addition;
-			cutbottom = make_new_node(cutbuffer);
-			cutbottom->data = copy_of("");
-			cutbuffer->next = cutbottom;
-		} else if (sans_newline) {
-			addition->prev = cutbottom->prev;
-			addition->prev->next = addition;
-			delete_node(cutbottom);
 			cutbottom = addition;
 		} else {
 			addition->prev = cutbottom->prev;
@@ -631,7 +615,6 @@ void copy_text(void)
 			addition->next = cutbottom;
 			cutbottom->prev = addition;
 		}
-	}
 
 	if ((!ISSET(CUT_FROM_CURSOR) || at_eol) && openfile->current->next) {
 		openfile->current = openfile->current->next;
