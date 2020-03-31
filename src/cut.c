@@ -560,7 +560,9 @@ void copy_marked_region(void)
 	botline->next = afterline;
 }
 
-/* Copy text from the current buffer into the cutbuffer. */
+/* Copy text from the current buffer into the cutbuffer.  The text is either
+ * the marked region, the whole line, the text from cursor to end-of-line,
+ * just the line break, or nothing, depending on mode and cursor position. */
 void copy_text(void)
 {
 	bool at_eol = (openfile->current->data[openfile->current_x] == '\0');
@@ -592,29 +594,29 @@ void copy_text(void)
 
 	/* Create OR add to the cutbuffer, depending on the mode, the position
 	 * of the cursor, and whether or not the cutbuffer is currently empty. */
-		if (cutbuffer == NULL && sans_newline) {
-			cutbuffer = addition;
-			cutbottom = addition;
-		} else if (cutbuffer == NULL) {
-			cutbuffer = addition;
-			cutbottom = make_new_node(cutbuffer);
-			cutbottom->data = copy_of("");
-			cutbuffer->next = cutbottom;
-		} else if (sans_newline) {
-			addition->prev = cutbottom->prev;
-			addition->prev->next = addition;
-			delete_node(cutbottom);
-			cutbottom = addition;
-		} else if (ISSET(CUT_FROM_CURSOR)) {
-			addition->prev = cutbottom;
-			cutbottom->next = addition;
-			cutbottom = addition;
-		} else {
-			addition->prev = cutbottom->prev;
-			addition->prev->next = addition;
-			addition->next = cutbottom;
-			cutbottom->prev = addition;
-		}
+	if (cutbuffer == NULL && sans_newline) {
+		cutbuffer = addition;
+		cutbottom = addition;
+	} else if (cutbuffer == NULL) {
+		cutbuffer = addition;
+		cutbottom = make_new_node(cutbuffer);
+		cutbottom->data = copy_of("");
+		cutbuffer->next = cutbottom;
+	} else if (sans_newline) {
+		addition->prev = cutbottom->prev;
+		addition->prev->next = addition;
+		delete_node(cutbottom);
+		cutbottom = addition;
+	} else if (ISSET(CUT_FROM_CURSOR)) {
+		addition->prev = cutbottom;
+		cutbottom->next = addition;
+		cutbottom = addition;
+	} else {
+		addition->prev = cutbottom->prev;
+		addition->prev->next = addition;
+		addition->next = cutbottom;
+		cutbottom->prev = addition;
+	}
 
 	if ((!ISSET(CUT_FROM_CURSOR) || at_eol) && openfile->current->next) {
 		openfile->current = openfile->current->next;
