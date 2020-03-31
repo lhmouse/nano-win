@@ -565,6 +565,7 @@ void copy_text(void)
 {
 	bool at_eol = (openfile->current->data[openfile->current_x] == '\0');
 	bool on_last_line = (openfile->current->next == NULL);
+	size_t from_x = (ISSET(CUT_FROM_CURSOR)) ? openfile->current_x : 0;
 	linestruct *addition;
 
 	if (openfile->mark || openfile->last_action != COPY || !keep_cutbuffer) {
@@ -584,12 +585,11 @@ void copy_text(void)
 	}
 
 	addition = make_new_node(NULL);
+	addition->data = copy_of(openfile->current->data + from_x);
 
 	/* Create OR add to the cutbuffer, depending on the mode, the position
 	 * of the cursor, and whether or not the cutbuffer is currently empty. */
 	if (ISSET(CUT_FROM_CURSOR)) {
-		addition->data = copy_of(openfile->current->data + openfile->current_x);
-
 		if (cutbuffer == NULL && !at_eol) {
 			cutbuffer = addition;
 			cutbottom = addition;
@@ -609,8 +609,6 @@ void copy_text(void)
 			cutbottom = addition;
 		}
 	} else {
-		addition->data = copy_of(openfile->current->data);
-
 		if (cutbuffer == NULL && on_last_line && ISSET(NO_NEWLINES)) {
 			cutbuffer = addition;
 			cutbottom = addition;
