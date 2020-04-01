@@ -325,59 +325,71 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
  * at the current cursor position. */
 void ingraft_buffer(linestruct *topline)
 {
-	/* Remember whether the current line is at the top of the edit window. */
-	bool edittop_inside = (openfile->edittop == openfile->current);
+	size_t length = strlen(openfile->current->data);
+	size_t extralen = strlen(topline->data);
+	size_t xpos = openfile->current_x;
+	char *tailtext = copy_of(openfile->current->data + xpos);
+	linestruct *line = openfile->current;
 #ifndef NANO_TINY
-	/* Remember whether mark and cursor are on the same line, and their order. */
-	bool right_side_up = (openfile->mark && mark_is_before_cursor());
-	bool same_line = (openfile->mark == openfile->current);
+	bool placed_after = (openfile->mark == line && !mark_is_before_cursor());
 #endif
-	size_t was_x = openfile->current_x;
+	linestruct *botline = topline;
 
-	/* Partition the buffer so that it contains no text, then delete it.*/
-	partition_buffer(openfile->current, openfile->current_x,
-						openfile->current, openfile->current_x);
-	delete_node(openfile->filetop);
+	while (botline->next != NULL)
+		botline = botline->next;
 
-	/* Replace the current buffer with the passed buffer. */
-	openfile->filetop = topline;
-	openfile->filebot = topline;
-	while (openfile->filebot->next != NULL)
-		openfile->filebot = openfile->filebot->next;
+	/* Add the size of the text to be grafted to the buffer size. */
+	openfile->totsize += get_totsize(topline, botline);
 
-	/* Put the cursor at the end of the pasted text. */
-	openfile->current = openfile->filebot;
-	openfile->current_x = strlen(openfile->filebot->data);
+	if (topline != botline)
+		length = xpos;
 
-	/* When the pasted stuff contains no newline, adjust the cursor's
-	 * x coordinate for the text that is before the pasted stuff. */
-	if (openfile->filetop == openfile->filebot)
-		openfile->current_x += was_x;
-
-#ifndef NANO_TINY
-	/* When needed, refresh the mark's pointer and compensate the mark's
-	 * x coordinate for the change in the current line. */
-	if (same_line) {
-		if (!right_side_up) {
-			openfile->mark = openfile->filebot;
-			openfile->mark_x += openfile->current_x - was_x;
-		} else
-			openfile->mark = openfile->filetop;
+	if (extralen > 0) {
+		/* Insert the text of topline at the current cursor position. */
+		line->data = charealloc(line->data, length + extralen + 1);
+		memmove(line->data + xpos + extralen, line->data + xpos, length - xpos + 1);
+		strncpy(line->data + xpos, topline->data, extralen);
 	}
+
+	if (topline != botline) {
+		/* When inserting at end-of-buffer, update the relevant pointer. */
+		if (line->next == NULL)
+			openfile->filebot = botline;
+
+		line->data[xpos + extralen] = '\0';
+
+		/* Hook the grafted lines in after the current one. */
+		botline->next = openfile->current->next;
+		if (botline->next)
+			botline->next->prev = botline;
+		openfile->current->next = topline->next;
+		topline->next->prev = openfile->current;
+
+		/* Add the text after the cursor position at the end of botline. */
+		length = strlen(botline->data);
+		extralen = strlen(tailtext);
+		botline->data = charealloc(botline->data, length + extralen + 1);
+		strcpy(botline->data + length, tailtext);
+
+		/* Put the cursor at the end of the grafted text. */
+		openfile->current = botline;
+		openfile->current_x = length;
+	} else
+		openfile->current_x += extralen;
+
+#ifndef NANO_TINY
+	/* When needed, update the mark's pointer and position. */
+	if (placed_after && topline != botline) {
+		openfile->mark = botline;
+		openfile->mark_x += length - xpos;
+	} else if (placed_after)
+		openfile->mark_x += extralen;
 #endif
 
-	/* Add the number of characters in the copied text to the file size. */
-	openfile->totsize += get_totsize(openfile->filetop, openfile->filebot);
+	delete_node(topline);
+	free(tailtext);
 
-	/* If we pasted onto the first line of the edit window, the corresponding
-	 * record has been freed, so... point at the start of the copied text. */
-	if (edittop_inside)
-		openfile->edittop = openfile->filetop;
-
-	/* Weld the pasted text into the surrounding content of the buffer. */
-	unpartition_buffer();
-
-	renumber_from(topline);
+	renumber_from(line);
 
 	/* If the text doesn't end with a newline, and it should, add one. */
 	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0')
