@@ -1890,11 +1890,10 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		/* If we're on the last line of the file, don't write a newline
-		 * character after it.  If the last line of the file is blank,
-		 * this means that zero bytes are written, in which case we
-		 * don't count the last line in the total lines written. */
-		if (line == openfile->filebot) {
+		/* If we've reached the last line of the buffer, don't write a newline
+		 * character after it.  If this last line is empty, it means zero bytes
+		 * are written for it, and we don't count it in the number of lines. */
+		if (line->next == NULL) {
 			if (line->data[0] == '\0')
 				lineswritten--;
 		} else {
