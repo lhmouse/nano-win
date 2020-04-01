@@ -2021,29 +2021,40 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 bool write_marked_file(const char *name, FILE *stream, bool tmp,
 		kind_of_writing_type method)
 {
-	bool retval;
-	bool added_magicline = FALSE;
-	linestruct *top, *bot;
+	linestruct *birthline, *topline, *botline, *stopper, *afterline;
+	char *was_datastart, saved_byte;
 	size_t top_x, bot_x;
+	bool retval;
 
-	/* Partition the buffer so that it contains only the marked text. */
-	get_region(&top, &top_x, &bot, &bot_x);
-	partition_buffer(top, top_x, bot, bot_x);
+	get_region(&topline, &top_x, &botline, &bot_x);
 
-	/* If we are using a magic line, and the last line of the partition
-	 * isn't blank, then add a newline at the end of the buffer. */
-	if (!ISSET(NO_NEWLINES) && openfile->filebot->data[0] != '\0') {
-		new_magicline();
-		added_magicline = TRUE;
-	}
+	/* When needed, prepare a magic end line for the region. */
+	if (bot_x > 0 && !ISSET(NO_NEWLINES)) {
+		stopper = make_new_node(botline);
+		stopper->data = copy_of("");
+	} else
+		stopper = NULL;
+
+	/* Make the marked area look like a separate buffer. */
+	afterline = botline->next;
+	botline->next = stopper;
+	saved_byte = botline->data[bot_x];
+	botline->data[bot_x] = '\0';
+	was_datastart = topline->data;
+	topline->data += top_x;
+	birthline = openfile->filetop;
+	openfile->filetop = topline;
 
 	retval = write_file(name, stream, tmp, method, FALSE);
 
-	if (added_magicline)
-		remove_magicline();
+	/* Restore the proper state of the buffer. */
+	openfile->filetop = birthline;
+	topline->data = was_datastart;
+	botline->data[bot_x] = saved_byte;
+	botline->next = afterline;
 
-	/* Unpartition the buffer so that it contains all the text again. */
-	unpartition_buffer();
+	if (stopper)
+		delete_node(stopper);
 
 	return retval;
 }
