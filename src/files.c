@@ -1873,18 +1873,19 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	if (!tmp)
 		statusbar(_("Writing..."));
 
-	while (line != NULL) {
-		size_t data_len = strlen(line->data), size;
+	while (TRUE) {
+		size_t data_len = strlen(line->data);
+		size_t wrote;
 
 		/* Decode LFs as the NULs that they are, before writing to disk. */
 		sunder(line->data);
 
-		size = fwrite(line->data, sizeof(char), data_len, thefile);
+		wrote = fwrite(line->data, sizeof(char), data_len, thefile);
 
 		/* Re-encode any embedded NULs as LFs. */
 		unsunder(line->data, data_len);
 
-		if (size < data_len) {
+		if (wrote < data_len) {
 			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			fclose(thefile);
 			goto cleanup_and_exit;
@@ -1894,26 +1895,27 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		 * character after it.  If this last line is empty, it means zero bytes
 		 * are written for it, and we don't count it in the number of lines. */
 		if (line->next == NULL) {
-			if (line->data[0] == '\0')
-				lineswritten--;
-		} else {
-#ifndef NANO_TINY
-			if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
-				if (putc('\r', thefile) == EOF) {
-					statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
-					fclose(thefile);
-					goto cleanup_and_exit;
-				}
-			}
-
-			if (openfile->fmt != MAC_FILE)
-#endif
-				if (putc('\n', thefile) == EOF) {
-					statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
-					fclose(thefile);
-					goto cleanup_and_exit;
-				}
+			if (line->data[0] != '\0')
+				lineswritten++;
+			break;
 		}
+
+#ifndef NANO_TINY
+		if (openfile->fmt == DOS_FILE || openfile->fmt == MAC_FILE) {
+			if (putc('\r', thefile) == EOF) {
+				statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
+				fclose(thefile);
+				goto cleanup_and_exit;
+			}
+		}
+
+		if (openfile->fmt != MAC_FILE)
+#endif
+			if (putc('\n', thefile) == EOF) {
+				statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
+				fclose(thefile);
+				goto cleanup_and_exit;
+			}
 
 		line = line->next;
 		lineswritten++;
