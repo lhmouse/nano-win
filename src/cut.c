@@ -236,81 +236,99 @@ void chop_next_word(void)
 }
 #endif /* !NANO_TINY */
 
-/* Move all text between (top, top_x) and (bot, bot_x) from the current buffer
- * into the cutbuffer. */
+/* Excise the text between the given two points and add it to the cutbuffer. */
 void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x)
 {
+	linestruct *taken, *last;
 	bool edittop_inside = (openfile->edittop->lineno >= top->lineno &&
 							openfile->edittop->lineno <= bot->lineno);
 #ifndef NANO_TINY
-	bool mark_inside = (openfile->mark &&
-						openfile->mark->lineno >= top->lineno &&
-						openfile->mark->lineno <= bot->lineno &&
-						(openfile->mark != top || openfile->mark_x >= top_x) &&
-						(openfile->mark != bot || openfile->mark_x <= bot_x));
 	bool same_line = (openfile->mark == top);
+	bool post_marked = (openfile->mark && (openfile->mark->lineno > top->lineno ||
+						(same_line && openfile->mark_x > top_x)));
 
 	if (top == bot && top_x == bot_x)
 		return;
 #endif
 
-	/* Reduce the buffer to cover just the text that needs to be extracted. */
-	partition_buffer(top, top_x, bot, bot_x);
+	if (top == bot) {
+		taken = make_new_node(NULL);
+		taken->data = measured_copy(top->data + top_x, bot_x - top_x);
+		memmove(top->data + top_x, top->data + bot_x,
+										strlen(top->data + bot_x) + 1);
+		last = taken;
+	} else if (top_x == 0 && bot_x == 0) {
+		taken = top;
+		last = make_new_node(NULL);
+		last->data = copy_of("");
 
-	/* Subtract the number of characters in that text from the file size. */
-	openfile->totsize -= get_totsize(top, bot);
+		last->prev = bot->prev;
+		bot->prev->next = last;
+		last->next = NULL;
+
+		bot->prev = top->prev;
+		if (top->prev)
+			top->prev->next = bot;
+		else
+			openfile->filetop = bot;
+
+		openfile->current = bot;
+	} else {
+		taken = make_new_node(NULL);
+		taken->data = copy_of(top->data + top_x);
+		taken->next = top->next;
+		top->next->prev = taken;
+
+		top->next = bot->next;
+		if (bot->next)
+			bot->next->prev = top;
+
+		top->data = charealloc(top->data, top_x + strlen(bot->data + bot_x) + 1);
+		strcpy(top->data + top_x, bot->data + bot_x);
+
+		last = bot;
+		last->data[bot_x] = '\0';
+		last->next = NULL;
+
+		openfile->current = top;
+	}
+
+	/* Subtract the size of the excised text from the buffer size. */
+	openfile->totsize -= get_totsize(taken, last);
 
 	/* If the cutbuffer is currently empty, just move all the text directly
 	 * into it; otherwise, append the text to what is already there. */
 	if (cutbuffer == NULL) {
-		cutbuffer = openfile->filetop;
-		cutbottom = openfile->filebot;
+		cutbuffer = taken;
+		cutbottom = last;
 	} else {
-		/* Tack the data of the first line of the text onto the data of
-		 * the last line in the given buffer. */
 		cutbottom->data = charealloc(cutbottom->data,
-								strlen(cutbottom->data) +
-								strlen(openfile->filetop->data) + 1);
-		strcat(cutbottom->data, openfile->filetop->data);
+							strlen(cutbottom->data) + strlen(taken->data) + 1);
+		strcat(cutbottom->data, taken->data);
 
-		/* Attach the second line of the text (if any) to the last line
-		 * of the buffer, then remove the now superfluous first line. */
-		cutbottom->next = openfile->filetop->next;
-		delete_node(openfile->filetop);
+		cutbottom->next = taken->next;
+		delete_node(taken);
 
-		/* If there is a second line, make the reverse attachment too and
-		 * update the buffer pointer to point at the end of the text. */
 		if (cutbottom->next != NULL) {
 			cutbottom->next->prev = cutbottom;
-			cutbottom = openfile->filebot;
+			cutbottom = last;
 		}
 	}
 
-	/* Since the text has now been saved, remove it from the file buffer. */
-	openfile->filetop = make_new_node(NULL);
-	openfile->filetop->data = copy_of("");
-	openfile->filebot = openfile->filetop;
-
-	/* Set the cursor at the point where the text was removed. */
-	openfile->current = openfile->filetop;
 	openfile->current_x = top_x;
-#ifndef NANO_TINY
-	/* If the mark was inside the partition, put it where the cursor now is. */
-	if (mark_inside) {
-		openfile->mark = openfile->current;
-		openfile->mark_x = openfile->current_x;
-	} else if (same_line)
-		/* Update the pointer to this partially cut line. */
-		openfile->mark = openfile->current;
-#endif
 
-	/* Glue the texts before and after the extraction together. */
-	unpartition_buffer();
+#ifndef NANO_TINY
+	if (post_marked || same_line)
+		openfile->mark = openfile->current;
+	if (post_marked)
+		openfile->mark_x = openfile->current_x;
+#endif
+	if (openfile->filebot == bot)
+		openfile->filebot = openfile->current;
 
 	renumber_from(openfile->current);
 
-	/* If the top of the edit window was inside the old partition, put
-	 * it in range of current. */
+	/* When the beginning of the viewport was inside the excision, adjust. */
 	if (edittop_inside) {
 		adjust_viewport(STATIONARY);
 		refresh_needed = TRUE;
