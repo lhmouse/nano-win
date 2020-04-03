@@ -577,6 +577,8 @@ void copy_text(void)
 		cutbuffer = NULL;
 	}
 
+	wipe_statusbar();
+
 	if (openfile->mark) {
 		copy_marked_region();
 		return;
