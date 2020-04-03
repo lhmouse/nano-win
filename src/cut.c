@@ -415,9 +415,12 @@ void do_snip(bool marked, bool until_eof, bool append)
 {
 	linestruct *line = openfile->current;
 
+#ifndef NANO_TINY
+	keep_cutbuffer &= (openfile->last_action != COPY);
+#endif
+
 	/* If cuts were not continuous, or when cutting a region, clear the slate. */
-	if ((!keep_cutbuffer || marked || until_eof ||
-					openfile->last_action == COPY) && !append) {
+	if ((marked || until_eof || !keep_cutbuffer) && !append) {
 		free_lines(cutbuffer);
 		cutbuffer = NULL;
 	}
