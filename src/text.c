@@ -504,6 +504,7 @@ void do_undo(void)
 	linestruct *line = NULL, *intruder;
 	linestruct *oldcutbuffer;
 	char *data, *undidmsg = NULL;
+	size_t original_x, regain_from_x;
 
 	if (u == NULL) {
 		statusbar(_("Nothing to undo"));
@@ -526,12 +527,17 @@ void do_undo(void)
 		break;
 	case ENTER:
 		undidmsg = _("line break");
+		/* An <Enter> at the end of leading whitespace while autoindenting has
+		 * deleted the whitespace, and stored an x position of zero.  In that
+		 * case, adjust the positions to return to and to scoop data from. */
+		original_x = (u->head_x == 0) ? u->tail_x : u->head_x;
+		regain_from_x = (u->head_x == 0) ? 0 : u->tail_x;
 		line->data = charealloc(line->data, strlen(line->data) +
-								strlen(&u->strdata[u->tail_x]) + 1);
-		strcat(line->data, &u->strdata[u->tail_x]);
+								strlen(&u->strdata[regain_from_x]) + 1);
+		strcat(line->data, &u->strdata[regain_from_x]);
 		unlink_node(line->next);
 		renumber_from(line);
-		goto_line_posx(u->head_lineno, u->head_x);
+		goto_line_posx(u->head_lineno, original_x);
 		break;
 	case BACK:
 	case DEL:
