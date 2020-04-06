@@ -671,9 +671,9 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	const char *recordmacro_gist = N_("Start/stop recording a macro");
 	const char *runmacro_gist = N_("Run the last recorded macro");
-	const char *bookmark_gist = N_("Set or remove a bookmark on the current line");
-	const char *prevbookmark_gist = N_("Go to previous bookmark");
-	const char *nextbookmark_gist = N_("Go to next bookmark");
+	const char *anchor_gist = N_("Place or remove an anchor at the current line");
+	const char *prevanchor_gist = N_("Jump backward to the nearest anchor");
+	const char *nextanchor_gist = N_("Jump forward to the nearest anchor");
 #endif
 	const char *case_gist = N_("Toggle the case sensitivity of the search");
 	const char *reverse_gist = N_("Reverse the direction of the search");
@@ -1027,12 +1027,12 @@ void shortcut_init(void)
 	add_to_funcs(run_macro, MMAIN,
 		N_("Run Macro"), WITHORSANS(runmacro_gist), BLANKAFTER, VIEW);
 
-	add_to_funcs(bookmark, MMAIN,
-		N_("Bookmark"), WITHORSANS(bookmark_gist), TOGETHER, NOVIEW);
-	add_to_funcs(to_prev_bookmark, MMAIN,
-		N_("Previous mark"), WITHORSANS(prevbookmark_gist), TOGETHER, NOVIEW);
-	add_to_funcs(to_next_bookmark, MMAIN,
-		N_("Next mark"), WITHORSANS(nextbookmark_gist), BLANKAFTER, NOVIEW);
+	add_to_funcs(put_or_lift_anchor, MMAIN,
+		N_("Anchor"), WITHORSANS(anchor_gist), TOGETHER, VIEW);
+	add_to_funcs(to_prev_anchor, MMAIN,
+		N_("Up to anchor"), WITHORSANS(prevanchor_gist), TOGETHER, VIEW);
+	add_to_funcs(to_next_anchor, MMAIN,
+		N_("Down to anchor"), WITHORSANS(nextanchor_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(zap_text, MMAIN,
 		N_("Zap Text"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);
@@ -1204,9 +1204,9 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "Sh-^Del", CONTROL_SHIFT_DELETE, chop_previous_word, 0);
 	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, chop_next_word, 0);
 	add_to_sclist(MMAIN, "M-Del", ALT_DELETE, zap_text, 0);
-	add_to_sclist(MMAIN, "M-Ins", ALT_INSERT, bookmark, 0);
-	add_to_sclist(MMAIN, "M-PgUp", ALT_PAGEUP, to_prev_bookmark, 0);
-	add_to_sclist(MMAIN, "M-PgDn", ALT_PAGEDOWN, to_next_bookmark, 0);
+	add_to_sclist(MMAIN, "M-Ins", ALT_INSERT, put_or_lift_anchor, 0);
+	add_to_sclist(MMAIN, "M-PgUp", ALT_PAGEUP, to_prev_anchor, 0);
+	add_to_sclist(MMAIN, "M-PgDn", ALT_PAGEDOWN, to_next_anchor, 0);
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 	add_to_sclist(MMAIN, "^]", 0, complete_a_word, 0);

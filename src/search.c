@@ -978,17 +978,19 @@ void do_find_bracket(void)
 	openfile->current_x = was_current_x;
 }
 
-/* Set a bookmark on the current line, or remove an existing one. */
-void bookmark(void)
+/* Place an anchor at the current line when none exists, otherwise remove it. */
+void put_or_lift_anchor(void)
 {
-	openfile->current->bookmarked = !openfile->current->bookmarked;
+	openfile->current->has_anchor = !openfile->current->has_anchor;
 
-	statusbar(openfile->current->bookmarked ?
-				_("Bookmarked this line") : _("Removed bookmark"));
+	if (openfile->current->has_anchor)
+		statusbar(_("Placed anchor"));
+	else
+		statusbar(_("Removed anchor"));
 }
 
-/* Jump to the next or previous bookmark, if any. */
-static void go_to_bookmark(bool forward)
+/* Jump to the next or previous anchor, if any. */
+static void go_to_anchor(bool forward)
 {
 	linestruct *was_current = openfile->current;
 	linestruct *line = was_current;
@@ -1000,28 +1002,28 @@ static void go_to_bookmark(bool forward)
 			line = (forward ? openfile->filetop : openfile->filebot);
 
 		if (line == openfile->current) {
-			statusbar(line->bookmarked ?
-					_("This is the only bookmark") : _("No bookmark found"));
+			statusbar(line->has_anchor ?
+					_("This is the only anchor") : _("No anchor found"));
 			return;
 		}
-	} while (!line->bookmarked);
+	} while (!line->has_anchor);
 
 	openfile->current = line;
 	openfile->current_x = 0;
 
 	edit_redraw(was_current, CENTERING);
-	statusbar(_("Jumped to bookmark"));
+	statusbar(_("Jumped to anchor"));
 }
 
-/* Jump to the first bookmark before the current line. */
-void to_prev_bookmark(void)
+/* Jump to the first anchor before the current line. */
+void to_prev_anchor(void)
 {
-	go_to_bookmark(BACKWARD);
+	go_to_anchor(BACKWARD);
 }
 
-/* Jump to the first bookmark after the current line. */
-void to_next_bookmark(void)
+/* Jump to the first anchor after the current line. */
+void to_next_anchor(void)
 {
-	go_to_bookmark(FORWARD);
+	go_to_anchor(FORWARD);
 }
 #endif /* !NANO_TINY */

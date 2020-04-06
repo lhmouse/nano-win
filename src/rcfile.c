@@ -317,12 +317,12 @@ keystruct *strtosc(const char *input)
 		s->func = record_macro;
 	else if (!strcmp(input, "runmacro"))
 		s->func = run_macro;
-	else if (!strcmp(input, "bookmark"))
-		s->func = bookmark;
-	else if (!strcmp(input, "prevbookmark"))
-		s->func = to_prev_bookmark;
-	else if (!strcmp(input, "nextbookmark"))
-		s->func = to_next_bookmark;
+	else if (!strcmp(input, "anchor"))
+		s->func = put_or_lift_anchor;
+	else if (!strcmp(input, "prevanchor"))
+		s->func = to_prev_anchor;
+	else if (!strcmp(input, "nextanchor"))
+		s->func = to_next_anchor;
 	else if (!strcmp(input, "undo"))
 		s->func = do_undo;
 	else if (!strcmp(input, "redo"))

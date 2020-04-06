@@ -535,7 +535,7 @@ void do_undo(void)
 		line->data = charealloc(line->data, strlen(line->data) +
 								strlen(&u->strdata[regain_from_x]) + 1);
 		strcat(line->data, &u->strdata[regain_from_x]);
-		line->bookmarked |= line->next->bookmarked;
+		line->has_anchor |= line->next->has_anchor;
 		unlink_node(line->next);
 		renumber_from(line);
 		goto_line_posx(u->head_lineno, original_x);

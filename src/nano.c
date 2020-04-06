@@ -76,7 +76,7 @@ linestruct *make_new_node(linestruct *prevnode)
 #endif
 	newnode->lineno = (prevnode) ? prevnode->lineno + 1 : 1;
 #ifndef NANO_TINY
-	newnode->bookmarked = FALSE;
+	newnode->has_anchor = FALSE;
 #endif
 
 	return newnode;
@@ -151,7 +151,7 @@ linestruct *copy_node(const linestruct *src)
 #endif
 	dst->lineno = src->lineno;
 #ifndef NANO_TINY
-	dst->bookmarked = FALSE;
+	dst->has_anchor = FALSE;
 #endif
 
 	return dst;

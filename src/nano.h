@@ -293,8 +293,8 @@ typedef struct linestruct {
 		/* Array of which multi-line regexes apply to this line. */
 #endif
 #ifndef NANO_TINY
-	bool bookmarked;
-		/* Whether the user bookmarked this line. */
+	bool has_anchor;
+		/* Whether the user has placed an anchor at this line. */
 #endif
 } linestruct;
 

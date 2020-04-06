@@ -483,9 +483,9 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 void do_gotolinecolumn_void(void);
 #ifndef NANO_TINY
 void do_find_bracket(void);
-void bookmark(void);
-void to_prev_bookmark(void);
-void to_next_bookmark(void);
+void put_or_lift_anchor(void);
+void to_prev_anchor(void);
+void to_next_anchor(void);
 #endif
 
 /* Most functions in text.c. */
