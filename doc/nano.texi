@@ -292,8 +292,8 @@ characters as parts of words.
 @item -X "@var{characters}"
 @itemx --wordchars="@var{characters}"
 Specify which other characters (besides the normal alphanumeric ones)
-should be considered as parts of words.  This overrides option
-@option{-W} (@option{--wordbounds}).
+should be considered as parts of words.  When using this option, you
+probably want to omit @option{-W} (@option{--wordbounds}).
 
 @item -Y @var{name}
 @itemx --syntax=@var{name}
@@ -979,8 +979,8 @@ characters as part of a word.
 
 @item set wordchars "@var{characters}"
 Specify which other characters (besides the normal alphanumeric ones)
-should be considered as parts of words.  This overrides the option
-@code{wordbounds}.
+should be considered as parts of words.  When using this option, you
+probably want to unset @code{wordbounds}.
 
 @item set zap
 Let an unmodified @key{Backspace} or @key{Delete} erase the marked region
