@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano-4.9-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2020-03-31 12:08+0200\n"
+"POT-Creation-Date: 2020-04-07 11:26+0200\n"
 "PO-Revision-Date: 2020-03-17 21:30+0100\n"
 "Last-Translator: Antonio Ceballos <aceballos@gmail.com>\n"
 "Language-Team: Spanish <es@tp.org.es>\n"
@@ -36,7 +36,7 @@ msgstr "Ir al directorio"
 
 #: src/browser.c:233 src/browser.c:648 src/files.c:1181 src/files.c:2127
 #: src/nano.c:844 src/search.c:114 src/search.c:208 src/search.c:712
-#: src/search.c:765 src/text.c:2553 src/text.c:2745
+#: src/search.c:765 src/text.c:2559 src/text.c:2751
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -297,11 +297,11 @@ msgstr "Leyendo de FIFO..."
 msgid "Reading..."
 msgstr "Leyendo..."
 
-#: src/files.c:993 src/text.c:2140 src/text.c:2561
+#: src/files.c:993 src/text.c:2146 src/text.c:2567
 msgid "Could not create pipe"
 msgstr "No se pudo crear una tubería («pipe»)"
 
-#: src/files.c:1029 src/text.c:2217 src/text.c:2378 src/text.c:2595
+#: src/files.c:1029 src/text.c:2223 src/text.c:2384 src/text.c:2601
 msgid "Could not fork"
 msgstr "No se pudo crear otro proceso"
 
@@ -379,8 +379,8 @@ msgstr "Error al escribir el fichero de respaldo «%s»: %s"
 msgid "Too many backup files?"
 msgstr "¿Demasiados ficheros de respaldo?"
 
-#: src/files.c:1804 src/files.c:1815 src/text.c:2471 src/text.c:2489
-#: src/text.c:2885
+#: src/files.c:1804 src/files.c:1815 src/text.c:2477 src/text.c:2495
+#: src/text.c:2891
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Error al escribir en fichero temporal: %s"
@@ -2499,234 +2499,234 @@ msgstr "Este tipo de fichero no admite comentarios"
 msgid "Cannot comment past end of file"
 msgstr "No puede haber comentarios pasado el fin de fichero"
 
-#: src/text.c:509
+#: src/text.c:510
 msgid "Nothing to undo"
 msgstr "Nada para deshacer"
 
 #. TRANSLATORS: The next thirteen strings describe actions
 #. * that are undone or redone.  They are all nouns, not verbs.
-#: src/text.c:520 src/text.c:572 src/text.c:688 src/text.c:746
+#: src/text.c:521 src/text.c:578 src/text.c:694 src/text.c:752
 msgid "addition"
 msgstr "añadido"
 
-#: src/text.c:528 src/text.c:700
+#: src/text.c:529 src/text.c:706
 msgid "line break"
 msgstr "salto de línea"
 
-#: src/text.c:538 src/text.c:710
+#: src/text.c:544 src/text.c:716
 msgid "deletion"
 msgstr "borrado"
 
-#: src/text.c:548 src/text.c:716
+#: src/text.c:554 src/text.c:722
 msgid "line join"
 msgstr "unión de líneas"
 
-#: src/text.c:564 src/text.c:731
+#: src/text.c:570 src/text.c:737
 msgid "replacement"
 msgstr "reemplazamiento"
 
-#: src/text.c:582 src/text.c:750
+#: src/text.c:588 src/text.c:756
 msgid "erasure"
 msgstr "borrado"
 
 #. TRANSLATORS: Remember: these are nouns, NOT verbs.
-#: src/text.c:588 src/text.c:755
+#: src/text.c:594 src/text.c:761
 msgid "cut"
 msgstr "corte"
 
-#: src/text.c:592 src/text.c:759
+#: src/text.c:598 src/text.c:765
 msgid "paste"
 msgstr "pegado"
 
-#: src/text.c:599 src/text.c:763
+#: src/text.c:605 src/text.c:769
 msgid "insertion"
 msgstr "inserción"
 
 # En español se dice sangrar. Es un término tipográfico que se usa
 # desde hace mucho, pero que la gente olvida por influencia del inglés. sv
-#: src/text.c:628 src/text.c:786
+#: src/text.c:634 src/text.c:792
 msgid "indent"
 msgstr "sangrado"
 
 # En español se dice sangrar. Es un término tipográfico que se usa
 # desde hace mucho, pero que la gente olvida por influencia del inglés. sv
-#: src/text.c:632 src/text.c:790
+#: src/text.c:638 src/text.c:796
 msgid "unindent"
 msgstr "quitar sangrado"
 
-#: src/text.c:637 src/text.c:795
+#: src/text.c:643 src/text.c:801
 msgid "comment"
 msgstr "comentar"
 
-#: src/text.c:641 src/text.c:799
+#: src/text.c:647 src/text.c:805
 msgid "uncomment"
 msgstr "descomentar"
 
-#: src/text.c:649
+#: src/text.c:655
 #, c-format
 msgid "Undid %s"
 msgstr "Deshecho %s"
 
-#: src/text.c:675
+#: src/text.c:681
 msgid "Nothing to redo"
 msgstr "Nada para rehacer"
 
-#: src/text.c:807
+#: src/text.c:813
 #, c-format
 msgid "Redid %s"
 msgstr "Rehecho %s"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1740 src/text.c:1953
+#: src/text.c:1746 src/text.c:1959
 msgid "justification"
 msgstr "justificación"
 
-#: src/text.c:1752
+#: src/text.c:1758
 msgid "Selection is empty"
 msgstr "La selección está vacía"
 
-#: src/text.c:1962
+#: src/text.c:1968
 msgid "Justified selection"
 msgstr "Selección justificada"
 
-#: src/text.c:1966
+#: src/text.c:1972
 msgid "Justified file"
 msgstr "Fichero justificado"
 
-#: src/text.c:1968
+#: src/text.c:1974
 msgid "Justified paragraph"
 msgstr "Párrafo justificado"
 
-#: src/text.c:2060
+#: src/text.c:2066
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "Palabra no encontrable: %s"
 
-#: src/text.c:2076
+#: src/text.c:2082
 msgid "Edit a replacement"
 msgstr "Editar un reemplazamiento"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2089
+#: src/text.c:2095
 msgid "Next word..."
 msgstr "Palabra sig..."
 
-#: src/text.c:2225 src/text.c:2604
+#: src/text.c:2231 src/text.c:2610
 msgid "Could not get size of pipe buffer"
 msgstr "No se pudo obtener el tamaño del búfer de la tubería («pipe»)"
 
-#: src/text.c:2291
+#: src/text.c:2297
 msgid "Error invoking \"uniq\""
 msgstr "Error al invocar «uniq»"
 
-#: src/text.c:2294
+#: src/text.c:2300
 msgid "Error invoking \"sort\""
 msgstr "Error al invocar «sort»"
 
-#: src/text.c:2297
+#: src/text.c:2303
 msgid "Error invoking \"spell\""
 msgstr "Error al invocar «spell»"
 
-#: src/text.c:2300 src/text.c:2448
+#: src/text.c:2306 src/text.c:2454
 msgid "Finished checking spelling"
 msgstr "Revisión de ortografía finalizada"
 
-#: src/text.c:2391 src/text.c:2695
+#: src/text.c:2397 src/text.c:2701
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "Error al invocar '%s'"
 
-#: src/text.c:2394
+#: src/text.c:2400
 #, c-format
 msgid "Program '%s' complained"
 msgstr "El programa '%s' se ha quejado"
 
-#: src/text.c:2402
+#: src/text.c:2408
 msgid "Nothing changed"
 msgstr "Nada cambiado"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2431
+#: src/text.c:2437
 msgid "spelling correction"
 msgstr "corrección ortográfica"
 
-#: src/text.c:2431
+#: src/text.c:2437
 msgid "formatting"
 msgstr "aplicando formato"
 
-#: src/text.c:2450
+#: src/text.c:2456
 msgid "Buffer has been processed"
 msgstr "Se ha procesado el búfer"
 
-#: src/text.c:2516
+#: src/text.c:2522
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: src/text.c:2540
+#: src/text.c:2546
 msgid "No linter is defined for this type of file"
 msgstr "No se ha definido un corrector de sintaxis para este tipo de fichero"
 
-#: src/text.c:2550
+#: src/text.c:2556
 msgid "Save modified buffer before linting?"
 msgstr "¿Guardar el búfer modificado antes de invocar el corrector?"
 
-#: src/text.c:2567
+#: src/text.c:2573
 msgid "Invoking linter, please wait"
 msgstr "Invocando el corrector de sintaxis.  Espere, por favor..."
 
-#: src/text.c:2700
+#: src/text.c:2706
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Se han recibido cero líneas analizables de la orden «%s»"
 
-#: src/text.c:2738
+#: src/text.c:2744
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "Este mensaje es para el fichero no abierto %s; ¿abrirlo en un nuevo búfer?"
 
-#: src/text.c:2777
+#: src/text.c:2783
 msgid "No messages for this file"
 msgstr "No hay mensajes para este fichero"
 
-#: src/text.c:2824
+#: src/text.c:2830
 msgid "At first message"
 msgstr "Este es el primer mensaje"
 
-#: src/text.c:2834
+#: src/text.c:2840
 msgid "At last message"
 msgstr "Este es el último mensaje"
 
-#: src/text.c:2875
+#: src/text.c:2881
 msgid "No formatter is defined for this type of file"
 msgstr "No se ha definido un formateador para este tipo de fichero"
 
-#: src/text.c:2951
+#: src/text.c:2957
 #, c-format
 msgid "%sWords: %zu  Lines: %zd  Chars: %zu"
 msgstr "%sPalabras: %zu  Líneas: %zd  Caracteres: %zu"
 
-#: src/text.c:2952
+#: src/text.c:2958
 msgid "In Selection:  "
 msgstr "En la selección: "
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2963
+#: src/text.c:2969
 msgid "Verbatim Input"
 msgstr "Entrada literal"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3052
+#: src/text.c:3058
 msgid "No word fragment"
 msgstr "No es fragmento de palabra"
 
-#: src/text.c:3144
+#: src/text.c:3150
 msgid "No further matches"
 msgstr "No hay más coincidencias"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3148
+#: src/text.c:3154
 msgid "No matches"
 msgstr "No hay coincidencias"
 

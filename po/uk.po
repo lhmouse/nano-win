@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 4.9-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2020-03-31 12:08+0200\n"
+"POT-Creation-Date: 2020-04-07 11:26+0200\n"
 "PO-Revision-Date: 2020-03-17 13:50+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -33,7 +33,7 @@ msgstr "Перейти до каталогу"
 
 #: src/browser.c:233 src/browser.c:648 src/files.c:1181 src/files.c:2127
 #: src/nano.c:844 src/search.c:114 src/search.c:208 src/search.c:712
-#: src/search.c:765 src/text.c:2553 src/text.c:2745
+#: src/search.c:765 src/text.c:2559 src/text.c:2751
 msgid "Cancelled"
 msgstr "Скасовано"
 
@@ -300,11 +300,11 @@ msgstr "Читаємо з FIFO…"
 msgid "Reading..."
 msgstr "Читаємо…"
 
-#: src/files.c:993 src/text.c:2140 src/text.c:2561
+#: src/files.c:993 src/text.c:2146 src/text.c:2567
 msgid "Could not create pipe"
 msgstr "Не можу створити канал (pipe)"
 
-#: src/files.c:1029 src/text.c:2217 src/text.c:2378 src/text.c:2595
+#: src/files.c:1029 src/text.c:2223 src/text.c:2384 src/text.c:2601
 msgid "Could not fork"
 msgstr "Не можу зробити fork()"
 
@@ -382,8 +382,8 @@ msgstr "Помилка під час спроби записати до файл
 msgid "Too many backup files?"
 msgstr "Забагато файлів резервних копій?"
 
-#: src/files.c:1804 src/files.c:1815 src/text.c:2471 src/text.c:2489
-#: src/text.c:2885
+#: src/files.c:1804 src/files.c:1815 src/text.c:2477 src/text.c:2495
+#: src/text.c:2891
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Помилка під час спроби записати до тимчасового файла: %s"
@@ -2496,231 +2496,231 @@ msgstr "Додавання коментарів у файлах цього ти�
 msgid "Cannot comment past end of file"
 msgstr "Не можна закоментувати дані за кінцем файла"
 
-#: src/text.c:509
+#: src/text.c:510
 msgid "Nothing to undo"
 msgstr "Немає що скасувати"
 
 #. TRANSLATORS: The next thirteen strings describe actions
 #. * that are undone or redone.  They are all nouns, not verbs.
-#: src/text.c:520 src/text.c:572 src/text.c:688 src/text.c:746
+#: src/text.c:521 src/text.c:578 src/text.c:694 src/text.c:752
 msgid "addition"
 msgstr "додавання"
 
-#: src/text.c:528 src/text.c:700
+#: src/text.c:529 src/text.c:706
 msgid "line break"
 msgstr "розрив рядка"
 
-#: src/text.c:538 src/text.c:710
+#: src/text.c:544 src/text.c:716
 msgid "deletion"
 msgstr "вилучення"
 
-#: src/text.c:548 src/text.c:716
+#: src/text.c:554 src/text.c:722
 msgid "line join"
 msgstr "об'єднання рядків"
 
-#: src/text.c:564 src/text.c:731
+#: src/text.c:570 src/text.c:737
 msgid "replacement"
 msgstr "заміну"
 
-#: src/text.c:582 src/text.c:750
+#: src/text.c:588 src/text.c:756
 msgid "erasure"
 msgstr "витирання"
 
 #. TRANSLATORS: Remember: these are nouns, NOT verbs.
-#: src/text.c:588 src/text.c:755
+#: src/text.c:594 src/text.c:761
 msgid "cut"
 msgstr "вирізання"
 
-#: src/text.c:592 src/text.c:759
+#: src/text.c:598 src/text.c:765
 msgid "paste"
 msgstr "вставлення"
 
-#: src/text.c:599 src/text.c:763
+#: src/text.c:605 src/text.c:769
 msgid "insertion"
 msgstr "вставлення"
 
-#: src/text.c:628 src/text.c:786
+#: src/text.c:634 src/text.c:792
 msgid "indent"
 msgstr "відступ"
 
-#: src/text.c:632 src/text.c:790
+#: src/text.c:638 src/text.c:796
 msgid "unindent"
 msgstr "скас.відступ"
 
-#: src/text.c:637 src/text.c:795
+#: src/text.c:643 src/text.c:801
 msgid "comment"
 msgstr "закоментувати"
 
-#: src/text.c:641 src/text.c:799
+#: src/text.c:647 src/text.c:805
 msgid "uncomment"
 msgstr "розкоментувати"
 
-#: src/text.c:649
+#: src/text.c:655
 #, c-format
 msgid "Undid %s"
 msgstr "Скасувати %s"
 
-#: src/text.c:675
+#: src/text.c:681
 msgid "Nothing to redo"
 msgstr "Немає що повторити"
 
-#: src/text.c:807
+#: src/text.c:813
 #, c-format
 msgid "Redid %s"
 msgstr "Повторити %s"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1740 src/text.c:1953
+#: src/text.c:1746 src/text.c:1959
 msgid "justification"
 msgstr "вирівнювання"
 
-#: src/text.c:1752
+#: src/text.c:1758
 msgid "Selection is empty"
 msgstr "Нічого не позначено"
 
-#: src/text.c:1962
+#: src/text.c:1968
 msgid "Justified selection"
 msgstr "Вирівняне позначення"
 
-#: src/text.c:1966
+#: src/text.c:1972
 msgid "Justified file"
 msgstr "Вирівняний файл"
 
-#: src/text.c:1968
+#: src/text.c:1974
 msgid "Justified paragraph"
 msgstr "Вирівняний абзац"
 
-#: src/text.c:2060
+#: src/text.c:2066
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "Непридатне до пошуку слово: %s"
 
-#: src/text.c:2076
+#: src/text.c:2082
 msgid "Edit a replacement"
 msgstr "Редагувати заміну"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2089
+#: src/text.c:2095
 msgid "Next word..."
 msgstr "Наступне слово…"
 
-#: src/text.c:2225 src/text.c:2604
+#: src/text.c:2231 src/text.c:2610
 msgid "Could not get size of pipe buffer"
 msgstr "Не можу отримати розмір буферу каналу"
 
-#: src/text.c:2291
+#: src/text.c:2297
 msgid "Error invoking \"uniq\""
 msgstr "Помилка виконання \"uniq\""
 
-#: src/text.c:2294
+#: src/text.c:2300
 msgid "Error invoking \"sort\""
 msgstr "Не вдалося викликати «sort»"
 
-#: src/text.c:2297
+#: src/text.c:2303
 msgid "Error invoking \"spell\""
 msgstr "Помилка виконання \"spell\""
 
-#: src/text.c:2300 src/text.c:2448
+#: src/text.c:2306 src/text.c:2454
 msgid "Finished checking spelling"
 msgstr "Перевірку орфографії завершено"
 
-#: src/text.c:2391 src/text.c:2695
+#: src/text.c:2397 src/text.c:2701
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "Помилка під час виконання «%s»"
 
-#: src/text.c:2394
+#: src/text.c:2400
 #, c-format
 msgid "Program '%s' complained"
 msgstr "Повідомлення програми «%s»"
 
-#: src/text.c:2402
+#: src/text.c:2408
 msgid "Nothing changed"
 msgstr "Нічого не змінено"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2431
+#: src/text.c:2437
 msgid "spelling correction"
 msgstr "виправлення помилок"
 
-#: src/text.c:2431
+#: src/text.c:2437
 msgid "formatting"
 msgstr "форматування"
 
-#: src/text.c:2450
+#: src/text.c:2456
 msgid "Buffer has been processed"
 msgstr "Буфер оброблено"
 
-#: src/text.c:2516
+#: src/text.c:2522
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: src/text.c:2540
+#: src/text.c:2546
 msgid "No linter is defined for this type of file"
 msgstr "Для цього типу файлів не визначено обробника"
 
-#: src/text.c:2550
+#: src/text.c:2556
 msgid "Save modified buffer before linting?"
 msgstr "Зберегти змінений буфер перед обробкою?"
 
-#: src/text.c:2567
+#: src/text.c:2573
 msgid "Invoking linter, please wait"
 msgstr "Викликаємо linter, зачекайте"
 
-#: src/text.c:2700
+#: src/text.c:2706
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Від команди отримано 0 придатних рядків: %s"
 
-#: src/text.c:2738
+#: src/text.c:2744
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "Це повідомлення пов'язано із невідкритим файлом %s. Відкрити його у новому "
 "буфері?"
 
-#: src/text.c:2777
+#: src/text.c:2783
 msgid "No messages for this file"
 msgstr "Для цього файла повідомлень немає"
 
-#: src/text.c:2824
+#: src/text.c:2830
 msgid "At first message"
 msgstr "На першому повідомленні"
 
-#: src/text.c:2834
+#: src/text.c:2840
 msgid "At last message"
 msgstr "На останньому повідомленні"
 
-#: src/text.c:2875
+#: src/text.c:2881
 msgid "No formatter is defined for this type of file"
 msgstr "Для цього типу файлів не визначено засобу форматування"
 
-#: src/text.c:2951
+#: src/text.c:2957
 #, c-format
 msgid "%sWords: %zu  Lines: %zd  Chars: %zu"
 msgstr "%sСлів: %zu Рядків: %zd  Символів: %zu"
 
-#: src/text.c:2952
+#: src/text.c:2958
 msgid "In Selection:  "
 msgstr "У позначеному:  "
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2963
+#: src/text.c:2969
 msgid "Verbatim Input"
 msgstr "Буквальний ввід"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3052
+#: src/text.c:3058
 msgid "No word fragment"
 msgstr "Немає фрагмента слова"
 
-#: src/text.c:3144
+#: src/text.c:3150
 msgid "No further matches"
 msgstr "Далі немає відповідників"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3148
+#: src/text.c:3154
 msgid "No matches"
 msgstr "Немає відповідників"
 

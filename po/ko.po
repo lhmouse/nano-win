@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU nano 4.5-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2020-03-31 12:08+0200\n"
+"POT-Creation-Date: 2020-04-07 11:26+0200\n"
 "PO-Revision-Date: 2019-10-19 17:14+0900\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <translation-team-ko@googlegroups.com>\n"
@@ -31,7 +31,7 @@ msgstr "디렉터리로 이동"
 
 #: src/browser.c:233 src/browser.c:648 src/files.c:1181 src/files.c:2127
 #: src/nano.c:844 src/search.c:114 src/search.c:208 src/search.c:712
-#: src/search.c:765 src/text.c:2553 src/text.c:2745
+#: src/search.c:765 src/text.c:2559 src/text.c:2751
 msgid "Cancelled"
 msgstr "취소함"
 
@@ -283,11 +283,11 @@ msgstr "FIFO 읽는 중..."
 msgid "Reading..."
 msgstr "읽는 중..."
 
-#: src/files.c:993 src/text.c:2140 src/text.c:2561
+#: src/files.c:993 src/text.c:2146 src/text.c:2567
 msgid "Could not create pipe"
 msgstr "파이프를 만들 수 없습니다"
 
-#: src/files.c:1029 src/text.c:2217 src/text.c:2378 src/text.c:2595
+#: src/files.c:1029 src/text.c:2223 src/text.c:2384 src/text.c:2601
 msgid "Could not fork"
 msgstr "포킹할 수 없습니다"
 
@@ -363,8 +363,8 @@ msgstr "%s 백업 파일 기록 오류: %s"
 msgid "Too many backup files?"
 msgstr "백업 파일이 너무 많지 않습니까?"
 
-#: src/files.c:1804 src/files.c:1815 src/text.c:2471 src/text.c:2489
-#: src/text.c:2885
+#: src/files.c:1804 src/files.c:1815 src/text.c:2477 src/text.c:2495
+#: src/text.c:2891
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "임시 파일 기록 오류: %s"
@@ -2453,230 +2453,230 @@ msgstr "이 파일 형식에서는 주석 처리를 지원하지 않습니다"
 msgid "Cannot comment past end of file"
 msgstr "파일 마지막에는 주석을 달 수 없습니다"
 
-#: src/text.c:509
+#: src/text.c:510
 msgid "Nothing to undo"
 msgstr "실행 취소할 작업 없음"
 
 #. TRANSLATORS: The next thirteen strings describe actions
 #. * that are undone or redone.  They are all nouns, not verbs.
-#: src/text.c:520 src/text.c:572 src/text.c:688 src/text.c:746
+#: src/text.c:521 src/text.c:578 src/text.c:694 src/text.c:752
 msgid "addition"
 msgstr "추가"
 
-#: src/text.c:528 src/text.c:700
+#: src/text.c:529 src/text.c:706
 msgid "line break"
 msgstr "줄 바꿈"
 
-#: src/text.c:538 src/text.c:710
+#: src/text.c:544 src/text.c:716
 msgid "deletion"
 msgstr "삭제"
 
-#: src/text.c:548 src/text.c:716
+#: src/text.c:554 src/text.c:722
 msgid "line join"
 msgstr "행 결합"
 
-#: src/text.c:564 src/text.c:731
+#: src/text.c:570 src/text.c:737
 msgid "replacement"
 msgstr "바꾸기"
 
-#: src/text.c:582 src/text.c:750
+#: src/text.c:588 src/text.c:756
 msgid "erasure"
 msgstr "소거"
 
 #. TRANSLATORS: Remember: these are nouns, NOT verbs.
-#: src/text.c:588 src/text.c:755
+#: src/text.c:594 src/text.c:761
 msgid "cut"
 msgstr "잘라내기"
 
-#: src/text.c:592 src/text.c:759
+#: src/text.c:598 src/text.c:765
 msgid "paste"
 msgstr "붙여넣기"
 
-#: src/text.c:599 src/text.c:763
+#: src/text.c:605 src/text.c:769
 msgid "insertion"
 msgstr "삽입"
 
-#: src/text.c:628 src/text.c:786
+#: src/text.c:634 src/text.c:792
 msgid "indent"
 msgstr "들여쓰기"
 
-#: src/text.c:632 src/text.c:790
+#: src/text.c:638 src/text.c:796
 msgid "unindent"
 msgstr "내어쓰기"
 
-#: src/text.c:637 src/text.c:795
+#: src/text.c:643 src/text.c:801
 msgid "comment"
 msgstr "주석 처리"
 
-#: src/text.c:641 src/text.c:799
+#: src/text.c:647 src/text.c:805
 msgid "uncomment"
 msgstr "주석 처리 취소"
 
-#: src/text.c:649
+#: src/text.c:655
 #, c-format
 msgid "Undid %s"
 msgstr "%s 실행 취소함"
 
-#: src/text.c:675
+#: src/text.c:681
 msgid "Nothing to redo"
 msgstr "다시 실행할 작업 없음"
 
-#: src/text.c:807
+#: src/text.c:813
 #, c-format
 msgid "Redid %s"
 msgstr "%s 다시 실행함"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1740 src/text.c:1953
+#: src/text.c:1746 src/text.c:1959
 msgid "justification"
 msgstr "정렬"
 
-#: src/text.c:1752
+#: src/text.c:1758
 msgid "Selection is empty"
 msgstr ""
 
-#: src/text.c:1962
+#: src/text.c:1968
 msgid "Justified selection"
 msgstr "선택 영역 정렬함"
 
-#: src/text.c:1966
+#: src/text.c:1972
 msgid "Justified file"
 msgstr "파일 정렬함"
 
-#: src/text.c:1968
+#: src/text.c:1974
 msgid "Justified paragraph"
 msgstr "문단 정렬함"
 
-#: src/text.c:2060
+#: src/text.c:2066
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "찾을 수 없는 단어: %s"
 
-#: src/text.c:2076
+#: src/text.c:2082
 msgid "Edit a replacement"
 msgstr "바꿀 단어 편집"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2089
+#: src/text.c:2095
 msgid "Next word..."
 msgstr "다음 단어..."
 
-#: src/text.c:2225 src/text.c:2604
+#: src/text.c:2231 src/text.c:2610
 msgid "Could not get size of pipe buffer"
 msgstr "파이프 버퍼 크기를 가져올 수 없습니다"
 
-#: src/text.c:2291
+#: src/text.c:2297
 msgid "Error invoking \"uniq\""
 msgstr "\"uniq\" 실행 오류"
 
-#: src/text.c:2294
+#: src/text.c:2300
 msgid "Error invoking \"sort\""
 msgstr ""
 
-#: src/text.c:2297
+#: src/text.c:2303
 msgid "Error invoking \"spell\""
 msgstr "\"spell\" 실행 오류"
 
-#: src/text.c:2300 src/text.c:2448
+#: src/text.c:2306 src/text.c:2454
 msgid "Finished checking spelling"
 msgstr "철자 검사가 끝났습니다"
 
-#: src/text.c:2391 src/text.c:2695
+#: src/text.c:2397 src/text.c:2701
 #, c-format
 msgid "Error invoking '%s'"
 msgstr ""
 
-#: src/text.c:2394
+#: src/text.c:2400
 #, c-format
 msgid "Program '%s' complained"
 msgstr ""
 
-#: src/text.c:2402
+#: src/text.c:2408
 msgid "Nothing changed"
 msgstr ""
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2431
+#: src/text.c:2437
 msgid "spelling correction"
 msgstr "철자 수정"
 
-#: src/text.c:2431
+#: src/text.c:2437
 msgid "formatting"
 msgstr ""
 
-#: src/text.c:2450
+#: src/text.c:2456
 msgid "Buffer has been processed"
 msgstr ""
 
-#: src/text.c:2516
+#: src/text.c:2522
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: src/text.c:2540
+#: src/text.c:2546
 msgid "No linter is defined for this type of file"
 msgstr ""
 
-#: src/text.c:2550
+#: src/text.c:2556
 msgid "Save modified buffer before linting?"
 msgstr "분석 도구 실행 전 수정한 버퍼 내용을 저장하시겠습니까?"
 
-#: src/text.c:2567
+#: src/text.c:2573
 msgid "Invoking linter, please wait"
 msgstr "분석 도구 실행중입니다. 잠시 기다리십시오"
 
-#: src/text.c:2700
+#: src/text.c:2706
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "명령에서 해석 가능한 줄이 없습니다: %s"
 
-#: src/text.c:2738
+#: src/text.c:2744
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "이 메시지는 열지 않은 %s 파일에서 나왔습니다. 새 버퍼에서 여시겠습니까?"
 
-#: src/text.c:2777
+#: src/text.c:2783
 msgid "No messages for this file"
 msgstr "이 파일에 대한 메시지 없음"
 
-#: src/text.c:2824
+#: src/text.c:2830
 msgid "At first message"
 msgstr "처음 메시지"
 
-#: src/text.c:2834
+#: src/text.c:2840
 msgid "At last message"
 msgstr "마지막 메시지"
 
-#: src/text.c:2875
+#: src/text.c:2881
 msgid "No formatter is defined for this type of file"
 msgstr ""
 
-#: src/text.c:2951
+#: src/text.c:2957
 #, c-format
 msgid "%sWords: %zu  Lines: %zd  Chars: %zu"
 msgstr "%s단어: %zu  행: %zd번째  문자: %zu"
 
-#: src/text.c:2952
+#: src/text.c:2958
 msgid "In Selection:  "
 msgstr "선택:"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2963
+#: src/text.c:2969
 msgid "Verbatim Input"
 msgstr "입력 그대로"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3052
+#: src/text.c:3058
 msgid "No word fragment"
 msgstr "단어로 분할하지 않음"
 
-#: src/text.c:3144
+#: src/text.c:3150
 msgid "No further matches"
 msgstr "더 이상 일치하는 항목 없음"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3148
+#: src/text.c:3154
 msgid "No matches"
 msgstr "일치하는 항목 없음"
 
