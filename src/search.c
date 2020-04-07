@@ -125,15 +125,13 @@ void search_init(bool replacing, bool keep_the_answer)
 #endif
 			}
 
-			/* When not doing a regular-expression search, just search;
-			 * otherwise compile the search string, and only search when
-			 * the expression is valid. */
-			if (!ISSET(USE_REGEXP) || regexp_init(last_search)) {
-				if (replacing)
-					ask_for_replacement();
-				else
-					go_looking();
-			}
+			if (ISSET(USE_REGEXP) && !regexp_init(last_search))
+				break;
+
+			if (replacing)
+				ask_for_and_do_replacements();
+			else
+				go_looking();
 
 			break;
 		}
@@ -690,18 +688,20 @@ void do_replace(void)
 	}
 }
 
-/* Ask the user what the already given search string should be replaced with. */
-void ask_for_replacement(void)
+/* Ask the user what to replace the search string with, and do the replacements. */
+void ask_for_and_do_replacements(void)
 {
-	linestruct *edittop_save, *begin;
-	size_t firstcolumn_save, begin_x;
+	linestruct *was_edittop = openfile->edittop;
+	size_t was_firstcolumn = openfile->firstcolumn;
+	linestruct *beginline = openfile->current;
+	size_t begin_x = openfile->current_x;
 	ssize_t numreplaced;
 	int response = do_prompt(FALSE, FALSE, MREPLACEWITH, "",
 						/* TRANSLATORS: This is a prompt. */
 						&replace_history, edit_refresh, _("Replace with"));
 
 #ifdef ENABLE_HISTORIES
-	/* If the replace string is not "", add it to the replace history list. */
+	/* When not "", add the replace string to the replace history list. */
 	if (response == 0)
 		update_history(&replace_history, answer);
 #endif
@@ -713,18 +713,12 @@ void ask_for_replacement(void)
 	} else if (response > 0)
 		return;
 
-	/* Save where we are. */
-	edittop_save = openfile->edittop;
-	firstcolumn_save = openfile->firstcolumn;
-	begin = openfile->current;
-	begin_x = openfile->current_x;
-
-	numreplaced = do_replace_loop(last_search, FALSE, begin, &begin_x);
+	numreplaced = do_replace_loop(last_search, FALSE, beginline, &begin_x);
 
 	/* Restore where we were. */
-	openfile->edittop = edittop_save;
-	openfile->firstcolumn = firstcolumn_save;
-	openfile->current = begin;
+	openfile->edittop = was_edittop;
+	openfile->firstcolumn = was_firstcolumn;
+	openfile->current = beginline;
 	openfile->current_x = begin_x;
 	refresh_needed = TRUE;
 
