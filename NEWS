@@ -1,3 +1,7 @@
+2020.04.07 - GNU nano 4.9.2 "Mali Lošinj"
+• Another bug introduced in version 4.9 is fixed: a likely crash
+  after undoing an <Enter> at the end of leading whitespace.
+
 2020.03.31 - GNU nano 4.9.1 "Sapperdeflap"
 • Two bugs introduced in version 4.9 are fixed: the cursor
   getting misplaced when undoing line cuts, and filtering

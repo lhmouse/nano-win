@@ -1,3 +1,11 @@
+Changes between v4.9.1 and v4.9.2:
+----------------------------------
+
+Benno Schulenberg (2):
+      bump version numbers and add a news item for the 4.9.2 release
+      undo: choose the proper x positions to place the cursor and rejoin lines
+
+
 Changes between v4.9 and v4.9.1:
 --------------------------------
 
