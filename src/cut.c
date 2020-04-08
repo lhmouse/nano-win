@@ -588,6 +588,7 @@ void copy_text(void)
 		return;
 	}
 
+	/* When at the very end of the buffer, there is nothing to do. */
 	if (openfile->current->next == NULL && at_eol && (ISSET(CUT_FROM_CURSOR) ||
 									openfile->current_x == 0 || cutbuffer)) {
 		statusbar(_("Copied nothing"));
@@ -600,7 +601,7 @@ void copy_text(void)
 	if (ISSET(CUT_FROM_CURSOR))
 		sans_newline = !at_eol;
 
-	/* Create OR add to the cutbuffer, depending on the mode, the position
+	/* Create the cutbuffer OR add to it, depending on the mode, the position
 	 * of the cursor, and whether or not the cutbuffer is currently empty. */
 	if (cutbuffer == NULL && sans_newline) {
 		cutbuffer = addition;
@@ -626,6 +627,7 @@ void copy_text(void)
 		cutbottom->prev = addition;
 	}
 
+	/* When needed and possible, move the cursor to the next line. */
 	if ((!ISSET(CUT_FROM_CURSOR) || at_eol) && openfile->current->next) {
 		openfile->current = openfile->current->next;
 		openfile->current_x = 0;
