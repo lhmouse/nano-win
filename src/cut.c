@@ -573,6 +573,7 @@ void copy_text(void)
 	bool at_eol = (openfile->current->data[openfile->current_x] == '\0');
 	bool sans_newline = (ISSET(NO_NEWLINES) && openfile->current->next == NULL);
 	size_t from_x = (ISSET(CUT_FROM_CURSOR)) ? openfile->current_x : 0;
+	linestruct *was_current = openfile->current;
 	linestruct *addition;
 
 	if (openfile->mark || openfile->last_action != COPY || !keep_cutbuffer) {
@@ -631,7 +632,7 @@ void copy_text(void)
 	} else
 		openfile->current_x = strlen(openfile->current->data);
 
-	openfile->placewewant = xplustabs();
+	edit_redraw(was_current, FLOWING);
 
 	openfile->last_action = COPY;
 	keep_cutbuffer = TRUE;
