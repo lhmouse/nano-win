@@ -2920,7 +2920,7 @@ void do_wordlinechar_count(void)
 		get_region(&topline, &top_x, &botline, &bot_x);
 
 		if (topline != botline)
-			chars = get_totsize(topline->next, botline);
+			chars = number_of_characters_in(topline->next, botline);
 
 		chars += mbstrlen(topline->data + top_x) - mbstrlen(botline->data + bot_x);
 		chars += (botline->next == NULL) ? 1 : 0;

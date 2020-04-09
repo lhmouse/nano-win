@@ -3338,7 +3338,7 @@ void do_cursorpos(bool force)
 	saved_byte = openfile->current->data[openfile->current_x];
 	openfile->current->data[openfile->current_x] = '\0';
 
-	sum = get_totsize(openfile->filetop, openfile->current);
+	sum = number_of_characters_in(openfile->filetop, openfile->current);
 
 	openfile->current->data[openfile->current_x] = saved_byte;
 

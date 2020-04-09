@@ -294,7 +294,7 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 	}
 
 	/* Subtract the size of the excised text from the buffer size. */
-	openfile->totsize -= get_totsize(taken, last);
+	openfile->totsize -= number_of_characters_in(taken, last);
 
 	/* If the cutbuffer is currently empty, just move all the text directly
 	 * into it; otherwise, append the text to what is already there. */
@@ -357,7 +357,7 @@ void ingraft_buffer(linestruct *topline)
 		botline = botline->next;
 
 	/* Add the size of the text to be grafted to the buffer size. */
-	openfile->totsize += get_totsize(topline, botline);
+	openfile->totsize += number_of_characters_in(topline, botline);
 
 	if (topline != botline)
 		length = xpos;

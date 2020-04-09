@@ -574,7 +574,7 @@ bool mark_is_before_cursor(void);
 void get_region(linestruct **top, size_t *top_x, linestruct **bot, size_t *bot_x);
 void get_range(linestruct **top, linestruct **bot);
 #endif
-size_t get_totsize(const linestruct *begin, const linestruct *end);
+size_t number_of_characters_in(const linestruct *begin, const linestruct *end);
 #ifndef NANO_TINY
 linestruct *line_from_number(ssize_t lineno);
 #endif

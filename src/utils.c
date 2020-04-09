@@ -512,19 +512,19 @@ linestruct *line_from_number(ssize_t number)
 #endif /* !NANO_TINY */
 
 /* Count the number of characters from begin to end, and return it. */
-size_t get_totsize(const linestruct *begin, const linestruct *end)
+size_t number_of_characters_in(const linestruct *begin, const linestruct *end)
 {
 	const linestruct *line;
-	size_t totsize = 0;
+	size_t count = 0;
 
 	/* Sum the number of characters (plus a newline) in each line. */
 	for (line = begin; line != end->next; line = line->next)
-		totsize += mbstrlen(line->data) + 1;
+		count += mbstrlen(line->data) + 1;
 
 	/* The last line of a file doesn't have a newline -- otherwise it
 	 * wouldn't be the last line -- so subtract 1 when at EOF. */
 	if (line == NULL)
-		totsize--;
+		count--;
 
-	return totsize;
+	return count;
 }
