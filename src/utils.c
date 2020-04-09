@@ -521,10 +521,6 @@ size_t number_of_characters_in(const linestruct *begin, const linestruct *end)
 	for (line = begin; line != end->next; line = line->next)
 		count += mbstrlen(line->data) + 1;
 
-	/* The last line of a file doesn't have a newline -- otherwise it
-	 * wouldn't be the last line -- so subtract 1 when at EOF. */
-	if (line == NULL)
-		count--;
-
-	return count;
+	/* Do not count the final newline. */
+	return (count - 1);
 }

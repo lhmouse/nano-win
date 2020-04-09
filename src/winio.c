@@ -3342,10 +3342,6 @@ void do_cursorpos(bool force)
 
 	openfile->current->data[openfile->current_x] = saved_byte;
 
-	/* When not at EOF, subtract 1 for an overcounted newline. */
-	if (openfile->current != openfile->filebot)
-		sum--;
-
 	/* Display the current cursor position on the status bar. */
 	linepct = 100 * openfile->current->lineno / openfile->filebot->lineno;
 	colpct = 100 * cur_xpt / cur_lenpt;

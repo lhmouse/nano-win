@@ -2920,10 +2920,9 @@ void do_wordlinechar_count(void)
 		get_region(&topline, &top_x, &botline, &bot_x);
 
 		if (topline != botline)
-			chars = number_of_characters_in(topline->next, botline);
+			chars = number_of_characters_in(topline->next, botline) + 1;
 
 		chars += mbstrlen(topline->data + top_x) - mbstrlen(botline->data + bot_x);
-		chars += (botline->next == NULL) ? 1 : 0;
 	} else {
 		topline = openfile->filetop;
 		top_x = 0;
