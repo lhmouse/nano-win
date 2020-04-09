@@ -1,12 +1,12 @@
 ## Sample initialization file for GNU nano.
 ##
-## Characters that are special in a shell should not be escaped here.
-## Inside string parameters, quotes should not be escaped -- the last
-## double quote on the line will be seen as the closing quote.
-##
 ## For the options that take parameters, the default value is shown.
 ## Other options are unset by default.  To make sure that an option
 ## is disabled, you can use "unset <option>".
+##
+## Characters that are special in a shell should not be escaped here.
+## Inside string parameters, quotes should not be escaped -- the last
+## double quote on the line will be seen as the closing quote.
 
 ## Make the 'nextword' function (Ctrl+Right) stop at word ends
 ## instead of at beginnings.
@@ -210,36 +210,16 @@
 # set functioncolor magenta
 
 
-## Setup of syntax coloring.
-##
-##   syntax "name" ["filename regex" ...]
-##
-##   color|icolor foreground,background "regex" ["regex"...]
-##   [...]
-##
-## 'color' will do case-sensitive matches, while 'icolor' will do
-## case-insensitive matches.
-##
-## All color commands are applied in the order in which they are specified,
-## meaning that later commands can recolor stuff that was colored earlier.
-##
-## Valid color names for foreground and background are: white, black, normal,
-## red, blue, green, yellow, magenta, cyan.  For foreground colors, you may
-## use the prefix "bright" to get a stronger highlight.
-##
-## All regexes (regular expressions) are of the extended type (ERE).
-##
-## If the coloring rule should span multiple lines, use the following format:
-##
-##   color fg,bg  start="regex" end="regex"
-##
-## If you wish, you may put your syntax definitions in separate files.
-## You can make use of such files as follows:
-##
-##   include "/path/to/syntax_file.nanorc"
+## === Syntax coloring ===
+## For all details, see 'man nanorc', section SYNTAX HIGHLIGHTING.
 
 ## To include all existing syntax definitions, you can do:
 # include "@PKGDATADIR@/*.nanorc"
+
+## Or you can select just the ones you need.  For example:
+# include "@PKGDATADIR@/html.nanorc"
+# include "@PKGDATADIR@/python.nanorc"
+# include "@PKGDATADIR@/sh.nanorc"
 
 
 ## If <Tab> should always produce four spaces when editing a Python file,
@@ -250,8 +230,8 @@
 # extendsyntax makefile tabgives "	"
 
 
-## Key bindings.
-## See nanorc(5) (section REBINDING KEYS) for more details on this.
+## === Key bindings ===
+## For all details, see 'man nanorc', section REBINDING KEYS.
 
 ## The <Ctrl+Delete> keystroke deletes the word to the right of the cursor.
 ## On some terminals the <Ctrl+Backspace> keystroke produces ^H, which is
