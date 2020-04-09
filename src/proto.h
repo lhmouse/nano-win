@@ -396,9 +396,6 @@ void delete_node(linestruct *fileptr);
 linestruct *copy_buffer(const linestruct *src);
 void free_lines(linestruct *src);
 void renumber_from(linestruct *line);
-void partition_buffer(linestruct *top, size_t top_x,
-						linestruct *bot, size_t bot_x);
-void unpartition_buffer(void);
 void print_view_warning(void);
 bool in_restricted_mode(void);
 #ifndef ENABLE_HELP

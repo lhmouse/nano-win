@@ -63,21 +63,6 @@ static struct termios original_state;
 static struct sigaction oldaction, newaction;
 		/* Containers for the original and the temporary handler for SIGINT. */
 
-/* The next six variables are used as temporary storage places for information
- * about the current buffer while it is partitioned during cutting/pasting. */
-static linestruct *filehead;
-		/* What was the top line of the buffer. */
-static linestruct *foreline;
-		/* The line before the first line of the partition. */
-static char *antedata = NULL;
-		/* The text on the first line of the partition before its beginning. */
-static char *postdata = NULL;
-		/* The text on the last line of the partition after its end. */
-static linestruct *hindline;
-		/* The line after the last line of the partition. */
-static linestruct *filetail;
-		/* What was the bottom line of the buffer. */
-
 /* Create a new linestruct node.  Note that we do not set prevnode->next. */
 linestruct *make_new_node(linestruct *prevnode)
 {
@@ -201,80 +186,6 @@ void renumber_from(linestruct *line)
 	}
 }
 
-/* Partition the current buffer so that it appears to begin at (top, top_x)
- * and appears to end at (bot, bot_x). */
-void partition_buffer(linestruct *top, size_t top_x,
-						linestruct *bot, size_t bot_x)
-{
-	/* Save the top and bottom of the buffer when they differ from top and
-	 * bottom of the partition, then shrink the buffer to the partition. */
-	if (top != openfile->filetop) {
-		filehead = openfile->filetop;
-		openfile->filetop = top;
-	} else
-		filehead = NULL;
-	if (bot != openfile->filebot) {
-		filetail = openfile->filebot;
-		openfile->filebot = bot;
-	} else
-		filetail = NULL;
-
-	/* Remember which line is above the top of the partition, detach the
-	 * top of the partition from it, and save the text before top_x. */
-	foreline = top->prev;
-	top->prev = NULL;
-	antedata = measured_copy(top->data, top_x);
-
-	/* Remember which line is below the bottom of the partition, detach the
-	 * bottom of the partition from it, and save the text after bot_x. */
-	hindline = bot->next;
-	bot->next = NULL;
-	postdata = copy_of(bot->data + bot_x);
-
-	/* At the end of the partition, remove all text after bot_x. */
-	bot->data[bot_x] = '\0';
-
-	/* At the beginning of the partition, remove all text before top_x. */
-	memmove(top->data, top->data + top_x, strlen(top->data) - top_x + 1);
-}
-
-/* Unpartition the current buffer so that it is complete again. */
-void unpartition_buffer(void)
-{
-	/* Reattach the line that was above the top of the partition. */
-	openfile->filetop->prev = foreline;
-	if (foreline != NULL)
-		foreline->next = openfile->filetop;
-
-	/* Restore the text that was on the first partition line before its start. */
-	openfile->filetop->data = charealloc(openfile->filetop->data,
-				strlen(antedata) + strlen(openfile->filetop->data) + 1);
-	memmove(openfile->filetop->data + strlen(antedata),
-				openfile->filetop->data, strlen(openfile->filetop->data) + 1);
-	memcpy(openfile->filetop->data, antedata, strlen(antedata));
-	free(antedata);
-	antedata = NULL;
-
-	/* Reattach the line that was below the bottom of the partition. */
-	openfile->filebot->next = hindline;
-	if (hindline != NULL)
-		hindline->prev = openfile->filebot;
-
-	/* Restore the text that was on the last partition line after its end. */
-	openfile->filebot->data = charealloc(openfile->filebot->data,
-				strlen(openfile->filebot->data) + strlen(postdata) + 1);
-	strcat(openfile->filebot->data, postdata);
-	free(postdata);
-	postdata = NULL;
-
-	/* Restore the top and bottom of the buffer, if they were
-	 * different from the top and bottom of the partition. */
-	if (filehead != NULL)
-		openfile->filetop = filehead;
-	if (filetail != NULL)
-		openfile->filebot = filetail;
-}
-
 /* Display a warning about a key disabled in view mode. */
 void print_view_warning(void)
 {
@@ -371,17 +282,11 @@ void die(const char *msg, ...)
 		if (ISSET(LOCKING) && openfile->lock_filename)
 			delete_lockfile(openfile->lock_filename);
 #endif
-		/* If the current buffer was modified, ensure it is unpartitioned,
-		 * then save it.  When in restricted mode, we don't save anything,
-		 * because it would write files not mentioned on the command line. */
-		if (openfile->modified && !ISSET(RESTRICTED)) {
-			if (antedata != NULL)
-				unpartition_buffer();
-
+		/* When modified, save the current buffer.  But not when in restricted
+		 * mode, as it would write a file not mentioned on the command line. */
+		if (openfile->modified && !ISSET(RESTRICTED))
 			emergency_save(openfile->filename, openfile->current_stat);
-		}
 
-		antedata = NULL;
 #ifdef ENABLE_MULTIBUFFER
 		openfile = openfile->next;
 #endif
