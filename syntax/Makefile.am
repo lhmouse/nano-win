@@ -21,6 +21,7 @@ pkgdata_DATA =	asm.nanorc \
 		lua.nanorc \
 		makefile.nanorc \
 		man.nanorc \
+		markdown.nanorc \
 		nanohelp.nanorc \
 		nanorc.nanorc \
 		nftables.nanorc \
