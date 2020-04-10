@@ -8,6 +8,7 @@ pkgdata_DATA =	asm.nanorc \
 		debian.nanorc \
 		default.nanorc \
 		elisp.nanorc \
+		email.nanorc \
 		fortran.nanorc \
 		gentoo.nanorc \
 		go.nanorc \
@@ -21,7 +22,6 @@ pkgdata_DATA =	asm.nanorc \
 		makefile.nanorc \
 		man.nanorc \
 		mgp.nanorc \
-		mutt.nanorc \
 		nanohelp.nanorc \
 		nanorc.nanorc \
 		nftables.nanorc \
