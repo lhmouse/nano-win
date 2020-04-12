@@ -193,7 +193,7 @@ void chop_word(bool forward)
 				openfile->current_x = strlen(openfile->current->data);
 		}
 	} else {
-		do_next_word(FALSE, ISSET(WORD_BOUNDS));
+		do_next_word(ISSET(AFTER_ENDS), ISSET(WORD_BOUNDS));
 		if (openfile->current != is_current &&
 							is_current->data[is_current_x] != '\0') {
 			openfile->current = is_current;

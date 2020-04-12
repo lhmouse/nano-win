@@ -8,8 +8,8 @@
 ## Inside string parameters, quotes should not be escaped -- the last
 ## double quote on the line will be seen as the closing quote.
 
-## Make the 'nextword' function (Ctrl+Right) stop at word ends
-## instead of at beginnings.
+## Make 'nextword' (Ctrl+Right) and 'chopwordright' (Ctrl+Delete)
+## stop at word ends instead of at beginnings.
 # set afterends
 
 ## When soft line wrapping is enabled, make it wrap lines at blanks
