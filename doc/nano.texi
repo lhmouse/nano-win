@@ -469,6 +469,7 @@ keystroke (usually @kbd{^Z}).
 * Screen Layout::
 * Search and Replace::
 * Using the Mouse::
+* Anchors::
 * Limitations::
 @end menu
 
@@ -602,6 +603,17 @@ Shift key during those actions.
 
 The mouse will work in the X Window System, and on the console when gpm
 is running.
+
+@node Anchors
+@section Anchors
+
+With @kbd{M-Ins} you can place an anchor (a kind of temporary bookmark)
+at the current line.  With @kbd{M-PgUp} and @kbd{M-PgDn} you can jump
+to an anchor in the backward/forward direction.  This jumping wraps
+around at the top and bottom.
+
+When a line with an anchor is deleted or cut, the line where the cursor
+ends up inherits the anchor.  When you close the buffer, any anchors disappear.
 
 @node Limitations
 @section Limitations
@@ -1356,6 +1368,15 @@ from the end of the file (and end of the line).
 @item findbracket
 Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
 (pairs) with the one under the cursor.
+
+@item anchor
+Places an anchor at the current line, or removes it when already present.
+
+@item prevanchor
+Goes to the first anchor before the current line.
+
+@item nextanchor
+Goes to the first anchor after the current line.
 
 @item prevbuf
 Switches to editing/viewing the previous buffer when multiple buffers are open.
