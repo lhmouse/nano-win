@@ -2395,7 +2395,12 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 #endif
 			mvwprintw(edit, row, 0, "%*zd", margin - 1, line->lineno);
 		wattroff(edit, interface_color_pair[LINE_NUMBER]);
-		wprintw(edit, " ");
+#ifndef NANO_TINY
+		if (line->has_anchor && from_col == 0)
+			wprintw(edit, "+");
+		else
+#endif
+			wprintw(edit, " ");
 	}
 #endif
 

@@ -983,6 +983,8 @@ void put_or_lift_anchor(void)
 {
 	openfile->current->has_anchor = !openfile->current->has_anchor;
 
+	update_line(openfile->current, openfile->current_x);
+
 	if (openfile->current->has_anchor)
 		statusbar(_("Placed anchor"));
 	else
