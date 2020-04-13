@@ -989,41 +989,41 @@ void put_or_lift_anchor(void)
 		statusbar(_("Removed anchor"));
 }
 
-/* Jump to the next or previous anchor, if any. */
-static void go_to_anchor(bool forward)
+/* Make the given line the current line, or report the anchoredness. */
+void go_to_and_confirm(linestruct *line)
 {
 	linestruct *was_current = openfile->current;
-	linestruct *line = was_current;
 
-	do {
-		line = (forward ? line->next : line->prev);
-
-		if (line == NULL)
-			line = (forward ? openfile->filetop : openfile->filebot);
-
-		if (line == openfile->current) {
-			statusbar(line->has_anchor ?
-					_("This is the only anchor") : _("No anchor found"));
-			return;
-		}
-	} while (!line->has_anchor);
-
-	openfile->current = line;
-	openfile->current_x = 0;
-
-	edit_redraw(was_current, CENTERING);
-	statusbar(_("Jumped to anchor"));
+	if (line != openfile->current) {
+		openfile->current = line;
+		openfile->current_x = 0;
+		edit_redraw(was_current, CENTERING);
+		statusbar(_("Jumped to anchor"));
+	} else if (openfile->current->has_anchor)
+		statusbar(_("This is the only anchor"));
+	else
+		statusbar(_("There are no anchors"));
 }
 
-/* Jump to the first anchor before the current line. */
+/* Jump to the first anchor before the current line; wrap around at the top. */
 void to_prev_anchor(void)
 {
-	go_to_anchor(BACKWARD);
+	linestruct *line = openfile->current;
+
+	do { line = (line->prev) ? line->prev : openfile->filebot;
+	} while (!line->has_anchor && line != openfile->current);
+
+	go_to_and_confirm(line);
 }
 
-/* Jump to the first anchor after the current line. */
+/* Jump to the first anchor after the current line; wrap around at the bottom. */
 void to_next_anchor(void)
 {
-	go_to_anchor(FORWARD);
+	linestruct *line = openfile->current;
+
+	do { line = (line->next) ? line->next : openfile->filetop;
+	} while (!line->has_anchor && line != openfile->current);
+
+	go_to_and_confirm(line);
 }
 #endif /* !NANO_TINY */
