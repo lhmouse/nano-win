@@ -221,6 +221,8 @@
 # include "@PKGDATADIR@/python.nanorc"
 # include "@PKGDATADIR@/sh.nanorc"
 
+## In @PKGDATADIR@/extra/ you can find some syntaxes that are
+## specific for certain distros or for less common languages.
 
 ## If <Tab> should always produce four spaces when editing a Python file,
 ## independent of the settings of 'tabsize' and 'tabstospaces':
