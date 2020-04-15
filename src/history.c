@@ -311,7 +311,7 @@ void load_history(void)
 			line[--read] = '\0';
 			if (read > 0) {
 				/* Encode any embedded NUL as 0x0A. */
-				unsunder(line, read);
+				recode_NUL_to_LF(line, read);
 				update_history(history, line);
 			} else if (history == &search_history)
 				history = &replace_history;
@@ -339,7 +339,7 @@ bool write_list(const linestruct *head, FILE *hisfile)
 		size_t length = strlen(item->data);
 
 		/* Decode 0x0A bytes as embedded NULs. */
-		sunder(item->data);
+		recode_LF_to_NUL(item->data);
 
 		if (fwrite(item->data, sizeof(char), length, hisfile) < length)
 			return FALSE;
@@ -402,7 +402,7 @@ void load_poshistory(void)
 		/* Read and parse each line, and store the extracted data. */
 		while ((read = getline(&line, &buf_len, hisfile)) > 5) {
 			/* Decode NULs as embedded newlines. */
-			unsunder(line, read);
+			recode_NUL_to_LF(line, read);
 
 			/* Find where the x index and line number are in the line. */
 			xptr = revstrstr(line, " ", line + read - 3);
@@ -472,7 +472,7 @@ void save_poshistory(void)
 			length = strlen(path_and_place);
 
 			/* Encode newlines in filenames as NULs. */
-			sunder(path_and_place);
+			recode_LF_to_NUL(path_and_place);
 			/* Restore the terminating newline. */
 			path_and_place[length - 1] = '\n';
 

@@ -160,7 +160,7 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 }
 
 /* In the given string, recode each embedded NUL as a newline. */
-void unsunder(char *string, size_t length)
+void recode_NUL_to_LF(char *string, size_t length)
 {
 	while (length > 0) {
 		if (*string == '\0')
@@ -171,7 +171,7 @@ void unsunder(char *string, size_t length)
 }
 
 /* In the given string, recode each embedded newline as a NUL. */
-void sunder(char *string)
+void recode_LF_to_NUL(char *string)
 {
 	while (*string != '\0') {
 		if (*string == '\n')

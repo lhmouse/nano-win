@@ -609,7 +609,7 @@ void close_buffer(void)
  * and return a dynamically allocated copy of the resultant string. */
 char *encode_data(char *buf, size_t buf_len)
 {
-	unsunder(buf, buf_len);
+	recode_NUL_to_LF(buf, buf_len);
 	buf[buf_len] = '\0';
 
 	return copy_of(buf);
@@ -1878,12 +1878,12 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		size_t wrote;
 
 		/* Decode LFs as the NULs that they are, before writing to disk. */
-		sunder(line->data);
+		recode_LF_to_NUL(line->data);
 
 		wrote = fwrite(line->data, sizeof(char), data_len, thefile);
 
 		/* Re-encode any embedded NULs as LFs. */
-		unsunder(line->data, data_len);
+		recode_NUL_to_LF(line->data, data_len);
 
 		if (wrote < data_len) {
 			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
