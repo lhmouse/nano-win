@@ -605,14 +605,14 @@ void close_buffer(void)
 }
 #endif /* ENABLE_MULTIBUFFER */
 
-/* Encode any NUL bytes in the given line of text, which is of length buf_len,
+/* Encode any NUL bytes in the given line of text (of the given length),
  * and return a dynamically allocated copy of the resultant string. */
-char *encode_data(char *buf, size_t buf_len)
+char *encode_data(char *text, size_t length)
 {
-	recode_NUL_to_LF(buf, buf_len);
-	buf[buf_len] = '\0';
+	recode_NUL_to_LF(text, length);
+	text[length] = '\0';
 
-	return copy_of(buf);
+	return copy_of(text);
 }
 
 /* Read the given open file f into the current buffer.  filename should be
