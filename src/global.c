@@ -736,7 +736,7 @@ void shortcut_init(void)
 
 	add_to_funcs(do_help, (MMOST | MBROWSER) & ~MFINDINHELP,
 		/* TRANSLATORS: Try to keep the next eleven strings at most 10 characters. */
-		N_("Get Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
+		N_("Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_cancel, ((MMOST & ~MMAIN) | MYESNO),
 		N_("Cancel"), WITHORSANS(cancel_gist), BLANKAFTER, VIEW);
@@ -784,10 +784,10 @@ void shortcut_init(void)
 		N_("Replace"), WITHORSANS(replace_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(cut_text, MMAIN,
-		N_("Cut Text"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
+		N_("Cut"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
 
 	add_to_funcs(paste_text, MMAIN,
-		N_("Paste Text"), WITHORSANS(paste_gist), BLANKAFTER, NOVIEW);
+		N_("Paste"), WITHORSANS(paste_gist), BLANKAFTER, NOVIEW);
 
 	if (!ISSET(RESTRICTED)) {
 #ifdef ENABLE_JUSTIFY
@@ -796,13 +796,13 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_SPELLER
 		add_to_funcs(do_spell, MMAIN,
-				N_("To Spell"), WITHORSANS(spell_gist), BLANKAFTER, NOVIEW);
+				N_("Spelling"), WITHORSANS(spell_gist), BLANKAFTER, NOVIEW);
 #endif
 	}
 
 	add_to_funcs(do_cursorpos_void, MMAIN,
 		/* TRANSLATORS: Try to keep the next thirteen strings at most 12 characters. */
-		N_("Cur Pos"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
+		N_("Location"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
 #if ((defined(ENABLE_JUSTIFY) && defined(ENABLE_SPELLER)) || \
 		(!defined(ENABLE_JUSTIFY) && !defined(ENABLE_SPELLER)))
@@ -819,15 +819,15 @@ void shortcut_init(void)
 		N_("Redo"), WITHORSANS(redo_gist), BLANKAFTER, NOVIEW);
 
 	add_to_funcs(do_mark, MMAIN,
-		N_("Mark Text"), WITHORSANS(mark_gist), TOGETHER, VIEW);
+		N_("Set Mark"), WITHORSANS(mark_gist), TOGETHER, VIEW);
 	add_to_funcs(copy_text, MMAIN,
-		N_("Copy Text"), WITHORSANS(copy_gist), BLANKAFTER, NOVIEW);
+		N_("Copy"), WITHORSANS(copy_gist), BLANKAFTER, NOVIEW);
 #endif
 
 	add_to_funcs(case_sens_void, MWHEREIS|MREPLACE,
 		N_("Case Sens"), WITHORSANS(case_gist), TOGETHER, VIEW);
 	add_to_funcs(regexp_void, MWHEREIS|MREPLACE,
-		N_("Regexp"), WITHORSANS(regexp_gist), TOGETHER, VIEW);
+		N_("Reg.exp."), WITHORSANS(regexp_gist), TOGETHER, VIEW);
 	add_to_funcs(backwards_void, MWHEREIS|MREPLACE,
 		N_("Backwards"), WITHORSANS(reverse_gist), TOGETHER, VIEW);
 
@@ -849,7 +849,7 @@ void shortcut_init(void)
 
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_full_justify, MWHEREIS,
-		N_("FullJstify"), WITHORSANS(fulljustify_gist), BLANKAFTER, NOVIEW);
+		N_("Full Justify"), WITHORSANS(fulljustify_gist), BLANKAFTER, NOVIEW);
 #endif
 
 #ifdef ENABLE_BROWSER
@@ -931,9 +931,9 @@ void shortcut_init(void)
 		N_("Next Block"), WITHORSANS(nextblock_gist), TOGETHER, VIEW);
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(to_para_begin, MMAIN|MGOTOLINE,
-		N_("Beg of Par"), WITHORSANS(parabegin_gist), TOGETHER, VIEW);
+		N_("Begin of Paragr."), WITHORSANS(parabegin_gist), TOGETHER, VIEW);
 	add_to_funcs(to_para_end, MMAIN|MGOTOLINE,
-		N_("End of Par"), WITHORSANS(paraend_gist), BLANKAFTER, VIEW);
+		N_("End of Paragraph"), WITHORSANS(paraend_gist), BLANKAFTER, VIEW);
 #endif
 
 	add_to_funcs(do_page_up, MMAIN|MHELP,
@@ -983,12 +983,12 @@ void shortcut_init(void)
 	add_to_funcs(chop_next_word, MMAIN,
 		N_("Chop Right"), WITHORSANS(chopwordright_gist), TOGETHER, NOVIEW);
 	add_to_funcs(cut_till_eof, MMAIN,
-		N_("CutTillEnd"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
+		N_("Cut Till End"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 #endif
 
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_full_justify, MMAIN,
-		N_("FullJstify"), WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
+		N_("Full Justify"), WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
 #endif
 
 #ifndef NANO_TINY
@@ -1019,7 +1019,7 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 	add_to_funcs(complete_a_word, MMAIN,
-		N_("Complete"), WITHORSANS(completion_gist), BLANKAFTER, NOVIEW);
+		N_("Complete Word"), WITHORSANS(completion_gist), BLANKAFTER, NOVIEW);
 #endif
 #ifndef NANO_TINY
 	add_to_funcs(record_macro, MMAIN,
@@ -1035,12 +1035,12 @@ void shortcut_init(void)
 		N_("Down to anchor"), WITHORSANS(nextanchor_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(zap_text, MMAIN,
-		N_("Zap Text"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);
+		N_("Zap"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);
 
 #ifdef ENABLE_COLOR
 	if (!ISSET(RESTRICTED)) {
 		add_to_funcs(do_linter, MMAIN,
-				N_("To Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
+				N_("Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
 #ifdef ENABLE_SPELLER
 		add_to_funcs(do_formatter, MMAIN,
 				N_("Formatter"), WITHORSANS(formatter_gist), BLANKAFTER, NOVIEW);
@@ -1100,7 +1100,7 @@ void shortcut_init(void)
 	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
 		add_to_funcs(to_files, MWRITEFILE|MINSERTFILE,
-			N_("To Files"), WITHORSANS(tofiles_gist), TOGETHER, VIEW);
+			N_("Browse"), WITHORSANS(tofiles_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_page_up, MBROWSER,
 		N_("Prev Page"), WITHORSANS(prevpage_gist), TOGETHER, VIEW);
@@ -1129,9 +1129,9 @@ void shortcut_init(void)
 #ifdef ENABLE_COLOR
 	add_to_funcs(do_page_up, MLINTER,
 		/* TRANSLATORS: The next two strings may be up to 37 characters each. */
-		N_("Prev Lint Msg"), WITHORSANS(prevlint_gist), TOGETHER, VIEW);
+		N_("Previous Linter message"), WITHORSANS(prevlint_gist), TOGETHER, VIEW);
 	add_to_funcs(do_page_down, MLINTER,
-		N_("Next Lint Msg"), WITHORSANS(nextlint_gist), TOGETHER, VIEW);
+		N_("Next Linter message"), WITHORSANS(nextlint_gist), TOGETHER, VIEW);
 #endif
 
 	/* Link key combos to functions in certain menus. */
