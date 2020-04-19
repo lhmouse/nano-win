@@ -596,7 +596,7 @@ if eval "test x$CURSES_LIB_NAME = x"; then
   *** from libncursesw5-dev (Debian), ncurses-devel (Fedora), or similar.
   *** (Or install ncurses from https://ftp.gnu.org/gnu/ncurses/.)])
 else
-	AC_MSG_RESULT([Using $CURSES_LIB_NAME as the curses library])
+	AC_MSG_RESULT([  The curses library to be used is: $CURSES_LIB_NAME])
 fi
 
 AC_CHECK_LIB([$CURSES_LIB_NAME], [use_default_colors],
@@ -741,3 +741,5 @@ syntax/Makefile
 ])
 
 AC_OUTPUT
+
+make showinfo
