@@ -1,4 +1,4 @@
-## Here is an example for Python.
+## Syntax highlighting for Python.
 
 syntax python "\.py$"
 header "^#!.*python"

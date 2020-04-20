@@ -1,4 +1,4 @@
-## Here is an example for C/C++/Obj-C.
+## Syntax highlighting for C/C++/Obj-C files.
 
 syntax m "\.m$"
 magic "Objective-C source"

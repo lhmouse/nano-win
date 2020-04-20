@@ -1,4 +1,4 @@
-## Here is an example for Go.
+## Syntax highlighting for Go.
 
 syntax go "\.go$"
 comment "//"

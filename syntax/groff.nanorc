@@ -1,4 +1,4 @@
-## Here is an example for groff.
+## Syntax highlighting for groff.
 
 syntax groff "(/tmac\.[^/]+$|\.(m[ems]|rof|tmac)$)"
 comment ".\""

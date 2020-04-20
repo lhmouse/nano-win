@@ -1,8 +1,7 @@
 ## Syntax highlighting for Rust.
+
 ## Copyright 2015 Luke Francl.
 ## Licensed under GPL version 3.
-
-## NOTE: Rules are applied in order: later rules re-colorize matching text.
 
 syntax rust "\.(rlib|rs)$"
 comment "//"

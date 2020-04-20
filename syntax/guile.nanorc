@@ -1,4 +1,4 @@
-## Here is an example for Guile Scheme.
+## Syntax highlighting for Guile Scheme.
 
 syntax guile "\.scm$"
 header "^#!.*guile"

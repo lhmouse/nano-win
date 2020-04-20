@@ -1,4 +1,4 @@
-## Colouring for PO files.
+## Syntax highlighting for PO files.
 
 syntax po "\.pot?$"
 comment "#"

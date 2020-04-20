@@ -1,4 +1,4 @@
-## Colouring for Changelogs.
+## Syntax highlighting for Changelogs.
 
 syntax changelog "Change[Ll]og[^/]*$"
 

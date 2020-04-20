@@ -1,4 +1,4 @@
-## Here is an example for CSS files.
+## Syntax highlighting for CSS files.
 
 syntax css "\.css$"
 comment "/*|*/"

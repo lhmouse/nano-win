@@ -1,4 +1,4 @@
-## Here is an example for PostgreSQL.
+## Syntax highlighting for Postgres SQL scripts.
 
 syntax sql "\.sql[2345s~]?$"
 comment "-- "
