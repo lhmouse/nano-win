@@ -8,7 +8,6 @@ pkgdata_DATA =	asm.nanorc \
 		default.nanorc \
 		elisp.nanorc \
 		email.nanorc \
-		fortran.nanorc \
 		go.nanorc \
 		groff.nanorc \
 		guile.nanorc \
@@ -30,7 +29,6 @@ pkgdata_DATA =	asm.nanorc \
 		php.nanorc \
 		po.nanorc \
 		postgresql.nanorc \
-		pov.nanorc \
 		python.nanorc \
 		ruby.nanorc \
 		rust.nanorc \
@@ -42,7 +40,10 @@ pkgdata_DATA =	asm.nanorc \
 
 nobase_pkgdata_DATA = \
 		extra/debian.nanorc \
+		extra/fortran.nanorc \
 		extra/gentoo.nanorc \
+		extra/haskell.nanorc \
+		extra/povray.nanorc \
 		extra/spec.nanorc
 
 EXTRA_DIST = $(pkgdata_DATA) $(nobase_pkgdata_DATA)
