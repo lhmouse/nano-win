@@ -35,4 +35,4 @@ color blue start="/\*" end="\*/"
 color magenta start="#!\[" end="\]"
 
 # Some common markers
-color brightcyan "(XXX|TODO|FIXME|\?\?\?)"
+color brightcyan "XXX|TODO|FIXME|\?\?\?"

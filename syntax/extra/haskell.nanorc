@@ -10,13 +10,13 @@ comment "--"
 color red "\<(as|case|of|class|data|default|deriving|do|forall|foreign|hiding|if|then|else|import|infix(l|r)?|instance|let|in|mdo|module|newtype|qualified|type|where)\>"
 
 # Various symbols
-color cyan "(\||@|!|:|_|~|=|\\|;|\(\)|,|\[|\]|\{|\})"
+color cyan "\||@|!|:|_|~|=|\\|;|\(\)|,|\[|\]|\{|\}"
 
 # Operators
-color magenta "(==|/=|&&|\|\||<|>|<=|>=)"
+color magenta "==|/=|&&|\|\||<|>|<=|>="
 
 # More symbols
-color cyan "(->|<-|=>)"
+color cyan "->|<-|=>"
 color magenta "\.|\$"
 
 # Data constructors

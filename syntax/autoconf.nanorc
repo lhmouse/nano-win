@@ -5,7 +5,7 @@ comment "#"
 
 # Keywords:
 color yellow "\<(if|test|then|elif|else|fi|for|in|do|done)\>"
-color yellow "(=|!=|&&|\|\|)"
+color yellow "=|!=|&&|\|\|"
 
 # Macros:
 color cyan "\<[[:upper:]_[:digit:]]+\>"

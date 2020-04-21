@@ -16,7 +16,7 @@ color green ":[[:space:]]*\"#[0-9abcdefABCDEF]+\""
 # Escapes.
 color green "\\\\" "\\\"" "\\[bfnrt]" "\\u[0-9abcdefABCDEF]{4})"
 # Special words.
-color green "(true|false|null)"
+color green "\<(true|false|null)\>"
 
 # Names (very unlikely to contain a quote).
 color brightblue "\"[^"]+\"[[:space:]]*:"
