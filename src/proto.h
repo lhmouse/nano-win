@@ -95,7 +95,9 @@ extern WINDOW *bottomwin;
 extern int editwinrows;
 extern int editwincols;
 extern int margin;
+extern int thebar;
 #ifndef NANO_TINY
+extern int *bardata;
 extern ssize_t stripe_column;
 #endif
 

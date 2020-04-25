@@ -134,7 +134,11 @@ int editwincols = -1;
 		/* The number of usable columns in the edit window: COLS - margin. */
 int margin = 0;
 		/* The amount of space reserved at the left for line numbers. */
+int thebar = 0;
+		/* Becomes 1 when a scrollbar is shown. */
 #ifndef NANO_TINY
+int *bardata = NULL;
+		/* An array of characters that together depict the scrollbar. */
 ssize_t stripe_column = 0;
 		/* The column at which a vertical bar will be drawn. */
 #endif

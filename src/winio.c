@@ -2398,6 +2398,9 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 	if (is_shorter || ISSET(SOFTWRAP))
 		wclrtoeol(edit);
 
+	if (thebar)
+		mvwaddch(edit, row, COLS - 1, bardata[row]);
+
 #ifdef USING_OLD_NCURSES
 	/* Tell ncurses to really redraw the line without trying to optimize
 	 * for what it thinks is already there, because it gets it wrong in
@@ -2766,7 +2769,7 @@ int update_line(linestruct *line, size_t index)
 	}
 	if (has_more) {
 		wattron(edit, hilite_attribute);
-		mvwaddch(edit, row, COLS - 1, '>');
+		mvwaddch(edit, row, COLS - 1 - thebar, '>');
 		wattroff(edit, hilite_attribute);
 	}
 
@@ -2946,6 +2949,24 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 		return (openfile->current->lineno - was_lineno < editwinrows);
 }
 
+#ifndef NANO_TINY
+/* Draw a scroll bar on the righthand side of the screen. */
+void draw_scrollbar(void)
+{
+	int totalrows = openfile->filebot->lineno;
+	int lowest = ((openfile->edittop->lineno - 1) * editwinrows) / totalrows;
+	int highest = lowest + (editwinrows * editwinrows) / totalrows;
+
+	if (editwinrows > totalrows)
+		highest = editwinrows;
+
+	for (int row = 0; row < editwinrows; row++) {
+		bardata[row] = ' '|((row >= lowest && row <= highest) ? A_REVERSE : 0);
+		mvwaddch(edit, row, COLS - 1, bardata[row]);
+	}
+}
+#endif
+
 /* Scroll the edit window one row in the given direction, and
  * draw the relevant content on the resultant blank row. */
 void edit_scroll(bool direction)
@@ -2979,6 +3000,9 @@ void edit_scroll(bool direction)
 		go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
 #ifndef NANO_TINY
+	if (thebar)
+		draw_scrollbar();
+
 	if (ISSET(SOFTWRAP)) {
 		/* Compensate for the earlier chunks of a softwrapped line. */
 		nrows += chunk_for(leftedge, line);
@@ -3249,6 +3273,11 @@ void edit_refresh(void)
 	if (current_is_offscreen())
 		adjust_viewport((focusing || ISSET(JUMPY_SCROLLING)) ? CENTERING : FLOWING);
 
+#ifndef NANO_TINY
+	if (thebar)
+		draw_scrollbar();
+#endif
+
 	line = openfile->edittop;
 
 	while (row < editwinrows && line != NULL) {
@@ -3259,8 +3288,14 @@ void edit_refresh(void)
 		line = line->next;
 	}
 
-	while (row < editwinrows)
-		blank_row(edit, row++);
+	while (row < editwinrows) {
+		blank_row(edit, row);
+#ifndef NANO_TINY
+		if (thebar)
+			mvwaddch(edit, row, COLS - 1, bardata[row]);
+#endif
+		row++;
+	}
 
 	place_the_cursor();
 	wnoutrefresh(edit);
@@ -3407,7 +3442,7 @@ void spotlight(size_t from_col, size_t to_col)
 	wattron(edit, interface_color_pair[SELECTED_TEXT]);
 	waddnstr(edit, word, actual_x(word, to_col));
 	if (overshoots)
-		mvwaddch(edit, openfile->current_y, COLS - 1, '>');
+		mvwaddch(edit, openfile->current_y, COLS - 1 - thebar, '>');
 	wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 	free(word);

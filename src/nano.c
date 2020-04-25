@@ -1039,7 +1039,10 @@ void regenerate_screen(void)
 	COLS = win.ws_col;
 	LINES = win.ws_row;
 #endif
-	editwincols = COLS - margin;
+	thebar = (LINES > 5 && COLS > 9) ? 1 : 0;
+	bardata = nrealloc(bardata, LINES * sizeof(int));
+
+	editwincols = COLS - margin - thebar;
 
 	/* Do as the website suggests: leave and immediately reenter curses mode. */
 	endwin();
@@ -1246,7 +1249,7 @@ void confirm_margin(void)
 
 	if (needed_margin != margin) {
 		margin = needed_margin;
-		editwincols = COLS - margin;
+		editwincols = COLS - margin - thebar;
 
 #ifndef NANO_TINY
 		/* Ensure that firstcolumn is the starting column of its chunk. */
@@ -2283,7 +2286,11 @@ int main(int argc, char **argv)
 	window_init();
 	curs_set(0);
 
-	editwincols = COLS;
+#ifndef NANO_TINY
+	thebar = (LINES > 5 && COLS > 9) ? 1 : 0;
+	bardata = nrealloc(bardata, LINES * sizeof(int));
+#endif
+	editwincols = COLS - thebar;
 
 	/* Set up the signal handlers. */
 	signal_init();
