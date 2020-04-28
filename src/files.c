@@ -1972,7 +1972,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #ifdef ENABLE_COLOR
 			/* See if the applicable syntax has changed. */
 			color_update();
-			color_init();
 
 			newname = openfile->syntax ? openfile->syntax->name : "";
 
@@ -1987,6 +1986,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 				}
 
 				precalc_multicolorinfo();
+				have_palette = FALSE;
 				refresh_needed = TRUE;
 			}
 #endif
