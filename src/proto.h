@@ -243,7 +243,7 @@ bool is_valid_unicode(wchar_t wc);
 /* Most functions in color.c. */
 #ifdef ENABLE_COLOR
 void set_colorpairs(void);
-void color_init(void);
+void prepare_palette(void);
 void find_and_prime_applicable_syntax(void);
 void set_up_multicache(linestruct *line);
 void check_the_multis(linestruct *line);

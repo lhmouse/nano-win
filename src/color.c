@@ -109,8 +109,8 @@ void set_colorpairs(void)
 			set_syntax_colorpairs(sntx);
 }
 
-/* Initialize the color information. */
-void color_init(void)
+/* Initialize the color pairs for the current syntax. */
+void prepare_palette(void)
 {
 	const colortype *ink;
 	bool using_defaults = FALSE;

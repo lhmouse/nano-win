@@ -3260,7 +3260,7 @@ void edit_refresh(void)
 #ifdef ENABLE_COLOR
 	/* When needed, initialize the colors for the current syntax. */
 	if (!have_palette)
-		color_init();
+		prepare_palette();
 #endif
 
 	/* If the current line is out of view, get it back on screen. */
