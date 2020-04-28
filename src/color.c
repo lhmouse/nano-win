@@ -163,8 +163,9 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 	return FALSE;
 }
 
-/* Update the color information based on the current filename and content. */
-void color_update(void)
+/* Find a syntax that applies to the current buffer, based upon filename
+ * or buffer content, and load and prime this syntax when needed. */
+void find_and_prime_applicable_syntax(void)
 {
 	syntaxtype *sntx = NULL;
 

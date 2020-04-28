@@ -466,10 +466,9 @@ bool open_buffer(const char *filename, bool new_one)
 	}
 
 #ifdef ENABLE_COLOR
-	/* If we're loading into a new buffer, update the colors to account
-	 * for it, if applicable. */
+	/* If a new buffer was opened, check whether a syntax can be applied. */
 	if (new_one)
-		color_update();
+		find_and_prime_applicable_syntax();
 #endif
 	free(realname);
 	return TRUE;
@@ -1963,16 +1962,12 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 				openfile->lock_filename = do_lockfile(realname, FALSE);
 			}
 #endif
+			openfile->filename = mallocstrcpy(openfile->filename, realname);
 #ifdef ENABLE_COLOR
 			const char *oldname, *newname;
 
 			oldname = openfile->syntax ? openfile->syntax->name : "";
-#endif
-			openfile->filename = mallocstrcpy(openfile->filename, realname);
-#ifdef ENABLE_COLOR
-			/* See if the applicable syntax has changed. */
-			color_update();
-
+			find_and_prime_applicable_syntax();
 			newname = openfile->syntax ? openfile->syntax->name : "";
 
 			/* If the syntax changed, discard and recompute the multidata. */

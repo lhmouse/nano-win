@@ -853,7 +853,7 @@ bool scoop_stdin(void)
 	make_new_buffer();
 	read_file(stream, 0, "stdin", TRUE);
 #ifdef ENABLE_COLOR
-	color_update();
+	find_and_prime_applicable_syntax();
 #endif
 
 	/* Restore the original ^C handler. */

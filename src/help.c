@@ -88,7 +88,7 @@ void wrap_help_text_into_buffer(void)
 
 	remove_magicline();
 #ifdef ENABLE_COLOR
-	color_update();
+	find_and_prime_applicable_syntax();
 #endif
 	prepare_for_display();
 
