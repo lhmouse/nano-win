@@ -2254,7 +2254,7 @@ int main(int argc, char **argv)
 	started_curses = TRUE;
 
 #ifdef ENABLE_COLOR
-	set_colorpairs();
+	set_interface_colorpairs();
 #else
 	interface_color_pair[TITLE_BAR] = hilite_attribute;
 	interface_color_pair[LINE_NUMBER] = hilite_attribute;

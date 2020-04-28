@@ -61,9 +61,8 @@ void set_syntax_colorpairs(syntaxtype *sntx)
 	}
 }
 
-/* Initialize the colors for nano's interface, and assign pair numbers
- * for the colors in each loaded syntax. */
-void set_colorpairs(void)
+/* Initialize the color pairs for nano's interface. */
+void set_interface_colorpairs(void)
 {
 	bool using_defaults = FALSE;
 
@@ -102,11 +101,6 @@ void set_colorpairs(void)
 
 		free(color_combo[index]);
 	}
-
-	/* For each loaded syntax, assign pair numbers to color combinations. */
-	for (syntaxtype *sntx = syntaxes; sntx != NULL; sntx = sntx->next)
-		if (sntx->filename == NULL)
-			set_syntax_colorpairs(sntx);
 }
 
 /* Initialize the color pairs for the current syntax. */
