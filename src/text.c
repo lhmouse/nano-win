@@ -1733,6 +1733,8 @@ void do_justify(bool full_justify)
 		/* Whether the mark (if any) is before the cursor. */
 	bool before_eol = FALSE;
 		/* Whether the end of a marked region is before the end of its line. */
+	bool had_anchor = FALSE;
+		/* Whether the first line of the paragraph had an anchor. */
 	char *primary_lead = NULL;
 		/* The leading part (quoting + indentation) of the first line
 		 * of the paragraph where the marked region begins. */
@@ -1870,6 +1872,7 @@ void do_justify(bool full_justify)
 
 #ifndef NANO_TINY
 	add_undo(CUT, NULL);
+	had_anchor = openfile->current->has_anchor;
 #endif
 	/* Do the equivalent of a marked cut into an empty cutbuffer. */
 	cutbuffer = NULL;
@@ -1939,6 +1942,8 @@ void do_justify(bool full_justify)
 
 #ifndef NANO_TINY
 	add_undo(PASTE, NULL);
+	if (full_justify && !openfile->mark && !had_anchor)
+		openfile->current->has_anchor = FALSE;
 #endif
 	/* Do the equivalent of a paste of the justified text. */
 	ingraft_buffer(cutbuffer);
