@@ -110,10 +110,6 @@ void prepare_palette(void)
 	bool using_defaults = FALSE;
 	short foreground, background;
 
-	/* If the terminal is not capable of colors, forget it. */
-	if (!has_colors())
-		return;
-
 #ifdef HAVE_USE_DEFAULT_COLORS
 	/* Allow using the default colors, if available. */
 	using_defaults = (use_default_colors() != ERR);

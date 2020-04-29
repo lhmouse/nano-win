@@ -3258,8 +3258,8 @@ void edit_refresh(void)
 	int row = 0;
 
 #ifdef ENABLE_COLOR
-	/* When needed, initialize the colors for the current syntax. */
-	if (!have_palette)
+	/* When needed and useful, initialize the colors for the current syntax. */
+	if (!have_palette && has_colors())
 		prepare_palette();
 #endif
 
