@@ -1401,6 +1401,99 @@ void suck_up_input_and_paste_it(void)
 }
 #endif
 
+/* Insert the given short burst of bytes into the edit buffer. */
+void inject(char *burst, size_t count)
+{
+	linestruct *thisline = openfile->current;
+	size_t datalen = strlen(thisline->data);
+#ifndef NANO_TINY
+	size_t original_row = 0, old_amount = 0;
+
+	if (ISSET(SOFTWRAP)) {
+		if (openfile->current_y == editwinrows - 1)
+			original_row = chunk_for(xplustabs(), thisline);
+		old_amount = number_of_chunks_in(thisline);
+	}
+#endif
+
+	/* Encode an embedded NUL byte as 0x0A. */
+	for (size_t index = 0; index < count; index++)
+		if (burst[index] == '\0')
+			burst[index] = '\n';
+
+#ifndef NANO_TINY
+	/* Only add a new undo item when the current item is not an ADD or when
+	 * the current typing is not contiguous with the previous typing. */
+	if (openfile->last_action != ADD ||
+				openfile->current_undo->tail_lineno != thisline->lineno ||
+				openfile->current_undo->tail_x != openfile->current_x)
+		add_undo(ADD, NULL);
+#endif
+
+	/* Make room for the new bytes and copy them into the line. */
+	thisline->data = charealloc(thisline->data, datalen + count + 1);
+	memmove(thisline->data + openfile->current_x + count,
+						thisline->data + openfile->current_x,
+						datalen - openfile->current_x + 1);
+	strncpy(thisline->data + openfile->current_x, burst, count);
+
+#ifndef NANO_TINY
+	/* When the mark is to the right of the cursor, compensate its position. */
+	if (thisline == openfile->mark && openfile->current_x < openfile->mark_x)
+		openfile->mark_x += count;
+
+	/* When the cursor is on the top row and not on the first chunk
+	 * of a line, adding text there might change the preceding chunk
+	 * and thus require an adjustment of firstcolumn. */
+	if (thisline == openfile->edittop && openfile->firstcolumn > 0) {
+		ensure_firstcolumn_is_aligned();
+		refresh_needed = TRUE;
+	}
+#endif
+	/* If text was added to the magic line, create a new magic line. */
+	if (thisline == openfile->filebot && !ISSET(NO_NEWLINES)) {
+		new_magicline();
+		if (margin > 0)
+			refresh_needed = TRUE;
+	}
+
+	openfile->current_x += count;
+
+	openfile->totsize += mbstrlen(burst);
+	set_modified();
+
+#ifndef NANO_TINY
+	update_undo(ADD);
+#endif
+
+#ifdef ENABLE_WRAPPING
+	/* Wrap the line when needed, and if so, schedule a refresh. */
+	if (ISSET(BREAK_LONG_LINES) && do_wrap())
+		refresh_needed = TRUE;
+#endif
+
+#ifndef NANO_TINY
+	/* If we were on the last row of the edit window and moved to a new chunk,
+	 * or if the number of chunks that the current softwrapped line occupies
+	 * changed, we need a full refresh. */
+	if (ISSET(SOFTWRAP) && ((openfile->current_y == editwinrows - 1 &&
+				chunk_for(xplustabs(), openfile->current) > original_row) ||
+				number_of_chunks_in(openfile->current) != old_amount)) {
+		refresh_needed = TRUE;
+		focusing = FALSE;
+	}
+#endif
+
+	openfile->placewewant = xplustabs();
+
+#ifdef ENABLE_COLOR
+	if (!refresh_needed)
+		check_the_multis(openfile->current);
+#endif
+	if (!refresh_needed)
+		update_line(openfile->current, openfile->current_x);
+}
+
 /* Read in a keystroke, and execute its command or insert it into the buffer. */
 void process_a_keystroke(void)
 {
@@ -1542,99 +1635,6 @@ void process_a_keystroke(void)
 	if (bracketed_paste)
 		suck_up_input_and_paste_it();
 #endif
-}
-
-/* Insert the given short burst of bytes into the edit buffer. */
-void inject(char *burst, size_t count)
-{
-	linestruct *thisline = openfile->current;
-	size_t datalen = strlen(thisline->data);
-#ifndef NANO_TINY
-	size_t original_row = 0, old_amount = 0;
-
-	if (ISSET(SOFTWRAP)) {
-		if (openfile->current_y == editwinrows - 1)
-			original_row = chunk_for(xplustabs(), thisline);
-		old_amount = number_of_chunks_in(thisline);
-	}
-#endif
-
-	/* Encode an embedded NUL byte as 0x0A. */
-	for (size_t index = 0; index < count; index++)
-		if (burst[index] == '\0')
-			burst[index] = '\n';
-
-#ifndef NANO_TINY
-	/* Only add a new undo item when the current item is not an ADD or when
-	 * the current typing is not contiguous with the previous typing. */
-	if (openfile->last_action != ADD ||
-				openfile->current_undo->tail_lineno != thisline->lineno ||
-				openfile->current_undo->tail_x != openfile->current_x)
-		add_undo(ADD, NULL);
-#endif
-
-	/* Make room for the new bytes and copy them into the line. */
-	thisline->data = charealloc(thisline->data, datalen + count + 1);
-	memmove(thisline->data + openfile->current_x + count,
-						thisline->data + openfile->current_x,
-						datalen - openfile->current_x + 1);
-	strncpy(thisline->data + openfile->current_x, burst, count);
-
-#ifndef NANO_TINY
-	/* When the mark is to the right of the cursor, compensate its position. */
-	if (thisline == openfile->mark && openfile->current_x < openfile->mark_x)
-		openfile->mark_x += count;
-
-	/* When the cursor is on the top row and not on the first chunk
-	 * of a line, adding text there might change the preceding chunk
-	 * and thus require an adjustment of firstcolumn. */
-	if (thisline == openfile->edittop && openfile->firstcolumn > 0) {
-		ensure_firstcolumn_is_aligned();
-		refresh_needed = TRUE;
-	}
-#endif
-	/* If text was added to the magic line, create a new magic line. */
-	if (thisline == openfile->filebot && !ISSET(NO_NEWLINES)) {
-		new_magicline();
-		if (margin > 0)
-			refresh_needed = TRUE;
-	}
-
-	openfile->current_x += count;
-
-	openfile->totsize += mbstrlen(burst);
-	set_modified();
-
-#ifndef NANO_TINY
-	update_undo(ADD);
-#endif
-
-#ifdef ENABLE_WRAPPING
-	/* Wrap the line when needed, and if so, schedule a refresh. */
-	if (ISSET(BREAK_LONG_LINES) && do_wrap())
-		refresh_needed = TRUE;
-#endif
-
-#ifndef NANO_TINY
-	/* If we were on the last row of the edit window and moved to a new chunk,
-	 * or if the number of chunks that the current softwrapped line occupies
-	 * changed, we need a full refresh. */
-	if (ISSET(SOFTWRAP) && ((openfile->current_y == editwinrows - 1 &&
-				chunk_for(xplustabs(), openfile->current) > original_row) ||
-				number_of_chunks_in(openfile->current) != old_amount)) {
-		refresh_needed = TRUE;
-		focusing = FALSE;
-	}
-#endif
-
-	openfile->placewewant = xplustabs();
-
-#ifdef ENABLE_COLOR
-	if (!refresh_needed)
-		check_the_multis(openfile->current);
-#endif
-	if (!refresh_needed)
-		update_line(openfile->current, openfile->current_x);
 }
 
 int main(int argc, char **argv)
