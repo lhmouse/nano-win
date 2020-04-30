@@ -612,8 +612,11 @@ at the current line.  With @kbd{M-PgUp} and @kbd{M-PgDn} you can jump
 to an anchor in the backward/forward direction.  This jumping wraps
 around at the top and bottom.
 
-When a line with an anchor is deleted or cut, the line where the cursor
-ends up inherits the anchor.  When you close the buffer, any anchors disappear.
+When a line with an anchor is removed, the line where the cursor ends up
+inherits the anchor.  After performing an operation on the entire buffer
+(like formatting it, piping it through a command, or doing an external
+spell check on it), any anchors that were present are gone.  And when
+you close the buffer, all its anchors simply disappear; they are not saved.
 
 @node Limitations
 @section Limitations
