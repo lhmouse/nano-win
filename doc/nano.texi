@@ -411,10 +411,10 @@ corrector, which requires either @command{hunspell} or GNU @command{spell}
 to be installed.
 
 @item -t
-@itemx --tempfile
-Don't ask whether to save a modified buffer when exiting with @kbd{^X}, but
-assume yes.  This option is useful when @command{nano} is used as the
-composer of a mailer program.
+@itemx --saveonexit
+Save a changed buffer without prompting (when exiting with @kbd{^X}).
+This can be handy when @command{nano} is used as the composer of an
+email program.
 
 @item -u
 @item --unix
@@ -1476,7 +1476,7 @@ When writing a file, creates a backup of the current file.
 
 @item discardbuffer
 When about to write a file, discard the current buffer without saving.
-(This function is bound by default only when option @option{--tempfile}
+(This function is bound by default only when option @option{--saveonexit}
 is in effect.)
 
 @item browser

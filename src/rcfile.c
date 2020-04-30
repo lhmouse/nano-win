@@ -86,13 +86,14 @@ static const rcoption rcopts[] = {
 	{"rawsequences", RAW_SEQUENCES},
 	{"rebinddelete", REBIND_DELETE},
 	{"regexp", USE_REGEXP},
+	{"saveonexit", SAVE_ON_EXIT},
 #ifdef ENABLE_SPELLER
 	{"speller", 0},
 #endif
 	{"suspend", SUSPENDABLE},  /* Deprecated; remove in 2022. */
 	{"suspendable", SUSPENDABLE},
 	{"tabsize", 0},
-	{"tempfile", TEMP_FILE},
+	{"tempfile", SAVE_ON_EXIT},  /* Deprecated; remove in 2022. */
 	{"view", VIEW_MODE},
 #ifndef NANO_TINY
 	{"afterends", AFTER_ENDS},

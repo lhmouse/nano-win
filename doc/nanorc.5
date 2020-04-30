@@ -247,6 +247,9 @@ system either Backspace acts like Delete or Delete acts like Backspace.
 Do regular-expression searches by default.
 Regular expressions in \fBnano\fR are of the extended type (ERE).
 .TP
+.B set saveonexit
+Save a changed buffer automatically on exit (\fB^X\fR); don't prompt.
+.TP
 .B set selectedcolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for selected text.
 See \fBset titlecolor\fR for more details.
@@ -292,9 +295,6 @@ greater than 0.  The default value is \fB8\fR.
 .TP
 .B set tabstospaces
 Convert typed tabs to spaces.
-.TP
-.B set tempfile
-Save automatically on exit, don't prompt.
 .TP
 .B set titlecolor \fIfgcolor\fR,\fIbgcolor\fR
 Specify the color combination to use for the title bar.
@@ -796,7 +796,7 @@ When writing a file, creates a backup of the current file.
 .TP
 .B discardbuffer
 When about to write a file, discard the current buffer without saving.
-(This function is bound by default only when option \fB\-\-tempfile\fR
+(This function is bound by default only when option \fB\-\-saveonexit\fR
 is in effect.)
 .TP
 .B browser

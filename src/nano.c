@@ -570,7 +570,7 @@ void usage(void)
 		print_opt(_("-s <prog>"), _("--speller=<prog>"),
 					N_("Enable alternate speller"));
 #endif
-	print_opt("-t", "--tempfile", N_("Auto save on exit, don't prompt"));
+	print_opt("-t", "--saveonexit", N_("Save changes on exit, don't prompt"));
 #ifndef NANO_TINY
 	print_opt("-u", "--unix", N_("Save a file by default in Unix format"));
 #endif
@@ -719,9 +719,9 @@ void version(void)
 	printf("\n");
 }
 
-/* If the current file buffer has been modified, and the TEMP_FILE flag
- * isn't set, ask whether or not to save the file buffer.  If the
- * TEMP_FILE flag is set and the current file has a name, save it
+/* If the current file buffer has been modified, and the SAVE_ON_EXIT
+ * flag isn't set, ask whether or not to save the file buffer.  If the
+ * SAVE_ON_EXIT flag is set and the current file has a name, save it
  * unconditionally.  Then, if more than one file buffer is open, close
  * the current file buffer and switch to the next one.  If only one file
  * buffer is open, exit from nano. */
@@ -733,15 +733,15 @@ void do_exit(void)
 	 * save. */
 	if (!openfile->modified)
 		choice = 0;
-	/* If the TEMP_FILE flag is set and the current file has a name,
+	/* If the SAVE_ON_EXIT flag is set and the current file has a name,
 	 * pretend the user chose to save. */
-	else if (openfile->filename[0] != '\0' && ISSET(TEMP_FILE))
+	else if (openfile->filename[0] != '\0' && ISSET(SAVE_ON_EXIT))
 		choice = 1;
 	/* Otherwise, ask the user whether or not to save. */
 	else {
-		/* If the TEMP_FILE flag is set, and the current file doesn't
+		/* If the SAVE_ON_EXIT flag is set, and the current file doesn't
 		 * have a name, warn the user before prompting for a name. */
-		if (ISSET(TEMP_FILE))
+		if (ISSET(SAVE_ON_EXIT))
 			warn_and_shortly_pause(_("No file name"));
 
 		choice = do_yesno_prompt(FALSE, _("Save modified buffer? "));
@@ -1709,7 +1709,8 @@ int main(int argc, char **argv)
 #ifdef ENABLE_SPELLER
 		{"speller", 1, NULL, 's'},
 #endif
-		{"tempfile", 0, NULL, 't'},
+		{"saveonexit", 0, NULL, 't'},
+		{"tempfile", 0, NULL, 't'},  /* Deprecated; remove in 2022. */
 		{"view", 0, NULL, 'v'},
 #ifdef ENABLE_WRAPPING
 		{"nowrap", 0, NULL, 'w'},
@@ -1992,7 +1993,7 @@ int main(int argc, char **argv)
 				break;
 #endif
 			case 't':
-				SET(TEMP_FILE);
+				SET(SAVE_ON_EXIT);
 				break;
 #ifndef NANO_TINY
 			case 'u':

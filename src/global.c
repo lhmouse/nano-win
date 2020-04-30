@@ -482,7 +482,7 @@ size_t shown_entries_for(int menu)
 		item = item->next;
 	}
 
-	/* When --tempfile is not used, widen the grid of the WriteOut menu. */
+	/* When --saveonexit is not used, widen the grid of the WriteOut menu. */
 	if (menu == MWRITEFILE && first_sc_for(menu, discard_buffer) == NULL)
 		count--;
 
@@ -1390,7 +1390,7 @@ void shortcut_init(void)
 	add_to_sclist(MBROWSER, "^_", 0, goto_dir, 0);
 	add_to_sclist(MBROWSER, "M-G", 0, goto_dir, 0);
 #endif
-	if (ISSET(TEMP_FILE) && !ISSET(PRESERVE))
+	if (ISSET(SAVE_ON_EXIT) && !ISSET(PRESERVE))
 		add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
 #ifndef NANO_TINY
 	add_to_sclist(MWRITEFILE, "M-D", 0, dos_format_void, 0);
