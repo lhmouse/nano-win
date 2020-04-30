@@ -2446,8 +2446,10 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		openfile->current_x = strlen(openfile->current->data);
 
 #ifndef NANO_TINY
-	if (replaced)
+	if (replaced) {
+		openfile->filetop->has_anchor = FALSE;
 		update_undo(COUPLE_END);
+	}
 #endif
 
 	openfile->placewewant = pww_save;
