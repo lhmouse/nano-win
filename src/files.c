@@ -497,12 +497,8 @@ void prepare_for_display(void)
 		titlebar(NULL);
 
 #ifdef ENABLE_COLOR
-	/* If there are multiline coloring regexes, and there is no
-	 * multiline cache data yet, precalculate it now. */
-	if (openfile->syntax && openfile->syntax->nmultis > 0 &&
-				openfile->filetop->multidata == NULL)
-		precalc_multicolorinfo();
-
+	/* Precalculate the data for any multiline coloring regexes. */
+	precalc_multicolorinfo();
 	have_palette = FALSE;
 #endif
 	refresh_needed = TRUE;

@@ -315,7 +315,8 @@ void precalc_multicolorinfo(void)
 	regmatch_t startmatch, endmatch;
 	linestruct *line, *tailline;
 
-	if (openfile->syntax == NULL || ISSET(NO_SYNTAX))
+	if (openfile->syntax == NULL || openfile->syntax->nmultis == 0 ||
+					openfile->filetop->multidata || ISSET(NO_SYNTAX))
 		return;
 
 	/* For each line, allocate cache space for the multiline-regex info. */
