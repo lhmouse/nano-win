@@ -1973,12 +1973,9 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 			/* If the syntax changed, discard and recompute the multidata. */
 			if (strcmp(oldname, newname) != 0) {
-				linestruct *lin = openfile->filetop;
-
-				while (lin != NULL) {
-					free(lin->multidata);
-					lin->multidata = NULL;
-					lin = lin->next;
+				for (line = openfile->filetop; line != NULL; line = line->next) {
+					free(line->multidata);
+					line->multidata = NULL;
 				}
 
 				precalc_multicolorinfo();
