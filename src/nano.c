@@ -1092,6 +1092,7 @@ void do_toggle(int flag)
 			break;
 #ifdef ENABLE_COLOR
 		case NO_SYNTAX:
+			precalc_multicolorinfo();
 			refresh_needed = TRUE;
 			break;
 #endif
