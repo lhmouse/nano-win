@@ -1329,7 +1329,7 @@ void shortcut_init(void)
 #endif
 	add_to_sclist(MMAIN, "M-P", 0, do_toggle_void, WHITESPACE_DISPLAY);
 #ifdef ENABLE_COLOR
-	add_to_sclist(MMAIN, "M-Y", 0, do_toggle_void, NO_COLOR_SYNTAX);
+	add_to_sclist(MMAIN, "M-Y", 0, do_toggle_void, NO_SYNTAX);
 #endif
 
 	/* Group of "Editing-behavior" toggles. */
@@ -1471,7 +1471,7 @@ const char *flagtostr(int flag)
 			return N_("Soft wrapping of overlong lines");
 		case WHITESPACE_DISPLAY:
 			return N_("Whitespace display");
-		case NO_COLOR_SYNTAX:
+		case NO_SYNTAX:
 			return N_("Color syntax highlighting");
 		case SMART_HOME:
 			return N_("Smart home key");

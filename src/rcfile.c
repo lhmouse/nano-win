@@ -455,7 +455,7 @@ keystruct *strtosc(const char *input)
 			s->toggle = WHITESPACE_DISPLAY;
 #ifdef ENABLE_COLOR
 		else if (!strcmp(input, "nosyntax"))
-			s->toggle = NO_COLOR_SYNTAX;
+			s->toggle = NO_SYNTAX;
 #endif
 		else if (!strcmp(input, "smarthome"))
 			s->toggle = SMART_HOME;

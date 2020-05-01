@@ -646,7 +646,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 #ifdef ENABLE_COLOR
 				/* When doing syntax coloring, the replacement might require
 				 * a change of colors, so refresh the whole edit window. */
-				if (openfile->syntax && !ISSET(NO_COLOR_SYNTAX))
+				if (openfile->syntax && !ISSET(NO_SYNTAX))
 					edit_refresh();
 				else
 #endif

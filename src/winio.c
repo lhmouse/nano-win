@@ -2421,8 +2421,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 #endif
 
 #ifdef ENABLE_COLOR
-	/* If color syntaxes are available and turned on, apply them. */
-	if (openfile->syntax && !ISSET(NO_COLOR_SYNTAX)) {
+	/* If there are color rules (and coloring is turned on), apply them. */
+	if (openfile->syntax && !ISSET(NO_SYNTAX)) {
 		const colortype *varnish = openfile->syntax->color;
 
 		/* If there are multiline regexes, make sure there is a cache. */
@@ -3259,7 +3259,7 @@ void edit_refresh(void)
 
 #ifdef ENABLE_COLOR
 	/* When needed and useful, initialize the colors for the current syntax. */
-	if (openfile->syntax && !have_palette && !ISSET(NO_COLOR_SYNTAX) && has_colors())
+	if (openfile->syntax && !have_palette && !ISSET(NO_SYNTAX) && has_colors())
 		prepare_palette();
 #endif
 

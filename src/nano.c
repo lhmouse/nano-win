@@ -1091,7 +1091,7 @@ void do_toggle(int flag)
 			refresh_needed = TRUE;
 			break;
 #ifdef ENABLE_COLOR
-		case NO_COLOR_SYNTAX:
+		case NO_SYNTAX:
 			refresh_needed = TRUE;
 			break;
 #endif
@@ -1099,7 +1099,7 @@ void do_toggle(int flag)
 
 	enabled = ISSET(flag);
 
-	if (flag == NO_HELP || flag == NO_COLOR_SYNTAX)
+	if (flag == NO_HELP || flag == NO_SYNTAX)
 		enabled = !enabled;
 
 	statusline(HUSH, "%s %s", _(flagtostr(flag)),
