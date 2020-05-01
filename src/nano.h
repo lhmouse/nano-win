@@ -403,9 +403,7 @@ typedef struct openfilestruct {
 		/* Whether the file has been modified. */
 #ifdef ENABLE_COLOR
 	syntaxtype *syntax;
-		/* The  syntax struct for this file, if any. */
-	colortype *colorstrings;
-		/* The file's associated colors. */
+		/* The syntax that applies to this file, if any. */
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	struct openfilestruct *next;

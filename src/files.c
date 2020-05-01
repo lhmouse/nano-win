@@ -97,7 +97,6 @@ void make_new_buffer(void)
 #endif
 #ifdef ENABLE_COLOR
 	openfile->syntax = NULL;
-	openfile->colorstrings = NULL;
 #endif
 }
 

@@ -116,7 +116,7 @@ void prepare_palette(void)
 #endif
 
 	/* For each coloring expression, initialize the color pair. */
-	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
+	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
 		foreground = ink->fg;
 		background = ink->bg;
 
@@ -249,7 +249,6 @@ void find_and_prime_applicable_syntax(void)
 	}
 
 	openfile->syntax = sntx;
-	openfile->colorstrings = (sntx == NULL ? NULL : sntx->color);
 }
 
 /* Allocate and initialize (for the given line) the cache for multiline info. */
@@ -277,7 +276,7 @@ void check_the_multis(linestruct *line)
 	if (line->multidata == NULL)
 		set_up_multicache(line);
 
-	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
+	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
 		/* If it's not a multiline regex, skip. */
 		if (ink->end == NULL)
 			continue;
@@ -316,14 +315,14 @@ void precalc_multicolorinfo(void)
 	regmatch_t startmatch, endmatch;
 	linestruct *line, *tailline;
 
-	if (openfile->colorstrings == NULL || ISSET(NO_COLOR_SYNTAX))
+	if (openfile->syntax == NULL || ISSET(NO_COLOR_SYNTAX))
 		return;
 
 	/* For each line, allocate cache space for the multiline-regex info. */
 	for (line = openfile->filetop; line != NULL; line = line->next)
 		set_up_multicache(line);
 
-	for (ink = openfile->colorstrings; ink != NULL; ink = ink->next) {
+	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
 		/* If this is not a multi-line regex, skip it. */
 		if (ink->end == NULL)
 			continue;
