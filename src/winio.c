@@ -3489,8 +3489,8 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 #define CREDIT_LEN 54
 #define XLCREDIT_LEN 9
 
-/* Easter egg: Display credits.  Assume nodelay(edit) and scrollok(edit)
- * are FALSE. */
+/* Fully blank the terminal screen, then slowly "crawl" the credits over it.
+ * Abort the crawl upon any keystroke. */
 void do_credits(void)
 {
 	bool with_empty_line = ISSET(EMPTY_LINE);
@@ -3572,6 +3572,7 @@ void do_credits(void)
 	}
 
 	nodelay(edit, TRUE);
+	scrollok(edit, TRUE);
 
 	blank_titlebar();
 	blank_edit();
@@ -3583,41 +3584,31 @@ void do_credits(void)
 	napms(700);
 
 	for (crpos = 0; crpos < CREDIT_LEN + editwinrows / 2; crpos++) {
-		if ((kbinput = wgetch(edit)) != ERR)
-			break;
-
 		if (crpos < CREDIT_LEN) {
 			const char *what;
-			size_t start_col;
 
 			if (credits[crpos] == NULL)
 				what = _(xlcredits[xlpos++]);
 			else
 				what = credits[crpos];
 
-			start_col = COLS / 2 - breadth(what) / 2 - 1;
 			mvwaddstr(edit, editwinrows - 1 - (editwinrows % 2),
-												start_col, what);
+								COLS / 2 - breadth(what) / 2 - 1, what);
+			wrefresh(edit);
 		}
 
+		if ((kbinput = wgetch(edit)) != ERR)
+			break;
+
+		napms(700);
+		wscrl(edit, 1);
 		wrefresh(edit);
 
 		if ((kbinput = wgetch(edit)) != ERR)
 			break;
+
 		napms(700);
-
-		scrollok(edit, TRUE);
 		wscrl(edit, 1);
-		scrollok(edit, FALSE);
-		wrefresh(edit);
-
-		if ((kbinput = wgetch(edit)) != ERR)
-			break;
-		napms(700);
-
-		scrollok(edit, TRUE);
-		wscrl(edit, 1);
-		scrollok(edit, FALSE);
 		wrefresh(edit);
 	}
 
@@ -3630,6 +3621,7 @@ void do_credits(void)
 		UNSET(NO_HELP);
 	window_init();
 
+	scrollok(edit, FALSE);
 	nodelay(edit, FALSE);
 
 	total_refresh();
