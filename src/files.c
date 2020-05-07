@@ -2177,7 +2177,7 @@ int do_writeout(bool exiting, bool withprompt)
 		 * this is the first time we've done this, show an Easter
 		 * egg.  Display the credits. */
 		if (!did_credits && exiting && !ISSET(SAVE_ON_EXIT) &&
-								strcasecmp(answer, "zzy") == 0) {
+					openfile->filename[0] == '\0' && strcasecmp(answer, "zzy") == 0) {
 			if (LINES > 5 && COLS > 31) {
 				do_credits();
 				did_credits = TRUE;
