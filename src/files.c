@@ -2169,15 +2169,13 @@ int do_writeout(bool exiting, bool withprompt)
 		if (func == do_help) {
 			continue;
 		}
+
 #ifdef ENABLE_EXTRA
-		/* If the current file has been modified, we've pressed
-		 * Ctrl-X at the edit window to exit, we've pressed "y" at
-		 * the "Save modified buffer" prompt to save, we've entered
-		 * "zzy" as the filename to save under (hence "xyzzy"), and
-		 * this is the first time we've done this, show an Easter
-		 * egg.  Display the credits. */
-		if (!did_credits && exiting && !ISSET(SAVE_ON_EXIT) &&
-					openfile->filename[0] == '\0' && strcasecmp(answer, "zzy") == 0) {
+		/* If the user pressed Ctrl-X in the edit window, and answered "Y" at
+		 * the "Save modified buffer?" prompt, and entered "zzy" as filename,
+		 * and this is the first time around, show an Easter egg. */
+		if (exiting && !ISSET(SAVE_ON_EXIT) && openfile->filename[0] == '\0' &&
+						strcmp(answer, "zzy") == 0 && !did_credits) {
 			if (LINES > 5 && COLS > 31) {
 				do_credits();
 				did_credits = TRUE;
