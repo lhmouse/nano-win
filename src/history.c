@@ -285,7 +285,7 @@ bool have_statedir(void)
 	return TRUE;
 }
 
-/* Load the histories for Search and Replace and Execute Command. */
+/* Load the histories for Search, Replace With, and Execute Command. */
 void load_history(void)
 {
 	char *histname = concatenate(statedir, SEARCH_HISTORY);
@@ -295,8 +295,7 @@ void load_history(void)
 		if (errno != ENOENT) {
 			/* When reading failed, don't save history when we quit. */
 			UNSET(HISTORYLOG);
-			jot_error(N_("Error reading %s: %s"), histname,
-						strerror(errno));
+			jot_error(N_("Error reading %s: %s"), histname, strerror(errno));
 		}
 	} else {
 		/* Load the three history lists -- first search, then replace,
@@ -310,7 +309,6 @@ void load_history(void)
 		while ((read = getline(&line, &buf_len, hisfile)) > 0) {
 			line[--read] = '\0';
 			if (read > 0) {
-				/* Encode any embedded NUL as 0x0A. */
 				recode_NUL_to_LF(line, read);
 				update_history(history, line);
 			} else if (history == &search_history)
@@ -323,7 +321,7 @@ void load_history(void)
 		free(line);
 	}
 
-	/* After reading them in, set the status of the lists to "unchanged". */
+	/* Reading in the lists has marked them as changed; undo this side effect. */
 	history_changed = FALSE;
 
 	free(histname);
@@ -350,7 +348,7 @@ bool write_list(const linestruct *head, FILE *hisfile)
 	return TRUE;
 }
 
-/* Save the histories for Search and Replace and Execute Command. */
+/* Save the histories for Search, Replace With, and Execute Command. */
 void save_history(void)
 {
 	char *histname;
