@@ -257,7 +257,7 @@ void finish(void)
 	if (ISSET(HISTORYLOG))
 		save_history();
 	if (ISSET(POSITIONLOG) && openfile)
-		update_poshistory(openfile->filename, openfile->current->lineno, xplustabs() + 1);
+		update_poshistory();
 #endif
 
 	/* Get out. */
@@ -768,8 +768,7 @@ void close_and_go(void)
 	if (openfile != openfile->next) {
 #ifdef ENABLE_HISTORIES
 		if (ISSET(POSITIONLOG))
-			update_poshistory(openfile->filename,
-							openfile->current->lineno, xplustabs() + 1);
+			update_poshistory();
 #endif
 		switch_to_next_buffer();
 		openfile = openfile->prev;

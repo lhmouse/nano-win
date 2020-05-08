@@ -506,14 +506,14 @@ void reload_positions_if_needed(void)
 	}
 }
 
-/* Update the recorded last file positions, given a filename, a line
- * and a column.  If no entry is found, add a new one at the end. */
-void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
+/* Update the recorded last file positions with the current position in the
+ * current buffer.  If no existing entry is found, add a new one at the end. */
+void update_poshistory(void)
 {
 	poshiststruct *posptr, *theone, *posprev = NULL;
-	char *fullpath = get_full_path(filename);
+	char *fullpath = get_full_path(openfile->filename);
 
-	if (fullpath == NULL || *filename == '\0') {
+	if (fullpath == NULL || openfile->filename[0] == '\0') {
 		free(fullpath);
 		return;
 	}
@@ -528,7 +528,7 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 	}
 
 	/* Don't record files that have the default cursor position. */
-	if (lineno == 1 && xpos == 1) {
+	if (openfile->current->lineno == 1 && openfile->current_x == 0) {
 		if (posptr != NULL) {
 			if (posprev == NULL)
 				position_history = posptr->next;
@@ -564,8 +564,8 @@ void update_poshistory(char *filename, ssize_t lineno, ssize_t xpos)
 	}
 
 	/* Store the last cursor position. */
-	theone->lineno = lineno;
-	theone->xno = xpos;
+	theone->lineno = openfile->current->lineno;
+	theone->xno = xplustabs() + 1;
 	theone->next = NULL;
 
 	free(fullpath);
