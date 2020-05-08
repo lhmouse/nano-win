@@ -277,7 +277,7 @@ void die(const char *msg, ...)
 	while (openfile) {
 #ifndef NANO_TINY
 		/* If the current buffer has a lockfile, remove it. */
-		if (ISSET(LOCKING) && openfile->lock_filename)
+		if (openfile->lock_filename)
 			delete_lockfile(openfile->lock_filename);
 #endif
 		/* When modified, save the current buffer.  But not when in restricted
@@ -747,12 +747,11 @@ void do_exit(void)
 		statusbar(_("Cancelled"));
 }
 
-/* Close the current buffer, or terminate nano if it is the last. */
+/* Close the current buffer, or terminate nano if it is the only buffer. */
 void close_and_go(void)
 {
 #ifndef NANO_TINY
-	/* If there is a lockfile, remove it. */
-	if (ISSET(LOCKING) && openfile->lock_filename)
+	if (openfile->lock_filename)
 		delete_lockfile(openfile->lock_filename);
 #endif
 #ifdef ENABLE_HISTORIES
@@ -760,7 +759,7 @@ void close_and_go(void)
 		update_poshistory();
 #endif
 #ifdef ENABLE_MULTIBUFFER
-	/* If there is another buffer, close this one; otherwise terminate. */
+	/* If there is another buffer, just close this one; otherwise terminate. */
 	if (openfile != openfile->next) {
 		switch_to_next_buffer();
 		openfile = openfile->prev;
@@ -779,7 +778,7 @@ void close_and_go(void)
 	}
 }
 
-/* Note that Ctrl+C was pressed during some system call. */
+/* Register that Ctrl+C was pressed during some system call. */
 RETSIGTYPE make_a_note(int signal)
 {
 	control_C_was_pressed = TRUE;
