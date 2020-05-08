@@ -252,14 +252,6 @@ void finish(void)
 	display_rcfile_errors();
 #endif
 
-#ifdef ENABLE_HISTORIES
-	/* If the user wants history persistence, write the relevant files. */
-	if (ISSET(HISTORYLOG))
-		save_history();
-	if (ISSET(POSITIONLOG) && openfile)
-		update_poshistory();
-#endif
-
 	/* Get out. */
 	exit(0);
 }
@@ -763,13 +755,13 @@ void close_and_go(void)
 	if (ISSET(LOCKING) && openfile->lock_filename)
 		delete_lockfile(openfile->lock_filename);
 #endif
+#ifdef ENABLE_HISTORIES
+	if (ISSET(POSITIONLOG))
+		update_poshistory();
+#endif
 #ifdef ENABLE_MULTIBUFFER
 	/* If there is another buffer, close this one; otherwise terminate. */
 	if (openfile != openfile->next) {
-#ifdef ENABLE_HISTORIES
-		if (ISSET(POSITIONLOG))
-			update_poshistory();
-#endif
 		switch_to_next_buffer();
 		openfile = openfile->prev;
 		close_buffer();
@@ -778,7 +770,13 @@ void close_and_go(void)
 		titlebar(NULL);
 	} else
 #endif
+	{
+#ifdef ENABLE_HISTORIES
+		if (ISSET(HISTORYLOG))
+			save_history();
+#endif
 		finish();
+	}
 }
 
 /* Note that Ctrl+C was pressed during some system call. */
