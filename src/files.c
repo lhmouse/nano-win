@@ -751,8 +751,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	fclose(f);
 
-	if (fd > 0 && !undoable)
-		writable = (ISSET(VIEW_MODE) || access(filename, W_OK) == 0);
+	if (fd > 0 && !undoable && !ISSET(VIEW_MODE))
+		writable = (access(filename, W_OK) == 0);
 
 	/* If the file ended with newline, or it was entirely empty, make the
 	 * last line blank.  Otherwise, put the last read data in. */
