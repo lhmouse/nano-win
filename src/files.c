@@ -688,8 +688,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 			 * handle it! */
 			if ((num_lines == 0 || format != 0) && !ISSET(NO_CONVERT) &&
 						len > 0 && buf[len - 1] == '\r') {
-				if (format == 0 || format == 2)
-					format++;
+				format |= 1;
 			}
 		/* If it's a Mac file ('\r' without '\n' on the first line if we
 		 * think it's a *nix file, or on any line otherwise), and file
@@ -699,8 +698,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 			/* If we currently think the file is a *nix file, set format
 			 * to Mac.  If we currently think the file is a DOS file,
 			 * set format to both DOS and Mac. */
-			if (format == 0 || format == 1)
-				format += 2;
+			format |= 2;
 #endif
 		} else {
 			/* Store the character. */
@@ -780,8 +778,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		 * set format to Mac if we currently think the file is a *nix file, or
 		 * to DOS-and-Mac if we currently think it is a DOS file. */
 		if (buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
-			if (format < 2)
-				format += 2;
+			format |= 2;
 
 			/* Strip the carriage return. */
 			buf[--len] = '\0';
