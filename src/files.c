@@ -625,19 +625,16 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		/* The number of lines in the file. */
 	size_t len = 0;
 		/* The length of the current line of the file. */
-	char input = '\0';
-		/* The current input character. */
-	char *buf;
+	size_t bufsize = LUMPSIZE;
+		/* The size of the line buffer; increased as needed. */
+	char *buf = charalloc(bufsize);
 		/* The buffer in which we assemble each line of the file. */
-	size_t bufx = LUMPSIZE;
-		/* The allocated size of the line buffer; increased as needed. */
 	linestruct *topline;
 		/* The top of the new buffer where we store the read file. */
 	linestruct *bottomline;
 		/* The bottom of the new buffer. */
-	int input_int;
-		/* The current value we read from the file, whether an input
-		 * character or EOF. */
+	int onevalue;
+		/* The current value we read from the file, either a byte or EOF. */
 	int errornumber;
 		/* The error code, in case an error occurred during reading. */
 	bool writable = TRUE;
@@ -646,8 +643,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	int format = 0;
 		/* 0 = *nix, 1 = DOS, 2 = Mac, 3 = both DOS and Mac. */
 #endif
-
-	buf = charalloc(bufx);
 
 #ifndef NANO_TINY
 	if (undoable)
@@ -671,15 +666,14 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	control_C_was_pressed = FALSE;
 
-	/* Read the entire file into the new buffer. */
-	while ((input_int = getc_unlocked(f)) != EOF) {
+	/* Read in the entire file, byte by byte, line by line. */
+	while ((onevalue = getc_unlocked(f)) != EOF) {
+		char input = (char)onevalue;
 
 		if (control_C_was_pressed) {
 			statusline(ALERT, _("Interrupted"));
 			break;
 		}
-
-		input = (char)input_int;
 
 		/* When the byte before the current one is a CR (and we're still on
 		 * the first line OR the format is already non-Unix, and we're not
@@ -703,9 +697,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 			/* When needed, increase the line-buffer size.  Don't bother
 			 * decreasing it -- it gets freed when reading is finished. */
-			if (len == bufx) {
-				bufx += LUMPSIZE;
-				buf = charealloc(buf, bufx);
+			if (len == bufsize) {
+				bufsize += LUMPSIZE;
+				buf = charealloc(buf, bufsize);
 			}
 
 			continue;
