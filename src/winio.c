@@ -198,11 +198,11 @@ void read_keys_from(WINDOW *win)
 			return;
 		}
 
-		/* If we've failed to get a keycode MAX_BUF_SIZE times in a row,
+		/* When we've failed to get a keycode over a hundred times in a row,
 		 * assume our input source is gone and die gracefully.  We could
 		 * check if errno is set to EIO ("Input/output error") and die in
 		 * that case, but it's not always set properly.  Argh. */
-		if (input == ERR && ++errcount == MAX_BUF_SIZE)
+		if (input == ERR && ++errcount == 123)
 			die(_("Too many errors from stdin\n"));
 	}
 
