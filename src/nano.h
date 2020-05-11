@@ -649,8 +649,5 @@ enum
  * counting the blank lines at their ends. */
 #define MAX_SEARCH_HISTORY 100
 
-/* The maximum number of bytes buffered at one time. */
-#define MAX_BUF_SIZE 128
-
 /* The largest size_t number that doesn't have the high bit set. */
 #define HIGHEST_POSITIVE ((~(size_t)0) >> 1)

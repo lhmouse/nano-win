@@ -609,6 +609,9 @@ char *encode_data(char *text, size_t length)
 	return copy_of(text);
 }
 
+/* The number of bytes by which we expand the line buffer while reading. */
+#define LUMPSIZE  120
+
 /* Read the given open file f into the current buffer.  filename should be
  * set to the name of the file.  undoable means that undo records should be
  * created and that the file does not need to be checked for writability. */
@@ -626,7 +629,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		/* The current input character. */
 	char *buf;
 		/* The buffer in which we assemble each line of the file. */
-	size_t bufx = MAX_BUF_SIZE;
+	size_t bufx = LUMPSIZE;
 		/* The allocated size of the line buffer; increased as needed. */
 	linestruct *topline;
 		/* The top of the new buffer where we store the read file. */
@@ -698,10 +701,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 			 * NUL bytes in it, so we can't just use strlen() later. */
 			len++;
 
-			/* If needed, increase the buffer size, MAX_BUF_SIZE characters at
-			 * a time.  Don't bother decreasing it; it is freed at the end. */
+			/* When needed, increase the line-buffer size.  Don't bother
+			 * decreasing it -- it gets freed when reading is finished. */
 			if (len == bufx) {
-				bufx += MAX_BUF_SIZE;
+				bufx += LUMPSIZE;
 				buf = charealloc(buf, bufx);
 			}
 
