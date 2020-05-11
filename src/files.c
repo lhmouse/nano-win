@@ -678,34 +678,24 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 		input = (char)input_int;
 
-		/* If it's a *nix file ("\n") or a DOS file ("\r\n"), and file
-		 * conversion isn't disabled, handle it! */
+		/* When the byte before the current one is a CR (and we're still on
+		 * the first line OR the format is already non-Unix, and we're not
+		 * converting), then mark the format as DOS or Mac or a mixture. */
 		if (input == '\n') {
 #ifndef NANO_TINY
-			/* If it's a DOS file or a DOS/Mac file ('\r' before '\n' on
-			 * the first line if we think it's a *nix file, or on any
-			 * line otherwise), and file conversion isn't disabled,
-			 * handle it! */
 			if ((num_lines == 0 || format != 0) && !ISSET(NO_CONVERT) &&
-						len > 0 && buf[len - 1] == '\r') {
+										len > 0 && buf[len - 1] == '\r')
 				format |= 1;
-			}
-		/* If it's a Mac file ('\r' without '\n' on the first line if we
-		 * think it's a *nix file, or on any line otherwise), and file
-		 * conversion isn't disabled, handle it! */
 		} else if ((num_lines == 0 || format != 0) && !ISSET(NO_CONVERT) &&
-						len > 0 && buf[len - 1] == '\r') {
-			/* If we currently think the file is a *nix file, set format
-			 * to Mac.  If we currently think the file is a DOS file,
-			 * set format to both DOS and Mac. */
+										len > 0 && buf[len - 1] == '\r') {
 			format |= 2;
 #endif
 		} else {
-			/* Store the character. */
+			/* Store the byte. */
 			buf[len] = input;
 
 			/* Keep track of the total length of the line.  It might have
-			 * nulls in it, so we can't just use strlen() later. */
+			 * NUL bytes in it, so we can't just use strlen() later. */
 			len++;
 
 			/* If needed, increase the buffer size, MAX_BUF_SIZE characters at
@@ -714,6 +704,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 				bufx += MAX_BUF_SIZE;
 				buf = charealloc(buf, bufx);
 			}
+
 			continue;
 		}
 
@@ -733,8 +724,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		len = 0;
 
 #ifndef NANO_TINY
-		/* If it happens to be a Mac line, store the character after the \r
-		 * as the first character of the next line. */
+		/* If it was a Mac line, then store the byte after the \r
+		 * as the first byte of the next line. */
 		if (input != '\n')
 			buf[len++] = input;
 #endif
