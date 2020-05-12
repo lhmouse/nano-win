@@ -759,9 +759,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	if (len == 0)
 		bottomline->data = copy_of("");
 	else {
+#ifndef NANO_TINY
 		bool mac_line_needs_newline = FALSE;
 
-#ifndef NANO_TINY
 		/* If the final character is '\r', and file conversion isn't disabled,
 		 * set format to Mac if we currently think the file is a *nix file, or
 		 * to DOS-and-Mac if we currently think it is a DOS file. */
@@ -779,11 +779,13 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		bottomline->data = encode_data(buf, len);
 		num_lines++;
 
+#ifndef NANO_TINY
 		if (mac_line_needs_newline) {
 			bottomline->next = make_new_node(bottomline);
 			bottomline = bottomline->next;
 			bottomline->data = copy_of("");
 		}
+#endif
 	}
 
 	free(buf);
