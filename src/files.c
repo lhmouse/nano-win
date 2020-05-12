@@ -683,7 +683,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 			if ((num_lines == 0 || format != 0) && !ISSET(NO_CONVERT) &&
 										len > 0 && buf[len - 1] == '\r')
 				format |= 1;
-		} else if ((num_lines == 0 || format != 0) && !ISSET(NO_CONVERT) &&
+		} else if ((num_lines == 0 || format == 2) && !ISSET(NO_CONVERT) &&
 										len > 0 && buf[len - 1] == '\r') {
 			format |= 2;
 #endif
