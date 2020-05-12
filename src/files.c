@@ -641,7 +641,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		/* Whether the file is writable (in case we care). */
 #ifndef NANO_TINY
 	int format = 0;
-		/* 0 = *nix, 1 = DOS, 2 = Mac, 3 = both DOS and Mac. */
+		/* 0 = Unix, 1 = DOS, 2 = Mac. */
 #endif
 
 #ifndef NANO_TINY
@@ -680,12 +680,12 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		 * converting), then mark the format as DOS or Mac or a mixture. */
 		if (input == '\n') {
 #ifndef NANO_TINY
-			if ((num_lines == 0 || format != 0) && !ISSET(NO_CONVERT) &&
+			if (num_lines == 0 && !ISSET(NO_CONVERT) &&
 										len > 0 && buf[len - 1] == '\r')
-				format |= 1;
+				format = 1;
 		} else if ((num_lines == 0 || format == 2) && !ISSET(NO_CONVERT) &&
 										len > 0 && buf[len - 1] == '\r') {
-			format |= 2;
+			format = 2;
 #endif
 		} else {
 			/* Store the byte. */
@@ -762,16 +762,12 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 #ifndef NANO_TINY
 		bool mac_line_needs_newline = FALSE;
 
-		/* If the final character is '\r', and file conversion isn't disabled,
-		 * set format to Mac if we currently think the file is a *nix file, or
-		 * to DOS-and-Mac if we currently think it is a DOS file. */
+		/* If the final character is a CR and file conversion isn't disabled,
+		 * strip this CR and indicate that an extra blank line is needed. */
 		if (buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
-			format |= 2;
-
-			/* Strip the carriage return. */
+			if (num_lines == 0)
+				format = 2;
 			buf[--len] = '\0';
-
-			/* Indicate we need to put a blank line in after this one. */
 			mac_line_needs_newline = TRUE;
 		}
 #endif
@@ -799,12 +795,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	if (!writable)
 		statusline(ALERT, _("File '%s' is unwritable"), filename);
 #ifndef NANO_TINY
-	else if (format == 3) {
-		/* TRANSLATORS: Keep the next four messages at most 78 characters. */
-		statusline(HUSH, P_("Read %zu line (Converted from DOS and Mac format)",
-						"Read %zu lines (Converted from DOS and Mac format)",
-						num_lines), num_lines);
-	} else if (format == 2) {
+	else if (format == 2) {
+		/* TRANSLATORS: Keep the next three messages at most 78 characters. */
 		openfile->fmt = MAC_FILE;
 		statusline(HUSH, P_("Read %zu line (Converted from Mac format)",
 						"Read %zu lines (Converted from Mac format)",

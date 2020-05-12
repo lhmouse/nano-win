@@ -387,7 +387,7 @@ typedef struct openfilestruct {
 	mark_type kind_of_mark;
 		/* Whether it is a soft (with Shift) or a hard mark. */
 	format_type fmt;
-		/* The file's format -- Unix or DOS or Mac or mixed. */
+		/* The file's format -- Unix or DOS or Mac. */
 	char *lock_filename;
 		/* The path of the lockfile, if we created one. */
 	undostruct *undotop;
