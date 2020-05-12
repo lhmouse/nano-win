@@ -675,16 +675,20 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 			break;
 		}
 
-		/* When the byte before the current one is a CR (and we're still on
-		 * the first line OR the format is already non-Unix, and we're not
-		 * converting), then mark the format as DOS or Mac or a mixture. */
+		/* When the byte before the current one is a CR and we're doing
+		 * format conversion, then strip this CR when it's before a LF
+		 * OR when the file is in Mac format.  Also, when still on the
+		 * first line, set the format to either DOS (1) or Mac (2). */
 		if (input == '\n') {
 #ifndef NANO_TINY
-			if (num_lines == 0 && !ISSET(NO_CONVERT) &&
-										len > 0 && buf[len - 1] == '\r')
-				format = 1;
+			if (len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
+				buf[--len] = '\0';
+				if (num_lines == 0)
+					format = 1;
+			}
 		} else if ((num_lines == 0 || format == 2) && !ISSET(NO_CONVERT) &&
 										len > 0 && buf[len - 1] == '\r') {
+			buf[--len] = '\0';
 			format = 2;
 #endif
 		} else {
@@ -704,12 +708,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 			continue;
 		}
-
-#ifndef NANO_TINY
-		/* If it's a DOS or Mac line, strip the '\r' from it. */
-		if (len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT))
-			buf[--len] = '\0';
-#endif
 
 		/* Store the data and make a new line. */
 		bottomline->data = encode_data(buf, len);
