@@ -3130,8 +3130,11 @@ size_t number_of_chunks_in(linestruct *line)
  * has changed, because then the width of softwrapped chunks has changed. */
 void ensure_firstcolumn_is_aligned(void)
 {
-	openfile->firstcolumn = leftedge_for(openfile->firstcolumn,
-												openfile->edittop);
+	if (ISSET(SOFTWRAP))
+		openfile->firstcolumn = leftedge_for(openfile->firstcolumn,
+														openfile->edittop);
+	else
+		openfile->firstcolumn = 0;
 
 	/* If smooth scrolling is on, make sure the viewport doesn't center. */
 	focusing = FALSE;

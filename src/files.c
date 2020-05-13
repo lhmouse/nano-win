@@ -535,12 +535,9 @@ void redecorate_after_switch(void)
 
 #ifndef NANO_TINY
 	/* While in a different buffer, the screen may have been resized
-	 * or softwrap mode maybe have been toggled, so make sure that the
+	 * or softwrap mode may have been toggled, so make sure that the
 	 * starting column for the first row gets an appropriate value. */
-	if (ISSET(SOFTWRAP))
-		ensure_firstcolumn_is_aligned();
-	else
-		openfile->firstcolumn = 0;
+	ensure_firstcolumn_is_aligned();
 #endif
 
 	/* Update title bar and multiline info to match the current buffer. */
