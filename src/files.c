@@ -686,8 +686,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 					format = 1;
 				len--;
 			}
-		} else if ((num_lines == 0 || format == 2) && !ISSET(NO_CONVERT) &&
-										len > 0 && buf[len - 1] == '\r') {
+		} else if ((num_lines == 0 || format == 2) &&
+					len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
 			format = 2;
 			len--;
 #endif
