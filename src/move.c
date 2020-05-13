@@ -556,8 +556,8 @@ void do_scroll_down(void)
 
 	if (editwinrows > 1 && (openfile->edittop->next != NULL
 #ifndef NANO_TINY
-				|| chunk_for(openfile->firstcolumn, openfile->edittop) <
-					number_of_chunks_in(openfile->edittop)
+				|| (ISSET(SOFTWRAP) && (number_of_chunks_in(openfile->edittop) >
+					chunk_for(openfile->firstcolumn, openfile->edittop)))
 #endif
 										))
 		edit_scroll(FORWARD);

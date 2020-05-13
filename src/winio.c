@@ -3098,31 +3098,25 @@ size_t get_chunk_and_edge(size_t column, linestruct *line, size_t *leftedge)
  * relative to the first row (zero-based). */
 size_t chunk_for(size_t column, linestruct *line)
 {
-	if (ISSET(SOFTWRAP))
-		return get_chunk_and_edge(column, line, NULL);
-	else
-		return 0;
+	return get_chunk_and_edge(column, line, NULL);
 }
 
 /* Return the leftmost column of the softwrapped chunk of the given line that
  * column is on. */
 size_t leftedge_for(size_t column, linestruct *line)
 {
-	if (ISSET(SOFTWRAP)) {
-		size_t leftedge;
+	size_t leftedge;
 
-		get_chunk_and_edge(column, line, &leftedge);
+	get_chunk_and_edge(column, line, &leftedge);
 
-		return leftedge;
-	} else
-		return 0;
+	return leftedge;
 }
 
 /* Return the row of the last softwrapped chunk of the given line, relative to
  * the first row (zero-based). */
 size_t number_of_chunks_in(linestruct *line)
 {
-	return chunk_for((size_t)-1, line);
+	return get_chunk_and_edge((size_t)-1, line, NULL);
 }
 
 /* Ensure that firstcolumn is at the starting column of the softwrapped chunk
