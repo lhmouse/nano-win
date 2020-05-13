@@ -627,7 +627,7 @@ size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
 size_t get_chunk_and_edge(size_t column, linestruct *line, size_t *leftedge);
 size_t chunk_for(size_t column, linestruct *line);
 size_t leftedge_for(size_t column, linestruct *line);
-size_t number_of_chunks_in(linestruct *line);
+size_t extra_chunks_in(linestruct *line);
 void ensure_firstcolumn_is_aligned(void);
 #endif
 size_t actual_last_column(size_t leftedge, size_t column);

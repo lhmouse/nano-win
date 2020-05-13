@@ -1409,7 +1409,7 @@ void inject(char *burst, size_t count)
 	if (ISSET(SOFTWRAP)) {
 		if (openfile->current_y == editwinrows - 1)
 			original_row = chunk_for(xplustabs(), thisline);
-		old_amount = number_of_chunks_in(thisline);
+		old_amount = extra_chunks_in(thisline);
 	}
 #endif
 
@@ -1475,7 +1475,7 @@ void inject(char *burst, size_t count)
 	 * changed, we need a full refresh. */
 	if (ISSET(SOFTWRAP) && ((openfile->current_y == editwinrows - 1 &&
 				chunk_for(xplustabs(), openfile->current) > original_row) ||
-				number_of_chunks_in(openfile->current) != old_amount)) {
+				extra_chunks_in(openfile->current) != old_amount)) {
 		refresh_needed = TRUE;
 		focusing = FALSE;
 	}

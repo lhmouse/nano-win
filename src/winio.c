@@ -2343,7 +2343,7 @@ void place_the_cursor(void)
 
 		/* Calculate how many rows the lines from edittop to current use. */
 		while (line != NULL && line != openfile->current) {
-			row += number_of_chunks_in(line) + 1;
+			row += 1 + extra_chunks_in(line);
 			line = line->next;
 		}
 
@@ -2818,7 +2818,7 @@ int update_softwrapped_line(linestruct *line)
 
 	/* Find out on which screen row the target line should be shown. */
 	while (someline != line && someline != NULL) {
-		row += number_of_chunks_in(someline) + 1;
+		row += 1 + extra_chunks_in(someline);
 		someline = someline->next;
 	}
 
@@ -3094,6 +3094,12 @@ size_t get_chunk_and_edge(size_t column, linestruct *line, size_t *leftedge)
 	}
 }
 
+/* Return how many extra rows the given line needs when softwrapping. */
+size_t extra_chunks_in(linestruct *line)
+{
+	return get_chunk_and_edge((size_t)-1, line, NULL);
+}
+
 /* Return the row of the softwrapped chunk of the given line that column is on,
  * relative to the first row (zero-based). */
 size_t chunk_for(size_t column, linestruct *line)
@@ -3102,7 +3108,7 @@ size_t chunk_for(size_t column, linestruct *line)
 }
 
 /* Return the leftmost column of the softwrapped chunk of the given line that
- * column is on. */
+ * the given column is on. */
 size_t leftedge_for(size_t column, linestruct *line)
 {
 	size_t leftedge;
@@ -3110,13 +3116,6 @@ size_t leftedge_for(size_t column, linestruct *line)
 	get_chunk_and_edge(column, line, &leftedge);
 
 	return leftedge;
-}
-
-/* Return the row of the last softwrapped chunk of the given line, relative to
- * the first row (zero-based). */
-size_t number_of_chunks_in(linestruct *line)
-{
-	return get_chunk_and_edge((size_t)-1, line, NULL);
 }
 
 /* Ensure that firstcolumn is at the starting column of the softwrapped chunk

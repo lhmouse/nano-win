@@ -47,7 +47,7 @@ void do_deletion(undo_type action)
 			update_undo(action);
 
 		if (ISSET(SOFTWRAP))
-			old_amount = number_of_chunks_in(openfile->current);
+			old_amount = extra_chunks_in(openfile->current);
 #endif
 		/* Move the remainder of the line "in", over the current character. */
 		memmove(&openfile->current->data[openfile->current_x],
@@ -107,7 +107,7 @@ void do_deletion(undo_type action)
 	/* If the number of screen rows that a softwrapped line occupies
 	 * has changed, we need a full refresh. */
 	if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
-				number_of_chunks_in(openfile->current) != old_amount)
+				extra_chunks_in(openfile->current) != old_amount)
 		refresh_needed = TRUE;
 #endif
 
