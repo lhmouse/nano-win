@@ -682,14 +682,14 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		if (input == '\n') {
 #ifndef NANO_TINY
 			if (len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
-				buf[--len] = '\0';
 				if (num_lines == 0)
 					format = 1;
+				len--;
 			}
 		} else if ((num_lines == 0 || format == 2) && !ISSET(NO_CONVERT) &&
 										len > 0 && buf[len - 1] == '\r') {
-			buf[--len] = '\0';
 			format = 2;
+			len--;
 #endif
 		} else {
 			/* Store the byte. */
