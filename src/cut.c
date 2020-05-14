@@ -68,7 +68,7 @@ void do_deletion(undo_type action)
 
 		/* If there is a magic line, and we're before it: don't eat it. */
 		if (joining == openfile->filebot && openfile->current_x != 0 &&
-				!ISSET(NO_NEWLINES)) {
+													!ISSET(NO_NEWLINES)) {
 #ifndef NANO_TINY
 			if (action == BACK)
 				add_undo(BACK, NULL);
@@ -78,14 +78,8 @@ void do_deletion(undo_type action)
 
 #ifndef NANO_TINY
 		add_undo(action, NULL);
-#endif
-		/* Add the contents of the next line to those of the current one. */
-		openfile->current->data = charealloc(openfile->current->data,
-				strlen(openfile->current->data) + strlen(joining->data) + 1);
-		strcat(openfile->current->data, joining->data);
 
-#ifndef NANO_TINY
-		/* Adjust the mark if it was on the line that was "eaten". */
+		/* Adjust the mark if it is on the line that will be "eaten". */
 		if (openfile->mark == joining) {
 			openfile->mark = openfile->current;
 			openfile->mark_x += openfile->current_x;
@@ -93,10 +87,15 @@ void do_deletion(undo_type action)
 
 		openfile->current->has_anchor |= joining->has_anchor;
 #endif
-		unlink_node(joining);
-		renumber_from(openfile->current);
+		/* Add the content of the next line to that of the current one. */
+		openfile->current->data = charealloc(openfile->current->data,
+				strlen(openfile->current->data) + strlen(joining->data) + 1);
+		strcat(openfile->current->data, joining->data);
 
-		/* Two lines were joined, so we need to refresh the screen. */
+		unlink_node(joining);
+
+		/* Two lines were joined, so do a renumbering and refresh the screen. */
+		renumber_from(openfile->current);
 		refresh_needed = TRUE;
 	} else
 		/* We're at the end-of-file: nothing to do. */
