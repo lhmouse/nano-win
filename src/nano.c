@@ -500,14 +500,14 @@ void usage(void)
 #ifndef NANO_TINY
 	print_opt("-S", "--softwrap", N_("Display overlong lines on multiple rows"));
 #endif
-	print_opt(_("-T <#cols>"), _("--tabsize=<#cols>"),
-					N_("Set width of a tab to #cols columns"));
+	print_opt(_("-T <number>"), _("--tabsize=<number>"),
+					N_("Make a tab this number of columns wide"));
 	print_opt("-U", "--quickblank", N_("Wipe status bar upon next keystroke"));
 	print_opt("-V", "--version", N_("Print version information and exit"));
 #ifndef NANO_TINY
 	print_opt("-W", "--wordbounds",
 					N_("Detect word boundaries more accurately"));
-	print_opt(_("-X <str>"), _("--wordchars=<str>"),
+	print_opt(_("-X <string>"), _("--wordchars=<string>"),
 					N_("Which other characters are word parts"));
 #endif
 #ifdef ENABLE_COLOR
@@ -554,13 +554,13 @@ void usage(void)
 #endif
 	print_opt("-p", "--preserve", N_("Preserve XON (^Q) and XOFF (^S) keys"));
 #ifdef ENABLED_WRAPORJUSTIFY
-	print_opt(_("-r <#cols>"), _("--fill=<#cols>"),
+	print_opt(_("-r <number>"), _("--fill=<number>"),
 					N_("Set width for hard-wrap and justify"));
 #endif
 #ifdef ENABLE_SPELLER
 	if (!ISSET(RESTRICTED))
-		print_opt(_("-s <prog>"), _("--speller=<prog>"),
-					N_("Enable alternate speller"));
+		print_opt(_("-s <program>"), _("--speller=<program>"),
+					N_("Use this alternative spell checker"));
 #endif
 	print_opt("-t", "--saveonexit", N_("Save changes on exit, don't prompt"));
 #ifndef NANO_TINY
