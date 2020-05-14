@@ -76,6 +76,9 @@ linestruct *make_new_node(linestruct *prevnode)
 #endif
 	newnode->lineno = (prevnode) ? prevnode->lineno + 1 : 1;
 #ifndef NANO_TINY
+	if (ISSET(SOFTWRAP))
+		newnode->chunk_nr = (prevnode) ?
+						prevnode->chunk_nr + extra_chunks_in(prevnode) + 1 : 1;
 	newnode->has_anchor = FALSE;
 #endif
 
@@ -151,6 +154,7 @@ linestruct *copy_node(const linestruct *src)
 #endif
 	dst->lineno = src->lineno;
 #ifndef NANO_TINY
+	dst->chunk_nr = src->chunk_nr;
 	dst->has_anchor = FALSE;
 #endif
 
@@ -186,8 +190,21 @@ void renumber_from(linestruct *line)
 {
 	ssize_t number = (line->prev == NULL) ? 0 : line->prev->lineno;
 
+#ifndef NANO_TINY
+	if (ISSET(SOFTWRAP) && line->prev == NULL) {
+		line->lineno = ++number;
+		line->chunk_nr = 1;
+		line = line->next;
+	}
+#endif
+
 	while (line != NULL) {
 		line->lineno = ++number;
+#ifndef NANO_TINY
+		if (ISSET(SOFTWRAP))
+			line->chunk_nr = line->prev->chunk_nr +
+									extra_chunks_in(line->prev) + 1;
+#endif
 		line = line->next;
 	}
 }
@@ -1085,7 +1102,9 @@ void do_toggle(int flag)
 			signal_init();
 			break;
 		case SOFTWRAP:
-			if (!ISSET(SOFTWRAP))
+			if (ISSET(SOFTWRAP))
+				renumber_from(openfile->filetop);
+			else
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
 			break;
@@ -1487,6 +1506,7 @@ void inject(char *burst, size_t count)
 	if (ISSET(SOFTWRAP) && ((openfile->current_y == editwinrows - 1 &&
 				chunk_for(xplustabs(), openfile->current) > original_row) ||
 				extra_chunks_in(openfile->current) != old_amount)) {
+		renumber_from(openfile->current);
 		refresh_needed = TRUE;
 		focusing = FALSE;
 	}

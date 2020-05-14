@@ -52,10 +52,12 @@ void do_deletion(undo_type action)
 					&openfile->current->data[openfile->current_x + charlen],
 					line_len - charlen + 1);
 #ifndef NANO_TINY
-		/* If the number of screen rows that a softwrapped line occupies
-		 * has changed, we need a full refresh. */
-		if (ISSET(SOFTWRAP) && extra_chunks_in(openfile->current) != old_amount)
+		/* When softwrapping and the number of chunks in the current line has
+		 * changed, the chunks must be renumbered and the screen refreshed. */
+		if (ISSET(SOFTWRAP) && extra_chunks_in(openfile->current) != old_amount) {
+			renumber_from(openfile->current);
 			refresh_needed = TRUE;
+		}
 
 		/* Adjust the mark if it is after the cursor on the current line. */
 		if (openfile->mark == openfile->current &&

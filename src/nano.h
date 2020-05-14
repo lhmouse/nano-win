@@ -284,6 +284,10 @@ typedef struct linestruct {
 		/* The text of this line. */
 	ssize_t lineno;
 		/* The number of this line. */
+#ifndef NANO_TINY
+	ssize_t chunk_nr;
+		/* The ordinal number of the first chunk in this line. */
+#endif
 	struct linestruct *next;
 		/* Next node. */
 	struct linestruct *prev;
