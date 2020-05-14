@@ -27,10 +27,6 @@
 /* Delete the character under the cursor. */
 void do_deletion(undo_type action)
 {
-#ifndef NANO_TINY
-	size_t old_amount = 0;
-#endif
-
 	openfile->placewewant = xplustabs();
 
 	/* When in the middle of a line, delete the current character. */
@@ -38,6 +34,8 @@ void do_deletion(undo_type action)
 		int charlen = char_length(openfile->current->data + openfile->current_x);
 		size_t line_len = strlen(openfile->current->data + openfile->current_x);
 #ifndef NANO_TINY
+		size_t old_amount = 0;
+
 		/* If the type of action changed or the cursor moved to a different
 		 * line, create a new undo item, otherwise update the existing item. */
 		if (action != openfile->last_action ||
@@ -54,6 +52,11 @@ void do_deletion(undo_type action)
 					&openfile->current->data[openfile->current_x + charlen],
 					line_len - charlen + 1);
 #ifndef NANO_TINY
+		/* If the number of screen rows that a softwrapped line occupies
+		 * has changed, we need a full refresh. */
+		if (ISSET(SOFTWRAP) && extra_chunks_in(openfile->current) != old_amount)
+			refresh_needed = TRUE;
+
 		/* Adjust the mark if it is after the cursor on the current line. */
 		if (openfile->mark == openfile->current &&
 								openfile->mark_x > openfile->current_x)
@@ -103,14 +106,7 @@ void do_deletion(undo_type action)
 	openfile->totsize--;
 #ifndef NANO_TINY
 	openfile->current_undo->newsize = openfile->totsize;
-
-	/* If the number of screen rows that a softwrapped line occupies
-	 * has changed, we need a full refresh. */
-	if (ISSET(SOFTWRAP) && refresh_needed == FALSE &&
-				extra_chunks_in(openfile->current) != old_amount)
-		refresh_needed = TRUE;
 #endif
-
 	set_modified();
 }
 
