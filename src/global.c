@@ -500,9 +500,11 @@ const keystruct *get_shortcut(int *keycode)
 	if (meta_key && *keycode < 0x20)
 		return NULL;
 
+#ifndef NANO_TINY
 	/* During a paste at a prompt, ignore all command keycodes. */
 	if (bracketed_paste && *keycode != BRACKETED_PASTE_MARKER)
 		return NULL;
+#endif
 
 	for (keystruct *sc = sclist; sc != NULL; sc = sc->next) {
 		if ((sc->menus & currmenu) && *keycode == sc->keycode)
