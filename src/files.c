@@ -31,6 +31,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#define RW_FOR_ALL  (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
+
 #ifndef NANO_TINY
 static pid_t pid_of_command = -1;
 		/* The PID of a forked process -- needed when wanting to abort it. */
@@ -155,8 +157,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 		cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
 
 	/* Try to create the lockfile. */
-	fd = open(lockfilename, cflags,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	fd = open(lockfilename, cflags, RW_FOR_ALL);
 
 	if (fd < 0) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
@@ -1686,8 +1687,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		else
 			backup_cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
 
-		backup_fd = open(backupname, backup_cflags,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+		backup_fd = open(backupname, backup_cflags, RW_FOR_ALL);
 
 		if (backup_fd >= 0)
 			backup_file = fdopen(backup_fd, "wb");
@@ -1806,8 +1806,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #endif
 		/* Now open the file.  Use O_EXCL for an emergency file. */
 		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
-				O_APPEND : (tmp ? O_EXCL : O_TRUNC)), S_IRUSR |
-				S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+					O_APPEND : (tmp ? O_EXCL : O_TRUNC)), RW_FOR_ALL);
 
 #ifndef NANO_TINY
 		restore_handler_for_Ctrl_C();
