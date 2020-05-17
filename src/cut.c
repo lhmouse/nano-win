@@ -347,13 +347,13 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
  * at the current cursor position. */
 void ingraft_buffer(linestruct *topline)
 {
-	size_t length = strlen(openfile->current->data);
+	linestruct *line = openfile->current;
+	size_t length = strlen(line->data);
 	size_t extralen = strlen(topline->data);
 	size_t xpos = openfile->current_x;
-	char *tailtext = copy_of(openfile->current->data + xpos);
-	linestruct *line = openfile->current;
+	char *tailtext = copy_of(line->data + xpos);
 #ifndef NANO_TINY
-	bool placed_after = (openfile->mark == line && !mark_is_before_cursor());
+	bool mark_follows = (openfile->mark == line && !mark_is_before_cursor());
 #endif
 	linestruct *botline = topline;
 
@@ -401,10 +401,10 @@ void ingraft_buffer(linestruct *topline)
 
 #ifndef NANO_TINY
 	/* When needed, update the mark's pointer and position. */
-	if (placed_after && topline != botline) {
+	if (mark_follows && topline != botline) {
 		openfile->mark = botline;
 		openfile->mark_x += length - xpos;
-	} else if (placed_after)
+	} else if (mark_follows)
 		openfile->mark_x += extralen;
 #endif
 
