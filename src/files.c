@@ -129,7 +129,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	struct passwd *mypwuid = getpwuid(myuid);
 	char myhostname[32];
 	struct stat fileinfo;
-	int cflags, fd;
+	int fd;
 	FILE *filestream;
 	char *lockdata;
 	size_t wroteamt;
@@ -151,13 +151,8 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 		if (!delete_lockfile(lockfilename))
 			return FALSE;
 
-	if (ISSET(INSECURE_BACKUP))
-		cflags = O_WRONLY | O_CREAT | O_APPEND;
-	else
-		cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
-
 	/* Try to create the lockfile. */
-	fd = open(lockfilename, cflags, RW_FOR_ALL);
+	fd = open(lockfilename, O_CREAT|O_EXCL|O_WRONLY, RW_FOR_ALL);
 
 	if (fd < 0) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
