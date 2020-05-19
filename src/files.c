@@ -1089,6 +1089,9 @@ void do_insertfile(bool execute)
 	const char *msg;
 	char *given = copy_of("");
 		/* The last answer the user typed at the status-bar prompt. */
+#ifdef ENABLE_MULTIBUFFER
+	bool was_multibuffer = ISSET(MULTIBUFFER);
+#endif
 #ifndef NANO_TINY
 	format_type was_fmt = openfile->fmt;
 #endif
@@ -1273,6 +1276,13 @@ void do_insertfile(bool execute)
 	}
 
 	free(given);
+
+#ifdef ENABLE_MULTIBUFFER
+	if (was_multibuffer)
+		SET(MULTIBUFFER);
+	else
+		UNSET(MULTIBUFFER);
+#endif
 }
 
 /* If the current mode of operation allows it, go insert a file. */
