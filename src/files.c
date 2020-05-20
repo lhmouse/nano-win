@@ -129,6 +129,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	struct passwd *mypwuid = getpwuid(myuid);
 	char myhostname[32];
 	struct stat fileinfo;
+	int fd;
 	FILE *filestream;
 	char *lockdata;
 	size_t wroteamt;
@@ -150,12 +151,17 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 		if (!delete_lockfile(lockfilename))
 			return FALSE;
 
-	/* Create lock file (or truncate existing one) and open it for writing. */
-	filestream = fopen(lockfilename, "wb");
+	/* Create the lockfile -- do not accept an existing one. */
+	fd = open(lockfilename, O_WRONLY|O_CREAT|O_EXCL, RW_FOR_ALL);
 
-	if (filestream == NULL) {
+	if (fd > 0)
+		filestream = fdopen(fd, "wb");
+
+	if (fd < 0 || filestream == NULL) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
+		if (fd > 0)
+			close(fd);
 		return FALSE;
 	}
 
