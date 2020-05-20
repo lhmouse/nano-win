@@ -128,7 +128,6 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	uid_t myuid = geteuid();
 	struct passwd *mypwuid = getpwuid(myuid);
 	char myhostname[32];
-	struct stat fileinfo;
 	int fd;
 	FILE *filestream;
 	char *lockdata;
@@ -146,12 +145,11 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	} else
 		myhostname[31] = '\0';
 
-	/* If the lockfile exists, try to delete it. */
-	if (stat(lockfilename, &fileinfo) != -1)
-		if (!delete_lockfile(lockfilename))
-			return FALSE;
+	/* First make sure to remove an existing lock file. */
+	if (!delete_lockfile(lockfilename))
+		return FALSE;
 
-	/* Create the lockfile -- do not accept an existing one. */
+	/* Create the lock file -- do not accept an existing one. */
 	fd = open(lockfilename, O_WRONLY|O_CREAT|O_EXCL, RW_FOR_ALL);
 
 	if (fd > 0)
