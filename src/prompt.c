@@ -678,6 +678,9 @@ int do_yesno_prompt(bool all, const char *msg)
 		kbinput = get_kbinput(bottomwin, !all);
 
 #ifndef NANO_TINY
+		if (kbinput == KEY_WINCH)
+			continue;
+
 		/* Accept the first character of an external paste. */
 		if (bracketed_paste && kbinput == BRACKETED_PASTE_MARKER)
 			kbinput = get_kbinput(bottomwin, BLIND);
