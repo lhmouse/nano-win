@@ -129,7 +129,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	struct passwd *mypwuid = getpwuid(myuid);
 	char myhostname[32];
 	int fd;
-	FILE *filestream;
+	FILE *filestream = NULL;
 	char *lockdata;
 	size_t wroteamt;
 
@@ -155,7 +155,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	if (fd > 0)
 		filestream = fdopen(fd, "wb");
 
-	if (fd < 0 || filestream == NULL) {
+	if (filestream == NULL) {
 		statusline(MILD, _("Error writing lock file %s: %s"),
 							lockfilename, strerror(errno));
 		if (fd > 0)
