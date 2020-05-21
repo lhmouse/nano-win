@@ -1039,18 +1039,20 @@ void regenerate_screen(void)
 #endif
 	editwincols = COLS - margin;
 
-	/* Ensure that firstcolumn is the starting column of its chunk. */
-	ensure_firstcolumn_is_aligned();
-
 	/* Do as the website suggests: leave and immediately reenter curses mode. */
 	endwin();
 	doupdate();
 
-	/* Put the terminal in the desired state again, recreate the subwindows
-	 * with their (new) sizes, and redraw the contents of these windows. */
+	/* Put the terminal in the desired state again, and
+	 * recreate the subwindows with their (new) sizes. */
 	terminal_init();
 	window_init();
-	total_refresh();
+
+	/* If we have an open buffer, redraw the contents of the subwindows. */
+	if (openfile) {
+		ensure_firstcolumn_is_aligned();
+		total_refresh();
+	}
 }
 
 /* Handle the global toggle specified in flag. */
