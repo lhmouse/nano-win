@@ -2548,7 +2548,7 @@ int main(int argc, char **argv)
 		if (currmenu != MMAIN)
 			bottombars(MMAIN);
 
-		lastmessage = HUSH;
+		lastmessage = VACUUM;
 		as_an_at = TRUE;
 
 		/* Update the displayed current cursor position only when there
