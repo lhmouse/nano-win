@@ -525,6 +525,8 @@ void cut_text(void)
 /* Cut from the current cursor position to the end of the file. */
 void cut_till_eof(void)
 {
+	ran_a_tool = TRUE;
+
 	if (openfile->current->data[openfile->current_x] == '\0' &&
 				(openfile->current->next == NULL ||
 				(!ISSET(NO_NEWLINES) && openfile->current_x > 0 &&

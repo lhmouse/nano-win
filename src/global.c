@@ -52,6 +52,9 @@ bool we_are_running = FALSE;
 bool more_than_one = FALSE;
 		/* Whether more than one buffer is or has been open. */
 
+bool ran_a_tool = FALSE;
+		/* Whether a tool has been run at the Execute-Command prompt. */
+
 bool inhelp = FALSE;
 		/* Whether we are in the help viewer. */
 char *title = NULL;
@@ -847,11 +850,6 @@ void shortcut_init(void)
 	add_to_funcs(flip_goto, MWHEREIS,
 		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 
-#ifdef ENABLE_JUSTIFY
-	add_to_funcs(do_full_justify, MWHEREIS,
-		N_("Full Justify"), WITHORSANS(fulljustify_gist), BLANKAFTER, NOVIEW);
-#endif
-
 #ifdef ENABLE_BROWSER
 	add_to_funcs(goto_dir, MBROWSER,
 		/* TRANSLATORS: Try to keep the next seven strings at most 10 characters. */
@@ -1049,6 +1047,23 @@ void shortcut_init(void)
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 
+#ifdef ENABLE_SPELLER
+	add_to_funcs(do_spell, MEXECUTE,
+			N_("Spell Check"), WITHORSANS(spell_gist), TOGETHER, NOVIEW);
+#endif
+#ifdef ENABLE_COLOR
+	add_to_funcs(do_linter, MEXECUTE,
+			N_("Linter"), WITHORSANS(lint_gist), BLANKAFTER, NOVIEW);
+#endif
+#ifdef ENABLE_JUSTIFY
+	add_to_funcs(do_full_justify, MEXECUTE|MWHEREIS,
+		N_("Full Justify"), WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
+#endif
+#ifdef ENABLE_COLOR
+	add_to_funcs(do_formatter, MEXECUTE,
+			N_("Formatter"), WITHORSANS(formatter_gist), BLANKAFTER, NOVIEW);
+#endif
+
 	add_to_funcs(flip_goto, MGOTOLINE,
 		N_("Go To Text"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
 
@@ -1091,7 +1106,10 @@ void shortcut_init(void)
 			N_("Pipe Text"), WITHORSANS(pipe_gist), BLANKAFTER, NOVIEW);
 
 		add_to_funcs(flip_execute, MEXECUTE,
-			N_("Read File"), WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
+			N_("Read File"), WITHORSANS(readfile_gist), BLANKAFTER, NOVIEW);
+
+		add_to_funcs(cut_till_eof, MEXECUTE,
+			N_("Cut Till End"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 	}
 #endif
 #ifdef ENABLE_BROWSER
@@ -1161,10 +1179,13 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "^T", 0, do_spell, 0);
+	add_to_sclist(MEXECUTE, "^S", 0, do_spell, 0);
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
+	add_to_sclist(MEXECUTE, "^L", 0, do_linter, 0);
 	add_to_sclist(MMAIN, "M-F", 0, do_formatter, 0);
+	add_to_sclist(MEXECUTE, "^O", 0, do_formatter, 0);
 #endif
 	add_to_sclist(MMAIN, "^C", 0, do_cursorpos_void, 0);
 	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);
@@ -1301,11 +1322,13 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "M-V", 0, do_verbatim_input, 0);
 #ifndef NANO_TINY
 	add_to_sclist(MMAIN, "M-T", 0, cut_till_eof, 0);
+	add_to_sclist(MEXECUTE, "^V", 0, cut_till_eof, 0);
 	add_to_sclist(MMAIN, "M-D", 0, do_wordlinechar_count, 0);
 #endif
 #ifdef ENABLE_JUSTIFY
 	if (!ISSET(VIEW_MODE))
 		add_to_sclist(MMAIN|MWHEREIS, "M-J", 0, do_full_justify, 0);
+	add_to_sclist(MEXECUTE, "^J", 0, do_full_justify, 0);
 #endif
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "^L", 0, total_refresh, 0);

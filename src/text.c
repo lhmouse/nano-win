@@ -1995,6 +1995,7 @@ void do_justify_void(void)
 void do_full_justify(void)
 {
 	do_justify(TRUE);
+	ran_a_tool = TRUE;
 }
 #endif /* ENABLE_JUSTIFY */
 
@@ -2079,6 +2080,8 @@ bool fix_spello(const char *word)
 		openfile->mark = NULL;
 #endif
 		edit_refresh();
+
+		put_cursor_at_end_of_answer();
 
 		/* Let the user supply a correctly spelled alternative. */
 		proceed = (do_prompt(FALSE, FALSE, MSPELL, word, NULL,
@@ -2473,6 +2476,8 @@ void do_spell(void)
 	const char *result_msg;
 	bool okay;
 
+	ran_a_tool = TRUE;
+
 	if (in_restricted_mode())
 		return;
 
@@ -2543,6 +2548,8 @@ void do_linter(void)
 	static char **lintargs = NULL;
 	lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 	time_t last_wait = 0;
+
+	ran_a_tool = TRUE;
 
 	if (in_restricted_mode())
 		return;
@@ -2877,6 +2884,8 @@ void do_formatter(void)
 	char *temp_name;
 	bool okay = FALSE;
 	const char *result_msg;
+
+	ran_a_tool = TRUE;
 
 	if (in_restricted_mode())
 		return;

@@ -1086,6 +1086,9 @@ void do_insertfile(void)
 	/* Display newlines in filenames as ^J. */
 	as_an_at = FALSE;
 
+	/* Reset the flag that is set by the Spell Checker and Linter and such. */
+	ran_a_tool = FALSE;
+
 	while (TRUE) {
 #ifndef NANO_TINY
 		if (execute) {
@@ -1145,6 +1148,9 @@ void do_insertfile(void)
 			functionptrtype func = func_from_key(&response);
 #endif
 			given = mallocstrcpy(given, answer);
+
+			if (ran_a_tool)
+				break;
 
 #ifdef ENABLE_MULTIBUFFER
 			if (func == flip_newbuffer) {

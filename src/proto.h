@@ -38,6 +38,8 @@ extern bool started_curses;
 extern bool we_are_running;
 extern bool more_than_one;
 
+extern bool ran_a_tool;
+
 extern bool inhelp;
 extern char *title;
 
