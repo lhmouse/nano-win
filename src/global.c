@@ -1079,7 +1079,7 @@ void shortcut_init(void)
 #ifdef ENABLE_MULTIBUFFER
 	/* Multiple buffers are only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
-		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXTCMD,
+		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXECUTE,
 			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
 #endif
 #ifndef NANO_TINY
@@ -1091,10 +1091,10 @@ void shortcut_init(void)
 		add_to_funcs(flip_execute, MINSERTFILE,
 			N_("Execute Command"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
 
-		add_to_funcs(flip_pipe, MEXTCMD,
+		add_to_funcs(flip_pipe, MEXECUTE,
 			N_("Pipe Text"), WITHORSANS(pipe_gist), TOGETHER, NOVIEW);
 
-		add_to_funcs(flip_execute, MEXTCMD,
+		add_to_funcs(flip_execute, MEXECUTE,
 			N_("Read File"), WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
 	}
 #endif
@@ -1358,17 +1358,17 @@ void shortcut_init(void)
 	add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace, 0);
 	add_to_sclist(MWHEREIS|MGOTOLINE, "^T", 0, flip_goto, 0);
 #ifdef ENABLE_HISTORIES
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^P", 0, get_history_older_void, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "^N", 0, get_history_newer_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^P", 0, get_history_older_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^N", 0, get_history_newer_void, 0);
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
-		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "\xE2\x96\xb2", KEY_UP, get_history_older_void, 0);
-		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "\xE2\x96\xbc", KEY_DOWN, get_history_newer_void, 0);
+		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "\xE2\x96\xb2", KEY_UP, get_history_older_void, 0);
+		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "\xE2\x96\xbc", KEY_DOWN, get_history_newer_void, 0);
 	} else
 #endif
 	{
-		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "Up", KEY_UP, get_history_older_void, 0);
-		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXTCMD, "Down", KEY_DOWN, get_history_newer_void, 0);
+		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "Up", KEY_UP, get_history_older_void, 0);
+		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "Down", KEY_DOWN, get_history_newer_void, 0);
 	}
 #endif
 #ifdef ENABLE_JUSTIFY
@@ -1403,16 +1403,16 @@ void shortcut_init(void)
 		add_to_sclist(MWRITEFILE, "M-A", 0, append_void, 0);
 		add_to_sclist(MWRITEFILE, "M-P", 0, prepend_void, 0);
 		add_to_sclist(MWRITEFILE, "M-B", 0, backup_file_void, 0);
-		add_to_sclist(MINSERTFILE|MEXTCMD, "^X", 0, flip_execute, 0);
+		add_to_sclist(MINSERTFILE|MEXECUTE, "^X", 0, flip_execute, 0);
 	}
 	add_to_sclist(MINSERTFILE, "M-N", 0, flip_convert, 0);
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	/* Only when not in restricted mode, allow multiple buffers. */
 	if (!ISSET(RESTRICTED)) {
-		add_to_sclist(MINSERTFILE|MEXTCMD, "M-F", 0, flip_newbuffer, 0);
+		add_to_sclist(MINSERTFILE|MEXECUTE, "M-F", 0, flip_newbuffer, 0);
 #ifndef NANO_TINY
-		add_to_sclist(MEXTCMD, "M-\\", 0, flip_pipe, 0);
+		add_to_sclist(MEXECUTE, "M-\\", 0, flip_pipe, 0);
 #endif
 	}
 #endif

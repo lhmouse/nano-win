@@ -407,7 +407,7 @@ void help_init(void)
 	}
 #endif /* ENABLE_SPELLER */
 #ifndef NANO_TINY
-	else if (currmenu == MEXTCMD) {
+	else if (currmenu == MEXECUTE) {
 		htx[0] = N_("Execute Command Help Text\n\n "
 				"This mode allows you to insert the output of a "
 				"command run by the shell into the current buffer (or "

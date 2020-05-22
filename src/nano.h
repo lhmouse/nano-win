@@ -549,7 +549,7 @@ enum
 #define MGOTOLINE       (1<<4)
 #define MWRITEFILE      (1<<5)
 #define MINSERTFILE     (1<<6)
-#define MEXTCMD         (1<<7)
+#define MEXECUTE        (1<<7)
 #define MHELP           (1<<8)
 #define MSPELL          (1<<9)
 #define MBROWSER        (1<<10)
@@ -560,7 +560,7 @@ enum
 #define MFINDINHELP     (1<<15)
 /* This is an abbreviation for all menus except Help and Browser and YesNo. */
 #define MMOST  (MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|\
-                MEXTCMD|MWHEREISFILE|MGOTODIR|MFINDINHELP|MSPELL|MLINTER)
+                MEXECUTE|MWHEREISFILE|MGOTODIR|MFINDINHELP|MSPELL|MLINTER)
 #ifndef NANO_TINY
 #define MSOME  MMOST|MBROWSER
 #else

@@ -157,7 +157,7 @@ char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
 									"all" };
 int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
 									MYESNO, MGOTOLINE, MWRITEFILE, MINSERTFILE,
-									MEXTCMD, MHELP, MSPELL, MLINTER,
+									MEXECUTE, MHELP, MSPELL, MLINTER,
 									MBROWSER, MWHEREISFILE, MGOTODIR,
 									MMOST|MBROWSER|MHELP|MYESNO };
 #endif /* ENABLE_NANORC */

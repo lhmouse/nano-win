@@ -1121,7 +1121,7 @@ void do_insertfile(void)
 
 		response = do_prompt(TRUE, TRUE,
 #ifndef NANO_TINY
-							execute ? MEXTCMD :
+							execute ? MEXECUTE :
 #endif
 							MINSERTFILE, given,
 #ifndef NANO_TINY
