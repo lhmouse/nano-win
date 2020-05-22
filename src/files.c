@@ -1072,7 +1072,7 @@ bool execute_command(const char *command)
 
 /* Insert a file into the current buffer, or into a new buffer when
  * the MULTIBUFFER flag is set. */
-void do_insertfile(void)
+void do_insertfile(bool execute)
 {
 	int response;
 	const char *msg;
@@ -1080,7 +1080,6 @@ void do_insertfile(void)
 		/* The last answer the user typed at the status-bar prompt. */
 #ifndef NANO_TINY
 	format_type was_fmt = openfile->fmt;
-	bool execute = FALSE;
 #endif
 
 	/* Display newlines in filenames as ^J. */
@@ -1269,8 +1268,17 @@ void do_insertfile(void)
 void do_insertfile_void(void)
 {
 	if (!in_restricted_mode())
-		do_insertfile();
+		do_insertfile(FALSE);
 }
+
+#ifndef NANO_TINY
+/* If the current mode of operation allows it, go prompt for a command. */
+void do_execute(void)
+{
+	if (!in_restricted_mode())
+		do_insertfile(TRUE);
+}
+#endif
 
 /* For the given bare path (or path plus filename), return the canonical,
  * absolute path (plus filename) when the path exists, and NULL when not. */

@@ -693,7 +693,7 @@ void shortcut_init(void)
 	const char *append_gist = N_("Toggle appending");
 	const char *prepend_gist = N_("Toggle prepending");
 	const char *backup_gist = N_("Toggle backing up of the original file");
-	const char *execute_gist = N_("Execute external command");
+	const char *execute_gist = N_("Execute a function or an external command");
 	const char *pipe_gist =
 		N_("Pipe the current buffer (or marked region) to the command");
 	const char *convert_gist = N_("Do not convert from DOS/Mac format");
@@ -793,13 +793,13 @@ void shortcut_init(void)
 		N_("Paste"), WITHORSANS(paste_gist), BLANKAFTER, NOVIEW);
 
 	if (!ISSET(RESTRICTED)) {
+#ifndef NANO_TINY
+		add_to_funcs(do_execute, MMAIN,
+				N_("Execute"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
+#endif
 #ifdef ENABLE_JUSTIFY
 		add_to_funcs(do_justify_void, MMAIN,
-				N_("Justify"), WITHORSANS(justify_gist), TOGETHER, NOVIEW);
-#endif
-#ifdef ENABLE_SPELLER
-		add_to_funcs(do_spell, MMAIN,
-				N_("Spelling"), WITHORSANS(spell_gist), BLANKAFTER, NOVIEW);
+				N_("Justify"), WITHORSANS(justify_gist), BLANKAFTER, NOVIEW);
 #endif
 	}
 
@@ -1035,8 +1035,12 @@ void shortcut_init(void)
 	add_to_funcs(zap_text, MMAIN,
 		N_("Zap"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);
 
-#ifdef ENABLE_COLOR
 	if (!ISSET(RESTRICTED)) {
+#ifdef ENABLE_SPELLER
+		add_to_funcs(do_spell, MMAIN,
+				N_("Spell Check"), WITHORSANS(spell_gist), TOGETHER, NOVIEW);
+#endif
+#ifdef ENABLE_COLOR
 		add_to_funcs(do_linter, MMAIN,
 				N_("Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
 		add_to_funcs(do_formatter, MMAIN,
@@ -1174,12 +1178,15 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
 	add_to_sclist(MMOST, "^K", 0, cut_text, 0);
 	add_to_sclist(MMOST, "^U", 0, paste_text, 0);
+#ifndef NANO_TINY
+	add_to_sclist(MMAIN, "^T", 0, do_execute, 0);
+#endif
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "^J", '\n', do_justify_void, 0);
 #endif
 #ifdef ENABLE_SPELLER
-	add_to_sclist(MMAIN, "^T", 0, do_spell, 0);
 	add_to_sclist(MEXECUTE, "^S", 0, do_spell, 0);
+	add_to_sclist(MEXECUTE, "^T", 0, do_spell, 0);
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
