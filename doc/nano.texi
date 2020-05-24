@@ -1546,6 +1546,9 @@ Valid names for @code{menu} are:
 @item main
 The main editor window where text is entered and edited.
 
+@item help
+The help-viewer menu.
+
 @item search
 The search menu (AKA whereis).
 
@@ -1570,15 +1573,6 @@ The 'insert file' menu.
 @item extcmd
 The menu for inserting output from an external command, reached from the insert menu.
 
-@item help
-The help-viewer menu.
-
-@item spell
-The menu of the integrated spell checker where the user can edit a misspelled word.
-
-@item linter
-The linter menu.
-
 @item browser
 The file browser, for choosing a file to read from or write to.
 
@@ -1587,6 +1581,12 @@ The 'search for a file' menu in the file browser.
 
 @item gotodir
 The 'go to directory' menu in the file browser.
+
+@item spell
+The menu of the integrated spell checker where the user can edit a misspelled word.
+
+@item linter
+The linter menu, which allows jumping through the linting messages.
 
 @item all
 A special name that encompasses all menus.  For @code{bind} it means
