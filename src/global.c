@@ -831,7 +831,7 @@ void shortcut_init(void)
 	add_to_funcs(regexp_void, MWHEREIS|MREPLACE,
 		N_("Reg.exp."), WITHORSANS(regexp_gist), TOGETHER, VIEW);
 	add_to_funcs(backwards_void, MWHEREIS|MREPLACE,
-		N_("Backwards"), WITHORSANS(reverse_gist), TOGETHER, VIEW);
+		N_("Backwards"), WITHORSANS(reverse_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(flip_replace, MWHEREIS,
 		N_("Replace"), WITHORSANS(replace_gist), BLANKAFTER, VIEW);
@@ -847,7 +847,7 @@ void shortcut_init(void)
 #endif
 
 	add_to_funcs(flip_goto, MWHEREIS,
-		N_("Go To Line"), WITHORSANS(gotoline_gist), TOGETHER, VIEW);
+		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(do_full_justify, MWHEREIS,
@@ -1084,15 +1084,15 @@ void shortcut_init(void)
 #endif
 #ifndef NANO_TINY
 	add_to_funcs(flip_convert, MINSERTFILE,
-		N_("No Conversion"), WITHORSANS(convert_gist), TOGETHER, NOVIEW);
+		N_("No Conversion"), WITHORSANS(convert_gist), BLANKAFTER, NOVIEW);
 
 	/* Command execution is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE)) {
 		add_to_funcs(flip_execute, MINSERTFILE,
-			N_("Execute Command"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
+			N_("Execute Command"), WITHORSANS(execute_gist), BLANKAFTER, NOVIEW);
 
 		add_to_funcs(flip_pipe, MEXECUTE,
-			N_("Pipe Text"), WITHORSANS(pipe_gist), TOGETHER, NOVIEW);
+			N_("Pipe Text"), WITHORSANS(pipe_gist), BLANKAFTER, NOVIEW);
 
 		add_to_funcs(flip_execute, MEXECUTE,
 			N_("Read File"), WITHORSANS(readfile_gist), TOGETHER, NOVIEW);
@@ -1102,7 +1102,7 @@ void shortcut_init(void)
 	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
 		add_to_funcs(to_files, MWRITEFILE|MINSERTFILE,
-			N_("Browse"), WITHORSANS(tofiles_gist), TOGETHER, VIEW);
+			N_("Browse"), WITHORSANS(tofiles_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_page_up, MBROWSER,
 		N_("Prev Page"), WITHORSANS(prevpage_gist), TOGETHER, VIEW);
