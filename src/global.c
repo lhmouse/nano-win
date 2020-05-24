@@ -721,10 +721,8 @@ void shortcut_init(void)
 	const char *lint_gist = N_("Invoke the linter, if available");
 	const char *prevlint_gist = N_("Go to previous linter msg");
 	const char *nextlint_gist = N_("Go to next linter msg");
-#ifdef ENABLE_SPELLER
 	const char *formatter_gist =
 		N_("Invoke a program to format/arrange/manipulate the buffer");
-#endif
 #endif
 #endif /* ENABLE_HELP */
 
@@ -1043,13 +1041,11 @@ void shortcut_init(void)
 	if (!ISSET(RESTRICTED)) {
 		add_to_funcs(do_linter, MMAIN,
 				N_("Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
-#ifdef ENABLE_SPELLER
 		add_to_funcs(do_formatter, MMAIN,
 				N_("Formatter"), WITHORSANS(formatter_gist), BLANKAFTER, NOVIEW);
-#endif
 	}
 #endif
-#endif
+#endif /* NANO_TINY */
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 
@@ -1168,9 +1164,7 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
-#ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "M-F", 0, do_formatter, 0);
-#endif
 #endif
 	add_to_sclist(MMAIN, "^C", 0, do_cursorpos_void, 0);
 	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);

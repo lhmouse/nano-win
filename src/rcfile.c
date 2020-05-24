@@ -272,10 +272,8 @@ keystruct *strtosc(const char *input)
 #ifdef ENABLE_COLOR
 	else if (!strcmp(input, "linter"))
 		s->func = do_linter;
-#ifdef ENABLE_SPELLER
 	else if (!strcmp(input, "formatter"))
 		s->func = do_formatter;
-#endif
 #endif
 	else if (!strcmp(input, "curpos"))
 		s->func = do_cursorpos_void;
