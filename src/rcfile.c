@@ -46,6 +46,7 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_WRAPPING
 	{"breaklonglines", BREAK_LONG_LINES},
 #endif
+	{"casesensitive", CASE_SENSITIVE},
 	{"constantshow", CONSTANT_SHOW},
 	{"emptyline", EMPTY_LINE},
 #ifdef ENABLED_WRAPORJUSTIFY
@@ -102,7 +103,6 @@ static const rcoption rcopts[] = {
 	{"autoindent", AUTOINDENT},
 	{"backup", MAKE_BACKUP},
 	{"backupdir", 0},
-	{"casesensitive", CASE_SENSITIVE},
 	{"cutfromcursor", CUT_FROM_CURSOR},
 	{"guidestripe", 0},
 	{"locking", LOCKING},
