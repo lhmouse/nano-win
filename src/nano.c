@@ -1799,7 +1799,7 @@ int main(int argc, char **argv)
 				SET(SMART_HOME);
 				break;
 			case 'B':
-				SET(BACKUP_FILE);
+				SET(MAKE_BACKUP);
 				break;
 			case 'C':
 				backup_dir = mallocstrcpy(backup_dir, optarg);
@@ -2137,7 +2137,7 @@ int main(int argc, char **argv)
 	/* When in restricted mode, disable backups, suspending, and history files,
 	 * since they allow writing to files not specified on the command line. */
 	if (ISSET(RESTRICTED)) {
-		UNSET(BACKUP_FILE);
+		UNSET(MAKE_BACKUP);
 		UNSET(SUSPENDABLE);
 #ifdef ENABLE_NANORC
 		UNSET(HISTORYLOG);

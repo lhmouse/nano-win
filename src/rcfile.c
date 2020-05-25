@@ -100,7 +100,7 @@ static const rcoption rcopts[] = {
 	{"allow_insecure_backup", INSECURE_BACKUP},
 	{"atblanks", AT_BLANKS},
 	{"autoindent", AUTOINDENT},
-	{"backup", BACKUP_FILE},
+	{"backup", MAKE_BACKUP},
 	{"backupdir", 0},
 	{"casesensitive", CASE_SENSITIVE},
 	{"cutfromcursor", CUT_FROM_CURSOR},

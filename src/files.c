@@ -1594,7 +1594,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	 * isn't temporary.  Furthermore, if we aren't appending, prepending, or
 	 * writing a selection, we back up only if the file has not been modified
 	 * by someone else since nano opened it. */
-	if (ISSET(BACKUP_FILE) && is_existing_file && openfile->current_stat &&
+	if (ISSET(MAKE_BACKUP) && is_existing_file && openfile->current_stat &&
 				(method != OVERWRITE || openfile->mark ||
 				openfile->current_stat->st_mtime == st.st_mtime)) {
 		static struct timespec filetime[2];
@@ -2037,7 +2037,7 @@ int do_writeout(bool exiting, bool withprompt)
 
 		formatstr = (openfile->fmt == DOS_FILE) ? _(" [DOS Format]") :
 						(openfile->fmt == MAC_FILE) ? _(" [Mac Format]") : "";
-		backupstr = ISSET(BACKUP_FILE) ? _(" [Backup]") : "";
+		backupstr = ISSET(MAKE_BACKUP) ? _(" [Backup]") : "";
 
 		/* When the mark is on, offer to write the selection to disk, but
 		 * not when in restricted mode, because it would allow writing to
@@ -2108,7 +2108,7 @@ int do_writeout(bool exiting, bool withprompt)
 			openfile->fmt = (openfile->fmt == MAC_FILE) ? NIX_FILE : MAC_FILE;
 			continue;
 		} else if (func == backup_file_void) {
-			TOGGLE(BACKUP_FILE);
+			TOGGLE(MAKE_BACKUP);
 			continue;
 		} else if (func == prepend_void) {
 			method = (method == PREPEND) ? OVERWRITE : PREPEND;
