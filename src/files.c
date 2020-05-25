@@ -1671,9 +1671,9 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		}
 
 		if (ISSET(INSECURE_BACKUP))
-			backup_cflags = O_WRONLY | O_CREAT | O_APPEND;
+			backup_cflags = O_WRONLY | O_CREAT | O_TRUNC;
 		else
-			backup_cflags = O_WRONLY | O_CREAT | O_EXCL | O_APPEND;
+			backup_cflags = O_WRONLY | O_CREAT | O_EXCL;
 
 		backup_fd = open(backupname, backup_cflags, RW_FOR_ALL);
 
