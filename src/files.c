@@ -1590,58 +1590,58 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	if (openfile->current_stat == NULL && is_existing_file)
 		stat_with_alloc(realname, &openfile->current_stat);
 
-	/* We back up only if the backup toggle is set, and the file exists and
-	 * isn't temporary.  Furthermore, if we aren't appending, prepending, or
-	 * writing a selection, we back up only if the file has not been modified
-	 * by someone else since nano opened it. */
+	/* When the user requested a backup, we do this only if the file exists and
+	 * isn't temporary AND the file has not been modified by someone else since
+	 * we opened it (or we are appending/prepending or writing a selection). */
 	if (ISSET(MAKE_BACKUP) && is_existing_file && openfile->current_stat &&
-				(method != OVERWRITE || openfile->mark ||
-				openfile->current_stat->st_mtime == st.st_mtime)) {
+						(openfile->current_stat->st_mtime == st.st_mtime ||
+						method != OVERWRITE || openfile->mark)) {
 		static struct timespec filetime[2];
 		char *backupname;
 		int backup_cflags, backup_fd, verdict;
 		FILE *original = NULL, *backup_file = NULL;
 
-		/* Save the original file's access and modification times. */
+		/* Remember the original file's access and modification times. */
 		filetime[0].tv_sec = openfile->current_stat->st_atime;
 		filetime[1].tv_sec = openfile->current_stat->st_mtime;
 
 		/* Open the file of which a backup must be made. */
 		original = fopen(realname, "rb");
 
+		/* If we can't read from the original file, go on, since saving
+		 * only the current buffer is better than saving nothing. */
 		if (original == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
-			/* If we can't read from the original file, go on, since saving
-			 * only the current buffer is better than saving nothing. */
 			goto skip_backup;
 		}
 
-		/* If backup_dir is set, we set backupname to
-		 * backup_dir/backupname~[.number], where backupname is the
-		 * canonicalized absolute pathname of realname with every '/'
-		 * replaced with a '!'.  This means that /home/foo/file is
-		 * backed up in backup_dir/!home!foo!file~[.number]. */
-		if (backup_dir != NULL) {
+		/* If no backup directory was specified, we make a simple backup
+		 * by appending a tilde to the original file name.  Otherwise,
+		 * we create a numbered backup in the specified directory. */
+		if (backup_dir == NULL) {
+			backupname = charalloc(strlen(realname) + 2);
+			sprintf(backupname, "%s~", realname);
+		} else {
 			char *backuptemp = get_full_path(realname);
 
-			/* If we can't get a canonical absolute path, just use the
-			 * filename portion of the given path.  Otherwise, replace
-			 * slashes with exclamation marks in the full path. */
-			if (backuptemp == NULL)
-				backuptemp = copy_of(tail(realname));
-			else {
+			/* If we have a valid absolute path, replace each slash
+			 * in this full path with an exclamation mark.  Otherwise,
+			 * just use the file-name portion of the given path. */
+			if (backuptemp) {
 				for (int i = 0; backuptemp[i] != '\0'; i++)
 					if (backuptemp[i] == '/')
 						backuptemp[i] = '!';
-			}
+			} else
+				backuptemp = copy_of(tail(realname));
 
 			backupname = charalloc(strlen(backup_dir) + strlen(backuptemp) + 1);
 			sprintf(backupname, "%s%s", backup_dir, backuptemp);
 			free(backuptemp);
 			backuptemp = get_next_filename(backupname, "~");
+
 			if (*backuptemp == '\0') {
 				statusline(HUSH, _("Error writing backup file %s: %s"),
-						backupname, _("Too many backup files?"));
+								backupname, _("Too many backup files?"));
 				free(backuptemp);
 				free(backupname);
 				/* If we can't write to the backup, DON'T go on, since
@@ -1653,19 +1653,14 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 				free(backupname);
 				backupname = backuptemp;
 			}
-		} else {
-			backupname = charalloc(strlen(realname) + 2);
-			sprintf(backupname, "%s~", realname);
 		}
 
-		/* First, unlink any existing backups.  Next, open the backup
-		 * file with O_CREAT and O_EXCL.  If it succeeds, we have a file
-		 * descriptor to a new backup file. */
+		/* Now first try to delete an existing backup file. */
 		if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
 			if (prompt_failed_backupwrite(backupname))
 				goto skip_backup;
 			statusline(HUSH, _("Error writing backup file %s: %s"),
-						backupname, strerror(errno));
+								backupname, strerror(errno));
 			free(backupname);
 			goto cleanup_and_exit;
 		}
@@ -1675,6 +1670,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		else
 			backup_cflags = O_WRONLY | O_CREAT | O_EXCL;
 
+		/* Create the backup file (or truncate the existing one). */
 		backup_fd = open(backupname, backup_cflags, RW_FOR_ALL);
 
 		if (backup_fd >= 0)
@@ -1682,15 +1678,15 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 		if (backup_file == NULL) {
 			statusline(HUSH, _("Error writing backup file %s: %s"),
-						backupname, strerror(errno));
+								backupname, strerror(errno));
 			free(backupname);
 			goto cleanup_and_exit;
 		}
 
 		/* Try to change owner and group to those of the original file;
 		 * ignore errors, as a normal user cannot change the owner. */
-		fchown(backup_fd, openfile->current_stat->st_uid,
-							openfile->current_stat->st_gid);
+		IGNORE_CALL_RESULT(fchown(backup_fd, openfile->current_stat->st_uid,
+											openfile->current_stat->st_gid));
 
 		/* Set the backup's mode bits. */
 		if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1 &&
@@ -1699,7 +1695,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			if (prompt_failed_backupwrite(backupname))
 				goto skip_backup;
 			statusline(HUSH, _("Error writing backup file %s: %s"),
-						backupname, strerror(errno));
+								backupname, strerror(errno));
 			free(backupname);
 			goto cleanup_and_exit;
 		}
@@ -1716,7 +1712,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			if (prompt_failed_backupwrite(backupname))
 				goto skip_backup;
 			statusline(HUSH, _("Error writing backup file %s: %s"),
-						backupname, strerror(errno));
+								backupname, strerror(errno));
 			goto cleanup_and_exit;
 		}
 
@@ -1726,7 +1722,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			if (prompt_failed_backupwrite(backupname))
 				goto skip_backup;
 			statusline(HUSH, _("Error writing backup file %s: %s"),
-						backupname, strerror(errno));
+								backupname, strerror(errno));
 			goto cleanup_and_exit;
 		}
 
