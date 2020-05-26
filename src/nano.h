@@ -542,7 +542,8 @@ enum
 	LET_THEM_ZAP,
 	BREAK_LONG_LINES,
 	JUMPY_SCROLLING,
-	EMPTY_LINE
+	EMPTY_LINE,
+	INDICATOR
 };
 
 /* Flags for the menus in which a given function should be present. */

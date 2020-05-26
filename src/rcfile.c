@@ -105,6 +105,7 @@ static const rcoption rcopts[] = {
 	{"backupdir", 0},
 	{"cutfromcursor", CUT_FROM_CURSOR},
 	{"guidestripe", 0},
+	{"indicator", INDICATOR},
 	{"locking", LOCKING},
 	{"matchbrackets", 0},
 	{"noconvert", NO_CONVERT},

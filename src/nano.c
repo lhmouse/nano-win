@@ -570,6 +570,9 @@ void usage(void)
 					N_("Set operating directory"));
 #endif
 	print_opt("-p", "--preserve", N_("Preserve XON (^Q) and XOFF (^S) keys"));
+#ifndef NANO_TINY
+	print_opt("-q", "--indicator", N_("Show a position+portion indicator"));
+#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 	print_opt(_("-r <number>"), _("--fill=<number>"),
 					N_("Set width for hard-wrap and justify"));
@@ -1056,7 +1059,7 @@ void regenerate_screen(void)
 	COLS = win.ws_col;
 	LINES = win.ws_row;
 #endif
-	thebar = (LINES > 5 && COLS > 9) ? 1 : 0;
+	thebar = (ISSET(INDICATOR) && LINES > 5 && COLS > 9) ? 1 : 0;
 	bardata = nrealloc(bardata, LINES * sizeof(int));
 
 	editwincols = COLS - margin - thebar;
@@ -1763,6 +1766,7 @@ int main(int argc, char **argv)
 		{"atblanks", 0, NULL, 'a'},
 		{"autoindent", 0, NULL, 'i'},
 		{"cutfromcursor", 0, NULL, 'k'},
+		{"indicator", 0, NULL, 'q'},
 		{"unix", 0, NULL, 'u'},
 		{"afterends", 0, NULL, 'y'},
 #endif
@@ -1821,7 +1825,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNPQ:RST:UVWX:Y:Z"
-				"abcdef:ghijklmno:pr:s:tuvwxyz$", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxyz$", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -2003,6 +2007,11 @@ int main(int argc, char **argv)
 			case 'p':
 				SET(PRESERVE);
 				break;
+#ifndef NANO_TINY
+			case 'q':
+				SET(INDICATOR);
+				break;
+#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 			case 'r':
 				if (!parse_num(optarg, &fill)) {
@@ -2307,7 +2316,7 @@ int main(int argc, char **argv)
 	curs_set(0);
 
 #ifndef NANO_TINY
-	thebar = (LINES > 5 && COLS > 9) ? 1 : 0;
+	thebar = (ISSET(INDICATOR) && LINES > 5 && COLS > 9) ? 1 : 0;
 	bardata = nrealloc(bardata, LINES * sizeof(int));
 #endif
 	editwincols = COLS - thebar;
