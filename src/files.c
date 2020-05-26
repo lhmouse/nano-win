@@ -1766,30 +1766,25 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		statusbar(_("Writing to FIFO..."));
 #endif /* !NANO_TINY */
 
-	/* When it's not a temporary file, this is where we open or create it. */
+	/* When it's not a temporary file, this is where we open or create it.
+	 * For an emergency file, access is restricted to just the owner. */
 	if (thefile == NULL) {
-		mode_t was_mask = 0;
+		mode_t permissions = (tmp ? S_IRUSR|S_IWUSR : RW_FOR_ALL);
 		int fd;
-
-		/* When creating an emergency file, don't let others access it. */
-		if (tmp)
-			was_mask = umask(S_IRWXG | S_IRWXO);
 
 #ifndef NANO_TINY
 		block_sigwinch(TRUE);
 		install_handler_for_Ctrl_C();
 #endif
+
 		/* Now open the file.  Use O_EXCL for an emergency file. */
 		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
-					O_APPEND : (tmp ? O_EXCL : O_TRUNC)), RW_FOR_ALL);
+					O_APPEND : (tmp ? O_EXCL : O_TRUNC)), permissions);
 
 #ifndef NANO_TINY
 		restore_handler_for_Ctrl_C();
 		block_sigwinch(FALSE);
 #endif
-		/* When this is an emergency file, restore the original umask. */
-		if (tmp)
-			umask(was_mask);
 
 		/* If we couldn't open the file, give up. */
 		if (fd == -1) {
