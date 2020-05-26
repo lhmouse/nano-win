@@ -1398,7 +1398,6 @@ char *safe_tempfile(FILE **stream)
 {
 	const char *env_dir = getenv("TMPDIR");
 	char *tempdir = NULL, *tempfile_name = NULL;
-	mode_t was_mask;
 	int fd;
 
 	/* Get the absolute path for the first directory among $TMPDIR
@@ -1415,11 +1414,7 @@ char *safe_tempfile(FILE **stream)
 	tempfile_name = charealloc(tempdir, strlen(tempdir) + 12);
 	strcat(tempfile_name, "nano.XXXXXX");
 
-	was_mask = umask(S_IRWXG | S_IRWXO);
-
 	fd = mkstemp(tempfile_name);
-
-	umask(was_mask);
 
 	if (fd == -1) {
 		free(tempfile_name);
