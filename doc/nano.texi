@@ -392,6 +392,12 @@ similar to a chroot.
 Preserve the @kbd{^Q} (XON) and @kbd{^S} (XOFF) sequences so data being
 sent to the editor can be stopped and started.
 
+@item -q
+@itemx --indicator
+Display a "scrollbar" on the righthand side of the edit window.
+It shows the position of the viewport in the buffer
+and how much of the buffer is covered by the viewport.
+
 @item -r @var{number}
 @itemx --fill=@var{number}
 Set the target width for justifying and automatic hard-wrapping at this
@@ -880,6 +886,11 @@ The cursor position is remembered for the 200 most-recently edited files.
 
 @item set preserve
 Preserve the XON and XOFF keys (@kbd{^Q} and @kbd{^S}).
+
+@item set indicator
+Display a "scrollbar" on the righthand side of the edit window.
+It shows the position of the viewport in the buffer
+and how much of the buffer is covered by the viewport.
 
 @item set punct "@var{characters}"
 Set the characters treated as closing punctuation when justifying

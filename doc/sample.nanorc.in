@@ -59,6 +59,9 @@
 ## Remember the used search/replace strings for the next session.
 # set historylog
 
+## Display a "scrollbar" on the righthand side of the edit window.
+# set indicator
+
 ## Scroll the buffer contents per half-screen instead of per line.
 # set jumpyscrolling
 
