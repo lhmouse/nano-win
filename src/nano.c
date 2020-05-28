@@ -734,7 +734,7 @@ void do_exit(void)
 		/* If the SAVE_ON_EXIT flag is set, and the current file doesn't
 		 * have a name, warn the user before prompting for a name. */
 		if (ISSET(SAVE_ON_EXIT))
-			warn_and_shortly_pause(_("No file name"));
+			warn_and_briefly_pause(_("No file name"));
 
 		choice = do_yesno_prompt(FALSE, _("Save modified buffer? "));
 	}

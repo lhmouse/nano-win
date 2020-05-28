@@ -2250,7 +2250,7 @@ void statusbar(const char *msg)
 
 /* Warn the user on the status bar and pause for a moment, so that the
  * message can be noticed and read. */
-void warn_and_shortly_pause(const char *msg)
+void warn_and_briefly_pause(const char *msg)
 {
 	blank_bottombars();
 	statusline(ALERT, msg);
