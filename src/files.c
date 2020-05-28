@@ -1666,7 +1666,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			backup_cflags = O_WRONLY | O_CREAT | O_EXCL;
 
 		/* Create the backup file (or truncate the existing one). */
-		backup_fd = open(backupname, backup_cflags, RW_FOR_ALL);
+		backup_fd = open(backupname, backup_cflags, S_IRUSR|S_IWUSR);
 
 		if (backup_fd >= 0)
 			backup_file = fdopen(backup_fd, "wb");
@@ -1683,17 +1683,10 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		IGNORE_CALL_RESULT(fchown(backup_fd, openfile->current_stat->st_uid,
 											openfile->current_stat->st_gid));
 
-		/* Set the backup's mode bits. */
-		if (fchmod(backup_fd, openfile->current_stat->st_mode) == -1 &&
-						!ISSET(INSECURE_BACKUP)) {
-			fclose(backup_file);
-			if (prompt_failed_backupwrite(backupname))
-				goto skip_backup;
-			statusline(HUSH, _("Error writing backup file %s: %s"),
-								backupname, strerror(errno));
-			free(backupname);
-			goto cleanup_and_exit;
-		}
+		/* Set the backup's permissions to those of the original file.
+		 * It is not a security issue if this fails, as we have created
+		 * the file with just read and write permission for the owner. */
+		IGNORE_CALL_RESULT(fchmod(backup_fd, openfile->current_stat->st_mode));
 
 		/* Copy the existing file to the backup. */
 		verdict = copy_file(original, backup_file, FALSE);
