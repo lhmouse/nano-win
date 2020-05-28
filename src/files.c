@@ -1632,21 +1632,17 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			backupname = charalloc(strlen(backup_dir) + strlen(backuptemp) + 1);
 			sprintf(backupname, "%s%s", backup_dir, backuptemp);
 			free(backuptemp);
-			backuptemp = get_next_filename(backupname, "~");
 
-			if (*backuptemp == '\0') {
-				statusline(HUSH, _("Error writing backup file %s: %s"),
-								backupname, _("Too many backup files?"));
-				free(backuptemp);
+			backuptemp = get_next_filename(backupname, "~");
+			free(backupname);
+			backupname = backuptemp;
+
+			/* If all numbered backup names are taken, the user must
+			 * be fond of backups.  Thus, without one, do not go on. */
+			if (*backupname == '\0') {
+				statusline(ALERT, _("Too many existing backup files"));
 				free(backupname);
-				/* If we can't write to the backup, DON'T go on, since
-				 * whatever caused the backup-file write to fail (e.g.
-				 * disk full) may well cause the real file write to fail
-				 * too, which means we could lose the original! */
 				goto cleanup_and_exit;
-			} else {
-				free(backupname);
-				backupname = backuptemp;
 			}
 		}
 
