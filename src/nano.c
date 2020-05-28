@@ -965,6 +965,8 @@ void do_suspend_void(void)
 		statusbar(_("Suspension is not enabled"));
 		beep();
 	}
+
+	ran_a_tool = TRUE;
 }
 
 /* Handler for SIGCONT (continue after suspend). */

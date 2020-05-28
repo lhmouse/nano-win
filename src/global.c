@@ -1109,11 +1109,11 @@ void shortcut_init(void)
 		add_to_funcs(flip_pipe, MEXECUTE,
 			N_("Pipe Text"), WITHORSANS(pipe_gist), BLANKAFTER, NOVIEW);
 
-		add_to_funcs(flip_execute, MEXECUTE,
-			N_("Read File"), WITHORSANS(readfile_gist), BLANKAFTER, NOVIEW);
-
 		add_to_funcs(cut_till_eof, MEXECUTE,
 			N_("Cut Till End"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
+
+		add_to_funcs(do_suspend_void, MEXECUTE,
+			N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
 	}
 #endif
 #ifdef ENABLE_BROWSER
@@ -1341,7 +1341,7 @@ void shortcut_init(void)
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "^L", 0, total_refresh, 0);
 	else
 		add_to_sclist(MMAIN|MBROWSER, "^L", 0, total_refresh, 0);
-	add_to_sclist(MMAIN, "^Z", 0, do_suspend_void, 0);
+	add_to_sclist(MMAIN|MEXECUTE, "^Z", 0, do_suspend_void, 0);
 
 #ifndef NANO_TINY
 	/* Group of "Appearance" toggles. */
