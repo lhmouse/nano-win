@@ -1477,11 +1477,11 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
 #ifndef NANO_TINY
 /* Although this sucks, it sucks less than having a single 'my system is
  * messed up and I'm blanket allowing insecure file writing operations'. */
-int prompt_failed_backupwrite(const char *filename)
+bool prompt_failed_backupwrite(const char *filename)
 {
-	static int choice;
 	static char *prevfile = NULL;
 		/* The last filename we were passed, so we don't keep asking this. */
+	static int choice = 0;
 
 	if (prevfile == NULL || strcmp(filename, prevfile)) {
 		choice = do_yesno_prompt(FALSE, _("Failed to write backup file; "
@@ -1489,7 +1489,7 @@ int prompt_failed_backupwrite(const char *filename)
 		prevfile = mallocstrcpy(prevfile, filename);
 	}
 
-	return choice;
+	return (choice == 1);
 }
 
 /* Transform the specified backup directory to an absolute path,
