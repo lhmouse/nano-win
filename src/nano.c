@@ -283,7 +283,7 @@ void die(const char *msg, ...)
 		/* When modified, save the current buffer.  But not when in restricted
 		 * mode, as it would write a file not mentioned on the command line. */
 		if (openfile->modified && !ISSET(RESTRICTED))
-			emergency_save(openfile->filename, openfile->current_stat);
+			emergency_save(openfile->filename, openfile->statinfo);
 
 #ifdef ENABLE_MULTIBUFFER
 		openfile = openfile->next;

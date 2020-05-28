@@ -373,8 +373,8 @@ typedef struct openfilestruct {
 		/* The file's x position we would like. */
 	ssize_t current_y;
 		/* The file's y-coordinate position. */
-	struct stat *current_stat;
-		/* The file's current stat information. */
+	struct stat *statinfo;
+		/* The file's stat information from when it was opened or last saved. */
 #ifdef ENABLE_WRAPPING
 	linestruct *spillage_line;
 		/* The line for prepending stuff to during automatic hard-wrapping. */

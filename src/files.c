@@ -94,7 +94,7 @@ void make_new_buffer(void)
 	openfile->last_saved = NULL;
 	openfile->last_action = OTHER;
 
-	openfile->current_stat = NULL;
+	openfile->statinfo = NULL;
 	openfile->lock_filename = NULL;
 #endif
 #ifdef ENABLE_COLOR
@@ -436,8 +436,8 @@ bool open_buffer(const char *filename, bool new_one)
 		restore_handler_for_Ctrl_C();
 
 #ifndef NANO_TINY
-		if (openfile->current_stat == NULL)
-			stat_with_alloc(realname, &openfile->current_stat);
+		if (openfile->statinfo == NULL)
+			stat_with_alloc(realname, &openfile->statinfo);
 #endif
 	}
 
@@ -570,7 +570,7 @@ void close_buffer(void)
 	free(orphan->filename);
 	free_lines(orphan->filetop);
 #ifndef NANO_TINY
-	free(orphan->current_stat);
+	free(orphan->statinfo);
 	free(orphan->lock_filename);
 	/* Free the undo stack. */
 	discard_until(NULL);
@@ -1582,14 +1582,14 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	/* If we haven't stat()d this file before (say, the user just specified
 	 * it interactively), stat and save the value now, or else we will chase
 	 * null pointers when we do modtime checks and such during backup. */
-	if (openfile->current_stat == NULL && is_existing_file)
-		stat_with_alloc(realname, &openfile->current_stat);
+	if (openfile->statinfo == NULL && is_existing_file)
+		stat_with_alloc(realname, &openfile->statinfo);
 
 	/* When the user requested a backup, we do this only if the file exists and
 	 * isn't temporary AND the file has not been modified by someone else since
 	 * we opened it (or we are appending/prepending or writing a selection). */
-	if (ISSET(MAKE_BACKUP) && is_existing_file && openfile->current_stat &&
-						(openfile->current_stat->st_mtime == st.st_mtime ||
+	if (ISSET(MAKE_BACKUP) && is_existing_file && openfile->statinfo &&
+						(openfile->statinfo->st_mtime == st.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
 		static struct timespec filetime[2];
 		char *backupname;
@@ -1597,8 +1597,8 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		FILE *original = NULL, *backup_file = NULL;
 
 		/* Remember the original file's access and modification times. */
-		filetime[0].tv_sec = openfile->current_stat->st_atime;
-		filetime[1].tv_sec = openfile->current_stat->st_mtime;
+		filetime[0].tv_sec = openfile->statinfo->st_atime;
+		filetime[1].tv_sec = openfile->statinfo->st_mtime;
 
 		/* Open the file of which a backup must be made. */
 		original = fopen(realname, "rb");
@@ -1680,13 +1680,13 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 		/* Try to change owner and group to those of the original file;
 		 * ignore errors, as a normal user cannot change the owner. */
-		IGNORE_CALL_RESULT(fchown(backup_fd, openfile->current_stat->st_uid,
-											openfile->current_stat->st_gid));
+		IGNORE_CALL_RESULT(fchown(backup_fd, openfile->statinfo->st_uid,
+											openfile->statinfo->st_gid));
 
 		/* Set the backup's permissions to those of the original file.
 		 * It is not a security issue if this fails, as we have created
 		 * the file with just read and write permission for the owner. */
-		IGNORE_CALL_RESULT(fchmod(backup_fd, openfile->current_stat->st_mode));
+		IGNORE_CALL_RESULT(fchmod(backup_fd, openfile->statinfo->st_mode));
 
 		/* Copy the existing file to the backup. */
 		verdict = copy_file(original, backup_file, FALSE);
@@ -1912,7 +1912,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		}
 #ifndef NANO_TINY
 		/* Get or update the stat info to reflect the current state. */
-		stat_with_alloc(realname, &openfile->current_stat);
+		stat_with_alloc(realname, &openfile->statinfo);
 
 		/* Record at which point in the undo stack the file was saved. */
 		openfile->last_saved = openfile->current_undo;
@@ -2181,10 +2181,10 @@ int do_writeout(bool exiting, bool withprompt)
 			/* Complain if the file exists, the name hasn't changed,
 			 * and the stat information we had before does not match
 			 * what we have now. */
-			else if (name_exists && openfile->current_stat &&
-						(openfile->current_stat->st_mtime < st.st_mtime ||
-						openfile->current_stat->st_dev != st.st_dev ||
-						openfile->current_stat->st_ino != st.st_ino)) {
+			else if (name_exists && openfile->statinfo &&
+						(openfile->statinfo->st_mtime < st.st_mtime ||
+						openfile->statinfo->st_dev != st.st_dev ||
+						openfile->statinfo->st_ino != st.st_ino)) {
 
 				warn_and_shortly_pause(_("File on disk has changed"));
 
