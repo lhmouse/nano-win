@@ -1704,15 +1704,9 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		/* And set the backup's timestamps. */
-		if (futimens(backup_fd, filetime) == -1 && !ISSET(INSECURE_BACKUP)) {
-			fclose(backup_file);
-			if (prompt_failed_backupwrite(backupname))
-				goto skip_backup;
-			statusline(HUSH, _("Error writing backup file %s: %s"),
-								backupname, strerror(errno));
-			goto cleanup_and_exit;
-		}
+		/* Set the backup's timestamps to those of the original file.
+		 * Failure is unimportant: saving the file apparently worked. */
+		IGNORE_CALL_RESULT(futimens(backup_fd, filetime));
 
 		fclose(backup_file);
 		free(backupname);
