@@ -1051,6 +1051,16 @@ void shortcut_init(void)
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 
+#ifdef ENABLE_MULTIBUFFER
+	/* Multiple buffers are only available when not in restricted mode. */
+	if (!ISSET(RESTRICTED))
+		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXECUTE,
+			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
+#endif
+#ifndef NANO_TINY
+	add_to_funcs(flip_pipe, MEXECUTE,
+			N_("Pipe Text"), WITHORSANS(pipe_gist), BLANKAFTER, NOVIEW);
+#endif
 #ifdef ENABLE_SPELLER
 	add_to_funcs(do_spell, MEXECUTE,
 			N_("Spell Check"), WITHORSANS(spell_gist), TOGETHER, NOVIEW);
@@ -1090,14 +1100,7 @@ void shortcut_init(void)
 		add_to_funcs(backup_file_void, MWRITEFILE,
 			N_("Backup File"), WITHORSANS(backup_gist), BLANKAFTER, NOVIEW);
 	}
-#endif /* !NANO_TINY */
-#ifdef ENABLE_MULTIBUFFER
-	/* Multiple buffers are only available when not in restricted mode. */
-	if (!ISSET(RESTRICTED))
-		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXECUTE,
-			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
-#endif
-#ifndef NANO_TINY
+
 	add_to_funcs(flip_convert, MINSERTFILE,
 		N_("No Conversion"), WITHORSANS(convert_gist), BLANKAFTER, NOVIEW);
 
@@ -1106,16 +1109,13 @@ void shortcut_init(void)
 		add_to_funcs(flip_execute, MINSERTFILE,
 			N_("Execute Command"), WITHORSANS(execute_gist), BLANKAFTER, NOVIEW);
 
-		add_to_funcs(flip_pipe, MEXECUTE,
-			N_("Pipe Text"), WITHORSANS(pipe_gist), BLANKAFTER, NOVIEW);
-
 		add_to_funcs(cut_till_eof, MEXECUTE,
 			N_("Cut Till End"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 
 		add_to_funcs(do_suspend_void, MEXECUTE,
 			N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
 	}
-#endif
+#endif /* !NANO_TINY */
 #ifdef ENABLE_BROWSER
 	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
