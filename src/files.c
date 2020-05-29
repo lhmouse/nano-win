@@ -1639,9 +1639,10 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 		/* Now first try to delete an existing backup file. */
 		if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
+			warn_and_briefly_pause(_("Cannot delete existing backup"));
 			if (user_wants_to_proceed())
 				goto skip_backup;
-			statusline(HUSH, _("Error writing backup file %s: %s"),
+			statusline(HUSH, _("Cannot delete backup %s: %s"),
 								backupname, strerror(errno));
 			free(backupname);
 			goto cleanup_and_exit;
