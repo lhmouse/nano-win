@@ -32,10 +32,10 @@
 #include <unistd.h>
 
 #ifndef RCFILE_NAME
-#define HOME_RC_NAME ".nanorc"
-#define RCFILE_NAME "nanorc"
+#define HOME_RC_NAME  ".nanorc"
+#define RCFILE_NAME  "nanorc"
 #else
-#define HOME_RC_NAME RCFILE_NAME
+#define HOME_RC_NAME  RCFILE_NAME
 #endif
 
 static const rcoption rcopts[] = {

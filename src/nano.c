@@ -43,9 +43,9 @@
 #endif
 
 #ifdef ENABLE_MULTIBUFFER
-#define read_them_all TRUE
+#define read_them_all  TRUE
 #else
-#define read_them_all FALSE
+#define read_them_all  FALSE
 #endif
 
 #ifdef ENABLE_MOUSE

@@ -271,9 +271,9 @@ size_t light_to_col = 0;
 #define BLANKAFTER  TRUE    /* A blank line after this one. */
 #define TOGETHER  FALSE
 #ifdef ENABLE_MULTIBUFFER
-#define CAN_OPEN_OTHER_BUFFER TRUE
+#define CAN_OPEN_OTHER_BUFFER  TRUE
 #else
-#define CAN_OPEN_OTHER_BUFFER FALSE
+#define CAN_OPEN_OTHER_BUFFER  FALSE
 #endif
 
 /* Empty functions, for the most part corresponding to toggles. */
@@ -727,9 +727,9 @@ void shortcut_init(void)
 #endif /* ENABLE_HELP */
 
 #ifdef ENABLE_HELP
-#define WITHORSANS(help) help
+#define WITHORSANS(help)  help
 #else
-#define WITHORSANS(help) ""
+#define WITHORSANS(help)  ""
 #endif
 
 	/* Start populating the different menus with functions. */

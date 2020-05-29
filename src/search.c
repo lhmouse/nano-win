@@ -396,7 +396,7 @@ void go_looking(void)
 	linestruct *was_current = openfile->current;
 	size_t was_current_x = openfile->current_x;
 
-//#define TIMEIT 12
+//#define TIMEIT  12
 #ifdef TIMEIT
 #include <time.h>
 	clock_t start = clock();

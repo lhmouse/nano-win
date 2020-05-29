@@ -32,9 +32,9 @@
 #endif
 
 #ifdef REVISION
-#define BRANDING REVISION
+#define BRANDING  REVISION
 #else
-#define BRANDING PACKAGE_STRING
+#define BRANDING  PACKAGE_STRING
 #endif
 
 static int *key_buffer = NULL;
@@ -3482,8 +3482,8 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 #endif
 
 #ifdef ENABLE_EXTRA
-#define CREDIT_LEN 54
-#define XLCREDIT_LEN 9
+#define CREDIT_LEN  54
+#define XLCREDIT_LEN  9
 
 /* Fully blank the terminal screen, then slowly "crawl" the credits over it.
  * Abort the crawl upon any keystroke. */

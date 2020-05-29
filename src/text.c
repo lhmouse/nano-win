@@ -458,8 +458,8 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 #endif /* ENABLE_COMMENT */
 
 #ifndef NANO_TINY
-#define redo_paste undo_cut
-#define undo_paste redo_cut
+#define redo_paste  undo_cut
+#define undo_paste  redo_cut
 
 /* Undo a cut, or redo a paste. */
 void undo_cut(undostruct *u)
@@ -1461,7 +1461,7 @@ size_t quote_length(const char *line)
 }
 
 /* The maximum depth of recursion.  This must be an even number. */
-#define RECURSION_LIMIT 222
+#define RECURSION_LIMIT  222
 
 /* Return TRUE when the given line is the beginning of a paragraph (BOP). */
 bool begpar(const linestruct *const line, int depth)
