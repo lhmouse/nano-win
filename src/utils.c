@@ -38,7 +38,7 @@ void get_homedir(void)
 #ifdef HAVE_PWD_H
 		/* When HOME isn't set, or when we're root, get the home directory
 		 * from the password file instead. */
-		if (homenv == NULL || geteuid() == 0) {
+		if (homenv == NULL || geteuid() == ROOT_UID) {
 			const struct passwd *userage = getpwuid(geteuid());
 
 			if (userage != NULL)

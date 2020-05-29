@@ -32,9 +32,9 @@
 #ifdef __TANDEM
 /* Tandem NonStop Kernel support. */
 #include <floss.h>
-#define NANO_ROOT_UID 65535
+#define ROOT_UID  65535
 #else
-#define NANO_ROOT_UID 0
+#define ROOT_UID  0
 #endif
 
 #ifdef HAVE_LIMITS_H
