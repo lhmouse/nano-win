@@ -1688,10 +1688,12 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
 			fclose(backup_file);
+			warn_and_briefly_pause(_("Cannot write backup"));
 			if (user_wants_to_proceed())
 				goto skip_backup;
-			statusline(HUSH, _("Error writing backup file %s: %s"),
+			statusline(HUSH, _("Cannot write backup %s: %s"),
 								backupname, strerror(errno));
+			free(backupname);
 			goto cleanup_and_exit;
 		}
 
