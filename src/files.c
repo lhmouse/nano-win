@@ -1479,7 +1479,13 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
  * messed up and I'm blanket allowing insecure file writing operations'. */
 bool user_wants_to_proceed(void)
 {
-	return (do_yesno_prompt(FALSE, _("Cannot make backup; "
+	warn_and_briefly_pause(strerror(errno));
+
+	if (errno == ENOSPC) {
+		currmenu = MMOST;
+		return FALSE;
+	} else
+		return (do_yesno_prompt(FALSE, _("Cannot make backup; "
 							"continue and save actual file? ")) == 1);
 }
 
