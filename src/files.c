@@ -1475,20 +1475,6 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
 #endif
 
 #ifndef NANO_TINY
-/* Although this sucks, it sucks less than having a single 'my system is
- * messed up and I'm blanket allowing insecure file writing operations'. */
-bool user_wants_to_proceed(void)
-{
-	warn_and_briefly_pause(strerror(errno));
-
-	if (errno == ENOSPC) {
-		currmenu = MMOST;
-		return FALSE;
-	} else
-		return (do_yesno_prompt(FALSE, _("Cannot make backup; "
-							"continue and save actual file? ")) == 1);
-}
-
 /* Transform the specified backup directory to an absolute path,
  * and verify that it is usable. */
 void init_backup_dir(void)
@@ -1502,6 +1488,21 @@ void init_backup_dir(void)
 
 	free(backup_dir);
 	backup_dir = charealloc(target, strlen(target) + 1);
+}
+
+/* Report the reason why the backup failed and ask what to do.  Return TRUE
+ * when the user wants to save the file itself anyway.  But refuse to go on
+ * if the backup failed due to a lack of space. */
+bool user_wants_to_proceed(void)
+{
+	warn_and_briefly_pause(strerror(errno));
+
+	if (errno == ENOSPC) {
+		currmenu = MMOST;
+		return FALSE;
+	} else
+		return (do_yesno_prompt(FALSE, _("Cannot make backup; "
+								"continue and save the file? ")) == 1);
 }
 #endif /* !NANO_TINY */
 
