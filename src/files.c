@@ -1660,7 +1660,10 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			backup_file = fdopen(backup_fd, "wb");
 
 		if (backup_file == NULL) {
-			statusline(HUSH, _("Error writing backup file %s: %s"),
+			warn_and_briefly_pause(_("Cannot create backup file"));
+			if (user_wants_to_proceed())
+				goto skip_backup;
+			statusline(HUSH, _("Cannot create backup %s: %s"),
 								backupname, strerror(errno));
 			free(backupname);
 			goto cleanup_and_exit;
