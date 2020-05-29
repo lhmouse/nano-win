@@ -1552,6 +1552,8 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		/* Becomes TRUE when the file is non-temporary and exists. */
 	struct stat st;
 		/* The status fields filled in by stat(). */
+	char *backupname = NULL;
+		/* The name of the backup file, in case we make one. */
 #endif
 	char *realname = real_dir_from_tilde(name);
 		/* The filename after tilde expansion. */
@@ -1589,7 +1591,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 						(openfile->statinfo->st_mtime == st.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
 		static struct timespec filetime[2];
-		char *backupname;
 		int backup_cflags, backup_fd, verdict;
 		FILE *original = NULL, *backup_file = NULL;
 
@@ -1638,7 +1639,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			 * be fond of backups.  Thus, without one, do not go on. */
 			if (*backupname == '\0') {
 				statusline(ALERT, _("Too many existing backup files"));
-				free(backupname);
 				goto cleanup_and_exit;
 			}
 		}
@@ -1650,7 +1650,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 				goto skip_backup;
 			statusline(HUSH, _("Cannot delete backup %s: %s"),
 								backupname, strerror(errno));
-			free(backupname);
 			goto cleanup_and_exit;
 		}
 
@@ -1671,7 +1670,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 				goto skip_backup;
 			statusline(HUSH, _("Cannot create backup %s: %s"),
 								backupname, strerror(errno));
-			free(backupname);
 			goto cleanup_and_exit;
 		}
 
@@ -1699,7 +1697,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 				goto skip_backup;
 			statusline(HUSH, _("Cannot write backup %s: %s"),
 								backupname, strerror(errno));
-			free(backupname);
 			goto cleanup_and_exit;
 		}
 
@@ -1713,11 +1710,8 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 				goto skip_backup;
 			statusline(HUSH, _("Cannot write backup %s: %s"),
 								backupname, strerror(errno));
-			free(backupname);
 			goto cleanup_and_exit;
 		}
-
-		free(backupname);
 	}
 
   skip_backup:
@@ -1930,6 +1924,9 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	retval = TRUE;
 
   cleanup_and_exit:
+#ifndef NANO_TINY
+	free(backupname);
+#endif
 	free(tempname);
 	free(realname);
 
