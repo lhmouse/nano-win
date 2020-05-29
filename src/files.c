@@ -1701,7 +1701,16 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		 * Failure is unimportant: saving the file apparently worked. */
 		IGNORE_CALL_RESULT(futimens(backup_fd, filetime));
 
-		fclose(backup_file);
+		if (fclose(backup_file) != 0) {
+			warn_and_briefly_pause(_("Cannot write backup"));
+			if (user_wants_to_proceed())
+				goto skip_backup;
+			statusline(HUSH, _("Cannot write backup %s: %s"),
+								backupname, strerror(errno));
+			free(backupname);
+			goto cleanup_and_exit;
+		}
+
 		free(backupname);
 	}
 
