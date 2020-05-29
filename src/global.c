@@ -1070,7 +1070,7 @@ void shortcut_init(void)
 			N_("Linter"), WITHORSANS(lint_gist), BLANKAFTER, NOVIEW);
 #endif
 #ifdef ENABLE_JUSTIFY
-	add_to_funcs(do_full_justify, MEXECUTE|MWHEREIS,
+	add_to_funcs(do_full_justify, MEXECUTE,
 		N_("Full Justify"), WITHORSANS(fulljustify_gist), TOGETHER, NOVIEW);
 #endif
 #ifdef ENABLE_COLOR
@@ -1333,8 +1333,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-D", 0, do_wordlinechar_count, 0);
 #endif
 #ifdef ENABLE_JUSTIFY
-	if (!ISSET(VIEW_MODE))
-		add_to_sclist(MMAIN|MWHEREIS, "M-J", 0, do_full_justify, 0);
 	add_to_sclist(MEXECUTE, "^J", 0, do_full_justify, 0);
 #endif
 	if (!ISSET(PRESERVE))
