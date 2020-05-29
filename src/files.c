@@ -1477,19 +1477,10 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
 #ifndef NANO_TINY
 /* Although this sucks, it sucks less than having a single 'my system is
  * messed up and I'm blanket allowing insecure file writing operations'. */
-bool prompt_failed_backupwrite(const char *filename)
+bool user_wants_to_proceed(void)
 {
-	static char *prevfile = NULL;
-		/* The last filename we were passed, so we don't keep asking this. */
-	static int choice = 0;
-
-	if (prevfile == NULL || strcmp(filename, prevfile)) {
-		choice = do_yesno_prompt(FALSE, _("Failed to write backup file; "
-						"continue saving? (Say N if unsure.) "));
-		prevfile = mallocstrcpy(prevfile, filename);
-	}
-
-	return (choice == 1);
+	return (do_yesno_prompt(FALSE, _("Cannot make backup; "
+							"continue and save actual file? ")) == 1);
 }
 
 /* Transform the specified backup directory to an absolute path,
@@ -1648,7 +1639,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 		/* Now first try to delete an existing backup file. */
 		if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
-			if (prompt_failed_backupwrite(backupname))
+			if (user_wants_to_proceed())
 				goto skip_backup;
 			statusline(HUSH, _("Error writing backup file %s: %s"),
 								backupname, strerror(errno));
@@ -1693,7 +1684,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
 			fclose(backup_file);
-			if (prompt_failed_backupwrite(backupname))
+			if (user_wants_to_proceed())
 				goto skip_backup;
 			statusline(HUSH, _("Error writing backup file %s: %s"),
 								backupname, strerror(errno));
