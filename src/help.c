@@ -415,7 +415,8 @@ void help_init(void)
 				"(the pipe symbol), the current contents of the buffer "
 				"(or marked region) will be piped to the command.  ");
 		htx[1] = N_("If you just need another blank buffer, do not enter any "
-				"command.\n\n");
+				"command.\n\n You can also pick one of four tools, or cut a "
+				"large piece of the buffer, or put the editor to sleep.\n\n");
 		htx[2] = N_(" The following function keys are "
 				"available in Execute Command mode:\n\n");
 	} else if (currmenu == MLINTER) {
