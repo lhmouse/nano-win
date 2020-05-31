@@ -1190,7 +1190,7 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
-	add_to_sclist(MEXECUTE, "^L", 0, do_linter, 0);
+	add_to_sclist(MEXECUTE, "^Y", 0, do_linter, 0);
 	add_to_sclist(MMAIN, "M-F", 0, do_formatter, 0);
 	add_to_sclist(MEXECUTE, "^O", 0, do_formatter, 0);
 #endif
@@ -1336,9 +1336,9 @@ void shortcut_init(void)
 	add_to_sclist(MEXECUTE, "^J", 0, do_full_justify, 0);
 #endif
 	if (!ISSET(PRESERVE))
-		add_to_sclist(MMAIN|MBROWSER|MHELP, "^L", 0, full_refresh, 0);
+		add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "^L", 0, full_refresh, 0);
 	else
-		add_to_sclist(MMAIN|MBROWSER, "^L", 0, full_refresh, 0);
+		add_to_sclist(MMOST|MBROWSER|MYESNO, "^L", 0, full_refresh, 0);
 	add_to_sclist(MMAIN|MEXECUTE, "^Z", 0, do_suspend_void, 0);
 
 #ifndef NANO_TINY

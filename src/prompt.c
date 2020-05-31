@@ -509,14 +509,9 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 			}
 		} else
 #endif /* ENABLE_HISTORIES */
-		if (func == do_help) {
-			/* This key has a shortcut-list entry when it's used to go to
-			 * the help viewer or display a message indicating that help
-			 * is disabled, which means that finished has been set to TRUE.
-			 * Set it back to FALSE here, so that we aren't kicked out of
-			 * the status-bar prompt. */
+		/* If we ran a function that should not exit from the prompt... */
+		if (func == do_help || func == full_refresh)
 			finished = FALSE;
-		}
 #ifndef NANO_TINY
 		else if (func == do_nothing)
 			finished = FALSE;
@@ -744,6 +739,8 @@ int do_yesno_prompt(bool all, const char *msg)
 			}
 		}
 #endif /* ENABLE_MOUSE */
+		else if (func_from_key(&kbinput) == full_refresh)
+			full_refresh();
 		else
 			beep();
 

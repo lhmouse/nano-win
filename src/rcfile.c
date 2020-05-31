@@ -813,13 +813,15 @@ void parse_binding(char *ptr, bool dobind)
 		goto free_things;
 
 	/* Limit the given menu to those where the function exists;
-	 * first handle three special cases, then the general case. */
+	 * first handle four special cases, then the general case. */
 	if (is_universal(newsc->func))
 		menu &= MMOST|MBROWSER;
 #ifndef NANO_TINY
 	else if (newsc->func == do_toggle_void)
 		menu &= MMAIN;
 #endif
+	else if (newsc->func == full_refresh)
+		menu &= MMOST|MBROWSER|MHELP|MYESNO;
 	else if (newsc->func == (functionptrtype)implant)
 		menu &= MMOST|MBROWSER|MHELP;
 	else {
