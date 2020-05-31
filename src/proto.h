@@ -639,7 +639,7 @@ size_t actual_last_column(size_t leftedge, size_t column);
 void edit_redraw(linestruct *old_current, update_type manner);
 void edit_refresh(void);
 void adjust_viewport(update_type location);
-void total_refresh(void);
+void full_refresh(void);
 void draw_all_subwindows(void);
 void do_cursorpos(bool force);
 void do_cursorpos_void(void);

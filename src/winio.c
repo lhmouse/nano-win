@@ -3308,8 +3308,8 @@ void adjust_viewport(update_type manner)
 	go_back_chunks(goal, &openfile->edittop, &openfile->firstcolumn);
 }
 
-/* Unconditionally redraw the entire screen. */
-void total_refresh(void)
+/* Tell curses to unconditionally redraw whatever was on the screen. */
+void full_refresh(void)
 {
 #ifdef USE_SLANG
 	/* Slang curses emulation brain damage, part 4: Slang doesn't define
@@ -3321,8 +3321,8 @@ void total_refresh(void)
 #endif
 }
 
-/* Redraw the entire screen, then refresh the title bar and the content of
- * the edit window (when not in the file browser), and the bottom bars. */
+/* Draw all elements of the screen.  That is: the title bar plus the content
+ * of the edit window (when not in the file browser), and the bottom bars. */
 void draw_all_subwindows(void)
 {
 	if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)

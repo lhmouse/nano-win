@@ -776,7 +776,7 @@ void shortcut_init(void)
 #ifdef ENABLE_HELP
 	/* The description ("x") and blank_after (0) are irrelevant,
 	 * because the help viewer does not have a help text. */
-	add_to_funcs(total_refresh, MHELP, N_("Refresh"), "x", 0, VIEW);
+	add_to_funcs(full_refresh, MHELP, N_("Refresh"), "x", 0, VIEW);
 	add_to_funcs(do_exit, MHELP, close_tag, "x", 0, VIEW);
 #endif
 
@@ -855,7 +855,7 @@ void shortcut_init(void)
 		/* TRANSLATORS: Try to keep the next seven strings at most 10 characters. */
 		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
 
-	add_to_funcs(total_refresh, MBROWSER,
+	add_to_funcs(full_refresh, MBROWSER,
 		N_("Refresh"), WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_search_forward, MBROWSER,
@@ -885,7 +885,7 @@ void shortcut_init(void)
 		N_("Next"), WITHORSANS(findnext_gist), TOGETHER, VIEW);
 	add_to_funcs(do_search_backward, MMAIN|MHELP,
 		N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
-	add_to_funcs(total_refresh, MMAIN,
+	add_to_funcs(full_refresh, MMAIN,
 		N_("Refresh"), WITHORSANS(refresh_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -998,7 +998,7 @@ void shortcut_init(void)
 		N_("Verbatim"), WITHORSANS(verbatim_gist), BLANKAFTER, NOVIEW);
 
 #ifndef NANO_TINY
-	add_to_funcs(total_refresh, MMAIN,
+	add_to_funcs(full_refresh, MMAIN,
 		N_("Refresh"), WITHORSANS(refresh_gist), TOGETHER, VIEW);
 #endif
 
@@ -1336,9 +1336,9 @@ void shortcut_init(void)
 	add_to_sclist(MEXECUTE, "^J", 0, do_full_justify, 0);
 #endif
 	if (!ISSET(PRESERVE))
-		add_to_sclist(MMAIN|MBROWSER|MHELP, "^L", 0, total_refresh, 0);
+		add_to_sclist(MMAIN|MBROWSER|MHELP, "^L", 0, full_refresh, 0);
 	else
-		add_to_sclist(MMAIN|MBROWSER, "^L", 0, total_refresh, 0);
+		add_to_sclist(MMAIN|MBROWSER, "^L", 0, full_refresh, 0);
 	add_to_sclist(MMAIN|MEXECUTE, "^Z", 0, do_suspend_void, 0);
 
 #ifndef NANO_TINY

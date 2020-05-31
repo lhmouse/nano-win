@@ -384,7 +384,7 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "backspace"))
 		s->func = do_backspace;
 	else if (!strcmp(input, "refresh"))
-		s->func = total_refresh;
+		s->func = full_refresh;
 	else if (!strcmp(input, "suspend"))
 		s->func = do_suspend_void;
 	else if (!strcmp(input, "casesens"))

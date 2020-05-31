@@ -193,8 +193,8 @@ void show_help(void)
 #endif
 		func = interpret(&kbinput);
 
-		if (func == total_refresh) {
-			total_refresh();
+		if (func == full_refresh) {
+			full_refresh();
 		} else if (ISSET(SHOW_CURSOR) && (func == do_left || func == do_right ||
 											func == do_up || func == do_down)) {
 			func();
