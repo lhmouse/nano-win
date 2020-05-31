@@ -194,7 +194,7 @@ void show_help(void)
 		func = interpret(&kbinput);
 
 		if (func == total_refresh) {
-			total_redraw();
+			total_refresh();
 		} else if (ISSET(SHOW_CURSOR) && (func == do_left || func == do_right ||
 											func == do_up || func == do_down)) {
 			func();

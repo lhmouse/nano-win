@@ -154,7 +154,7 @@ char *do_browser(char *path)
 		func = interpret(&kbinput);
 
 		if (func == total_refresh) {
-			total_redraw();
+			total_refresh();
 #ifndef NANO_TINY
 			/* Simulate a window resize to force a directory reread. */
 			kbinput = KEY_WINCH;

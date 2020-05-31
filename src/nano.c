@@ -1053,7 +1053,7 @@ void regenerate_screen(void)
 	/* If we have an open buffer, redraw the contents of the subwindows. */
 	if (openfile) {
 		ensure_firstcolumn_is_aligned();
-		total_refresh();
+		draw_all_subwindows();
 	}
 }
 
@@ -1071,7 +1071,7 @@ void do_toggle(int flag)
 	switch (flag) {
 		case NO_HELP:
 			window_init();
-			total_refresh();
+			draw_all_subwindows();
 			break;
 #ifdef ENABLE_MOUSE
 		case USE_MOUSE:

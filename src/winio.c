@@ -3309,7 +3309,7 @@ void adjust_viewport(update_type manner)
 }
 
 /* Unconditionally redraw the entire screen. */
-void total_redraw(void)
+void total_refresh(void)
 {
 #ifdef USE_SLANG
 	/* Slang curses emulation brain damage, part 4: Slang doesn't define
@@ -3323,9 +3323,8 @@ void total_redraw(void)
 
 /* Redraw the entire screen, then refresh the title bar and the content of
  * the edit window (when not in the file browser), and the bottom bars. */
-void total_refresh(void)
+void draw_all_subwindows(void)
 {
-	total_redraw();
 	if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)
 		titlebar(title);
 #ifdef ENABLE_HELP
@@ -3620,6 +3619,6 @@ void do_credits(void)
 	scrollok(edit, FALSE);
 	nodelay(edit, FALSE);
 
-	total_refresh();
+	draw_all_subwindows();
 }
 #endif /* ENABLE_EXTRA */
