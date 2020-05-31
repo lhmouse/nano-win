@@ -149,15 +149,15 @@ static colortype *lastcolor = NULL;
 		/* The end of the color list for the current syntax. */
 #endif
 
-#define NUMBER_OF_MENUS  16
+#define NUMBER_OF_MENUS  17  /* Remove the deprecated 'extcmd' in 2022. */
 char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
 									"yesno", "gotoline", "writeout", "insert",
-									"extcmd", "help", "spell", "linter",
+									"execute", "extcmd", "help", "spell", "linter",
 									"browser", "whereisfile", "gotodir",
 									"all" };
 int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
 									MYESNO, MGOTOLINE, MWRITEFILE, MINSERTFILE,
-									MEXECUTE, MHELP, MSPELL, MLINTER,
+									MEXECUTE, MEXECUTE, MHELP, MSPELL, MLINTER,
 									MBROWSER, MWHEREISFILE, MGOTODIR,
 									MMOST|MBROWSER|MHELP|MYESNO };
 #endif /* ENABLE_NANORC */

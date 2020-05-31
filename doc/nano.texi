@@ -1570,9 +1570,6 @@ The 'write file' menu.
 @item insert
 The 'insert file' menu.
 
-@item extcmd
-The menu for inserting output from an external command, reached from the insert menu.
-
 @item browser
 The file browser, for choosing a file to read from or write to.
 
@@ -1581,6 +1578,12 @@ The 'search for a file' menu in the file browser.
 
 @item gotodir
 The 'go to directory' menu in the file browser.
+
+@item execute
+The menu for inserting the output from an external command,
+or for filtering the buffer (or the marked region) through
+an external command, or for executing one of several tools.
+(The old form of this menu name, 'extcmd', is deprecated.)
 
 @item spell
 The menu of the integrated spell checker where the user can edit a misspelled word.

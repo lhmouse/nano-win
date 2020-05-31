@@ -888,9 +888,6 @@ The 'write file' menu.
 .B insert
 The 'insert file' menu.
 .TP
-.B extcmd
-The menu for inserting output from an external command, reached from the insert menu.
-.TP
 .B browser
 The file browser for inserting or writing a file.
 .TP
@@ -899,6 +896,12 @@ The 'search for a file' menu in the file browser.
 .TP
 .B gotodir
 The 'go to directory' menu in the file browser.
+.TP
+.B execute
+The menu for inserting the output from an external command,
+or for filtering the buffer (or the marked region) through
+an external command, or for executing one of several tools.
+(The old form of this menu name, 'extcmd', is deprecated.)
 .TP
 .B spell
 The menu of the integrated spell checker where the user can edit a misspelled word.
