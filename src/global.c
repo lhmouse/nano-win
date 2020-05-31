@@ -1345,7 +1345,7 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
 	/* Group of "Appearance" toggles. */
-	add_to_sclist(MMAIN, "M-X", 0, do_toggle_void, NO_HELP);
+	add_to_sclist((MMOST|MBROWSER|MYESNO) & ~MFINDINHELP, "M-X", 0, do_toggle_void, NO_HELP);
 	add_to_sclist(MMAIN, "M-C", 0, do_toggle_void, CONSTANT_SHOW);
 	add_to_sclist(MMAIN, "M-S", 0, do_toggle_void, SOFTWRAP);
 	add_to_sclist(MMAIN, "M-$", 0, do_toggle_void, SOFTWRAP);

@@ -515,6 +515,14 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 #ifndef NANO_TINY
 		else if (func == do_nothing)
 			finished = FALSE;
+		else if (func == do_toggle_void) {
+			TOGGLE(NO_HELP);
+			window_init();
+			focusing = FALSE;
+			refresh_func();
+			bottombars(currmenu);
+			finished = FALSE;
+		}
 #endif
 
 		/* If we have a shortcut with an associated function, break out if
@@ -741,6 +749,15 @@ int do_yesno_prompt(bool all, const char *msg)
 #endif /* ENABLE_MOUSE */
 		else if (func_from_key(&kbinput) == full_refresh)
 			full_refresh();
+#ifndef NANO_TINY
+		else if (func_from_key(&kbinput) == do_toggle_void) {
+			TOGGLE(NO_HELP);
+			window_init();
+			titlebar(NULL);
+			focusing = FALSE;
+			edit_refresh();
+		}
+#endif
 		else
 			beep();
 

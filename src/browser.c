@@ -169,6 +169,12 @@ char *do_browser(char *path)
 #else
 			say_there_is_no_help();
 #endif
+#ifndef NANO_TINY
+		} else if (func == do_toggle_void) {
+			TOGGLE(NO_HELP);
+			window_init();
+			kbinput = KEY_WINCH;
+#endif
 		} else if (func == do_search_forward) {
 			do_filesearch(FORWARD);
 		} else if (func == do_search_backward) {
