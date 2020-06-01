@@ -3425,8 +3425,6 @@ void spotlight(size_t from_col, size_t to_col)
 	wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
 	free(word);
-
-	wnoutrefresh(edit);
 }
 
 #ifndef NANO_TINY
@@ -3475,8 +3473,6 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 		leftedge = break_col;
 		from_col = break_col;
 	}
-
-	wnoutrefresh(edit);
 }
 #endif
 
