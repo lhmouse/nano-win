@@ -642,17 +642,19 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			free(openfile->current->data);
 			openfile->current->data = copy;
 
-			if (!replaceall) {
 #ifdef ENABLE_COLOR
-				/* When doing syntax coloring, the replacement might require
-				 * a change of colors, so refresh the whole edit window. */
-				if (openfile->syntax && !ISSET(NO_SYNTAX))
-					edit_refresh();
-				else
-#endif
-					update_line(openfile->current, openfile->current_x);
-			}
+			check_the_multis(openfile->current);
 
+			/* If the replacement requires a change in the coloring,
+			 * reset all the multiline data and recalculate it. */
+			if (refresh_needed) {
+				for (linestruct *line = openfile->filetop; line != NULL; line = line->next)
+					for (short index = 0; index < openfile->syntax->nmultis; index++)
+						line->multidata[index] = -1;
+
+				precalc_multicolorinfo();
+			}
+#endif
 			set_modified();
 			as_an_at = TRUE;
 			numreplaced++;
