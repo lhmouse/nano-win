@@ -838,9 +838,6 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 		lastmessage = HUSH;
 		if (currmenu == MMAIN) {
 			place_the_cursor();
-#ifdef __NetBSD__
-			wnoutrefresh(edit);  /* Needed for correct placement on NetBSD. */
-#endif
 			curs_set(1);
 		}
 	}
