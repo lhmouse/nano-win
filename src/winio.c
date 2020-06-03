@@ -836,10 +836,8 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 		statusline(ALERT, _("Unknown sequence"));
 		suppress_cursorpos = FALSE;
 		lastmessage = HUSH;
-		if (currmenu == MMAIN) {
+		if (currmenu == MMAIN || currmenu == MHELP)
 			place_the_cursor();
-			curs_set(1);
-		}
 	}
 
 	return retval;
