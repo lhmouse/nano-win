@@ -811,17 +811,19 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 /* Interpret the escape sequence in the keystroke buffer, the first
  * character of which is kbinput.  Assume that the keystroke buffer
  * isn't empty, and that the initial escape has already been read in. */
-int parse_escape_sequence(WINDOW *win, int kbinput)
+int parse_escape_sequence(int firstbyte)
 {
-	int retval, *sequence, length, consumed;
+	int *sequence, length, consumed, keycode;
 
-	/* Put back the non-escape code, then grab at most six integers
-	 * (the longest possible escape sequence) from the keybuffer and
-	 * translate the sequence into its corresponding keycode. */
-	put_back(kbinput);
+	/* Put the first character of the sequence back into the keybuffer. */
+	put_back(firstbyte);
+
+	/* Grab at most six integers (the longest possible escape sequence)
+	 * from the keybuffer. */
 	length = (key_buffer_len < 6 ? key_buffer_len : 6);
 	sequence = get_input(NULL, length);
-	retval = convert_sequence(sequence, length, &consumed);
+
+	keycode = convert_sequence(sequence, length, &consumed);
 
 	/* If not all grabbed integers were consumed, put the leftovers back. */
 	for (int i = length - 1; i >= consumed; i--)
@@ -829,7 +831,7 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 
 	free(sequence);
 
-	return retval;
+	return keycode;
 }
 
 /* Extract a single keystroke from the input stream.  Translate escape
@@ -892,7 +894,7 @@ int parse_kbinput(WINDOW *win)
 			} else
 				/* One escape followed by a non-escape, and there
 				 * are more codes waiting: escape sequence mode. */
-				retval = parse_escape_sequence(win, keycode);
+				retval = parse_escape_sequence(keycode);
 			escapes = 0;
 			break;
 		case 2:
@@ -983,7 +985,7 @@ int parse_kbinput(WINDOW *win)
 			} else {
 				/* Two escapes followed by a non-escape, and there are more
 				 * codes waiting: combined meta and escape sequence mode. */
-				retval = parse_escape_sequence(win, keycode);
+				retval = parse_escape_sequence(keycode);
 				meta_key = TRUE;
 				escapes = 0;
 			}
@@ -1003,7 +1005,7 @@ int parse_kbinput(WINDOW *win)
 				 * escape sequence mode.  First interpret the escape
 				 * sequence, then the result as a control sequence. */
 				retval = get_control_kbinput(
-						parse_escape_sequence(win, keycode));
+						parse_escape_sequence(keycode));
 			escapes = 0;
 			break;
 	}
