@@ -615,6 +615,9 @@ enum
 /* A special keycode to signal the beginning and end of a bracketed paste. */
 #define BRACKETED_PASTE_MARKER  0x4FB
 
+/* A special keycode for when a key produces an unknown escape sequence. */
+#define FOREIGN_SEQUENCE  0x4FC
+
 #ifdef USE_SLANG
 #ifdef ENABLE_UTF8
 #define KEY_BAD  0xFF  /* Clipped error code. */

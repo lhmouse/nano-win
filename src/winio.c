@@ -805,7 +805,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 		}
 	}
 
-	return ERR;
+	return FOREIGN_SEQUENCE;
 }
 
 /* Interpret the escape sequence in the keystroke buffer, the first
@@ -828,17 +828,6 @@ int parse_escape_sequence(WINDOW *win, int kbinput)
 		put_back(sequence[i]);
 
 	free(sequence);
-
-	/* If we got an unrecognized escape sequence, notify the user. */
-	if (retval == ERR && win == edit) {
-		/* TRANSLATORS: This refers to a sequence of escape codes
-		 * (from the keyboard) that nano does not recognize. */
-		statusline(ALERT, _("Unknown sequence"));
-		suppress_cursorpos = FALSE;
-		lastmessage = HUSH;
-		if (currmenu == MMAIN || currmenu == MHELP)
-			place_the_cursor();
-	}
 
 	return retval;
 }

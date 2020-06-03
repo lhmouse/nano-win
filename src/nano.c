@@ -1261,7 +1261,11 @@ void confirm_margin(void)
 /* Say that an unbound key was struck, and if possible which one. */
 void unbound_key(int code)
 {
-	if (code > 0x7F)
+	if (code == FOREIGN_SEQUENCE)
+		/* TRANSLATORS: This refers to a sequence of escape codes
+		 * (from the keyboard) that nano does not recognize. */
+		statusline(ALERT, _("Unknown sequence"));
+	else if (code > 0x7F)
 		statusline(ALERT, _("Unbound key"));
 	else if (meta_key) {
 		if (code == '[')
