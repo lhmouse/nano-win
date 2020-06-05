@@ -332,11 +332,10 @@ void emergency_save(const char *die_filename, struct stat *die_stat)
 	if (!failed)
 		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
 	else if (*targetname != '\0')
-		fprintf(stderr, _("\nBuffer not written to %s: %s\n"), targetname,
-				strerror(errno));
+		fprintf(stderr, _("\nBuffer not written to %s: %s\n"),
+										targetname, strerror(errno));
 	else
-		fprintf(stderr, _("\nBuffer not written: %s\n"),
-				_("Too many backup files?"));
+		fprintf(stderr, _("\nToo many .save files"));
 
 #ifndef NANO_TINY
 	/* Try to chmod/chown the saved file to the values of the original file,
