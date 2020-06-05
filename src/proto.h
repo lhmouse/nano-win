@@ -410,10 +410,10 @@ bool in_restricted_mode(void);
 void say_there_is_no_help(void);
 #endif
 void finish(void);
+void close_and_go(void);
+void do_exit(void);
 void die(const char *msg, ...);
 void window_init(void);
-void do_exit(void);
-void close_and_go(void);
 void install_handler_for_Ctrl_C(void);
 void restore_handler_for_Ctrl_C(void);
 void reconnect_and_store_state(void);

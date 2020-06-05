@@ -247,7 +247,7 @@ void restore_terminal(void)
 	tcsetattr(0, TCSANOW, &original_state);
 }
 
-/* Exit normally: restore the terminal state and save history files. */
+/* Exit normally: restore terminal state and report any startup errors. */
 void finish(void)
 {
 	/* Blank the status bar and (if applicable) the shortcut list. */
@@ -271,6 +271,64 @@ void finish(void)
 
 	/* Get out. */
 	exit(0);
+}
+
+/* Close the current buffer, and terminate nano if it is the only buffer. */
+void close_and_go(void)
+{
+#ifndef NANO_TINY
+	if (openfile->lock_filename)
+		delete_lockfile(openfile->lock_filename);
+#endif
+#ifdef ENABLE_HISTORIES
+	if (ISSET(POSITIONLOG))
+		update_poshistory();
+#endif
+#ifdef ENABLE_MULTIBUFFER
+	/* If there is another buffer, close this one; otherwise just terminate. */
+	if (openfile != openfile->next) {
+		switch_to_next_buffer();
+		openfile = openfile->prev;
+		close_buffer();
+		openfile = openfile->next;
+		/* Adjust the count in the top bar. */
+		titlebar(NULL);
+	} else
+#endif
+	{
+#ifdef ENABLE_HISTORIES
+		if (ISSET(HISTORYLOG))
+			save_history();
+#endif
+		finish();
+	}
+}
+
+/* Close the current buffer if it is unmodified; otherwise (when not doing
+ * automatic saving), ask the user whether to save it, then close it and
+ * exit, or return when the user cancelled. */
+void do_exit(void)
+{
+	int choice;
+
+	/* When unmodified, simply close.  Else, when doing automatic saving
+	 * and the file has a name, simply save.  Otherwise, ask the user. */
+	if (!openfile->modified)
+		choice = 0;
+	else if (ISSET(SAVE_ON_EXIT) && openfile->filename[0] != '\0')
+		choice = 1;
+	else {
+		if (ISSET(SAVE_ON_EXIT))
+			warn_and_briefly_pause(_("No file name"));
+
+		choice = do_yesno_prompt(FALSE, _("Save modified buffer? "));
+	}
+
+	/* When not saving, or the save succeeds, close the buffer. */
+	if (choice == 0 || (choice == 1 && do_writeout(TRUE, TRUE) > 0))
+		close_and_go();
+	else if (choice != 1)
+		statusbar(_("Cancelled"));
 }
 
 /* Save the current buffer under the given name (or under the name "nano"
@@ -727,73 +785,6 @@ void version(void)
 	printf(" --with-slang");
 #endif
 	printf("\n");
-}
-
-/* If the current file buffer has been modified, and the SAVE_ON_EXIT
- * flag isn't set, ask whether or not to save the file buffer.  If the
- * SAVE_ON_EXIT flag is set and the current file has a name, save it
- * unconditionally.  Then, if more than one file buffer is open, close
- * the current file buffer and switch to the next one.  If only one file
- * buffer is open, exit from nano. */
-void do_exit(void)
-{
-	int choice;
-
-	/* If the file hasn't been modified, pretend the user chose not to
-	 * save. */
-	if (!openfile->modified)
-		choice = 0;
-	/* If the SAVE_ON_EXIT flag is set and the current file has a name,
-	 * pretend the user chose to save. */
-	else if (openfile->filename[0] != '\0' && ISSET(SAVE_ON_EXIT))
-		choice = 1;
-	/* Otherwise, ask the user whether or not to save. */
-	else {
-		/* If the SAVE_ON_EXIT flag is set, and the current file doesn't
-		 * have a name, warn the user before prompting for a name. */
-		if (ISSET(SAVE_ON_EXIT))
-			warn_and_briefly_pause(_("No file name"));
-
-		choice = do_yesno_prompt(FALSE, _("Save modified buffer? "));
-	}
-
-	/* If the user chose not to save, or if the user chose to save and
-	 * the save succeeded, we're ready to exit. */
-	if (choice == 0 || (choice == 1 && do_writeout(TRUE, TRUE) > 0))
-		close_and_go();
-	else if (choice != 1)
-		statusbar(_("Cancelled"));
-}
-
-/* Close the current buffer, or terminate nano if it is the only buffer. */
-void close_and_go(void)
-{
-#ifndef NANO_TINY
-	if (openfile->lock_filename)
-		delete_lockfile(openfile->lock_filename);
-#endif
-#ifdef ENABLE_HISTORIES
-	if (ISSET(POSITIONLOG))
-		update_poshistory();
-#endif
-#ifdef ENABLE_MULTIBUFFER
-	/* If there is another buffer, just close this one; otherwise terminate. */
-	if (openfile != openfile->next) {
-		switch_to_next_buffer();
-		openfile = openfile->prev;
-		close_buffer();
-		openfile = openfile->next;
-		/* Adjust the count in the top bar. */
-		titlebar(NULL);
-	} else
-#endif
-	{
-#ifdef ENABLE_HISTORIES
-		if (ISSET(HISTORYLOG))
-			save_history();
-#endif
-		finish();
-	}
 }
 
 /* Register that Ctrl+C was pressed during some system call. */
