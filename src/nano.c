@@ -275,15 +275,15 @@ void finish(void)
 
 /* Save the current buffer under the given name (or under the name "nano"
  * for a nameless buffer).  If needed, the name is modified to be unique. */
-void emergency_save(const char *die_filename, struct stat *die_stat)
+void emergency_save(const char *plainname)
 {
 	bool failed = TRUE;
 	char *targetname;
 
-	if (*die_filename == '\0')
-		die_filename = "nano";
+	if (*plainname == '\0')
+		plainname = "nano";
 
-	targetname = get_next_filename(die_filename, ".save");
+	targetname = get_next_filename(plainname, ".save");
 
 	if (*targetname != '\0')
 		failed = !write_file(targetname, NULL, TRUE, OVERWRITE, FALSE);
@@ -299,10 +299,10 @@ void emergency_save(const char *die_filename, struct stat *die_stat)
 #ifndef NANO_TINY
 	/* Try to chmod/chown the saved file to the values of the original file,
 	 * but ignore any failure as we are in a hurry to get out. */
-	if (die_stat) {
-		IGNORE_CALL_RESULT(chmod(targetname, die_stat->st_mode));
-		IGNORE_CALL_RESULT(chown(targetname, die_stat->st_uid,
-												die_stat->st_gid));
+	if (openfile->statinfo) {
+		IGNORE_CALL_RESULT(chmod(targetname, openfile->statinfo->st_mode));
+		IGNORE_CALL_RESULT(chown(targetname, openfile->statinfo->st_uid,
+												openfile->statinfo->st_gid));
 	}
 #endif
 
@@ -336,7 +336,7 @@ void die(const char *msg, ...)
 		/* When modified, save the current buffer.  But not when in restricted
 		 * mode, as it would write a file not mentioned on the command line. */
 		if (openfile->modified && !ISSET(RESTRICTED))
-			emergency_save(openfile->filename, openfile->statinfo);
+			emergency_save(openfile->filename);
 
 #ifdef ENABLE_MULTIBUFFER
 		openfile = openfile->next;
