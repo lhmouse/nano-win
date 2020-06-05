@@ -273,6 +273,42 @@ void finish(void)
 	exit(0);
 }
 
+/* Save the current buffer under the given name (or under the name "nano"
+ * for a nameless buffer).  If needed, the name is modified to be unique. */
+void emergency_save(const char *die_filename, struct stat *die_stat)
+{
+	bool failed = TRUE;
+	char *targetname;
+
+	if (*die_filename == '\0')
+		die_filename = "nano";
+
+	targetname = get_next_filename(die_filename, ".save");
+
+	if (*targetname != '\0')
+		failed = !write_file(targetname, NULL, TRUE, OVERWRITE, FALSE);
+
+	if (!failed)
+		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
+	else if (*targetname != '\0')
+		fprintf(stderr, _("\nBuffer not written to %s: %s\n"),
+										targetname, strerror(errno));
+	else
+		fprintf(stderr, _("\nToo many .save files"));
+
+#ifndef NANO_TINY
+	/* Try to chmod/chown the saved file to the values of the original file,
+	 * but ignore any failure as we are in a hurry to get out. */
+	if (die_stat) {
+		IGNORE_CALL_RESULT(chmod(targetname, die_stat->st_mode));
+		IGNORE_CALL_RESULT(chown(targetname, die_stat->st_uid,
+												die_stat->st_gid));
+	}
+#endif
+
+	free(targetname);
+}
+
 /* Die gracefully -- by restoring the terminal state and saving any buffers
  * that were modified. */
 void die(const char *msg, ...)
@@ -311,43 +347,6 @@ void die(const char *msg, ...)
 
 	/* Abandon the building. */
 	exit(1);
-}
-
-/* Save the current buffer under the given name.
- * If necessary, the name is modified to be unique. */
-void emergency_save(const char *die_filename, struct stat *die_stat)
-{
-	char *targetname;
-	bool failed = TRUE;
-
-	/* If the buffer has no name, simply call it "nano". */
-	if (*die_filename == '\0')
-		die_filename = "nano";
-
-	targetname = get_next_filename(die_filename, ".save");
-
-	if (*targetname != '\0')
-		failed = !write_file(targetname, NULL, TRUE, OVERWRITE, FALSE);
-
-	if (!failed)
-		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
-	else if (*targetname != '\0')
-		fprintf(stderr, _("\nBuffer not written to %s: %s\n"),
-										targetname, strerror(errno));
-	else
-		fprintf(stderr, _("\nToo many .save files"));
-
-#ifndef NANO_TINY
-	/* Try to chmod/chown the saved file to the values of the original file,
-	 * but ignore any failure as we are in a hurry to get out. */
-	if (die_stat) {
-		IGNORE_CALL_RESULT(chmod(targetname, die_stat->st_mode));
-		IGNORE_CALL_RESULT(chown(targetname, die_stat->st_uid,
-												die_stat->st_gid));
-	}
-#endif
-
-	free(targetname);
 }
 
 /* Initialize the three window portions nano uses. */

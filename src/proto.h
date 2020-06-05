@@ -411,7 +411,6 @@ void say_there_is_no_help(void);
 #endif
 void finish(void);
 void die(const char *msg, ...);
-void emergency_save(const char *die_filename, struct stat *die_stat);
 void window_init(void);
 void do_exit(void);
 void close_and_go(void);
