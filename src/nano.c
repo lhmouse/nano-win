@@ -76,9 +76,7 @@ linestruct *make_new_node(linestruct *prevnode)
 #endif
 	newnode->lineno = (prevnode) ? prevnode->lineno + 1 : 1;
 #ifndef NANO_TINY
-	if (ISSET(SOFTWRAP))
-		newnode->chunk_nr = (prevnode) ?
-						prevnode->chunk_nr + extra_chunks_in(prevnode) + 1 : 1;
+	newnode->extrarows = -2;  /* Bad value, to make it easier to find bugs. */
 	newnode->has_anchor = FALSE;
 #endif
 
@@ -154,7 +152,7 @@ linestruct *copy_node(const linestruct *src)
 #endif
 	dst->lineno = src->lineno;
 #ifndef NANO_TINY
-	dst->chunk_nr = src->chunk_nr;
+	dst->extrarows = src->extrarows;
 	dst->has_anchor = FALSE;
 #endif
 
@@ -190,21 +188,8 @@ void renumber_from(linestruct *line)
 {
 	ssize_t number = (line->prev == NULL) ? 0 : line->prev->lineno;
 
-#ifndef NANO_TINY
-	if (ISSET(SOFTWRAP) && line->prev == NULL) {
-		line->lineno = ++number;
-		line->chunk_nr = 1;
-		line = line->next;
-	}
-#endif
-
 	while (line != NULL) {
 		line->lineno = ++number;
-#ifndef NANO_TINY
-		if (ISSET(SOFTWRAP))
-			line->chunk_nr = line->prev->chunk_nr +
-									extra_chunks_in(line->prev) + 1;
-#endif
 		line = line->next;
 	}
 }
@@ -1095,7 +1080,7 @@ void do_toggle(int flag)
 			break;
 		case SOFTWRAP:
 			if (ISSET(SOFTWRAP))
-				renumber_from(openfile->filetop);
+				compute_the_extra_rows_per_line();
 			else
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
@@ -1426,12 +1411,12 @@ void inject(char *burst, size_t count)
 	linestruct *thisline = openfile->current;
 	size_t datalen = strlen(thisline->data);
 #ifndef NANO_TINY
-	size_t original_row = 0, old_amount = 0;
+	size_t old_amount = openfile->current->extrarows;
+	size_t original_row = 0;
 
 	if (ISSET(SOFTWRAP)) {
 		if (openfile->current_y == editwinrows - 1)
 			original_row = chunk_for(xplustabs(), thisline);
-		old_amount = extra_chunks_in(thisline);
 	}
 #endif
 
@@ -1492,15 +1477,17 @@ void inject(char *burst, size_t count)
 #endif
 
 #ifndef NANO_TINY
-	/* If we were on the last row of the edit window and moved to a new chunk,
-	 * or if the number of chunks that the current softwrapped line occupies
-	 * changed, we need a full refresh. */
-	if (ISSET(SOFTWRAP) && ((openfile->current_y == editwinrows - 1 &&
-				chunk_for(xplustabs(), openfile->current) > original_row) ||
-				extra_chunks_in(openfile->current) != old_amount)) {
-		renumber_from(openfile->current);
-		refresh_needed = TRUE;
-		focusing = FALSE;
+	/* When softwrapping and the number of chunks in the current line changed,
+	 * or we were on the last row of the edit window and moved to a new chunk,
+	 * we need a full refresh. */
+	if (ISSET(SOFTWRAP)) {
+		openfile->current->extrarows = extra_chunks_in(openfile->current);
+		if (openfile->current->extrarows != old_amount ||
+					(openfile->current_y == editwinrows - 1 &&
+					chunk_for(xplustabs(), openfile->current) > original_row)) {
+			refresh_needed = TRUE;
+			focusing = FALSE;
+		}
 	}
 #endif
 

@@ -34,7 +34,7 @@ void do_deletion(undo_type action)
 		int charlen = char_length(openfile->current->data + openfile->current_x);
 		size_t line_len = strlen(openfile->current->data + openfile->current_x);
 #ifndef NANO_TINY
-		size_t old_amount = 0;
+		size_t old_amount = openfile->current->extrarows;
 
 		/* If the type of action changed or the cursor moved to a different
 		 * line, create a new undo item, otherwise update the existing item. */
@@ -43,20 +43,18 @@ void do_deletion(undo_type action)
 			add_undo(action, NULL);
 		else
 			update_undo(action);
-
-		if (ISSET(SOFTWRAP))
-			old_amount = extra_chunks_in(openfile->current);
 #endif
 		/* Move the remainder of the line "in", over the current character. */
 		memmove(&openfile->current->data[openfile->current_x],
 					&openfile->current->data[openfile->current_x + charlen],
 					line_len - charlen + 1);
 #ifndef NANO_TINY
-		/* When softwrapping and the number of chunks in the current line has
-		 * changed, the chunks must be renumbered and the screen refreshed. */
-		if (ISSET(SOFTWRAP) && extra_chunks_in(openfile->current) != old_amount) {
-			renumber_from(openfile->current);
-			refresh_needed = TRUE;
+		/* When softwrapping, recompute the number of chunks in the line,
+		 * and schedule a refresh if the number changed. */
+		if (ISSET(SOFTWRAP)) {
+			openfile->current->extrarows = extra_chunks_in(openfile->current);
+			if (openfile->current->extrarows != old_amount)
+				refresh_needed = TRUE;
 		}
 
 		/* Adjust the mark if it is after the cursor on the current line. */

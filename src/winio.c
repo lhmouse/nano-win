@@ -2957,10 +2957,12 @@ void draw_scrollbar(void)
 	int first_row = openfile->edittop->lineno;
 
 	if (ISSET(SOFTWRAP)) {
-		totalrows = openfile->filebot->chunk_nr +
-							extra_chunks_in(openfile->filebot);
-		first_row = openfile->edittop->chunk_nr +
-							chunk_for(openfile->firstcolumn, openfile->edittop);
+		for (linestruct *ln = openfile->filetop; ln != openfile->edittop; ln = ln->next)
+			first_row += ln->extrarows;
+		first_row += chunk_for(openfile->firstcolumn, openfile->edittop);
+
+		for (linestruct *ln = openfile->filetop; ln != NULL; ln = ln->next)
+			totalrows += ln->extrarows;
 	}
 
 	int lowest = ((first_row - 1) * editwinrows) / totalrows;
@@ -3142,11 +3144,10 @@ size_t leftedge_for(size_t column, linestruct *line)
  * has changed, because then the width of softwrapped chunks has changed. */
 void ensure_firstcolumn_is_aligned(void)
 {
-	if (ISSET(SOFTWRAP)) {
+	if (ISSET(SOFTWRAP))
 		openfile->firstcolumn = leftedge_for(openfile->firstcolumn,
 														openfile->edittop);
-		renumber_from(openfile->filetop);
-	} else
+	else
 		openfile->firstcolumn = 0;
 
 	/* If smooth scrolling is on, make sure the viewport doesn't center. */

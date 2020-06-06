@@ -356,6 +356,16 @@ bool has_valid_path(const char *filename)
 	return validity;
 }
 
+/* Compute and store how many extra rows each line needs when softwrapping. */
+void compute_the_extra_rows_per_line(void)
+{
+#ifndef NANO_TINY
+	if (ISSET(SOFTWRAP))
+		for (linestruct *ln = openfile->filetop; ln != NULL; ln = ln->next)
+			ln->extrarows = extra_chunks_in(ln);
+#endif
+}
+
 /* This does one of three things.  If the filename is "", it just creates
  * a new empty buffer.  When the filename is not empty, it reads that file
  * into a new buffer when requested, otherwise into the existing buffer. */
@@ -453,6 +463,8 @@ bool open_buffer(const char *filename, bool new_one)
 		openfile->placewewant = 0;
 	}
 
+	compute_the_extra_rows_per_line();
+
 #ifdef ENABLE_COLOR
 	/* If a new buffer was opened, check whether a syntax can be applied. */
 	if (new_one)
@@ -527,6 +539,8 @@ void redecorate_after_switch(void)
 	 * or softwrap mode may have been toggled, so make sure that the
 	 * starting column for the first row gets an appropriate value. */
 	ensure_firstcolumn_is_aligned();
+
+	compute_the_extra_rows_per_line();
 #endif
 
 	/* Update title bar and multiline info to match the current buffer. */

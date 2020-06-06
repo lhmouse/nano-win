@@ -102,6 +102,9 @@ void indent_a_line(linestruct *line, char *indentation)
 
 	openfile->totsize += indent_len;
 
+	if (ISSET(SOFTWRAP))
+		line->extrarows = extra_chunks_in(line);
+
 	/* Compensate for the change in the current line. */
 	if (line == openfile->mark && openfile->mark_x > 0)
 		openfile->mark_x += indent_len;
@@ -229,6 +232,9 @@ void unindent_a_line(linestruct *line, size_t indent_len)
 	memmove(line->data, line->data + indent_len, length - indent_len + 1);
 
 	openfile->totsize -= indent_len;
+
+	if (ISSET(SOFTWRAP))
+		line->extrarows = extra_chunks_in(line);
 
 	/* Adjust the positions of mark and cursor, when they are affected. */
 	compensate_leftward(line, indent_len);
@@ -418,8 +424,13 @@ void do_comment(void)
 	/* Comment/uncomment each of the selected lines when possible, and
 	 * store undo data when a line changed. */
 	for (line = top; line != bot->next; line = line->next) {
-		if (comment_line(action, line, comment_seq))
+		if (comment_line(action, line, comment_seq)) {
+#ifndef NANO_TINY
+			if (ISSET(SOFTWRAP))
+				line->extrarows = extra_chunks_in(line);
+#endif
 			update_multiline_undo(line->lineno, "");
+		}
 	}
 
 	set_modified();
@@ -660,6 +671,9 @@ void do_undo(void)
 	openfile->mark = NULL;
 	openfile->placewewant = xplustabs();
 
+	if (ISSET(SOFTWRAP))
+		openfile->current->extrarows = extra_chunks_in(openfile->current);
+
 	openfile->totsize = u->wassize;
 
 	/* When at the point where the file was last saved, unset "Modified". */
@@ -817,6 +831,9 @@ void do_redo(void)
 	openfile->last_action = OTHER;
 	openfile->mark = NULL;
 	openfile->placewewant = xplustabs();
+
+	if (ISSET(SOFTWRAP))
+		openfile->current->extrarows = extra_chunks_in(openfile->current);
 
 	openfile->totsize = u->newsize;
 

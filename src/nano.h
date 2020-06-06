@@ -285,8 +285,8 @@ typedef struct linestruct {
 	ssize_t lineno;
 		/* The number of this line. */
 #ifndef NANO_TINY
-	ssize_t chunk_nr;
-		/* The ordinal number of the first chunk in this line. */
+	ssize_t extrarows;
+		/* The extra rows that this line occupies when softwrapping. */
 #endif
 	struct linestruct *next;
 		/* Next node. */
