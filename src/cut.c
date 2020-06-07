@@ -94,6 +94,10 @@ void do_deletion(undo_type action)
 
 		unlink_node(joining);
 
+#ifndef NANO_TINY
+		if (ISSET(SOFTWRAP))
+			openfile->current->extrarows = extra_chunks_in(openfile->current);
+#endif
 		/* Two lines were joined, so do a renumbering and refresh the screen. */
 		renumber_from(openfile->current);
 		refresh_needed = TRUE;
@@ -322,6 +326,9 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 #ifndef NANO_TINY
 	openfile->current->has_anchor = was_anchored;
 
+	if (ISSET(SOFTWRAP))
+		openfile->current->extrarows = extra_chunks_in(openfile->current);
+
 	if (post_marked || same_line)
 		openfile->mark = openfile->current;
 	if (post_marked)
@@ -406,6 +413,11 @@ void ingraft_buffer(linestruct *topline)
 		openfile->mark_x += length - xpos;
 	} else if (mark_follows)
 		openfile->mark_x += extralen;
+
+	if (ISSET(SOFTWRAP)) {
+		line->extrarows = extra_chunks_in(line);
+		openfile->current->extrarows = extra_chunks_in(openfile->current);
+	}
 #endif
 
 	delete_node(topline);

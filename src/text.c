@@ -572,6 +572,8 @@ void do_undo(void)
 			break;
 		}
 		line->data[u->tail_x] = '\0';
+		if (ISSET(SOFTWRAP))
+			line->extrarows = extra_chunks_in(line);
 		intruder = make_new_node(line);
 		intruder->data = copy_of(u->strdata);
 		splice_node(line, intruder);
@@ -720,6 +722,8 @@ void do_redo(void)
 	case ENTER:
 		redidmsg = _("line break");
 		line->data[u->head_x] = '\0';
+		if (ISSET(SOFTWRAP))
+			line->extrarows = extra_chunks_in(line);
 		intruder = make_new_node(line);
 		intruder->data = copy_of(u->strdata);
 		splice_node(line, intruder);
@@ -897,6 +901,11 @@ void do_enter(void)
 				openfile->mark_x > openfile->current_x) {
 		openfile->mark = newnode;
 		openfile->mark_x += extra - openfile->current_x;
+	}
+
+	if (ISSET(SOFTWRAP)) {
+		openfile->current->extrarows = extra_chunks_in(openfile->current);
+		newnode->extrarows = extra_chunks_in(newnode);
 	}
 #endif
 
