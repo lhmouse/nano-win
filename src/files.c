@@ -357,12 +357,12 @@ bool has_valid_path(const char *filename)
 }
 
 /* Compute and store how many extra rows each line needs when softwrapping. */
-void compute_the_extra_rows_per_line(void)
+void compute_the_extra_rows_per_line_from(linestruct *fromline)
 {
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP))
-		for (linestruct *ln = openfile->filetop; ln != NULL; ln = ln->next)
-			ln->extrarows = extra_chunks_in(ln);
+		for (linestruct *line = fromline; line != NULL; line = line->next)
+			line->extrarows = extra_chunks_in(line);
 #endif
 }
 
@@ -463,8 +463,6 @@ bool open_buffer(const char *filename, bool new_one)
 		openfile->placewewant = 0;
 	}
 
-	compute_the_extra_rows_per_line();
-
 #ifdef ENABLE_COLOR
 	/* If a new buffer was opened, check whether a syntax can be applied. */
 	if (new_one)
@@ -535,12 +533,11 @@ void redecorate_after_switch(void)
 	}
 
 #ifndef NANO_TINY
-	/* While in a different buffer, the screen may have been resized
-	 * or softwrap mode may have been toggled, so make sure that the
-	 * starting column for the first row gets an appropriate value. */
+	/* While in a different buffer, the effective width of the screen may
+	 * have changed, so make sure that the softwrapped chunks per line and
+	 * the starting column for the first row get corresponding values. */
+	compute_the_extra_rows_per_line_from(openfile->filetop);
 	ensure_firstcolumn_is_aligned();
-
-	compute_the_extra_rows_per_line();
 #endif
 
 	/* Update title bar and multiline info to match the current buffer. */

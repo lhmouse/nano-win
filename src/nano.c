@@ -1049,6 +1049,7 @@ void regenerate_screen(void)
 
 	/* If we have an open buffer, redraw the contents of the subwindows. */
 	if (openfile) {
+		compute_the_extra_rows_per_line_from(openfile->filetop);
 		ensure_firstcolumn_is_aligned();
 		draw_all_subwindows();
 	}
@@ -1080,7 +1081,7 @@ void do_toggle(int flag)
 			break;
 		case SOFTWRAP:
 			if (ISSET(SOFTWRAP))
-				compute_the_extra_rows_per_line();
+				compute_the_extra_rows_per_line_from(openfile->filetop);
 			else
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
@@ -1248,7 +1249,9 @@ void confirm_margin(void)
 		editwincols = COLS - margin - thebar;
 
 #ifndef NANO_TINY
-		/* Ensure that firstcolumn is the starting column of its chunk. */
+		/* Recompute the softwrapped chunks for each line in the buffer,
+		 * and ensure a proper starting column for the first screen row. */
+		compute_the_extra_rows_per_line_from(openfile->filetop);
 		ensure_firstcolumn_is_aligned();
 #endif
 		/* The margin has changed -- schedule a full refresh. */

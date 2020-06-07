@@ -283,7 +283,7 @@ void make_new_buffer(void);
 #ifndef NANO_TINY
 bool delete_lockfile(const char *lockfilename);
 #endif
-void compute_the_extra_rows_per_line(void);
+void compute_the_extra_rows_per_line_from(linestruct *fromline);
 bool open_buffer(const char *filename, bool new_buffer);
 void set_modified(void);
 void prepare_for_display(void);
