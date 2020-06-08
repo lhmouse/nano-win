@@ -21,7 +21,7 @@ color green "^[[:space:]]*((un)?(bind|set)|include|syntax|header|magic|comment|f
 color brightmagenta "([[:space:]]|(start|end)=)".+"([[:space:]]|$)"
 
 # Colors
-color yellow "^[[:space:]]*i?color[[:space:]]*(bright|light)?(white|black|red|blue|green|yellow|magenta|cyan|normal)?(,(white|black|red|blue|green|yellow|magenta|cyan|normal))?\>"
+color yellow "^[[:space:]]*i?color[[:space:]]*(bright|light)?(white|black|red|blue|green|yellow|magenta|cyan|normal)?(,(light)?(white|black|red|blue|green|yellow|magenta|cyan|normal))?\>"
 color magenta "^[[:space:]]*i?color\>" "\<(start|end)="
 
 # Comments
