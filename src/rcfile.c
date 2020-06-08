@@ -980,15 +980,22 @@ void parse_includes(char *ptr)
 	free(expanded);
 }
 
-/* Return the short value corresponding to the color named in colorname,
- * and set bright to TRUE if that color is bright. */
-short color_to_short(const char *colorname, bool *bright)
+/* Return the short value corresponding to the given color name, and set
+ * vivid to TRUE for a lighter color, and thick for a heavier typeface. */
+short color_to_short(const char *colorname, bool *vivid, bool *thick)
 {
 	if (strncmp(colorname, "bright", 6) == 0) {
-		*bright = TRUE;
+		*vivid = TRUE;
+		*thick = TRUE;
 		colorname += 6;
-	} else
-		*bright = FALSE;
+	} else if (strncmp(colorname, "light", 5) == 0) {
+		*vivid = TRUE;
+		*thick = FALSE;
+		colorname += 5;
+	} else {
+		*vivid = FALSE;
+		*thick = FALSE;
+	}
 
 	if (strcmp(colorname, "green") == 0)
 		return COLOR_GREEN;
@@ -1018,13 +1025,13 @@ short color_to_short(const char *colorname, bool *bright)
 bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 {
 	char *comma = strchr(combostr, ',');
-	bool bright;
+	bool vivid, thick;
 
 	*attributes = A_NORMAL;
 
 	if (comma != NULL) {
-		*bg = color_to_short(comma + 1, &bright);
-		if (bright) {
+		*bg = color_to_short(comma + 1, &vivid, &thick);
+		if (vivid) {
 			jot_error(N_("A background color cannot be bright"));
 			return FALSE;
 		}
@@ -1035,11 +1042,12 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 		*bg = USE_THE_DEFAULT;
 
 	if (comma != combostr) {
-		*fg = color_to_short(combostr, &bright);
+		*fg = color_to_short(combostr, &vivid, &thick);
 		if (*fg == BAD_COLOR)
 			return FALSE;
-
-		if (bright)
+		if (vivid && !thick && COLORS > 8)
+			*fg += 8;
+		else if (vivid)
 			*attributes = A_BOLD;
 	} else
 		*fg = USE_THE_DEFAULT;
