@@ -1029,6 +1029,16 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 
 	*attributes = A_NORMAL;
 
+	if (strncmp(combostr, "bold", 4) == 0) {
+		*attributes = A_BOLD;
+		if (combostr[4] != ',') {
+			jot_error(N_("An attribute requires a subsequent comma"));
+			return FALSE;
+		}
+		combostr += 5;
+		comma = strchr(combostr, ',');
+	}
+
 	if (comma != NULL) {
 		*bg = color_to_short(comma + 1, &vivid, &thick);
 		if (vivid && thick) {
@@ -1050,7 +1060,7 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 		if (vivid && !thick && COLORS > 8)
 			*fg += 8;
 		else if (vivid)
-			*attributes = A_BOLD;
+			*attributes |= A_BOLD;
 	} else
 		*fg = USE_THE_DEFAULT;
 
