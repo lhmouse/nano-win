@@ -982,6 +982,10 @@ void parse_includes(char *ptr)
 	free(expanded);
 }
 
+const char hues[9][7] = { "pink", "purple", "mauve", "lagoon", "mint",
+						  "lime", "peach", "orange", "latte" };
+short indices[9] = { 204, 164, 140, 38, 48, 148, 215, 208, 137 };
+
 /* Return the short value corresponding to the given color name, and set
  * vivid to TRUE for a lighter color, and thick for a heavier typeface. */
 short color_to_short(const char *colorname, bool *vivid, bool *thick)
@@ -1017,6 +1021,17 @@ short color_to_short(const char *colorname, bool *vivid, bool *thick)
 		return COLOR_BLACK;
 	else if (strcmp(colorname, "normal") == 0)
 		return USE_THE_DEFAULT;
+	else
+		for (int index = 0; index < 9; index++)
+			if (strcmp(colorname, hues[index]) == 0) {
+				if (*vivid) {
+					jot_error(N_("Color '%s' takes no prefix"), colorname);
+					return BAD_COLOR;
+				} else if (COLORS < 255)
+					return USE_THE_DEFAULT;
+				else
+					return indices[index];
+			}
 
 	jot_error(N_("Color \"%s\" not understood"), colorname);
 	return BAD_COLOR;
