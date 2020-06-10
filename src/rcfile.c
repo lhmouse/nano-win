@@ -1041,10 +1041,6 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 
 	if (comma != NULL) {
 		*bg = color_to_short(comma + 1, &vivid, &thick);
-		if (vivid && thick) {
-			jot_error(N_("A background color cannot be bright"));
-			return FALSE;
-		}
 		if (*bg == BAD_COLOR)
 			return FALSE;
 		if (vivid && COLORS > 8)
