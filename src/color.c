@@ -38,24 +38,19 @@
 #define A_BANDAID  A_NORMAL
 #endif
 
-/* Assign pair numbers for the colors in the given syntax, giving identical
- * color pairs the same number. */
+/* Assign a pair number to each of the foreground/background color combinations
+ * in the given syntax, giving identical combinations the same number. */
 void set_syntax_colorpairs(syntaxtype *sntx)
 {
 	int new_number = NUMBER_OF_ELEMENTS + 1;
-	colortype *ink;
 
-	for (ink = sntx->color; ink != NULL; ink = ink->next) {
-		const colortype *beforenow = sntx->color;
+	for (colortype *ink = sntx->color; ink != NULL; ink = ink->next) {
+		colortype *earlier = sntx->color;
 
-		while (beforenow != ink && (beforenow->fg != ink->fg ||
-									beforenow->bg != ink->bg))
-			beforenow = beforenow->next;
+		while (earlier != ink && (earlier->fg != ink->fg || earlier->bg != ink->bg))
+			earlier = earlier->next;
 
-		if (beforenow != ink)
-			ink->pairnum = beforenow->pairnum;
-		else
-			ink->pairnum = new_number++;
+		ink->pairnum = (earlier != ink) ? earlier->pairnum : new_number++;
 
 		ink->attributes |= COLOR_PAIR(ink->pairnum) | A_BANDAID;
 	}
