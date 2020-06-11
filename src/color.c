@@ -66,9 +66,6 @@ void set_interface_colorpairs(void)
 {
 	bool using_defaults = FALSE;
 
-	/* Tell ncurses to enable colors. */
-	start_color();
-
 #ifdef HAVE_USE_DEFAULT_COLORS
 	/* Allow using the default colors, if available. */
 	using_defaults = (use_default_colors() != ERR);

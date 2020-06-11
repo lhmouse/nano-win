@@ -2271,10 +2271,12 @@ int main(int argc, char **argv)
 	started_curses = TRUE;
 
 #ifdef ENABLE_COLOR
-	/* On capable terminals, use colors, otherwise use just reverse or bold.*/
-	if (has_colors())
+	/* If the terminal can do colors, tell ncurses to switch them on, and
+	 * initialize the interface ones.  Otherwise just use reverse or bold.*/
+	if (has_colors()) {
+		start_color();
 		set_interface_colorpairs();
-	else
+	} else
 #endif
 	{
 		interface_color_pair[TITLE_BAR] = hilite_attribute;
