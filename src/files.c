@@ -2581,7 +2581,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 			*lastwastab = TRUE;
 		else if (num_matches > 1) {
 			size_t longest_name = 0, ncols;
-			int editline = 0;
+			int row = 0;
 
 			/* Sort the list of available choices. */
 			qsort(matches, num_matches, sizeof(char *), diralphasort);
@@ -2610,9 +2610,9 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 			for (match = 0; match < num_matches; match++) {
 				char *disp;
 
-				wmove(edit, editline, (longest_name + 2) * (match % ncols));
+				wmove(edit, row, (longest_name + 2) * (match % ncols));
 
-				if (editline == editwinrows - 1 && num_matches - match > ncols) {
+				if (row == editwinrows - 1 && num_matches - match > ncols) {
 					waddstr(edit, _("(more)"));
 					break;
 				}
@@ -2622,7 +2622,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 				free(disp);
 
 				if ((match + 1) % ncols == 0)
-					editline++;
+					row++;
 			}
 
 			wnoutrefresh(edit);
