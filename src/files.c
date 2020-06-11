@@ -2605,7 +2605,6 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 			/* Blank the edit window and hide the cursor. */
 			blank_edit();
 			curs_set(0);
-			wmove(edit, 0, 0);
 
 			/* Now print the list of matches out there. */
 			for (match = 0; match < num_matches; match++) {
@@ -2613,8 +2612,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
 				wmove(edit, editline, (longest_name + 2) * (match % ncols));
 
-				if (match % ncols == 0 && editline == editwinrows - 1 &&
-						num_matches - match > ncols) {
+				if (editline == editwinrows - 1 && num_matches - match > ncols) {
 					waddstr(edit, _("(more)"));
 					break;
 				}
