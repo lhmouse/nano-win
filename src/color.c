@@ -108,11 +108,14 @@ void set_interface_colorpairs(void)
 /* Initialize the color pairs for the current syntax. */
 void prepare_palette(void)
 {
-	const colortype *ink;
+	short number = NUMBER_OF_ELEMENTS;
 
-	/* For each coloring expression, initialize the color pair. */
-	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next)
-		init_pair(ink->pairnum, ink->fg, ink->bg);
+	/* For each unique pair number, tell ncurses the combination of colors. */
+	for (colortype *ink = openfile->syntax->color; ink != NULL; ink = ink->next)
+		if (ink->pairnum > number) {
+			init_pair(ink->pairnum, ink->fg, ink->bg);
+			number = ink->pairnum;
+		}
 
 	have_palette = TRUE;
 }
