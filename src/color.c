@@ -41,31 +41,6 @@
 static bool defaults_allowed = FALSE;
 		/* Whether ncurses accepts -1 to mean "default color". */
 
-/* Assign a pair number to each of the foreground/background color combinations
- * in the given syntax, giving identical combinations the same number. */
-void set_syntax_colorpairs(syntaxtype *sntx)
-{
-	int new_number = NUMBER_OF_ELEMENTS + 1;
-
-	for (colortype *ink = sntx->color; ink != NULL; ink = ink->next) {
-		colortype *earlier = sntx->color;
-
-		if (!defaults_allowed) {
-			if (ink->fg == USE_THE_DEFAULT)
-				ink->fg = COLOR_WHITE;
-			if (ink->bg == USE_THE_DEFAULT)
-				ink->bg = COLOR_BLACK;
-		}
-
-		while (earlier != ink && (earlier->fg != ink->fg || earlier->bg != ink->bg))
-			earlier = earlier->next;
-
-		ink->pairnum = (earlier != ink) ? earlier->pairnum : new_number++;
-
-		ink->attributes |= COLOR_PAIR(ink->pairnum) | A_BANDAID;
-	}
-}
-
 /* Initialize the color pairs for nano's interface. */
 void set_interface_colorpairs(void)
 {
@@ -102,6 +77,32 @@ void set_interface_colorpairs(void)
 		}
 
 		free(color_combo[index]);
+	}
+}
+
+/* Assign a pair number to each of the foreground/background color combinations
+ * in the given syntax, giving identical combinations the same number. */
+void set_syntax_colorpairs(syntaxtype *sntx)
+{
+	short number = NUMBER_OF_ELEMENTS;
+	colortype *older;
+
+	for (colortype *ink = sntx->color; ink != NULL; ink = ink->next) {
+		if (!defaults_allowed) {
+			if (ink->fg == USE_THE_DEFAULT)
+				ink->fg = COLOR_WHITE;
+			if (ink->bg == USE_THE_DEFAULT)
+				ink->bg = COLOR_BLACK;
+		}
+
+		older = sntx->color;
+
+		while (older != ink && (older->fg != ink->fg || older->bg != ink->bg))
+			older = older->next;
+
+		ink->pairnum = (older != ink) ? older->pairnum : ++number;
+
+		ink->attributes |= COLOR_PAIR(ink->pairnum) | A_BANDAID;
 	}
 }
 
