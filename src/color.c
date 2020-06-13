@@ -72,10 +72,12 @@ void set_interface_colorpairs(void)
 		colortype *combo = color_combo[index];
 
 		if (combo != NULL) {
-			if (combo->fg == USE_THE_DEFAULT && !defaults_allowed)
-				combo->fg = COLOR_WHITE;
-			if (combo->bg == USE_THE_DEFAULT && !defaults_allowed)
-				combo->bg = COLOR_BLACK;
+			if (!defaults_allowed) {
+				if (combo->fg == USE_THE_DEFAULT)
+					combo->fg = COLOR_WHITE;
+				if (combo->bg == USE_THE_DEFAULT)
+					combo->bg = COLOR_BLACK;
+			}
 			init_pair(index + 1, combo->fg, combo->bg);
 			interface_color_pair[index] = COLOR_PAIR(index + 1) | A_BANDAID |
 												combo->attributes;
@@ -107,11 +109,13 @@ void prepare_palette(void)
 		foreground = ink->fg;
 		background = ink->bg;
 
-		if (foreground == USE_THE_DEFAULT && !defaults_allowed)
-			foreground = COLOR_WHITE;
+		if (!defaults_allowed) {
+			if (foreground == USE_THE_DEFAULT)
+				foreground = COLOR_WHITE;
 
-		if (background == USE_THE_DEFAULT && !defaults_allowed)
-			background = COLOR_BLACK;
+			if (background == USE_THE_DEFAULT)
+				background = COLOR_BLACK;
+		}
 
 		init_pair(ink->pairnum, foreground, background);
 	}
