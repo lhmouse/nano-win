@@ -38,8 +38,8 @@
 #define A_BANDAID  A_NORMAL
 #endif
 
-static bool using_defaults = FALSE;
-		/* Whether ncurses will accept -1 to mean "default color". */
+static bool defaults_allowed = FALSE;
+		/* Whether ncurses accepts -1 to mean "default color". */
 
 /* Assign a pair number to each of the foreground/background color combinations
  * in the given syntax, giving identical combinations the same number. */
@@ -63,8 +63,8 @@ void set_syntax_colorpairs(syntaxtype *sntx)
 void set_interface_colorpairs(void)
 {
 #ifdef HAVE_USE_DEFAULT_COLORS
-	/* Allow using the default colors, if available. */
-	using_defaults = (use_default_colors() != ERR);
+	/* Ask ncurses to allow -1 to mean "default color". */
+	defaults_allowed = (use_default_colors() == OK);
 #endif
 
 	/* Initialize the color pairs for nano's interface elements. */
@@ -72,9 +72,9 @@ void set_interface_colorpairs(void)
 		colortype *combo = color_combo[index];
 
 		if (combo != NULL) {
-			if (combo->fg == USE_THE_DEFAULT && !using_defaults)
+			if (combo->fg == USE_THE_DEFAULT && !defaults_allowed)
 				combo->fg = COLOR_WHITE;
-			if (combo->bg == USE_THE_DEFAULT && !using_defaults)
+			if (combo->bg == USE_THE_DEFAULT && !defaults_allowed)
 				combo->bg = COLOR_BLACK;
 			init_pair(index + 1, combo->fg, combo->bg);
 			interface_color_pair[index] = COLOR_PAIR(index + 1) | A_BANDAID |
@@ -107,10 +107,10 @@ void prepare_palette(void)
 		foreground = ink->fg;
 		background = ink->bg;
 
-		if (foreground == USE_THE_DEFAULT && !using_defaults)
+		if (foreground == USE_THE_DEFAULT && !defaults_allowed)
 			foreground = COLOR_WHITE;
 
-		if (background == USE_THE_DEFAULT && !using_defaults)
+		if (background == USE_THE_DEFAULT && !defaults_allowed)
 			background = COLOR_BLACK;
 
 		init_pair(ink->pairnum, foreground, background);
