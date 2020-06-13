@@ -109,15 +109,10 @@ void set_interface_colorpairs(void)
 void prepare_palette(void)
 {
 	const colortype *ink;
-	short foreground, background;
 
 	/* For each coloring expression, initialize the color pair. */
-	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
-		foreground = ink->fg;
-		background = ink->bg;
-
-		init_pair(ink->pairnum, foreground, background);
-	}
+	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next)
+		init_pair(ink->pairnum, ink->fg, ink->bg);
 
 	have_palette = TRUE;
 }
