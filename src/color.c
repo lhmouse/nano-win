@@ -38,6 +38,9 @@
 #define A_BANDAID  A_NORMAL
 #endif
 
+static bool using_defaults = FALSE;
+		/* Whether ncurses will accept -1 to mean "default color". */
+
 /* Assign a pair number to each of the foreground/background color combinations
  * in the given syntax, giving identical combinations the same number. */
 void set_syntax_colorpairs(syntaxtype *sntx)
@@ -59,8 +62,6 @@ void set_syntax_colorpairs(syntaxtype *sntx)
 /* Initialize the color pairs for nano's interface. */
 void set_interface_colorpairs(void)
 {
-	bool using_defaults = FALSE;
-
 #ifdef HAVE_USE_DEFAULT_COLORS
 	/* Allow using the default colors, if available. */
 	using_defaults = (use_default_colors() != ERR);
@@ -99,13 +100,7 @@ void set_interface_colorpairs(void)
 void prepare_palette(void)
 {
 	const colortype *ink;
-	bool using_defaults = FALSE;
 	short foreground, background;
-
-#ifdef HAVE_USE_DEFAULT_COLORS
-	/* Allow using the default colors, if available. */
-	using_defaults = (use_default_colors() != ERR);
-#endif
 
 	/* For each coloring expression, initialize the color pair. */
 	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
