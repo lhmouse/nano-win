@@ -50,6 +50,13 @@ void set_syntax_colorpairs(syntaxtype *sntx)
 	for (colortype *ink = sntx->color; ink != NULL; ink = ink->next) {
 		colortype *earlier = sntx->color;
 
+		if (!defaults_allowed) {
+			if (ink->fg == USE_THE_DEFAULT)
+				ink->fg = COLOR_WHITE;
+			if (ink->bg == USE_THE_DEFAULT)
+				ink->bg = COLOR_BLACK;
+		}
+
 		while (earlier != ink && (earlier->fg != ink->fg || earlier->bg != ink->bg))
 			earlier = earlier->next;
 
@@ -108,14 +115,6 @@ void prepare_palette(void)
 	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
 		foreground = ink->fg;
 		background = ink->bg;
-
-		if (!defaults_allowed) {
-			if (foreground == USE_THE_DEFAULT)
-				foreground = COLOR_WHITE;
-
-			if (background == USE_THE_DEFAULT)
-				background = COLOR_BLACK;
-		}
 
 		init_pair(ink->pairnum, foreground, background);
 	}
