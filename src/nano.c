@@ -1756,7 +1756,7 @@ int main(int argc, char **argv)
 	struct vt_stat dummy;
 
 	/* Check whether we're running on a Linux console. */
-	on_a_vt = (ioctl(0, VT_GETSTATE, &dummy) == 0);
+	on_a_vt = (ioctl(1, VT_GETSTATE, &dummy) == 0);
 #endif
 
 	/* Back up the terminal settings so that they can be restored. */
@@ -2445,11 +2445,6 @@ int main(int argc, char **argv)
 		if (ISSET(VIEW_MODE))
 			SET(MULTIBUFFER);
 	}
-#endif
-
-#ifdef __linux__
-	/* Check again whether we're running on a Linux console. */
-	on_a_vt = (ioctl(0, VT_GETSTATE, &dummy) == 0);
 #endif
 
 	prepare_for_display();
