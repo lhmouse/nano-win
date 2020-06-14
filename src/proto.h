@@ -34,7 +34,6 @@ extern bool shift_held;
 extern bool mute_modifiers;
 extern bool bracketed_paste;
 
-extern bool started_curses;
 extern bool we_are_running;
 extern bool more_than_one;
 

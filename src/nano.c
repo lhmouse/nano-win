@@ -2045,8 +2045,6 @@ int main(int argc, char **argv)
 	if (initscr() == NULL)
 		exit(1);
 
-	started_curses = TRUE;
-
 #ifdef ENABLE_COLOR
 	/* If the terminal can do colors, tell ncurses to switch them on. */
 	if (has_colors())

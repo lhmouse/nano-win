@@ -45,8 +45,6 @@ bool mute_modifiers = FALSE;
 bool bracketed_paste = FALSE;
 		/* Whether text is being pasted into nano from outside. */
 
-bool started_curses = FALSE;
-		/* Becomes TRUE when curses mode has been entered the first time. */
 bool we_are_running = FALSE;
 		/* Becomes TRUE as soon as all options and files have been read. */
 bool more_than_one = FALSE;
