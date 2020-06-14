@@ -2041,6 +2041,18 @@ int main(int argc, char **argv)
 		}
 	}
 
+	/* Enter into curses mode.  Abort if this fails. */
+	if (initscr() == NULL)
+		exit(1);
+
+	started_curses = TRUE;
+
+#ifdef ENABLE_COLOR
+	/* If the terminal can do colors, tell ncurses to switch them on. */
+	if (has_colors())
+		start_color();
+#endif
+
 	/* Set up the function and shortcut lists.  This needs to be done
 	 * before reading the rcfile, to be able to rebind/unbind keys. */
 	shortcut_init();
@@ -2264,19 +2276,11 @@ int main(int argc, char **argv)
 	if (tabsize == -1)
 		tabsize = WIDTH_OF_TAB;
 
-	/* Initialize curses mode.  If this fails, get out. */
-	if (initscr() == NULL)
-		exit(1);
-
-	started_curses = TRUE;
-
 #ifdef ENABLE_COLOR
-	/* If the terminal can do colors, tell ncurses to switch them on, and
-	 * initialize the interface ones.  Otherwise just use reverse or bold.*/
-	if (has_colors()) {
-		start_color();
+	/* On capable terminals, use colors, otherwise just reverse or bold.*/
+	if (has_colors())
 		set_interface_colorpairs();
-	} else
+	else
 #endif
 	{
 		interface_color_pair[TITLE_BAR] = hilite_attribute;
