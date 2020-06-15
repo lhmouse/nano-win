@@ -256,6 +256,8 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "paste"))
 		s->func = paste_text;
 #ifndef NANO_TINY
+	else if (!strcmp(input, "execute"))
+		s->func = do_execute;
 	else if (!strcmp(input, "cutrestoffile"))
 		s->func = cut_till_eof;
 	else if (!strcmp(input, "copy"))

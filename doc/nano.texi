@@ -1284,6 +1284,10 @@ Shows the current cursor position: the line, column, and character positions.
 @item wordcount
 Counts the number of words, lines and characters in the current buffer.
 
+@item execute
+Prompts for a program to execute.  The program's output will be inserted
+into the current buffer (or into a new buffer when @kbd{M-F} is toggled).
+
 @item speller
 Invokes a spell-checking program, either the default @command{hunspell}
 or GNU @command{spell}, or the one defined by @option{--speller} or
