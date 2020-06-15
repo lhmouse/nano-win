@@ -1056,6 +1056,16 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 		comma = strchr(combostr, ',');
 	}
 
+	if (strncmp(combostr, "italic", 6) == 0) {
+		*attributes |= A_ITALIC;
+		if (combostr[6] != ',') {
+			jot_error(N_("An attribute requires a subsequent comma"));
+			return FALSE;
+		}
+		combostr += 7;
+		comma = strchr(combostr, ',');
+	}
+
 	if (comma != NULL) {
 		*bg = color_to_short(comma + 1, &vivid, &thick);
 		if (*bg == BAD_COLOR)
