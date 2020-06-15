@@ -2773,7 +2773,7 @@ int update_line(linestruct *line, size_t index)
 		wattroff(edit, hilite_attribute);
 	}
 
-	if (spotlighted && !inhelp)
+	if (spotlighted && line == openfile->current && !inhelp)
 		spotlight(light_from_col, light_to_col);
 
 	return 1;
@@ -2834,7 +2834,7 @@ int update_softwrapped_line(linestruct *line)
 		from_col = to_col;
 	}
 
-	if (spotlighted && !inhelp)
+	if (spotlighted && line == openfile->current && !inhelp)
 		spotlight_softwrapped(light_from_col, light_to_col);
 
 	return (row - starting_row);
@@ -3464,13 +3464,14 @@ void spotlight(size_t from_col, size_t to_col)
  * line breaks, since they're not actually part of the spotlighted text. */
 void spotlight_softwrapped(size_t from_col, size_t to_col)
 {
-	ssize_t row = openfile->current_y;
+	ssize_t row;
 	size_t leftedge = leftedge_for(from_col, openfile->current);
 	size_t break_col;
 	bool end_of_line = FALSE;
 	char *word;
 
 	place_the_cursor();
+	row = openfile->current_y;
 
 	while (row < editwinrows) {
 		break_col = get_softwrap_breakpoint(openfile->current->data,
