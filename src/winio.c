@@ -2398,9 +2398,10 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 	if (is_shorter || ISSET(SOFTWRAP))
 		wclrtoeol(edit);
 
+#ifndef NANO_TINY
 	if (thebar)
 		mvwaddch(edit, row, COLS - 1, bardata[row]);
-
+#endif
 #ifdef USING_OLD_NCURSES
 	/* Tell ncurses to really redraw the line without trying to optimize
 	 * for what it thinks is already there, because it gets it wrong in
