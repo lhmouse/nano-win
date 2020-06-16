@@ -986,7 +986,7 @@ void parse_includes(char *ptr)
  * vivid to TRUE for a lighter color, and thick for a heavier typeface. */
 short color_to_short(const char *colorname, bool *vivid, bool *thick)
 {
-	if (strncmp(colorname, "bright", 6) == 0) {
+	if (strncmp(colorname, "bright", 6) == 0) {  /* Deprecated; remove in 2023. */
 		*vivid = TRUE;
 		*thick = TRUE;
 		colorname += 6;
