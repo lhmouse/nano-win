@@ -122,7 +122,7 @@ Use cut-from-cursor-to-end-of-line by default, instead of cutting the whole line
 .B set emptyline
 Do not use the line below the title bar, leaving it entirely blank.
 .TP
-.B set errorcolor \fIfgcolor\fR,\fIbgcolor\fR
+.B set errorcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the status bar when an error message is displayed.
 The default value is \fBbrightwhite,red\fR.
 See \fBset titlecolor\fR for valid color names.
@@ -134,7 +134,7 @@ at the width of the screen minus \fInumber\fR columns, allowing the wrap
 point to vary along with the width of the screen if the screen is resized.
 The default value is \fB\-8\fR.
 .TP
-.B set functioncolor \fIfgcolor\fR,\fIbgcolor\fR
+.B set functioncolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for the function descriptions
 in the two help lines at the bottom of the screen.
 See \fBset titlecolor\fR for more details.
@@ -155,7 +155,7 @@ and how much of the buffer is covered by the viewport.
 .B set jumpyscrolling
 Scroll the buffer contents per half-screen instead of per line.
 .TP
-.B set keycolor \fIfgcolor\fR,\fIbgcolor\fR
+.B set keycolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for the shortcut key combos
 in the two help lines at the bottom of the screen.
 See \fBset titlecolor\fR for more details.
@@ -203,7 +203,7 @@ Obsolete option.  Ignored.
 Deprecated option since it has become the default setting.
 When needed, use \fBunset breaklonglines\fR instead.
 .TP
-.B set numbercolor \fIfgcolor\fR,\fIbgcolor\fR
+.B set numbercolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for line numbers.
 See \fBset titlecolor\fR for more details.
 .TP
@@ -255,7 +255,7 @@ Regular expressions in \fBnano\fR are of the extended type (ERE).
 .B set saveonexit
 Save a changed buffer automatically on exit (\fB^X\fR); don't prompt.
 .TP
-.B set selectedcolor \fIfgcolor\fR,\fIbgcolor\fR
+.B set selectedcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for selected text.
 See \fBset titlecolor\fR for more details.
 .TP
@@ -283,11 +283,11 @@ the screen's edge, by using also \fBset atblanks\fR.)
 Use the given \fIprogram\fR to do spell checking and correcting, instead of
 using the built-in corrector that calls \fBhunspell\fR or GNU \fBspell\fR.
 .TP
-.B set statuscolor \fIfgcolor\fR,\fIbgcolor\fR
+.B set  statuscolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for the status bar.
 See \fBset titlecolor\fR for more details.
 .TP
-.B set stripecolor \fIfgcolor\fR,\fIbgcolor\fR
+.B set stripecolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for the vertical guiding stripe.
 See \fBset titlecolor\fR for more details.
 .TP
@@ -301,14 +301,22 @@ greater than 0.  The default value is \fB8\fR.
 .B set tabstospaces
 Convert typed tabs to spaces.
 .TP
-.B set titlecolor \fIfgcolor\fR,\fIbgcolor\fR
+.B set titlecolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for the title bar.
 Valid names for the foreground and background colors are:
-.BR white ", " black ", " blue ", " green ", " red ", "
-.BR cyan ", " yellow ", " magenta ", and " normal
+.BR red ", " green ", " blue ", " magenta ", " yellow ", " cyan ", "
+.BR white ", and " black .
+Each of these eight names may be prefixed with the word \fBlight\fR
+to get a brighter version of that color.
+On terminal emulators that can do at least 256 colors,
+other valid (but unprefixable) color names are:
+.BR pink ", " purple ", " mauve ", " lagoon ", " mint ", "
+.BR lime ", " peach ", " orange ", " latte ", and " normal
 -- where \fBnormal\fR means the default foreground or background color.
-The name of the foreground color may be prefixed with \fBbright\fR.
-And either "\fIfgcolor\fR" or ",\fIbgcolor\fR" may be left out.
+Either "\fIfgcolor\fR" or "\fB,\fIbgcolor\fR" may be left out,
+and the pair may be preceeded by \fBbold\fR and/or \fBitalic\fR
+(separated by commas) to get a bold and/or slanting typeface,
+if your terminal can do those.
 .TP
 .B set trimblanks
 Remove trailing whitespace from wrapped lines when automatic
@@ -422,24 +430,30 @@ Make the <Tab> key produce the given \fIstring\fR.  Useful for languages like
 Python that want to see only spaces for indentation.
 This overrides the setting of the \fBtabstospaces\fR option.
 .TP
-.BI "color " fgcolor , bgcolor " """ regex """ " \fR...
+.BI "color \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " """ regex """ " \fR...
 Paint all pieces of text that match the extended regular expression
 \fIregex\fP with the given foreground and background colors, at least
 one of which must be specified.  Valid color names are:
-.BR white ", " black ", " blue ", " green ", " red ", "
-.BR cyan ", " yellow ", " magenta ", and " normal
+.BR red ", " green ", " blue ", " magenta ", " yellow ", " cyan ", "
+.BR white ", and " black .
+Each of these eight names may be prefixed with the word \fBlight\fR
+to get a brighter version of that color.
+On terminal emulators that can do at least 256 colors,
+other valid (but unprefixable) color names are:
+.BR pink ", " purple ", " mauve ", " lagoon ", " mint ", "
+.BR lime ", " peach ", " orange ", " latte ", and " normal
 -- where \fBnormal\fR means the default foreground or background color.
-You may use the prefix \fBbright\fR for the foreground color to get a
-stronger highlight.  If your terminal supports transparency, not specifying
-a \fIbgcolor\fP tells \fBnano\fP to attempt to use a transparent background.
+The color pair may be preceeded by \fBbold\fR and/or \fBitalic\fR
+(separated by commas) to get a bold and/or slanting typeface,
+if your terminal can do those.
 .sp
 All coloring commands are applied in the order in which they are specified,
 which means that later commands can recolor stuff that was colored earlier.
 .TP
-.BI "icolor " fgcolor , bgcolor " """ regex """ " \fR...
+.BI "icolor \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " """ regex """ " \fR...
 Same as above, except that the matching is case insensitive.
 .TP
-.BI "color " fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
+.BI "color \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
 Paint all pieces of text whose start matches extended regular expression
 \fIfromrx\fP and whose end matches extended regular expression \fItorx\fP
 with the given foreground and background colors,
@@ -448,7 +462,7 @@ initial instance of \fIfromrx\fP, all text until the first instance of
 \fItorx\fP will be colored.  This allows syntax highlighting to span
 multiple lines.
 .TP
-.BI "icolor " fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
+.BI "icolor \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
 Same as above, except that the matching is case insensitive.
 .TP
 .BI "include """ syntaxfile """
