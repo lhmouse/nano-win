@@ -28,11 +28,11 @@ pkgdata_DATA =	asm.nanorc \
 		perl.nanorc \
 		php.nanorc \
 		po.nanorc \
-		postgresql.nanorc \
 		python.nanorc \
 		ruby.nanorc \
 		rust.nanorc \
 		sh.nanorc \
+		sql.nanorc \
 		tcl.nanorc \
 		tex.nanorc \
 		texinfo.nanorc \
