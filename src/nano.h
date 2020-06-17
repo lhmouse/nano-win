@@ -135,7 +135,7 @@
 #define INREGION   2
 
 #ifdef ENABLE_COLOR
-#define USE_THE_DEFAULT  -1
+#define THE_DEFAULT  -1
 #define BAD_COLOR  -2
 #endif
 

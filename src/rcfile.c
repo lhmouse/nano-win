@@ -1020,7 +1020,7 @@ short color_to_short(const char *colorname, bool *vivid, bool *thick)
 	else if (strcmp(colorname, "black") == 0)
 		return COLOR_BLACK;
 	else if (strcmp(colorname, "normal") == 0)
-		return USE_THE_DEFAULT;
+		return THE_DEFAULT;
 	else
 		for (int index = 0; index < 9; index++)
 			if (strcmp(colorname, hues[index]) == 0) {
@@ -1028,7 +1028,7 @@ short color_to_short(const char *colorname, bool *vivid, bool *thick)
 					jot_error(N_("Color '%s' takes no prefix"), colorname);
 					return BAD_COLOR;
 				} else if (COLORS < 255)
-					return USE_THE_DEFAULT;
+					return THE_DEFAULT;
 				else
 					return indices[index];
 			}
@@ -1078,7 +1078,7 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 		else if (vivid)
 			*attributes |= A_BOLD;
 	} else
-		*fg = USE_THE_DEFAULT;
+		*fg = THE_DEFAULT;
 
 	if (comma) {
 		*bg = color_to_short(comma + 1, &vivid, &thick);
@@ -1087,7 +1087,7 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 		if (vivid && COLORS > 8)
 			*bg += 8;
 	} else
-		*bg = USE_THE_DEFAULT;
+		*bg = THE_DEFAULT;
 
 	return TRUE;
 }

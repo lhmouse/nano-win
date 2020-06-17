@@ -55,9 +55,9 @@ void set_interface_colorpairs(void)
 
 		if (combo != NULL) {
 			if (!defaults_allowed) {
-				if (combo->fg == USE_THE_DEFAULT)
+				if (combo->fg == THE_DEFAULT)
 					combo->fg = COLOR_WHITE;
-				if (combo->bg == USE_THE_DEFAULT)
+				if (combo->bg == THE_DEFAULT)
 					combo->bg = COLOR_BLACK;
 			}
 			init_pair(index + 1, combo->fg, combo->bg);
@@ -89,9 +89,9 @@ void set_syntax_colorpairs(syntaxtype *sntx)
 
 	for (colortype *ink = sntx->color; ink != NULL; ink = ink->next) {
 		if (!defaults_allowed) {
-			if (ink->fg == USE_THE_DEFAULT)
+			if (ink->fg == THE_DEFAULT)
 				ink->fg = COLOR_WHITE;
-			if (ink->bg == USE_THE_DEFAULT)
+			if (ink->bg == THE_DEFAULT)
 				ink->bg = COLOR_BLACK;
 		}
 
