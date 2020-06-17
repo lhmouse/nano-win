@@ -1066,17 +1066,10 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 
 	comma = strchr(combostr, ',');
 
-	if (comma != NULL) {
-		*bg = color_to_short(comma + 1, &vivid, &thick);
-		if (*bg == BAD_COLOR)
-			return FALSE;
-		if (vivid && COLORS > 8)
-			*bg += 8;
+	if (comma)
 		*comma = '\0';
-	} else
-		*bg = USE_THE_DEFAULT;
 
-	if (comma != combostr) {
+	if (!comma || comma > combostr) {
 		*fg = color_to_short(combostr, &vivid, &thick);
 		if (*fg == BAD_COLOR)
 			return FALSE;
@@ -1086,6 +1079,15 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 			*attributes |= A_BOLD;
 	} else
 		*fg = USE_THE_DEFAULT;
+
+	if (comma) {
+		*bg = color_to_short(comma + 1, &vivid, &thick);
+		if (*bg == BAD_COLOR)
+			return FALSE;
+		if (vivid && COLORS > 8)
+			*bg += 8;
+	} else
+		*bg = USE_THE_DEFAULT;
 
 	return TRUE;
 }
