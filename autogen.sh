@@ -30,7 +30,7 @@ modules="
 
 # Make sure the local gnulib git repo is up-to-date.
 if [ ! -d "gnulib" ]; then
-	git clone --depth=123 ${gnulib_url}
+	git clone --depth=1111 ${gnulib_url}
 fi
 cd gnulib >/dev/null || exit 1
 curr_hash=$(git log -1 --format=%H)
