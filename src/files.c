@@ -2388,11 +2388,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	char **matches = NULL;
 #ifdef HAVE_PWD_H
 	const struct passwd *userdata;
-#endif
 
-	*num_matches = 0;
-
-#ifdef HAVE_PWD_H
 	while ((userdata = getpwent()) != NULL) {
 		if (strncmp(userdata->pw_name, buf + 1, buf_len - 1) == 0) {
 			/* Cool, found a match.  Add it to the list.  This makes a
@@ -2430,7 +2426,6 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 	DIR *dir;
 	const struct dirent *nextdir;
 
-	*num_matches = 0;
 	dirname[buf_len] = '\0';
 
 	/* If there's a / in the name, split out filename and directory parts. */
