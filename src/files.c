@@ -2500,10 +2500,16 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 char *input_tab(char *buf, bool allow_files, size_t *place,
 		bool *lastwastab, void (*refresh_func)(void), bool *listed)
 {
-	size_t num_matches = 0, buf_len;
+	size_t num_matches = 0;
 	char **matches = NULL;
 
 	*listed = FALSE;
+
+	/* If the cursor is not at the end of the fragment, do nothing. */
+	if (buf[*place] != '\0') {
+		beep();
+		return buf;
+	}
 
 	/* If the word starts with `~' and there is no slash in the word,
 	 * then try completing this word as a username. */
@@ -2518,9 +2524,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	if (matches == NULL)
 		matches = cwd_tab_completion(buf, allow_files, &num_matches, *place);
 
-	buf_len = strlen(buf);
-
-	if (num_matches == 0 || *place != buf_len)
+	if (num_matches == 0)
 		beep();
 	else {
 		size_t match, common_len = 0;
@@ -2567,8 +2571,8 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
 		/* If the matches have something in common, show that part. */
 		if (common_len != *place) {
-			buf = charealloc(buf, common_len + buf_len - *place + 1);
-			memmove(buf + common_len, buf + *place, buf_len - *place + 1);
+			buf = charealloc(buf, common_len + 1);
+			memmove(buf + common_len, buf + *place, 1);
 			strncpy(buf, mzero, common_len);
 			*place = common_len;
 		}
