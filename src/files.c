@@ -2450,24 +2450,23 @@ char **filename_completion(const char *buf, size_t length,
 	/* Iterate through the filenames in the directory,
 	 * and add each fitting one to the list of matches. */
 	while ((nextdir = readdir(dir)) != NULL) {
-		bool skip_match = FALSE;
-
 		if (strncmp(nextdir->d_name, filename, filenamelen) == 0 &&
 					(*filename == '.' || (strcmp(nextdir->d_name, ".") != 0 &&
 					strcmp(nextdir->d_name, "..") != 0))) {
-			char *tmp = charalloc(strlen(dirname) + strlen(nextdir->d_name) + 1);
+			char *fullname = charalloc(strlen(dirname) + strlen(nextdir->d_name) + 1);
 
-			sprintf(tmp, "%s%s", dirname, nextdir->d_name);
+			sprintf(fullname, "%s%s", dirname, nextdir->d_name);
 
 #ifdef ENABLE_OPERATINGDIR
-			skip_match = outside_of_confinement(tmp, TRUE);
-#endif
-			skip_match = skip_match || (!allow_files && !is_dir(tmp));
-
-			free(tmp);
-
-			if (skip_match)
+			if (outside_of_confinement(fullname, TRUE)) {
+				free(fullname);
 				continue;
+			}
+#endif
+			if (!allow_files && !is_dir(fullname)) {
+				free(fullname);
+				continue;
+			}
 
 			matches = (char **)nrealloc(matches, (*num_matches + 1) * sizeof(char *));
 			matches[*num_matches] = copy_of(nextdir->d_name);
