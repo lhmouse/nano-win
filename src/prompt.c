@@ -471,7 +471,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 			} else
 #endif
 			if (allow_tabs)
-				answer = input_tab(answer, allow_files, &typing_x,
+				answer = input_tab(answer, &typing_x, allow_files,
 										&tabbed, refresh_func, listed);
 		} else
 #endif /* ENABLE_TABCOMP */

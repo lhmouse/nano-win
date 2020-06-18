@@ -2363,8 +2363,7 @@ bool is_dir(const char *path)
 }
 
 /* Try to complete the given fragment in 'buf' to a username. */
-char **username_tab_completion(const char *buf, size_t *num_matches,
-		size_t buf_len)
+char **username_completion(const char *buf, size_t length, size_t *num_matches)
 {
 	char **matches = NULL;
 #ifdef HAVE_PWD_H
@@ -2373,7 +2372,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	/* Iterate through the entries in the passwd file, and
 	 * add each fitting username to the list of matches. */
 	while ((userdata = getpwent()) != NULL) {
-		if (strncmp(userdata->pw_name, buf + 1, buf_len - 1) == 0) {
+		if (strncmp(userdata->pw_name, buf + 1, length - 1) == 0) {
 #ifdef ENABLE_OPERATINGDIR
 			/* Skip directories that are outside of the allowed area. */
 			if (outside_of_confinement(userdata->pw_dir, TRUE))
@@ -2407,8 +2406,8 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
  * This code may safely be consumed by a BSD or GPL license. */
 
 /* Try to complete the given fragment in 'buf' to a filename. */
-char **cwd_tab_completion(const char *buf, bool allow_files,
-						size_t *num_matches, size_t buf_len)
+char **filename_completion(const char *buf, size_t length,
+							bool allow_files, size_t *num_matches)
 {
 	char *dirname = copy_of(buf);
 	char *slash, *filename;
@@ -2416,8 +2415,6 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 	char **matches = NULL;
 	DIR *dir;
 	const struct dirent *nextdir;
-
-	dirname[buf_len] = '\0';
 
 	/* If there's a / in the name, split out filename and directory parts. */
 	slash = strrchr(dirname, '/');
@@ -2430,8 +2427,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 		dirname = real_dir_from_tilde(dirname);
 		/* A non-absolute path is relative to the current browser directory. */
 		if (dirname[0] != '/') {
-			dirname = charealloc(dirname, strlen(present_path) +
-												strlen(wasdirname) + 1);
+			dirname = charealloc(dirname, strlen(present_path) + strlen(wasdirname) + 1);
 			sprintf(dirname, "%s%s", present_path, wasdirname);
 		}
 		free(wasdirname);
@@ -2443,7 +2439,6 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 	dir = opendir(dirname);
 
 	if (dir == NULL) {
-		/* Don't print an error, just shut up and return. */
 		beep();
 		free(filename);
 		free(dirname);
@@ -2489,7 +2484,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 
 /* Do tab completion.  'place' is the position of the status-bar cursor, and
  * 'refresh_func' is the function to be called to refresh the edit window. */
-char *input_tab(char *buf, bool allow_files, size_t *place,
+char *input_tab(char *buf, size_t *place, bool allow_files,
 				bool *lastwastab, void (*refresh_func)(void), bool *listed)
 {
 	size_t num_matches = 0;
@@ -2506,12 +2501,12 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 	/* If the fragment starts with a tilde and contains no slash,
 	 * then try completing it as a username. */
 	if (buf[0] == '~' && strchr(buf, '/') == NULL)
-		matches = username_tab_completion(buf, &num_matches, *place);
+		matches = username_completion(buf, *place, &num_matches);
 
 	/* If there are no matches yet, try matching against filenames
 	 * in the current directory. */
 	if (matches == NULL)
-		matches = cwd_tab_completion(buf, allow_files, &num_matches, *place);
+		matches = filename_completion(buf, *place, allow_files, &num_matches);
 
 	if (num_matches == 0)
 		beep();
