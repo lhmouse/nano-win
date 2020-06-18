@@ -2362,17 +2362,16 @@ bool is_dir(const char *path)
 	return retval;
 }
 
-/* These functions, username_tab_completion(), cwd_tab_completion()
- * (originally exe_n_cwd_tab_completion()), and input_tab(), were
- * adapted from busybox 0.46 (cmdedit.c).  Here is the notice from that
- * file, with the copyright years updated:
+/* These functions, username_tab_completion(), cwd_tab_completion(), and
+ * input_tab(), were adapted from busybox 0.46 (cmdedit.c).  Here is the
+ * notice from that file, with the copyright years updated:
  *
- * Termios command line History and Editing, originally
- * intended for NetBSD sh (ash)
+ * Termios command-line History and Editing,
+ * originally intended for NetBSD sh (ash)
  * Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
  *      Main code:            Adam Rogoyski <rogoyski@cs.utexas.edu>
  *      Etc:                  Dave Cinege <dcinege@psychosis.com>
- *  Majorly adjusted/re-written for busybox:
+ * Majorly adjusted/re-written for busybox:
  *                            Erik Andersen <andersee@debian.org>
  *
  * You may use this code as you wish, so long as the original author(s)
@@ -2389,18 +2388,15 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 #ifdef HAVE_PWD_H
 	const struct passwd *userdata;
 
+	/* Iterate through the entries in the passwd file, and add the
+	 * home directory of each username that matches to the list. */
 	while ((userdata = getpwent()) != NULL) {
 		if (strncmp(userdata->pw_name, buf + 1, buf_len - 1) == 0) {
-			/* Cool, found a match.  Add it to the list.  This makes a
-			 * lot more sense to me (Chris) this way... */
-
 #ifdef ENABLE_OPERATINGDIR
-			/* ...unless the match exists outside the operating
-			 * directory, in which case just go to the next match. */
+			/* Skip directories that are beyond the allowed area. */
 			if (outside_of_confinement(userdata->pw_dir, TRUE))
 				continue;
 #endif
-
 			matches = (char **)nrealloc(matches, (*num_matches + 1) *
 										sizeof(char *));
 			matches[*num_matches] = charalloc(strlen(userdata->pw_name) + 2);
@@ -2408,6 +2404,7 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 			++(*num_matches);
 		}
 	}
+
 	endpwent();
 #endif
 
@@ -2461,27 +2458,21 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 
 	filenamelen = strlen(filename);
 
+	/* Iterate through the filenames in the directory,
+	 * and add the ones that match to the list. */
 	while ((nextdir = readdir(dir)) != NULL) {
 		bool skip_match = FALSE;
 
-		/* See if this matches. */
 		if (strncmp(nextdir->d_name, filename, filenamelen) == 0 &&
-				(*filename == '.' || (strcmp(nextdir->d_name, ".") != 0 &&
-				strcmp(nextdir->d_name, "..") != 0))) {
-			/* Cool, found a match.  Add it to the list.  This makes a
-			 * lot more sense to me (Chris) this way... */
-
+					(*filename == '.' || (strcmp(nextdir->d_name, ".") != 0 &&
+					strcmp(nextdir->d_name, "..") != 0))) {
 			char *tmp = charalloc(strlen(dirname) + strlen(nextdir->d_name) + 1);
+
 			sprintf(tmp, "%s%s", dirname, nextdir->d_name);
 
 #ifdef ENABLE_OPERATINGDIR
-			/* ...unless the match exists outside the operating
-			 * directory, in which case just go to the next match. */
 			skip_match = outside_of_confinement(tmp, TRUE);
 #endif
-
-			/* ...or unless the match isn't a directory and allow_files
-			 * isn't set, in which case just go to the next match. */
 			skip_match = skip_match || (!allow_files && !is_dir(tmp));
 
 			free(tmp);
@@ -2523,7 +2514,7 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 			matches = username_tab_completion(buf, &num_matches, *place);
 	}
 
-	/* Match against files relative to the current working directory. */
+	/* If nothing matched yet, match against filenames in current directory. */
 	if (matches == NULL)
 		matches = cwd_tab_completion(buf, allow_files, &num_matches, *place);
 
