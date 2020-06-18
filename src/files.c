@@ -2513,12 +2513,8 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 
 	/* If the word starts with `~' and there is no slash in the word,
 	 * then try completing this word as a username. */
-	if (*place > 0 && *buf == '~') {
-		const char *slash = strchr(buf, '/');
-
-		if (slash == NULL || slash >= buf + *place)
-			matches = username_tab_completion(buf, &num_matches, *place);
-	}
+	if (buf[0] == '~' && strchr(buf, '/') == NULL)
+		matches = username_tab_completion(buf, &num_matches, *place);
 
 	/* If nothing matched yet, match against filenames in current directory. */
 	if (matches == NULL)
