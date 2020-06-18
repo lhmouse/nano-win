@@ -2362,8 +2362,7 @@ bool is_dir(const char *path)
 	return retval;
 }
 
-/* We consider the first buf_len characters of buf for ~username tab
- * completion. */
+/* Try to complete the given fragment in 'buf' to a username. */
 char **username_tab_completion(const char *buf, size_t *num_matches,
 		size_t buf_len)
 {
@@ -2371,17 +2370,16 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 #ifdef HAVE_PWD_H
 	const struct passwd *userdata;
 
-	/* Iterate through the entries in the passwd file, and add the
-	 * home directory of each username that matches to the list. */
+	/* Iterate through the entries in the passwd file, and
+	 * add each fitting username to the list of matches. */
 	while ((userdata = getpwent()) != NULL) {
 		if (strncmp(userdata->pw_name, buf + 1, buf_len - 1) == 0) {
 #ifdef ENABLE_OPERATINGDIR
-			/* Skip directories that are beyond the allowed area. */
+			/* Skip directories that are outside of the allowed area. */
 			if (outside_of_confinement(userdata->pw_dir, TRUE))
 				continue;
 #endif
-			matches = (char **)nrealloc(matches, (*num_matches + 1) *
-										sizeof(char *));
+			matches = (char **)nrealloc(matches, (*num_matches + 1) * sizeof(char *));
 			matches[*num_matches] = charalloc(strlen(userdata->pw_name) + 2);
 			sprintf(matches[*num_matches], "~%s", userdata->pw_name);
 			++(*num_matches);
@@ -2394,8 +2392,8 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 	return matches;
 }
 
-/* The next two functions, cwd_tab_completion() and input_tab(), were adapted
- * from busybox 0.46 (cmdedit.c).  Here is the tweaked notice from that file:
+/* The next two functions were adapted from busybox 0.46 (cmdedit.c).
+ * Here is the tweaked notice from that file:
  *
  * Termios command-line History and Editing, originally intended for NetBSD.
  * Copyright (C) 1999, 2000
@@ -2408,10 +2406,9 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
  * This code is 'as is' with no warranty.
  * This code may safely be consumed by a BSD or GPL license. */
 
-/* We consider the first buf_len characters of buf for filename tab
- * completion. */
+/* Try to complete the given fragment in 'buf' to a filename. */
 char **cwd_tab_completion(const char *buf, bool allow_files,
-		size_t *num_matches, size_t buf_len)
+						size_t *num_matches, size_t buf_len)
 {
 	char *dirname = copy_of(buf);
 	char *slash, *filename;
@@ -2456,7 +2453,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 	filenamelen = strlen(filename);
 
 	/* Iterate through the filenames in the directory,
-	 * and add the ones that match to the list. */
+	 * and add each fitting one to the list of matches. */
 	while ((nextdir = readdir(dir)) != NULL) {
 		bool skip_match = FALSE;
 
@@ -2477,8 +2474,7 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 			if (skip_match)
 				continue;
 
-			matches = (char **)nrealloc(matches, (*num_matches + 1) *
-										sizeof(char *));
+			matches = (char **)nrealloc(matches, (*num_matches + 1) * sizeof(char *));
 			matches[*num_matches] = copy_of(nextdir->d_name);
 			++(*num_matches);
 		}
@@ -2491,11 +2487,10 @@ char **cwd_tab_completion(const char *buf, bool allow_files,
 	return matches;
 }
 
-/* Do tab completion.  place refers to how much the status-bar cursor
- * position should be advanced.  refresh_func is the function we will
- * call to refresh the edit window. */
+/* Do tab completion.  'place' is the position of the status-bar cursor, and
+ * 'refresh_func' is the function to be called to refresh the edit window. */
 char *input_tab(char *buf, bool allow_files, size_t *place,
-		bool *lastwastab, void (*refresh_func)(void), bool *listed)
+				bool *lastwastab, void (*refresh_func)(void), bool *listed)
 {
 	size_t num_matches = 0;
 	char **matches = NULL;
@@ -2508,12 +2503,13 @@ char *input_tab(char *buf, bool allow_files, size_t *place,
 		return buf;
 	}
 
-	/* If the word starts with `~' and there is no slash in the word,
-	 * then try completing this word as a username. */
+	/* If the fragment starts with a tilde and contains no slash,
+	 * then try completing it as a username. */
 	if (buf[0] == '~' && strchr(buf, '/') == NULL)
 		matches = username_tab_completion(buf, &num_matches, *place);
 
-	/* If nothing matched yet, match against filenames in current directory. */
+	/* If there are no matches yet, try matching against filenames
+	 * in the current directory. */
 	if (matches == NULL)
 		matches = cwd_tab_completion(buf, allow_files, &num_matches, *place);
 
