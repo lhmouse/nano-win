@@ -2362,23 +2362,6 @@ bool is_dir(const char *path)
 	return retval;
 }
 
-/* These functions, username_tab_completion(), cwd_tab_completion(), and
- * input_tab(), were adapted from busybox 0.46 (cmdedit.c).  Here is the
- * notice from that file, with the copyright years updated:
- *
- * Termios command-line History and Editing,
- * originally intended for NetBSD sh (ash)
- * Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
- *      Main code:            Adam Rogoyski <rogoyski@cs.utexas.edu>
- *      Etc:                  Dave Cinege <dcinege@psychosis.com>
- * Majorly adjusted/re-written for busybox:
- *                            Erik Andersen <andersee@debian.org>
- *
- * You may use this code as you wish, so long as the original author(s)
- * are attributed in any redistributions of the source code.
- * This code is 'as is' with no warranty.
- * This code may safely be consumed by a BSD or GPL license. */
-
 /* We consider the first buf_len characters of buf for ~username tab
  * completion. */
 char **username_tab_completion(const char *buf, size_t *num_matches,
@@ -2410,6 +2393,20 @@ char **username_tab_completion(const char *buf, size_t *num_matches,
 
 	return matches;
 }
+
+/* The next two functions, cwd_tab_completion() and input_tab(), were adapted
+ * from busybox 0.46 (cmdedit.c).  Here is the tweaked notice from that file:
+ *
+ * Termios command-line History and Editing, originally intended for NetBSD.
+ * Copyright (C) 1999, 2000
+ *      Main code:            Adam Rogoyski <rogoyski@cs.utexas.edu>
+ *      Etc:                  Dave Cinege <dcinege@psychosis.com>
+ *      Adjusted/rewritten:   Erik Andersen <andersee@debian.org>
+ *
+ * You may use this code as you wish, so long as the original author(s)
+ * are attributed in any redistributions of the source code.
+ * This code is 'as is' with no warranty.
+ * This code may safely be consumed by a BSD or GPL license. */
 
 /* We consider the first buf_len characters of buf for filename tab
  * completion. */
