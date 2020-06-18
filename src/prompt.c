@@ -403,7 +403,7 @@ void add_or_remove_pipe_symbol_from_answer(void)
 #endif
 
 /* Get a string of input at the status-bar prompt. */
-functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
+functionptrtype acquire_an_answer(int *actual, bool allow_tabbing,
 		bool allow_files, bool *listed, linestruct **history_list,
 		void (*refresh_func)(void))
 {
@@ -470,8 +470,8 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
 				}
 			} else
 #endif
-			if (allow_tabs)
-				answer = input_tab(answer, &typing_x, allow_files,
+			if (allow_tabbing)
+				answer = input_tab(answer, &typing_x, !allow_files,
 										&tabbed, refresh_func, listed);
 		} else
 #endif /* ENABLE_TABCOMP */
@@ -552,11 +552,11 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabs,
  * -1 for a cancelled entry, -2 for a blank string, and the relevant
  * keycode when a valid shortcut key was pressed.
  *
- * The allow_tabs parameter indicates whether tab completion is allowed,
+ * The allow_tabbing parameter indicates whether tab completion is allowed,
  * and allow_files indicates whether all files (and not just directories)
  * can be tab completed.  The 'provided' parameter is the default answer
  * for when simply Enter is typed. */
-int do_prompt(bool allow_tabs, bool allow_files,
+int do_prompt(bool allow_tabbing, bool allow_files,
 		int menu, const char *provided, linestruct **history_list,
 		void (*refresh_func)(void), const char *msg, ...)
 {
@@ -585,7 +585,7 @@ int do_prompt(bool allow_tabs, bool allow_files,
 
 	lastmessage = VACUUM;
 
-	func = acquire_an_answer(&retval, allow_tabs, allow_files, &listed,
+	func = acquire_an_answer(&retval, allow_tabbing, allow_files, &listed,
 								history_list, refresh_func);
 	free(prompt);
 	prompt = saved_prompt;

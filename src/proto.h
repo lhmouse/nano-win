@@ -323,7 +323,7 @@ char *real_dir_from_tilde(const char *buf);
 int diralphasort(const void *va, const void *vb);
 #endif
 #ifdef ENABLE_TABCOMP
-char *input_tab(char *buf, size_t *place, bool allow_files,
+char *input_tab(char *buf, size_t *place, bool only_folders,
 		bool *lastwastab, void (*refresh_func)(void), bool *listed);
 #endif
 

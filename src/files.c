@@ -2407,7 +2407,7 @@ char **username_completion(const char *buf, size_t length, size_t *num_matches)
 
 /* Try to complete the given fragment in 'buf' to a filename. */
 char **filename_completion(const char *buf, size_t length,
-							bool allow_files, size_t *num_matches)
+							bool only_folders, size_t *num_matches)
 {
 	char *dirname = copy_of(buf);
 	char *slash, *filename;
@@ -2463,7 +2463,7 @@ char **filename_completion(const char *buf, size_t length,
 				continue;
 			}
 #endif
-			if (!allow_files && !is_dir(fullname)) {
+			if (only_folders && !is_dir(fullname)) {
 				free(fullname);
 				continue;
 			}
@@ -2483,7 +2483,7 @@ char **filename_completion(const char *buf, size_t length,
 
 /* Do tab completion.  'place' is the position of the status-bar cursor, and
  * 'refresh_func' is the function to be called to refresh the edit window. */
-char *input_tab(char *buf, size_t *place, bool allow_files,
+char *input_tab(char *buf, size_t *place, bool only_folders,
 				bool *lastwastab, void (*refresh_func)(void), bool *listed)
 {
 	size_t num_matches = 0;
@@ -2505,7 +2505,7 @@ char *input_tab(char *buf, size_t *place, bool allow_files,
 	/* If there are no matches yet, try matching against filenames
 	 * in the current directory. */
 	if (matches == NULL)
-		matches = filename_completion(buf, *place, allow_files, &num_matches);
+		matches = filename_completion(buf, *place, only_folders, &num_matches);
 
 	if (num_matches == 0)
 		beep();
