@@ -2414,7 +2414,7 @@ char **filename_completion(const char *buf, size_t length,
 	size_t filenamelen;
 	char **matches = NULL;
 	DIR *dir;
-	const struct dirent *nextdir;
+	const struct dirent *entry;
 
 	/* If there's a / in the name, split out filename and directory parts. */
 	slash = strrchr(dirname, '/');
@@ -2449,13 +2449,13 @@ char **filename_completion(const char *buf, size_t length,
 
 	/* Iterate through the filenames in the directory,
 	 * and add each fitting one to the list of matches. */
-	while ((nextdir = readdir(dir)) != NULL) {
-		if (strncmp(nextdir->d_name, filename, filenamelen) == 0 &&
-									strcmp(nextdir->d_name, ".") != 0 &&
-									strcmp(nextdir->d_name, "..") != 0) {
-			char *fullname = charalloc(strlen(dirname) + strlen(nextdir->d_name) + 1);
+	while ((entry = readdir(dir)) != NULL) {
+		if (strncmp(entry->d_name, filename, filenamelen) == 0 &&
+									strcmp(entry->d_name, ".") != 0 &&
+									strcmp(entry->d_name, "..") != 0) {
+			char *fullname = charalloc(strlen(dirname) + strlen(entry->d_name) + 1);
 
-			sprintf(fullname, "%s%s", dirname, nextdir->d_name);
+			sprintf(fullname, "%s%s", dirname, entry->d_name);
 
 #ifdef ENABLE_OPERATINGDIR
 			if (outside_of_confinement(fullname, TRUE)) {
@@ -2469,7 +2469,7 @@ char **filename_completion(const char *buf, size_t length,
 			}
 
 			matches = (char **)nrealloc(matches, (*num_matches + 1) * sizeof(char *));
-			matches[*num_matches] = copy_of(nextdir->d_name);
+			matches[*num_matches] = copy_of(entry->d_name);
 			++(*num_matches);
 		}
 	}
