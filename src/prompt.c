@@ -404,8 +404,7 @@ void add_or_remove_pipe_symbol_from_answer(void)
 
 /* Get a string of input at the status-bar prompt. */
 functionptrtype acquire_an_answer(int *actual, bool allow_tabbing,
-		bool allow_files, bool *listed, linestruct **history_list,
-		void (*refresh_func)(void))
+		bool *listed, linestruct **history_list, void (*refresh_func)(void))
 {
 	int kbinput = ERR;
 	bool finished;
@@ -471,8 +470,7 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabbing,
 			} else
 #endif
 			if (allow_tabbing)
-				answer = input_tab(answer, &typing_x, !allow_files,
-										&tabbed, refresh_func, listed);
+				answer = input_tab(answer, &typing_x, &tabbed, refresh_func, listed);
 		} else
 #endif /* ENABLE_TABCOMP */
 #ifdef ENABLE_HISTORIES
@@ -550,15 +548,11 @@ functionptrtype acquire_an_answer(int *actual, bool allow_tabbing,
 
 /* Ask a question on the status bar.  Return 0 when text was entered,
  * -1 for a cancelled entry, -2 for a blank string, and the relevant
- * keycode when a valid shortcut key was pressed.
- *
- * The allow_tabbing parameter indicates whether tab completion is allowed,
- * and allow_files indicates whether all files (and not just directories)
- * can be tab completed.  The 'provided' parameter is the default answer
- * for when simply Enter is typed. */
-int do_prompt(bool allow_tabbing, bool allow_files,
-		int menu, const char *provided, linestruct **history_list,
-		void (*refresh_func)(void), const char *msg, ...)
+ * keycode when a valid shortcut key was pressed.  The allow_tabbing
+ * parameter indicates whether tab completion is allowed; 'provided'
+ * is the default answer for when simply Enter is typed. */
+int do_prompt(bool allow_tabbing, int menu, const char *provided,
+		linestruct **history_list, void (*refresh_func)(void), const char *msg, ...)
 {
 	va_list ap;
 	int retval;
@@ -585,7 +579,7 @@ int do_prompt(bool allow_tabbing, bool allow_files,
 
 	lastmessage = VACUUM;
 
-	func = acquire_an_answer(&retval, allow_tabbing, allow_files, &listed,
+	func = acquire_an_answer(&retval, allow_tabbing, &listed,
 								history_list, refresh_func);
 	free(prompt);
 	prompt = saved_prompt;

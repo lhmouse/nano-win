@@ -1135,7 +1135,7 @@ void do_insertfile(bool execute)
 
 		present_path = mallocstrcpy(present_path, "./");
 
-		response = do_prompt(TRUE, TRUE,
+		response = do_prompt(TRUE,
 #ifndef NANO_TINY
 							execute ? MEXECUTE :
 #endif
@@ -2078,7 +2078,7 @@ int do_writeout(bool exiting, bool withprompt)
 			/* Ask for (confirmation of) the filename.  Disable tab completion
 			 * when using restricted mode and the filename isn't blank. */
 			response = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
-						TRUE, MWRITEFILE, given, NULL,
+						MWRITEFILE, given, NULL,
 						edit_refresh, "%s%s%s", msg,
 #ifndef NANO_TINY
 						formatstr, backupstr
@@ -2406,8 +2406,7 @@ char **username_completion(const char *buf, size_t length, size_t *num_matches)
  * This code may safely be consumed by a BSD or GPL license. */
 
 /* Try to complete the given fragment in 'buf' to a filename. */
-char **filename_completion(const char *buf, size_t length,
-							bool only_folders, size_t *num_matches)
+char **filename_completion(const char *buf, size_t length, size_t *num_matches)
 {
 	char *dirname = copy_of(buf);
 	char *slash, *filename;
@@ -2463,7 +2462,7 @@ char **filename_completion(const char *buf, size_t length,
 				continue;
 			}
 #endif
-			if (only_folders && !is_dir(fullname)) {
+			if (currmenu == MGOTODIR && !is_dir(fullname)) {
 				free(fullname);
 				continue;
 			}
@@ -2483,8 +2482,8 @@ char **filename_completion(const char *buf, size_t length,
 
 /* Do tab completion.  'place' is the position of the status-bar cursor, and
  * 'refresh_func' is the function to be called to refresh the edit window. */
-char *input_tab(char *buf, size_t *place, bool only_folders,
-				bool *lastwastab, void (*refresh_func)(void), bool *listed)
+char *input_tab(char *buf, size_t *place, bool *lastwastab,
+				void (*refresh_func)(void), bool *listed)
 {
 	size_t num_matches = 0;
 	char **matches = NULL;
@@ -2505,7 +2504,7 @@ char *input_tab(char *buf, size_t *place, bool only_folders,
 	/* If there are no matches yet, try matching against filenames
 	 * in the current directory. */
 	if (matches == NULL)
-		matches = filename_completion(buf, *place, only_folders, &num_matches);
+		matches = filename_completion(buf, *place, &num_matches);
 
 	if (num_matches == 0)
 		beep();

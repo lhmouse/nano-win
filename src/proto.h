@@ -323,8 +323,8 @@ char *real_dir_from_tilde(const char *buf);
 int diralphasort(const void *va, const void *vb);
 #endif
 #ifdef ENABLE_TABCOMP
-char *input_tab(char *buf, size_t *place, bool only_folders,
-		bool *lastwastab, void (*refresh_func)(void), bool *listed);
+char *input_tab(char *buf, size_t *place, bool *lastwastab,
+		void (*refresh_func)(void), bool *listed);
 #endif
 
 /* Some functions in global.c. */
@@ -447,9 +447,8 @@ void inject(char *burst, size_t count);
 size_t get_statusbar_page_start(size_t start_col, size_t column);
 void put_cursor_at_end_of_answer(void);
 void add_or_remove_pipe_symbol_from_answer(void);
-int do_prompt(bool allow_tabs, bool allow_files,
-		int menu, const char *curranswer, linestruct **history_list,
-		void (*refresh_func)(void), const char *msg, ...);
+int do_prompt(bool allow_tabbing, int menu, const char *curranswer,
+		linestruct **history_list, void (*refresh_func)(void), const char *msg, ...);
 int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */

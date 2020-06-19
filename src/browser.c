@@ -233,7 +233,7 @@ char *do_browser(char *path)
 			selected = filelist_len - 1;
 		} else if (func == goto_dir) {
 			/* Ask for the directory to go to. */
-			if (do_prompt(TRUE, FALSE, MGOTODIR, "", NULL,
+			if (do_prompt(TRUE, MGOTODIR, "", NULL,
 							/* TRANSLATORS: This is a prompt. */
 							browser_refresh, _("Go To Directory")) < 0) {
 				statusbar(_("Cancelled"));
@@ -639,7 +639,7 @@ int filesearch_init(bool forwards)
 		thedefault = copy_of("");
 
 	/* Now ask what to search for. */
-	response = do_prompt(FALSE, FALSE, MWHEREISFILE, "", &search_history,
+	response = do_prompt(FALSE, MWHEREISFILE, "", &search_history,
 						browser_refresh, "%s%s%s", _("Search"),
 						/* TRANSLATORS: A modifier of the Search prompt. */
 						!forwards ? _(" [Backwards]") : "", thedefault);

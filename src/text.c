@@ -2110,7 +2110,7 @@ bool fix_spello(const char *word)
 		put_cursor_at_end_of_answer();
 
 		/* Let the user supply a correctly spelled alternative. */
-		proceed = (do_prompt(FALSE, FALSE, MSPELL, word, NULL,
+		proceed = (do_prompt(FALSE, MSPELL, word, NULL,
 								edit_refresh, _("Edit a replacement")) != -1);
 
 		spotlighted = FALSE;

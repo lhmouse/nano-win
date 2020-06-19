@@ -93,7 +93,7 @@ void search_init(bool replacing, bool keep_the_answer)
 	while (TRUE) {
 		functionptrtype func;
 		/* Ask the user what to search for (or replace). */
-		int response = do_prompt(FALSE, FALSE,
+		int response = do_prompt(FALSE,
 					inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
 					answer, &search_history, edit_refresh,
 					/* TRANSLATORS: This is the main search prompt. */
@@ -710,7 +710,7 @@ void ask_for_and_do_replacements(void)
 	linestruct *beginline = openfile->current;
 	size_t begin_x = openfile->current_x;
 	ssize_t numreplaced;
-	int response = do_prompt(FALSE, FALSE, MREPLACEWITH, "",
+	int response = do_prompt(FALSE, MREPLACEWITH, "",
 						/* TRANSLATORS: This is a prompt. */
 						&replace_history, edit_refresh, _("Replace with"));
 
@@ -762,7 +762,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 {
 	if (interactive) {
 		/* Ask for the line and column. */
-		int response = do_prompt(FALSE, FALSE, MGOTOLINE,
+		int response = do_prompt(FALSE, MGOTOLINE,
 						use_answer ? answer : "", NULL, edit_refresh,
 						/* TRANSLATORS: This is a prompt. */
 						_("Enter line number, column number"));
