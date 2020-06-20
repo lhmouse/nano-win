@@ -2076,8 +2076,8 @@ int do_writeout(bool exiting, bool withprompt)
 			answer = mallocstrcpy(answer, openfile->filename);
 		else {
 			/* Ask for (confirmation of) the filename.  Disable tab completion
-			 * when using restricted mode and the filename isn't blank. */
-			response = do_prompt(!ISSET(RESTRICTED) || openfile->filename[0] == '\0',
+			 * when in restricted mode. */
+			response = do_prompt(!ISSET(RESTRICTED),
 						MWRITEFILE, given, NULL,
 						edit_refresh, "%s%s%s", msg,
 #ifndef NANO_TINY
