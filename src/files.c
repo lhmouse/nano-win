@@ -1135,7 +1135,7 @@ void do_insertfile(bool execute)
 
 		present_path = mallocstrcpy(present_path, "./");
 
-		response = do_prompt(TRUE,
+		response = do_prompt(
 #ifndef NANO_TINY
 							execute ? MEXECUTE :
 #endif
@@ -2077,8 +2077,7 @@ int do_writeout(bool exiting, bool withprompt)
 		else {
 			/* Ask for (confirmation of) the filename.  Disable tab completion
 			 * when in restricted mode. */
-			response = do_prompt(!ISSET(RESTRICTED),
-						MWRITEFILE, given, NULL,
+			response = do_prompt(MWRITEFILE, given, NULL,
 						edit_refresh, "%s%s%s", msg,
 #ifndef NANO_TINY
 						formatstr, backupstr

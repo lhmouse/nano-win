@@ -443,8 +443,8 @@ void inject(char *burst, size_t count);
 size_t get_statusbar_page_start(size_t base, size_t column);
 void put_cursor_at_end_of_answer(void);
 void add_or_remove_pipe_symbol_from_answer(void);
-int do_prompt(bool allow_tabbing, int menu, const char *provided,
-		linestruct **history_list, void (*refresh_func)(void), const char *msg, ...);
+int do_prompt(int menu, const char *provided, linestruct **history_list,
+		void (*refresh_func)(void), const char *msg, ...);
 int do_yesno_prompt(bool all, const char *msg);
 
 /* Most functions in rcfile.c. */
