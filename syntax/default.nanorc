@@ -18,3 +18,6 @@ color magenta "<[[:alnum:].%_+-]+@[[:alnum:].-]+\.[[:alpha:]]{2,}>"
 
 # Bracketed captions in certain config files.
 color brightgreen "^\[[^][]+\]$"
+
+# Control codes.
+color latte "[[:cntrl:]]"
