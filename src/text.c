@@ -23,7 +23,7 @@
  *                                                                        *
  **************************************************************************/
 
-#include "proto.h"
+#include "prototypes.h"
 
 #include <errno.h>
 #include <fcntl.h>

@@ -19,7 +19,7 @@
  *                                                                        *
  **************************************************************************/
 
-#include "proto.h"
+#include "prototypes.h"
 
 #include <errno.h>
 #ifdef HAVE_PWD_H

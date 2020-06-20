@@ -1,5 +1,5 @@
 /**************************************************************************
- *   proto.h  --  This file is part of GNU nano.                          *
+ *   prototypes.h  --  This file is part of GNU nano.                     *
  *                                                                        *
  *   Copyright (C) 1999-2011, 2013-2020 Free Software Foundation, Inc.    *
  *                                                                        *
@@ -18,7 +18,7 @@
  *                                                                        *
  **************************************************************************/
 
-#include "nano.h"
+#include "definitions.h"
 
 /* All external variables.  See global.c for their descriptions. */
 

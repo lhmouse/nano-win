@@ -19,7 +19,7 @@
  *                                                                        *
  **************************************************************************/
 
-#include "proto.h"
+#include "prototypes.h"
 #include "revision.h"
 
 #include <ctype.h>

@@ -1,5 +1,5 @@
 /**************************************************************************
- *   nano.h  --  This file is part of GNU nano.                           *
+ *   definitions.h  --  This file is part of GNU nano.                    *
  *                                                                        *
  *   Copyright (C) 1999-2011, 2013-2020 Free Software Foundation, Inc.    *
  *   Copyright (C) 2014-2017 Benno Schulenberg                            *

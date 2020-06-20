@@ -19,7 +19,7 @@
  *                                                                        *
  **************************************************************************/
 
-#include "proto.h"
+#include "prototypes.h"
 
 #include <ctype.h>
 #include <string.h>

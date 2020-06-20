@@ -20,7 +20,7 @@
  *                                                                        *
  **************************************************************************/
 
-#include "proto.h"
+#include "prototypes.h"
 
 #ifdef ENABLE_HELP
 
