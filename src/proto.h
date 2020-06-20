@@ -192,7 +192,6 @@ typedef void (*functionptrtype)(void);
 #ifdef ENABLE_BROWSER
 char *do_browse_from(const char *inpath);
 void read_the_list(const char *path, DIR *dir);
-functionptrtype parse_browser_input(int *kbinput);
 void browser_refresh(void);
 void browser_select_dirname(const char *needle);
 void do_filesearch(bool forwards);
@@ -215,30 +214,29 @@ char control_mbrep(const char *c, bool isdata);
 #ifdef ENABLE_UTF8
 int mbwidth(const char *c);
 #endif
-char *make_mbchar(long chr, int *chr_mb_len);
+char *make_mbchar(long code, int *length);
 int char_length(const char *pointer);
-size_t mbstrlen(const char *s);
-int collect_char(const char *buf, char *chr);
+size_t mbstrlen(const char *pointer);
+int collect_char(const char *string, char *thechar);
 int advance_over(const char *string, size_t *column);
 size_t step_left(const char *buf, size_t pos);
 size_t step_right(const char *buf, size_t pos);
 int mbstrcasecmp(const char *s1, const char *s2);
 int mbstrncasecmp(const char *s1, const char *s2, size_t n);
 char *mbstrcasestr(const char *haystack, const char *needle);
-char *revstrstr(const char *haystack, const char *needle, const char *index);
-char *mbrevstrcasestr(const char *haystack, const char *needle, const char *index);
+char *revstrstr(const char *haystack, const char *needle, const char *pointer);
+char *mbrevstrcasestr(const char *haystack, const char *needle, const char *pointer);
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
-char *mbstrchr(const char *s, const char *c);
+char *mbstrchr(const char *string, const char *chr);
 #endif
 #ifndef NANO_TINY
-char *mbstrpbrk(const char *s, const char *accept);
-char *revstrpbrk(const char *head, const char *accept, const char *index);
-char *mbrevstrpbrk(const char *head, const char *accept, const char *index);
+char *mbstrpbrk(const char *string, const char *accept);
+char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer);
 #endif
 #if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || defined(ENABLE_JUSTIFY))
-bool has_blank_char(const char *s);
+bool has_blank_char(const char *string);
 #endif
-bool white_string(const char *s);
+bool white_string(const char *string);
 #ifdef ENABLE_UTF8
 bool is_valid_unicode(wchar_t wc);
 #endif
@@ -260,9 +258,8 @@ void do_backspace(void);
 void chop_previous_word(void);
 void chop_next_word(void);
 #endif
-void extract_segment(linestruct *top, size_t top_x,
-						linestruct *bot, size_t bot_x);
-void ingraft_buffer(linestruct *somebuffer);
+void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_x);
+void ingraft_buffer(linestruct *topline);
 void copy_from_buffer(linestruct *somebuffer);
 #ifndef NANO_TINY
 void cut_marked_region(void);
@@ -283,7 +280,7 @@ void make_new_buffer(void);
 bool delete_lockfile(const char *lockfilename);
 #endif
 void compute_the_extra_rows_per_line_from(linestruct *fromline);
-bool open_buffer(const char *filename, bool new_buffer);
+bool open_buffer(const char *filename, bool new_one);
 void set_modified(void);
 void prepare_for_display(void);
 #ifdef ENABLE_MULTIBUFFER
@@ -293,14 +290,14 @@ void switch_to_next_buffer(void);
 void close_buffer(void);
 #endif
 void read_file(FILE *f, int fd, const char *filename, bool undoable);
-int open_file(const char *filename, bool newfie, FILE **f);
+int open_file(const char *filename, bool new_one, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
 void do_insertfile_void(void);
 #ifndef NANO_TINY
 void do_execute(void);
 #endif
 char *get_full_path(const char *origpath);
-char *safe_tempfile(FILE **f);
+char *safe_tempfile(FILE **stream);
 #ifdef ENABLE_OPERATINGDIR
 void init_operating_dir(void);
 bool outside_of_confinement(const char *currpath, bool allow_tabcomp);
@@ -309,16 +306,16 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp);
 void init_backup_dir(void);
 #endif
 int copy_file(FILE *inn, FILE *out, bool close_out);
-bool write_file(const char *name, FILE *f_open, bool tmp,
+bool write_file(const char *name, FILE *thefile, bool tmp,
 		kind_of_writing_type method, bool fullbuffer);
 #ifndef NANO_TINY
-bool write_marked_file(const char *name, FILE *f_open, bool tmp,
+bool write_marked_file(const char *name, FILE *stream, bool tmp,
 		kind_of_writing_type method);
 #endif
 int do_writeout(bool exiting, bool withprompt);
 void do_writeout_void(void);
 void do_savefile(void);
-char *real_dir_from_tilde(const char *buf);
+char *real_dir_from_tilde(const char *path);
 #if defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
 int diralphasort(const void *va, const void *vb);
 #endif
@@ -331,8 +328,8 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab,
 const keystruct *first_sc_for(int menu, void (*func)(void));
 int the_code_for(void (*func)(void), int defaultval);
 size_t shown_entries_for(int menu);
-const keystruct *get_shortcut(int *kbinput);
-functionptrtype func_from_key(int *kbinput);
+const keystruct *get_shortcut(int *keycode);
+functionptrtype func_from_key(int *keycode);
 #if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
 functionptrtype interpret(int *keycode);
 #endif
@@ -340,19 +337,18 @@ int keycode_from_string(const char *keystring);
 void shortcut_init(void);
 const char *flagtostr(int flag);
 
-/* All functions in help.c. */
+/* Most functions in help.c. */
 #ifdef ENABLE_HELP
 void wrap_help_text_into_buffer(void);
 void help_init(void);
-functionptrtype parse_help_input(int *kbinput);
 #endif
 void do_help(void);
 
 /* Most functions in history.c. */
 #ifdef ENABLE_HISTORIES
 void history_init(void);
-void history_reset(const linestruct *h);
-void update_history(linestruct **h, const char *s);
+void history_reset(const linestruct *list);
+void update_history(linestruct **item, const char *text);
 char *get_history_older(linestruct **h);
 char *get_history_newer(linestruct **h);
 void get_history_older_void(void);
@@ -399,8 +395,8 @@ void do_right(void);
 /* Most functions in nano.c. */
 linestruct *make_new_node(linestruct *prevnode);
 void splice_node(linestruct *afterthis, linestruct *newnode);
-void unlink_node(linestruct *fileptr);
-void delete_node(linestruct *fileptr);
+void unlink_node(linestruct *line);
+void delete_node(linestruct *line);
 linestruct *copy_buffer(const linestruct *src);
 void free_lines(linestruct *src);
 void renumber_from(linestruct *line);
@@ -444,10 +440,10 @@ bool okay_for_view(const keystruct *shortcut);
 void inject(char *burst, size_t count);
 
 /* Most functions in prompt.c. */
-size_t get_statusbar_page_start(size_t start_col, size_t column);
+size_t get_statusbar_page_start(size_t base, size_t column);
 void put_cursor_at_end_of_answer(void);
 void add_or_remove_pipe_symbol_from_answer(void);
-int do_prompt(bool allow_tabbing, int menu, const char *curranswer,
+int do_prompt(bool allow_tabbing, int menu, const char *provided,
 		linestruct **history_list, void (*refresh_func)(void), const char *msg, ...);
 int do_yesno_prompt(bool all, const char *msg);
 
@@ -518,15 +514,15 @@ void update_undo(undo_type action);
 bool do_wrap(void);
 #endif
 #if defined(ENABLE_HELP) || defined(ENABLED_WRAPORJUSTIFY)
-ssize_t break_line(const char *line, ssize_t goal, bool snap_at_nl);
+ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl);
 #endif
 #if !defined(NANO_TINY) || defined(ENABLED_WRAPORJUSTIFY)
 size_t indent_length(const char *line);
 #endif
 #ifdef ENABLE_JUSTIFY
 size_t quote_length(const char *line);
-bool begpar(const linestruct *const foo, int depth);
-bool inpar(const linestruct *const foo);
+bool begpar(const linestruct *const line, int depth);
+bool inpar(const linestruct *const line);
 void do_justify(bool full_justify);
 void do_justify_void(void);
 void do_full_justify(void);
@@ -551,7 +547,7 @@ char *concatenate(const char *path, const char *name);
 #ifdef ENABLE_LINENUMBERS
 int digits(ssize_t n);
 #endif
-bool parse_num(const char *str, ssize_t *val);
+bool parse_num(const char *str, ssize_t *result);
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column);
 void recode_NUL_to_LF(char *string, size_t length);
 void recode_LF_to_NUL(char *string);
@@ -565,7 +561,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 		const char *start);
 void *nmalloc(size_t howmuch);
 void *nrealloc(void *ptr, size_t howmuch);
-char *measured_copy(const char *src, size_t n);
+char *measured_copy(const char *string, size_t count);
 char *mallocstrcpy(char *dest, const char *src);
 char *copy_of(const char *string);
 char *free_and_assign(char *dest, char *src);
@@ -585,7 +581,7 @@ void get_range(linestruct **top, linestruct **bot);
 #endif
 size_t number_of_characters_in(const linestruct *begin, const linestruct *end);
 #ifndef NANO_TINY
-linestruct *line_from_number(ssize_t lineno);
+linestruct *line_from_number(ssize_t number);
 #endif
 
 /* Most functions in winio.c. */
@@ -601,7 +597,7 @@ int get_byte_kbinput(int kbinput);
 int get_control_kbinput(int kbinput);
 char *get_verbatim_kbinput(WINDOW *win, size_t *count);
 #ifdef ENABLE_MOUSE
-int get_mouseinput(int *mouse_row, int *mouse_col, bool allow_shortcuts);
+int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts);
 #endif
 void blank_edit(void);
 void blank_statusbar(void);
@@ -617,9 +613,9 @@ void warn_and_briefly_pause(const char *msg);
 void bottombars(int menu);
 void post_one_key(const char *keystroke, const char *tag, int width);
 void place_the_cursor(void);
-int update_line(linestruct *fileptr, size_t index);
+int update_line(linestruct *line, size_t index);
 #ifndef NANO_TINY
-int update_softwrapped_line(linestruct *fileptr);
+int update_softwrapped_line(linestruct *line);
 #endif
 bool line_needs_update(const size_t old_column, const size_t new_column);
 int go_back_chunks(int nrows, linestruct **line, size_t *leftedge);
@@ -638,7 +634,7 @@ void ensure_firstcolumn_is_aligned(void);
 size_t actual_last_column(size_t leftedge, size_t column);
 void edit_redraw(linestruct *old_current, update_type manner);
 void edit_refresh(void);
-void adjust_viewport(update_type location);
+void adjust_viewport(update_type manner);
 void full_refresh(void);
 void draw_all_subwindows(void);
 void do_cursorpos(bool force);
