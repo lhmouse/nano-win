@@ -320,8 +320,7 @@ char *real_dir_from_tilde(const char *path);
 int diralphasort(const void *va, const void *vb);
 #endif
 #ifdef ENABLE_TABCOMP
-char *input_tab(char *buf, size_t *place, bool *lastwastab,
-		void (*refresh_func)(void), bool *listed);
+char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *listed);
 #endif
 
 /* Some functions in global.c. */

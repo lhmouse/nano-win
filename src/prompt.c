@@ -409,10 +409,6 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	int kbinput = ERR;
 	bool finished;
 	functionptrtype func;
-#ifdef ENABLE_TABCOMP
-	bool tabbed = FALSE;
-		/* Whether we've pressed Tab. */
-#endif
 #ifdef ENABLE_HISTORIES
 	char *history = NULL;
 		/* The current history string. */
@@ -453,9 +449,6 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			break;
 
 #ifdef ENABLE_TABCOMP
-		if (func != do_tab)
-			tabbed = FALSE;
-
 		if (func == do_tab) {
 #ifdef ENABLE_HISTORIES
 			if (history_list != NULL) {
@@ -472,7 +465,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			/* Allow tab completion of filenames, but not in restricted mode. */
 			if ((currmenu == MINSERTFILE || currmenu == MWRITEFILE ||
 								currmenu == MGOTODIR) && !ISSET(RESTRICTED))
-				answer = input_tab(answer, &typing_x, &tabbed, refresh_func, listed);
+				answer = input_tab(answer, &typing_x, refresh_func, listed);
 		} else
 #endif /* ENABLE_TABCOMP */
 #ifdef ENABLE_HISTORIES

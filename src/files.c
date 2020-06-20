@@ -2478,8 +2478,7 @@ char **filename_completion(const char *buf, size_t length, size_t *num_matches)
 
 /* Do tab completion.  'place' is the position of the status-bar cursor, and
  * 'refresh_func' is the function to be called to refresh the edit window. */
-char *input_tab(char *buf, size_t *place, bool *lastwastab,
-				void (*refresh_func)(void), bool *listed)
+char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *listed)
 {
 	size_t num_matches = 0;
 	char **matches = NULL;
@@ -2544,9 +2543,6 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab,
 		if (num_matches == 1 && (is_dir(mzero) || is_dir(glued)))
 			mzero[common_len++] = '/';
 
-		if (num_matches > 1 && (common_len != *place || !*lastwastab))
-			beep();
-
 		/* If the matches have something in common, show that part. */
 		if (common_len != *place) {
 			buf = charealloc(buf, common_len + 1);
@@ -2555,9 +2551,7 @@ char *input_tab(char *buf, size_t *place, bool *lastwastab,
 			*place = common_len;
 		}
 
-		if (!*lastwastab)
-			*lastwastab = TRUE;
-		else if (num_matches > 1) {
+		if (num_matches > 1) {
 			size_t longest_name = 0, ncols;
 			int row = 0;
 
