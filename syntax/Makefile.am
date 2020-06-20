@@ -39,6 +39,7 @@ pkgdata_DATA =	asm.nanorc \
 		xml.nanorc
 
 nobase_pkgdata_DATA = \
+		extra/ada.nanorc \
 		extra/debian.nanorc \
 		extra/fortran.nanorc \
 		extra/gentoo.nanorc \
