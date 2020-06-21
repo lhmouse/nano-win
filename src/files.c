@@ -2042,9 +2042,9 @@ int do_writeout(bool exiting, bool withprompt)
 #endif
 
 	while (TRUE) {
-		const char *msg;
 		int response = 0, choice = 0;
 		functionptrtype func;
+		const char *msg;
 #ifndef NANO_TINY
 		const char *formatstr, *backupstr;
 
@@ -2069,13 +2069,12 @@ int do_writeout(bool exiting, bool withprompt)
 
 		present_path = mallocstrcpy(present_path, "./");
 
-		/* When we shouldn't prompt, use the existing filename. */
+		/* When we shouldn't prompt, use the existing filename.
+		 * Otherwise, ask for (confirmation of) the filename. */
 		if ((!withprompt || (ISSET(SAVE_ON_EXIT) && exiting)) &&
 								openfile->filename[0] != '\0')
 			answer = mallocstrcpy(answer, openfile->filename);
-		else {
-			/* Ask for (confirmation of) the filename.  Disable tab completion
-			 * when in restricted mode. */
+		else
 			response = do_prompt(MWRITEFILE, given, NULL,
 						edit_refresh, "%s%s%s", msg,
 #ifndef NANO_TINY
@@ -2084,7 +2083,6 @@ int do_writeout(bool exiting, bool withprompt)
 						"", ""
 #endif
 						);
-		}
 
 		if (response < 0) {
 			statusbar(_("Cancelled"));
