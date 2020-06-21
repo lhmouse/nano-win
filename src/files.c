@@ -2559,8 +2559,9 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 
 	/* If there is more than one possible completion, show a sorted list. */
 	if (num_matches > 1) {
-		size_t longest_name = 0, ncols;
-		int row = 0;
+		size_t longest_name = 0;
+		size_t nrows, ncols;
+		int row;
 
 		qsort(matches, num_matches, sizeof(char *), diralphasort);
 
@@ -2578,6 +2579,9 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 		/* The columns of names will be separated by two spaces,
 		 * but the last column will have just one space after it. */
 		ncols = (COLS + 1) / (longest_name + 2);
+		nrows = (num_matches + ncols - 1) / ncols;
+
+		row = (nrows < editwinrows - 1) ? editwinrows - nrows - 1 : 0;
 
 		/* Blank the edit window and hide the cursor. */
 		blank_edit();
