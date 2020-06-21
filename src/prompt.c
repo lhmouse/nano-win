@@ -598,8 +598,7 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 		wipe_statusbar();
 
 #ifdef ENABLE_TABCOMP
-	/* If we've done tab completion, there might still be a list of
-	 * filename matches on the edit window.  Clear them off. */
+	/* If possible filename completions are still listed, clear them off. */
 	if (listed)
 		refresh_func();
 #endif

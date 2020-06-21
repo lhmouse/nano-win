@@ -2483,8 +2483,6 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 	size_t num_matches = 0;
 	char **matches = NULL;
 
-	*listed = FALSE;
-
 	/* If the cursor is not at the end of the fragment, do nothing. */
 	if (buf[*place] != '\0') {
 		beep();
@@ -2500,6 +2498,12 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 	 * in the current directory. */
 	if (matches == NULL)
 		matches = filename_completion(buf, *place, &num_matches);
+
+	/* If possible completions were listed before but none will be listed now... */
+	if (*listed && num_matches < 2) {
+		refresh_func();
+		*listed = FALSE;
+	}
 
 	if (num_matches == 0)
 		beep();
@@ -2606,11 +2610,6 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 	}
 
 	free_chararray(matches, num_matches);
-
-	/* When we didn't list any matches now, refresh the edit window, just
-	 * in case a previous tab showed a list, so we know where we are. */
-	if (!*listed)
-		refresh_func();
 
 	return buf;
 }
