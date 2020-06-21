@@ -2593,7 +2593,8 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 
 			wmove(edit, row, (longest_name + 2) * (match % ncols));
 
-			if (row == editwinrows - 1 && num_matches - match > ncols) {
+			if (row == editwinrows - 1 && (match + 1) % ncols == 0 &&
+											match + 1 < num_matches) {
 				waddstr(edit, _("(more)"));
 				break;
 			}
