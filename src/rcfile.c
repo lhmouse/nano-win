@@ -986,7 +986,7 @@ void parse_includes(char *ptr)
 
 const char hues[9][7] = { "pink", "purple", "mauve", "lagoon", "mint",
 						  "lime", "peach", "orange", "latte" };
-short indices[9] = { 204, 164, 140, 38, 48, 148, 215, 208, 137 };
+short indices[9] = { 204, 163, 134, 38, 48, 148, 215, 208, 137 };
 
 /* Return the short value corresponding to the given color name, and set
  * vivid to TRUE for a lighter color, and thick for a heavier typeface. */
