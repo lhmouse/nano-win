@@ -2505,13 +2505,15 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 		*listed = FALSE;
 	}
 
-	if (num_matches == 0)
+	if (matches == NULL) {
 		beep();
-	else {
+		return buf;
+	}
+
+		const char *lastslash = revstrstr(buf, "/", buf + *place);
+		size_t length_of_path = (lastslash == NULL) ? 0 : lastslash - buf + 1;
 		size_t match, common_len = 0;
 		char *mzero, *glued;
-		const char *lastslash = revstrstr(buf, "/", buf + *place);
-		size_t lastslash_len = (lastslash == NULL) ? 0 : lastslash - buf + 1;
 		char char1[MAXCHARLEN], char2[MAXCHARLEN];
 		int len1, len2;
 
@@ -2532,12 +2534,12 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 			common_len += len1;
 		}
 
-		mzero = charalloc(lastslash_len + common_len + 1);
+		mzero = charalloc(length_of_path + common_len + 1);
 
-		strncpy(mzero, buf, lastslash_len);
-		strncpy(mzero + lastslash_len, matches[0], common_len);
+		strncpy(mzero, buf, length_of_path);
+		strncpy(mzero + length_of_path, matches[0], common_len);
 
-		common_len += lastslash_len;
+		common_len += length_of_path;
 		mzero[common_len] = '\0';
 
 		/* Cover also the case of the user specifying a relative path. */
@@ -2607,7 +2609,6 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 
 		free(glued);
 		free(mzero);
-	}
 
 	free_chararray(matches, num_matches);
 
