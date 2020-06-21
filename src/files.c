@@ -2510,107 +2510,105 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 		return buf;
 	}
 
-		const char *lastslash = revstrstr(buf, "/", buf + *place);
-		size_t length_of_path = (lastslash == NULL) ? 0 : lastslash - buf + 1;
-		size_t match, common_len = 0;
-		char *mzero, *glued;
-		char char1[MAXCHARLEN], char2[MAXCHARLEN];
-		int len1, len2;
+	const char *lastslash = revstrstr(buf, "/", buf + *place);
+	size_t length_of_path = (lastslash == NULL) ? 0 : lastslash - buf + 1;
+	size_t match, common_len = 0;
+	char *mzero, *glued;
+	char char1[MAXCHARLEN], char2[MAXCHARLEN];
+	int len1, len2;
 
-		/* Get the number of characters that all matches have in common. */
-		while (TRUE) {
-			len1 = collect_char(matches[0] + common_len, char1);
+	/* Determine the number of characters that all matches have in common. */
+	while (TRUE) {
+		len1 = collect_char(matches[0] + common_len, char1);
 
-			for (match = 1; match < num_matches; match++) {
-				len2 = collect_char(matches[match] + common_len, char2);
+		for (match = 1; match < num_matches; match++) {
+			len2 = collect_char(matches[match] + common_len, char2);
 
-				if (len1 != len2 || strncmp(char1, char2, len2) != 0)
-					break;
-			}
-
-			if (match < num_matches || matches[0][common_len] == '\0')
+			if (len1 != len2 || strncmp(char1, char2, len2) != 0)
 				break;
-
-			common_len += len1;
 		}
 
-		mzero = charalloc(length_of_path + common_len + 1);
+		if (match < num_matches || matches[0][common_len] == '\0')
+			break;
 
-		strncpy(mzero, buf, length_of_path);
-		strncpy(mzero + length_of_path, matches[0], common_len);
+		common_len += len1;
+	}
 
-		common_len += length_of_path;
-		mzero[common_len] = '\0';
+	mzero = charalloc(length_of_path + common_len + 1);
 
-		/* Cover also the case of the user specifying a relative path. */
-		glued = charalloc(strlen(present_path) + strlen(mzero) + 1);
-		sprintf(glued, "%s%s", present_path, mzero);
+	strncpy(mzero, buf, length_of_path);
+	strncpy(mzero + length_of_path, matches[0], common_len);
 
-		if (num_matches == 1 && (is_dir(mzero) || is_dir(glued)))
-			mzero[common_len++] = '/';
+	common_len += length_of_path;
+	mzero[common_len] = '\0';
 
-		/* If the matches have something in common, show that part. */
-		if (common_len != *place) {
-			buf = charealloc(buf, common_len + 1);
-			memmove(buf + common_len, buf + *place, 1);
-			strncpy(buf, mzero, common_len);
-			*place = common_len;
+	/* Cover also the case of the user specifying a relative path. */
+	glued = charalloc(strlen(present_path) + strlen(mzero) + 1);
+	sprintf(glued, "%s%s", present_path, mzero);
+
+	if (num_matches == 1 && (is_dir(mzero) || is_dir(glued)))
+		mzero[common_len++] = '/';
+
+	/* If the matches have something in common, copy that part. */
+	if (common_len != *place) {
+		buf = charealloc(buf, common_len + 1);
+		memmove(buf + common_len, buf + *place, 1);
+		strncpy(buf, mzero, common_len);
+		*place = common_len;
+	}
+
+	/* If there is more than one possible completion, show a sorted list. */
+	if (num_matches > 1) {
+		size_t longest_name = 0, ncols;
+		int row = 0;
+
+		qsort(matches, num_matches, sizeof(char *), diralphasort);
+
+		/* Find the length of the longest name among the matches. */
+		for (match = 0; match < num_matches; match++) {
+			size_t namelen = breadth(matches[match]);
+
+			if (namelen > longest_name)
+				longest_name = namelen;
 		}
 
-		if (num_matches > 1) {
-			size_t longest_name = 0, ncols;
-			int row = 0;
+		if (longest_name > COLS - 1)
+			longest_name = COLS - 1;
 
-			/* Sort the list of available choices. */
-			qsort(matches, num_matches, sizeof(char *), diralphasort);
+		/* The columns of names will be separated by two spaces,
+		 * but the last column will have just one space after it. */
+		ncols = (COLS + 1) / (longest_name + 2);
 
-			/* Find the length of the longest among the choices. */
-			for (match = 0; match < num_matches; match++) {
-				size_t namelen = breadth(matches[match]);
+		/* Blank the edit window and hide the cursor. */
+		blank_edit();
+		curs_set(0);
 
-				if (namelen > longest_name)
-					longest_name = namelen;
+		/* Now print the list of matches out there. */
+		for (match = 0; match < num_matches; match++) {
+			char *disp;
+
+			wmove(edit, row, (longest_name + 2) * (match % ncols));
+
+			if (row == editwinrows - 1 && num_matches - match > ncols) {
+				waddstr(edit, _("(more)"));
+				break;
 			}
 
-			if (longest_name > COLS - 1)
-				longest_name = COLS - 1;
+			disp = display_string(matches[match], 0, longest_name, FALSE, FALSE);
+			waddstr(edit, disp);
+			free(disp);
 
-			/* Each column will be (longest_name + 2) columns wide, i.e.
-			 * two spaces between columns, except that there will be
-			 * only one space after the last column. */
-			ncols = (COLS + 1) / (longest_name + 2);
-
-			/* Blank the edit window and hide the cursor. */
-			blank_edit();
-			curs_set(0);
-
-			/* Now print the list of matches out there. */
-			for (match = 0; match < num_matches; match++) {
-				char *disp;
-
-				wmove(edit, row, (longest_name + 2) * (match % ncols));
-
-				if (row == editwinrows - 1 && num_matches - match > ncols) {
-					waddstr(edit, _("(more)"));
-					break;
-				}
-
-				disp = display_string(matches[match], 0, longest_name, FALSE, FALSE);
-				waddstr(edit, disp);
-				free(disp);
-
-				if ((match + 1) % ncols == 0)
-					row++;
-			}
-
-			wnoutrefresh(edit);
-			*listed = TRUE;
+			if ((match + 1) % ncols == 0)
+				row++;
 		}
 
-		free(glued);
-		free(mzero);
+		wnoutrefresh(edit);
+		*listed = TRUE;
+	}
 
 	free_chararray(matches, num_matches);
+	free(glued);
+	free(mzero);
 
 	return buf;
 }
