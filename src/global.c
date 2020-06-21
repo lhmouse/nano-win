@@ -740,7 +740,7 @@ void shortcut_init(void)
 	/* Start populating the different menus with functions. */
 
 	add_to_funcs(do_help, (MMOST | MBROWSER) & ~MFINDINHELP,
-		/* TRANSLATORS: Try to keep the next eleven strings at most 10 characters. */
+		/* TRANSLATORS: Try to keep the next thirteen strings at most 10 characters. */
 		N_("Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
 
 	add_to_funcs(do_cancel, ((MMOST & ~MMAIN) | MYESNO),
@@ -806,7 +806,6 @@ void shortcut_init(void)
 	}
 
 	add_to_funcs(do_cursorpos_void, MMAIN,
-		/* TRANSLATORS: Try to keep the next thirteen strings at most 12 characters. */
 		N_("Location"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
 #if ((defined(ENABLE_JUSTIFY) && defined(ENABLE_SPELLER)) || \
@@ -819,6 +818,7 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
 	add_to_funcs(do_undo, MMAIN,
+		/* TRANSLATORS: Try to keep the next ten strings at most 12 characters. */
 		N_("Undo"), WITHORSANS(undo_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_redo, MMAIN,
 		N_("Redo"), WITHORSANS(redo_gist), BLANKAFTER, NOVIEW);
@@ -904,7 +904,7 @@ void shortcut_init(void)
 #endif
 
 	add_to_funcs(to_prev_word, MMAIN,
-		/* TRANSLATORS: Try to keep the next eighteen strings at most 12 characters. */
+		/* TRANSLATORS: Try to keep the next ten strings at most 12 characters. */
 		N_("Prev Word"), WITHORSANS(prevword_gist), TOGETHER, VIEW);
 	add_to_funcs(to_next_word, MMAIN,
 		N_("Next Word"), WITHORSANS(nextword_gist), TOGETHER, VIEW);
@@ -931,12 +931,14 @@ void shortcut_init(void)
 		N_("Next Block"), WITHORSANS(nextblock_gist), TOGETHER, VIEW);
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(to_para_begin, MMAIN|MGOTOLINE,
+		/* TRANSLATORS: Try to keep these two strings at most 15 characters. */
 		N_("Begin of Paragr."), WITHORSANS(parabegin_gist), TOGETHER, VIEW);
 	add_to_funcs(to_para_end, MMAIN|MGOTOLINE,
 		N_("End of Paragraph"), WITHORSANS(paraend_gist), BLANKAFTER, VIEW);
 #endif
 
 	add_to_funcs(do_page_up, MMAIN|MHELP,
+		/* TRANSLATORS: Try to keep the next six strings at most 12 characters. */
 		N_("Prev Page"), WITHORSANS(prevpage_gist), TOGETHER, VIEW);
 	add_to_funcs(do_page_down, MMAIN|MHELP,
 		N_("Next Page"), WITHORSANS(nextpage_gist), TOGETHER, VIEW);
@@ -1019,7 +1021,7 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 	add_to_funcs(complete_a_word, MMAIN,
-		N_("Complete Word"), WITHORSANS(completion_gist), BLANKAFTER, NOVIEW);
+		N_("Complete"), WITHORSANS(completion_gist), BLANKAFTER, NOVIEW);
 #endif
 #ifndef NANO_TINY
 	add_to_funcs(record_macro, MMAIN,
