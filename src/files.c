@@ -1476,33 +1476,32 @@ void init_operating_dir(void)
 }
 
 /* Check whether the given path is outside of the operating directory.
- * Return TRUE if it is, and FALSE otherwise.  If allow_tabcomp is TRUE,
+ * Return TRUE if it is, and FALSE otherwise.  If tabbing is TRUE,
  * incomplete names that can grow into matches for the operating directory
  * are considered to be inside, so that tab completion will work. */
-bool outside_of_confinement(const char *currpath, bool allow_tabcomp)
+bool outside_of_confinement(const char *somepath, bool tabbing)
 {
-	char *fullpath;
 	bool is_inside, begins_to_be;
+	char *fullpath;
 
 	/* If no operating directory is set, there is nothing to check. */
 	if (operating_dir == NULL)
 		return FALSE;
 
-	fullpath = get_full_path(currpath);
+	fullpath = get_full_path(somepath);
 
-	/* If fullpath is NULL, it means some directory in the path doesn't
-	 * exist or is unreadable.  If allow_tabcomp is FALSE, then currpath
-	 * is what the user typed somewhere.  We don't want to report a
-	 * non-existent directory as being outside the operating directory,
-	 * so we return FALSE.  If allow_tabcomp is TRUE, then currpath
-	 * exists, but is not executable.  So we say it is outside the
-	 * operating directory. */
+	/* When we can't get an absolute path, it means some directory in the path
+	 * doesn't exist or is unreadable.  When not doing tab completion, somepath
+	 * is what the user typed somewhere.  We don't want to report a non-existent
+	 * directory as being outside the operating directory, so we return FALSE.
+	 * When the user is doing tab completion, then somepath exists but is not
+	 * executable.  So we say it is outside the operating directory. */
 	if (fullpath == NULL)
-		return allow_tabcomp;
+		return tabbing;
 
 	is_inside = (strstr(fullpath, operating_dir) == fullpath);
-	begins_to_be = (allow_tabcomp &&
-						strstr(operating_dir, fullpath) == operating_dir);
+	begins_to_be = (tabbing && strstr(operating_dir, fullpath) == operating_dir);
+
 	free(fullpath);
 
 	return (!is_inside && !begins_to_be);
