@@ -1058,7 +1058,9 @@ bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
 	}
 
 	if (strncmp(combostr, "italic", 6) == 0) {
+#ifdef A_ITALIC
 		*attributes |= A_ITALIC;
+#endif
 		if (combostr[6] != ',') {
 			jot_error(N_("An attribute requires a subsequent comma"));
 			return FALSE;
