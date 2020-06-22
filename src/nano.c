@@ -982,7 +982,7 @@ RETSIGTYPE do_continue(int signal)
 	ungetch(KEY_FLUSH);
 }
 
-#if !defined(NANO_TINY) || defined(ENABLE_SPELLER)
+#if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
 /* Block or unblock the SIGWINCH signal, depending on the blockit parameter. */
 void block_sigwinch(bool blockit)
 {

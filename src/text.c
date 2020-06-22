@@ -2063,10 +2063,10 @@ bool replace_buffer(const char *filename, undo_type action, const char *operatio
 
 	/* Cut either the marked region or the whole buffer. */
 	add_undo(action, NULL);
-#endif
 	do_snip(openfile->mark != NULL, openfile->mark == NULL, FALSE);
-#ifndef NANO_TINY
 	update_undo(action);
+#else
+	do_snip(FALSE, TRUE, FALSE);
 #endif
 
 	/* Discard what was cut. */
