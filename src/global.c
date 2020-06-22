@@ -1047,8 +1047,8 @@ void shortcut_init(void)
 				N_("Linter"), WITHORSANS(lint_gist), TOGETHER, NOVIEW);
 		add_to_funcs(do_formatter, MMAIN,
 				N_("Formatter"), WITHORSANS(formatter_gist), BLANKAFTER, NOVIEW);
-	}
 #endif
+	}
 #endif /* NANO_TINY */
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
