@@ -239,6 +239,11 @@ hard-wrapping occurs or when text is justified.
 @itemx --noconvert
 Disable automatic conversion of files from DOS/Mac format.
 
+@item -O
+@itemx --bookstyle
+When justifying, treat any line that starts with whitespace as the
+beginning of a paragraph (unless auto-indenting is on).
+
 @item -P
 @itemx --positionlog
 For the 200 most recent files, log the last position of the cursor,
@@ -767,6 +772,10 @@ Use bold instead of reverse video for the title bar, status bar, key combos,
 function tags, line numbers, and selected text.  This is overridden by
 setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
 @code{functioncolor}, @code{numbercolor}, and/or @code{selectedcolor}.
+
+@item set bookstyle
+When justifying, treat any line that starts with whitespace as the
+beginning of a paragraph (unless auto-indenting is on).
 
 @item set brackets "@var{characters}"
 Set the characters treated as closing brackets when justifying
