@@ -2555,13 +2555,17 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 		memmove(buf + common_len, buf + *place, 1);
 		strncpy(buf, mzero, common_len);
 		*place = common_len;
-	}
+	} else if (num_matches == 1)
+		beep();
 
 	/* If there is more than one possible completion, show a sorted list. */
 	if (num_matches > 1) {
 		size_t longest_name = 0;
 		size_t nrows, ncols;
 		int row;
+
+		if (!*listed)
+			beep();
 
 		qsort(matches, num_matches, sizeof(char *), diralphasort);
 
