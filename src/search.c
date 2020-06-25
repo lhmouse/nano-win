@@ -869,8 +869,8 @@ bool find_a_bracket(bool reverse, const char *bracket_pair)
 	linestruct *line = openfile->current;
 	const char *pointer, *found;
 
-	/* Step away from the current bracket, either backwards or forwards. */
 	if (reverse) {
+		/* First step away from the current bracket. */
 		if (openfile->current_x == 0) {
 			line = line->prev;
 			if (line == NULL)
@@ -878,11 +878,8 @@ bool find_a_bracket(bool reverse, const char *bracket_pair)
 			pointer = line->data + strlen(line->data);
 		} else
 			pointer = line->data + step_left(line->data, openfile->current_x);
-	} else
-		pointer = line->data + step_right(line->data, openfile->current_x);
 
-	/* Now seek for any of the two brackets, either backwards or forwards. */
-	if (reverse) {
+		/* Now seek for any of the two brackets we are interested in. */
 		while (!(found = mbrevstrpbrk(line->data, bracket_pair, pointer))) {
 			line = line->prev;
 			if (line == NULL)
@@ -890,6 +887,8 @@ bool find_a_bracket(bool reverse, const char *bracket_pair)
 			pointer = line->data + strlen(line->data);
 		}
 	} else {
+		pointer = line->data + step_right(line->data, openfile->current_x);
+
 		while (!(found = mbstrpbrk(pointer, bracket_pair))) {
 			line = line->next;
 			if (line == NULL)
