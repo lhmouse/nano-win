@@ -882,27 +882,20 @@ bool find_a_bracket(bool reverse, const char *bracket_pair)
 		pointer = line->data + step_right(line->data, openfile->current_x);
 
 	/* Now seek for any of the two brackets, either backwards or forwards. */
-	while (TRUE) {
-		if (reverse)
-			found = mbrevstrpbrk(line->data, bracket_pair, pointer);
-		else
-			found = mbstrpbrk(pointer, bracket_pair);
-
-		if (found)
-			break;
-
-		if (reverse)
+	if (reverse) {
+		while (!(found = mbrevstrpbrk(line->data, bracket_pair, pointer))) {
 			line = line->prev;
-		else
+			if (line == NULL)
+				return FALSE;
+			pointer = line->data + strlen(line->data);
+		}
+	} else {
+		while (!(found = mbstrpbrk(pointer, bracket_pair))) {
 			line = line->next;
-
-		/* If we've reached the start or end of the buffer, get out. */
-		if (line == NULL)
-			return FALSE;
-
-		pointer = line->data;
-		if (reverse)
-			pointer += strlen(line->data);
+			if (line == NULL)
+				return FALSE;
+			pointer = line->data;
+		}
 	}
 
 	/* Set the current position to the found bracket. */
