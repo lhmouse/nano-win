@@ -1575,9 +1575,9 @@
              some compatibility issues with older ncurses libraries
              have also been fixed.  All in all, a lot to see.
 
-2001.01.31 - Nano 0.9.99pre2 is released.  Not surprisingly, all that is
-             new is bugfixes, bugfixes, bugfixes.  There were a few
-             cleanups in unneeded global variables and duplicate
+2001.01.31 - Nano 0.9.99pre2 is released.  Not surprisingly, all that
+             is new is bugfixes, bugfixes, bugfixes.  There were a
+             few cleanups in unneeded global variables and duplicate
              functions, but most is just fixing.  Specifically, there
              is now a preliminary (read: needs testing) fix for
              resizing the editor in any mode other than normal edit
@@ -1621,9 +1621,9 @@
              main reason for this release is the less-than-optimal
              fix for the security issue in nano with following
              symbolic links.  Hopefully this will fix the problem
-             permanently.  The --nofollow option also works again for
-             those who are real security nuts.  There are also some
-             display and search fixes, and the --disable-spell
+             permanently.  The --nofollow option also works again
+             for those who are real security nuts.  There are also
+             some display and search fixes, and the --disable-spell
              function was renamed to --disable-speller to be in line
              with nano and Pico's "speller" term.
 
@@ -1747,12 +1747,11 @@
              (id).
 
 2000.06.06 - Nano 0.9.10 is primarily a bugfix for the loss of SIGINT
-             when using "run and terminate" flags (for example,
-             --help).  There are also some minor documentation
-             updates.  This version of nano is the most stable in
-             quite some time, and is likely to be the most stable for
-             awhile.  Users are encouraged to upgrade to this
-             version.
+             when using "run and terminate" flags (for example, --help).
+             There are also some minor documentation updates.  This
+             version of nano is the most stable in quite some time,
+             and is likely to be the most stable for awhile.  Users
+             are encouraged to upgrade to this version.
 
 2000.05.31 - Nano 0.9.9 introduces much better working i18n support,
              more portability, and a ton of bugfixes.  While nano is
@@ -1767,10 +1766,10 @@
              are also the obligatory display fixes and speedups.
              Have fun with it.
 
-2000.05.14 - Nano 0.9.7 (the Mother's Day release) continues in the long
-             line of display fixes, and also fixes the broken symlink
-             behavior (i.e. symlinks weren't being followed by
-             default).  Hopefully all major bugs can be worked out
+2000.05.14 - Nano 0.9.7 (the Mother's Day release) continues in the
+             long line of display fixes, and also fixes the broken
+             symlink behavior (i.e. symlinks weren't being followed
+             by default).  Hopefully all major bugs can be worked out
              soon and we can have a 1.0 release before the end of the
              year, but who knows.
 
@@ -1781,15 +1780,14 @@
              most stable versions of nano to date, but this one may
              not be too bad =-)
 
-2000.05.01 - Nano 0.9.5 attempts to speed up the display of text
-             to be at least somewhat reasonable.  Much code profiling
-             has been done to reduce the ridiculous number of
-             redundant display updates.  This will probably expose a
-             lot of bugs that can then be fixed, so this release is
-             probably not for the faint of heart.  For anyone
-             curious, I would call nano 0.9.2 the most stable version
-             recently, so use that if you're not particularly
-             concerned with being on the bleeding edge.
+2000.05.01 - Nano 0.9.5 attempts to speed up the display of text to be
+             at least somewhat reasonable.  Much code profiling has been
+             done to reduce the ridiculous number of redundant display
+             updates.  This will probably expose a lot of bugs that can
+             then be fixed, so this release is probably not for the faint
+             of heart.  For anyone curious, I would call nano 0.9.2 the
+             most stable version recently, so use that if you're not
+             particularly concerned with being on the bleeding edge.
 
 2000.04.25 - Nano 0.9.4 fixes some problems in 0.9.3 with the last
              line code and related segfaults.  It now also has much
