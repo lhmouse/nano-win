@@ -821,7 +821,7 @@ other valid (but unprefixable) color names are:
 @code{peach}, @code{orange}, @code{latte}, and @code{normal}
 --- where @code{normal} means the default foreground or background color.
 Either @var{fgcolor} or ,@var{bgcolor} may be left out,
-and the pair may be preceeded by @code{bold} and/or @code{italic}
+and the pair may be preceded by @code{bold} and/or @code{italic}
 (separated by commas) to get a bold and/or slanting typeface,
 if your terminal can do those.
 
@@ -1125,7 +1125,7 @@ other valid (but unprefixable) color names are:
 @code{lagoon}, @code{mint}, @code{lime},
 @code{peach}, @code{orange}, @code{latte}, and @code{normal}
 --- where @code{normal} means the default foreground or background color.
-The color pair may be preceeded by @code{bold} and/or @code{italic}
+The color pair may be preceded by @code{bold} and/or @code{italic}
 (separated by commas) to get a bold and/or slanting typeface,
 if your terminal can do those.
 

@@ -2982,7 +2982,7 @@ void do_wordlinechar_count(void)
 
 	/* Keep stepping to the next word (considering punctuation as part of a
 	 * word, as "wc -w" does), until we reach the end of the relevant area,
-	 * incrementing the word count for each succesful step. */
+	 * incrementing the word count for each successful step. */
 	while (openfile->current->lineno < botline->lineno ||
 				(openfile->current == botline && openfile->current_x < bot_x)) {
 		if (do_next_word(FALSE, TRUE))
