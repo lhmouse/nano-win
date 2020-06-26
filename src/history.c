@@ -180,11 +180,9 @@ void get_history_newer_void(void)
 #ifdef ENABLE_TABCOMP
 /* Move h to the next string that's a tab completion of the string s,
  * looking at only the first len characters of s, and return that
- * string.  If there isn't one, or if len is 0, don't move h and return
- * s. */
+ * string.  If there isn't one, don't move h and return s. */
 char *get_history_completion(linestruct **h, char *s, size_t len)
 {
-	if (len > 0) {
 		linestruct *htop = NULL, *hbot = NULL, *p;
 
 		if (*h == search_history) {
@@ -198,7 +196,7 @@ char *get_history_completion(linestruct **h, char *s, size_t len)
 			hbot = executebot;
 		}
 
-		/* Search the history list from the current position to the top
+		/* First search from the current position to the top of the list
 		 * for a match of len characters.  Skip over an exact match. */
 		p = find_history((*h)->prev, htop, s, len);
 
@@ -210,8 +208,7 @@ char *get_history_completion(linestruct **h, char *s, size_t len)
 			return mallocstrcpy(s, (*h)->data);
 		}
 
-		/* Search the history list from the bottom to the current position
-		 * for a match of len characters.  Skip over an exact match. */
+		/* Now search from the bottom of the list to the original position. */
 		p = find_history(hbot, *h, s, len);
 
 		while (p != NULL && strcmp(p->data, s) == 0)
@@ -221,10 +218,8 @@ char *get_history_completion(linestruct **h, char *s, size_t len)
 			*h = p;
 			return mallocstrcpy(s, (*h)->data);
 		}
-	}
 
-	/* If we're here, we didn't find a match, we didn't find an inexact
-	 * match, or len is 0.  Return s. */
+	/* When no useful match was found, simply return the given string. */
 	return (char *)s;
 }
 #endif /* ENABLE_TABCOMP */
