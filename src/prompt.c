@@ -417,9 +417,8 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #ifdef ENABLE_TABCOMP
 	int last_kbinput = ERR;
 		/* The key we pressed before the current key. */
-	size_t complete_len = 0;
-		/* The length of the original string that we're trying to
-		 * tab complete, if any. */
+	size_t fragment_length = 0;
+		/* The length of the fragment that the user tries to tab complete. */
 #endif
 #endif /* ENABLE_HISTORIES */
 
@@ -453,11 +452,11 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #ifdef ENABLE_HISTORIES
 			if (history_list != NULL) {
 				if (last_kbinput != the_code_for(do_tab, '\t'))
-					complete_len = strlen(answer);
+					fragment_length = strlen(answer);
 
-				if (complete_len > 0) {
+				if (fragment_length > 0) {
 					answer = get_history_completion(history_list,
-										answer, complete_len);
+													answer, fragment_length);
 					typing_x = strlen(answer);
 				}
 			} else
