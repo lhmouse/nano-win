@@ -415,8 +415,8 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	char *magichistory = NULL;
 		/* The (partial) answer that was typed at the prompt, if any. */
 #ifdef ENABLE_TABCOMP
-	int last_kbinput = ERR;
-		/* The key we pressed before the current key. */
+	bool previous_was_tab = FALSE;
+		/* Whether the previous keystroke was an attempt at tab completion. */
 	size_t fragment_length = 0;
 		/* The length of the fragment that the user tries to tab complete. */
 #endif
@@ -451,7 +451,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		if (func == do_tab) {
 #ifdef ENABLE_HISTORIES
 			if (history_list != NULL) {
-				if (last_kbinput != the_code_for(do_tab, '\t'))
+				if (!previous_was_tab)
 					fragment_length = strlen(answer);
 
 				if (fragment_length > 0) {
@@ -523,7 +523,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			break;
 
 #if defined(ENABLE_HISTORIES) && defined(ENABLE_TABCOMP)
-		last_kbinput = kbinput;
+		previous_was_tab = (func == do_tab);
 #endif
 	}
 
