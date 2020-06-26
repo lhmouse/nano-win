@@ -2407,9 +2407,10 @@ char **filename_completion(const char *buf, size_t length, size_t *num_matches)
 	char *dirname = copy_of(buf);
 	char *slash, *filename;
 	size_t filenamelen;
+	char *fullname = NULL;
 	char **matches = NULL;
-	DIR *dir;
 	const struct dirent *entry;
+	DIR *dir;
 
 	/* If there's a / in the name, split out filename and directory parts. */
 	slash = strrchr(dirname, '/');
@@ -2448,22 +2449,17 @@ char **filename_completion(const char *buf, size_t length, size_t *num_matches)
 		if (strncmp(entry->d_name, filename, filenamelen) == 0 &&
 									strcmp(entry->d_name, ".") != 0 &&
 									strcmp(entry->d_name, "..") != 0) {
-			char *fullname = charalloc(strlen(dirname) + strlen(entry->d_name) + 1);
+			fullname = charealloc(fullname, strlen(dirname) +
+											strlen(entry->d_name) + 1);
 
 			sprintf(fullname, "%s%s", dirname, entry->d_name);
 
 #ifdef ENABLE_OPERATINGDIR
-			if (outside_of_confinement(fullname, TRUE)) {
-				free(fullname);
+			if (outside_of_confinement(fullname, TRUE))
 				continue;
-			}
 #endif
-			if (currmenu == MGOTODIR && !is_dir(fullname)) {
-				free(fullname);
+			if (currmenu == MGOTODIR && !is_dir(fullname))
 				continue;
-			}
-
-			free(fullname);
 
 			matches = (char **)nrealloc(matches, (*num_matches + 1) * sizeof(char *));
 			matches[*num_matches] = copy_of(entry->d_name);
@@ -2474,6 +2470,7 @@ char **filename_completion(const char *buf, size_t length, size_t *num_matches)
 	closedir(dir);
 	free(dirname);
 	free(filename);
+	free(fullname);
 
 	return matches;
 }
