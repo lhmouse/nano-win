@@ -178,46 +178,47 @@ void get_history_newer_void(void)
 }
 
 #ifdef ENABLE_TABCOMP
-/* Move h to the next string that's a tab completion of the string s,
- * looking at only the first len characters of s, and return that
- * string.  If there isn't one, don't move h and return s. */
+/* Go backward through one of three history lists, starting at its item h,
+ * searching for a string that is a tab completion of the given string s,
+ * looking at only the first len characters of s.  When found, make h point
+ * at it and return that string; otherwise, don't move h and return s. */
 char *get_history_completion(linestruct **h, char *s, size_t len)
 {
-		linestruct *htop = NULL, *hbot = NULL, *p;
+	linestruct *htop = NULL, *hbot = NULL, *p;
 
-		if (*h == search_history) {
-			htop = searchtop;
-			hbot = searchbot;
-		} else if (*h == replace_history) {
-			htop = replacetop;
-			hbot = replacebot;
-		} else if (*h == execute_history) {
-			htop = executetop;
-			hbot = executebot;
-		}
+	if (*h == search_history) {
+		htop = searchtop;
+		hbot = searchbot;
+	} else if (*h == replace_history) {
+		htop = replacetop;
+		hbot = replacebot;
+	} else if (*h == execute_history) {
+		htop = executetop;
+		hbot = executebot;
+	}
 
-		/* First search from the current position to the top of the list
-		 * for a match of len characters.  Skip over an exact match. */
-		p = find_history((*h)->prev, htop, s, len);
+	/* First search from the current position to the top of the list
+	 * for a match of len characters.  Skip over an exact match. */
+	p = find_history((*h)->prev, htop, s, len);
 
-		while (p != NULL && strcmp(p->data, s) == 0)
-			p = find_history(p->prev, htop, s, len);
+	while (p != NULL && strcmp(p->data, s) == 0)
+		p = find_history(p->prev, htop, s, len);
 
-		if (p != NULL) {
-			*h = p;
-			return mallocstrcpy(s, (*h)->data);
-		}
+	if (p != NULL) {
+		*h = p;
+		return mallocstrcpy(s, (*h)->data);
+	}
 
-		/* Now search from the bottom of the list to the original position. */
-		p = find_history(hbot, *h, s, len);
+	/* Now search from the bottom of the list to the original position. */
+	p = find_history(hbot, *h, s, len);
 
-		while (p != NULL && strcmp(p->data, s) == 0)
-			p = find_history(p->prev, *h, s, len);
+	while (p != NULL && strcmp(p->data, s) == 0)
+		p = find_history(p->prev, *h, s, len);
 
-		if (p != NULL) {
-			*h = p;
-			return mallocstrcpy(s, (*h)->data);
-		}
+	if (p != NULL) {
+		*h = p;
+		return mallocstrcpy(s, (*h)->data);
+	}
 
 	/* When no useful match was found, simply return the given string. */
 	return (char *)s;
