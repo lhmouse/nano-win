@@ -1674,6 +1674,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			 * be fond of backups.  Thus, without one, do not go on. */
 			if (*backupname == '\0') {
 				statusline(ALERT, _("Too many existing backup files"));
+				fclose(original);
 				goto cleanup_and_exit;
 			}
 		}
@@ -1681,6 +1682,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		/* Now first try to delete an existing backup file. */
 		if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
 			warn_and_briefly_pause(_("Cannot delete existing backup"));
+			fclose(original);
 			if (user_wants_to_proceed())
 				goto skip_backup;
 			statusline(HUSH, _("Cannot delete backup %s: %s"),
@@ -1701,6 +1703,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 		if (backup_file == NULL) {
 			warn_and_briefly_pause(_("Cannot create backup file"));
+			fclose(original);
 			if (user_wants_to_proceed())
 				goto skip_backup;
 			statusline(HUSH, _("Cannot create backup %s: %s"),
@@ -1765,6 +1768,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 		if (tempname == NULL) {
 			statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
+			fclose(source);
 			goto cleanup_and_exit;
 		}
 
