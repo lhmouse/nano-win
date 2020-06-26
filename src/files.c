@@ -2463,6 +2463,8 @@ char **filename_completion(const char *buf, size_t length, size_t *num_matches)
 				continue;
 			}
 
+			free(fullname);
+
 			matches = (char **)nrealloc(matches, (*num_matches + 1) * sizeof(char *));
 			matches[*num_matches] = copy_of(entry->d_name);
 			++(*num_matches);
