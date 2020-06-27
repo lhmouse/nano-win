@@ -460,20 +460,6 @@ const keystruct *first_sc_for(int menu, void (*func)(void))
 	return NULL;
 }
 
-/* Return the first keycode that is bound to the given function in the
- * current menu, if any; otherwise, return the given default value. */
-int the_code_for(void (*func)(void), int defaultval)
-{
-	const keystruct *sc = first_sc_for(currmenu, func);
-
-	if (sc == NULL)
-		return defaultval;
-
-	meta_key = (0x20 <= sc->keycode && sc->keycode <= 0x7E);
-
-	return sc->keycode;
-}
-
 /* Return the number of entries that can be shown in the given menu. */
 size_t shown_entries_for(int menu)
 {
