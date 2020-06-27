@@ -512,7 +512,7 @@ void help_init(void)
 
 		/* Show the first two shortcuts (if any) for each function. */
 		for (s = sclist; s != NULL; s = s->next) {
-			if ((s->menus & currmenu) && s->func == f->func) {
+			if ((s->menus & currmenu) && s->func == f->func && s->keystr[0]) {
 				/* Make the first column 7 cells wide and the second 10. */
 				if (++tally == 1) {
 					sprintf(ptr, "%s                ", s->keystr);

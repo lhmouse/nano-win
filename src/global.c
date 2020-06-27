@@ -1476,6 +1476,11 @@ void shortcut_init(void)
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", KEY_F(12), do_spell, 0);
 #endif
+#if defined(KEY_CANCEL) && defined(KEY_SUSPEND) && defined(KEY_SIC)
+	add_to_sclist((MMOST & ~MMAIN) | MYESNO, "", KEY_CANCEL, do_cancel, 0);
+	add_to_sclist(MMAIN|MEXECUTE, "", KEY_SUSPEND, do_suspend_void, 0);
+	add_to_sclist(MMAIN, "", KEY_SIC, do_insertfile_void, 0);
+#endif
 #ifndef NANO_TINY
 	/* Catch and ignore bracketed paste marker keys. */
 	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "", BRACKETED_PASTE_MARKER, do_nothing, 0);

@@ -1236,23 +1236,13 @@ int parse_kbinput(WINDOW *win)
 		case KEY_SDC:
 			return SHIFT_DELETE;
 #endif
-#ifdef KEY_SIC  /* Slang doesn't support KEY_SIC. */
-		case KEY_SIC:
-			return the_code_for(do_insertfile_void, KEY_IC);
-#endif
-#ifdef KEY_CANCEL  /* Slang doesn't support KEY_CANCEL. */
-#ifdef KEY_SCANCEL  /* Slang doesn't support KEY_SCANCEL. */
+#if defined(KEY_CANCEL) && defined(KEY_SCANCEL)  /* Slang doesn't support these. */
 		case KEY_SCANCEL:
+			return KEY_CANCEL;
 #endif
-		case KEY_CANCEL:
-			return the_code_for(do_cancel, 0x03);
-#endif
-#ifdef KEY_SUSPEND  /* Slang doesn't support KEY_SUSPEND. */
-#ifdef KEY_SSUSPEND  /* Slang doesn't support KEY_SSUSPEND. */
+#if defined(KEY_SUSPEND) && defined(KEY_SSUSPEND)  /* Slang doesn't support these. */
 		case KEY_SSUSPEND:
-#endif
-		case KEY_SUSPEND:
-			return the_code_for(do_suspend_void, KEY_SUSPEND);
+			return KEY_SUSPEND;
 #endif
 #ifdef KEY_BTAB  /* Slang doesn't support KEY_BTAB. */
 		case KEY_BTAB:
