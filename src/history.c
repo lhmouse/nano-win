@@ -298,31 +298,31 @@ void load_history(void)
 		return;
 	}
 
-		linestruct **history = &search_history;
-		char *line = NULL;
-		size_t buf_len = 0;
-		ssize_t read;
+	free(histname);
+
+	linestruct **history = &search_history;
+	char *line = NULL;
+	size_t buf_len = 0;
+	ssize_t read;
 
 	/* Load the three history lists (first search, then replace, then execute)
 	 * from oldest entry to newest.  Between two lists there is an empty line. */
-		while ((read = getline(&line, &buf_len, histfile)) > 0) {
-			line[--read] = '\0';
-			if (read > 0) {
-				recode_NUL_to_LF(line, read);
-				update_history(history, line);
-			} else if (history == &search_history)
-				history = &replace_history;
-			else
-				history = &execute_history;
-		}
+	while ((read = getline(&line, &buf_len, histfile)) > 0) {
+		line[--read] = '\0';
+		if (read > 0) {
+			recode_NUL_to_LF(line, read);
+			update_history(history, line);
+		} else if (history == &search_history)
+			history = &replace_history;
+		else
+			history = &execute_history;
+	}
 
-		fclose(histfile);
-		free(line);
+	fclose(histfile);
+	free(line);
 
 	/* Reading in the lists has marked them as changed; undo this side effect. */
 	history_changed = FALSE;
-
-	free(histname);
 }
 
 /* Write the lines of a history list, starting at head, from oldest to newest,
@@ -365,15 +365,15 @@ void save_history(void)
 		return;
 	}
 
-		/* Don't allow others to read or write the history file. */
-		chmod(histname, S_IRUSR | S_IWUSR);
+	/* Don't allow others to read or write the history file. */
+	chmod(histname, S_IRUSR | S_IWUSR);
 
-		if (!write_list(searchtop, histfile) ||
-						!write_list(replacetop, histfile) ||
-						!write_list(executetop, histfile))
-			jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
+	if (!write_list(searchtop, histfile) ||
+					!write_list(replacetop, histfile) ||
+					!write_list(executetop, histfile))
+		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
 
-		fclose(histfile);
+	fclose(histfile);
 
 	free(histname);
 }
@@ -393,58 +393,58 @@ void load_poshistory(void)
 		return;
 	}
 
-		char *line = NULL, *lineptr, *xptr;
-		size_t buf_len = 0;
-		ssize_t read, count = 0;
-		poshiststruct *record_ptr = NULL, *newrecord;
+	char *line = NULL, *lineptr, *xptr;
+	size_t buf_len = 0;
+	ssize_t read, count = 0;
+	poshiststruct *record_ptr = NULL, *newrecord;
 
-		/* Read and parse each line, and store the extracted data. */
-		while ((read = getline(&line, &buf_len, histfile)) > 5) {
-			/* Decode NULs as embedded newlines. */
-			recode_NUL_to_LF(line, read);
+	/* Read and parse each line, and store the extracted data. */
+	while ((read = getline(&line, &buf_len, histfile)) > 5) {
+		/* Decode NULs as embedded newlines. */
+		recode_NUL_to_LF(line, read);
 
-			/* Find where the x index and line number are in the line. */
-			xptr = revstrstr(line, " ", line + read - 3);
-			if (xptr == NULL)
-				continue;
-			lineptr = revstrstr(line, " ", xptr - 2);
-			if (lineptr == NULL)
-				continue;
+		/* Find where the x index and line number are in the line. */
+		xptr = revstrstr(line, " ", line + read - 3);
+		if (xptr == NULL)
+			continue;
+		lineptr = revstrstr(line, " ", xptr - 2);
+		if (lineptr == NULL)
+			continue;
 
-			/* Now separate the three elements of the line. */
-			*(xptr++) = '\0';
-			*(lineptr++) = '\0';
+		/* Now separate the three elements of the line. */
+		*(xptr++) = '\0';
+		*(lineptr++) = '\0';
 
-			/* Create a new position record. */
-			newrecord = (poshiststruct *)nmalloc(sizeof(poshiststruct));
-			newrecord->filename = copy_of(line);
-			newrecord->lineno = atoi(lineptr);
-			newrecord->xno = atoi(xptr);
-			newrecord->next = NULL;
+		/* Create a new position record. */
+		newrecord = (poshiststruct *)nmalloc(sizeof(poshiststruct));
+		newrecord->filename = copy_of(line);
+		newrecord->lineno = atoi(lineptr);
+		newrecord->xno = atoi(xptr);
+		newrecord->next = NULL;
 
-			/* Add the record to the list. */
-			if (position_history == NULL)
-				position_history = newrecord;
-			else
-				record_ptr->next = newrecord;
+		/* Add the record to the list. */
+		if (position_history == NULL)
+			position_history = newrecord;
+		else
+			record_ptr->next = newrecord;
 
-			record_ptr = newrecord;
+		record_ptr = newrecord;
 
-			/* Impose a limit, so the file will not grow indefinitely. */
-			if (++count > 200) {
-				poshiststruct *drop_record = position_history;
+		/* Impose a limit, so the file will not grow indefinitely. */
+		if (++count > 200) {
+			poshiststruct *drop_record = position_history;
 
-				position_history = position_history->next;
+			position_history = position_history->next;
 
-				free(drop_record->filename);
-				free(drop_record);
-			}
+			free(drop_record->filename);
+			free(drop_record);
 		}
+	}
 
-		fclose(histfile);
-		free(line);
+	fclose(histfile);
+	free(line);
 
-		stat(poshistname, &stat_of_positions_file);
+	stat(poshistname, &stat_of_positions_file);
 }
 
 /* Save the recorded cursor positions for files that were edited. */
@@ -458,33 +458,34 @@ void save_poshistory(void)
 		return;
 	}
 
-		/* Don't allow others to read or write the history file. */
-		chmod(poshistname, S_IRUSR | S_IWUSR);
+	/* Don't allow others to read or write the history file. */
+	chmod(poshistname, S_IRUSR | S_IWUSR);
 
-		for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
-			char *path_and_place;
-			size_t length;
+	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
+		char *path_and_place;
+		size_t length;
 
-			/* Assume 20 decimal positions each for line and column number,
-			 * plus two spaces, plus the line feed, plus the null byte. */
-			path_and_place = charalloc(strlen(posptr->filename) + 44);
-			sprintf(path_and_place, "%s %zd %zd\n",
-						posptr->filename, posptr->lineno, posptr->xno);
-			length = strlen(path_and_place);
+		/* Assume 20 decimal positions each for line and column number,
+		 * plus two spaces, plus the line feed, plus the null byte. */
+		path_and_place = charalloc(strlen(posptr->filename) + 44);
+		sprintf(path_and_place, "%s %zd %zd\n",
+								posptr->filename, posptr->lineno, posptr->xno);
+		length = strlen(path_and_place);
 
-			/* Encode newlines in filenames as NULs. */
-			recode_LF_to_NUL(path_and_place);
-			/* Restore the terminating newline. */
-			path_and_place[length - 1] = '\n';
+		/* Encode newlines in filenames as NULs. */
+		recode_LF_to_NUL(path_and_place);
+		/* Restore the terminating newline. */
+		path_and_place[length - 1] = '\n';
 
-			if (fwrite(path_and_place, sizeof(char), length, histfile) < length)
-				jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
-			free(path_and_place);
-		}
+		if (fwrite(path_and_place, sizeof(char), length, histfile) < length)
+			jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 
-		fclose(histfile);
+		free(path_and_place);
+	}
 
-		stat(poshistname, &stat_of_positions_file);
+	fclose(histfile);
+
+	stat(poshistname, &stat_of_positions_file);
 }
 
 /* Reload the position history file if it has been modified since last load. */
