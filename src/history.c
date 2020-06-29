@@ -288,20 +288,23 @@ void load_history(void)
 	FILE *histfile = fopen(histname, "rb");
 
 	if (histfile == NULL) {
+		/* If reading an existing file failed, don't save history when we quit. */
 		if (errno != ENOENT) {
-			/* When reading failed, don't save history when we quit. */
-			UNSET(HISTORYLOG);
 			jot_error(N_("Error reading %s: %s"), histname, strerror(errno));
+			UNSET(HISTORYLOG);
 		}
-	} else {
-		/* Load the three history lists -- first search, then replace,
-		 * then execute -- from oldest entry to newest.  Between two
-		 * lists there is an empty line. */
+
+		free(histname);
+		return;
+	}
+
 		linestruct **history = &search_history;
 		char *line = NULL;
 		size_t buf_len = 0;
 		ssize_t read;
 
+	/* Load the three history lists (first search, then replace, then execute)
+	 * from oldest entry to newest.  Between two lists there is an empty line. */
 		while ((read = getline(&line, &buf_len, histfile)) > 0) {
 			line[--read] = '\0';
 			if (read > 0) {
@@ -315,7 +318,6 @@ void load_history(void)
 
 		fclose(histfile);
 		free(line);
-	}
 
 	/* Reading in the lists has marked them as changed; undo this side effect. */
 	history_changed = FALSE;
@@ -357,9 +359,12 @@ void save_history(void)
 	histname = concatenate(statedir, SEARCH_HISTORY);
 	histfile = fopen(histname, "wb");
 
-	if (histfile == NULL)
+	if (histfile == NULL) {
 		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
-	else {
+		free(histname);
+		return;
+	}
+
 		/* Don't allow others to read or write the history file. */
 		chmod(histname, S_IRUSR | S_IWUSR);
 
@@ -369,7 +374,6 @@ void save_history(void)
 			jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
 
 		fclose(histfile);
-	}
 
 	free(histname);
 }
@@ -380,12 +384,15 @@ void load_poshistory(void)
 	FILE *histfile = fopen(poshistname, "rb");
 
 	if (histfile == NULL) {
+		/* If reading an existing file failed, don't save history when we quit. */
 		if (errno != ENOENT) {
-			/* When reading failed, don't save history when we quit. */
-			UNSET(POSITIONLOG);
 			jot_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
+			UNSET(POSITIONLOG);
 		}
-	} else {
+
+		return;
+	}
+
 		char *line = NULL, *lineptr, *xptr;
 		size_t buf_len = 0;
 		ssize_t read, count = 0;
@@ -433,11 +440,11 @@ void load_poshistory(void)
 				free(drop_record);
 			}
 		}
+
 		fclose(histfile);
 		free(line);
 
 		stat(poshistname, &stat_of_positions_file);
-	}
 }
 
 /* Save the recorded cursor positions for files that were edited. */
@@ -446,9 +453,11 @@ void save_poshistory(void)
 	poshiststruct *posptr;
 	FILE *histfile = fopen(poshistname, "wb");
 
-	if (histfile == NULL)
+	if (histfile == NULL) {
 		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
-	else {
+		return;
+	}
+
 		/* Don't allow others to read or write the history file. */
 		chmod(poshistname, S_IRUSR | S_IWUSR);
 
@@ -472,10 +481,10 @@ void save_poshistory(void)
 				jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 			free(path_and_place);
 		}
+
 		fclose(histfile);
 
 		stat(poshistname, &stat_of_positions_file);
-	}
 }
 
 /* Reload the position history file if it has been modified since last load. */
@@ -486,13 +495,14 @@ void reload_positions_if_needed(void)
 	stat(poshistname, &newstat);
 
 	if (newstat.st_mtime != stat_of_positions_file.st_mtime) {
-		poshiststruct *ptr, *nextone;
+		poshiststruct *item, *nextone;
 
-		for (ptr = position_history; ptr != NULL; ptr = nextone) {
-			nextone = ptr->next;
-			free(ptr->filename);
-			free(ptr);
+		for (item = position_history; item != NULL; item = nextone) {
+			nextone = item->next;
+			free(item->filename);
+			free(item);
 		}
+
 		position_history = NULL;
 
 		load_poshistory();
