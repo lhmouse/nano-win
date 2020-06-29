@@ -454,7 +454,7 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 const keystruct *first_sc_for(int menu, void (*func)(void))
 {
 	for (keystruct *sc = sclist; sc != NULL; sc = sc->next)
-		if ((sc->menus & menu) && sc->func == func)
+		if ((sc->menus & menu) && sc->func == func && sc->keystr[0])
 			return sc;
 
 	return NULL;
