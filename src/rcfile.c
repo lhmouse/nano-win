@@ -1318,16 +1318,13 @@ static void check_vitals_mapped(void)
 	for (int v = 0; v < VITALS; v++) {
 		for (funcstruct *f = allfuncs; f != NULL; f = f->next) {
 			if (f->func == vitals[v] && f->menus & inmenus[v]) {
-				const keystruct *s = first_sc_for(inmenus[v], f->func);
-				if (!s) {
-					fprintf(stderr, _("No key is bound to function '%s' in "
-										"menu '%s'.  Exiting.\n"), f->desc,
-										menu_to_name(inmenus[v]));
-					fprintf(stderr, _("If needed, use nano with the -I option "
-										"to adjust your nanorc settings.\n"));
-					exit(1);
-				}
-				break;
+				if (first_sc_for(inmenus[v], f->func) == NULL) {
+					jot_error(N_("No key is bound to function '%s' in menu '%s'. "
+								" Exiting.\n"), f->desc, menu_to_name(inmenus[v]));
+					die(_("If needed, use nano with the -I option "
+								"to adjust your nanorc settings.\n"));
+				} else
+					break;
 			}
 		}
 	}
