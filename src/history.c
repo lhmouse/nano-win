@@ -358,8 +358,7 @@ void save_history(void)
 	hisfile = fopen(histname, "wb");
 
 	if (hisfile == NULL)
-		fprintf(stderr, _("Error writing %s: %s\n"), histname,
-						strerror(errno));
+		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
 	else {
 		/* Don't allow others to read or write the history file. */
 		chmod(histname, S_IRUSR | S_IWUSR);
@@ -367,8 +366,7 @@ void save_history(void)
 		if (!write_list(searchtop, hisfile) ||
 						!write_list(replacetop, hisfile) ||
 						!write_list(executetop, hisfile))
-			fprintf(stderr, _("Error writing %s: %s\n"), histname,
-						strerror(errno));
+			jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
 
 		fclose(hisfile);
 	}
@@ -449,7 +447,7 @@ void save_poshistory(void)
 	FILE *hisfile = fopen(poshistname, "wb");
 
 	if (hisfile == NULL)
-		fprintf(stderr, _("Error writing %s: %s\n"), poshistname, strerror(errno));
+		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 	else {
 		/* Don't allow others to read or write the history file. */
 		chmod(poshistname, S_IRUSR | S_IWUSR);
@@ -471,8 +469,7 @@ void save_poshistory(void)
 			path_and_place[length - 1] = '\n';
 
 			if (fwrite(path_and_place, sizeof(char), length, hisfile) < length)
-				fprintf(stderr, _("Error writing %s: %s\n"),
-										poshistname, strerror(errno));
+				jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 			free(path_and_place);
 		}
 		fclose(hisfile);
