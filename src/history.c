@@ -293,10 +293,10 @@ void load_history(void)
 		UNSET(HISTORYLOG);
 	}
 
-	free(histname);
-
-	if (histfile == NULL)
+	if (histfile == NULL) {
+		free(histname);
 		return;
+	}
 
 	linestruct **history = &search_history;
 	char *line = NULL;
@@ -316,7 +316,10 @@ void load_history(void)
 			history = &execute_history;
 	}
 
-	fclose(histfile);
+	if (fclose(histfile) == EOF)
+		jot_error(N_("Error reading %s: %s"), histname, strerror(errno));
+
+	free(histname);
 	free(line);
 
 	/* Reading in the lists has marked them as changed; undo this side effect. */
@@ -366,12 +369,12 @@ void save_history(void)
 	/* Don't allow others to read or write the history file. */
 	chmod(histname, S_IRUSR | S_IWUSR);
 
-	if (!write_list(searchtop, histfile) ||
-					!write_list(replacetop, histfile) ||
-					!write_list(executetop, histfile))
+	if (!write_list(searchtop, histfile) || !write_list(replacetop, histfile) ||
+											!write_list(executetop, histfile))
 		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
 
-	fclose(histfile);
+	if (fclose(histfile) == EOF)
+		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
 
 	free(histname);
 }
@@ -438,7 +441,9 @@ void load_poshistory(void)
 		}
 	}
 
-	fclose(histfile);
+	if (fclose(histfile) == EOF)
+		jot_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
+
 	free(line);
 
 	stat(poshistname, &stat_of_positions_file);
@@ -480,7 +485,8 @@ void save_poshistory(void)
 		free(path_and_place);
 	}
 
-	fclose(histfile);
+	if (fclose(histfile) == EOF)
+		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 
 	stat(poshistname, &stat_of_positions_file);
 }
