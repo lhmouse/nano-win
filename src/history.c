@@ -287,18 +287,16 @@ void load_history(void)
 	char *histname = concatenate(statedir, SEARCH_HISTORY);
 	FILE *histfile = fopen(histname, "rb");
 
-	if (histfile == NULL) {
-		/* If reading an existing file failed, don't save history when we quit. */
-		if (errno != ENOENT) {
-			jot_error(N_("Error reading %s: %s"), histname, strerror(errno));
-			UNSET(HISTORYLOG);
-		}
-
-		free(histname);
-		return;
+	/* If reading an existing file failed, don't save history when we quit. */
+	if (histfile == NULL && errno != ENOENT) {
+		jot_error(N_("Error reading %s: %s"), histname, strerror(errno));
+		UNSET(HISTORYLOG);
 	}
 
 	free(histname);
+
+	if (histfile == NULL)
+		return;
 
 	linestruct **history = &search_history;
 	char *line = NULL;
@@ -383,15 +381,14 @@ void load_poshistory(void)
 {
 	FILE *histfile = fopen(poshistname, "rb");
 
-	if (histfile == NULL) {
-		/* If reading an existing file failed, don't save history when we quit. */
-		if (errno != ENOENT) {
-			jot_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
-			UNSET(POSITIONLOG);
-		}
-
-		return;
+	/* If reading an existing file failed, don't save history when we quit. */
+	if (histfile == NULL && errno != ENOENT) {
+		jot_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
+		UNSET(POSITIONLOG);
 	}
+
+	if (histfile == NULL)
+		return;
 
 	char *line = NULL, *lineptr, *xptr;
 	size_t buf_len = 0;
