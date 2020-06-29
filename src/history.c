@@ -285,9 +285,9 @@ bool have_statedir(void)
 void load_history(void)
 {
 	char *histname = concatenate(statedir, SEARCH_HISTORY);
-	FILE *hisfile = fopen(histname, "rb");
+	FILE *histfile = fopen(histname, "rb");
 
-	if (hisfile == NULL) {
+	if (histfile == NULL) {
 		if (errno != ENOENT) {
 			/* When reading failed, don't save history when we quit. */
 			UNSET(HISTORYLOG);
@@ -302,7 +302,7 @@ void load_history(void)
 		size_t buf_len = 0;
 		ssize_t read;
 
-		while ((read = getline(&line, &buf_len, hisfile)) > 0) {
+		while ((read = getline(&line, &buf_len, histfile)) > 0) {
 			line[--read] = '\0';
 			if (read > 0) {
 				recode_NUL_to_LF(line, read);
@@ -313,7 +313,7 @@ void load_history(void)
 				history = &execute_history;
 		}
 
-		fclose(hisfile);
+		fclose(histfile);
 		free(line);
 	}
 
@@ -325,7 +325,7 @@ void load_history(void)
 
 /* Write the lines of a history list, starting at head, from oldest to newest,
  * to the given file.  Return TRUE if writing succeeded, and FALSE otherwise. */
-bool write_list(const linestruct *head, FILE *hisfile)
+bool write_list(const linestruct *head, FILE *histfile)
 {
 	const linestruct *item;
 
@@ -335,9 +335,9 @@ bool write_list(const linestruct *head, FILE *hisfile)
 		/* Decode 0x0A bytes as embedded NULs. */
 		recode_LF_to_NUL(item->data);
 
-		if (fwrite(item->data, sizeof(char), length, hisfile) < length)
+		if (fwrite(item->data, sizeof(char), length, histfile) < length)
 			return FALSE;
-		if (putc('\n', hisfile) == EOF)
+		if (putc('\n', histfile) == EOF)
 			return FALSE;
 	}
 
@@ -348,27 +348,27 @@ bool write_list(const linestruct *head, FILE *hisfile)
 void save_history(void)
 {
 	char *histname;
-	FILE *hisfile;
+	FILE *histfile;
 
 	/* If the histories are unchanged, don't bother saving them. */
 	if (!history_changed)
 		return;
 
 	histname = concatenate(statedir, SEARCH_HISTORY);
-	hisfile = fopen(histname, "wb");
+	histfile = fopen(histname, "wb");
 
-	if (hisfile == NULL)
+	if (histfile == NULL)
 		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
 	else {
 		/* Don't allow others to read or write the history file. */
 		chmod(histname, S_IRUSR | S_IWUSR);
 
-		if (!write_list(searchtop, hisfile) ||
-						!write_list(replacetop, hisfile) ||
-						!write_list(executetop, hisfile))
+		if (!write_list(searchtop, histfile) ||
+						!write_list(replacetop, histfile) ||
+						!write_list(executetop, histfile))
 			jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
 
-		fclose(hisfile);
+		fclose(histfile);
 	}
 
 	free(histname);
@@ -377,9 +377,9 @@ void save_history(void)
 /* Load the recorded cursor positions for files that were edited. */
 void load_poshistory(void)
 {
-	FILE *hisfile = fopen(poshistname, "rb");
+	FILE *histfile = fopen(poshistname, "rb");
 
-	if (hisfile == NULL) {
+	if (histfile == NULL) {
 		if (errno != ENOENT) {
 			/* When reading failed, don't save history when we quit. */
 			UNSET(POSITIONLOG);
@@ -392,7 +392,7 @@ void load_poshistory(void)
 		poshiststruct *record_ptr = NULL, *newrecord;
 
 		/* Read and parse each line, and store the extracted data. */
-		while ((read = getline(&line, &buf_len, hisfile)) > 5) {
+		while ((read = getline(&line, &buf_len, histfile)) > 5) {
 			/* Decode NULs as embedded newlines. */
 			recode_NUL_to_LF(line, read);
 
@@ -433,7 +433,7 @@ void load_poshistory(void)
 				free(drop_record);
 			}
 		}
-		fclose(hisfile);
+		fclose(histfile);
 		free(line);
 
 		stat(poshistname, &stat_of_positions_file);
@@ -444,9 +444,9 @@ void load_poshistory(void)
 void save_poshistory(void)
 {
 	poshiststruct *posptr;
-	FILE *hisfile = fopen(poshistname, "wb");
+	FILE *histfile = fopen(poshistname, "wb");
 
-	if (hisfile == NULL)
+	if (histfile == NULL)
 		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 	else {
 		/* Don't allow others to read or write the history file. */
@@ -468,11 +468,11 @@ void save_poshistory(void)
 			/* Restore the terminating newline. */
 			path_and_place[length - 1] = '\n';
 
-			if (fwrite(path_and_place, sizeof(char), length, hisfile) < length)
+			if (fwrite(path_and_place, sizeof(char), length, histfile) < length)
 				jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 			free(path_and_place);
 		}
-		fclose(hisfile);
+		fclose(histfile);
 
 		stat(poshistname, &stat_of_positions_file);
 	}
