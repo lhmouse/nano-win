@@ -1571,6 +1571,23 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 	return retval;
 }
 
+/* Sync the contents of the given file to disk.  Return 0 on success, and
+ * a negative number on failure.  In case of failure, the file is closed. */
+int sync_file(FILE *thefile)
+{
+	if (fflush(thefile) != 0) {
+		fclose(thefile);
+		return -1;
+	}
+
+	if (fsync(fileno(thefile)) != 0) {
+		fclose(thefile);
+		return -2;
+	}
+
+	return 0;
+}
+
 /* Write the current buffer to disk.  If thefile isn't NULL, we write to a
  * temporary file that is already open.  If tmp is TRUE (when spell checking
  * or emergency dumping, for example), we set the umask to disallow anyone else
@@ -1589,6 +1606,8 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		/* The status fields filled in by statting the file. */
 	char *backupname = NULL;
 		/* The name of the backup file, in case we make one. */
+	bool second_attempt = FALSE;
+		/* Whether a normal backup failed and we are resorting to a failsafe. */
 #endif
 	char *realname = real_dir_from_tilde(name);
 		/* The filename after tilde expansion. */
@@ -1622,7 +1641,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	/* When the user requested a backup, we do this only if the file exists and
 	 * isn't temporary AND the file has not been modified by someone else since
 	 * we opened it (or we are appending/prepending or writing a selection). */
-	if (ISSET(MAKE_BACKUP) && is_existing_file && openfile->statinfo &&
+	if (is_existing_file && openfile->statinfo &&
 						(openfile->statinfo->st_mtime == st.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
 		static struct timespec filetime[2];
@@ -1633,20 +1652,18 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		filetime[0].tv_sec = openfile->statinfo->st_atime;
 		filetime[1].tv_sec = openfile->statinfo->st_mtime;
 
-		/* Open the file of which a backup must be made. */
-		original = fopen(realname, "rb");
-
-		/* If we can't read from the original file, go on, since saving
-		 * only the current buffer is better than saving nothing. */
-		if (original == NULL) {
-			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
-			goto skip_backup;
-		}
+		statusbar(_("Making backup..."));
 
 		/* If no backup directory was specified, we make a simple backup
 		 * by appending a tilde to the original file name.  Otherwise,
 		 * we create a numbered backup in the specified directory. */
-		if (backup_dir == NULL) {
+		if (!ISSET(MAKE_BACKUP)) {
+			backupname = charalloc(strlen(realname) + 8);
+			sprintf(backupname, "%s~XXXXXX", realname);
+
+			backup_fd = mkstemp(backupname);
+			goto try_backup;
+		} else if (backup_dir == NULL) {
 			backupname = charalloc(strlen(realname) + 2);
 			sprintf(backupname, "%s~", realname);
 		} else {
@@ -1674,21 +1691,13 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			 * be fond of backups.  Thus, without one, do not go on. */
 			if (*backupname == '\0') {
 				statusline(ALERT, _("Too many existing backup files"));
-				fclose(original);
 				goto cleanup_and_exit;
 			}
 		}
 
 		/* Now first try to delete an existing backup file. */
-		if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP)) {
-			warn_and_briefly_pause(_("Cannot delete existing backup"));
-			fclose(original);
-			if (user_wants_to_proceed())
-				goto skip_backup;
-			statusline(HUSH, _("Cannot delete backup %s: %s"),
-								backupname, strerror(errno));
-			goto cleanup_and_exit;
-		}
+		if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP))
+			goto backup_error;
 
 		if (ISSET(INSECURE_BACKUP))
 			backup_cflags = O_WRONLY | O_CREAT | O_TRUNC;
@@ -1698,18 +1707,12 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		/* Create the backup file (or truncate the existing one). */
 		backup_fd = open(backupname, backup_cflags, S_IRUSR|S_IWUSR);
 
+  try_backup:
 		if (backup_fd >= 0)
 			backup_file = fdopen(backup_fd, "wb");
 
-		if (backup_file == NULL) {
-			warn_and_briefly_pause(_("Cannot create backup file"));
-			fclose(original);
-			if (user_wants_to_proceed())
-				goto skip_backup;
-			statusline(HUSH, _("Cannot create backup %s: %s"),
-								backupname, strerror(errno));
-			goto cleanup_and_exit;
-		}
+		if (backup_file == NULL)
+			goto backup_error;
 
 		/* Try to change owner and group to those of the original file;
 		 * ignore errors, as a normal user cannot change the owner. */
@@ -1721,6 +1724,16 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		 * the file with just read and write permission for the owner. */
 		IGNORE_CALL_RESULT(fchmod(backup_fd, openfile->statinfo->st_mode));
 
+		original = fopen(realname, "rb");
+
+		/* If we can't read from the original file, go on, since saving
+		 * only the current buffer is better than saving nothing. */
+		if (original == NULL) {
+			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
+			fclose(backup_file);
+			goto save_the_file;
+		}
+
 		/* Copy the existing file to the backup. */
 		verdict = copy_file(original, backup_file, FALSE);
 
@@ -1730,29 +1743,56 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
 			fclose(backup_file);
-			warn_and_briefly_pause(_("Cannot write backup file"));
-			if (user_wants_to_proceed())
-				goto skip_backup;
-			statusline(HUSH, _("Cannot write backup %s: %s"),
-								backupname, strerror(errno));
-			goto cleanup_and_exit;
+			goto backup_error;
 		}
+
+		/* Since this backup is a newly created file, explicitly sync it to
+		 * permanent storage before starting to write out the actual file. */
+		if (sync_file(backup_file) != 0)
+			goto backup_error;
 
 		/* Set the backup's timestamps to those of the original file.
 		 * Failure is unimportant: saving the file apparently worked. */
 		IGNORE_CALL_RESULT(futimens(backup_fd, filetime));
 
-		if (fclose(backup_file) != 0) {
-			warn_and_briefly_pause(_("Cannot write backup"));
-			if (user_wants_to_proceed())
-				goto skip_backup;
+		if (fclose(backup_file) == 0)
+			goto save_the_file;
+
+  backup_error:
+		get_homedir();
+
+		/* If the first attempt of copying the file failed, try again to HOME. */
+		if (!second_attempt && homedir) {
+			unlink(backupname);
+			free(backupname);
+
+			backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
+			sprintf(backupname, "%s/%s~XXXXXX", homedir, tail(realname));
+
+			backup_fd = mkstemp(backupname);
+			backup_file = NULL;
+
+			if (ISSET(MAKE_BACKUP)) {
+				warn_and_briefly_pause(_("Cannot make regular backup"));
+				warn_and_briefly_pause(_("Trying again in your home directory"));
+				currmenu = MMOST;
+			}
+
+			second_attempt = TRUE;
+			goto try_backup;
+		}
+
+		/* If all attempts failed, notify the user, because if something goes
+		 * wrong during the save, the contents of the file might be lost. */
+		warn_and_briefly_pause(_("Cannot make backup"));
+		if (!user_wants_to_proceed()) {
 			statusline(HUSH, _("Cannot write backup %s: %s"),
 								backupname, strerror(errno));
 			goto cleanup_and_exit;
 		}
 	}
 
-  skip_backup:
+  save_the_file:
 	/* When prepending, first copy the existing file to a temporary file. */
 	if (method == PREPEND) {
 		FILE *source = fopen(realname, "rb");
@@ -1894,23 +1934,36 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			goto cleanup_and_exit;
 		}
 
-		verdict = copy_file(source, thefile, TRUE);
+		verdict = copy_file(source, thefile, FALSE);
 
 		if (verdict < 0) {
+			fclose(thefile);
 			statusline(ALERT, _("Error reading temp file: %s"), strerror(errno));
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
+			fclose(thefile);
 			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			goto cleanup_and_exit;
 		}
 
 		unlink(tempname);
-	} else
+	}
 #endif
+
+	if (sync_file(thefile) != 0) {
+		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
+		goto cleanup_and_exit;
+	}
+
 	if (fclose(thefile) != 0) {
 		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 		goto cleanup_and_exit;
 	}
+
+	/* If no backups were requested, delete the temporary backup file
+	 * that was created just to ensure a failsafe replacement. */
+	if (!ISSET(MAKE_BACKUP) && backupname != NULL)
+		unlink(backupname);
 
 	/* When having written an entire buffer, update some administrivia. */
 	if (fullbuffer && method == OVERWRITE && !tmp) {
