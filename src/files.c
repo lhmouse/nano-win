@@ -1338,7 +1338,7 @@ char *get_full_path(const char *origpath)
 
 	target = real_dir_from_tilde(origpath);
 
-	/* Determine whether the target path refers to a directory.  If stat()ing
+	/* Determine whether the target path refers to a directory.  If statting
 	 * target fails, however, assume that it refers to a new, unsaved file. */
 	path_only = (stat(target, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
 
@@ -1586,7 +1586,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	bool is_existing_file;
 		/* Becomes TRUE when the file is non-temporary and exists. */
 	struct stat st;
-		/* The status fields filled in by stat(). */
+		/* The status fields filled in by statting the file. */
 	char *backupname = NULL;
 		/* The name of the backup file, in case we make one. */
 #endif
@@ -1613,7 +1613,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	/* Check whether the file (at the end of the symlink) exists. */
 	is_existing_file = (!tmp) && (stat(realname, &st) != -1);
 
-	/* If we haven't stat()d this file before (say, the user just specified
+	/* If we haven't statted this file before (say, the user just specified
 	 * it interactively), stat and save the value now, or else we will chase
 	 * null pointers when we do modtime checks and such during backup. */
 	if (openfile->statinfo == NULL && is_existing_file)
