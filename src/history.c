@@ -36,10 +36,10 @@
 
 static bool history_changed = FALSE;
 		/* Whether any of the history lists has changed. */
-static struct stat stat_of_positions_file;
-		/* The last-obtained stat information of the positions file. */
 static char *poshistname = NULL;
 		/* The name of the positions-history file. */
+static time_t latest_timestamp = 942927132;
+		/* The last time the positions-history file was written. */
 static poshiststruct *position_history = NULL;
 		/* The list of filenames with their last cursor positions. */
 
@@ -396,6 +396,7 @@ void load_poshistory(void)
 	char *line = NULL, *lineptr, *xptr;
 	size_t buf_len = 0;
 	ssize_t read, count = 0;
+	struct stat fileinfo;
 	poshiststruct *record_ptr = NULL, *newrecord;
 
 	/* Read and parse each line, and store the extracted data. */
@@ -446,13 +447,17 @@ void load_poshistory(void)
 
 	free(line);
 
-	stat(poshistname, &stat_of_positions_file);
+	if (stat(poshistname, &fileinfo) == -1)
+		jot_error(N_("Error reading %s: %s\n"), poshistname, strerror(errno));
+	else
+		latest_timestamp = fileinfo.st_mtime;
 }
 
 /* Save the recorded cursor positions for files that were edited. */
 void save_poshistory(void)
 {
 	poshiststruct *posptr;
+	struct stat fileinfo;
 	FILE *histfile = fopen(poshistname, "wb");
 
 	if (histfile == NULL) {
@@ -488,17 +493,20 @@ void save_poshistory(void)
 	if (fclose(histfile) == EOF)
 		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 
-	stat(poshistname, &stat_of_positions_file);
+	if (stat(poshistname, &fileinfo) == -1)
+		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
+	else
+		latest_timestamp = fileinfo.st_mtime;
 }
 
 /* Reload the position history file if it has been modified since last load. */
 void reload_positions_if_needed(void)
 {
-	struct stat newstat;
+	struct stat fileinfo;
 
-	stat(poshistname, &newstat);
-
-	if (newstat.st_mtime != stat_of_positions_file.st_mtime) {
+	if (stat(poshistname, &fileinfo) == -1)
+		jot_error(N_("Error reading %s: %s\n"), poshistname, strerror(errno));
+	else if (fileinfo.st_mtime != latest_timestamp) {
 		poshiststruct *item, *nextone;
 
 		for (item = position_history; item != NULL; item = nextone) {
