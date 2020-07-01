@@ -401,6 +401,10 @@ bool open_buffer(const char *filename, bool new_one)
 			free(realname);
 			return FALSE;
 		}
+#else
+		if (new_one && !(fileinfo.st_mode & (S_IWUSR|S_IWGRP|S_IWOTH)) &&
+						geteuid() == ROOT_UID)
+			statusline(ALERT, _("%s is meant to be read-only"), realname);
 #endif
 	}
 
