@@ -795,7 +795,7 @@ void shortcut_init(void)
 	add_to_funcs(do_cursorpos_void, MMAIN,
 		N_("Location"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
-#ifdef ENABLE_JUSTIFY
+#if defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 	/* Conditionally placing this one here or further on, to keep the
 	 * help items nicely paired in most conditions. */
 	add_to_funcs(do_gotolinecolumn_void, MMAIN,
@@ -859,23 +859,16 @@ void shortcut_init(void)
 	add_to_funcs(do_search_backward, MMAIN|MHELP,
 		/* TRANSLATORS: This starts a backward search. */
 		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
+#else
+	add_to_funcs(do_search_backward, MHELP,
+		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
 #endif
+
 	add_to_funcs(do_findprevious, MMAIN|MBROWSER|MHELP,
 		/* TRANSLATORS: This refers to searching the preceding occurrence. */
 		N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
-#ifndef NANO_TINY
 	add_to_funcs(do_findnext, MMAIN|MBROWSER|MHELP,
 		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
-#else
-	/* In the tiny version, arrange things a bit differently, so that
-	 * the useful M-W and M-Q are shown in the help lines. */
-	add_to_funcs(do_findnext, MMAIN|MBROWSER|MHELP,
-		N_("Next"), WITHORSANS(findnext_gist), TOGETHER, VIEW);
-	add_to_funcs(do_search_backward, MMAIN|MHELP,
-		N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
-	add_to_funcs(full_refresh, MMAIN,
-		N_("Refresh"), WITHORSANS(refresh_gist), BLANKAFTER, VIEW);
-#endif
 
 	add_to_funcs(do_left, MMAIN,
 		/* TRANSLATORS: This means move the cursor one character back. */
@@ -941,7 +934,7 @@ void shortcut_init(void)
 		N_("Next File"), WITHORSANS(nextfile_gist), BLANKAFTER, VIEW);
 #endif
 
-#ifndef ENABLE_JUSTIFY
+#if !defined(NANO_TINY) && !defined(ENABLE_JUSTIFY)
 	add_to_funcs(do_gotolinecolumn_void, MMAIN,
 		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
@@ -986,10 +979,8 @@ void shortcut_init(void)
 	add_to_funcs(do_verbatim_input, MMAIN,
 		N_("Verbatim"), WITHORSANS(verbatim_gist), BLANKAFTER, NOVIEW);
 
-#ifndef NANO_TINY
 	add_to_funcs(full_refresh, MMAIN,
 		N_("Refresh"), WITHORSANS(refresh_gist), TOGETHER, VIEW);
-#endif
 
 	add_to_funcs(do_suspend_void, MMAIN,
 		N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
@@ -1037,6 +1028,10 @@ void shortcut_init(void)
 #endif
 	}
 #endif /* !NANO_TINY */
+#ifdef NANO_TINY
+	add_to_funcs(do_search_backward, MMAIN,
+		N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
+#endif
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	add_to_funcs(do_center, MMAIN,
 		N_("Center"), WITHORSANS(center_gist), BLANKAFTER, VIEW);
