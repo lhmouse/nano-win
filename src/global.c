@@ -70,7 +70,7 @@ bool as_an_at = TRUE;
 bool control_C_was_pressed = FALSE;
 		/* Whether Ctrl+C was pressed (when a keyboard interrupt is enabled). */
 
-message_type lastmessage = HUSH;
+message_type lastmessage = VACUUM;
 		/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
 linestruct *pletion_line = NULL;
