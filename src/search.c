@@ -307,10 +307,10 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 	if (match_len != NULL)
 		*match_len = found_len;
 
-	/* Wipe the "Searching..." message and unset the suppression flag. */
+	/* Wipe the "Searching..." message and unsuppress cursor-position display. */
 	if (feedback > 0) {
 		wipe_statusbar();
-		suppress_cursorpos = FALSE;
+		lastmessage = VACUUM;
 	}
 
 	return 1;

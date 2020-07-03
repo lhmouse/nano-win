@@ -178,7 +178,7 @@ void show_help(void)
 	edit_refresh();
 
 	while (TRUE) {
-		lastmessage = HUSH;
+		lastmessage = VACUUM;
 		focusing = TRUE;
 
 		/* Show the cursor when we searched and found something. */

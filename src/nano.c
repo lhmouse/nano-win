@@ -944,7 +944,7 @@ RETSIGTYPE do_suspend(int signal)
 	fflush(stdout);
 
 	/* The suspend keystroke must not elicit cursor-position display. */
-	suppress_cursorpos=TRUE;
+	lastmessage = HUSH;
 
 #ifdef SIGSTOP
 	/* Do what mutt does: send ourselves a SIGSTOP. */
@@ -2481,13 +2481,13 @@ int main(int argc, char **argv)
 		if (currmenu != MMAIN)
 			bottombars(MMAIN);
 
-		lastmessage = VACUUM;
-		as_an_at = TRUE;
-
 		/* Update the displayed current cursor position only when there
 		 * are no keys waiting in the input buffer. */
 		if (ISSET(CONSTANT_SHOW) && get_key_buffer_len() == 0)
-			do_cursorpos(FALSE);
+			report_cursor_position();
+
+		lastmessage = VACUUM;
+		as_an_at = TRUE;
 
 		/* Refresh just the cursor position or the entire edit window. */
 		if (!refresh_needed) {

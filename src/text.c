@@ -3018,7 +3018,7 @@ void do_verbatim_input(void)
 
 	/* Unsuppress cursor-position display or blank the status bar. */
 	if (ISSET(CONSTANT_SHOW))
-		suppress_cursorpos = FALSE;
+		lastmessage = VACUUM;
 	else
 		wipe_statusbar();
 

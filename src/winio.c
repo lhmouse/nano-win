@@ -2117,9 +2117,8 @@ void titlebar(const char *path)
 	wrefresh(topwin);
 }
 
-/* Display a message on the status bar, and set suppress_cursorpos to
- * TRUE, so that the message won't be immediately overwritten if
- * constant cursor position display is on. */
+/* Display the given message on the status bar, but only if its importance
+ * is higher than that of a message that is already there. */
 void statusline(message_type importance, const char *msg, ...)
 {
 	va_list ap;
@@ -2202,8 +2201,6 @@ void statusline(message_type importance, const char *msg, ...)
 
 	/* Push the message to the screen straightaway. */
 	wrefresh(bottomwin);
-
-	suppress_cursorpos = TRUE;
 
 #ifndef NANO_TINY
 	if (old_whitespace)
@@ -3362,21 +3359,17 @@ void draw_all_subwindows(void)
 	bottombars(currmenu);
 }
 
-/* Show info about the current cursor position on the status bar.
- * Do this unconditionally when force is TRUE; otherwise, only if
- * suppress_cursorpos is FALSE.  In any case, reset the latter. */
-void do_cursorpos(bool force)
+/* Display details about the current cursor position on the status bar. */
+void report_cursor_position(void)
 {
 	char saved_byte;
 	size_t sum, cur_xpt = xplustabs() + 1;
 	size_t cur_lenpt = breadth(openfile->current->data) + 1;
 	int linepct, colpct, charpct;
 
-	/* If the showing needs to be suppressed, don't suppress it next time. */
-	if (suppress_cursorpos && !force) {
-		suppress_cursorpos = FALSE;
+	/* If there is a message on the status bar, do not overwrite it. */
+	if (lastmessage != VACUUM)
 		return;
-	}
 
 	/* Determine the size of the file up to the cursor. */
 	saved_byte = openfile->current->data[openfile->current_x];
@@ -3395,15 +3388,13 @@ void do_cursorpos(bool force)
 		_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
 		openfile->current->lineno, openfile->filebot->lineno, linepct,
 		cur_xpt, cur_lenpt, colpct, sum, openfile->totsize, charpct);
-
-	/* Displaying the cursor position should not suppress it next time. */
-	suppress_cursorpos = FALSE;
 }
 
 /* Unconditionally display the current cursor position. */
 void do_cursorpos_void(void)
 {
-	do_cursorpos(TRUE);
+	lastmessage = VACUUM;
+	report_cursor_position();
 }
 
 void disable_waiting(void)

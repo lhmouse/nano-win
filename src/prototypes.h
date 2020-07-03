@@ -48,8 +48,6 @@ extern bool as_an_at;
 
 extern bool control_C_was_pressed;
 
-extern bool suppress_cursorpos;
-
 extern message_type lastmessage;
 
 extern linestruct *pletion_line;
@@ -636,7 +634,7 @@ void edit_refresh(void);
 void adjust_viewport(update_type manner);
 void full_refresh(void);
 void draw_all_subwindows(void);
-void do_cursorpos(bool force);
+void report_cursor_position(void);
 void do_cursorpos_void(void);
 void spotlight(size_t from_col, size_t to_col);
 #ifndef NANO_TINY

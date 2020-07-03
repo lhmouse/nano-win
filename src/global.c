@@ -70,9 +70,6 @@ bool as_an_at = TRUE;
 bool control_C_was_pressed = FALSE;
 		/* Whether Ctrl+C was pressed (when a keyboard interrupt is enabled). */
 
-bool suppress_cursorpos = FALSE;
-		/* Should we skip constant position display for current keystroke? */
-
 message_type lastmessage = HUSH;
 		/* Messages of type HUSH should not overwrite type MILD nor ALERT. */
 
