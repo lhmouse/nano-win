@@ -551,7 +551,7 @@ Invokes the help viewer.
 Cancels the current command.
 .TP
 .B exit
-Exits from the program (or from the help viewer or the file browser).
+Exits from the program (or from the help viewer or file browser).
 .TP
 .B writeout
 Writes the current buffer to disk, asking for a name.
@@ -830,17 +830,18 @@ When about to write a file, discard the current buffer without saving.
 is in effect.)
 .TP
 .B browser
-Starts the file browser, allowing to select a file from a list.
+Starts the file browser (in the Read File and Write Out menus),
+allowing to select a file from a list.
 .TP
 .B gotodir
 Goes to a directory to be specified, allowing to browse anywhere
 in the filesystem.
 .TP
 .B firstfile
-Goes to the first file when using the file browser (reading or writing files).
+Goes to the first file in the list when using the file browser.
 .TP
 .B lastfile
-Goes to the last file when using the file browser (reading or writing files).
+Goes to the last file in the list when using the file browser.
 .TP
 .B nohelp
 Toggles the presence of the two-line list of key bindings at the bottom of the screen.
@@ -921,7 +922,8 @@ The 'write file' menu.
 The 'insert file' menu.
 .TP
 .B browser
-The file browser for inserting or writing a file.
+The 'file browser' menu, for selecting a file to be opened or
+inserted or written to.
 .TP
 .B whereisfile
 The 'search for a file' menu in the file browser.
