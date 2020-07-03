@@ -3398,22 +3398,20 @@ void enable_waiting(void)
 	nodelay(edit, FALSE);
 }
 
-/* Highlight the text between from_col and to_col. */
+/* Highlight the text between the given two columns on the current line. */
 void spotlight(size_t from_col, size_t to_col)
 {
 	size_t right_edge = get_page_start(from_col) + editwincols;
-	bool overshoots = FALSE;
+	bool overshoots = (to_col > right_edge);
 	char *word;
 
 	place_the_cursor();
 
 	/* Limit the end column to the edge of the screen. */
-	if (to_col > right_edge) {
+	if (overshoots)
 		to_col = right_edge;
-		overshoots = TRUE;
-	}
 
-	/* This is so we can show zero-length matches. */
+	/* If the target text is of zero length, highlight a space instead. */
 	if (to_col == from_col) {
 		word = copy_of(" ");
 		to_col++;
@@ -3431,8 +3429,7 @@ void spotlight(size_t from_col, size_t to_col)
 }
 
 #ifndef NANO_TINY
-/* Highlight the text between the given columns.  This will not highlight soft
- * line breaks, since they're not actually part of the spotlighted text. */
+/* Highlight the text between the given two columns on the current line. */
 void spotlight_softwrapped(size_t from_col, size_t to_col)
 {
 	ssize_t row;
@@ -3448,14 +3445,13 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 		break_col = get_softwrap_breakpoint(openfile->current->data,
 												leftedge, &end_of_line);
 
-		/* Stop after the end of the word, by pretending the end of the word is
-		 * the end of the line. */
+		/* If the highlighting ends on this chunk, we can stop after it. */
 		if (break_col >= to_col) {
 			end_of_line = TRUE;
 			break_col = to_col;
 		}
 
-		/* This is so we can show zero-length matches. */
+		/* If the target text is of zero length, highlight a space instead. */
 		if (break_col == from_col) {
 			word = copy_of(" ");
 			break_col++;
