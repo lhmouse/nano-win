@@ -635,7 +635,6 @@ void adjust_viewport(update_type manner);
 void full_refresh(void);
 void draw_all_subwindows(void);
 void report_cursor_position(void);
-void do_cursorpos_void(void);
 void spotlight(size_t from_col, size_t to_col);
 #ifndef NANO_TINY
 void spotlight_softwrapped(size_t from_col, size_t to_col);

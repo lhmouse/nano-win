@@ -280,7 +280,7 @@ keystruct *strtosc(const char *input)
 		s->func = do_formatter;
 #endif
 	else if (!strcmp(input, "curpos"))
-		s->func = do_cursorpos_void;
+		s->func = report_cursor_position;
 	else if (!strcmp(input, "gotoline"))
 		s->func = do_gotolinecolumn_void;
 #ifdef ENABLE_JUSTIFY

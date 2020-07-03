@@ -789,7 +789,7 @@ void shortcut_init(void)
 #endif
 	}
 
-	add_to_funcs(do_cursorpos_void, MMAIN,
+	add_to_funcs(report_cursor_position, MMAIN,
 		N_("Location"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
 #if defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
@@ -1179,7 +1179,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-F", 0, do_formatter, 0);
 	add_to_sclist(MEXECUTE, "^O", 0, do_formatter, 0);
 #endif
-	add_to_sclist(MMAIN, "^C", 0, do_cursorpos_void, 0);
+	add_to_sclist(MMAIN, "^C", 0, report_cursor_position, 0);
 	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN, "M-G", 0, do_gotolinecolumn_void, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "^Y", 0, do_page_up, 0);
@@ -1458,7 +1458,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "F8", KEY_F(8), do_page_down, 0);
 	add_to_sclist(MMOST, "F9", KEY_F(9), cut_text, 0);
 	add_to_sclist(MMOST, "F10", KEY_F(10), paste_text, 0);
-	add_to_sclist(MMAIN, "F11", KEY_F(11), do_cursorpos_void, 0);
+	add_to_sclist(MMAIN, "F11", KEY_F(11), report_cursor_position, 0);
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", KEY_F(12), do_spell, 0);
 #endif

@@ -2482,8 +2482,8 @@ int main(int argc, char **argv)
 			bottombars(MMAIN);
 
 		/* Update the displayed current cursor position only when there
-		 * are no keys waiting in the input buffer. */
-		if (ISSET(CONSTANT_SHOW) && get_key_buffer_len() == 0)
+		 * is no message and no keys are waiting in the input buffer. */
+		if (ISSET(CONSTANT_SHOW) && lastmessage == VACUUM && get_key_buffer_len() == 0)
 			report_cursor_position();
 
 		lastmessage = VACUUM;

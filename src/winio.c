@@ -3367,10 +3367,6 @@ void report_cursor_position(void)
 	size_t cur_lenpt = breadth(openfile->current->data) + 1;
 	int linepct, colpct, charpct;
 
-	/* If there is a message on the status bar, do not overwrite it. */
-	if (lastmessage != VACUUM)
-		return;
-
 	/* Determine the size of the file up to the cursor. */
 	saved_byte = openfile->current->data[openfile->current_x];
 	openfile->current->data[openfile->current_x] = '\0';
@@ -3388,13 +3384,6 @@ void report_cursor_position(void)
 		_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
 		openfile->current->lineno, openfile->filebot->lineno, linepct,
 		cur_xpt, cur_lenpt, colpct, sum, openfile->totsize, charpct);
-}
-
-/* Unconditionally display the current cursor position. */
-void do_cursorpos_void(void)
-{
-	lastmessage = VACUUM;
-	report_cursor_position();
 }
 
 void disable_waiting(void)
