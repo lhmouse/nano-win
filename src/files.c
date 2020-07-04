@@ -1192,7 +1192,7 @@ void do_insertfile(bool execute)
 #endif
 #ifdef ENABLE_BROWSER
 			if (func == to_files) {
-				char *chosen = do_browse_from(answer);
+				char *chosen = browse_in(answer);
 
 				/* If no file was chosen, go back to the prompt. */
 				if (chosen == NULL)
@@ -2105,7 +2105,7 @@ int do_writeout(bool exiting, bool withprompt)
 
 #ifdef ENABLE_BROWSER
 		if (func == to_files) {
-			char *chosen = do_browse_from(answer);
+			char *chosen = browse_in(answer);
 
 			if (chosen == NULL)
 				continue;

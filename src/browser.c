@@ -39,9 +39,9 @@ static size_t longest = 0;
 static size_t selected = 0;
 		/* The currently selected filename in the list; zero-based. */
 
-/* Our main file browser function.  path is the tilde-expanded path we
- * start browsing from. */
-char *do_browser(char *path)
+/* Allow the user to browse through the directories in the filesystem,
+ * starting at the given path. */
+char *browse(char *path)
 {
 	char *present_name = NULL;
 		/* The name of the currently selected file, or of the directory we
@@ -346,20 +346,19 @@ char *do_browser(char *path)
 	return chosen;
 }
 
-/* The file browser front end.  We check to see if inpath has a
- * directory in it.  If it does, we start do_browser() from there.
- * Otherwise, we start do_browser() from the current directory. */
-char *do_browse_from(const char *inpath)
+/* Prepare to start browsing.  If the given path has a directory part,
+ * start browsing in that directory, otherwise in the current directory. */
+char *browse_in(const char *inpath)
 {
 	char *path = real_dir_from_tilde(inpath);
-	struct stat st;
+	struct stat fileinfo;
 
 	/* If path is not a directory, try to strip a filename from it; if then
 	 * still not a directory, use the current working directory instead. */
-	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
+	if (stat(path, &fileinfo) == -1 || !S_ISDIR(fileinfo.st_mode)) {
 		path = free_and_assign(path, strip_last_component(path));
 
-		if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
+		if (stat(path, &fileinfo) == -1 || !S_ISDIR(fileinfo.st_mode)) {
 			char *currentdir = charalloc(PATH_MAX + 1);
 
 			path = free_and_assign(path, getcwd(currentdir, PATH_MAX + 1));
@@ -381,7 +380,7 @@ char *do_browse_from(const char *inpath)
 		path = mallocstrcpy(path, operating_dir);
 #endif
 
-	return do_browser(path);
+	return browse(path);
 }
 
 /* Set filelist to the list of files contained in the directory path,
