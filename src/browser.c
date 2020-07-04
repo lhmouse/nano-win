@@ -351,30 +351,22 @@ char *do_browser(char *path)
  * Otherwise, we start do_browser() from the current directory. */
 char *do_browse_from(const char *inpath)
 {
+	char *path = real_dir_from_tilde(inpath);
 	struct stat st;
-	char *path;
-		/* This holds the tilde-expanded version of inpath. */
 
-	path = real_dir_from_tilde(inpath);
-
-	/* Perhaps path is a directory.  If so, we'll pass it to
-	 * do_browser().  Or perhaps path is a directory / a file.  If so,
-	 * we'll try stripping off the last path element and passing it to
-	 * do_browser().  Or perhaps path doesn't have a directory portion
-	 * at all.  If so, we'll just pass the current directory to
-	 * do_browser(). */
+	/* If path is not a directory, try to strip a filename from it; if then
+	 * still not a directory, use the current working directory instead. */
 	if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 		path = free_and_assign(path, strip_last_component(path));
 
 		if (stat(path, &st) == -1 || !S_ISDIR(st.st_mode)) {
 			char *currentdir = charalloc(PATH_MAX + 1);
 
-			free(path);
-			path = getcwd(currentdir, PATH_MAX + 1);
+			path = free_and_assign(path, getcwd(currentdir, PATH_MAX + 1));
 
 			if (path == NULL) {
-				free(currentdir);
 				statusline(MILD, _("The working directory has disappeared"));
+				free(currentdir);
 				beep();
 				napms(1200);
 				return NULL;
