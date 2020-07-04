@@ -749,18 +749,6 @@ void do_fileresearch(bool forwards)
 		findfile(last_search, forwards);
 }
 
-/* Select the first file in the list. */
-void to_first_file(void)
-{
-	selected = 0;
-}
-
-/* Select the last file in the list. */
-void to_last_file(void)
-{
-	selected = filelist_len - 1;
-}
-
 /* Strip one element from the end of path, and return the stripped path.
  * The returned string is dynamically allocated, and should be freed. */
 char *strip_last_component(const char *path)

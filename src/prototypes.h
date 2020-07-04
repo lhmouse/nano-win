@@ -194,8 +194,6 @@ void browser_refresh(void);
 void browser_select_dirname(const char *needle);
 void do_filesearch(bool forwards);
 void do_fileresearch(bool forwards);
-void to_first_file(void);
-void to_last_file(void);
 char *strip_last_component(const char *path);
 #endif
 
@@ -654,6 +652,8 @@ void flip_replace(void);
 void flip_goto(void);
 #ifdef ENABLE_BROWSER
 void to_files(void);
+void to_first_file(void);
+void to_last_file(void);
 void goto_dir(void);
 #endif
 #ifndef NANO_TINY

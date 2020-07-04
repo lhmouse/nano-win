@@ -298,6 +298,12 @@ void flip_goto(void)
 void to_files(void)
 {
 }
+void to_first_file(void)
+{
+}
+void to_last_file(void)
+{
+}
 void goto_dir(void)
 {
 }
