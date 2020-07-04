@@ -43,20 +43,18 @@ static size_t selected = 0;
  * start browsing from. */
 char *do_browser(char *path)
 {
-	char *retval = NULL;
-	int kbinput;
 	char *present_name = NULL;
 		/* The name of the currently selected file, or of the directory we
 		 * were in before backing up to "..". */
 	size_t old_selected;
 		/* The number of the selected file before the current selected file. */
-	functionptrtype func;
-		/* The function of the key the user typed in. */
 	DIR *dir;
 		/* The directory whose contents we are showing. */
+	char *chosen = NULL;
+		/* The name of the file that the user picked, or NULL if none. */
 
   read_directory_contents:
-		/* We come here when we refresh or select a new directory. */
+		/* We come here when the user refreshes or selects a new directory. */
 
 	path = free_and_assign(path, get_full_path(path));
 
@@ -101,6 +99,9 @@ char *do_browser(char *path)
 	titlebar(path);
 
 	while (TRUE) {
+		functionptrtype func;
+		int kbinput;
+
 		lastmessage = VACUUM;
 
 		bottombars(MBROWSER);
@@ -297,7 +298,7 @@ char *do_browser(char *path)
 
 			/* If it isn't a directory, a file was selected -- we're done. */
 			if (!S_ISDIR(st.st_mode)) {
-				retval = copy_of(filelist[selected]);
+				chosen = copy_of(filelist[selected]);
 				break;
 			}
 
@@ -342,7 +343,7 @@ char *do_browser(char *path)
 	filelist = NULL;
 	filelist_len = 0;
 
-	return retval;
+	return chosen;
 }
 
 /* The file browser front end.  We check to see if inpath has a
