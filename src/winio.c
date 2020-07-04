@@ -2141,7 +2141,6 @@ void statusline(message_type importance, const char *msg, ...)
 	/* Curses mode shouldn't be off when trying to write to the status bar. */
 	if (isendwin()) {
 		fprintf(stderr, "Out of curses -- please report a bug\n");
-		lastmessage = HUSH;
 		napms(1400);
 		return;
 	}
@@ -2227,7 +2226,7 @@ void warn_and_briefly_pause(const char *msg)
 {
 	blank_bottombars();
 	statusline(ALERT, msg);
-	lastmessage = HUSH;
+	lastmessage = VACUUM;
 	napms(1500);
 }
 

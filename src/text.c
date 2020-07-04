@@ -2251,7 +2251,7 @@ bool fix_spello(const char *word)
 	/* If the word isn't found, alert the user; if it is, allow correction. */
 	if (result == 0) {
 		statusline(ALERT, _("Unfindable word: %s"), word);
-		lastmessage = HUSH;
+		lastmessage = VACUUM;
 		proceed = TRUE;
 		napms(2800);
 	} else if (result == 1) {

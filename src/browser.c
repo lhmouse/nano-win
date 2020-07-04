@@ -67,10 +67,10 @@ char *do_browser(char *path)
 		statusline(ALERT, _("Cannot open directory: %s"), strerror(errno));
 		/* If we don't have a file list yet, there is nothing to show. */
 		if (filelist == NULL) {
-			napms(1200);
-			lastmessage = HUSH;
-			free(path);
+			lastmessage = VACUUM;
 			free(present_name);
+			free(path);
+			napms(1200);
 			return NULL;
 		}
 		path = mallocstrcpy(path, present_path);
@@ -101,7 +101,7 @@ char *do_browser(char *path)
 	titlebar(path);
 
 	while (TRUE) {
-		lastmessage = HUSH;
+		lastmessage = VACUUM;
 
 		bottombars(MBROWSER);
 
