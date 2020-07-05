@@ -2094,20 +2094,22 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	size_t pww_save = openfile->placewewant;
 	bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
 	struct stat fileinfo;
-	long timestamp_sec, timestamp_nsec;
+	long timestamp_sec = 0;
+	long timestamp_nsec = 0;
 	static char **arguments = NULL;
 	pid_t thepid;
 	int program_status;
 	bool replaced = FALSE;
 
-	/* Get the timestamp and the size of the temporary file. */
-	stat(tempfile_name, &fileinfo);
-	timestamp_sec = (long)fileinfo.st_mtim.tv_sec;
-	timestamp_nsec = (long)fileinfo.st_mtim.tv_nsec;
+	/* Stat the temporary file.  If that succeeds and its size is zero,
+	 * there is nothing to do; otherwise, store its time of modification. */
+	if (stat(tempfile_name, &fileinfo) == 0) {
+		if (fileinfo.st_size == 0)
+			return NULL;
 
-	/* If the number of bytes to check is zero, get out. */
-	if (fileinfo.st_size == 0)
-		return NULL;
+		timestamp_sec = (long)fileinfo.st_mtim.tv_sec;
+		timestamp_nsec = (long)fileinfo.st_mtim.tv_nsec;
+	}
 
 	/* Exit from curses mode to give the program control of the terminal. */
 	endwin();
@@ -2139,12 +2141,10 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	} else if (WEXITSTATUS(program_status) != 0)
 		statusline(ALERT, _("Program '%s' complained"), arguments[0]);
 
-	/* Stat the temporary file again. */
-	stat(tempfile_name, &fileinfo);
-
 	/* When the temporary file wasn't touched, say so and leave. */
-	if ((long)fileinfo.st_mtim.tv_sec == timestamp_sec &&
-				(long)fileinfo.st_mtim.tv_nsec == timestamp_nsec) {
+	if (timestamp_sec > 0 && stat(tempfile_name, &fileinfo) == 0 &&
+					(long)fileinfo.st_mtim.tv_sec == timestamp_sec &&
+					(long)fileinfo.st_mtim.tv_nsec == timestamp_nsec) {
 		statusbar(_("Nothing changed"));
 		return NULL;
 	}
