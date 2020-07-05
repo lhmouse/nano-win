@@ -612,8 +612,10 @@ Cuts all text from the cursor position till the end of the buffer.
 Sets the mark at the current position, to start selecting text.
 Or, when it is set, unsets the mark.
 .TP
-.B curpos
-Shows the current cursor position: the line, column, and character positions.
+.B location
+Reports the current position of the cursor in the buffer:
+the line, column, and character positions.
+(The old name of this function, 'curpos', is deprecated.)
 .TP
 .B wordcount
 Counts the number of words, lines and characters in the current buffer.

@@ -269,7 +269,7 @@
 #bind ^X cut all
 #bind ^C copy main
 #bind ^V paste all
-#bind ^P curpos main
+#bind ^P location main
 #bind ^A mark main
 #unbind ^K main
 #unbind ^U all

@@ -279,7 +279,8 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "formatter"))
 		s->func = do_formatter;
 #endif
-	else if (!strcmp(input, "curpos"))
+	else if (!strcmp(input, "location") ||
+	         !strcmp(input, "curpos"))  /* Deprecated; remove in 2022. */
 		s->func = report_cursor_position;
 	else if (!strcmp(input, "gotoline"))
 		s->func = do_gotolinecolumn_void;
