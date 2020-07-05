@@ -426,6 +426,7 @@ to be installed.
 Save a changed buffer without prompting (when exiting with @kbd{^X}).
 This can be handy when @command{nano} is used as the composer of an
 email program.
+(The old form of the long option, @code{--tempfile}, is deprecated.)
 
 @item -u
 @item --unix
@@ -945,6 +946,10 @@ system either Backspace acts like Delete or Delete acts like Backspace.
 Do regular-expression searches by default.
 Regular expressions in @command{nano} are of the extended type (ERE).
 
+@item set saveonexit
+Save a changed buffer automatically on exit (@kbd{^X}); don't prompt.
+(The old form of this option, @code{set tempfile}, is deprecated.)
+
 @item set selectedcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for selected text.
 @xref{@code{set functioncolor}} for valid color names.
@@ -991,9 +996,6 @@ greater than 0.  The default value is @t{8}.
 
 @item set tabstospaces
 Convert typed tabs to spaces.
-
-@item set tempfile
-Save automatically on exit, don't prompt.
 
 @item set titlecolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the title bar.
