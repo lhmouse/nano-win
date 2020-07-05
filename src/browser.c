@@ -451,8 +451,7 @@ void read_the_list(const char *path, DIR *dir)
 	width = (COLS + 2) / (longest + 2);
 }
 
-/* Set width to the number of files that we can display per screen row,
- * if necessary, and display the list of files. */
+/* Display at most a screenful of filenames from the gleaned filelist. */
 void browser_refresh(void)
 {
 	int row = 0, col = 0;
@@ -465,11 +464,8 @@ void browser_refresh(void)
 	titlebar(present_path);
 	blank_edit();
 
-	wmove(edit, 0, 0);
-
 	for (size_t index = selected - selected % (editwinrows * width);
 					index < filelist_len && row < editwinrows; index++) {
-		struct stat st;
 		const char *thename = tail(filelist[index]);
 				/* The filename we display, minus the path. */
 		size_t namelen = breadth(thename);
@@ -486,6 +482,7 @@ void browser_refresh(void)
 				namelen + infomaxlen + 4 - longest : 0, longest, FALSE, FALSE);
 				/* The filename (or a fragment of it) in displayable format.
 				 * When a fragment, account for dots plus one space padding. */
+		struct stat state;
 
 		/* If this is the selected item, draw its highlighted bar upfront, and
 		 * remember its location to be able to place the cursor on it. */
@@ -501,20 +498,18 @@ void browser_refresh(void)
 			mvwaddstr(edit, row, col, "...");
 		mvwaddstr(edit, row, dots ? col + 3 : col, disp);
 
-		free(disp);
-
 		col += longest;
 
 		/* Show information about the file: "--" for symlinks (except when
 		 * they point to a directory) and for files that have disappeared,
 		 * "(dir)" for directories, and the file size for normal files. */
-		if (lstat(filelist[index], &st) == -1 || S_ISLNK(st.st_mode)) {
-			if (stat(filelist[index], &st) == -1 || !S_ISDIR(st.st_mode))
+		if (lstat(filelist[index], &state) == -1 || S_ISLNK(state.st_mode)) {
+			if (stat(filelist[index], &state) == -1 || !S_ISDIR(state.st_mode))
 				info = copy_of("--");
 			else
 				/* TRANSLATORS: Try to keep this at most 7 characters. */
 				info = copy_of(_("(dir)"));
-		} else if (S_ISDIR(st.st_mode)) {
+		} else if (S_ISDIR(state.st_mode)) {
 			if (strcmp(thename, "..") == 0) {
 				/* TRANSLATORS: Try to keep this at most 12 characters. */
 				info = copy_of(_("(parent dir)"));
@@ -522,18 +517,18 @@ void browser_refresh(void)
 			} else
 				info = copy_of(_("(dir)"));
 		} else {
-			off_t result = st.st_size;
+			off_t result = state.st_size;
 			char modifier;
 
 			info = charalloc(infomaxlen + 1);
 
 			/* Massage the file size into a human-readable form. */
-			if (st.st_size < (1 << 10))
+			if (state.st_size < (1 << 10))
 				modifier = ' ';  /* bytes */
-			else if (st.st_size < (1 << 20)) {
+			else if (state.st_size < (1 << 20)) {
 				result >>= 10;
 				modifier = 'K';  /* kilobytes */
-			} else if (st.st_size < (1 << 30)) {
+			} else if (state.st_size < (1 << 30)) {
 				result >>= 20;
 				modifier = 'M';  /* megabytes */
 			} else {
@@ -563,13 +558,13 @@ void browser_refresh(void)
 		if (index == selected)
 			wattroff(edit, interface_color_pair[SELECTED_TEXT]);
 
+		free(disp);
 		free(info);
 
 		/* Add some space between the columns. */
 		col += 2;
 
-		/* If the next entry isn't going to fit on the current row,
-		 * move to the next row. */
+		/* If the next entry will not fit on this row, move to next row. */
 		if (col > COLS - longest) {
 			row++;
 			col = 0;
