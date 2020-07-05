@@ -331,10 +331,9 @@ int keycode_from_string(const char *keystring);
 void shortcut_init(void);
 const char *flagtostr(int flag);
 
-/* Most functions in help.c. */
+/* Some functions in help.c. */
 #ifdef ENABLE_HELP
 void wrap_help_text_into_buffer(void);
-void help_init(void);
 #endif
 void do_help(void);
 
