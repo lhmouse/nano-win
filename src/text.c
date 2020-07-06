@@ -3016,6 +3016,7 @@ void do_verbatim_input(void)
 	/* Read in the first one or two bytes of the next keystroke. */
 	bytes = get_verbatim_kbinput(edit, &count);
 
+	if (count > 0) {
 	/* Unsuppress cursor-position display or blank the status bar. */
 	if (ISSET(CONSTANT_SHOW))
 		lastmessage = VACUUM;
@@ -3024,6 +3025,8 @@ void do_verbatim_input(void)
 
 	/* Insert the bytes into the edit buffer. */
 	inject(bytes, count);
+	} else
+		statusline(ALERT, _("Invalid code"));
 
 	free(bytes);
 }
