@@ -935,9 +935,14 @@ int parse_kbinput(WINDOW *win)
 			retval = keycode;
 			break;
 		case 1:
-			if (keycode >= 0x80)
-				retval = keycode;
-			else if (keycode == '\t')
+			if (keycode >= 0x80) {
+#ifndef NANO_TINY
+				if (keycode == KEY_BACKSPACE)
+					retval = CONTROL_SHIFT_DELETE;
+				else
+#endif
+					retval = keycode;
+			} else if (keycode == '\t')
 				retval = SHIFT_TAB;
 			else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
 									(keycode != 'O' && keycode != '[')) {
