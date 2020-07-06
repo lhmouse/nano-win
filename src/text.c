@@ -3016,16 +3016,16 @@ void do_verbatim_input(void)
 	/* Read in the first one or two bytes of the next keystroke. */
 	bytes = get_verbatim_kbinput(edit, &count);
 
+	/* When something valid was obtained, unsuppress cursor-position display,
+	 * insert the bytes into the edit buffer, and blank the status bar. */
 	if (count > 0) {
-	/* Unsuppress cursor-position display or blank the status bar. */
-	if (ISSET(CONSTANT_SHOW))
-		lastmessage = VACUUM;
-	else
-		wipe_statusbar();
+		if (ISSET(CONSTANT_SHOW))
+			lastmessage = VACUUM;
 
-	/* Insert the bytes into the edit buffer. */
-	inject(bytes, count);
+		inject(bytes, count);
+		wipe_statusbar();
 	} else
+		/* TRANSLATORS: An invalid verbatim Unicode code was typed. */
 		statusline(ALERT, _("Invalid code"));
 
 	free(bytes);
