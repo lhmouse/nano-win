@@ -1324,6 +1324,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-D", 0, do_wordlinechar_count, 0);
 #endif
 #ifdef ENABLE_JUSTIFY
+	add_to_sclist(MMAIN, "M-J", 0, do_full_justify, 0);
 	add_to_sclist(MEXECUTE, "^J", 0, do_full_justify, 0);
 #endif
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
