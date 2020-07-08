@@ -1545,6 +1545,12 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	if (!ISSET(RAW_SEQUENCES))
 		keypad(win, FALSE);
 
+#ifndef NANO_TINY
+	/* Turn bracketed-paste mode off. */
+	printf("\e[?2004l");
+	fflush(stdout);
+#endif
+
 	/* Read in a single byte or two escapes. */
 	input = parse_verbatim_kbinput(win, count);
 
@@ -1559,6 +1565,12 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 			*count = 0;
 		}
 	}
+
+#ifndef NANO_TINY
+	/* Turn bracketed-paste mode back on. */
+	printf("\e[?2004h");
+	fflush(stdout);
+#endif
 
 	/* Turn flow control characters back on if necessary and turn the
 	 * keypad back on if necessary now that we're done. */
