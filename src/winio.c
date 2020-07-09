@@ -398,9 +398,8 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						return KEY_END;
 					case 'H': /* Esc O H == Home on old xterm. */
 						return KEY_HOME;
-					case 'M': /* Esc O M == Enter on numeric keypad with
-							   * NumLock off on VT100/VT220/VT320/xterm/
-							   * rxvt/Eterm. */
+					case 'M': /* Esc O M == Enter on numeric keypad
+							   * with NumLock off on VT100/VT220/VT320. */
 						return KEY_ENTER;
 					case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Mach console. */
 					case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/Mach console. */
@@ -422,22 +421,23 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'd': /* Esc O d == Ctrl-Left on rxvt/Eterm. */
 						return CONTROL_LEFT;
 					case 'j': /* Esc O j == '*' on numeric keypad with
-							   * NumLock off on VT100/VT220/VT320/xterm/
-							   * rxvt/Eterm/Terminal. */
+							   * NumLock off on xterm/rxvt/Eterm. */
 						return '*';
 					case 'k': /* Esc O k == '+' on the same. */
 						return '+';
-					case 'l': /* Esc O l == ',' on the same. */
+					case 'l': /* Esc O l == ',' on VT100/VT220/VT320. */
 						return ',';
-					case 'm': /* Esc O m == '-' on the same. */
+					case 'm': /* Esc O m == '-' on numeric keypad with
+							   * NumLock off on VTnnn/xterm/rxvt/Eterm. */
 						return '-';
-					case 'n': /* Esc O n == Delete (.) on the same. */
+					case 'n': /* Esc O n == Delete (.) on numeric keypad
+							   * with NumLock off on rxvt/Eterm. */
 						return KEY_DC;
-					case 'o': /* Esc O o == '/' on the same. */
+					case 'o': /* Esc O o == '/' on numeric keypad with
+							   * NumLock off on VTnnn/xterm/rxvt/Eterm. */
 						return '/';
 					case 'p': /* Esc O p == Insert (0) on numeric keypad
-							   * with NumLock off on VT100/VT220/VT320/
-							   * rxvt/Eterm/Terminal. */
+							   * with NumLock off on rxvt/Eterm. */
 						return KEY_IC;
 					case 'q': /* Esc O q == End (1) on the same. */
 						return KEY_END;
@@ -447,9 +447,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						return KEY_NPAGE;
 					case 't': /* Esc O t == Left (4) on the same. */
 						return KEY_LEFT;
-					case 'v': /* Esc O v == Right (6) on numeric keypad
-							   * with NumLock off on VT100/VT220/VT320/
-							   * rxvt/Eterm/Terminal. */
+					case 'v': /* Esc O v == Right (6) on the same. */
 						return KEY_RIGHT;
 					case 'w': /* Esc O w == Home (7) on the same. */
 						return KEY_HOME;
