@@ -368,12 +368,19 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 		/* ->->->->->->-> */
 						}
 						break;
-					case '2':
-						if (length > 2)
+					case '2':  /* Shift */
+					case '4':  /* Shift+Alt */
+					case '6':  /* Shift+Ctrl */
+						if (length > 2) {
 							*consumed = 3;
+							/* Allow typing digits on the numeric keypad without
+							 * engaging NumLock.  Esc O 2 p == Shift-0, .... */
+							return (seq[2] - 0x40);
+						}
 						break;
-					case '3':
-					case '5':
+					case '3':  /* Alt */
+					case '5':  /* Ctrl */
+					case '7':  /* Alt+Ctrl */
 						if (length > 2) {
 							*consumed = 3;
 							switch (seq[2]) {
