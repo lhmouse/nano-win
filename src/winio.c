@@ -372,11 +372,12 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						if (length > 2)
 							*consumed = 3;
 						break;
-#ifndef NANO_TINY
+					case '3':
 					case '5':
 						if (length > 2) {
 							*consumed = 3;
 							switch (seq[2]) {
+#ifndef NANO_TINY
 								case 'A': /* Esc O 5 A == Ctrl-Up on Haiku. */
 									return CONTROL_UP;
 								case 'B': /* Esc O 5 B == Ctrl-Down on Haiku. */
@@ -385,10 +386,20 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 									return CONTROL_RIGHT;
 								case 'D': /* Esc O 5 D == Ctrl-Left on Haiku. */
 									return CONTROL_LEFT;
+#endif
+								case 'M': /* Esc O . M == modified Enter on keypad. */
+									return KEY_ENTER;
+								case 'j': /* Esc O . j == modified '*' on keypad. */
+									return '*';
+								case 'k': /* Esc O . k == modified '+' on keypad. */
+									return '+';
+								case 'm': /* Esc O . m == modified '-' on keypad. */
+									return '-';
+								case 'o': /* Esc O . o == modified '/' on keypad. */
+									return '/';
 							}
 						}
 						break;
-#endif
 					case 'A': /* Esc O A == Up on VT100/VT320. */
 					case 'B': /* Esc O B == Down on VT100/VT320. */
 					case 'C': /* Esc O C == Right on VT100/VT320. */
