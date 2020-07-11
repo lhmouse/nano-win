@@ -1366,19 +1366,16 @@ long add_unicode_digit(int kbinput, long factor, long *uni)
 	return ERR;
 }
 
-/* Translate a Unicode sequence: turn a six-digit hexadecimal number
- * (from 000000 to 10FFFF, case-insensitive) into its corresponding
- * multibyte value. */
-long get_unicode_kbinput(WINDOW *win, int kbinput)
+/* For each consecutive call, gather the given digit into a six-digit Unicode
+ * (from 000000 to 10FFFF, case-insensitive).  When it is complete, return the
+ * assembled Unicode; until then, return ERR when the given digit is valid. */
+long assemble_unicode(int kbinput)
 {
 	static int uni_digits = 0;
 	static long uni = 0;
 	long retval = ERR;
 
-	/* Increment the Unicode digit counter. */
-	uni_digits++;
-
-	switch (uni_digits) {
+	switch (++uni_digits) {
 		case 1:
 			/* The first digit must be zero or one.  Put it in the
 			 * 0x100000's position of the Unicode sequence holder.
@@ -1416,7 +1413,7 @@ long get_unicode_kbinput(WINDOW *win, int kbinput)
 	}
 
 	/* Show feedback only when editing, not when at a prompt. */
-	if (retval == ERR && win == edit) {
+	if (retval == ERR && currmenu == MMAIN) {
 		char partial[7] = "......";
 
 		/* Construct the partial result, right-padding it with dots. */
@@ -1491,7 +1488,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
 		/* Check whether the first code is a valid starter digit: 0 or 1. */
-		long unicode = get_unicode_kbinput(win, *kbinput);
+		long unicode = assemble_unicode(*kbinput);
 
 		/* If the first code isn't the digit 0 nor 1, put it back. */
 		if (unicode != ERR)
@@ -1508,7 +1505,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 				free(kbinput);
 				while ((kbinput = get_input(win, 1)) == NULL)
 					;
-				unicode = get_unicode_kbinput(win, *kbinput);
+				unicode = assemble_unicode(*kbinput);
 			}
 
 			/* Convert the Unicode value to a multibyte sequence. */
