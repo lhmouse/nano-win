@@ -1379,13 +1379,7 @@ long assemble_unicode(int kbinput)
 
 	switch (++uni_digits) {
 		case 1:
-			/* The first digit must be zero or one.  Put it in the
-			 * 0x100000's position of the Unicode sequence holder.
-			 * Otherwise, return the character itself as the result. */
-			if (kbinput == '0' || kbinput == '1')
-				uni = (kbinput - '0') * 0x100000;
-			else
-				retval = kbinput;
+			uni = (kbinput - '0') * 0x100000;
 			break;
 		case 2:
 			/* The second digit must be zero if the first was one, but
@@ -1489,15 +1483,10 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
-		/* Check whether the first code is a valid starter digit: 0 or 1. */
-		long unicode = assemble_unicode(*kbinput);
-
-		/* If the first code isn't the digit 0 nor 1, put it back. */
-		if (unicode != PROCEED)
-			put_back(*kbinput);
-		/* Otherwise, continue reading in digits until we have a complete
-		 * Unicode value, and put back the corresponding byte(s). */
-		else {
+		/* If the first code is a valid Unicode starter digit (0 or 1),
+		 * commence Unicode input.  Otherwise, put the code back. */
+		if (*kbinput == '0' || *kbinput == '1') {
+			long unicode = assemble_unicode(*kbinput);
 			char *multibyte;
 			int onebyte;
 
@@ -1505,8 +1494,9 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 			while (unicode == PROCEED) {
 				free(kbinput);
-				while ((kbinput = get_input(win, 1)) == NULL)
-					;
+				kbinput = NULL;
+				while (kbinput == NULL)
+					kbinput = get_input(win, 1);
 				unicode = assemble_unicode(*kbinput);
 			}
 
@@ -1520,7 +1510,8 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 			}
 
 			free(multibyte);
-		}
+		} else
+			put_back(*kbinput);
 	} else
 #endif /* ENABLE_UTF8 */
 		/* Put back the first code. */
