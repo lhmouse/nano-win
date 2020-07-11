@@ -1351,8 +1351,10 @@ int get_byte_kbinput(int kbinput)
 }
 
 #ifdef ENABLE_UTF8
+#define PROCEED  -4
+
 /* If the character in kbinput is a valid hexadecimal digit, multiply it
- * by factor and add the result to uni, and return ERR to signify okay. */
+ * by factor and add the result to uni, and return PROCEED to signify okay. */
 long add_unicode_digit(int kbinput, long factor, long *uni)
 {
 	if ('0' <= kbinput && kbinput <= '9')
@@ -1363,17 +1365,17 @@ long add_unicode_digit(int kbinput, long factor, long *uni)
 		/* The character isn't hexadecimal; give it as the result. */
 		return (long)kbinput;
 
-	return ERR;
+	return PROCEED;
 }
 
 /* For each consecutive call, gather the given digit into a six-digit Unicode
  * (from 000000 to 10FFFF, case-insensitive).  When it is complete, return the
- * assembled Unicode; until then, return ERR when the given digit is valid. */
+ * assembled Unicode; until then, return PROCEED when the given digit is valid. */
 long assemble_unicode(int kbinput)
 {
 	static int uni_digits = 0;
 	static long uni = 0;
-	long retval = ERR;
+	long retval = PROCEED;
 
 	switch (++uni_digits) {
 		case 1:
@@ -1407,13 +1409,13 @@ long assemble_unicode(int kbinput)
 			retval = add_unicode_digit(kbinput, 0x1, &uni);
 			/* If also the sixth digit was a valid hexadecimal value, then
 			 * the Unicode sequence is complete, so return it. */
-			if (retval == ERR)
+			if (retval == PROCEED)
 				retval = uni;
 			break;
 	}
 
 	/* Show feedback only when editing, not when at a prompt. */
-	if (retval == ERR && currmenu == MMAIN) {
+	if (retval == PROCEED && currmenu == MMAIN) {
 		char partial[7] = "......";
 
 		/* Construct the partial result, right-padding it with dots. */
@@ -1426,7 +1428,7 @@ long assemble_unicode(int kbinput)
 	}
 
 	/* If we have an end result, reset the Unicode digit counter. */
-	if (retval != ERR)
+	if (retval != PROCEED)
 		uni_digits = 0;
 
 	return retval;
@@ -1491,7 +1493,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		long unicode = assemble_unicode(*kbinput);
 
 		/* If the first code isn't the digit 0 nor 1, put it back. */
-		if (unicode != ERR)
+		if (unicode != PROCEED)
 			put_back(*kbinput);
 		/* Otherwise, continue reading in digits until we have a complete
 		 * Unicode value, and put back the corresponding byte(s). */
@@ -1501,7 +1503,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 			reveal_cursor = FALSE;
 
-			while (unicode == ERR) {
+			while (unicode == PROCEED) {
 				free(kbinput);
 				while ((kbinput = get_input(win, 1)) == NULL)
 					;
