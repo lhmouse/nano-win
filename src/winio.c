@@ -841,6 +841,33 @@ int parse_escape_sequence(int firstbyte)
 	return keycode;
 }
 
+/* Translate a normal ASCII character into its corresponding control code.
+ * The following groups of control keystrokes are equivalent:
+ *   Ctrl-2 == Ctrl-@ == Ctrl-` == Ctrl-Space
+ *   Ctrl-3 == Ctrl-[ == <Esc>
+ *   Ctrl-4 == Ctrl-\ == Ctrl-|
+ *   Ctrl-5 == Ctrl-]
+ *   Ctrl-6 == Ctrl-^ == Ctrl-~
+ *   Ctrl-7 == Ctrl-/ == Ctrl-_
+ *   Ctrl-8 == Ctrl-? */
+int convert_to_control(int kbinput)
+{
+	if ('@' <= kbinput && kbinput <= '_')
+		return kbinput - '@';
+	if ('`' <= kbinput && kbinput <= '~')
+		return kbinput - '`';
+	if ('3' <= kbinput && kbinput <= '7')
+		return kbinput - 24;
+	if (kbinput == '?' || kbinput == '8')
+		return DEL_CODE;
+	if (kbinput == ' ' || kbinput == '2')
+		return 0;
+	if (kbinput == '/')
+		return 31;
+
+	return kbinput;
+}
+
 /* Extract a single keystroke from the input stream.  Translate escape
  * sequences and extended keypad codes into their corresponding values.
  * Set meta_key to TRUE when appropriate.  Supported extended keypad values
@@ -974,7 +1001,7 @@ int parse_kbinput(WINDOW *win)
 							meta_key = TRUE;
 							retval = (shifted_metas) ? keycode : tolower(keycode);
 						} else
-							retval = get_control_kbinput(keycode);
+							retval = convert_to_control(keycode);
 					else {
 						/* An invalid digit in the middle of a byte
 						 * sequence: reset the byte sequence counter
@@ -1011,8 +1038,7 @@ int parse_kbinput(WINDOW *win)
 				 * codes are waiting: combined control character and
 				 * escape sequence mode.  First interpret the escape
 				 * sequence, then the result as a control sequence. */
-				retval = get_control_kbinput(
-						parse_escape_sequence(keycode));
+				retval = convert_to_control(parse_escape_sequence(keycode));
 			escapes = 0;
 			break;
 	}
@@ -1428,33 +1454,6 @@ long assemble_unicode(int kbinput)
 	return retval;
 }
 #endif /* ENABLE_UTF8 */
-
-/* Translate a normal ASCII character into its corresponding control code.
- * The following groups of control keystrokes are equivalent:
- *   Ctrl-2 == Ctrl-@ == Ctrl-` == Ctrl-Space
- *   Ctrl-3 == Ctrl-[ == <Esc>
- *   Ctrl-4 == Ctrl-\ == Ctrl-|
- *   Ctrl-5 == Ctrl-]
- *   Ctrl-6 == Ctrl-^ == Ctrl-~
- *   Ctrl-7 == Ctrl-/ == Ctrl-_
- *   Ctrl-8 == Ctrl-? */
-int get_control_kbinput(int kbinput)
-{
-	if ('@' <= kbinput && kbinput <= '_')
-		return kbinput - '@';
-	if ('`' <= kbinput && kbinput <= '~')
-		return kbinput - '`';
-	if ('3' <= kbinput && kbinput <= '7')
-		return kbinput - 24;
-	if (kbinput == '?' || kbinput == '8')
-		return DEL_CODE;
-	if (kbinput == ' ' || kbinput == '2')
-		return 0;
-	if (kbinput == '/')
-		return 31;
-
-	return kbinput;
-}
 
 /* Read in one control character (or an iTerm/Eterm/rxvt double Escape),
  * or convert a series of six digits into a Unicode codepoint.  Return
