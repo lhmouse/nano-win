@@ -1597,15 +1597,15 @@ bool backup_file(char *realname, char **backupname)
 	bool second_attempt = FALSE;
 		/* Whether a normal backup failed and we are resorting to a failsafe. */
 
-		static struct timespec filetime[2];
-		int backup_cflags, backup_fd, verdict;
-		FILE *original = NULL, *backup_file = NULL;
+	static struct timespec filetime[2];
+	int backup_cflags, backup_fd, verdict;
+	FILE *original = NULL, *backup_file = NULL;
 
-		/* Remember the original file's access and modification times. */
-		filetime[0].tv_sec = openfile->statinfo->st_atime;
-		filetime[1].tv_sec = openfile->statinfo->st_mtime;
+	/* Remember the original file's access and modification times. */
+	filetime[0].tv_sec = openfile->statinfo->st_atime;
+	filetime[1].tv_sec = openfile->statinfo->st_mtime;
 
-		statusbar(_("Making backup..."));
+	statusbar(_("Making backup..."));
 
 		/* If no backup directory was specified, we make a simple backup
 		 * by appending a tilde to the original file name.  Otherwise,
@@ -1661,89 +1661,89 @@ bool backup_file(char *realname, char **backupname)
 		backup_fd = open(*backupname, backup_cflags, S_IRUSR|S_IWUSR);
 
   try_backup:
-		if (backup_fd >= 0)
-			backup_file = fdopen(backup_fd, "wb");
+	if (backup_fd >= 0)
+		backup_file = fdopen(backup_fd, "wb");
 
-		if (backup_file == NULL)
-			goto backup_error;
+	if (backup_file == NULL)
+		goto backup_error;
 
-		/* Try to change owner and group to those of the original file;
-		 * ignore errors, as a normal user cannot change the owner. */
-		IGNORE_CALL_RESULT(fchown(backup_fd, openfile->statinfo->st_uid,
-											openfile->statinfo->st_gid));
+	/* Try to change owner and group to those of the original file;
+	 * ignore errors, as a normal user cannot change the owner. */
+	IGNORE_CALL_RESULT(fchown(backup_fd, openfile->statinfo->st_uid,
+										openfile->statinfo->st_gid));
 
-		/* Set the backup's permissions to those of the original file.
-		 * It is not a security issue if this fails, as we have created
-		 * the file with just read and write permission for the owner. */
-		IGNORE_CALL_RESULT(fchmod(backup_fd, openfile->statinfo->st_mode));
+	/* Set the backup's permissions to those of the original file.
+	 * It is not a security issue if this fails, as we have created
+	 * the file with just read and write permission for the owner. */
+	IGNORE_CALL_RESULT(fchmod(backup_fd, openfile->statinfo->st_mode));
 
-		original = fopen(realname, "rb");
+	original = fopen(realname, "rb");
 
-		/* If we can't read from the original file, go on, since saving
-		 * only the current buffer is better than saving nothing. */
-		if (original == NULL) {
-			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
-			fclose(backup_file);
-			return TRUE;
-		}
+	/* If we can't read from the original file, go on, since saving
+	 * only the current buffer is better than saving nothing. */
+	if (original == NULL) {
+		statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
+		fclose(backup_file);
+		return TRUE;
+	}
 
-		/* Copy the existing file to the backup. */
-		verdict = copy_file(original, backup_file, FALSE);
+	/* Copy the existing file to the backup. */
+	verdict = copy_file(original, backup_file, FALSE);
 
-		if (verdict < 0) {
-			fclose(backup_file);
-			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
-			return FALSE;
-		} else if (verdict > 0) {
-			fclose(backup_file);
-			goto backup_error;
-		}
+	if (verdict < 0) {
+		fclose(backup_file);
+		statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
+		return FALSE;
+	} else if (verdict > 0) {
+		fclose(backup_file);
+		goto backup_error;
+	}
 
-		/* Since this backup is a newly created file, explicitly sync it to
-		 * permanent storage before starting to write out the actual file. */
-		if (sync_file(backup_file) != 0)
-			goto backup_error;
+	/* Since this backup is a newly created file, explicitly sync it to
+	 * permanent storage before starting to write out the actual file. */
+	if (sync_file(backup_file) != 0)
+		goto backup_error;
 
-		/* Set the backup's timestamps to those of the original file.
-		 * Failure is unimportant: saving the file apparently worked. */
-		IGNORE_CALL_RESULT(futimens(backup_fd, filetime));
+	/* Set the backup's timestamps to those of the original file.
+	 * Failure is unimportant: saving the file apparently worked. */
+	IGNORE_CALL_RESULT(futimens(backup_fd, filetime));
 
-		if (fclose(backup_file) == 0)
-			return TRUE;
+	if (fclose(backup_file) == 0)
+		return TRUE;
 
   backup_error:
-		get_homedir();
+	get_homedir();
 
-		/* If the first attempt of copying the file failed, try again to HOME. */
-		if (!second_attempt && homedir) {
-			unlink(*backupname);
-			free(*backupname);
+	/* If the first attempt of copying the file failed, try again to HOME. */
+	if (!second_attempt && homedir) {
+		unlink(*backupname);
+		free(*backupname);
 
-			*backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
-			sprintf(*backupname, "%s/%s~XXXXXX", homedir, tail(realname));
+		*backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
+		sprintf(*backupname, "%s/%s~XXXXXX", homedir, tail(realname));
 
-			backup_fd = mkstemp(*backupname);
-			backup_file = NULL;
+		backup_fd = mkstemp(*backupname);
+		backup_file = NULL;
 
-			if (ISSET(MAKE_BACKUP)) {
-				warn_and_briefly_pause(_("Cannot make regular backup"));
-				warn_and_briefly_pause(_("Trying again in your home directory"));
-				currmenu = MMOST;
-			}
-
-			second_attempt = TRUE;
-			goto try_backup;
+		if (ISSET(MAKE_BACKUP)) {
+			warn_and_briefly_pause(_("Cannot make regular backup"));
+			warn_and_briefly_pause(_("Trying again in your home directory"));
+			currmenu = MMOST;
 		}
 
-		/* If all attempts failed, notify the user, because if something goes
-		 * wrong during the save, the contents of the file might be lost. */
-		warn_and_briefly_pause(_("Cannot make backup"));
-		if (!user_wants_to_proceed()) {
-			statusline(HUSH, _("Cannot write backup %s: %s"),
-								*backupname, strerror(errno));
-			return FALSE;
-		}
-		return TRUE;
+		second_attempt = TRUE;
+		goto try_backup;
+	}
+
+	/* If all attempts failed, notify the user, because if something goes
+	 * wrong during the save, the contents of the file might be lost. */
+	warn_and_briefly_pause(_("Cannot make backup"));
+	if (!user_wants_to_proceed()) {
+		statusline(HUSH, _("Cannot write backup %s: %s"),
+							*backupname, strerror(errno));
+		return FALSE;
+	}
+	return TRUE;
 }
 #endif /* !NANO_TINY */
 
