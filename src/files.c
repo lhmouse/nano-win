@@ -1613,25 +1613,25 @@ bool backup_file(char *realname, char **backupname)
 			*backupname = charalloc(strlen(realname) + 2);
 			sprintf(*backupname, "%s~", realname);
 		} else {
-			char *backuptemp = get_full_path(realname);
+			char *thename = get_full_path(realname);
 
 			/* If we have a valid absolute path, replace each slash
 			 * in this full path with an exclamation mark.  Otherwise,
 			 * just use the file-name portion of the given path. */
-			if (backuptemp) {
-				for (int i = 0; backuptemp[i] != '\0'; i++)
-					if (backuptemp[i] == '/')
-						backuptemp[i] = '!';
+			if (thename) {
+				for (int i = 0; thename[i] != '\0'; i++)
+					if (thename[i] == '/')
+						thename[i] = '!';
 			} else
-				backuptemp = copy_of(tail(realname));
+				thename = copy_of(tail(realname));
 
-			*backupname = charalloc(strlen(backup_dir) + strlen(backuptemp) + 1);
-			sprintf(*backupname, "%s%s", backup_dir, backuptemp);
-			free(backuptemp);
+			*backupname = charalloc(strlen(backup_dir) + strlen(thename) + 1);
+			sprintf(*backupname, "%s%s", backup_dir, thename);
+			free(thename);
 
-			backuptemp = get_next_filename(*backupname, "~");
+			thename = get_next_filename(*backupname, "~");
 			free(*backupname);
-			*backupname = backuptemp;
+			*backupname = thename;
 
 			/* If all numbered backup names are taken, the user must
 			 * be fond of backups.  Thus, without one, do not go on. */
@@ -1690,8 +1690,8 @@ bool backup_file(char *realname, char **backupname)
 	verdict = copy_file(original, backup_file, FALSE);
 
 	if (verdict < 0) {
-		fclose(backup_file);
 		statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
+		fclose(backup_file);
 		return FALSE;
 	} else if (verdict > 0) {
 		fclose(backup_file);
@@ -1948,12 +1948,12 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		verdict = copy_file(source, thefile, FALSE);
 
 		if (verdict < 0) {
-			fclose(thefile);
 			statusline(ALERT, _("Error reading temp file: %s"), strerror(errno));
+			fclose(thefile);
 			goto cleanup_and_exit;
 		} else if (verdict > 0) {
-			fclose(thefile);
 			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
+			fclose(thefile);
 			goto cleanup_and_exit;
 		}
 
