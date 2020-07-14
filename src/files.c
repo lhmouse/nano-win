@@ -1607,16 +1607,11 @@ bool backup_file(char *realname, char **backupname)
 
 	statusbar(_("Making backup..."));
 
+	if (ISSET(MAKE_BACKUP)) {
 		/* If no backup directory was specified, we make a simple backup
 		 * by appending a tilde to the original file name.  Otherwise,
 		 * we create a numbered backup in the specified directory. */
-		if (!ISSET(MAKE_BACKUP)) {
-			*backupname = charalloc(strlen(realname) + 8);
-			sprintf(*backupname, "%s~XXXXXX", realname);
-
-			backup_fd = mkstemp(*backupname);
-			goto try_backup;
-		} else if (backup_dir == NULL) {
+		if (backup_dir == NULL) {
 			*backupname = charalloc(strlen(realname) + 2);
 			sprintf(*backupname, "%s~", realname);
 		} else {
@@ -1659,8 +1654,14 @@ bool backup_file(char *realname, char **backupname)
 
 		/* Create the backup file (or truncate the existing one). */
 		backup_fd = open(*backupname, backup_cflags, S_IRUSR|S_IWUSR);
+	} else {
+		*backupname = charalloc(strlen(realname) + 8);
+		sprintf(*backupname, "%s~XXXXXX", realname);
 
-  try_backup:
+		backup_fd = mkstemp(*backupname);
+	}
+
+  retry_backup:
 	if (backup_fd >= 0)
 		backup_file = fdopen(backup_fd, "wb");
 
@@ -1732,7 +1733,7 @@ bool backup_file(char *realname, char **backupname)
 		}
 
 		second_attempt = TRUE;
-		goto try_backup;
+		goto retry_backup;
 	}
 
 	/* If all attempts failed, notify the user, because if something goes
