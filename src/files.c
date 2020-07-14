@@ -2426,8 +2426,8 @@ bool is_dir(const char *path)
 	return retval;
 }
 
-/* Try to complete the given fragment in 'buf' to a username. */
-char **username_completion(const char *buf, size_t length, size_t *num_matches)
+/* Try to complete the given fragment of given length to a username. */
+char **username_completion(const char *morsel, size_t length, size_t *num_matches)
 {
 	char **matches = NULL;
 #ifdef HAVE_PWD_H
@@ -2436,7 +2436,7 @@ char **username_completion(const char *buf, size_t length, size_t *num_matches)
 	/* Iterate through the entries in the passwd file, and
 	 * add each fitting username to the list of matches. */
 	while ((userdata = getpwent()) != NULL) {
-		if (strncmp(userdata->pw_name, buf + 1, length - 1) == 0) {
+		if (strncmp(userdata->pw_name, morsel + 1, length - 1) == 0) {
 #ifdef ENABLE_OPERATINGDIR
 			/* Skip directories that are outside of the allowed area. */
 			if (outside_of_confinement(userdata->pw_dir, TRUE))
@@ -2469,10 +2469,10 @@ char **username_completion(const char *buf, size_t length, size_t *num_matches)
  * This code is 'as is' with no warranty.
  * This code may safely be consumed by a BSD or GPL license. */
 
-/* Try to complete the given fragment in 'buf' to a filename. */
-char **filename_completion(const char *buf, size_t length, size_t *num_matches)
+/* Try to complete the given fragment of given length to a filename. */
+char **filename_completion(const char *morsel, size_t length, size_t *num_matches)
 {
-	char *dirname = copy_of(buf);
+	char *dirname = copy_of(morsel);
 	char *slash, *filename;
 	size_t filenamelen;
 	char *fullname = NULL;
@@ -2545,26 +2545,25 @@ char **filename_completion(const char *buf, size_t length, size_t *num_matches)
 
 /* Do tab completion.  'place' is the position of the status-bar cursor, and
  * 'refresh_func' is the function to be called to refresh the edit window. */
-char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *listed)
+char *input_tab(char *morsel, size_t *place, void (*refresh_func)(void), bool *listed)
 {
 	size_t num_matches = 0;
 	char **matches = NULL;
 
 	/* If the cursor is not at the end of the fragment, do nothing. */
-	if (buf[*place] != '\0') {
+	if (morsel[*place] != '\0') {
 		beep();
-		return buf;
+		return morsel;
 	}
 
 	/* If the fragment starts with a tilde and contains no slash,
 	 * then try completing it as a username. */
-	if (buf[0] == '~' && strchr(buf, '/') == NULL)
-		matches = username_completion(buf, *place, &num_matches);
+	if (morsel[0] == '~' && strchr(morsel, '/') == NULL)
+		matches = username_completion(morsel, *place, &num_matches);
 
-	/* If there are no matches yet, try matching against filenames
-	 * in the current directory. */
+	/* If there are no matches yet, try matching against filenames. */
 	if (matches == NULL)
-		matches = filename_completion(buf, *place, &num_matches);
+		matches = filename_completion(morsel, *place, &num_matches);
 
 	/* If possible completions were listed before but none will be listed now... */
 	if (*listed && num_matches < 2) {
@@ -2574,13 +2573,13 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 
 	if (matches == NULL) {
 		beep();
-		return buf;
+		return morsel;
 	}
 
-	const char *lastslash = revstrstr(buf, "/", buf + *place);
-	size_t length_of_path = (lastslash == NULL) ? 0 : lastslash - buf + 1;
+	const char *lastslash = revstrstr(morsel, "/", morsel + *place);
+	size_t length_of_path = (lastslash == NULL) ? 0 : lastslash - morsel + 1;
 	size_t match, common_len = 0;
-	char *mzero, *glued;
+	char *shared, *glued;
 	char char1[MAXCHARLEN], char2[MAXCHARLEN];
 	int len1, len2;
 
@@ -2601,25 +2600,25 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 		common_len += len1;
 	}
 
-	mzero = charalloc(length_of_path + common_len + 1);
+	shared = charalloc(length_of_path + common_len + 1);
 
-	strncpy(mzero, buf, length_of_path);
-	strncpy(mzero + length_of_path, matches[0], common_len);
+	strncpy(shared, morsel, length_of_path);
+	strncpy(shared + length_of_path, matches[0], common_len);
 
 	common_len += length_of_path;
-	mzero[common_len] = '\0';
+	shared[common_len] = '\0';
 
 	/* Cover also the case of the user specifying a relative path. */
 	glued = charalloc(strlen(present_path) + common_len + 1);
-	sprintf(glued, "%s%s", present_path, mzero);
+	sprintf(glued, "%s%s", present_path, shared);
 
-	if (num_matches == 1 && (is_dir(mzero) || is_dir(glued)))
-		mzero[common_len++] = '/';
+	if (num_matches == 1 && (is_dir(shared) || is_dir(glued)))
+		shared[common_len++] = '/';
 
 	/* If the matches have something in common, copy that part. */
 	if (common_len != *place) {
-		buf = charealloc(buf, common_len + 1);
-		strcpy(buf, mzero);
+		morsel = charealloc(morsel, common_len + 1);
+		strcpy(morsel, shared);
 		*place = common_len;
 	} else if (num_matches == 1)
 		beep();
@@ -2683,8 +2682,8 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 
 	free_chararray(matches, num_matches);
 	free(glued);
-	free(mzero);
+	free(shared);
 
-	return buf;
+	return morsel;
 }
 #endif /* ENABLE_TABCOMP */
