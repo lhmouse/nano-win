@@ -1,4 +1,4 @@
-s2020.05.23 - GNU nano 4.9.3 "Almendras"
+2020.05.23 - GNU nano 4.9.3 "Almendras"
 • One more bug introduced in version 4.9 is fixed: a crash when
   the terminal screen is resized while at a lock-file prompt.
 
