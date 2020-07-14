@@ -2610,7 +2610,7 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 	mzero[common_len] = '\0';
 
 	/* Cover also the case of the user specifying a relative path. */
-	glued = charalloc(strlen(present_path) + strlen(mzero) + 1);
+	glued = charalloc(strlen(present_path) + common_len + 1);
 	sprintf(glued, "%s%s", present_path, mzero);
 
 	if (num_matches == 1 && (is_dir(mzero) || is_dir(glued)))
@@ -2619,8 +2619,7 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 	/* If the matches have something in common, copy that part. */
 	if (common_len != *place) {
 		buf = charealloc(buf, common_len + 1);
-		memmove(buf + common_len, buf + *place, 1);
-		strncpy(buf, mzero, common_len);
+		strcpy(buf, mzero);
 		*place = common_len;
 	} else if (num_matches == 1)
 		beep();
