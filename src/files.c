@@ -1594,12 +1594,10 @@ int sync_file(FILE *thefile)
  * then in the user's home directory).  Return TRUE if the save can proceed. */
 bool backup_file(char *realname, char **backupname)
 {
-	bool second_attempt = FALSE;
-		/* Whether a normal backup failed and we are resorting to a failsafe. */
-
-	static struct timespec filetime[2];
-	int backup_cflags, backup_fd, verdict;
 	FILE *original = NULL, *backup_file = NULL;
+	int backup_cflags, backup_fd, verdict;
+	static struct timespec filetime[2];
+	bool second_attempt = FALSE;
 
 	/* Remember the original file's access and modification times. */
 	filetime[0].tv_sec = openfile->statinfo->st_atime;
@@ -1720,31 +1718,31 @@ bool backup_file(char *realname, char **backupname)
 		unlink(*backupname);
 		free(*backupname);
 
-		*backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
-		sprintf(*backupname, "%s/%s~XXXXXX", homedir, tail(realname));
-
-		backup_fd = mkstemp(*backupname);
-		backup_file = NULL;
-
 		if (ISSET(MAKE_BACKUP)) {
 			warn_and_briefly_pause(_("Cannot make regular backup"));
 			warn_and_briefly_pause(_("Trying again in your home directory"));
 			currmenu = MMOST;
 		}
 
+		*backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
+		sprintf(*backupname, "%s/%s~XXXXXX", homedir, tail(realname));
+
+		backup_fd = mkstemp(*backupname);
+		backup_file = NULL;
+
 		second_attempt = TRUE;
 		goto retry_backup;
 	}
 
-	/* If all attempts failed, notify the user, because if something goes
-	 * wrong during the save, the contents of the file might be lost. */
+	/* If all attempts failed, ask the user what to do, because if something
+	 * goes wrong during the save, the contents of the file might be lost. */
 	warn_and_briefly_pause(_("Cannot make backup"));
-	if (!user_wants_to_proceed()) {
-		statusline(HUSH, _("Cannot write backup %s: %s"),
-							*backupname, strerror(errno));
-		return FALSE;
-	}
-	return TRUE;
+	if (user_wants_to_proceed())
+		return TRUE;
+
+	statusline(HUSH, _("Cannot write backup %s: %s"),
+						*backupname, strerror(errno));
+	return FALSE;
 }
 #endif /* !NANO_TINY */
 
