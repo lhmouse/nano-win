@@ -1797,7 +1797,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	/* When the user requested a backup, we do this only if the file exists and
 	 * isn't temporary AND the file has not been modified by someone else since
 	 * we opened it (or we are appending/prepending or writing a selection). */
-	if (is_existing_file && openfile->statinfo &&
+	if (is_existing_file && !ISSET(RESTRICTED) && openfile->statinfo &&
 						(openfile->statinfo->st_mtime == st.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
 		if (!backup_file(realname, &backupname))
