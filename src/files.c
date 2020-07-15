@@ -1605,52 +1605,52 @@ bool backup_file(char *realname, char **backupname)
 
 	statusbar(_("Making backup..."));
 
-		/* If no backup directory was specified, we make a simple backup
-		 * by appending a tilde to the original file name.  Otherwise,
-		 * we create a numbered backup in the specified directory. */
-		if (backup_dir == NULL) {
-			*backupname = charalloc(strlen(realname) + 2);
-			sprintf(*backupname, "%s~", realname);
-		} else {
-			char *thename = get_full_path(realname);
+	/* If no backup directory was specified, we make a simple backup
+	 * by appending a tilde to the original file name.  Otherwise,
+	 * we create a numbered backup in the specified directory. */
+	if (backup_dir == NULL) {
+		*backupname = charalloc(strlen(realname) + 2);
+		sprintf(*backupname, "%s~", realname);
+	} else {
+		char *thename = get_full_path(realname);
 
-			/* If we have a valid absolute path, replace each slash
-			 * in this full path with an exclamation mark.  Otherwise,
-			 * just use the file-name portion of the given path. */
-			if (thename) {
-				for (int i = 0; thename[i] != '\0'; i++)
-					if (thename[i] == '/')
-						thename[i] = '!';
-			} else
-				thename = copy_of(tail(realname));
+		/* If we have a valid absolute path, replace each slash
+		 * in this full path with an exclamation mark.  Otherwise,
+		 * just use the file-name portion of the given path. */
+		if (thename) {
+			for (int i = 0; thename[i] != '\0'; i++)
+				if (thename[i] == '/')
+					thename[i] = '!';
+		} else
+			thename = copy_of(tail(realname));
 
-			*backupname = charalloc(strlen(backup_dir) + strlen(thename) + 1);
-			sprintf(*backupname, "%s%s", backup_dir, thename);
-			free(thename);
+		*backupname = charalloc(strlen(backup_dir) + strlen(thename) + 1);
+		sprintf(*backupname, "%s%s", backup_dir, thename);
+		free(thename);
 
-			thename = get_next_filename(*backupname, "~");
-			free(*backupname);
-			*backupname = thename;
+		thename = get_next_filename(*backupname, "~");
+		free(*backupname);
+		*backupname = thename;
 
-			/* If all numbered backup names are taken, the user must
-			 * be fond of backups.  Thus, without one, do not go on. */
-			if (**backupname == '\0') {
-				statusline(ALERT, _("Too many existing backup files"));
-				return FALSE;
-			}
+		/* If all numbered backup names are taken, the user must
+		 * be fond of backups.  Thus, without one, do not go on. */
+		if (**backupname == '\0') {
+			statusline(ALERT, _("Too many existing backup files"));
+			return FALSE;
 		}
+	}
 
-		/* Now first try to delete an existing backup file. */
-		if (unlink(*backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP))
-			goto backup_error;
+	/* Now first try to delete an existing backup file. */
+	if (unlink(*backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP))
+		goto backup_error;
 
-		if (ISSET(INSECURE_BACKUP))
-			backup_cflags = O_WRONLY | O_CREAT | O_TRUNC;
-		else
-			backup_cflags = O_WRONLY | O_CREAT | O_EXCL;
+	if (ISSET(INSECURE_BACKUP))
+		backup_cflags = O_WRONLY | O_CREAT | O_TRUNC;
+	else
+		backup_cflags = O_WRONLY | O_CREAT | O_EXCL;
 
-		/* Create the backup file (or truncate the existing one). */
-		backup_fd = open(*backupname, backup_cflags, S_IRUSR|S_IWUSR);
+	/* Create the backup file (or truncate the existing one). */
+	backup_fd = open(*backupname, backup_cflags, S_IRUSR|S_IWUSR);
 
   retry_backup:
 	if (backup_fd >= 0)
@@ -1711,9 +1711,9 @@ bool backup_file(char *realname, char **backupname)
 		unlink(*backupname);
 		free(*backupname);
 
-			warn_and_briefly_pause(_("Cannot make regular backup"));
-			warn_and_briefly_pause(_("Trying again in your home directory"));
-			currmenu = MMOST;
+		warn_and_briefly_pause(_("Cannot make regular backup"));
+		warn_and_briefly_pause(_("Trying again in your home directory"));
+		currmenu = MMOST;
 
 		*backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
 		sprintf(*backupname, "%s/%s~XXXXXX", homedir, tail(realname));
