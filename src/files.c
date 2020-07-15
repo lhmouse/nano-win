@@ -1747,9 +1747,8 @@ bool make_backup_of(char *realname)
 
 /* Write the current buffer to disk.  If thefile isn't NULL, we write to a
  * temporary file that is already open.  If tmp is TRUE (when spell checking
- * or emergency dumping, for example), we set the umask to disallow anyone else
- * from accessing the file, and don't print out how many lines we wrote on the
- * status bar.  If method is APPEND or PREPEND, it means we will be appending
+ * or emergency dumping, for example), we don't make a backup and don't give
+ * feedback.  If method is APPEND or PREPEND, it means we will be appending
  * or prepending instead of overwriting the given file.  If fullbuffer is TRUE
  * and when writing normally, we set the current filename and stat info.
  * Return TRUE on success, and FALSE otherwise. */
