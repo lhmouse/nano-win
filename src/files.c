@@ -1592,12 +1592,13 @@ int sync_file(FILE *thefile)
 /* Create a backup of an existing file.  If the user did not request backups,
  * make a temporary one (trying first in the directory of the original file,
  * then in the user's home directory).  Return TRUE if the save can proceed. */
-bool backup_file(char *realname, char **backupname)
+bool make_backup_of(char *realname)
 {
 	FILE *original = NULL, *backup_file = NULL;
 	int backup_cflags, backup_fd, verdict;
 	static struct timespec filetime[2];
 	bool second_attempt = FALSE;
+	char *backupname = NULL;
 
 	/* Remember the original file's access and modification times. */
 	filetime[0].tv_sec = openfile->statinfo->st_atime;
@@ -1609,8 +1610,8 @@ bool backup_file(char *realname, char **backupname)
 	 * by appending a tilde to the original file name.  Otherwise,
 	 * we create a numbered backup in the specified directory. */
 	if (backup_dir == NULL) {
-		*backupname = charalloc(strlen(realname) + 2);
-		sprintf(*backupname, "%s~", realname);
+		backupname = charalloc(strlen(realname) + 2);
+		sprintf(backupname, "%s~", realname);
 	} else {
 		char *thename = get_full_path(realname);
 
@@ -1624,24 +1625,25 @@ bool backup_file(char *realname, char **backupname)
 		} else
 			thename = copy_of(tail(realname));
 
-		*backupname = charalloc(strlen(backup_dir) + strlen(thename) + 1);
-		sprintf(*backupname, "%s%s", backup_dir, thename);
+		backupname = charalloc(strlen(backup_dir) + strlen(thename) + 1);
+		sprintf(backupname, "%s%s", backup_dir, thename);
 		free(thename);
 
-		thename = get_next_filename(*backupname, "~");
-		free(*backupname);
-		*backupname = thename;
+		thename = get_next_filename(backupname, "~");
+		free(backupname);
+		backupname = thename;
 
 		/* If all numbered backup names are taken, the user must
 		 * be fond of backups.  Thus, without one, do not go on. */
-		if (**backupname == '\0') {
+		if (*backupname == '\0') {
 			statusline(ALERT, _("Too many existing backup files"));
+			free(backupname);
 			return FALSE;
 		}
 	}
 
 	/* Now first try to delete an existing backup file. */
-	if (unlink(*backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP))
+	if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP))
 		goto backup_error;
 
 	if (ISSET(INSECURE_BACKUP))
@@ -1650,7 +1652,7 @@ bool backup_file(char *realname, char **backupname)
 		backup_cflags = O_WRONLY | O_CREAT | O_EXCL;
 
 	/* Create the backup file (or truncate the existing one). */
-	backup_fd = open(*backupname, backup_cflags, S_IRUSR|S_IWUSR);
+	backup_fd = open(backupname, backup_cflags, S_IRUSR|S_IWUSR);
 
   retry_backup:
 	if (backup_fd >= 0)
@@ -1676,6 +1678,7 @@ bool backup_file(char *realname, char **backupname)
 	if (original == NULL) {
 		statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
 		fclose(backup_file);
+		free(backupname);
 		return TRUE;
 	}
 
@@ -1685,6 +1688,7 @@ bool backup_file(char *realname, char **backupname)
 	if (verdict < 0) {
 		statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
 		fclose(backup_file);
+		free(backupname);
 		return FALSE;
 	} else if (verdict > 0) {
 		fclose(backup_file);
@@ -1700,25 +1704,27 @@ bool backup_file(char *realname, char **backupname)
 	 * Failure is unimportant: saving the file apparently worked. */
 	IGNORE_CALL_RESULT(futimens(backup_fd, filetime));
 
-	if (fclose(backup_file) == 0)
+	if (fclose(backup_file) == 0) {
+		free(backupname);
 		return TRUE;
+	}
 
   backup_error:
 	get_homedir();
 
 	/* If the first attempt of copying the file failed, try again to HOME. */
 	if (!second_attempt && homedir) {
-		unlink(*backupname);
-		free(*backupname);
+		unlink(backupname);
+		free(backupname);
 
 		warn_and_briefly_pause(_("Cannot make regular backup"));
 		warn_and_briefly_pause(_("Trying again in your home directory"));
 		currmenu = MMOST;
 
-		*backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
-		sprintf(*backupname, "%s/%s~XXXXXX", homedir, tail(realname));
+		backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
+		sprintf(backupname, "%s/%s~XXXXXX", homedir, tail(realname));
 
-		backup_fd = mkstemp(*backupname);
+		backup_fd = mkstemp(backupname);
 		backup_file = NULL;
 
 		second_attempt = TRUE;
@@ -1728,11 +1734,13 @@ bool backup_file(char *realname, char **backupname)
 	/* If all attempts failed, ask the user what to do, because if something
 	 * goes wrong during the save, the contents of the file might be lost. */
 	warn_and_briefly_pause(_("Cannot make backup"));
-	if (user_wants_to_proceed())
+	if (user_wants_to_proceed()) {
+		free(backupname);
 		return TRUE;
+	}
 
-	statusline(HUSH, _("Cannot write backup %s: %s"),
-						*backupname, strerror(errno));
+	statusline(HUSH, _("Cannot write backup %s: %s"), backupname, strerror(errno));
+	free(backupname);
 	return FALSE;
 }
 #endif /* !NANO_TINY */
@@ -1753,8 +1761,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		/* Becomes TRUE when the file is non-temporary and exists. */
 	struct stat st;
 		/* The status fields filled in by statting the file. */
-	char *backupname = NULL;
-		/* The name of the backup file, in case we make one. */
 #endif
 	char *realname = real_dir_from_tilde(name);
 		/* The filename after tilde expansion. */
@@ -1791,7 +1797,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	if (ISSET(MAKE_BACKUP) && is_existing_file && openfile->statinfo &&
 						(openfile->statinfo->st_mtime == st.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
-		if (!backup_file(realname, &backupname))
+		if (!make_backup_of(realname))
 			goto cleanup_and_exit;
 	}
 
@@ -2013,9 +2019,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	retval = TRUE;
 
   cleanup_and_exit:
-#ifndef NANO_TINY
-	free(backupname);
-#endif
 	free(tempname);
 	free(realname);
 
