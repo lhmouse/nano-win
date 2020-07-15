@@ -1605,7 +1605,6 @@ bool backup_file(char *realname, char **backupname)
 
 	statusbar(_("Making backup..."));
 
-	if (ISSET(MAKE_BACKUP)) {
 		/* If no backup directory was specified, we make a simple backup
 		 * by appending a tilde to the original file name.  Otherwise,
 		 * we create a numbered backup in the specified directory. */
@@ -1652,12 +1651,6 @@ bool backup_file(char *realname, char **backupname)
 
 		/* Create the backup file (or truncate the existing one). */
 		backup_fd = open(*backupname, backup_cflags, S_IRUSR|S_IWUSR);
-	} else {
-		*backupname = charalloc(strlen(realname) + 8);
-		sprintf(*backupname, "%s~XXXXXX", realname);
-
-		backup_fd = mkstemp(*backupname);
-	}
 
   retry_backup:
 	if (backup_fd >= 0)
@@ -1718,11 +1711,9 @@ bool backup_file(char *realname, char **backupname)
 		unlink(*backupname);
 		free(*backupname);
 
-		if (ISSET(MAKE_BACKUP)) {
 			warn_and_briefly_pause(_("Cannot make regular backup"));
 			warn_and_briefly_pause(_("Trying again in your home directory"));
 			currmenu = MMOST;
-		}
 
 		*backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
 		sprintf(*backupname, "%s/%s~XXXXXX", homedir, tail(realname));
@@ -1797,7 +1788,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	/* When the user requested a backup, we do this only if the file exists and
 	 * isn't temporary AND the file has not been modified by someone else since
 	 * we opened it (or we are appending/prepending or writing a selection). */
-	if (is_existing_file && !ISSET(RESTRICTED) && openfile->statinfo &&
+	if (ISSET(MAKE_BACKUP) && is_existing_file && openfile->statinfo &&
 						(openfile->statinfo->st_mtime == st.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
 		if (!backup_file(realname, &backupname))
@@ -1970,11 +1961,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 		goto cleanup_and_exit;
 	}
-
-	/* If no backups were requested, delete the temporary backup file
-	 * that was created just to ensure a failsafe replacement. */
-	if (!ISSET(MAKE_BACKUP) && backupname != NULL)
-		unlink(backupname);
 
 	/* When having written an entire buffer, update some administrivia. */
 	if (fullbuffer && method == OVERWRITE && !tmp) {
