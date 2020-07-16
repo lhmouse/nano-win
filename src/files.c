@@ -1523,21 +1523,6 @@ void init_backup_dir(void)
 	free(backup_dir);
 	backup_dir = charealloc(target, strlen(target) + 1);
 }
-
-/* Report the reason why the backup failed and ask what to do.  Return TRUE
- * when the user wants to save the file itself anyway.  But refuse to go on
- * if the backup failed due to a lack of space. */
-bool user_wants_to_proceed(void)
-{
-	warn_and_briefly_pause(strerror(errno));
-
-	if (errno == ENOSPC) {
-		currmenu = MMOST;
-		return FALSE;
-	} else
-		return (do_yesno_prompt(FALSE, _("Cannot make backup; "
-								"continue and save actual file? ")) == 1);
-}
 #endif /* !NANO_TINY */
 
 /* Read all data from inn, and write it to out.  File inn must be open for
@@ -1731,10 +1716,15 @@ bool make_backup_of(char *realname)
 		goto retry_backup;
 	}
 
-	/* If all attempts failed, ask the user what to do, because if something
-	 * goes wrong during the save, the contents of the file might be lost. */
 	warn_and_briefly_pause(_("Cannot make backup"));
-	if (user_wants_to_proceed()) {
+	warn_and_briefly_pause(strerror(errno));
+	currmenu = MMOST;
+
+	/* If both attempts failed, and it isn't because of lack of disk space,
+	 * ask the user what to do, because if something goes wrong during the
+	 * save of the file itself, its contents may be lost. */
+	if (errno != ENOSPC && do_yesno_prompt(FALSE, _("Cannot make backup; "
+								"continue and save actual file? ")) == 1) {
 		free(backupname);
 		return TRUE;
 	}
