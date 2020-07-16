@@ -2182,12 +2182,12 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
 		openfile->current_x = strlen(openfile->current->data);
 
-#ifndef NANO_TINY
 	if (replaced) {
+#ifndef NANO_TINY
 		openfile->filetop->has_anchor = FALSE;
 		update_undo(COUPLE_END);
-	}
 #endif
+	}
 
 	openfile->placewewant = pww_save;
 	adjust_viewport(STATIONARY);
