@@ -1655,23 +1655,19 @@ bool make_backup_of(char *realname)
 
 	original = fopen(realname, "rb");
 
-	/* If we can't read from the original file, go on, since saving
-	 * only the current buffer is better than saving nothing. */
 	if (original == NULL) {
-		statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
+		warn_and_briefly_pause(_("Cannot read original file"));
 		fclose(backup_file);
-		free(backupname);
-		return TRUE;
+		goto failure;
 	}
 
 	/* Copy the existing file to the backup. */
 	verdict = copy_file(original, backup_file, FALSE);
 
 	if (verdict < 0) {
-		statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
+		warn_and_briefly_pause(_("Cannot read original file"));
 		fclose(backup_file);
-		free(backupname);
-		return FALSE;
+		goto failure;
 	} else if (verdict > 0) {
 		fclose(backup_file);
 		goto problem;
@@ -1714,6 +1710,7 @@ bool make_backup_of(char *realname)
 	}
 
 	warn_and_briefly_pause(_("Cannot make backup"));
+  failure:
 	warn_and_briefly_pause(strerror(errno));
 	currmenu = MMOST;
 
