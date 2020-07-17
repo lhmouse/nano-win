@@ -1556,23 +1556,6 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 	return retval;
 }
 
-/* Sync the contents of the given file to disk.  Return 0 on success, and
- * a negative number on failure.  In case of failure, the file is closed. */
-int sync_file(FILE *thefile)
-{
-	if (fflush(thefile) != 0) {
-		fclose(thefile);
-		return -1;
-	}
-
-	if (fsync(fileno(thefile)) != 0) {
-		fclose(thefile);
-		return -2;
-	}
-
-	return 0;
-}
-
 #ifndef NANO_TINY
 /* Create a backup of an existing file.  If the user did not request backups,
  * make a temporary one (trying first in the directory of the original file,
@@ -1670,8 +1653,10 @@ bool make_backup_of(char *realname)
 
 	/* Since this backup is a newly created file, explicitly sync it to
 	 * permanent storage before starting to write out the actual file. */
-	if (sync_file(backup_file) != 0)
+	if (fflush(backup_file) != 0 || fsync(fileno(backup_file)) != 0) {
+		fclose(backup_file);
 		goto problem;
+	}
 
 	/* Set the backup's timestamps to those of the original file.
 	 * Failure is unimportant: saving the file apparently worked. */
@@ -1935,8 +1920,10 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	}
 #endif
 
-	if (sync_file(thefile) != 0) {
+	/* Ensure the data has reached the disk before reporting it as written. */
+	if (fflush(thefile) != 0 || fsync(fileno(thefile)) != 0) {
 		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
+		fclose(thefile);
 		goto cleanup_and_exit;
 	}
 
