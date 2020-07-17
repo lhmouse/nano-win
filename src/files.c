@@ -1629,19 +1629,19 @@ bool make_backup_of(char *realname)
 
 	/* Now first try to delete an existing backup file. */
 	if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP))
-		goto backup_error;
+		goto problem;
 
 	creation_flags = O_WRONLY|O_CREAT|(ISSET(INSECURE_BACKUP) ? O_TRUNC : O_EXCL);
 
 	/* Create the backup file (or truncate the existing one). */
 	descriptor = open(backupname, creation_flags, S_IRUSR|S_IWUSR);
 
-  retry_backup:
+  retry:
 	if (descriptor >= 0)
 		backup_file = fdopen(descriptor, "wb");
 
 	if (backup_file == NULL)
-		goto backup_error;
+		goto problem;
 
 	/* Try to change owner and group to those of the original file;
 	 * ignore errors, as a normal user cannot change the owner. */
@@ -1674,13 +1674,13 @@ bool make_backup_of(char *realname)
 		return FALSE;
 	} else if (verdict > 0) {
 		fclose(backup_file);
-		goto backup_error;
+		goto problem;
 	}
 
 	/* Since this backup is a newly created file, explicitly sync it to
 	 * permanent storage before starting to write out the actual file. */
 	if (sync_file(backup_file) != 0)
-		goto backup_error;
+		goto problem;
 
 	/* Set the backup's timestamps to those of the original file.
 	 * Failure is unimportant: saving the file apparently worked. */
@@ -1691,7 +1691,7 @@ bool make_backup_of(char *realname)
 		return TRUE;
 	}
 
-  backup_error:
+  problem:
 	get_homedir();
 
 	/* If the first attempt of copying the file failed, try again to HOME. */
@@ -1710,7 +1710,7 @@ bool make_backup_of(char *realname)
 		backup_file = NULL;
 
 		second_attempt = TRUE;
-		goto retry_backup;
+		goto retry;
 	}
 
 	warn_and_briefly_pause(_("Cannot make backup"));
