@@ -1580,7 +1580,7 @@ int sync_file(FILE *thefile)
 bool make_backup_of(char *realname)
 {
 	FILE *original = NULL, *backup_file = NULL;
-	int backup_cflags, backup_fd, verdict;
+	int creation_flags, descriptor, verdict;
 	static struct timespec filetime[2];
 	bool second_attempt = FALSE;
 	char *backupname = NULL;
@@ -1631,30 +1631,27 @@ bool make_backup_of(char *realname)
 	if (unlink(backupname) < 0 && errno != ENOENT && !ISSET(INSECURE_BACKUP))
 		goto backup_error;
 
-	if (ISSET(INSECURE_BACKUP))
-		backup_cflags = O_WRONLY | O_CREAT | O_TRUNC;
-	else
-		backup_cflags = O_WRONLY | O_CREAT | O_EXCL;
+	creation_flags = O_WRONLY|O_CREAT|(ISSET(INSECURE_BACKUP) ? O_TRUNC : O_EXCL);
 
 	/* Create the backup file (or truncate the existing one). */
-	backup_fd = open(backupname, backup_cflags, S_IRUSR|S_IWUSR);
+	descriptor = open(backupname, creation_flags, S_IRUSR|S_IWUSR);
 
   retry_backup:
-	if (backup_fd >= 0)
-		backup_file = fdopen(backup_fd, "wb");
+	if (descriptor >= 0)
+		backup_file = fdopen(descriptor, "wb");
 
 	if (backup_file == NULL)
 		goto backup_error;
 
 	/* Try to change owner and group to those of the original file;
 	 * ignore errors, as a normal user cannot change the owner. */
-	IGNORE_CALL_RESULT(fchown(backup_fd, openfile->statinfo->st_uid,
+	IGNORE_CALL_RESULT(fchown(descriptor, openfile->statinfo->st_uid,
 										openfile->statinfo->st_gid));
 
 	/* Set the backup's permissions to those of the original file.
 	 * It is not a security issue if this fails, as we have created
 	 * the file with just read and write permission for the owner. */
-	IGNORE_CALL_RESULT(fchmod(backup_fd, openfile->statinfo->st_mode));
+	IGNORE_CALL_RESULT(fchmod(descriptor, openfile->statinfo->st_mode));
 
 	original = fopen(realname, "rb");
 
@@ -1687,7 +1684,7 @@ bool make_backup_of(char *realname)
 
 	/* Set the backup's timestamps to those of the original file.
 	 * Failure is unimportant: saving the file apparently worked. */
-	IGNORE_CALL_RESULT(futimens(backup_fd, filetime));
+	IGNORE_CALL_RESULT(futimens(descriptor, filetime));
 
 	if (fclose(backup_file) == 0) {
 		free(backupname);
@@ -1709,7 +1706,7 @@ bool make_backup_of(char *realname)
 		backupname = charalloc(strlen(homedir) + strlen(tail(realname)) + 9);
 		sprintf(backupname, "%s/%s~XXXXXX", homedir, tail(realname));
 
-		backup_fd = mkstemp(backupname);
+		descriptor = mkstemp(backupname);
 		backup_file = NULL;
 
 		second_attempt = TRUE;
