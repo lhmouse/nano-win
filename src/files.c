@@ -1702,25 +1702,23 @@ bool make_backup_of(char *realname)
 
 		second_attempt = TRUE;
 		goto retry;
-	}
+	} else
+		warn_and_briefly_pause(_("Cannot make backup"));
 
-	warn_and_briefly_pause(_("Cannot make backup"));
   failure:
 	warn_and_briefly_pause(strerror(errno));
 	currmenu = MMOST;
+	free(backupname);
 
 	/* If both attempts failed, and it isn't because of lack of disk space,
 	 * ask the user what to do, because if something goes wrong during the
 	 * save of the file itself, its contents may be lost. */
 	if (errno != ENOSPC && do_yesno_prompt(FALSE, _("Cannot make backup; "
-								"continue and save actual file? ")) == 1) {
-		free(backupname);
+								"continue and save actual file? ")) == 1)
 		return TRUE;
-	}
 
 	/* TRANSLATORS: The %s is the reason of failure. */
 	statusline(HUSH, _("Cannot make backup: %s"), strerror(errno));
-	free(backupname);
 	return FALSE;
 }
 #endif /* !NANO_TINY */
