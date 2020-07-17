@@ -1718,7 +1718,8 @@ bool make_backup_of(char *realname)
 		return TRUE;
 	}
 
-	statusline(HUSH, _("Cannot write backup %s: %s"), backupname, strerror(errno));
+	/* TRANSLATORS: The %s is the reason of failure. */
+	statusline(HUSH, _("Cannot make backup: %s"), strerror(errno));
 	free(backupname);
 	return FALSE;
 }
