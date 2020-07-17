@@ -1655,16 +1655,11 @@ bool make_backup_of(char *realname)
 
 	original = fopen(realname, "rb");
 
-	if (original == NULL) {
-		warn_and_briefly_pause(_("Cannot read original file"));
-		fclose(backup_file);
-		goto failure;
-	}
+	/* If opening succeeded, copy the existing file to the backup. */
+	if (original != NULL)
+		verdict = copy_file(original, backup_file, FALSE);
 
-	/* Copy the existing file to the backup. */
-	verdict = copy_file(original, backup_file, FALSE);
-
-	if (verdict < 0) {
+	if (original == NULL || verdict < 0) {
 		warn_and_briefly_pause(_("Cannot read original file"));
 		fclose(backup_file);
 		goto failure;
