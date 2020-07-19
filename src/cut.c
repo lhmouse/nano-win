@@ -381,9 +381,10 @@ void ingraft_buffer(linestruct *topline)
 	}
 
 	if (topline != botline) {
+#ifndef NANO_TINY
 		/* First compute the softwrapped chunks for each line in the graft. */
 		compute_the_extra_rows_per_line_from(topline);
-
+#endif
 		/* When inserting at end-of-buffer, update the relevant pointer. */
 		if (line->next == NULL)
 			openfile->filebot = botline;

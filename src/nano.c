@@ -1009,6 +1009,14 @@ RETSIGTYPE handle_sigwinch(int signal)
 	the_window_resized = TRUE;
 }
 
+/* Compute and store how many extra rows each line needs when softwrapping. */
+void compute_the_extra_rows_per_line_from(linestruct *fromline)
+{
+	if (ISSET(SOFTWRAP))
+		for (linestruct *line = fromline; line != NULL; line = line->next)
+			line->extrarows = extra_chunks_in(line);
+}
+
 /* Reinitialize and redraw the screen completely. */
 void regenerate_screen(void)
 {

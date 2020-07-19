@@ -275,7 +275,6 @@ void make_new_buffer(void);
 #ifndef NANO_TINY
 bool delete_lockfile(const char *lockfilename);
 #endif
-void compute_the_extra_rows_per_line_from(linestruct *fromline);
 bool open_buffer(const char *filename, bool new_one);
 void set_modified(void);
 void prepare_for_display(void);
@@ -418,6 +417,7 @@ void block_sigwinch(bool blockit);
 #endif
 #ifndef NANO_TINY
 RETSIGTYPE handle_sigwinch(int signal);
+void compute_the_extra_rows_per_line_from(linestruct *fromline);
 void regenerate_screen(void);
 void do_toggle(int flag);
 #endif

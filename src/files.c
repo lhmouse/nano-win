@@ -356,16 +356,6 @@ bool has_valid_path(const char *filename)
 	return validity;
 }
 
-/* Compute and store how many extra rows each line needs when softwrapping. */
-void compute_the_extra_rows_per_line_from(linestruct *fromline)
-{
-#ifndef NANO_TINY
-	if (ISSET(SOFTWRAP))
-		for (linestruct *line = fromline; line != NULL; line = line->next)
-			line->extrarows = extra_chunks_in(line);
-#endif
-}
-
 /* This does one of three things.  If the filename is "", it just creates
  * a new empty buffer.  When the filename is not empty, it reads that file
  * into a new buffer when requested, otherwise into the existing buffer. */
