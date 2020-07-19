@@ -332,10 +332,9 @@ int arrow_from_ABCD(int letter)
  * Assume that Escape has already been read in. */
 int convert_sequence(const int *seq, size_t length, int *consumed)
 {
-	if (length > 1) {
 		*consumed = 2;
-		switch (seq[0]) {
-			case 'O':
+
+	if (seq[0] == 'O') {
 				switch (seq[1]) {
 					case '1':
 						if (length > 4  && seq[2] == ';') {
@@ -465,8 +464,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					case 'y': /* Esc O y == PageUp (9) on the same. */
 						return KEY_PPAGE;
 				}
-				break;
-			case '[':
+	} else if (seq[0] == '[') {
 				if (seq[1] < '9')
 					*consumed = 3;
 				switch (seq[1]) {
@@ -808,8 +806,6 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						}
 						break;
 				}
-				break;
-		}
 	}
 
 	return FOREIGN_SEQUENCE;
