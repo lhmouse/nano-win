@@ -918,7 +918,7 @@ int parse_kbinput(WINDOW *win)
 				retval = keycode;
 			else if (keycode == '\t')
 				retval = SHIFT_TAB;
-			else if ((keycode != 'O' && keycode != 'o' && keycode != '[') ||
+			else if ((keycode != 'O' && keycode != '[') ||
 						key_buffer_len == 0 || *key_buffer == ESC_CODE) {
 				/* One escape followed by a single non-escape:
 				 * meta key sequence mode. */
