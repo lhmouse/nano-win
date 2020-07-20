@@ -1346,12 +1346,6 @@ int get_byte_kbinput(int kbinput)
 			break;
 	}
 
-	/* If we have a result, reset the counter and the byte holder. */
-	if (retval != ERR) {
-		digit_count = 0;
-		byte = 0;
-	}
-
 	return retval;
 }
 
