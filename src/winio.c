@@ -862,12 +862,12 @@ int convert_to_control(int kbinput)
 	return kbinput;
 }
 
-/* Extract a single keystroke from the input stream.  Translate escape
- * sequences and extended keypad codes into their corresponding values.
- * Set meta_key to TRUE when appropriate.  Supported extended keypad values
- * are: [arrow key], Ctrl-[arrow key], Shift-[arrow key], Enter, Backspace,
- * the editing keypad (Insert, Delete, Home, End, PageUp, and PageDown),
- * the function keys (F1-F16), and the numeric keypad with NumLock off. */
+/* Extract one keystroke from the input stream.  Translate escape sequences
+ * and possibly keypad codes into their corresponding values.  Set meta_key
+ * to TRUE when appropriate.  Supported keypad keystrokes are: the arrow keys,
+ * Insert, Delete, Home, End, PageUp, PageDown, Enter, and Backspace (many of
+ * them also when modified with Shift, Ctrl, Alt, Shift+Ctrl, or Shift+Alt),
+ * the function keys (F1-F12), and the numeric keypad with NumLock off. */
 int parse_kbinput(WINDOW *win)
 {
 	static int escapes = 0;
@@ -892,10 +892,9 @@ int parse_kbinput(WINDOW *win)
 	if (keycode == ERR)
 		return ERR;
 
+	/* If it is an ESC, increment the counter, but trim an overabundance. */
 	if (keycode == ESC_CODE) {
-		/* Increment the escape counter, but trim an overabundance. */
-		escapes++;
-		if (escapes > 3 || digit_count > 0) {
+		if (++escapes > 3 || digit_count > 0) {
 			digit_count = 0;
 			escapes = 1;
 		}
@@ -914,10 +913,8 @@ int parse_kbinput(WINDOW *win)
 				retval = keycode;
 			else if (keycode == '\t')
 				retval = SHIFT_TAB;
-			else if ((keycode != 'O' && keycode != '[') ||
-						key_buffer_len == 0 || *key_buffer == ESC_CODE) {
-				/* One escape followed by a single non-escape:
-				 * meta key sequence mode. */
+			else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
+									(keycode != 'O' && keycode != '[')) {
 				if (!solitary || (0x20 <= keycode && keycode <= 0x7E))
 					meta_key = TRUE;
 				retval = (shifted_metas) ? keycode : tolower(keycode);
@@ -933,30 +930,22 @@ int parse_kbinput(WINDOW *win)
 				 * an "ESC ESC [ x" sequence from Shift+Alt+arrow. */
 				switch (keycode) {
 					case 'A':
-						retval = KEY_HOME;
-						break;
+						retval = KEY_HOME; break;
 					case 'B':
-						retval = KEY_END;
-						break;
+						retval = KEY_END; break;
 					case 'C':
-						retval = CONTROL_RIGHT;
-						break;
+						retval = CONTROL_RIGHT; break;
 					case 'D':
-						retval = CONTROL_LEFT;
-						break;
+						retval = CONTROL_LEFT; break;
 #ifndef NANO_TINY
 					case 'a':
-						retval = shiftaltup;
-						break;
+						retval = shiftaltup; break;
 					case 'b':
-						retval = shiftaltdown;
-						break;
+						retval = shiftaltdown; break;
 					case 'c':
-						retval = shiftaltright;
-						break;
+						retval = shiftaltright; break;
 					case 'd':
-						retval = shiftaltleft;
-						break;
+						retval = shiftaltleft; break;
 #endif
 				}
 				double_esc = FALSE;
@@ -964,9 +953,8 @@ int parse_kbinput(WINDOW *win)
 			} else if (key_buffer_len == 0) {
 				if ('0' <= keycode && ((keycode <= '2' && digit_count == 0) ||
 										(keycode <= '9' && digit_count > 0))) {
-					/* Two escapes followed by one or more decimal
-					 * digits, and there aren't any other codes
-					 * waiting: byte sequence mode.  If the range of the
+					/* Two escapes followed by one digit, and no other codes
+					 * are waiting: byte sequence mode.  If the range of the
 					 * byte sequence is limited to 2XX, interpret it. */
 					int byte = get_byte_kbinput(keycode);
 
