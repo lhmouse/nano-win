@@ -845,24 +845,24 @@ int assemble_byte_code(int keycode)
 {
 	static int byte = 0;
 
+	/* The first digit is either 0, 1, or 2 (which has been checked before
+	 * the call.  The second digit may be at most 5 if the first was 2. */
 	if (++digit_count == 1) {
-		/* The first digit is either 0, 1, or 2. */
 		byte = (keycode - '0') * 100;
 		return PROCEED;
 	} else if (digit_count == 2) {
-		/* The second digit may be at most 5 if the first was 2. */
 		if (byte < 200 || keycode <= '5') {
 			byte += (keycode - '0') * 10;
 			return PROCEED;
 		} else
 			return keycode;
-	} else {
-		/* The third digit may be at most 5 if first two were 2 and 5. */
-		if (byte < 250 || keycode <= '5') {
-			return (byte + keycode - '0');
-		} else
-			return keycode;
 	}
+
+	/* The third digit may be at most 5 if the first two were 2 and 5. */
+	if (byte < 250 || keycode <= '5')
+		return (byte + keycode - '0');
+	else
+		return keycode;
 }
 
 /* Translate a normal ASCII character into its corresponding control code.
@@ -985,32 +985,36 @@ int parse_kbinput(WINDOW *win)
 										(keycode <= '9' && digit_count > 0))) {
 					/* Two escapes followed by one digit, and no other codes
 					 * are waiting: byte sequence mode.  If the range of the
-					 * byte sequence is limited to 2XX, interpret it. */
+					 * sequence of digits is limited to 2XX, interpret it. */
 					int byte = assemble_byte_code(keycode);
 
-					/* If the decimal byte value is complete, convert it and
-					 * put the obtained byte(s) back into the input buffer. */
+					/* If the decimal byte value is not yet complete,
+					 * return nothing; otherwise convert it and put the
+					 * obtained byte(s) back into the input buffer. */
 					if (byte == PROCEED)
 						return ERR;
 					else {
+						int count, onebyte;
 						char *multibyte;
-						int count, onebyte, i;
 
 						/* Convert the decimal code to one or two bytes. */
 						multibyte = make_mbchar((long)byte, &count);
 
 						/* Insert the byte(s) into the input buffer. */
-						for (i = count; i > 0 ; i--) {
+						for (int i = count; i > 0 ; i--) {
 							onebyte = (unsigned char)multibyte[i - 1];
 							put_back(onebyte);
 						}
 
 						free(multibyte);
-
 						escapes = 0;
 					}
 				} else {
-					if (digit_count == 0)
+					if (digit_count > 0)
+						/* A non-digit in the middle of a byte sequence:
+						 * the keycode itself is the result. */
+						retval = keycode;
+					else {
 						/* Two escapes followed by a non-digit: meta key
 						 * or control character sequence mode. */
 						if (!solitary) {
@@ -1018,12 +1022,6 @@ int parse_kbinput(WINDOW *win)
 							retval = (shifted_metas) ? keycode : tolower(keycode);
 						} else
 							retval = convert_to_control(keycode);
-					else {
-						/* An invalid digit in the middle of a byte
-						 * sequence: reset the byte sequence counter
-						 * and save the code we got as the result. */
-						digit_count = 0;
-						retval = keycode;
 					}
 					escapes = 0;
 				}
