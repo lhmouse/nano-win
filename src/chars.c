@@ -196,18 +196,14 @@ int mbwidth(const char *c)
 	} else
 		return 1;
 }
-#endif
 
 /* Convert the Unicode value in code to a multibyte character, if possible.
  * If the conversion succeeds, return the (dynamically allocated) multibyte
- * character and its length.  Otherwise, return an undefined (dynamically
- * allocated) multibyte character and a length of zero. */
+ * character and its length.  Otherwise, return a length of zero. */
 char *make_mbchar(long code, int *length)
 {
 	char *mb_char = charalloc(MAXCHARLEN);
 
-#ifdef ENABLE_UTF8
-	if (use_utf8) {
 		*length = wctomb(mb_char, (wchar_t)code);
 
 		/* Reject invalid Unicode characters. */
@@ -215,15 +211,10 @@ char *make_mbchar(long code, int *length)
 			IGNORE_CALL_RESULT(wctomb(NULL, 0));
 			*length = 0;
 		}
-	} else
-#endif
-	{
-		*mb_char = (char)code;
-		*length = 1;
-	}
 
 	return mb_char;
 }
+#endif /* ENABLE_UTF8 */
 
 /* Return the length (in bytes) of the character located at *pointer. */
 int char_length(const char *pointer)
