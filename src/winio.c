@@ -995,21 +995,20 @@ int parse_kbinput(WINDOW *win)
 						return ERR;
 #ifdef ENABLE_UTF8
 					else if (byte > 0x7F && using_utf8()) {
-						int count;
-						/* Convert the decimal code to two bytes. */
-						char *multibyte = make_mbchar((long)byte, &count);
-
-						/* Insert the two bytes into the input buffer. */
-						put_back((unsigned char)multibyte[1]);
-						put_back((unsigned char)multibyte[0]);
-
-						free(multibyte);
+						/* Convert the code to the corresponding Unicode. */
+						if (byte < 0xC0) {
+							put_back((unsigned char)byte);
+							put_back(0xC2);
+						} else {
+							put_back((unsigned char)(byte - 0x40));
+							put_back(0xC3);
+						}
 						escapes = 0;
 					}
 #endif
 					else {
+						retval = byte;
 						escapes = 0;
-						return byte;
 					}
 				} else {
 					if (digit_count > 0)
