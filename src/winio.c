@@ -862,6 +862,8 @@ int convert_to_control(int kbinput)
 	return kbinput;
 }
 
+#define PROCEED  -44
+
 /* Extract one keystroke from the input stream.  Translate escape sequences
  * and possibly keypad codes into their corresponding values.  Set meta_key
  * to TRUE when appropriate.  Supported keypad keystrokes are: the arrow keys,
@@ -960,7 +962,9 @@ int parse_kbinput(WINDOW *win)
 
 					/* If the decimal byte value is complete, convert it and
 					 * put the obtained byte(s) back into the input buffer. */
-					if (byte != ERR) {
+					if (byte == PROCEED)
+						return ERR;
+					else {
 						char *multibyte;
 						int count, onebyte, i;
 
@@ -1316,7 +1320,6 @@ int get_kbinput(WINDOW *win, bool showcursor)
 int get_byte_kbinput(int kbinput)
 {
 	static int byte = 0;
-	int retval = ERR;
 
 	/* Check that the given digit is within the allowed range for its position.
 	 * If yes, store it.  If no, return the digit (or character) itself. */
@@ -1324,34 +1327,29 @@ int get_byte_kbinput(int kbinput)
 		case 1:
 			/* The first digit (the 100's position) is from zero to two. */
 			byte = (kbinput - '0') * 100;
-			break;
+			return PROCEED;
 		case 2:
 			/* The second digit (the 10's position) must be from zero to five
 			 * if the first was two, and may be any decimal value otherwise. */
-			if (byte < 200 || kbinput <= '5')
+			if (byte < 200 || kbinput <= '5') {
 				byte += (kbinput - '0') * 10;
-			else
-				retval = kbinput;
-			break;
+				return PROCEED;
+			} else
+				return kbinput;
 		case 3:
 			/* The third digit (the 1's position) must be from zero to five
 			 * if the first was two and the second was five, and may be any
 			 * decimal value otherwise. */
 			if (byte < 250 || kbinput <= '5') {
-				byte += kbinput - '0';
-				/* The byte sequence is complete. */
-				retval = byte;
+				return (byte + kbinput - '0');
 			} else
-				retval = kbinput;
-			break;
+				return kbinput;
 	}
 
-	return retval;
+	return 0;  /* FIXME: this suppresses a compilation warning */
 }
 
 #ifdef ENABLE_UTF8
-#define PROCEED  -4
-
 /* If the character in kbinput is a valid hexadecimal digit, multiply it
  * by factor and add the result to uni, and return PROCEED to signify okay. */
 long add_unicode_digit(int kbinput, long factor, long *uni)
