@@ -895,8 +895,10 @@ int parse_kbinput(WINDOW *win)
 	if (keycode == ESC_CODE) {
 		/* Increment the escape counter, but trim an overabundance. */
 		escapes++;
-		if (escapes > 3)
+		if (escapes > 3 || digit_count > 0) {
+			digit_count = 0;
 			escapes = 1;
+		}
 		/* Take note when an Esc arrived by itself. */
 		solitary = (key_buffer_len == 0);
 		return ERR;
