@@ -951,7 +951,7 @@ int parse_kbinput(WINDOW *win)
 				double_esc = FALSE;
 				escapes = 0;
 			} else if (key_buffer_len == 0) {
-				if ('0' <= keycode && ((keycode <= '2' && digit_count == 0) ||
+				if ('0' <= keycode && (keycode <= '2' ||
 										(keycode <= '9' && digit_count > 0))) {
 					/* Two escapes followed by one digit, and no other codes
 					 * are waiting: byte sequence mode.  If the range of the
@@ -1322,17 +1322,13 @@ int get_byte_kbinput(int kbinput)
 	 * If yes, store it.  If no, return the digit (or character) itself. */
 	switch (++digit_count) {
 		case 1:
-			/* The first digit (the 100's position) must be from zero to two. */
-			if ('0' <= kbinput && kbinput <= '2')
-				byte = (kbinput - '0') * 100;
-			else
-				retval = kbinput;
+			/* The first digit (the 100's position) is from zero to two. */
+			byte = (kbinput - '0') * 100;
 			break;
 		case 2:
 			/* The second digit (the 10's position) must be from zero to five
 			 * if the first was two, and may be any decimal value otherwise. */
-			if ((byte < 200 && '0' <= kbinput && kbinput <= '9') ||
-								('0' <= kbinput && kbinput <= '5'))
+			if (byte < 200 || kbinput <= '5')
 				byte += (kbinput - '0') * 10;
 			else
 				retval = kbinput;
@@ -1341,8 +1337,7 @@ int get_byte_kbinput(int kbinput)
 			/* The third digit (the 1's position) must be from zero to five
 			 * if the first was two and the second was five, and may be any
 			 * decimal value otherwise. */
-			if ((byte < 250 && '0' <= kbinput && kbinput <= '9') ||
-								('0' <= kbinput && kbinput <= '5')) {
+			if (byte < 250 || kbinput <= '5') {
 				byte += kbinput - '0';
 				/* The byte sequence is complete. */
 				retval = byte;
