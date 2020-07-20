@@ -841,27 +841,27 @@ int parse_escape_sequence(int firstbyte)
  * decimal byte code (from 000 to 255).  Return the assembled code when
  * it is complete, but until then return PROCEED when the given digit is
  * valid, and the given digit itself otherwise. */
-int assemble_byte_code(int kbinput)
+int assemble_byte_code(int keycode)
 {
 	static int byte = 0;
 
 	if (++digit_count == 1) {
-			/* The first digit is either 0, 1, or 2. */
-			byte = (kbinput - '0') * 100;
-			return PROCEED;
+		/* The first digit is either 0, 1, or 2. */
+		byte = (keycode - '0') * 100;
+		return PROCEED;
 	} else if (digit_count == 2) {
-			/* The second digit may be at most 5 if the first was 2. */
-			if (byte < 200 || kbinput <= '5') {
-				byte += (kbinput - '0') * 10;
-				return PROCEED;
-			} else
-				return kbinput;
+		/* The second digit may be at most 5 if the first was 2. */
+		if (byte < 200 || keycode <= '5') {
+			byte += (keycode - '0') * 10;
+			return PROCEED;
+		} else
+			return keycode;
 	} else {
-			/* The third digit may be at most 5 if first two were 2 and 5. */
-			if (byte < 250 || kbinput <= '5') {
-				return (byte + kbinput - '0');
-			} else
-				return kbinput;
+		/* The third digit may be at most 5 if first two were 2 and 5. */
+		if (byte < 250 || keycode <= '5') {
+			return (byte + keycode - '0');
+		} else
+			return keycode;
 	}
 }
 
