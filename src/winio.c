@@ -837,31 +837,28 @@ int parse_escape_sequence(int firstbyte)
 
 #define PROCEED  -44
 
-/* Turn a three-digit decimal number (from 000 to 255) into its corresponding
- * byte value. */
+/* For each consecutive call, gather the given digit into a three-digit
+ * decimal byte code (from 000 to 255).  Return the assembled code when
+ * it is complete, but until then return PROCEED when the given digit is
+ * valid, and the given digit itself otherwise. */
 int assemble_byte_code(int kbinput)
 {
 	static int byte = 0;
 
-	/* Check that the given digit is within the allowed range for its position.
-	 * If yes, store it.  If no, return the digit (or character) itself. */
 	switch (++digit_count) {
 		case 1:
-			/* The first digit (the 100's position) is from zero to two. */
+			/* The first digit is either 0, 1, or 2. */
 			byte = (kbinput - '0') * 100;
 			return PROCEED;
 		case 2:
-			/* The second digit (the 10's position) must be from zero to five
-			 * if the first was two, and may be any decimal value otherwise. */
+			/* The second digit may be at most 5 if the first was 2. */
 			if (byte < 200 || kbinput <= '5') {
 				byte += (kbinput - '0') * 10;
 				return PROCEED;
 			} else
 				return kbinput;
 		case 3:
-			/* The third digit (the 1's position) must be from zero to five
-			 * if the first was two and the second was five, and may be any
-			 * decimal value otherwise. */
+			/* The third digit may be at most 5 if first two were 2 and 5. */
 			if (byte < 250 || kbinput <= '5') {
 				return (byte + kbinput - '0');
 			} else
