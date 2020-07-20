@@ -835,6 +835,42 @@ int parse_escape_sequence(int firstbyte)
 	return keycode;
 }
 
+#define PROCEED  -44
+
+/* Turn a three-digit decimal number (from 000 to 255) into its corresponding
+ * byte value. */
+int assemble_byte_code(int kbinput)
+{
+	static int byte = 0;
+
+	/* Check that the given digit is within the allowed range for its position.
+	 * If yes, store it.  If no, return the digit (or character) itself. */
+	switch (++digit_count) {
+		case 1:
+			/* The first digit (the 100's position) is from zero to two. */
+			byte = (kbinput - '0') * 100;
+			return PROCEED;
+		case 2:
+			/* The second digit (the 10's position) must be from zero to five
+			 * if the first was two, and may be any decimal value otherwise. */
+			if (byte < 200 || kbinput <= '5') {
+				byte += (kbinput - '0') * 10;
+				return PROCEED;
+			} else
+				return kbinput;
+		case 3:
+			/* The third digit (the 1's position) must be from zero to five
+			 * if the first was two and the second was five, and may be any
+			 * decimal value otherwise. */
+			if (byte < 250 || kbinput <= '5') {
+				return (byte + kbinput - '0');
+			} else
+				return kbinput;
+	}
+
+	return 0;  /* FIXME: this suppresses a compilation warning */
+}
+
 /* Translate a normal ASCII character into its corresponding control code.
  * The following groups of control keystrokes are equivalent:
  *   Ctrl-2 == Ctrl-@ == Ctrl-` == Ctrl-Space
@@ -861,8 +897,6 @@ int convert_to_control(int kbinput)
 
 	return kbinput;
 }
-
-#define PROCEED  -44
 
 /* Extract one keystroke from the input stream.  Translate escape sequences
  * and possibly keypad codes into their corresponding values.  Set meta_key
@@ -958,7 +992,7 @@ int parse_kbinput(WINDOW *win)
 					/* Two escapes followed by one digit, and no other codes
 					 * are waiting: byte sequence mode.  If the range of the
 					 * byte sequence is limited to 2XX, interpret it. */
-					int byte = get_byte_kbinput(keycode);
+					int byte = assemble_byte_code(keycode);
 
 					/* If the decimal byte value is complete, convert it and
 					 * put the obtained byte(s) back into the input buffer. */
@@ -1313,40 +1347,6 @@ int get_kbinput(WINDOW *win, bool showcursor)
 		check_statusblank();
 
 	return kbinput;
-}
-
-/* Turn a three-digit decimal number (from 000 to 255) into its corresponding
- * byte value. */
-int get_byte_kbinput(int kbinput)
-{
-	static int byte = 0;
-
-	/* Check that the given digit is within the allowed range for its position.
-	 * If yes, store it.  If no, return the digit (or character) itself. */
-	switch (++digit_count) {
-		case 1:
-			/* The first digit (the 100's position) is from zero to two. */
-			byte = (kbinput - '0') * 100;
-			return PROCEED;
-		case 2:
-			/* The second digit (the 10's position) must be from zero to five
-			 * if the first was two, and may be any decimal value otherwise. */
-			if (byte < 200 || kbinput <= '5') {
-				byte += (kbinput - '0') * 10;
-				return PROCEED;
-			} else
-				return kbinput;
-		case 3:
-			/* The third digit (the 1's position) must be from zero to five
-			 * if the first was two and the second was five, and may be any
-			 * decimal value otherwise. */
-			if (byte < 250 || kbinput <= '5') {
-				return (byte + kbinput - '0');
-			} else
-				return kbinput;
-	}
-
-	return 0;  /* FIXME: this suppresses a compilation warning */
 }
 
 #ifdef ENABLE_UTF8

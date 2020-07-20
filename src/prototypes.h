@@ -587,7 +587,6 @@ void implant(const char *string);
 #endif
 int parse_kbinput(WINDOW *win);
 int get_kbinput(WINDOW *win, bool showcursor);
-int get_byte_kbinput(int kbinput);
 char *get_verbatim_kbinput(WINDOW *win, size_t *count);
 #ifdef ENABLE_MOUSE
 int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts);
