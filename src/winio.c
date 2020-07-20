@@ -993,21 +993,23 @@ int parse_kbinput(WINDOW *win)
 					 * obtained byte(s) back into the input buffer. */
 					if (byte == PROCEED)
 						return ERR;
-					else {
-						int count, onebyte;
-						char *multibyte;
+#ifdef ENABLE_UTF8
+					else if (byte > 0x7F && using_utf8()) {
+						int count;
+						/* Convert the decimal code to two bytes. */
+						char *multibyte = make_mbchar((long)byte, &count);
 
-						/* Convert the decimal code to one or two bytes. */
-						multibyte = make_mbchar((long)byte, &count);
-
-						/* Insert the byte(s) into the input buffer. */
-						for (int i = count; i > 0 ; i--) {
-							onebyte = (unsigned char)multibyte[i - 1];
-							put_back(onebyte);
-						}
+						/* Insert the two bytes into the input buffer. */
+						put_back((unsigned char)multibyte[1]);
+						put_back((unsigned char)multibyte[0]);
 
 						free(multibyte);
 						escapes = 0;
+					}
+#endif
+					else {
+						escapes = 0;
+						return byte;
 					}
 				} else {
 					if (digit_count > 0)
