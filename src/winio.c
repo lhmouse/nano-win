@@ -913,11 +913,8 @@ int parse_kbinput(WINDOW *win)
 	/* Read in a character. */
 	kbinput = get_input(win, 1);
 
-	if (kbinput == NULL && !waiting_mode)
+	if (kbinput == NULL)
 		return ERR;
-
-	while (kbinput == NULL)
-		kbinput = get_input(win, 1);
 
 	keycode = *kbinput;
 	free(kbinput);
@@ -1372,13 +1369,12 @@ long assemble_unicode(int symbol)
  * multibyte sequence), or 2 (for an iTerm/Eterm/rxvt double Escape). */
 int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 {
-	int *kbinput = NULL;
+	int *kbinput;
 
 	reveal_cursor = TRUE;
 
 	/* Read in the first code. */
-	while (kbinput == NULL)
-		kbinput = get_input(win, 1);
+	kbinput = get_input(win, 1);
 
 #ifndef NANO_TINY
 	/* When the window was resized, abort and return nothing. */
@@ -1404,9 +1400,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 			while (unicode == PROCEED) {
 				free(kbinput);
-				kbinput = NULL;
-				while (kbinput == NULL)
-					kbinput = get_input(win, 1);
+				kbinput = get_input(win, 1);
 				unicode = assemble_unicode(*kbinput);
 			}
 
