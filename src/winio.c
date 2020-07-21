@@ -979,7 +979,6 @@ int parse_kbinput(WINDOW *win)
 #endif
 				}
 				double_esc = FALSE;
-				escapes = 0;
 			} else if (key_buffer_len == 0) {
 				if ('0' <= keycode && (keycode <= '2' ||
 										(keycode <= '9' && digit_count > 0))) {
@@ -1003,13 +1002,10 @@ int parse_kbinput(WINDOW *win)
 							put_back((unsigned char)(byte - 0x40));
 							put_back(0xC3);
 						}
-						escapes = 0;
 					}
 #endif
-					else {
+					else
 						retval = byte;
-						escapes = 0;
-					}
 				} else {
 					if (digit_count > 0)
 						/* A non-digit in the middle of a byte sequence:
@@ -1024,7 +1020,6 @@ int parse_kbinput(WINDOW *win)
 						} else
 							retval = convert_to_control(keycode);
 					}
-					escapes = 0;
 				}
 			} else if (keycode == '[' && (('A' <= *key_buffer && *key_buffer <= 'D') ||
 										('a' <= *key_buffer && *key_buffer <= 'd'))) {
@@ -1036,8 +1031,8 @@ int parse_kbinput(WINDOW *win)
 				 * codes waiting: combined meta and escape sequence mode. */
 				retval = parse_escape_sequence(keycode);
 				meta_key = TRUE;
-				escapes = 0;
 			}
+			escapes = 0;
 			break;
 		case 3:
 			if (key_buffer_len == 0) {
