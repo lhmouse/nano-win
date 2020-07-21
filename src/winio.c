@@ -1026,11 +1026,11 @@ int parse_kbinput(WINDOW *win)
 					}
 					escapes = 0;
 				}
-			} else if (keycode == '[' && key_buffer_len > 0 &&
-						(('A' <= *key_buffer && *key_buffer <= 'D') ||
-						('a' <= *key_buffer && *key_buffer <= 'd'))) {
+			} else if (keycode == '[' && (('A' <= *key_buffer && *key_buffer <= 'D') ||
+										('a' <= *key_buffer && *key_buffer <= 'd'))) {
 				/* An iTerm2/Eterm/rxvt sequence: ^[ ^[ [ X. */
 				double_esc = TRUE;
+				return ERR;
 			} else {
 				/* Two escapes followed by a non-escape, and there are more
 				 * codes waiting: combined meta and escape sequence mode. */
@@ -1057,9 +1057,6 @@ int parse_kbinput(WINDOW *win)
 			escapes = 0;
 			break;
 	}
-
-	if (retval == ERR)
-		return ERR;
 
 	if (retval == controlleft)
 		return CONTROL_LEFT;
