@@ -134,7 +134,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	size_t wroteamt;
 
 	if (mypwuid == NULL) {
-		/* TRANSLATORS: Keep the next eight messages at most 76 characters. */
+		/* TRANSLATORS: Keep the next seven messages at most 76 characters. */
 		statusline(MILD, _("Couldn't determine my identity for lock file"));
 		return FALSE;
 	}
@@ -337,6 +337,7 @@ bool has_valid_path(const char *filename)
 
 	if (stat(parentdir, &parentinfo) == -1) {
 		if (errno == ENOENT)
+			/* TRANSLATORS: Keep the next ten messages at most 76 characters. */
 			statusline(ALERT, _("Directory '%s' does not exist"), parentdir);
 		else
 			statusline(ALERT, _("Path '%s': %s"), parentdir, strerror(errno));
