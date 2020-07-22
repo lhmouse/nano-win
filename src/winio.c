@@ -901,7 +901,6 @@ int convert_to_control(int kbinput)
 int parse_kbinput(WINDOW *win)
 {
 	static int escapes = 0;
-	static bool double_esc = FALSE;
 	int *kbinput, keycode, retval = ERR;
 
 	meta_key = FALSE;
@@ -955,31 +954,7 @@ int parse_kbinput(WINDOW *win)
 			escapes = 0;
 			break;
 		case 2:
-			if (double_esc) {
-				/* An "ESC ESC [ X" sequence from Option+arrow, or
-				 * an "ESC ESC [ x" sequence from Shift+Alt+arrow. */
-				switch (keycode) {
-					case 'A':
-						retval = KEY_HOME; break;
-					case 'B':
-						retval = KEY_END; break;
-					case 'C':
-						retval = CONTROL_RIGHT; break;
-					case 'D':
-						retval = CONTROL_LEFT; break;
-#ifndef NANO_TINY
-					case 'a':
-						retval = shiftaltup; break;
-					case 'b':
-						retval = shiftaltdown; break;
-					case 'c':
-						retval = shiftaltright; break;
-					case 'd':
-						retval = shiftaltleft; break;
-#endif
-				}
-				double_esc = FALSE;
-			} else if (key_buffer_len == 0) {
+			if (key_buffer_len == 0) {
 				if ('0' <= keycode && (keycode <= '2' ||
 										(keycode <= '9' && digit_count > 0))) {
 					/* Two escapes followed by one digit, and no other codes
@@ -1023,9 +998,31 @@ int parse_kbinput(WINDOW *win)
 				}
 			} else if (keycode == '[' && (('A' <= *key_buffer && *key_buffer <= 'D') ||
 										('a' <= *key_buffer && *key_buffer <= 'd'))) {
-				/* An iTerm2/Eterm/rxvt sequence: ^[ ^[ [ X. */
-				double_esc = TRUE;
-				return ERR;
+				/* An iTerm2/Eterm/rxvt double-escape sequence: Esc Esc [ X
+				 * for Option+arrow, or Esc Esc [ x for Shift+Alt+arrow. */
+				kbinput = get_input(win, 1);
+				keycode = *kbinput;
+				free(kbinput);
+				switch (keycode) {
+					case 'A':
+						retval = KEY_HOME; break;
+					case 'B':
+						retval = KEY_END; break;
+					case 'C':
+						retval = CONTROL_RIGHT; break;
+					case 'D':
+						retval = CONTROL_LEFT; break;
+#ifndef NANO_TINY
+					case 'a':
+						retval = shiftaltup; break;
+					case 'b':
+						retval = shiftaltdown; break;
+					case 'c':
+						retval = shiftaltright; break;
+					case 'd':
+						retval = shiftaltleft; break;
+#endif
+				}
 			} else {
 				/* Two escapes followed by a non-escape, and there are more
 				 * codes waiting: combined meta and escape sequence mode. */
