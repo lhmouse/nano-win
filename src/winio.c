@@ -1139,48 +1139,37 @@ int parse_kbinput(WINDOW *win)
 		}
 		/* Is Alt being held? */
 		if (modifiers == 0x08) {
-			if (retval == KEY_DC)
-				return ALT_DELETE;
-			if (retval == KEY_UP)
-				return ALT_UP;
-			if (retval == KEY_DOWN)
-				return ALT_DOWN;
-			if (retval == KEY_PPAGE)
-				return ALT_PAGEUP;
-			if (retval == KEY_NPAGE)
-				return ALT_PAGEDOWN;
-			if (retval == KEY_IC)
-				return ALT_INSERT;
+			switch (retval) {
+				case KEY_UP:    return ALT_UP;
+				case KEY_DOWN:  return ALT_DOWN;
+				case KEY_PPAGE: return ALT_PAGEUP;
+				case KEY_NPAGE: return ALT_PAGEDOWN;
+				case KEY_DC:    return ALT_DELETE;
+				case KEY_IC:    return ALT_INSERT;
+			}
 		}
 #endif
 		/* Is Ctrl being held? */
 		if (modifiers & 0x04) {
-			if (retval == KEY_UP)
-				return CONTROL_UP;
-			else if (retval == KEY_DOWN)
-				return CONTROL_DOWN;
-			else if (retval == KEY_LEFT)
-				return CONTROL_LEFT;
-			else if (retval == KEY_RIGHT)
-				return CONTROL_RIGHT;
-			else if (retval == KEY_HOME)
-				return CONTROL_HOME;
-			else if (retval == KEY_END)
-				return CONTROL_END;
-			else if (retval == KEY_DC)
-				return CONTROL_DELETE;
+			switch (retval) {
+				case KEY_UP:    return CONTROL_UP;
+				case KEY_DOWN:  return CONTROL_DOWN;
+				case KEY_LEFT:  return CONTROL_LEFT;
+				case KEY_RIGHT: return CONTROL_RIGHT;
+				case KEY_HOME:  return CONTROL_HOME;
+				case KEY_END:   return CONTROL_END;
+				case KEY_DC:    return CONTROL_DELETE;
+			}
 		}
 #ifndef NANO_TINY
 		/* Are both Shift and Alt being held? */
 		if ((modifiers & 0x09) == 0x09) {
-			if (retval == KEY_UP)
-				return KEY_PPAGE;
-			else if (retval == KEY_DOWN)
-				return KEY_NPAGE;
-			else if (retval == KEY_LEFT)
-				return KEY_HOME;
-			else if (retval == KEY_RIGHT)
-				return KEY_END;
+			switch (retval) {
+				case KEY_UP:    return KEY_PPAGE;
+				case KEY_DOWN:  return KEY_NPAGE;
+				case KEY_LEFT:  return KEY_HOME;
+				case KEY_RIGHT: return KEY_END;
+			}
 		}
 #endif
 	}
