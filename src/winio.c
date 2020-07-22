@@ -1499,7 +1499,7 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 
 #ifndef NANO_TINY
 	/* Turn bracketed-paste mode off. */
-	printf("\e[?2004l");
+	printf("\x1B[?2004l");
 	fflush(stdout);
 #endif
 
@@ -1520,7 +1520,7 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 
 #ifndef NANO_TINY
 	/* Turn bracketed-paste mode back on. */
-	printf("\e[?2004h");
+	printf("\x1B[?2004h");
 	fflush(stdout);
 #endif
 

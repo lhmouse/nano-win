@@ -226,7 +226,7 @@ void restore_terminal(void)
 	curs_set(1);
 	endwin();
 #ifndef NANO_TINY
-	printf("\e[?2004l");
+	printf("\x1B[?2004l");
 	fflush(stdout);
 #endif
 	tcsetattr(0, TCSANOW, &original_state);
@@ -1223,7 +1223,7 @@ void terminal_init(void)
 
 #ifndef NANO_TINY
 	/* Tell the terminal to enable bracketed pastes. */
-	printf("\e[?2004h");
+	printf("\x1B[?2004h");
 	fflush(stdout);
 #endif
 }
