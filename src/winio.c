@@ -845,12 +845,16 @@ int assemble_byte_code(int keycode)
 {
 	static int byte = 0;
 
-	/* The first digit is either 0, 1, or 2 (which has been checked before
-	 * the call.  The second digit may be at most 5 if the first was 2. */
-	if (++digit_count == 1) {
+	digit_count++;
+
+	/* The first digit is either 0, 1, or 2 (checked before the call). */
+	if (digit_count == 1) {
 		byte = (keycode - '0') * 100;
 		return PROCEED;
-	} else if (digit_count == 2) {
+	}
+
+	/* The second digit may be at most 5 if the first was 2. */
+ 	if (digit_count == 2) {
 		if (byte < 200 || keycode <= '5') {
 			byte += (keycode - '0') * 10;
 			return PROCEED;
