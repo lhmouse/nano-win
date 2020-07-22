@@ -1127,17 +1127,14 @@ int parse_kbinput(WINDOW *win)
 	/* Modifiers are: Alt (8), Ctrl (4), Shift (1). */
 	if (on_a_vt && !mute_modifiers && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
 #ifndef NANO_TINY
-		/* Is Delete pressed together with Shift or Shift+Ctrl? */
-		if (retval == KEY_DC) {
-			if (modifiers == 0x01)
-				return SHIFT_DELETE;
-			if (modifiers == 0x05)
-				return CONTROL_SHIFT_DELETE;
-		}
 		/* Is Shift being held? */
 		if (modifiers & 0x01) {
 			if (retval == '\t')
 				return SHIFT_TAB;
+			if (retval == KEY_DC && modifiers == 0x01)
+				return SHIFT_DELETE;
+			if (retval == KEY_DC && modifiers == 0x05)
+				return CONTROL_SHIFT_DELETE;
 			if (!meta_key)
 				shift_held = TRUE;
 		}
