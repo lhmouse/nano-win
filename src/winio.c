@@ -1003,24 +1003,17 @@ int parse_kbinput(WINDOW *win)
 				kbinput = get_input(win, 1);
 				keycode = *kbinput;
 				free(kbinput);
+				escapes = 0;
 				switch (keycode) {
-					case 'A':
-						retval = KEY_HOME; break;
-					case 'B':
-						retval = KEY_END; break;
-					case 'C':
-						retval = CONTROL_RIGHT; break;
-					case 'D':
-						retval = CONTROL_LEFT; break;
+					case 'A': return KEY_HOME;
+					case 'B': return KEY_END;
+					case 'C': return CONTROL_RIGHT;
+					case 'D': return CONTROL_LEFT;
 #ifndef NANO_TINY
-					case 'a':
-						retval = shiftaltup; break;
-					case 'b':
-						retval = shiftaltdown; break;
-					case 'c':
-						retval = shiftaltright; break;
-					case 'd':
-						retval = shiftaltleft; break;
+					case 'a': retval = shiftaltup; break;
+					case 'b': retval = shiftaltdown; break;
+					case 'c': retval = shiftaltright; break;
+					case 'd': retval = shiftaltleft; break;
 #endif
 				}
 			} else {
