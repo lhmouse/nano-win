@@ -1315,25 +1315,25 @@ int get_kbinput(WINDOW *win, bool showcursor)
 }
 
 #ifdef ENABLE_UTF8
-/* If the character in kbinput is a valid hexadecimal digit, multiply it
- * by factor and add the result to uni, and return PROCEED to signify okay. */
-long add_unicode_digit(int kbinput, long factor, long *unicode)
+/* If the given symbol is a valid hexadecimal digit, multiply it by factor
+ * and add the result to the given unicode, and return PROCEED to signify
+ * okay.  When not a hexadecimal digit, return the symbol itself. */
+long add_unicode_digit(int symbol, long factor, long *unicode)
 {
-	if ('0' <= kbinput && kbinput <= '9')
-		*unicode += (kbinput - '0') * factor;
-	else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		*unicode += (tolower(kbinput) - 'a' + 10) * factor;
+	if ('0' <= symbol && symbol <= '9')
+		*unicode += (symbol - '0') * factor;
+	else if ('a' <= tolower(symbol) && tolower(symbol) <= 'f')
+		*unicode += (tolower(symbol) - 'a' + 10) * factor;
 	else
-		/* The character isn't hexadecimal; give it as the result. */
-		return (long)kbinput;
+		return (long)symbol;
 
 	return PROCEED;
 }
 
-/* For each consecutive call, gather the given digit into a six-digit Unicode
+/* For each consecutive call, gather the given symbol into a six-digit Unicode
  * (from 000000 to 10FFFF, case-insensitive).  When it is complete, return the
- * assembled Unicode; until then, return PROCEED when the given digit is valid. */
-long assemble_unicode(int kbinput)
+ * assembled Unicode; until then, return PROCEED when the symbol is valid. */
+long assemble_unicode(int symbol)
 {
 	static long unicode = 0;
 	static int digits = 0;
@@ -1341,28 +1341,28 @@ long assemble_unicode(int kbinput)
 
 	switch (++digits) {
 		case 1:
-			unicode = (kbinput - '0') * 0x100000;
+			unicode = (symbol - '0') * 0x100000;
 			break;
 		case 2:
 			/* The second digit must be zero if the first was one, but
 			 * may be any hexadecimal value if the first was zero. */
-			if (kbinput == '0' || unicode == 0)
-				retval = add_unicode_digit(kbinput, 0x10000, &unicode);
+			if (symbol == '0' || unicode == 0)
+				retval = add_unicode_digit(symbol, 0x10000, &unicode);
 			else
-				retval = kbinput;
+				retval = symbol;
 			break;
 		case 3:
 			/* Later digits may be any hexadecimal value. */
-			retval = add_unicode_digit(kbinput, 0x1000, &unicode);
+			retval = add_unicode_digit(symbol, 0x1000, &unicode);
 			break;
 		case 4:
-			retval = add_unicode_digit(kbinput, 0x100, &unicode);
+			retval = add_unicode_digit(symbol, 0x100, &unicode);
 			break;
 		case 5:
-			retval = add_unicode_digit(kbinput, 0x10, &unicode);
+			retval = add_unicode_digit(symbol, 0x10, &unicode);
 			break;
 		case 6:
-			retval = add_unicode_digit(kbinput, 0x1, &unicode);
+			retval = add_unicode_digit(symbol, 0x1, &unicode);
 			/* If also the sixth digit was a valid hexadecimal value, then
 			 * the Unicode sequence is complete, so return it. */
 			if (retval == PROCEED)
