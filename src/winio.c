@@ -1317,12 +1317,12 @@ int get_kbinput(WINDOW *win, bool showcursor)
 #ifdef ENABLE_UTF8
 /* If the character in kbinput is a valid hexadecimal digit, multiply it
  * by factor and add the result to uni, and return PROCEED to signify okay. */
-long add_unicode_digit(int kbinput, long factor, long *uni)
+long add_unicode_digit(int kbinput, long factor, long *unicode)
 {
 	if ('0' <= kbinput && kbinput <= '9')
-		*uni += (kbinput - '0') * factor;
+		*unicode += (kbinput - '0') * factor;
 	else if ('a' <= tolower(kbinput) && tolower(kbinput) <= 'f')
-		*uni += (tolower(kbinput) - 'a' + 10) * factor;
+		*unicode += (tolower(kbinput) - 'a' + 10) * factor;
 	else
 		/* The character isn't hexadecimal; give it as the result. */
 		return (long)kbinput;
@@ -1335,38 +1335,38 @@ long add_unicode_digit(int kbinput, long factor, long *uni)
  * assembled Unicode; until then, return PROCEED when the given digit is valid. */
 long assemble_unicode(int kbinput)
 {
-	static int uni_digits = 0;
-	static long uni = 0;
+	static long unicode = 0;
+	static int digits = 0;
 	long retval = PROCEED;
 
-	switch (++uni_digits) {
+	switch (++digits) {
 		case 1:
-			uni = (kbinput - '0') * 0x100000;
+			unicode = (kbinput - '0') * 0x100000;
 			break;
 		case 2:
 			/* The second digit must be zero if the first was one, but
 			 * may be any hexadecimal value if the first was zero. */
-			if (kbinput == '0' || uni == 0)
-				retval = add_unicode_digit(kbinput, 0x10000, &uni);
+			if (kbinput == '0' || unicode == 0)
+				retval = add_unicode_digit(kbinput, 0x10000, &unicode);
 			else
 				retval = kbinput;
 			break;
 		case 3:
 			/* Later digits may be any hexadecimal value. */
-			retval = add_unicode_digit(kbinput, 0x1000, &uni);
+			retval = add_unicode_digit(kbinput, 0x1000, &unicode);
 			break;
 		case 4:
-			retval = add_unicode_digit(kbinput, 0x100, &uni);
+			retval = add_unicode_digit(kbinput, 0x100, &unicode);
 			break;
 		case 5:
-			retval = add_unicode_digit(kbinput, 0x10, &uni);
+			retval = add_unicode_digit(kbinput, 0x10, &unicode);
 			break;
 		case 6:
-			retval = add_unicode_digit(kbinput, 0x1, &uni);
+			retval = add_unicode_digit(kbinput, 0x1, &unicode);
 			/* If also the sixth digit was a valid hexadecimal value, then
 			 * the Unicode sequence is complete, so return it. */
 			if (retval == PROCEED)
-				retval = uni;
+				retval = unicode;
 			break;
 	}
 
@@ -1375,8 +1375,8 @@ long assemble_unicode(int kbinput)
 		char partial[7] = "......";
 
 		/* Construct the partial result, right-padding it with dots. */
-		snprintf(partial, uni_digits + 1, "%06lX", uni);
-		partial[uni_digits] = '.';
+		snprintf(partial, digits + 1, "%06lX", unicode);
+		partial[digits] = '.';
 
 		/* TRANSLATORS: This is shown while a six-digit hexadecimal
 		 * Unicode character code (%s) is being typed in. */
@@ -1385,7 +1385,7 @@ long assemble_unicode(int kbinput)
 
 	/* If we have an end result, reset the Unicode digit counter. */
 	if (retval != PROCEED)
-		uni_digits = 0;
+		digits = 0;
 
 	return retval;
 }
