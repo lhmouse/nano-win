@@ -925,14 +925,15 @@ int parse_kbinput(WINDOW *win)
 	if (keycode == ERR)
 		return ERR;
 
-	/* If it is an ESC, increment the counter, but trim an overabundance. */
+	/* Remember whether an Esc arrived by itself, and increment
+	 * its counter, rolling around on three escapes. */
 	if (keycode == ESC_CODE) {
-		if (++escapes > 3 || digit_count > 0) {
+		solitary = (key_buffer_len == 0);
+		if (digit_count > 0) {
 			digit_count = 0;
 			escapes = 1;
-		}
-		/* Take note when an Esc arrived by itself. */
-		solitary = (key_buffer_len == 0);
+		} else if (++escapes > 2)
+			escapes = (solitary ? 0 : 1);
 		return ERR;
 	}
 
@@ -1026,21 +1027,6 @@ int parse_kbinput(WINDOW *win)
 				retval = parse_escape_sequence(keycode);
 				meta_key = TRUE;
 			}
-			escapes = 0;
-			break;
-		case 3:
-			if (key_buffer_len == 0) {
-				if (!solitary) {
-					meta_key = TRUE;
-					retval = (shifted_metas) ? keycode : tolower(keycode);
-				} else
-					/* Three escapes followed by a non-escape, and no
-					 * other codes are waiting: normal input mode. */
-					retval = keycode;
-			} else
-				/* Three escapes followed by a non-escape, and more
-				 * codes are waiting: escape sequence mode. */
-				retval = parse_escape_sequence(keycode);
 			escapes = 0;
 			break;
 	}
