@@ -959,7 +959,32 @@ int parse_kbinput(WINDOW *win)
 			escapes = 0;
 			break;
 		case 2:
-			if (key_buffer_len == 0) {
+			if (keycode == '[' && key_buffer_len > 0 &&
+							(('A' <= *key_buffer && *key_buffer <= 'D') ||
+							('a' <= *key_buffer && *key_buffer <= 'd'))) {
+				/* An iTerm2/Eterm/rxvt double-escape sequence: Esc Esc [ X
+				 * for Option+arrow, or Esc Esc [ x for Shift+Alt+arrow. */
+				kbinput = get_input(win, 1);
+				keycode = *kbinput;
+				free(kbinput);
+				escapes = 0;
+				switch (keycode) {
+					case 'A': return KEY_HOME;
+					case 'B': return KEY_END;
+					case 'C': return CONTROL_RIGHT;
+					case 'D': return CONTROL_LEFT;
+#ifndef NANO_TINY
+					case 'a': retval = shiftaltup; break;
+					case 'b': retval = shiftaltdown; break;
+					case 'c': retval = shiftaltright; break;
+					case 'd': retval = shiftaltleft; break;
+#endif
+				}
+			} else if (key_buffer_len > 0 && *key_buffer != ESC_CODE &&
+									(keycode == '[' || keycode == 'O')) {
+				retval = parse_escape_sequence(keycode);
+				meta_key = TRUE;
+			} else {
 				if ('0' <= keycode && (keycode <= '2' ||
 										(keycode <= '9' && digit_count > 0))) {
 					/* Two escapes followed by one digit, and no other codes
@@ -1001,31 +1026,6 @@ int parse_kbinput(WINDOW *win)
 							retval = convert_to_control(keycode);
 					}
 				}
-			} else if (keycode == '[' && (('A' <= *key_buffer && *key_buffer <= 'D') ||
-										('a' <= *key_buffer && *key_buffer <= 'd'))) {
-				/* An iTerm2/Eterm/rxvt double-escape sequence: Esc Esc [ X
-				 * for Option+arrow, or Esc Esc [ x for Shift+Alt+arrow. */
-				kbinput = get_input(win, 1);
-				keycode = *kbinput;
-				free(kbinput);
-				escapes = 0;
-				switch (keycode) {
-					case 'A': return KEY_HOME;
-					case 'B': return KEY_END;
-					case 'C': return CONTROL_RIGHT;
-					case 'D': return CONTROL_LEFT;
-#ifndef NANO_TINY
-					case 'a': retval = shiftaltup; break;
-					case 'b': retval = shiftaltdown; break;
-					case 'c': retval = shiftaltright; break;
-					case 'd': retval = shiftaltleft; break;
-#endif
-				}
-			} else {
-				/* Two escapes followed by a non-escape, and there are more
-				 * codes waiting: combined meta and escape sequence mode. */
-				retval = parse_escape_sequence(keycode);
-				meta_key = TRUE;
 			}
 			escapes = 0;
 			break;
