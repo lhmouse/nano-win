@@ -984,8 +984,7 @@ int parse_kbinput(WINDOW *win)
 									(keycode == '[' || keycode == 'O')) {
 				retval = parse_escape_sequence(keycode);
 				meta_key = TRUE;
-			} else {
-				if ('0' <= keycode && (keycode <= '2' ||
+			} else if ('0' <= keycode && (keycode <= '2' ||
 										(keycode <= '9' && digit_count > 0))) {
 					/* Two escapes followed by one digit, and no other codes
 					 * are waiting: byte sequence mode.  If the range of the
@@ -1011,22 +1010,15 @@ int parse_kbinput(WINDOW *win)
 #endif
 					else
 						retval = byte;
-				} else {
-					if (digit_count > 0)
+			} else if (digit_count > 0) {
 						/* A non-digit in the middle of a byte sequence:
 						 * the keycode itself is the result. */
 						retval = keycode;
-					else {
-						/* Two escapes followed by a non-digit: meta key
-						 * or control character sequence mode. */
-						if (!solitary) {
+			} else if (!solitary) {
 							meta_key = TRUE;
 							retval = (shifted_metas) ? keycode : tolower(keycode);
-						} else
+			} else
 							retval = convert_to_control(keycode);
-					}
-				}
-			}
 			escapes = 0;
 			break;
 	}
