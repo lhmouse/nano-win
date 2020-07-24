@@ -1039,10 +1039,8 @@ int parse_kbinput(WINDOW *win)
 					retval = keycode;
 			} else
 				/* Three escapes followed by a non-escape, and more
-				 * codes are waiting: combined control character and
-				 * escape sequence mode.  First interpret the escape
-				 * sequence, then the result as a control sequence. */
-				retval = convert_to_control(parse_escape_sequence(keycode));
+				 * codes are waiting: escape sequence mode. */
+				retval = parse_escape_sequence(keycode);
 			escapes = 0;
 			break;
 	}
