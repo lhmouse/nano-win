@@ -985,40 +985,39 @@ int parse_kbinput(WINDOW *win)
 				retval = parse_escape_sequence(keycode);
 				meta_key = TRUE;
 			} else if ('0' <= keycode && (keycode <= '2' ||
-										(keycode <= '9' && digit_count > 0))) {
-					/* Two escapes followed by one digit, and no other codes
-					 * are waiting: byte sequence mode.  If the range of the
-					 * sequence of digits is limited to 2XX, interpret it. */
-					int byte = assemble_byte_code(keycode);
+									(keycode <= '9' && digit_count > 0))) {
+				/* Two escapes followed by one digit, and no other codes
+				 * are waiting: byte sequence mode.  If the range of the
+				 * sequence of digits is limited to 2XX, interpret it. */
+				int byte = assemble_byte_code(keycode);
 
-					/* If the decimal byte value is not yet complete,
-					 * return nothing; otherwise convert it and put the
-					 * obtained byte(s) back into the input buffer. */
-					if (byte == PROCEED)
-						return ERR;
+				/* If the decimal byte value is not yet complete,
+				 * return nothing; otherwise convert it and put the
+				 * obtained byte(s) back into the input buffer. */
+				if (byte == PROCEED)
+					return ERR;
 #ifdef ENABLE_UTF8
-					else if (byte > 0x7F && using_utf8()) {
-						/* Convert the code to the corresponding Unicode. */
-						if (byte < 0xC0) {
-							put_back((unsigned char)byte);
-							put_back(0xC2);
-						} else {
-							put_back((unsigned char)(byte - 0x40));
-							put_back(0xC3);
-						}
+				else if (byte > 0x7F && using_utf8()) {
+					/* Convert the code to the corresponding Unicode. */
+					if (byte < 0xC0) {
+						put_back((unsigned char)byte);
+						put_back(0xC2);
+					} else {
+						put_back((unsigned char)(byte - 0x40));
+						put_back(0xC3);
 					}
+				}
 #endif
-					else
-						retval = byte;
+				else
+					retval = byte;
 			} else if (digit_count > 0) {
-						/* A non-digit in the middle of a byte sequence:
-						 * the keycode itself is the result. */
-						retval = keycode;
+				/* A non-digit in the middle of a byte sequence... */
+				retval = keycode;
 			} else if (!solitary) {
-							meta_key = TRUE;
-							retval = (shifted_metas) ? keycode : tolower(keycode);
+				retval = (shifted_metas) ? keycode : tolower(keycode);
+				meta_key = TRUE;
 			} else
-							retval = convert_to_control(keycode);
+				retval = convert_to_control(keycode);
 			escapes = 0;
 			break;
 	}
