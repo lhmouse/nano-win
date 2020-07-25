@@ -316,24 +316,18 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 	return 1;
 }
 
-/* Ask what to search for and then go looking for it. */
-void do_search(void)
-{
-	search_init(FALSE, FALSE);
-}
-
-/* Search forward for a string. */
+/* Ask for a string and then search forward for it. */
 void do_search_forward(void)
 {
 	UNSET(BACKWARDS_SEARCH);
-	do_search();
+	search_init(FALSE, FALSE);
 }
 
-/* Search backwards for a string. */
+/* Ask for a string and then search backwards for it. */
 void do_search_backward(void)
 {
 	SET(BACKWARDS_SEARCH);
-	do_search();
+	search_init(FALSE, FALSE);
 }
 
 /* Search for the last string without prompting. */
