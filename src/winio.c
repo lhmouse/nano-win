@@ -286,11 +286,10 @@ void implant(const char *string)
 }
 #endif
 
-/* Try to read input_len codes from the keystroke buffer.  If the
- * keystroke buffer is empty and win isn't NULL, try to read in more
- * codes from win and add them to the keystroke buffer before doing
- * anything else.  If the keystroke buffer is (still) empty, return NULL. */
-int *get_input(WINDOW *win, size_t input_len)
+/* Try to read the requested number of codes from the keystroke buffer.
+ * If the buffer is empty and win isn't NULL, try to read in more codes,
+ * and if the buffer is still empty then, return NULL. */
+int *get_input(WINDOW *win, size_t count)
 {
 	int *input;
 
@@ -300,14 +299,14 @@ int *get_input(WINDOW *win, size_t input_len)
 	if (key_buffer_len == 0)
 		return NULL;
 
-	/* Copy input_len codes from the head of the keystroke buffer. */
-	input = (int *)nmalloc(input_len * sizeof(int));
-	memcpy(input, key_buffer, input_len * sizeof(int));
-	key_buffer_len -= input_len;
+	/* Copy the requested codes from the head of the keystroke buffer. */
+	input = (int *)nmalloc(count * sizeof(int));
+	memcpy(input, key_buffer, count * sizeof(int));
+	key_buffer_len -= count;
 
 	/* If the buffer still contains keystrokes, move them to the front. */
 	if (key_buffer_len > 0)
-		memmove(key_buffer, key_buffer + input_len, key_buffer_len * sizeof(int));
+		memmove(key_buffer, key_buffer + count, key_buffer_len * sizeof(int));
 
 	return input;
 }
