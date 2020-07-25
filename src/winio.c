@@ -300,10 +300,6 @@ int *get_input(WINDOW *win, size_t input_len)
 	if (key_buffer_len == 0)
 		return NULL;
 
-	/* Limit the request to the number of available codes in the buffer. */
-	if (input_len > key_buffer_len)
-		input_len = key_buffer_len;
-
 	/* Copy input_len codes from the head of the keystroke buffer. */
 	input = (int *)nmalloc(input_len * sizeof(int));
 	memcpy(input, key_buffer, input_len * sizeof(int));
