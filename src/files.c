@@ -2566,7 +2566,8 @@ char *input_tab(char *morsel, size_t *place, void (*refresh_func)(void), bool *l
 	/* If the matches have something in common, copy that part. */
 	if (common_len != *place) {
 		morsel = charealloc(morsel, common_len + 1);
-		strcpy(morsel, shared);
+		strncpy(morsel, shared, common_len);
+		morsel[common_len] = '\0';
 		*place = common_len;
 	} else if (num_matches == 1)
 		beep();
