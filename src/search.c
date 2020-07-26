@@ -69,14 +69,10 @@ void tidy_up_after_search(void)
 /* Prepare the prompt and ask the user what to search for.  Keep looping
  * as long as the user presses a toggle, and only take action and exit
  * when <Enter> is pressed or a non-toggle shortcut was executed. */
-void search_init(bool replacing, bool keep_the_answer)
+void search_init(bool replacing, bool retain_answer)
 {
 	char *thedefault;
-		/* What will be searched for when the user typed nothing. */
-
-	/* When starting a new search, clear the current answer. */
-	if (!keep_the_answer)
-		answer = mallocstrcpy(answer, "");
+		/* What will be searched for when the user types just <Enter>. */
 
 	/* If something was searched for earlier, include it in the prompt. */
 	if (*last_search != '\0') {
@@ -95,7 +91,7 @@ void search_init(bool replacing, bool keep_the_answer)
 		/* Ask the user what to search for (or replace). */
 		int response = do_prompt(
 					inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
-					answer, &search_history, edit_refresh,
+					retain_answer ? answer : "", &search_history, edit_refresh,
 					/* TRANSLATORS: This is the main search prompt. */
 					"%s%s%s%s%s%s", _("Search"),
 					/* TRANSLATORS: The next four modify the search prompt. */
@@ -751,12 +747,12 @@ void goto_line_posx(ssize_t line, size_t pos_x)
 /* Go to the specified line and column, or ask for them if interactive
  * is TRUE.  In the latter case also update the screen afterwards.
  * Note that both the line and column number should be one-based. */
-void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
+void do_gotolinecolumn(ssize_t line, ssize_t column, bool retain_answer,
 		bool interactive)
 {
 	if (interactive) {
 		/* Ask for the line and column. */
-		int response = do_prompt(MGOTOLINE, use_answer ? answer : "", NULL,
+		int response = do_prompt(MGOTOLINE, retain_answer ? answer : "", NULL,
 						/* TRANSLATORS: This is a prompt. */
 						edit_refresh, _("Enter line number, column number"));
 
@@ -768,7 +764,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool use_answer,
 
 		if (func_from_key(&response) == flip_goto) {
 			UNSET(BACKWARDS_SEARCH);
-			/* Retain what the user typed so far and switch to searching. */
+			/* Switch to searching but retain what the user typed so far. */
 			search_init(FALSE, TRUE);
 			return;
 		}
