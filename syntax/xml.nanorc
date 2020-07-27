@@ -12,7 +12,7 @@ color green  start="<" end=">"
 color cyan   "<[^> ]+" ">"
 
 # The strings inside the tag:
-color magenta "\"[^"]*\""
+color magenta ""[^"]*""
 
 # Comments:
 color yellow start="<!DOCTYPE" end="[/]?>"
