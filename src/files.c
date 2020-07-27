@@ -1693,6 +1693,7 @@ bool make_backup_of(char *realname)
 	/* If both attempts failed, and it isn't because of lack of disk space,
 	 * ask the user what to do, because if something goes wrong during the
 	 * save of the file itself, its contents may be lost. */
+	/* TRANSLATORS: Try to keep this message at most 76 characters. */
 	if (errno != ENOSPC && do_yesno_prompt(FALSE, _("Cannot make backup; "
 								"continue and save actual file? ")) == 1)
 		return TRUE;
@@ -2235,6 +2236,7 @@ int do_writeout(bool exiting, bool withprompt)
 
 				warn_and_briefly_pause(_("File on disk has changed"));
 
+				/* TRANSLATORS: Try to keep this at most 76 characters. */
 				choice = do_yesno_prompt(FALSE, _("File was modified "
 								"since you opened it; continue saving? "));
 				wipe_statusbar();

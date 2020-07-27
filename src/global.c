@@ -1016,6 +1016,7 @@ void shortcut_init(void)
 		N_("Down to anchor"), WITHORSANS(nextanchor_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(zap_text, MMAIN,
+		/* TRANSLATORS: This *deletes* a line or marked region. */
 		N_("Zap"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);
 
 	if (!ISSET(RESTRICTED)) {
@@ -1111,6 +1112,7 @@ void shortcut_init(void)
 	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
 		add_to_funcs(to_files, MWRITEFILE|MINSERTFILE,
+			/* TRANSLATORS: This invokes the file browser. */
 			N_("Browse"), WITHORSANS(tofiles_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_page_up, MBROWSER,
