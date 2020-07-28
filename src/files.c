@@ -1619,14 +1619,20 @@ bool make_backup_of(char *realname)
 		goto problem;
 
 	/* Try to change owner and group to those of the original file;
-	 * ignore errors, as a normal user cannot change the owner. */
-	IGNORE_CALL_RESULT(fchown(descriptor, openfile->statinfo->st_uid,
-										openfile->statinfo->st_gid));
+	 * ignore permission errors, as a normal user cannot change the owner. */
+	if (fchown(descriptor, openfile->statinfo->st_uid,
+							openfile->statinfo->st_gid) < 0 && errno != EPERM) {
+		fclose(backup_file);
+		goto problem;
+	}
 
 	/* Set the backup's permissions to those of the original file.
 	 * It is not a security issue if this fails, as we have created
 	 * the file with just read and write permission for the owner. */
-	IGNORE_CALL_RESULT(fchmod(descriptor, openfile->statinfo->st_mode));
+	if (fchmod(descriptor, openfile->statinfo->st_mode) < 0 && errno != EPERM) {
+		fclose(backup_file);
+		goto problem;
+	}
 
 	original = fopen(realname, "rb");
 
