@@ -33,11 +33,6 @@
 
 #define RW_FOR_ALL  (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 
-#ifndef NANO_TINY
-static pid_t pid_of_command = -1;
-		/* The PID of a forked process -- needed when wanting to abort it. */
-#endif
-
 /* Add an item to the circular list of openfile structs. */
 void make_new_buffer(void)
 {
@@ -116,6 +111,7 @@ bool delete_lockfile(const char *lockfilename)
 
 #define LOCKSIZE  1024
 #define SKIPTHISFILE  (char *)-1
+
 const char *locking_prefix = ".";
 const char *locking_suffix = ".swp";
 
@@ -886,11 +882,9 @@ int open_file(const char *filename, bool new_one, FILE **f)
  * extension exists, we return "". */
 char *get_next_filename(const char *name, const char *suffix)
 {
+	size_t wholenamelen= strlen(name) + strlen(suffix);
 	unsigned long i = 0;
 	char *buf;
-	size_t wholenamelen;
-
-	wholenamelen = strlen(name) + strlen(suffix);
 
 	/* Reserve space for: the name plus the suffix plus a dot plus
 	 * possibly five digits plus a null byte. */
@@ -917,6 +911,9 @@ char *get_next_filename(const char *name, const char *suffix)
 }
 
 #ifndef NANO_TINY
+static pid_t pid_of_command = -1;
+		/* The PID of a forked process -- needed when wanting to abort it. */
+
 /* Send an unconditional kill signal to the running external command. */
 RETSIGTYPE cancel_the_command(int signal)
 {
@@ -1518,7 +1515,7 @@ void init_backup_dir(void)
 	free(backup_dir);
 	backup_dir = charealloc(target, strlen(target) + 1);
 }
-#endif /* !NANO_TINY */
+#endif
 
 /* Read all data from inn, and write it to out.  File inn must be open for
  * reading, and out for writing.  Return 0 on success, a negative number on
@@ -1986,8 +1983,8 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 }
 
 #ifndef NANO_TINY
-/* Write a marked selection from a file out to disk.  Return TRUE on
- * success or FALSE on error. */
+/* Write the marked region of the current buffer out to disk.
+ * Return TRUE on success and FALSE on error. */
 bool write_marked_file(const char *name, FILE *stream, bool tmp,
 		kind_of_writing_type method)
 {
@@ -2028,7 +2025,6 @@ bool write_marked_file(const char *name, FILE *stream, bool tmp,
 
 	return retval;
 }
-
 #endif /* !NANO_TINY */
 
 /* Write the current file to disk.  If the mark is on, write the current
@@ -2081,7 +2077,7 @@ int do_writeout(bool exiting, bool withprompt)
 			msg = (method == PREPEND) ? _("File Name to Prepend to") :
 										_("File Name to Append to");
 		else
-#endif /* !NANO_TINY */
+#endif
 			msg = _("File Name to Write");
 
 		present_path = mallocstrcpy(present_path, "./");
@@ -2144,7 +2140,7 @@ int do_writeout(bool exiting, bool withprompt)
 			method = (method == APPEND) ? OVERWRITE : APPEND;
 			continue;
 		}
-#endif /* !NANO_TINY */
+#endif
 		if (func == do_help) {
 			continue;
 		}
