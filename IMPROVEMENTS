@@ -1,6 +1,13 @@
 Improvements in GNU nano
 ========================
 
+Since 5.0:
+  - With --indicator a "scrollbar" is shown, indicating position+portion.
+  - M-Ins places an anchor, M-PgUp/M-PgDn jump to the nearest anchor.
+  - Toggling help lines (M-X) and Refresh (^L) work nearly everywhere.
+  - Colors can be modified with the attributes "bold," and/or "italic,".
+  - Nine new color names: from pink and purple to orange and latte.
+
 Since 4.0:
   - Pasting from outside into nano suppresses auto-indentation.
   - Such an external paste can be undone with a single M-U.

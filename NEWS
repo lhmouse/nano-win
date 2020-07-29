@@ -1,3 +1,44 @@
+2020.07.29 - GNU nano 5.0 "Among the fields of barley"
+• With --indicator (or -q or 'set indicator') nano will show a kind
+  of scrollbar on the righthand side of the screen to indicate where
+  in the buffer the viewport is located and how much it covers.
+• With <Alt+Insert> any line can be "tagged" with an anchor, and
+  <Alt+PageUp> and <Alt+PageDown> will jump to the nearest anchor.
+  When using line numbers, an anchor is shown as "+" in the margin.
+• The Execute Command prompt is now directly accessible from the
+  main menu (with ^T, replacing the Spell Checker).  The Linter,
+  Formatter, Spell Checker, Full Justification, Suspension, and
+  Cut-Till-End functions are available in this menu too.
+• On terminals that support at least 256 colors, nine new color
+  names are available: pink, purple, mauve, lagoon, mint, lime,
+  peach, orange, and latte.  These do not have lighter versions.
+• For the color names red, green, blue, yellow, cyan, magenta,
+  white, and black, the prefix 'light' gives a brighter color.
+  Prefix 'bright' is deprecated, as it means both bold AND light.
+• All color names can be preceded with "bold," and/or "italic,"
+  (in that order) to get a bold and/or italic typeface.
+• With --bookstyle (or -O or 'set bookstyle') nano considers any
+  line that begins with whitespace as the start of a paragraph.
+• Refreshing the screen with ^L now works in every menu.
+• In the main menu, ^L also centers the line with the cursor.
+• Toggling the help lines with M-X now works in all menus except
+  in the help viewer and the linter.
+• At a filename prompt, the first <Tab> lists the possibilities,
+  and these are listed near the bottom instead of near the top.
+• Bindable function 'curpos' has been renamed to 'location'.
+• Long option --tempfile has been renamed to --saveonexit.
+• Short option -S is now a synonym of --softwrap.
+• The New Buffer toggle (M-F) has become non-persistent.  Options
+  --multibuffer and 'set multibuffer' still make it default to on.
+• Backup files will retain their group ownership (when possible).
+• Data is synced to disk before "... lines written" is shown.
+• The raw escape sequences for F13 to F16 are no longer recognized.
+• Distro-specific syntaxes, and syntaxes of less common languages,
+  have been moved down to subdirectory syntax/extra/.  The affected
+  distros and others may wish to move wanted syntaxes one level up.
+• Syntaxes for Markdown, Haskell, and Ada were added.
+
+
 2020.05.23 - GNU nano 4.9.3 "Almendras"
 • One more bug introduced in version 4.9 is fixed: a crash when
   the terminal screen is resized while at a lock-file prompt.
