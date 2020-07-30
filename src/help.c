@@ -302,7 +302,7 @@ void help_init(void)
 			counter++;
 			for (s = sclist; s != NULL; s = s->next)
 				if (s->toggle && s->ordinal == counter) {
-					ptr += sprintf(ptr, "%s\t\t %s %s\n", (s->menus == MMAIN ? s->keystr : ""),
+					ptr += sprintf(ptr, "%s\t\t %s %s\n", (s->menus & MMAIN ? s->keystr : ""),
 								_(flagtostr(s->toggle)), _("enable/disable"));
 					if (s->toggle == NO_SYNTAX || s->toggle == TABS_TO_SPACES)
 						ptr += sprintf(ptr, "\n");
