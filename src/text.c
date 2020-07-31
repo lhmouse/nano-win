@@ -2123,14 +2123,13 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		/* Terminate the child if the program is not found. */
 		exit(9);
 	} else if (thepid > 0) {
-	/* Block SIGWINCHes while waiting for the program to end,
-	 * so nano doesn't get pushed past the wait(). */
-	block_sigwinch(TRUE);
-	wait(&program_status);
-	block_sigwinch(FALSE);
-	}
-
-	errornumber = errno;
+		/* Block SIGWINCHes while waiting for the forked program to end,
+		 * so nano doesn't get pushed past the wait(). */
+		block_sigwinch(TRUE);
+		wait(&program_status);
+		block_sigwinch(FALSE);
+	} else
+		errornumber = errno;
 
 	/* Restore the terminal state and reenter curses mode. */
 	terminal_init();
@@ -2139,9 +2138,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	if (thepid < 0) {
 		statusline(ALERT, _("Could not fork: %s"), strerror(errornumber));
 		return NULL;
-	}
-
-	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2) {
+	} else if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2) {
 		statusline(ALERT, _("Error invoking '%s'"), arguments[0]);
 		return NULL;
 	} else if (WEXITSTATUS(program_status) != 0)
