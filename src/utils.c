@@ -330,7 +330,7 @@ char *measured_copy(const char *string, size_t count)
 {
 	char *thecopy = charalloc(count + 1);
 
-	strncpy(thecopy, string, count);
+	memcpy(thecopy, string, count);
 	thecopy[count] = '\0';
 
 	return thecopy;
