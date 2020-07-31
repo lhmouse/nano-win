@@ -2098,7 +2098,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	long timestamp_nsec = 0;
 	static char **arguments = NULL;
 	pid_t thepid;
-	int program_status;
+	int program_status, errornumber;
 	bool replaced = FALSE;
 
 	/* Stat the temporary file.  If that succeeds and its size is zero,
@@ -2122,18 +2122,24 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 
 		/* Terminate the child if the program is not found. */
 		exit(9);
-	} else if (thepid < 0)
-		return _("Could not fork");
-
+	} else if (thepid > 0) {
 	/* Block SIGWINCHes while waiting for the program to end,
 	 * so nano doesn't get pushed past the wait(). */
 	block_sigwinch(TRUE);
 	wait(&program_status);
 	block_sigwinch(FALSE);
+	}
+
+	errornumber = errno;
 
 	/* Restore the terminal state and reenter curses mode. */
 	terminal_init();
 	doupdate();
+
+	if (thepid < 0) {
+		statusline(ALERT, _("Could not fork: %s"), strerror(errornumber));
+		return NULL;
+	}
 
 	if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2) {
 		statusline(ALERT, _("Error invoking '%s'"), arguments[0]);
