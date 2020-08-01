@@ -2335,8 +2335,10 @@ const char *do_int_speller(const char *tempfile_name)
 	int spell_status, sort_status, uniq_status;
 
 	/* Create all three pipes up front. */
-	if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1)
-		return _("Could not create pipe");
+	if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1) {
+		statusline(ALERT, _("Could not create pipe"));
+		return NULL;
+	}
 
 	/* Fork a process to run spell in. */
 	if ((pid_spell = fork()) == 0) {
@@ -2422,7 +2424,8 @@ const char *do_int_speller(const char *tempfile_name)
 
 	if (pipesize < 1) {
 		close(uniq_fd[0]);
-		return _("Could not get size of pipe buffer");
+		statusline(ALERT, _("Could not get size of pipe buffer"));
+		return NULL;
 	}
 
 	/* Leave curses mode so that error messages go to the original screen. */
@@ -2488,16 +2491,14 @@ const char *do_int_speller(const char *tempfile_name)
 	waitpid(pid_uniq, &uniq_status, 0);
 
 	if (WIFEXITED(uniq_status) == 0 || WEXITSTATUS(uniq_status))
-		return _("Error invoking \"uniq\"");
+		statusline(ALERT, _("Error invoking \"uniq\""));
+	else if (WIFEXITED(sort_status) == 0 || WEXITSTATUS(sort_status))
+		statusline(ALERT, _("Error invoking \"sort\""));
+	else if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
+		statusline(ALERT, _("Error invoking \"spell\""));
+	else
+		statusbar(_("Finished checking spelling"));
 
-	if (WIFEXITED(sort_status) == 0 || WEXITSTATUS(sort_status))
-		return _("Error invoking \"sort\"");
-
-	if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
-		return _("Error invoking \"spell\"");
-
-	/* When all went okay. */
-	statusbar(_("Finished checking spelling"));
 	return NULL;
 }
 
