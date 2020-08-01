@@ -986,7 +986,7 @@ bool execute_command(const char *command)
 	close(from_fd[1]);
 
 	if (pid_of_command == -1) {
-		statusline(ALERT, _("Could not fork"));
+		statusline(ALERT, _("Could not fork: %s"), strerror(errno));
 		close(from_fd[0]);
 		return FALSE;
 	}

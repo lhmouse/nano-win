@@ -2413,7 +2413,8 @@ const char *do_int_speller(const char *tempfile_name)
 	/* When some child process was not forked successfully... */
 	if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
 		close(uniq_fd[0]);
-		return _("Could not fork");
+		statusline(ALERT, _("Could not fork: %s"), strerror(errno));
+		return NULL;
 	}
 
 	/* Get the system pipe buffer size. */
@@ -2644,7 +2645,7 @@ void do_linter(void)
 	/* If the child process was not forked successfully... */
 	if (pid_lint < 0) {
 		close(lint_fd[0]);
-		statusline(ALERT, _("Could not fork"));
+		statusline(ALERT, _("Could not fork: %s"), strerror(errno));
 		return;
 	}
 
