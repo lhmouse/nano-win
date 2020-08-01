@@ -2104,8 +2104,13 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 	/* Stat the temporary file.  If that succeeds and its size is zero,
 	 * there is nothing to do; otherwise, store its time of modification. */
 	if (stat(tempfile_name, &fileinfo) == 0) {
-		if (fileinfo.st_size == 0)
+		if (fileinfo.st_size == 0) {
+			if (spelling && openfile->mark)
+				statusline(ALERT, _("Selection is empty"));
+			else
+				statusbar(_("Buffer is empty"));
 			return;
+		}
 
 		timestamp_sec = (long)fileinfo.st_mtim.tv_sec;
 		timestamp_nsec = (long)fileinfo.st_mtim.tv_nsec;
