@@ -2087,7 +2087,7 @@ bool replace_buffer(const char *filename, undo_type action, const char *operatio
 }
 
 /* Execute the given program, with the given temp file as last argument. */
-const char *treat(char *tempfile_name, char *theprogram, bool spelling)
+void treat(char *tempfile_name, char *theprogram, bool spelling)
 {
 	ssize_t lineno_save = openfile->current->lineno;
 	size_t current_x_save = openfile->current_x;
@@ -2105,7 +2105,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 	 * there is nothing to do; otherwise, store its time of modification. */
 	if (stat(tempfile_name, &fileinfo) == 0) {
 		if (fileinfo.st_size == 0)
-			return NULL;
+			return;
 
 		timestamp_sec = (long)fileinfo.st_mtim.tv_sec;
 		timestamp_nsec = (long)fileinfo.st_mtim.tv_nsec;
@@ -2137,10 +2137,10 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 
 	if (thepid < 0) {
 		statusline(ALERT, _("Could not fork: %s"), strerror(errornumber));
-		return NULL;
+		return;
 	} else if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2) {
 		statusline(ALERT, _("Error invoking '%s'"), arguments[0]);
-		return NULL;
+		return;
 	} else if (WEXITSTATUS(program_status) != 0)
 		statusline(ALERT, _("Program '%s' complained"), arguments[0]);
 
@@ -2149,7 +2149,7 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 					(long)fileinfo.st_mtim.tv_sec == timestamp_sec &&
 					(long)fileinfo.st_mtim.tv_nsec == timestamp_nsec) {
 		statusbar(_("Nothing changed"));
-		return NULL;
+		return;
 	}
 
 #ifndef NANO_TINY
@@ -2199,8 +2199,6 @@ const char *treat(char *tempfile_name, char *theprogram, bool spelling)
 		statusbar(_("Finished checking spelling"));
 	else
 		statusbar(_("Buffer has been processed"));
-
-	return NULL;
 }
 #endif /* ENABLE_SPELLER || ENABLE_COLOR */
 
@@ -2324,8 +2322,8 @@ bool fix_spello(const char *word)
 /* Run a spell-check on the given file, using 'spell' to produce a list of all
  * misspelled words, then feeding those through 'sort' and 'uniq' to obtain an
  * alphabetical list, which words are then offered one by one to the user for
- * correction.  Return NULL when okay, and the error string otherwise. */
-const char *do_int_speller(const char *tempfile_name)
+ * correction. */
+void do_int_speller(const char *tempfile_name)
 {
 	char *misspellings, *pointer, *oneword;
 	long pipesize;
@@ -2337,7 +2335,7 @@ const char *do_int_speller(const char *tempfile_name)
 	/* Create all three pipes up front. */
 	if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1) {
 		statusline(ALERT, _("Could not create pipe"));
-		return NULL;
+		return;
 	}
 
 	/* Fork a process to run spell in. */
@@ -2416,7 +2414,7 @@ const char *do_int_speller(const char *tempfile_name)
 	if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
 		close(uniq_fd[0]);
 		statusline(ALERT, _("Could not fork: %s"), strerror(errno));
-		return NULL;
+		return;
 	}
 
 	/* Get the system pipe buffer size. */
@@ -2425,7 +2423,7 @@ const char *do_int_speller(const char *tempfile_name)
 	if (pipesize < 1) {
 		close(uniq_fd[0]);
 		statusline(ALERT, _("Could not get size of pipe buffer"));
-		return NULL;
+		return;
 	}
 
 	/* Leave curses mode so that error messages go to the original screen. */
@@ -2498,8 +2496,6 @@ const char *do_int_speller(const char *tempfile_name)
 		statusline(ALERT, _("Error invoking \"spell\""));
 	else
 		statusbar(_("Finished checking spelling"));
-
-	return NULL;
 }
 
 /* Spell check the current file.  If an alternate spell checker is
@@ -2509,7 +2505,6 @@ void do_spell(void)
 	FILE *stream;
 	char *temp_name;
 	unsigned stash[sizeof(flags) / sizeof(flags[0])];
-	const char *result_msg;
 	bool okay;
 
 	ran_a_tool = TRUE;
@@ -2546,9 +2541,9 @@ void do_spell(void)
 	blank_bottombars();
 
 	if (alt_speller)
-		result_msg = treat(temp_name, alt_speller, TRUE);
+		treat(temp_name, alt_speller, TRUE);
 	else
-		result_msg = do_int_speller(temp_name);
+		do_int_speller(temp_name);
 
 	unlink(temp_name);
 	free(temp_name);
@@ -2559,14 +2554,6 @@ void do_spell(void)
 	/* Ensure the help lines will be redrawn and a selection is retained. */
 	currmenu = MMOST;
 	shift_held = TRUE;
-
-	if (result_msg != NULL) {
-		/* Avoid giving a failure reason of "Success". */
-		if (errno == 0)
-			statusline(ALERT, result_msg);
-		else
-			statusline(ALERT, _("%s: %s"), result_msg, strerror(errno));
-	}
 }
 #endif /* ENABLE_SPELLER */
 
@@ -2919,7 +2906,6 @@ void do_formatter(void)
 	FILE *stream;
 	char *temp_name;
 	bool okay = FALSE;
-	const char *result_msg;
 
 	ran_a_tool = TRUE;
 
@@ -2942,10 +2928,7 @@ void do_formatter(void)
 		return;
 	}
 
-	result_msg = treat(temp_name, openfile->syntax->formatter, FALSE);
-
-	if (result_msg != NULL)
-		statusline(ALERT, result_msg);
+	treat(temp_name, openfile->syntax->formatter, FALSE);
 
 	unlink(temp_name);
 	free(temp_name);
