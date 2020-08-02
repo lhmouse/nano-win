@@ -658,10 +658,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	while ((onevalue = getc_unlocked(f)) != EOF) {
 		char input = (char)onevalue;
 
-		if (control_C_was_pressed) {
-			statusline(ALERT, _("Interrupted"));
+		if (control_C_was_pressed)
 			break;
-		}
 
 		/* When the byte before the current one is a CR and we're doing
 		 * format conversion, then strip this CR when it's before a LF
@@ -734,6 +732,9 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	/* If there was a real error during the reading, let the user know. */
 	if (ferror(f) && errornumber != EINTR && errornumber != 0)
 		statusline(ALERT, strerror(errornumber));
+
+	if (control_C_was_pressed)
+		statusline(ALERT, _("Interrupted"));
 
 	fclose(f);
 
