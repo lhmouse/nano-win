@@ -2043,21 +2043,15 @@ void statusline(message_type importance, const char *msg, ...)
 	bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
 
 	UNSET(WHITESPACE_DISPLAY);
+
+	if (isendwin())
+		die("Out of curses -- please report a bug\n");
 #endif
 
 	/* Ignore a message with an importance that is lower than the last one. */
 	if ((lastmessage == ALERT && importance != ALERT) ||
 				(lastmessage == MILD && importance == HUSH))
 		return;
-
-#ifndef NANO_TINY
-	/* Curses mode shouldn't be off when trying to write to the status bar. */
-	if (isendwin()) {
-		fprintf(stderr, "Out of curses -- please report a bug\n");
-		napms(1400);
-		return;
-	}
-#endif
 
 	/* If there are multiple alert messages, add trailing dots to the first. */
 	if (lastmessage == ALERT) {
