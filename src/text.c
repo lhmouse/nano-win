@@ -2922,6 +2922,8 @@ void do_formatter(void)
 		return;
 	}
 
+	openfile->mark = NULL;
+
 	temp_name = safe_tempfile(&stream);
 
 	if (temp_name != NULL)
