@@ -2419,8 +2419,8 @@ void do_int_speller(const char *tempfile_name)
 
 	/* When some child process was not forked successfully... */
 	if (pid_spell < 0 || pid_sort < 0 || pid_uniq < 0) {
-		close(uniq_fd[0]);
 		statusline(ALERT, _("Could not fork: %s"), strerror(errno));
+		close(uniq_fd[0]);
 		return;
 	}
 
@@ -2428,8 +2428,8 @@ void do_int_speller(const char *tempfile_name)
 	pipesize = fpathconf(uniq_fd[0], _PC_PIPE_BUF);
 
 	if (pipesize < 1) {
-		close(uniq_fd[0]);
 		statusline(ALERT, _("Could not get size of pipe buffer"));
+		close(uniq_fd[0]);
 		return;
 	}
 
@@ -2639,8 +2639,8 @@ void do_linter(void)
 
 	/* If the child process was not forked successfully... */
 	if (pid_lint < 0) {
-		close(lint_fd[0]);
 		statusline(ALERT, _("Could not fork: %s"), strerror(errno));
+		close(lint_fd[0]);
 		return;
 	}
 
@@ -2648,8 +2648,8 @@ void do_linter(void)
 	pipesize = fpathconf(lint_fd[0], _PC_PIPE_BUF);
 
 	if (pipesize < 1) {
-		close(lint_fd[0]);
 		statusline(ALERT, _("Could not get size of pipe buffer"));
+		close(lint_fd[0]);
 		return;
 	}
 
