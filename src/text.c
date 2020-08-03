@@ -2343,6 +2343,8 @@ void do_int_speller(const char *tempfile_name)
 		return;
 	}
 
+	statusbar(_("Invoking spell checker..."));
+
 	/* Fork a process to run spell in. */
 	if ((pid_spell = fork()) == 0) {
 		/* Child: open the temporary file that holds the text to be checked. */
