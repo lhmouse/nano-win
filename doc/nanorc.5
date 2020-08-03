@@ -166,6 +166,7 @@ See \fBset titlecolor\fR for more details.
 .TP
 .B set linenumbers
 Display line numbers to the left of the text area.
+(Any line with an anchor additionally gets a mark in the margin.)
 .TP
 .B set locking
 Enable vim-style lock-files for when editing files.
@@ -727,6 +728,7 @@ Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
 .TP
 .B anchor
 Places an anchor at the current line, or removes it when already present.
+(An anchor is visible when line numbers are activated.)
 .TP
 .B prevanchor
 Goes to the first anchor before the current line.

@@ -370,6 +370,7 @@ position to the end of the line, instead of cutting the entire line.
 @item -l
 @itemx --linenumbers
 Display line numbers to the left of the text area.
+(Any line with an anchor additionally gets a mark in the margin.)
 
 @item -m
 @itemx --mouse
@@ -630,6 +631,8 @@ inherits the anchor.  After performing an operation on the entire buffer
 spell check on it), any anchors that were present are gone.  And when
 you close the buffer, all its anchors simply disappear; they are not saved.
 
+Anchors are visualized in the margin when line numbers are activated.
+
 @node Limitations
 @section Limitations
 
@@ -853,6 +856,7 @@ in the two help lines at the bottom of the screen.
 
 @item set linenumbers
 Display line numbers to the left of the text area.
+(Any line with an anchor additionally gets a mark in the margin.)
 
 @item set locking
 Enable vim-style lock-files for when editing files.
@@ -1424,6 +1428,7 @@ Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
 
 @item anchor
 Places an anchor at the current line, or removes it when already present.
+(An anchor is visible when line numbers are activated.)
 
 @item prevanchor
 Goes to the first anchor before the current line.

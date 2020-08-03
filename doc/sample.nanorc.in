@@ -68,7 +68,7 @@
 ## Scroll the buffer contents per half-screen instead of per line.
 # set jumpyscrolling
 
-## Display line numbers to the left of the text.
+## Display line numbers to the left (and any anchors in the margin).
 # set linenumbers
 
 ## Enable vim-style lock-files.  This is just to let a vim user know you
