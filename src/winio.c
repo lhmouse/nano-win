@@ -2276,7 +2276,12 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		wattroff(edit, interface_color_pair[LINE_NUMBER]);
 #ifndef NANO_TINY
 		if (line->has_anchor && from_col == 0)
-			wprintw(edit, "+");
+#ifdef ENABLE_UTF8
+			if (using_utf8())
+				wprintw(edit, "\xE2\x97\x86");  /* black diamond */
+			else
+#endif
+				wprintw(edit, "+");
 		else
 #endif
 			wprintw(edit, " ");
