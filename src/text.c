@@ -2133,8 +2133,9 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 		block_sigwinch(TRUE);
 		wait(&program_status);
 		block_sigwinch(FALSE);
-	} else
-		errornumber = errno;
+	}
+
+	errornumber = errno;
 
 	/* Restore the terminal state and reenter curses mode. */
 	terminal_init();
