@@ -853,8 +853,8 @@ void parse_binding(char *ptr, bool dobind)
 	newsc->keystr = keycopy;
 	newsc->keycode = keycode;
 
-	/* Disallow rebinding ^[ and frequent escape-sequence starter "Esc [". */
-	if (newsc->keycode == ESC_CODE || newsc->keycode == '[') {
+	/* Disallow rebinding <Esc> (^[). */
+	if (newsc->keycode == ESC_CODE) {
 		jot_error(N_("Keystroke %s may not be rebound"), keycopy);
   free_things:
 		free(keycopy);

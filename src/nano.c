@@ -1280,17 +1280,16 @@ void unbound_key(int code)
 	else if (code > 0x7F)
 		statusline(ALERT, _("Unbound key"));
 	else if (meta_key) {
-		if (code == '[')
-			statusline(ALERT, _("Unbindable key: M-["));
 #ifndef NANO_TINY
-		else if (code < 0x20)
+		if (code < 0x20)
 			statusline(ALERT, _("Unbindable key: M-^%c"), code + 0x40);
+		else
 #endif
 #ifdef ENABLE_NANORC
-		else if (shifted_metas && 'A' <= code && code <= 'Z')
+		if (shifted_metas && 'A' <= code && code <= 'Z')
 			statusline(ALERT, _("Unbound key: Sh-M-%c"), code);
-#endif
 		else
+#endif
 			statusline(ALERT, _("Unbound key: M-%c"), toupper(code));
 	} else if (code == ESC_CODE)
 		statusline(ALERT, _("Unbindable key: ^["));
