@@ -431,6 +431,9 @@ void new_magicline(void)
 	openfile->filebot->next = make_new_node(openfile->filebot);
 	openfile->filebot->next->data = copy_of("");
 	openfile->filebot = openfile->filebot->next;
+#ifndef NANO_TINY
+	openfile->filebot->extrarows = 0;
+#endif
 	openfile->totsize++;
 }
 
