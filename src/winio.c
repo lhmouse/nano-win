@@ -967,10 +967,10 @@ int parse_kbinput(WINDOW *win)
 				case 'C': return CONTROL_RIGHT;
 				case 'D': return CONTROL_LEFT;
 #ifndef NANO_TINY
-				case 'a': keycode = shiftaltup; break;
-				case 'b': keycode = shiftaltdown; break;
-				case 'c': keycode = shiftaltright; break;
-				case 'd': keycode = shiftaltleft; break;
+				case 'a': shift_held = TRUE; return KEY_PPAGE;
+				case 'b': shift_held = TRUE; return KEY_NPAGE;
+				case 'c': shift_held = TRUE; return KEY_HOME;
+				case 'd': shift_held = TRUE; return KEY_END;
 #endif
 			}
 		} else if (key_buffer_len > 0 && *key_buffer != ESC_CODE &&
@@ -1004,15 +1004,16 @@ int parse_kbinput(WINDOW *win)
 				keycode = byte;
 			else
 				return byte;
-		} else if (digit_count > 0) {
-			/* A non-digit in the middle of a byte sequence... */
-			;
-		} else if (!solitary) {
-			if (!shifted_metas)
-				keycode = tolower(keycode);
-			meta_key = TRUE;
-		} else
-			keycode = convert_to_control(keycode);
+		} else if (digit_count == 0) {
+			/* If the second escape did not arrive alone, it is a Meta
+			 * keystroke; otherwise, it is an "Esc Esc control". */
+			if (!solitary) {
+				if (!shifted_metas)
+					keycode = tolower(keycode);
+				meta_key = TRUE;
+			} else
+				keycode = convert_to_control(keycode);
+		}
 	}
 
 	if (keycode == controlleft)
