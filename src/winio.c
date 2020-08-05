@@ -930,91 +930,91 @@ int parse_kbinput(WINDOW *win)
 	}
 
 	if (escapes == 0) {
-			retval = keycode;
+		retval = keycode;
 	} else if (escapes == 1) {
-			escapes = 0;
-			if (keycode >= 0x80) {
+		escapes = 0;
+		if (keycode >= 0x80) {
 #ifndef NANO_TINY
-				if (keycode == KEY_BACKSPACE)
-					return CONTROL_SHIFT_DELETE;
-				else
+			if (keycode == KEY_BACKSPACE)
+				return CONTROL_SHIFT_DELETE;
+			else
 #endif
-					retval = keycode;
-			} else if (keycode == '\t')
-				return SHIFT_TAB;
-			else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
-									(keycode != 'O' && keycode != '[')) {
-				if (!solitary || (0x20 <= keycode && keycode <= 0x7E))
-					meta_key = TRUE;
-				retval = (shifted_metas) ? keycode : tolower(keycode);
-			} else
-				/* One escape followed by a non-escape, and there
-				 * are more codes waiting: escape sequence mode. */
-				retval = parse_escape_sequence(keycode);
-	} else {
-			escapes = 0;
-			if (keycode == '[' && key_buffer_len > 0 &&
-							(('A' <= *key_buffer && *key_buffer <= 'D') ||
-							('a' <= *key_buffer && *key_buffer <= 'd'))) {
-				/* An iTerm2/Eterm/rxvt double-escape sequence: Esc Esc [ X
-				 * for Option+arrow, or Esc Esc [ x for Shift+Alt+arrow. */
-				kbinput = get_input(win, 1);
-				keycode = *kbinput;
-				free(kbinput);
-				switch (keycode) {
-					case 'A': return KEY_HOME;
-					case 'B': return KEY_END;
-					case 'C': return CONTROL_RIGHT;
-					case 'D': return CONTROL_LEFT;
-#ifndef NANO_TINY
-					case 'a': retval = shiftaltup; break;
-					case 'b': retval = shiftaltdown; break;
-					case 'c': retval = shiftaltright; break;
-					case 'd': retval = shiftaltleft; break;
-#endif
-				}
-			} else if (key_buffer_len > 0 && *key_buffer != ESC_CODE &&
-									(keycode == '[' || keycode == 'O')) {
-				retval = parse_escape_sequence(keycode);
-				meta_key = TRUE;
-			} else if ('0' <= keycode && (keycode <= '2' ||
-									(keycode <= '9' && digit_count > 0))) {
-				/* Two escapes followed by one digit, and no other codes
-				 * are waiting: byte sequence mode.  If the range of the
-				 * sequence of digits is limited to 2XX, interpret it. */
-				int byte = assemble_byte_code(keycode);
-
-				/* If the decimal byte value is not yet complete,
-				 * return nothing; otherwise convert it and put the
-				 * obtained byte(s) back into the input buffer. */
-				if (byte == PROCEED) {
-					escapes = 2;
-					return ERR;
-				}
-#ifdef ENABLE_UTF8
-				else if (byte > 0x7F && using_utf8()) {
-					/* Convert the code to the corresponding Unicode. */
-					if (byte < 0xC0) {
-						put_back((unsigned char)byte);
-						return 0xC2;
-					} else {
-						put_back((unsigned char)(byte - 0x40));
-						return 0xC3;
-					}
-				}
-#endif
-				else if (byte == '\t' || byte == DEL_CODE)
-					retval = byte;
-				else
-					return byte;
-			} else if (digit_count > 0) {
-				/* A non-digit in the middle of a byte sequence... */
 				retval = keycode;
-			} else if (!solitary) {
-				retval = (shifted_metas) ? keycode : tolower(keycode);
+		} else if (keycode == '\t')
+			return SHIFT_TAB;
+		else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
+								(keycode != 'O' && keycode != '[')) {
+			if (!solitary || (0x20 <= keycode && keycode <= 0x7E))
 				meta_key = TRUE;
-			} else
-				retval = convert_to_control(keycode);
+			retval = (shifted_metas) ? keycode : tolower(keycode);
+		} else
+			/* One escape followed by a non-escape, and there
+			 * are more codes waiting: escape sequence mode. */
+			retval = parse_escape_sequence(keycode);
+	} else {
+		escapes = 0;
+		if (keycode == '[' && key_buffer_len > 0 &&
+						(('A' <= *key_buffer && *key_buffer <= 'D') ||
+						('a' <= *key_buffer && *key_buffer <= 'd'))) {
+			/* An iTerm2/Eterm/rxvt double-escape sequence: Esc Esc [ X
+			 * for Option+arrow, or Esc Esc [ x for Shift+Alt+arrow. */
+			kbinput = get_input(win, 1);
+			keycode = *kbinput;
+			free(kbinput);
+			switch (keycode) {
+				case 'A': return KEY_HOME;
+				case 'B': return KEY_END;
+				case 'C': return CONTROL_RIGHT;
+				case 'D': return CONTROL_LEFT;
+#ifndef NANO_TINY
+				case 'a': retval = shiftaltup; break;
+				case 'b': retval = shiftaltdown; break;
+				case 'c': retval = shiftaltright; break;
+				case 'd': retval = shiftaltleft; break;
+#endif
+			}
+		} else if (key_buffer_len > 0 && *key_buffer != ESC_CODE &&
+								(keycode == '[' || keycode == 'O')) {
+			retval = parse_escape_sequence(keycode);
+			meta_key = TRUE;
+		} else if ('0' <= keycode && (keycode <= '2' ||
+								(keycode <= '9' && digit_count > 0))) {
+			/* Two escapes followed by one digit, and no other codes
+			 * are waiting: byte sequence mode.  If the range of the
+			 * sequence of digits is limited to 2XX, interpret it. */
+			int byte = assemble_byte_code(keycode);
+
+			/* If the decimal byte value is not yet complete,
+			 * return nothing; otherwise convert it and put the
+			 * obtained byte(s) back into the input buffer. */
+			if (byte == PROCEED) {
+				escapes = 2;
+				return ERR;
+			}
+#ifdef ENABLE_UTF8
+			else if (byte > 0x7F && using_utf8()) {
+				/* Convert the code to the corresponding Unicode. */
+				if (byte < 0xC0) {
+					put_back((unsigned char)byte);
+					return 0xC2;
+				} else {
+					put_back((unsigned char)(byte - 0x40));
+					return 0xC3;
+				}
+			}
+#endif
+			else if (byte == '\t' || byte == DEL_CODE)
+				retval = byte;
+			else
+				return byte;
+		} else if (digit_count > 0) {
+			/* A non-digit in the middle of a byte sequence... */
+			retval = keycode;
+		} else if (!solitary) {
+			retval = (shifted_metas) ? keycode : tolower(keycode);
+			meta_key = TRUE;
+		} else
+			retval = convert_to_control(keycode);
 	}
 
 	if (retval == controlleft)
