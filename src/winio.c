@@ -900,7 +900,7 @@ int convert_to_control(int kbinput)
 int parse_kbinput(WINDOW *win)
 {
 	static int escapes = 0;
-	int *kbinput, keycode, retval = ERR;
+	int *kbinput, keycode;
 
 	meta_key = FALSE;
 	shift_held = FALSE;
@@ -933,8 +933,6 @@ int parse_kbinput(WINDOW *win)
 		/* Most key codes in byte range cannot be special keys. */
 		if (keycode <= 0xFF && keycode != '\t' && keycode != DEL_CODE)
 			return keycode;
-		else
-			retval = keycode;
 	} else if (escapes == 1) {
 		escapes = 0;
 		/* Key codes out of ASCII range cannot form escape sequences. */
@@ -942,18 +940,17 @@ int parse_kbinput(WINDOW *win)
 #ifndef NANO_TINY
 			if (keycode == KEY_BACKSPACE)
 				return CONTROL_SHIFT_DELETE;
-			else
 #endif
-				retval = keycode;
 		} else if (keycode == '\t')
 			return SHIFT_TAB;
 		else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
 								(keycode != 'O' && keycode != '[')) {
+			if (!shifted_metas)
+				keycode = tolower(keycode);
 			if (!solitary || (0x20 <= keycode && keycode <= 0x7E))
 				meta_key = TRUE;
-			retval = (shifted_metas) ? keycode : tolower(keycode);
 		} else
-			retval = parse_escape_sequence(keycode);
+			keycode = parse_escape_sequence(keycode);
 	} else {
 		escapes = 0;
 		if (keycode == '[' && key_buffer_len > 0 &&
@@ -970,15 +967,15 @@ int parse_kbinput(WINDOW *win)
 				case 'C': return CONTROL_RIGHT;
 				case 'D': return CONTROL_LEFT;
 #ifndef NANO_TINY
-				case 'a': retval = shiftaltup; break;
-				case 'b': retval = shiftaltdown; break;
-				case 'c': retval = shiftaltright; break;
-				case 'd': retval = shiftaltleft; break;
+				case 'a': keycode = shiftaltup; break;
+				case 'b': keycode = shiftaltdown; break;
+				case 'c': keycode = shiftaltright; break;
+				case 'd': keycode = shiftaltleft; break;
 #endif
 			}
 		} else if (key_buffer_len > 0 && *key_buffer != ESC_CODE &&
 								(keycode == '[' || keycode == 'O')) {
-			retval = parse_escape_sequence(keycode);
+			keycode = parse_escape_sequence(keycode);
 			meta_key = TRUE;
 		} else if ('0' <= keycode && (keycode <= '2' ||
 								(keycode <= '9' && digit_count > 0))) {
@@ -1004,86 +1001,87 @@ int parse_kbinput(WINDOW *win)
 			}
 #endif
 			else if (byte == '\t' || byte == DEL_CODE)
-				retval = byte;
+				keycode = byte;
 			else
 				return byte;
 		} else if (digit_count > 0) {
 			/* A non-digit in the middle of a byte sequence... */
-			retval = keycode;
+			;
 		} else if (!solitary) {
-			retval = (shifted_metas) ? keycode : tolower(keycode);
+			if (!shifted_metas)
+				keycode = tolower(keycode);
 			meta_key = TRUE;
 		} else
-			retval = convert_to_control(keycode);
+			keycode = convert_to_control(keycode);
 	}
 
-	if (retval == controlleft)
+	if (keycode == controlleft)
 		return CONTROL_LEFT;
-	else if (retval == controlright)
+	else if (keycode == controlright)
 		return CONTROL_RIGHT;
-	else if (retval == controlup)
+	else if (keycode == controlup)
 		return CONTROL_UP;
-	else if (retval == controldown)
+	else if (keycode == controldown)
 		return CONTROL_DOWN;
-	else if (retval == controlhome)
+	else if (keycode == controlhome)
 		return CONTROL_HOME;
-	else if (retval == controlend)
+	else if (keycode == controlend)
 		return CONTROL_END;
 #ifndef NANO_TINY
-	else if (retval == controldelete)
+	else if (keycode == controldelete)
 		return CONTROL_DELETE;
-	else if (retval == controlshiftdelete)
+	else if (keycode == controlshiftdelete)
 		return CONTROL_SHIFT_DELETE;
-	else if (retval == shiftup) {
+	else if (keycode == shiftup) {
 		shift_held = TRUE;
 		return KEY_UP;
-	} else if (retval == shiftdown) {
+	} else if (keycode == shiftdown) {
 		shift_held = TRUE;
 		return KEY_DOWN;
-	} else if (retval == shiftcontrolleft) {
+	} else if (keycode == shiftcontrolleft) {
 		shift_held = TRUE;
 		return CONTROL_LEFT;
-	} else if (retval == shiftcontrolright) {
+	} else if (keycode == shiftcontrolright) {
 		shift_held = TRUE;
 		return CONTROL_RIGHT;
-	} else if (retval == shiftcontrolup) {
+	} else if (keycode == shiftcontrolup) {
 		shift_held = TRUE;
 		return CONTROL_UP;
-	} else if (retval == shiftcontroldown) {
+	} else if (keycode == shiftcontroldown) {
 		shift_held = TRUE;
 		return CONTROL_DOWN;
-	} else if (retval == shiftcontrolhome) {
+	} else if (keycode == shiftcontrolhome) {
 		shift_held = TRUE;
 		return CONTROL_HOME;
-	} else if (retval == shiftcontrolend) {
+	} else if (keycode == shiftcontrolend) {
 		shift_held = TRUE;
 		return CONTROL_END;
-	} else if (retval == altleft)
+	} else if (keycode == altleft)
 		return ALT_LEFT;
-	else if (retval == altright)
+	else if (keycode == altright)
 		return ALT_RIGHT;
-	else if (retval == altup)
+	else if (keycode == altup)
 		return ALT_UP;
-	else if (retval == altdown)
+	else if (keycode == altdown)
 		return ALT_DOWN;
-	else if (retval == altpageup)
+	else if (keycode == altpageup)
 		return ALT_PAGEUP;
-	else if (retval == altpagedown)
+	else if (keycode == altpagedown)
 		return ALT_PAGEDOWN;
-	else if (retval == altinsert)
+	else if (keycode == altinsert)
 		return ALT_INSERT;
-	else if (retval == altdelete)
+	else if (keycode == altdelete)
 		return ALT_DELETE;
-	else if (retval == shiftaltleft) {
+	else if (keycode == shiftaltleft) {
 		shift_held = TRUE;
 		return KEY_HOME;
-	} else if (retval == shiftaltright) {
+	} else if (keycode == shiftaltright) {
 		shift_held = TRUE;
 		return KEY_END;
-	} else if (retval == shiftaltup) {
+	} else if (keycode == shiftaltup) {
 		shift_held = TRUE;
 		return KEY_PPAGE;
-	} else if (retval == shiftaltdown) {
+	} else if (keycode == shiftaltdown) {
 		shift_held = TRUE;
 		return KEY_NPAGE;
 	}
@@ -1099,18 +1097,18 @@ int parse_kbinput(WINDOW *win)
 #ifndef NANO_TINY
 		/* Is Shift being held? */
 		if (modifiers & 0x01) {
-			if (retval == '\t')
+			if (keycode == '\t')
 				return SHIFT_TAB;
-			if (retval == KEY_DC && modifiers == 0x01)
+			if (keycode == KEY_DC && modifiers == 0x01)
 				return SHIFT_DELETE;
-			if (retval == KEY_DC && modifiers == 0x05)
+			if (keycode == KEY_DC && modifiers == 0x05)
 				return CONTROL_SHIFT_DELETE;
 			if (!meta_key)
 				shift_held = TRUE;
 		}
 		/* Is Alt being held? */
 		if (modifiers == 0x08) {
-			switch (retval) {
+			switch (keycode) {
 				case KEY_UP:    return ALT_UP;
 				case KEY_DOWN:  return ALT_DOWN;
 				case KEY_PPAGE: return ALT_PAGEUP;
@@ -1122,7 +1120,7 @@ int parse_kbinput(WINDOW *win)
 #endif
 		/* Is Ctrl being held? */
 		if (modifiers & 0x04) {
-			switch (retval) {
+			switch (keycode) {
 				case KEY_UP:    return CONTROL_UP;
 				case KEY_DOWN:  return CONTROL_DOWN;
 				case KEY_LEFT:  return CONTROL_LEFT;
@@ -1135,7 +1133,7 @@ int parse_kbinput(WINDOW *win)
 #ifndef NANO_TINY
 		/* Are both Shift and Alt being held? */
 		if ((modifiers & 0x09) == 0x09) {
-			switch (retval) {
+			switch (keycode) {
 				case KEY_UP:    return KEY_PPAGE;
 				case KEY_DOWN:  return KEY_NPAGE;
 				case KEY_LEFT:  return KEY_HOME;
@@ -1148,12 +1146,12 @@ int parse_kbinput(WINDOW *win)
 
 #ifndef NANO_TINY
 	/* When <Tab> is pressed while the mark is on, do an indent. */
-	if (retval == '\t' && openfile->mark && currmenu == MMAIN &&
+	if (keycode == '\t' && openfile->mark && currmenu == MMAIN &&
 				!bracketed_paste && openfile->mark != openfile->current)
 		return INDENT_KEY;
 #endif
 
-	switch (retval) {
+	switch (keycode) {
 #ifdef KEY_SLEFT  /* Slang doesn't support KEY_SLEFT. */
 		case KEY_SLEFT:
 			shift_held = TRUE;
@@ -1263,7 +1261,7 @@ int parse_kbinput(WINDOW *win)
 			return ERR;    /* Ignore this keystroke. */
 	}
 
-	return retval;
+	return keycode;
 }
 
 /* Read in a single keystroke, ignoring any that are invalid. */
