@@ -930,9 +930,14 @@ int parse_kbinput(WINDOW *win)
 	}
 
 	if (escapes == 0) {
-		retval = keycode;
+		/* Most key codes in byte range cannot be special keys. */
+		if (keycode <= 0xFF && keycode != '\t' && keycode != DEL_CODE)
+			return keycode;
+		else
+			retval = keycode;
 	} else if (escapes == 1) {
 		escapes = 0;
+		/* Key codes out of ASCII range cannot form escape sequences. */
 		if (keycode >= 0x80) {
 #ifndef NANO_TINY
 			if (keycode == KEY_BACKSPACE)
@@ -948,8 +953,6 @@ int parse_kbinput(WINDOW *win)
 				meta_key = TRUE;
 			retval = (shifted_metas) ? keycode : tolower(keycode);
 		} else
-			/* One escape followed by a non-escape, and there
-			 * are more codes waiting: escape sequence mode. */
 			retval = parse_escape_sequence(keycode);
 	} else {
 		escapes = 0;
@@ -979,21 +982,18 @@ int parse_kbinput(WINDOW *win)
 			meta_key = TRUE;
 		} else if ('0' <= keycode && (keycode <= '2' ||
 								(keycode <= '9' && digit_count > 0))) {
-			/* Two escapes followed by one digit, and no other codes
-			 * are waiting: byte sequence mode.  If the range of the
-			 * sequence of digits is limited to 2XX, interpret it. */
+			/* Two escapes followed by one digit: byte sequence mode. */
 			int byte = assemble_byte_code(keycode);
 
-			/* If the decimal byte value is not yet complete,
-			 * return nothing; otherwise convert it and put the
-			 * obtained byte(s) back into the input buffer. */
+			/* If the decimal byte value is not yet complete, return nothing. */
 			if (byte == PROCEED) {
 				escapes = 2;
 				return ERR;
 			}
 #ifdef ENABLE_UTF8
 			else if (byte > 0x7F && using_utf8()) {
-				/* Convert the code to the corresponding Unicode. */
+				/* Convert the code to the corresponding Unicode, and
+				 * put the second byte back into the keyboard buffer. */
 				if (byte < 0xC0) {
 					put_back((unsigned char)byte);
 					return 0xC2;
