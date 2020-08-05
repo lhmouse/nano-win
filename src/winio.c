@@ -935,15 +935,16 @@ int parse_kbinput(WINDOW *win)
 			retval = keycode;
 			break;
 		case 1:
+			escapes = 0;
 			if (keycode >= 0x80) {
 #ifndef NANO_TINY
 				if (keycode == KEY_BACKSPACE)
-					retval = CONTROL_SHIFT_DELETE;
+					return CONTROL_SHIFT_DELETE;
 				else
 #endif
 					retval = keycode;
 			} else if (keycode == '\t')
-				retval = SHIFT_TAB;
+				return SHIFT_TAB;
 			else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
 									(keycode != 'O' && keycode != '[')) {
 				if (!solitary || (0x20 <= keycode && keycode <= 0x7E))
@@ -953,9 +954,9 @@ int parse_kbinput(WINDOW *win)
 				/* One escape followed by a non-escape, and there
 				 * are more codes waiting: escape sequence mode. */
 				retval = parse_escape_sequence(keycode);
-			escapes = 0;
 			break;
 		case 2:
+			escapes = 0;
 			if (keycode == '[' && key_buffer_len > 0 &&
 							(('A' <= *key_buffer && *key_buffer <= 'D') ||
 							('a' <= *key_buffer && *key_buffer <= 'd'))) {
@@ -964,7 +965,6 @@ int parse_kbinput(WINDOW *win)
 				kbinput = get_input(win, 1);
 				keycode = *kbinput;
 				free(kbinput);
-				escapes = 0;
 				switch (keycode) {
 					case 'A': return KEY_HOME;
 					case 'B': return KEY_END;
@@ -991,22 +991,26 @@ int parse_kbinput(WINDOW *win)
 				/* If the decimal byte value is not yet complete,
 				 * return nothing; otherwise convert it and put the
 				 * obtained byte(s) back into the input buffer. */
-				if (byte == PROCEED)
+				if (byte == PROCEED) {
+					escapes = 2;
 					return ERR;
+				}
 #ifdef ENABLE_UTF8
 				else if (byte > 0x7F && using_utf8()) {
 					/* Convert the code to the corresponding Unicode. */
 					if (byte < 0xC0) {
 						put_back((unsigned char)byte);
-						put_back(0xC2);
+						return 0xC2;
 					} else {
 						put_back((unsigned char)(byte - 0x40));
-						put_back(0xC3);
+						return 0xC3;
 					}
 				}
 #endif
-				else
+				else if (byte == '\t' || byte == DEL_CODE)
 					retval = byte;
+				else
+					return byte;
 			} else if (digit_count > 0) {
 				/* A non-digit in the middle of a byte sequence... */
 				retval = keycode;
@@ -1015,7 +1019,6 @@ int parse_kbinput(WINDOW *win)
 				meta_key = TRUE;
 			} else
 				retval = convert_to_control(keycode);
-			escapes = 0;
 			break;
 	}
 
