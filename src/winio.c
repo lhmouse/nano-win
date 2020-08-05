@@ -929,12 +929,9 @@ int parse_kbinput(WINDOW *win)
 		return ERR;
 	}
 
-	switch (escapes) {
-		case 0:
-			/* One non-escape: normal input mode. */
+	if (escapes == 0) {
 			retval = keycode;
-			break;
-		case 1:
+	} else if (escapes == 1) {
 			escapes = 0;
 			if (keycode >= 0x80) {
 #ifndef NANO_TINY
@@ -954,8 +951,7 @@ int parse_kbinput(WINDOW *win)
 				/* One escape followed by a non-escape, and there
 				 * are more codes waiting: escape sequence mode. */
 				retval = parse_escape_sequence(keycode);
-			break;
-		case 2:
+	} else {
 			escapes = 0;
 			if (keycode == '[' && key_buffer_len > 0 &&
 							(('A' <= *key_buffer && *key_buffer <= 'D') ||
@@ -1019,7 +1015,6 @@ int parse_kbinput(WINDOW *win)
 				meta_key = TRUE;
 			} else
 				retval = convert_to_control(keycode);
-			break;
 	}
 
 	if (retval == controlleft)
