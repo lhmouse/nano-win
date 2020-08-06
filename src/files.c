@@ -951,7 +951,7 @@ bool execute_command(const char *command)
 	/* Create a pipe to read the command's output from, and, if needed,
 	 * a pipe to feed the command's input through. */
 	if (pipe(from_fd) == -1 || (should_pipe && pipe(to_fd) == -1)) {
-		statusline(ALERT, _("Could not create pipe"));
+		statusline(ALERT, _("Could not create pipe: %s"), strerror(errno));
 		return FALSE;
 	}
 

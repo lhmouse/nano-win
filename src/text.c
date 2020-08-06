@@ -2340,7 +2340,7 @@ void do_int_speller(const char *tempfile_name)
 
 	/* Create all three pipes up front. */
 	if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1) {
-		statusline(ALERT, _("Could not create pipe"));
+		statusline(ALERT, _("Could not create pipe: %s"), strerror(errno));
 		return;
 	}
 
@@ -2607,7 +2607,7 @@ void do_linter(void)
 
 	/* Create a pipe up front. */
 	if (pipe(lint_fd) == -1) {
-		statusline(ALERT, _("Could not create pipe"));
+		statusline(ALERT, _("Could not create pipe: %s"), strerror(errno));
 		return;
 	}
 
