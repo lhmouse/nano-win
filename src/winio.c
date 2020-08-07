@@ -1420,9 +1420,9 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 	free(kbinput);
 
-	/* If this is an iTerm/Eterm/rxvt double escape, take both Escapes. */
-	if (key_buffer_len > 3 && *key_buffer == ESC_CODE &&
-				key_buffer[1] == ESC_CODE && key_buffer[2] == '[')
+	/* In case of an escape, take also a second code, as it might be another
+	 * escape (on iTerm2/rxvt) or a control code (for M-Bsp and M-Enter). */
+	if (key_buffer_len > 1 && *key_buffer == ESC_CODE)
 		*count = 2;
 
 	return get_input(NULL, *count);
