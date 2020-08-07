@@ -935,20 +935,21 @@ int parse_kbinput(WINDOW *win)
 			return keycode;
 	} else if (escapes == 1) {
 		escapes = 0;
-		/* Key codes out of ASCII range cannot form escape sequences. */
-		if (keycode >= 0x80) {
+		/* Codes out of ASCII printable range cannot form an escape sequence. */
+		if (keycode < 0x20 || 0x7E < keycode) {
+			if (keycode == '\t')
+				return SHIFT_TAB;
 #ifndef NANO_TINY
-			if (keycode == KEY_BACKSPACE)
+			else if (keycode == KEY_BACKSPACE)
 				return CONTROL_SHIFT_DELETE;
 #endif
-		} else if (keycode == '\t')
-			return SHIFT_TAB;
-		else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
+			else if (!solitary)
+				meta_key = TRUE;
+		} else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
 								(keycode != 'O' && keycode != '[')) {
 			if (!shifted_metas)
 				keycode = tolower(keycode);
-			if (!solitary || (0x20 <= keycode && keycode <= 0x7E))
-				meta_key = TRUE;
+			meta_key = TRUE;
 		} else
 			keycode = parse_escape_sequence(keycode);
 	} else {
