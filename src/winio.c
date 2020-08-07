@@ -940,7 +940,8 @@ int parse_kbinput(WINDOW *win)
 			if (keycode == '\t')
 				return SHIFT_TAB;
 #ifndef NANO_TINY
-			else if (keycode == KEY_BACKSPACE)
+			else if (keycode == KEY_BACKSPACE || keycode == '\b' ||
+												keycode == DEL_CODE)
 				return CONTROL_SHIFT_DELETE;
 #endif
 			else if (!solitary)
