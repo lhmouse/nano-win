@@ -49,6 +49,8 @@ static bool waiting_mode = TRUE;
 		/* Whether getting a character will wait for a key to be pressed. */
 static bool reveal_cursor = FALSE;
 		/* Whether the cursor should be shown when waiting for input. */
+static bool linger_after_escape = FALSE;
+		/* Whether to give ncurses some time to get the next code. */
 static int statusblank = 0;
 		/* The number of keystrokes left before we blank the status bar. */
 #ifdef USING_OLD_NCURSES
@@ -221,6 +223,11 @@ void read_keys_from(WINDOW *win)
 
 	/* Read in the remaining characters using non-blocking input. */
 	nodelay(win, TRUE);
+
+	/* When taking verbatim input, pause a moment after receiving an ESC,
+	 * to give the keyboard some time to bring the next code to ncurses. */
+	if (linger_after_escape && input == ESC_CODE)
+		napms(20);
 
 	while (TRUE) {
 #ifndef NANO_TINY
@@ -1371,9 +1378,12 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	int *kbinput;
 
 	reveal_cursor = TRUE;
+	linger_after_escape = TRUE;
 
 	/* Read in the first code. */
 	kbinput = get_input(win, 1);
+
+	linger_after_escape = FALSE;
 
 #ifndef NANO_TINY
 	/* When the window was resized, abort and return nothing. */
