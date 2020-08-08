@@ -332,35 +332,37 @@ int arrow_from_ABCD(int letter)
 int convert_SS3_sequence(const int *seq, size_t length, int *consumed)
 {
 	switch (seq[0]) {
+#ifndef NANO_TINY
 		case '1':
 			if (length > 3  && seq[1] == ';') {
 				*consumed = 4;
 				switch (seq[2]) {
 					case '2':
-						switch (seq[3]) {
-							case 'A': /* Esc O 1 ; 2 A == Shift-Up on Terminal. */
-							case 'B': /* Esc O 1 ; 2 B == Shift-Down on Terminal. */
-							case 'C': /* Esc O 1 ; 2 C == Shift-Right on Terminal. */
-							case 'D': /* Esc O 1 ; 2 D == Shift-Left on Terminal. */
-								shift_held = TRUE;
-								return arrow_from_ABCD(seq[3]);
+						if ('A' <= seq[3] && seq[3] <= 'D') {
+							/* Esc O 1 ; 2 A == Shift-Up on old Terminal. */
+							/* Esc O 1 ; 2 B == Shift-Down on old Terminal. */
+							/* Esc O 1 ; 2 C == Shift-Right on old Terminal. */
+							/* Esc O 1 ; 2 D == Shift-Left on old Terminal. */
+							shift_held = TRUE;
+							return arrow_from_ABCD(seq[3]);
 						}
 						break;
 					case '5':
 						switch (seq[3]) {
-							case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
+							case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on old Terminal. */
 								return CONTROL_UP;
-							case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on Terminal. */
+							case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on old Terminal. */
 								return CONTROL_DOWN;
-							case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on Terminal. */
+							case 'C': /* Esc O 1 ; 5 C == Ctrl-Right on old Terminal. */
 								return CONTROL_RIGHT;
-							case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on Terminal. */
+							case 'D': /* Esc O 1 ; 5 D == Ctrl-Left on old Terminal. */
 								return CONTROL_LEFT;
 						}
 						break;
 				}
 			}
 			break;
+#endif
 		case '2':  /* Shift */
 		case '3':  /* Alt */
 		case '4':  /* Shift+Alt */
@@ -826,8 +828,10 @@ int parse_escape_sequence(int starter)
 		keycode = convert_SS3_sequence(sequence, length, &consumed);
 	else if (starter == '[')
 		keycode = convert_CSI_sequence(sequence, length, &consumed);
+#ifndef NANO_TINY
 	else
 		die("Bad sequence starter -- please report a bug\n");
+#endif
 
 	/* If not all grabbed integers were consumed, put the leftovers back. */
 	for (int i = length - 1; i >= consumed; i--)
