@@ -332,28 +332,28 @@ int arrow_from_ABCD(int letter)
  * keypad values, into their corresponding key values.  These sequences
  * are generated when the keypad doesn't support the needed keys.
  * Assume that Escape has already been read in. */
-int convert_sequence(const int *seq, size_t length, int *consumed)
+int convert_sequence(int first, const int *seq, size_t length, int *consumed)
 {
-	*consumed = 2;
+	*consumed = 1;
 
-	if (seq[0] == 'O') {
-		switch (seq[1]) {
+	if (first == 'O') {
+		switch (seq[0]) {
 			case '1':
-				if (length > 4  && seq[2] == ';') {
-					*consumed = 5;
-					switch (seq[3]) {
+				if (length > 3  && seq[1] == ';') {
+					*consumed = 4;
+					switch (seq[2]) {
 						case '2':
-							switch (seq[4]) {
+							switch (seq[3]) {
 								case 'A': /* Esc O 1 ; 2 A == Shift-Up on Terminal. */
 								case 'B': /* Esc O 1 ; 2 B == Shift-Down on Terminal. */
 								case 'C': /* Esc O 1 ; 2 C == Shift-Right on Terminal. */
 								case 'D': /* Esc O 1 ; 2 D == Shift-Left on Terminal. */
 									shift_held = TRUE;
-									return arrow_from_ABCD(seq[4]);
+									return arrow_from_ABCD(seq[3]);
 							}
 							break;
 						case '5':
-							switch (seq[4]) {
+							switch (seq[3]) {
 								case 'A': /* Esc O 1 ; 5 A == Ctrl-Up on Terminal. */
 									return CONTROL_UP;
 								case 'B': /* Esc O 1 ; 5 B == Ctrl-Down on Terminal. */
@@ -374,13 +374,13 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 			case '6':  /* Shift+Ctrl */
 			case '7':  /* Alt+Ctrl */
 			case '8':  /* Shift+Alt+Ctrl */
-				if (length > 2) {
-					*consumed = 3;
+				if (length > 1) {
+					*consumed = 2;
 					/* Do not accept multiple modifiers. */
-					if (seq[1] == '4' || seq[1] > '5')
+					if (seq[0] == '4' || seq[0] > '5')
 						return FOREIGN_SEQUENCE;
 #ifndef NANO_TINY
-					switch (seq[2]) {
+					switch (seq[1]) {
 						case 'A': /* Esc O 5 A == Ctrl-Up on Haiku. */
 							return CONTROL_UP;
 						case 'B': /* Esc O 5 B == Ctrl-Down on Haiku. */
@@ -394,14 +394,14 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					/* Translate Shift+digit on the keypad to the digit
 					 * (Esc O 2 p == Shift-0, ...), modifier+operator to
 					 * the operator, and modifier+Enter to CR. */
-					return (seq[2] - 0x40);
+					return (seq[1] - 0x40);
 				}
 				break;
 			case 'A': /* Esc O A == Up on VT100/VT320. */
 			case 'B': /* Esc O B == Down on VT100/VT320. */
 			case 'C': /* Esc O C == Right on VT100/VT320. */
 			case 'D': /* Esc O D == Left on VT100/VT320. */
-				return arrow_from_ABCD(seq[1]);
+				return arrow_from_ABCD(seq[0]);
 			case 'F': /* Esc O F == End on old xterm. */
 				return KEY_END;
 			case 'H': /* Esc O H == Home on old xterm. */
@@ -419,7 +419,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 			case 'W': /* Esc O W == F8 on Mach console. */
 			case 'X': /* Esc O X == F9 on Mach console. */
 			case 'Y': /* Esc O Y == F10 on Mach console. */
-				return KEY_F(seq[1] - 'O');
+				return KEY_F(seq[0] - 'O');
 			case 'a': /* Esc O a == Ctrl-Up on rxvt/Eterm. */
 				return CONTROL_UP;
 			case 'b': /* Esc O b == Ctrl-Down on rxvt/Eterm. */
@@ -464,41 +464,41 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 			case 'y': /* Esc O y == PageUp (9) on the same. */
 				return KEY_PPAGE;
 		}
-	} else if (seq[0] == '[') {
-		if (seq[1] < '9')
-			*consumed = 3;
-		switch (seq[1]) {
+	} else if (first == '[') {
+		if (seq[0] < '9')
+			*consumed = 2;
+		switch (seq[0]) {
 			case '1':
-				if (length > 2 && seq[2] == '~')
+				if (length > 1 && seq[1] == '~')
 					/* Esc [ 1 ~ == Home on VT320/Linux console. */
 					return KEY_HOME;
-				else if (length > 3 && seq[3] == '~') {
-					*consumed = 4;
-					switch (seq[2]) {
+				else if (length > 2 && seq[2] == '~') {
+					*consumed = 3;
+					switch (seq[1]) {
 						case '1': /* Esc [ 1 1 ~ == F1 on rxvt/Eterm. */
 						case '2': /* Esc [ 1 2 ~ == F2 on rxvt/Eterm. */
 						case '3': /* Esc [ 1 3 ~ == F3 on rxvt/Eterm. */
 						case '4': /* Esc [ 1 4 ~ == F4 on rxvt/Eterm. */
 						case '5': /* Esc [ 1 5 ~ == F5 on xterm/rxvt/Eterm. */
-							return KEY_F(seq[2] - '0');
+							return KEY_F(seq[1] - '0');
 						case '7': /* Esc [ 1 7 ~ == F6 on VT220/VT320/
 								   * Linux console/xterm/rxvt/Eterm. */
 						case '8': /* Esc [ 1 8 ~ == F7 on the same. */
 						case '9': /* Esc [ 1 9 ~ == F8 on the same. */
-							return KEY_F(seq[2] - '1');
+							return KEY_F(seq[1] - '1');
 					}
-				} else if (length > 4 && seq[2] == ';') {
+				} else if (length > 3 && seq[1] == ';') {
 		/* <-<-<-<-<-<-<- */
-		*consumed = 5;
-		switch (seq[3]) {
+		*consumed = 4;
+		switch (seq[2]) {
 			case '2':
-				switch (seq[4]) {
+				switch (seq[3]) {
 					case 'A': /* Esc [ 1 ; 2 A == Shift-Up on xterm. */
 					case 'B': /* Esc [ 1 ; 2 B == Shift-Down on xterm. */
 					case 'C': /* Esc [ 1 ; 2 C == Shift-Right on xterm. */
 					case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
 						shift_held = TRUE;
-						return arrow_from_ABCD(seq[4]);
+						return arrow_from_ABCD(seq[3]);
 #ifndef NANO_TINY
 					case 'F': /* Esc [ 1 ; 2 F == Shift-End on xterm. */
 						return SHIFT_END;
@@ -510,7 +510,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 #ifndef NANO_TINY
 			case '9': /* To accommodate iTerm2 in "xterm mode". */
 			case '3':
-				switch (seq[4]) {
+				switch (seq[3]) {
 					case 'A': /* Esc [ 1 ; 3 A == Alt-Up on xterm. */
 						return ALT_UP;
 					case 'B': /* Esc [ 1 ; 3 B == Alt-Down on xterm. */
@@ -524,7 +524,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 			case '4':
 				/* When the arrow keys are held together with Shift+Meta,
 				 * act as if they are Home/End/PgUp/PgDown with Shift. */
-				switch (seq[4]) {
+				switch (seq[3]) {
 					case 'A': /* Esc [ 1 ; 4 A == Shift-Alt-Up on xterm. */
 						return SHIFT_PAGEUP;
 					case 'B': /* Esc [ 1 ; 4 B == Shift-Alt-Down on xterm. */
@@ -537,7 +537,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 				break;
 #endif
 			case '5':
-				switch (seq[4]) {
+				switch (seq[3]) {
 					case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
 						return CONTROL_UP;
 					case 'B': /* Esc [ 1 ; 5 B == Ctrl-Down on xterm. */
@@ -554,7 +554,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 				break;
 #ifndef NANO_TINY
 			case '6':
-				switch (seq[4]) {
+				switch (seq[3]) {
 					case 'A': /* Esc [ 1 ; 6 A == Shift-Ctrl-Up on xterm. */
 						return shiftcontrolup;
 					case 'B': /* Esc [ 1 ; 6 B == Shift-Ctrl-Down on xterm. */
@@ -572,19 +572,19 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 #endif
 		}
 		/* ->->->->->->-> */
-				} else if (length > 5 && seq[3] == ';' && seq[5] == '~')
+				} else if (length > 4 && seq[2] == ';' && seq[4] == '~')
 					/* Esc [ 1 n ; 2 ~ == F17...F20 on some terminals. */
-					*consumed = 6;
+					*consumed = 5;
 #ifdef USE_SLANG
-				else if (length == 4 && seq[3] == ';')
+				else if (length == 3 && seq[2] == ';')
 					/* Discard broken sequences that Slang produces. */
-					*consumed = 4;
+					*consumed = 3;
 #endif
 				break;
 			case '2':
-				if (length > 3 && seq[3] == '~') {
-					*consumed = 4;
-					switch (seq[2]) {
+				if (length > 2 && seq[2] == '~') {
+					*consumed = 3;
+					switch (seq[1]) {
 						case '0': /* Esc [ 2 0 ~ == F9 on VT220/VT320/
 								   * Linux console/xterm/rxvt/Eterm. */
 							return KEY_F(9);
@@ -595,35 +595,35 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 						case '4': /* Esc [ 2 4 ~ == F12 on the same. */
 							return KEY_F(12);
 					}
-				} else if (length > 2 && seq[2] == '~')
+				} else if (length > 1 && seq[1] == '~')
 					/* Esc [ 2 ~ == Insert on VT220/VT320/
 					 * Linux console/xterm/Terminal. */
 					return KEY_IC;
-				else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
+				else if (length > 3 && seq[1] == ';' && seq[3] == '~') {
 					/* Esc [ 2 ; x ~ == modified Insert on xterm. */
-					*consumed = 5;
+					*consumed = 4;
 #ifndef NANO_TINY
-					if (seq[3] == '3')
+					if (seq[2] == '3')
 						return ALT_INSERT;
 #endif
 				}
-				else if (length > 5 && seq[3] == ';' && seq[5] == '~')
+				else if (length > 4 && seq[2] == ';' && seq[4] == '~')
 					/* Esc [ 2 n ; 2 ~ == F21...F24 on some terminals. */
-					*consumed = 6;
+					*consumed = 5;
 #ifdef USE_SLANG
-				else if (length == 4 && seq[3] == ';')
+				else if (length == 3 && seq[2] == ';')
 					/* Discard broken sequences that Slang produces. */
-					*consumed = 4;
+					*consumed = 3;
 #endif
 #ifndef NANO_TINY
-				else if (length > 4 && seq[2] == '0' && seq[4] == '~') {
+				else if (length > 3 && seq[1] == '0' && seq[3] == '~') {
 					/* Esc [ 2 0 0 ~ == start of a bracketed paste,
 					 * Esc [ 2 0 1 ~ == end of a bracketed paste. */
-					*consumed = 5;
-					if (seq[3] == '0') {
+					*consumed = 4;
+					if (seq[2] == '0') {
 						bracketed_paste = TRUE;
 						return BRACKETED_PASTE_MARKER;
-					} else if (seq[3] == '1') {
+					} else if (seq[2] == '1') {
 						bracketed_paste = FALSE;
 						return BRACKETED_PASTE_MARKER;
 					}
@@ -632,69 +632,69 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 				break;
 			case '3': /* Esc [ 3 ~ == Delete on VT220/VT320/
 					   * Linux console/xterm/Terminal. */
-				if (length > 2 && seq[2] == '~')
+				if (length > 1 && seq[1] == '~')
 					return KEY_DC;
-				if (length > 4 && seq[2] == ';' && seq[4] == '~') {
-					*consumed = 5;
+				if (length > 3 && seq[1] == ';' && seq[3] == '~') {
+					*consumed = 4;
 #ifndef NANO_TINY
-					if (seq[3] == '2')
+					if (seq[2] == '2')
 						/* Esc [ 3 ; 2 ~ == Shift-Delete on xterm/Terminal. */
 						return SHIFT_DELETE;
-					if (seq[3] == '3')
+					if (seq[2] == '3')
 						/* Esc [ 3 ; 3 ~ == Alt-Delete on xterm/rxvt/Eterm/Terminal. */
 						return ALT_DELETE;
-					if (seq[3] == '5')
+					if (seq[2] == '5')
 						/* Esc [ 3 ; 5 ~ == Ctrl-Delete on xterm. */
 						return CONTROL_DELETE;
-					if (seq[3] == '6')
+					if (seq[2] == '6')
 						/* Esc [ 3 ; 6 ~ == Ctrl-Shift-Delete on xterm. */
 						return controlshiftdelete;
 #endif
 				}
 #ifndef NANO_TINY
-				if (length > 2 && seq[2] == '$')
+				if (length > 1 && seq[1] == '$')
 					/* Esc [ 3 $ == Shift-Delete on urxvt. */
 					return SHIFT_DELETE;
-				if (length > 2 && seq[2] == '^')
+				if (length > 1 && seq[1] == '^')
 					/* Esc [ 3 ^ == Ctrl-Delete on urxvt. */
 					return CONTROL_DELETE;
-				if (length > 2 && seq[2] == '@')
+				if (length > 1 && seq[1] == '@')
 					/* Esc [ 3 @ == Ctrl-Shift-Delete on urxvt. */
 					return controlshiftdelete;
-				if (length > 3 && seq[3] == '~')
+				if (length > 2 && seq[2] == '~')
 					/* Esc [ 3 n ~ == F17...F20 on some terminals. */
-					*consumed = 4;
+					*consumed = 3;
 #endif
 				break;
 			case '4': /* Esc [ 4 ~ == End on VT220/VT320/
 					   * Linux console/xterm. */
-				if (length > 2 && seq[2] == '~')
+				if (length > 1 && seq[1] == '~')
 					return KEY_END;
 				break;
 			case '5': /* Esc [ 5 ~ == PageUp on VT220/VT320/
 					   * Linux console/xterm/Eterm/urxvt/Terminal */
-				if (length > 2 && seq[2] == '~')
+				if (length > 1 && seq[1] == '~')
 					return KEY_PPAGE;
-				else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
-					*consumed = 5;
+				else if (length > 3 && seq[1] == ';' && seq[3] == '~') {
+					*consumed = 4;
 #ifndef NANO_TINY
-					if (seq[3] == '2')
+					if (seq[2] == '2')
 						return shiftaltup;
-					if (seq[3] == '3')
+					if (seq[2] == '3')
 						return ALT_PAGEUP;
 #endif
 				}
 				break;
 			case '6': /* Esc [ 6 ~ == PageDown on VT220/VT320/
 					   * Linux console/xterm/Eterm/urxvt/Terminal */
-				if (length > 2 && seq[2] == '~')
+				if (length > 1 && seq[1] == '~')
 					return KEY_NPAGE;
-				else if (length > 4 && seq[2] == ';' && seq[4] == '~') {
-					*consumed = 5;
+				else if (length > 3 && seq[1] == ';' && seq[3] == '~') {
+					*consumed = 4;
 #ifndef NANO_TINY
-					if (seq[3] == '2')
+					if (seq[2] == '2')
 						return shiftaltdown;
-					if (seq[3] == '3')
+					if (seq[2] == '3')
 						return ALT_PAGEDOWN;
 #endif
 				}
@@ -703,14 +703,14 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					   * Esc [ 7 $ == Shift-Home on Eterm/rxvt;
 					   * Esc [ 7 ^ == Control-Home on Eterm/rxvt;
 					   * Esc [ 7 @ == Shift-Control-Home on same. */
-				if (length > 2 && seq[2] == '~')
+				if (length > 1 && seq[1] == '~')
 					return KEY_HOME;
-				else if (length > 2 && seq[2] == '$')
+				else if (length > 1 && seq[1] == '$')
 					return SHIFT_HOME;
-				else if (length > 2 && seq[2] == '^')
+				else if (length > 1 && seq[1] == '^')
 					return CONTROL_HOME;
 #ifndef NANO_TINY
-				else if (length > 2 && seq[2] == '@')
+				else if (length > 1 && seq[1] == '@')
 					return shiftcontrolhome;
 #endif
 				break;
@@ -718,14 +718,14 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 					   * Esc [ 8 $ == Shift-End on Eterm/rxvt;
 					   * Esc [ 8 ^ == Control-End on Eterm/rxvt;
 					   * Esc [ 8 @ == Shift-Control-End on same. */
-				if (length > 2 && seq[2] == '~')
+				if (length > 1 && seq[1] == '~')
 					return KEY_END;
-				else if (length > 2 && seq[2] == '$')
+				else if (length > 1 && seq[1] == '$')
 					return SHIFT_END;
-				else if (length > 2 && seq[2] == '^')
+				else if (length > 1 && seq[1] == '^')
 					return CONTROL_END;
 #ifndef NANO_TINY
-				else if (length > 2 && seq[2] == '@')
+				else if (length > 1 && seq[1] == '@')
 					return shiftcontrolend;
 #endif
 				break;
@@ -739,7 +739,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 			case 'B': /* Esc [ B == Down on the same. */
 			case 'C': /* Esc [ C == Right on the same. */
 			case 'D': /* Esc [ D == Left on the same. */
-				return arrow_from_ABCD(seq[1]);
+				return arrow_from_ABCD(seq[0]);
 			case 'F': /* Esc [ F == End on FreeBSD console/Eterm. */
 				return KEY_END;
 			case 'G': /* Esc [ G == PageDown on FreeBSD console. */
@@ -756,14 +756,14 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 			case 'N': /* Esc [ N == F2 on FreeBSD console. */
 				return KEY_F(2);
 			case 'O':
-				if (length > 2) {
-					*consumed = 3;
-					if ('O' < seq[2] && seq[2] < 'T')
+				if (length > 1) {
+					*consumed = 2;
+					if ('O' < seq[1] && seq[1] < 'T')
 						/* Esc [ O P == F1 on xterm. */
 						/* Esc [ O Q == F2 on xterm. */
 						/* Esc [ O R == F3 on xterm. */
 						/* Esc [ O S == F4 on xterm. */
-						return KEY_F(seq[2] - 'O');
+						return KEY_F(seq[1] - 'O');
 				} else
 					/* Esc [ O == F3 on FreeBSD console. */
 					return KEY_F(3);
@@ -773,7 +773,7 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 			case 'R': /* Esc [ R == F6 on FreeBSD console. */
 			case 'S': /* Esc [ S == F7 on FreeBSD console. */
 			case 'T': /* Esc [ T == F8 on FreeBSD console. */
-				return KEY_F(4 + seq[1] - 'P');
+				return KEY_F(4 + seq[0] - 'P');
 			case 'U': /* Esc [ U == PageDown on Mach console. */
 				return KEY_NPAGE;
 			case 'V': /* Esc [ V == PageUp on Mach console. */
@@ -792,17 +792,17 @@ int convert_sequence(const int *seq, size_t length, int *consumed)
 			case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */
 			case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
 				shift_held = TRUE;
-				return arrow_from_ABCD(seq[1] - 0x20);
+				return arrow_from_ABCD(seq[0] - 0x20);
 			case '[':
-				if (length > 2) {
-					*consumed = 3;
-					if ('@' < seq[2] && seq[2] < 'F')
+				if (length > 1) {
+					*consumed = 2;
+					if ('@' < seq[1] && seq[1] < 'F')
 						/* Esc [ [ A == F1 on Linux console. */
 						/* Esc [ [ B == F2 on Linux console. */
 						/* Esc [ [ C == F3 on Linux console. */
 						/* Esc [ [ D == F4 on Linux console. */
 						/* Esc [ [ E == F5 on Linux console. */
-						return KEY_F(seq[2] - '@');
+						return KEY_F(seq[1] - '@');
 				}
 				break;
 		}
@@ -818,15 +818,12 @@ int parse_escape_sequence(int firstbyte)
 {
 	int *sequence, length, consumed, keycode;
 
-	/* Put the first character of the sequence back into the keybuffer. */
-	put_back(firstbyte);
-
-	/* Grab at most six integers (the longest possible escape sequence)
-	 * from the keybuffer. */
-	length = (key_buffer_len < 6 ? key_buffer_len : 6);
+	/* Grab at most five integers (the longest possible escape sequence
+	 * minus its first element) from the keybuffer. */
+	length = (key_buffer_len < 5 ? key_buffer_len : 5);
 	sequence = get_input(NULL, length);
 
-	keycode = convert_sequence(sequence, length, &consumed);
+	keycode = convert_sequence(firstbyte, sequence, length, &consumed);
 
 	/* If not all grabbed integers were consumed, put the leftovers back. */
 	for (int i = length - 1; i >= consumed; i--)
