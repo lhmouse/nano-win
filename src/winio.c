@@ -328,15 +328,9 @@ int arrow_from_ABCD(int letter)
 		return (letter == 'D' ? KEY_LEFT : KEY_RIGHT);
 }
 
-/* Translate escape sequences, most of which correspond to extended
- * keypad values, into their corresponding key values.  These sequences
- * are generated when the keypad doesn't support the needed keys.
- * Assume that Escape has already been read in. */
-int convert_sequence(int first, const int *seq, size_t length, int *consumed)
+/* Translate a sequence that began with "Esc O" to its corresponding key code. */
+int convert_SS3_sequence(const int *seq, size_t length, int *consumed)
 {
-	*consumed = 1;
-
-	if (first == 'O') {
 		switch (seq[0]) {
 			case '1':
 				if (length > 3  && seq[1] == ';') {
@@ -464,7 +458,13 @@ int convert_sequence(int first, const int *seq, size_t length, int *consumed)
 			case 'y': /* Esc O y == PageUp (9) on the same. */
 				return KEY_PPAGE;
 		}
-	} else if (first == '[') {
+
+	return FOREIGN_SEQUENCE;
+}
+
+/* Translate a sequence that began with "Esc [" to its corresponding key code. */
+int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
+{
 		if (seq[0] < '9')
 			*consumed = 2;
 		switch (seq[0]) {
@@ -806,7 +806,6 @@ int convert_sequence(int first, const int *seq, size_t length, int *consumed)
 				}
 				break;
 		}
-	}
 
 	return FOREIGN_SEQUENCE;
 }
@@ -814,16 +813,23 @@ int convert_sequence(int first, const int *seq, size_t length, int *consumed)
 /* Interpret the escape sequence in the keystroke buffer, the first
  * character of which is kbinput.  Assume that the keystroke buffer
  * isn't empty, and that the initial escape has already been read in. */
-int parse_escape_sequence(int firstbyte)
+int parse_escape_sequence(int starter)
 {
-	int *sequence, length, consumed, keycode;
+	int *sequence, length;
+	int consumed = 1;
+	int keycode = 0;
 
 	/* Grab at most five integers (the longest possible escape sequence
 	 * minus its first element) from the keybuffer. */
 	length = (key_buffer_len < 5 ? key_buffer_len : 5);
 	sequence = get_input(NULL, length);
 
-	keycode = convert_sequence(firstbyte, sequence, length, &consumed);
+	if (starter == 'O')
+		keycode = convert_SS3_sequence(sequence, length, &consumed);
+	else if (starter == '[')
+		keycode = convert_CSI_sequence(sequence, length, &consumed);
+	else
+		die("Bad sequence starter -- please report a bug\n");
 
 	/* If not all grabbed integers were consumed, put the leftovers back. */
 	for (int i = length - 1; i >= consumed; i--)
