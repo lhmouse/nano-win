@@ -810,24 +810,17 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 	return FOREIGN_SEQUENCE;
 }
 
-/* Interpret the escape sequence in the keystroke buffer, the first
- * character of which is kbinput.  Assume that the keystroke buffer
- * isn't empty, and that the initial escape has already been read in. */
+/* Interpret an escape sequence that has the given post-ESC starter byte
+ * and with the rest of the sequence still in the keystroke buffer. */
 int parse_escape_sequence(int starter)
 {
-	int *sequence, length;
 	int consumed = 1;
 	int keycode = 0;
 
-	/* Grab at most five integers (the longest possible escape sequence
-	 * minus its first element) from the keybuffer. */
-	length = (key_buffer_len < 5 ? key_buffer_len : 5);
-	sequence = key_buffer;
-
 	if (starter == 'O')
-		keycode = convert_SS3_sequence(sequence, length, &consumed);
+		keycode = convert_SS3_sequence(key_buffer, key_buffer_len, &consumed);
 	else if (starter == '[')
-		keycode = convert_CSI_sequence(sequence, length, &consumed);
+		keycode = convert_CSI_sequence(key_buffer, key_buffer_len, &consumed);
 #ifndef NANO_TINY
 	else
 		die("Bad sequence starter -- please report a bug\n");
