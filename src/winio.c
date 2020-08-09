@@ -822,7 +822,7 @@ int parse_escape_sequence(int starter)
 	/* Grab at most five integers (the longest possible escape sequence
 	 * minus its first element) from the keybuffer. */
 	length = (key_buffer_len < 5 ? key_buffer_len : 5);
-	sequence = get_input(NULL, length);
+	sequence = key_buffer;
 
 	if (starter == 'O')
 		keycode = convert_SS3_sequence(sequence, length, &consumed);
@@ -833,11 +833,9 @@ int parse_escape_sequence(int starter)
 		die("Bad sequence starter -- please report a bug\n");
 #endif
 
-	/* If not all grabbed integers were consumed, put the leftovers back. */
-	for (int i = length - 1; i >= consumed; i--)
-		put_back(sequence[i]);
-
-	free(sequence);
+	/* Remove the consumed sequence bytes from the keystroke buffer. */
+	key_buffer_len -= consumed;
+	memmove(key_buffer, key_buffer + consumed, key_buffer_len * sizeof(int));
 
 	return keycode;
 }
