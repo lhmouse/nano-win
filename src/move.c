@@ -234,8 +234,8 @@ void to_prev_block(void)
 		seen_text = seen_text || is_text;
 	}
 
-	/* Step forward one line again if this one is blank. */
-	if (openfile->current->next != NULL &&
+	/* Step forward one line again if we passed text but this line is blank. */
+	if (seen_text && openfile->current->next != NULL &&
 				white_string(openfile->current->data))
 		openfile->current = openfile->current->next;
 
