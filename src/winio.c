@@ -1385,26 +1385,26 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	/* If the first code is a valid Unicode starter digit (0 or 1),
 	 * commence Unicode input.  Otherwise, put the code back. */
 	if (using_utf8() && (keycode == '0' || keycode == '1')) {
-			long unicode = assemble_unicode(keycode);
-			char *multibyte;
+		long unicode = assemble_unicode(keycode);
+		char *multibyte;
 
-			reveal_cursor = FALSE;
+		reveal_cursor = FALSE;
 
-			while (unicode == PROCEED) {
-				keycode = get_input(win);
-				unicode = assemble_unicode(keycode);
-			}
+		while (unicode == PROCEED) {
+			keycode = get_input(win);
+			unicode = assemble_unicode(keycode);
+		}
 
-			/* Convert the Unicode value to a multibyte sequence. */
-			multibyte = make_mbchar(unicode, (int *)count);
+		/* Convert the Unicode value to a multibyte sequence. */
+		multibyte = make_mbchar(unicode, (int *)count);
 
-			/* Change the multibyte character into a series of integers. */
-			for (size_t i = 0; i < *count; i++)
-				yield[i] = (int)multibyte[i];
+		/* Change the multibyte character into a series of integers. */
+		for (size_t i = 0; i < *count; i++)
+			yield[i] = (int)multibyte[i];
 
-			free(multibyte);
+		free(multibyte);
 
-			return yield;
+		return yield;
 	}
 #endif /* ENABLE_UTF8 */
 
