@@ -293,9 +293,9 @@ void implant(const char *string)
 }
 #endif
 
-/* Try to read one code from the keystroke buffer.
- * If the buffer is empty and win isn't NULL, try to read in more codes,
- * and if the buffer is still empty then, return NULL. */
+/* Try to read one code from the keystroke buffer.  If the buffer is empty and
+ * win isn't NULL, try to get more codes from the keyboard.  Return the first
+ * code, or ERR if the keystroke buffer is still empty. */
 int get_input(WINDOW *win)
 {
 	int input;
@@ -955,8 +955,7 @@ int parse_kbinput(WINDOW *win)
 						('a' <= *key_buffer && *key_buffer <= 'd'))) {
 			/* An iTerm2/Eterm/rxvt double-escape sequence: Esc Esc [ X
 			 * for Option+arrow, or Esc Esc [ x for Shift+Alt+arrow. */
-			keycode= get_input(NULL);
-			switch (keycode) {
+			switch (get_input(NULL)) {
 				case 'A': return KEY_HOME;
 				case 'B': return KEY_END;
 				case 'C': return CONTROL_RIGHT;
@@ -1381,13 +1380,11 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 	/* Reserve ample space for the possible result. */
 	yield = (int *)nmalloc(6 * sizeof(int));
-	*count = 1;
 
 #ifdef ENABLE_UTF8
-	if (using_utf8()) {
-		/* If the first code is a valid Unicode starter digit (0 or 1),
-		 * commence Unicode input.  Otherwise, put the code back. */
-		if (keycode == '0' || keycode == '1') {
+	/* If the first code is a valid Unicode starter digit (0 or 1),
+	 * commence Unicode input.  Otherwise, put the code back. */
+	if (using_utf8() && (keycode == '0' || keycode == '1')) {
 			long unicode = assemble_unicode(keycode);
 			char *multibyte;
 
@@ -1408,7 +1405,6 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 			free(multibyte);
 
 			return yield;
-		}
 	}
 #endif /* ENABLE_UTF8 */
 

@@ -195,8 +195,8 @@ void inject_into_answer(char *burst, size_t count)
 /* Get a verbatim keystroke and insert it into the answer. */
 void do_statusbar_verbatim_input(void)
 {
+	size_t count = 1;
 	char *bytes;
-	size_t count;
 
 	bytes = get_verbatim_kbinput(bottomwin, &count);
 

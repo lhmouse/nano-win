@@ -3004,8 +3004,8 @@ void do_wordlinechar_count(void)
 /* Get verbatim input. */
 void do_verbatim_input(void)
 {
+	size_t count = 1;
 	char *bytes;
-	size_t count;
 
 	/* TRANSLATORS: Shown when the next keystroke will be inserted verbatim. */
 	statusbar(_("Verbatim Input"));
