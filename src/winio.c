@@ -1465,7 +1465,7 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 			beep();
 		} else if (*input >= 0x80 && *count == 1) {
 			put_back(*input);
-			*count = 0;
+			*count = 999;
 		}
 	}
 
