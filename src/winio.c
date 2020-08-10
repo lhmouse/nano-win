@@ -1391,11 +1391,14 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		char *multibyte;
 
 		reveal_cursor = FALSE;
+		linger_after_escape = TRUE;
 
 		while (unicode == PROCEED) {
 			keycode = get_input(win);
 			unicode = assemble_unicode(keycode);
 		}
+
+		linger_after_escape = FALSE;
 
 		if (keycode == KEY_WINCH) {
 			*count = 999;
@@ -1404,9 +1407,17 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		}
 
 		/* For an invalid digit, discard its possible continuation bytes. */
-		if (unicode == INVALID_DIGIT)
-			while (key_buffer_len > 0 && 0x7F < *key_buffer && *key_buffer < 0xC0)
+		if (unicode == INVALID_DIGIT) {
+			if (keycode == ESC_CODE) {
 				get_input(NULL);
+				while (key_buffer_len > 0 && 0x1F < *key_buffer && *key_buffer < 0x40)
+					get_input(NULL);
+				if (key_buffer_len > 0 && 0x3F < *key_buffer && *key_buffer < 0x7F)
+					get_input(NULL);
+			} else if (0xC0 <= keycode && keycode <= 0xFF)
+				while (key_buffer_len > 0 && 0x7F < *key_buffer && *key_buffer < 0xC0)
+					get_input(NULL);
+		}
 
 		/* Convert the Unicode value to a multibyte sequence. */
 		multibyte = make_mbchar(unicode, (int *)count);
