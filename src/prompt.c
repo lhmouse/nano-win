@@ -200,9 +200,9 @@ void do_statusbar_verbatim_input(void)
 
 	bytes = get_verbatim_kbinput(bottomwin, &count);
 
-	if (count > 0)
+	if (0 < count && count < 999)
 		inject_into_answer(bytes, count);
-	else
+	else if (count == 0)
 		beep();
 
 	free(bytes);

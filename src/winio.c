@@ -1375,7 +1375,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 #ifndef NANO_TINY
 	/* When the window was resized, abort and return nothing. */
 	if (keycode == KEY_WINCH) {
-		*count = 0;
+		*count = 999;
 		return NULL;
 	}
 #endif
@@ -1395,6 +1395,12 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		while (unicode == PROCEED) {
 			keycode = get_input(win);
 			unicode = assemble_unicode(keycode);
+		}
+
+		if (keycode == KEY_WINCH) {
+			*count = 999;
+			free(yield);
+			return NULL;
 		}
 
 		/* For an invalid digit, discard its possible continuation bytes. */
@@ -1480,9 +1486,11 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 		keypad(bottomwin, TRUE);
 	}
 
-	for (size_t i = 0; i < *count; i++)
-		bytes[i] = (char)input[i];
-	bytes[*count] = '\0';
+	if (*count < 999) {
+		for (size_t i = 0; i < *count; i++)
+			bytes[i] = (char)input[i];
+		bytes[*count] = '\0';
+	}
 
 	free(input);
 
