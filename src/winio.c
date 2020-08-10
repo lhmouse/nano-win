@@ -1278,6 +1278,8 @@ int get_kbinput(WINDOW *win, bool showcursor)
 }
 
 #ifdef ENABLE_UTF8
+#define INVALID_DIGIT  -77
+
 /* If the given symbol is a valid hexadecimal digit, multiply it by factor
  * and add the result to the given unicode, and return PROCEED to signify
  * okay.  When not a hexadecimal digit, return the symbol itself. */
@@ -1288,7 +1290,7 @@ long add_unicode_digit(int symbol, long factor, long *unicode)
 	else if ('a' <= tolower(symbol) && tolower(symbol) <= 'f')
 		*unicode += (tolower(symbol) - 'a' + 10) * factor;
 	else
-		return (long)symbol;
+		return INVALID_DIGIT;
 
 	return PROCEED;
 }
@@ -1312,7 +1314,7 @@ long assemble_unicode(int symbol)
 			if (symbol == '0' || unicode == 0)
 				retval = add_unicode_digit(symbol, 0x10000, &unicode);
 			else
-				retval = symbol;
+				retval = INVALID_DIGIT;
 			break;
 		case 3:
 			/* Later digits may be any hexadecimal value. */
@@ -1394,6 +1396,11 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 			keycode = get_input(win);
 			unicode = assemble_unicode(keycode);
 		}
+
+		/* For an invalid digit, discard its possible continuation bytes. */
+		if (unicode == INVALID_DIGIT)
+			while (key_buffer_len > 0 && 0x7F < *key_buffer && *key_buffer < 0xC0)
+				get_input(NULL);
 
 		/* Convert the Unicode value to a multibyte sequence. */
 		multibyte = make_mbchar(unicode, (int *)count);
