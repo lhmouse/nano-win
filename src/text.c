@@ -3016,17 +3016,17 @@ void do_verbatim_input(void)
 
 	/* When something valid was obtained, unsuppress cursor-position display,
 	 * insert the bytes into the edit buffer, and blank the status bar. */
-	if (0 < count && count < 999) {
+	if (count > 0) {
 		if (ISSET(CONSTANT_SHOW))
 			lastmessage = VACUUM;
 
-		inject(bytes, count);
+		if (count < 999)
+			inject(bytes, count);
+
 		wipe_statusbar();
-	} else if (count == 0)
+	} else
 		/* TRANSLATORS: An invalid verbatim Unicode code was typed. */
 		statusline(ALERT, _("Invalid code"));
-	else
-		wipe_statusbar();
 
 	free(bytes);
 }
