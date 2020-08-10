@@ -293,27 +293,25 @@ void implant(const char *string)
 }
 #endif
 
-/* Try to read the requested number of codes from the keystroke buffer.
+/* Try to read one code from the keystroke buffer.
  * If the buffer is empty and win isn't NULL, try to read in more codes,
  * and if the buffer is still empty then, return NULL. */
-int *get_input(WINDOW *win, size_t count)
+int get_input(WINDOW *win)
 {
-	int *input;
+	int input;
 
 	if (key_buffer_len == 0 && win != NULL)
 		read_keys_from(win);
 
 	if (key_buffer_len == 0)
-		return NULL;
+		return ERR;
 
-	/* Copy the requested codes from the head of the keystroke buffer. */
-	input = (int *)nmalloc(count * sizeof(int));
-	memcpy(input, key_buffer, count * sizeof(int));
-	key_buffer_len -= count;
+	/* Take the first code from the head of the keystroke buffer. */
+	input = key_buffer[0];
 
-	/* If the buffer still contains keystrokes, move them to the front. */
-	if (key_buffer_len > 0)
-		memmove(key_buffer, key_buffer + count, key_buffer_len * sizeof(int));
+	/* If the buffer contains more codes, move them to the front. */
+	if (--key_buffer_len > 0)
+		memmove(key_buffer, key_buffer + 1, key_buffer_len * sizeof(int));
 
 	return input;
 }
@@ -903,19 +901,13 @@ int convert_to_control(int kbinput)
 int parse_kbinput(WINDOW *win)
 {
 	static int escapes = 0;
-	int *kbinput, keycode;
+	int keycode;
 
 	meta_key = FALSE;
 	shift_held = FALSE;
 
-	/* Read in a character. */
-	kbinput = get_input(win, 1);
-
-	if (kbinput == NULL)
-		return ERR;
-
-	keycode = *kbinput;
-	free(kbinput);
+	/* Get one code from the input stream. */
+	keycode = get_input(win);
 
 	if (keycode == ERR)
 		return ERR;
@@ -963,9 +955,7 @@ int parse_kbinput(WINDOW *win)
 						('a' <= *key_buffer && *key_buffer <= 'd'))) {
 			/* An iTerm2/Eterm/rxvt double-escape sequence: Esc Esc [ X
 			 * for Option+arrow, or Esc Esc [ x for Shift+Alt+arrow. */
-			kbinput = get_input(win, 1);
-			keycode = *kbinput;
-			free(kbinput);
+			keycode= get_input(NULL);
 			switch (keycode) {
 				case 'A': return KEY_HOME;
 				case 'B': return KEY_END;
@@ -1371,69 +1361,67 @@ long assemble_unicode(int symbol)
  * multibyte sequence), or 2 (for an iTerm/Eterm/rxvt double Escape). */
 int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 {
-	int *kbinput;
+	int keycode, *yield;
 
 	reveal_cursor = TRUE;
 	linger_after_escape = TRUE;
 
 	/* Read in the first code. */
-	kbinput = get_input(win, 1);
+	keycode = get_input(win);
 
 	linger_after_escape = FALSE;
 
 #ifndef NANO_TINY
 	/* When the window was resized, abort and return nothing. */
-	if (*kbinput == KEY_WINCH) {
-		free(kbinput);
+	if (keycode == KEY_WINCH) {
 		*count = 0;
 		return NULL;
 	}
 #endif
 
+	/* Reserve ample space for the possible result. */
+	yield = (int *)nmalloc(6 * sizeof(int));
 	*count = 1;
 
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
 		/* If the first code is a valid Unicode starter digit (0 or 1),
 		 * commence Unicode input.  Otherwise, put the code back. */
-		if (*kbinput == '0' || *kbinput == '1') {
-			long unicode = assemble_unicode(*kbinput);
+		if (keycode == '0' || keycode == '1') {
+			long unicode = assemble_unicode(keycode);
 			char *multibyte;
-			int onebyte;
 
 			reveal_cursor = FALSE;
 
 			while (unicode == PROCEED) {
-				free(kbinput);
-				kbinput = get_input(win, 1);
-				unicode = assemble_unicode(*kbinput);
+				keycode = get_input(win);
+				unicode = assemble_unicode(keycode);
 			}
 
 			/* Convert the Unicode value to a multibyte sequence. */
 			multibyte = make_mbchar(unicode, (int *)count);
 
-			/* Insert the multibyte sequence into the input buffer. */
-			for (size_t i = *count; i > 0 ; i--) {
-				onebyte = (unsigned char)multibyte[i - 1];
-				put_back(onebyte);
-			}
+			/* Change the multibyte character into a series of integers. */
+			for (size_t i = 0; i < *count; i++)
+				yield[i] = (int)multibyte[i];
 
 			free(multibyte);
-		} else
-			put_back(*kbinput);
-	} else
-#endif /* ENABLE_UTF8 */
-		/* Put back the first code. */
-		put_back(*kbinput);
 
-	free(kbinput);
+			return yield;
+		}
+	}
+#endif /* ENABLE_UTF8 */
+
+	yield[0] = keycode;
 
 	/* In case of an escape, take also a second code, as it might be another
 	 * escape (on iTerm2/rxvt) or a control code (for M-Bsp and M-Enter). */
-	if (key_buffer_len > 1 && *key_buffer == ESC_CODE)
+	if (keycode == ESC_CODE && key_buffer_len > 0) {
+		yield[1] = get_input(NULL);
 		*count = 2;
+	}
 
-	return get_input(NULL, *count);
+	return yield;
 }
 
 /* Read in one control code, one character byte, or the leading escapes of
