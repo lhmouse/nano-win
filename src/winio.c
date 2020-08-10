@@ -1460,13 +1460,11 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	/* If the byte is invalid in the current mode, discard it;
 	 * if it is an incomplete Unicode sequence, stuff it back. */
 	if (input != NULL) {
-		if ((*input == '\n' && as_an_at) || (*input == '\0' && !as_an_at)) {
-			*count = 0;
-			beep();
-		} else if (*input >= 0x80 && *count == 1) {
+		if (*input >= 0x80 && *count == 1) {
 			put_back(*input);
 			*count = 999;
-		}
+		} else if ((*input == '\n' && as_an_at) || (*input == '\0' && !as_an_at))
+			*count = 0;
 	}
 
 #ifndef NANO_TINY
