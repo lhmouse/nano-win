@@ -2105,9 +2105,11 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 	 * there is nothing to do; otherwise, store its time of modification. */
 	if (stat(tempfile_name, &fileinfo) == 0) {
 		if (fileinfo.st_size == 0) {
+#ifndef NANO_TINY
 			if (spelling && openfile->mark)
 				statusline(ALERT, _("Selection is empty"));
 			else
+#endif
 				statusbar(_("Buffer is empty"));
 			return;
 		}
@@ -2925,7 +2927,9 @@ void do_formatter(void)
 		return;
 	}
 
+#ifndef NANO_TINY
 	openfile->mark = NULL;
+#endif
 
 	temp_name = safe_tempfile(&stream);
 
