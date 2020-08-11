@@ -1,3 +1,13 @@
+2020.08.12 - GNU nano 5.1
+• M-Bsp (Alt+Backspace) deletes a word backwards, like in Bash.
+• M-[ has become bindable.  (Be careful, though: as it is the
+  starting combination of many escape sequences, avoid gluing
+  it together with other keystrokes, like in a macro.)
+• With --indicator and --softwrap, the first keystroke in an
+  empty buffer does not crash.
+• Invoking the formatter while text is marked does not crash.
+• In UTF-8 locales, an anchor is shown as a diamond.
+
 2020.07.29 - GNU nano 5.0 "Among the fields of barley"
 • With --indicator (or -q or 'set indicator') nano will show a kind
   of scrollbar on the righthand side of the screen to indicate where

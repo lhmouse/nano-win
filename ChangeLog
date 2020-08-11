@@ -1,3 +1,68 @@
+Changes between v5.0 and v5.1:
+------------------------------
+
+Benno Schulenberg (55):
+      anchor: in a UTF-8 locale, show an anchor as a diamond, for visibility
+      anchor: show an anchor also when the line is horizontally scrolled
+      bindings: make <Alt+Backspace> delete a word backwards, like in Bash
+      build: fix compilation for --enable-tiny --enable-nanorc --enable-color
+      build: fix compilation when configured with --enable-tiny
+      build: stop distributing the two old Changelogs
+      bump version numbers and add a news item for the 5.1 release
+      display: show the cursor position also right after the screen is resized
+      docs: fix a closing tag in the FAQ  [tidy]
+      docs: mention that anchors are visible when line numbers are shown
+      feedback: add the reason to the error message when forking fails
+      feedback: use three dots to indicate processing, like everywhere else
+      feedback: when creating a pipe fails, report also the reason
+      files: do not try writing to the status bar while not in curses mode
+      formatter: force the mark off, to not crash by accessing empty cutbuffer
+      gnulib: update to its current upstream state
+      help: list again the keystroke for toggling the help lines (M-X)
+      input: understand M-Bsp also when terminfo does not match the terminal
+      moving: make <Ctrl+Up> go to the top when above the cursor all is blank
+      rcfile: allow to bind M-[  (even though it is an escape-sequence starter)
+      softwrap: initialize the 'extrarows' value for the magic line correctly
+      speller: give proper feedback when the user tries to check emptiness
+      speller: give startup feedback (relevant when running on a Linux console)
+      speller: re-enter curses mode before trying to report an error
+      syntax: css: differentiate pseudo-classes (now cyan) from comments (blue)
+      syntax: default: colorize also "GNU nano 5.x"
+      tweaks: adjust the indentation after the previous change
+      tweaks: adjust the indentation after the previous change
+      tweaks: avoid a maybe-uninitialized-variable warning from gcc
+      tweaks: elide an unneeded variable, by transforming the key code directly
+      tweaks: elide two variables that are no longer needed, and update comment
+      tweaks: exclude old and mistaken "Esc O" sequences from the tiny version
+      tweaks: make a few more direct returns, and reshuffle another bit of code
+      tweaks: make a misplaced call of statusline() more obvious by crashing
+      tweaks: normalize the indentation after the previous change
+      tweaks: normalize the indentation, and regroup two lines
+      tweaks: optimize for byte-range characters, and shorten some comments
+      tweaks: parse the escape-sequence bytes without copying them first
+      tweaks: pass first byte of sequence directly to the decoding function
+      tweaks: print error message directly instead of passing it to the caller
+      tweaks: read keycodes from the keystroke buffer without copying them
+      tweaks: remove an unneeded beep, and reshuffle the lines for compactness
+      tweaks: reshuffle a few lines, to condense the code, and improve comment
+      tweaks: reshuffle four lines, for esthetics
+      tweaks: reshuffle some fragments, to make the next change easier
+      tweaks: reshuffle the zeroing of a counter, to allow some direct returns
+      tweaks: simplify two functions, as they now return always NULL
+      tweaks: split a function into two, one for "Esc O" and one for "Esc ["
+      tweaks: stop using a 'switch' when there are just three possibilities
+      verbatim: discard entire keystroke when it's not valid for Unicode Input
+      verbatim: do not report "Invalid code" when a Unicode character is typed
+      verbatim: do not report "Invalid code" when the terminal is resized
+      verbatim: insert the full code sequence when <Alt+Backspace> is pressed
+      verbatim: pause a little after an ESC, to not miss a succeeding code
+      verbatim: report and ignore an invalid keystroke for Unicode input
+
+Michalis Kokologiannakis (2):
+      build: avoid compilation warnings by using memcpy() instead of strncpy()
+      files: ignore only EPERM when fchmod() or fchown() fails
+
+
 Changes between v4.9 and v5.0:
 ------------------------------
 
