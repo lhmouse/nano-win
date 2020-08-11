@@ -4089,3 +4089,8 @@ Mike Scalora (3):
 Rishabh Dave (2):
       browser: keep the same file selected when the directory contents change
       browser: move all openings and closings of a directory to the same function
+
+
+======================================================================
+For older changes, see in https://ftp.gnu.org/gnu/nano/nano-5.0.tar.xz
+======================================================================
