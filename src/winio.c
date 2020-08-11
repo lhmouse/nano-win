@@ -1400,12 +1400,13 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 		linger_after_escape = FALSE;
 
+#ifndef NANO_TINY
 		if (keycode == KEY_WINCH) {
 			*count = 999;
 			free(yield);
 			return NULL;
 		}
-
+#endif
 		/* For an invalid digit, discard its possible continuation bytes. */
 		if (unicode == INVALID_DIGIT) {
 			if (keycode == ESC_CODE) {
