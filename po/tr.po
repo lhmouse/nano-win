@@ -6,12 +6,12 @@
 # Mehmet Kececi <mkececi@mehmetkececi.com>, 2017, 2018, 2019, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano-5.0-pre1\n"
+"Project-Id-Version: nano-5.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2020-07-29 10:07+0200\n"
-"PO-Revision-Date: 2020-07-23 18:39+0300\n"
+"POT-Creation-Date: 2020-08-12 08:32+0200\n"
+"PO-Revision-Date: 2020-08-06 23:23+0300\n"
 "Last-Translator: Mehmet Kececi <mkececi@mehmetkececi.com>\n"
-"Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,9 +30,9 @@ msgstr "Dizin açılamıyor: %s"
 msgid "Go To Directory"
 msgstr "Dizine Git"
 
-#: src/browser.c:240 src/browser.c:641 src/files.c:1147 src/files.c:2101
+#: src/browser.c:240 src/browser.c:641 src/files.c:1148 src/files.c:2108
 #: src/nano.c:316 src/search.c:110 src/search.c:202 src/search.c:715
-#: src/search.c:761 src/text.c:2602 src/text.c:2794
+#: src/search.c:761 src/text.c:2604 src/text.c:2796
 msgid "Cancelled"
 msgstr "İptal edildi"
 
@@ -47,8 +47,8 @@ msgstr "%s dışına çıkamazsın"
 msgid "Can't move up a directory"
 msgstr "Bir üst dizine geçilemiyor"
 
-#: src/browser.c:294 src/files.c:861 src/files.c:867 src/files.c:1766
-#: src/files.c:1781 src/history.c:292 src/history.c:320 src/history.c:389
+#: src/browser.c:294 src/files.c:862 src/files.c:868 src/files.c:1773
+#: src/files.c:1788 src/history.c:292 src/history.c:320 src/history.c:389
 #: src/history.c:446 src/rcfile.c:915 src/rcfile.c:1665
 #, c-format
 msgid "Error reading %s: %s"
@@ -223,7 +223,7 @@ msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu satırı (%s)"
 msgstr[1] "%s -- %zu satırları (%s)"
 
-#: src/files.c:508 src/files.c:514 src/global.c:1050 src/winio.c:1950
+#: src/files.c:508 src/files.c:514 src/global.c:1050 src/winio.c:1969
 msgid "New Buffer"
 msgstr "Yeni Arabellek"
 
@@ -246,252 +246,254 @@ msgstr[1] "%s -- %zu satırları"
 msgid "No more open file buffers"
 msgstr "Artık açık dosya tamponları yok"
 
-#: src/files.c:662 src/files.c:859 src/files.c:1818
+#: src/files.c:737 src/files.c:860 src/files.c:1825
 msgid "Interrupted"
 msgstr "Kesilmiş"
 
-#: src/files.c:782
+#: src/files.c:783
 #, c-format
 msgid "File '%s' is unwritable"
 msgstr "'%s' dosyası yazılabilir değildir"
 
-#: src/files.c:787
+#: src/files.c:788
 #, c-format
 msgid "Read %zu line (Converted from Mac format)"
 msgid_plural "Read %zu lines (Converted from Mac format)"
 msgstr[0] "%zu satırını oku (Mac biçiminden dönüştürüldü)"
 msgstr[1] "%zu satırlarını oku (Mac biçiminden dönüştürüldü)"
 
-#: src/files.c:792
+#: src/files.c:793
 #, c-format
 msgid "Read %zu line (Converted from DOS format)"
 msgid_plural "Read %zu lines (Converted from DOS format)"
 msgstr[0] "%zu satırını oku (DOS biçiminden dönüştürüldü)"
 msgstr[1] "%zu satırlarını oku (DOS biçiminden dönüştürüldü)"
 
-#: src/files.c:798
+#: src/files.c:799
 #, c-format
 msgid "Read %zu line"
 msgid_plural "Read %zu lines"
 msgstr[0] "%zu satırını oku"
 msgstr[1] "%zu satırlarını oku"
 
-#: src/files.c:833
+#: src/files.c:834
 msgid "New File"
 msgstr "Yeni Dosya"
 
-#: src/files.c:836
+#: src/files.c:837
 #, c-format
 msgid "File \"%s\" not found"
 msgstr "\"%s\" dosyası bulunamadı"
 
-#: src/files.c:843
+#: src/files.c:844
 msgid "Reading from FIFO..."
 msgstr "FIFO'dan okunuyor..."
 
-#: src/files.c:871
+#: src/files.c:872
 msgid "Reading..."
 msgstr "Okunuyor..."
 
-#: src/files.c:953 src/text.c:2336 src/text.c:2610
-msgid "Could not create pipe"
-msgstr "Boru yaratılamadı"
+#: src/files.c:954 src/text.c:2345 src/text.c:2612
+#, c-format
+msgid "Could not create pipe: %s"
+msgstr "Görev hattı oluşturamadı: %s"
 
-#: src/files.c:989 src/text.c:2126 src/text.c:2413 src/text.c:2644
-msgid "Could not fork"
-msgstr "Fork işlemi gerçekleştirilemedi"
+#: src/files.c:990 src/text.c:2147 src/text.c:2425 src/text.c:2645
+#, c-format
+msgid "Could not fork: %s"
+msgstr "Çatallama işlemi gerçekleştirilemedi: %s"
 
-#: src/files.c:994
+#: src/files.c:995
 msgid "Executing..."
 msgstr "Yürütülüyor..."
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/files.c:1014 src/files.c:1058
+#: src/files.c:1015 src/files.c:1059
 msgid "filtering"
 msgstr "filtreleme"
 
-#: src/files.c:1053
+#: src/files.c:1054
 #, c-format
 msgid "Failed to open pipe: %s"
 msgstr "Hat açılamadı: %s"
 
 #. TRANSLATORS: The next six messages are prompts.
-#: src/files.c:1103
+#: src/files.c:1104
 msgid "Command to execute in new buffer"
 msgstr "Yeni tamponda çalıştırılacak komut"
 
-#: src/files.c:1106
+#: src/files.c:1107
 msgid "Command to execute"
 msgstr "Çalıştırılacak komut"
 
-#: src/files.c:1114
+#: src/files.c:1115
 #, c-format
 msgid "File to read unconverted into new buffer [from %s]"
 msgstr "[%s'den] yeni arabelleğe dönüştürülmemiş okunacak dosya"
 
-#: src/files.c:1117
+#: src/files.c:1118
 #, c-format
 msgid "File to read into new buffer [from %s]"
 msgstr "[%s'den] yeni arabelleğe okunacak dosya"
 
-#: src/files.c:1122
+#: src/files.c:1123
 #, c-format
 msgid "File to insert unconverted [from %s]"
 msgstr "[%s tarafından] dönüştürülmemiş eklenecek dosya"
 
-#: src/files.c:1125
+#: src/files.c:1126
 #, c-format
 msgid "File to insert [from %s]"
 msgstr "Eklenecek dosya [%s tarafından]"
 
-#: src/files.c:1464
+#: src/files.c:1465
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr "Geçersiz işletim dizini: %s\n"
 
-#: src/files.c:1513
+#: src/files.c:1514
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr "Geçersiz yedek dizini: %s\n"
 
-#: src/files.c:1567
+#: src/files.c:1568
 msgid "Making backup..."
 msgstr "Yedekleniyor..."
 
-#: src/files.c:1599
+#: src/files.c:1600
 msgid "Too many existing backup files"
 msgstr "Çok fazla varolan yedekleme dosyası"
 
-#: src/files.c:1638
+#: src/files.c:1645
 msgid "Cannot read original file"
 msgstr "Özgün dosyayı okuyamıyorum"
 
-#: src/files.c:1670
+#: src/files.c:1677
 msgid "Cannot make regular backup"
 msgstr "Düzenli yedekleme yapılamıyor"
 
-#: src/files.c:1671
+#: src/files.c:1678
 msgid "Trying again in your home directory"
 msgstr "Ev dizininizde yeniden deneme"
 
-#: src/files.c:1683
+#: src/files.c:1690
 msgid "Cannot make backup"
 msgstr "Yedekleme yapılamıyor"
 
 #. TRANSLATORS: Try to keep this message at most 76 characters.
-#: src/files.c:1694
+#: src/files.c:1701
 msgid "Cannot make backup; continue and save actual file? "
 msgstr "Yedekleme yapılamıyor; devam edip gerçek dosya kaydedilsin mi? "
 
 #. TRANSLATORS: The %s is the reason of failure.
-#: src/files.c:1699
+#: src/files.c:1706
 #, c-format
 msgid "Cannot make backup: %s"
 msgstr "Yedekleme yapamıyor: %s"
 
-#: src/files.c:1735
+#: src/files.c:1742
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "%s'in dışına yazılamaz"
 
-#: src/files.c:1773 src/files.c:1785 src/text.c:2518 src/text.c:2536
-#: src/text.c:2935
+#: src/files.c:1780 src/files.c:1792 src/text.c:2528 src/text.c:2546
+#: src/text.c:2940
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Geçici dosya yazarken hata oluştu: %s"
 
-#: src/files.c:1792
+#: src/files.c:1799
 msgid "Writing to FIFO..."
 msgstr "FIFO'ya yazmıyor..."
 
-#: src/files.c:1820 src/files.c:1831 src/files.c:1853 src/files.c:1870
-#: src/files.c:1879 src/files.c:1907 src/files.c:1918 src/files.c:1924
+#: src/files.c:1827 src/files.c:1838 src/files.c:1860 src/files.c:1877
+#: src/files.c:1886 src/files.c:1914 src/files.c:1925 src/files.c:1931
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Yazma hatası %s: %s"
 
-#: src/files.c:1838
+#: src/files.c:1845
 msgid "Writing..."
 msgstr "Yazılıyor..."
 
-#: src/files.c:1895 src/files.c:1903
+#: src/files.c:1902 src/files.c:1910
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr "Geçici dosya okunurken hata oluştu: %s"
 
-#: src/files.c:1974
+#: src/files.c:1981
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "%zu satırını yaz"
 msgstr[1] "%zu satırlarını yaz"
 
-#: src/files.c:2064
+#: src/files.c:2071
 msgid " [DOS Format]"
 msgstr " [DOS Biçimi]"
 
-#: src/files.c:2065
+#: src/files.c:2072
 msgid " [Mac Format]"
 msgstr " [Mac Biçimi]"
 
-#: src/files.c:2066
+#: src/files.c:2073
 msgid " [Backup]"
 msgstr " [Yedek]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2073
+#: src/files.c:2080
 msgid "Prepend Selection to File"
 msgstr "Seçimi Dosyanın Başına Ekle"
 
-#: src/files.c:2074
+#: src/files.c:2081
 msgid "Append Selection to File"
 msgstr "Seçimi Dosyanın Sonuna Ekle"
 
-#: src/files.c:2075
+#: src/files.c:2082
 msgid "Write Selection to File"
 msgstr "Seçimi Dosyaya Yaz"
 
-#: src/files.c:2077
+#: src/files.c:2084
 msgid "File Name to Prepend to"
 msgstr "Başına Eklenecek Dosya Adı"
 
-#: src/files.c:2078
+#: src/files.c:2085
 msgid "File Name to Append to"
 msgstr "Sonuna Eklenecek Dosya Adı"
 
-#: src/files.c:2081
+#: src/files.c:2088
 msgid "File Name to Write"
 msgstr "Yazılacak Dosya Adı"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2159
+#: src/files.c:2166
 msgid "Too tiny"
 msgstr "Çok küçük"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2189
+#: src/files.c:2196
 msgid "File exists -- cannot overwrite"
 msgstr "Dosya mevcut -- üzerine yazılamıyor"
 
-#: src/files.c:2199
+#: src/files.c:2206
 msgid "Save file under DIFFERENT NAME? "
 msgstr "Dosyayı FARKLI İSİMDE kaydet? "
 
-#: src/files.c:2207
+#: src/files.c:2214
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "\"%s\" dosyası mevcut; ÜZERİNE YAZ? "
 
-#: src/files.c:2233
+#: src/files.c:2240
 msgid "File on disk has changed"
 msgstr "Disk üzerindeki dosya değişmiştir"
 
 #. TRANSLATORS: Try to keep this at most 76 characters.
-#: src/files.c:2236
+#: src/files.c:2243
 msgid "File was modified since you opened it; continue saving? "
 msgstr "Dosya açtığınızdan bu yana değiştirilmiş, kayda devam et? "
 
-#: src/files.c:2614
+#: src/files.c:2621
 msgid "(more)"
 msgstr "(daha)"
 
@@ -1210,7 +1212,7 @@ msgstr "Kaydet"
 
 #: src/global.c:1054
 msgid "Pipe Text"
-msgstr "Taşınan Metin"
+msgstr "Görev Hattı Metni"
 
 #: src/global.c:1074
 msgid "Go To Text"
@@ -1288,55 +1290,55 @@ msgstr "Sonraki Lint iletisi"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1493
+#: src/global.c:1494
 msgid "Help mode"
 msgstr "Yardım Kipi"
 
-#: src/global.c:1495
+#: src/global.c:1496
 msgid "Constant cursor position display"
 msgstr "Sabit imleç pozisyonu gösterimi"
 
-#: src/global.c:1497
+#: src/global.c:1498
 msgid "Soft wrapping of overlong lines"
 msgstr "Uzun satırların yumuşak kaydırılması"
 
-#: src/global.c:1499
+#: src/global.c:1500
 msgid "Whitespace display"
 msgstr "Boşluk göster"
 
-#: src/global.c:1501
+#: src/global.c:1502
 msgid "Color syntax highlighting"
 msgstr "Renkli sözdizimi vurgusu"
 
-#: src/global.c:1503
+#: src/global.c:1504
 msgid "Smart home key"
 msgstr "Akıllı ev tuşu"
 
-#: src/global.c:1505
+#: src/global.c:1506
 msgid "Auto indent"
 msgstr "Otomatik hizala"
 
-#: src/global.c:1507
+#: src/global.c:1508
 msgid "Cut to end"
 msgstr "Sonuna kes"
 
-#: src/global.c:1509
+#: src/global.c:1510
 msgid "Hard wrapping of overlong lines"
 msgstr "Uzun satırların katı kaydırılması"
 
-#: src/global.c:1511
+#: src/global.c:1512
 msgid "Conversion of typed tabs to spaces"
 msgstr "Sekmelerin boşluğa dönüşümü"
 
-#: src/global.c:1513
+#: src/global.c:1514
 msgid "Mouse support"
 msgstr "Fare Desteği"
 
-#: src/global.c:1515
+#: src/global.c:1516
 msgid "Suspension"
 msgstr "Askıya al"
 
-#: src/global.c:1517
+#: src/global.c:1518
 msgid "Line numbering"
 msgstr "Satır numaralandırma"
 
@@ -1576,8 +1578,9 @@ msgstr ""
 "Komut Yardımı Metnini Çalıştırma\n"
 "\n"
 " Bu mod, kabuk tarafından çalıştırılan komutun çıktısını geçerli arabelleğe "
-"(veya yeni bir arabelleğe) eklemenizi sağlar.  Komut önceliği ise '|' (boru "
-"sembolü), tamponun mevcut içeriğini (veya işaretli bölge) komuta verilir.  "
+"(veya yeni bir arabelleğe) eklemenizi sağlar.  Komut önceliği ise '|' (görev "
+"hattı sembolü), tamponun mevcut içeriğini (veya işaretli bölge) komuta "
+"verilir.  "
 
 #: src/help.c:167
 msgid ""
@@ -2164,78 +2167,74 @@ msgstr "Bilinmeyen sıralama"
 msgid "Unbound key"
 msgstr "Tuş atamasını kaldır"
 
-#: src/nano.c:1284
-msgid "Unbindable key: M-["
-msgstr "Atama kaldırılamaz tuş: M-["
-
-#: src/nano.c:1287
+#: src/nano.c:1285
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "Bindirilemez anahtar: M-^%c"
 
-#: src/nano.c:1291
+#: src/nano.c:1290
 #, c-format
 msgid "Unbound key: Sh-M-%c"
 msgstr "Bağlanmamış anahtar: Sh-M-%c"
 
-#: src/nano.c:1294
+#: src/nano.c:1293
 #, c-format
 msgid "Unbound key: M-%c"
 msgstr "Tuş atamasını kaldır: M-%c"
 
-#: src/nano.c:1296
+#: src/nano.c:1295
 msgid "Unbindable key: ^["
 msgstr "Bağlanamaz anahtarı: ^["
 
-#: src/nano.c:1298
+#: src/nano.c:1297
 #, c-format
 msgid "Unbound key: ^%c"
 msgstr "Tuş atamasını kaldır: ^%c"
 
-#: src/nano.c:1301
+#: src/nano.c:1300
 #, c-format
 msgid "Unbound key: %c"
 msgstr "Tuş atamasını kaldır: %c"
 
-#: src/nano.c:1862 src/rcfile.c:1582
+#: src/nano.c:1861 src/rcfile.c:1582
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Kılavuz sütunu \"%s\" geçersizdir"
 
-#: src/nano.c:1910 src/rcfile.c:1638
+#: src/nano.c:1909 src/rcfile.c:1638
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "İstenen sekme boyutu \"%s\" geçersiz"
 
-#: src/nano.c:2011 src/rcfile.c:1573
+#: src/nano.c:2010 src/rcfile.c:1573
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "İstenen doldurma değeri \"%s\" geçerli değildir"
 
-#: src/nano.c:2053
+#: src/nano.c:2052
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Kullanılabilir seçeneklerin bir listesi için '%s -h' yazın.\n"
 
-#: src/nano.c:2240
+#: src/nano.c:2239
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Kötü alıntı regex \"%s\": %s\n"
 
-#: src/nano.c:2391
+#: src/nano.c:2390
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Geçersiz arama değiştiricisi '%c'"
 
-#: src/nano.c:2402
+#: src/nano.c:2401
 msgid "Empty search string"
 msgstr "Boş arama dizgisi"
 
-#: src/nano.c:2407 src/search.c:778
+#: src/nano.c:2406 src/search.c:778
 msgid "Invalid line or column number"
 msgstr "Geçersiz satır veya sütun numarası"
 
-#: src/nano.c:2476
+#: src/nano.c:2475
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Nano'ya hoşgeldiniz.  Temel yardım için Ctrl+G tuşlarına basın."
 
@@ -2652,7 +2651,7 @@ msgstr "Yeniden yapıldı %s"
 msgid "justification"
 msgstr "iki yana yaslama"
 
-#: src/text.c:1790
+#: src/text.c:1790 src/text.c:2110
 msgid "Selection is empty"
 msgstr "Seçim boştur"
 
@@ -2668,142 +2667,145 @@ msgstr "Dosyayı iki yana yasla"
 msgid "Justified paragraph"
 msgstr "Paragrafı iki yana yasla"
 
-#: src/text.c:2139 src/text.c:2744
+#: src/text.c:2113
+msgid "Buffer is empty"
+msgstr "Arabellek boştur"
+
+#: src/text.c:2150 src/text.c:2746
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "'%s' çağrılmasında hata"
 
-#: src/text.c:2142
+#: src/text.c:2153
 #, c-format
 msgid "Program '%s' complained"
 msgstr "Program '%s' yakındı"
 
-#: src/text.c:2148
+#: src/text.c:2159
 msgid "Nothing changed"
 msgstr "Hiçbir şey değişmedi"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2177
+#: src/text.c:2188
 msgid "spelling correction"
 msgstr "yazım düzeltmesi"
 
-#: src/text.c:2177
+#: src/text.c:2188
 msgid "formatting"
 msgstr "biçimlendirme bitti"
 
-#: src/text.c:2196 src/text.c:2496
+#: src/text.c:2207 src/text.c:2508
 msgid "Finished checking spelling"
 msgstr "Yazım kontrolü bitti"
 
-#: src/text.c:2198
+#: src/text.c:2209
 msgid "Buffer has been processed"
 msgstr "Arabellek işlendi"
 
-#: src/text.c:2253
+#: src/text.c:2262
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "Ulaşılamıyan kelime: %s"
 
 #. TRANSLATORS: This is a prompt.
-#: src/text.c:2272
+#: src/text.c:2281
 msgid "Edit a replacement"
 msgstr "Bir yerdeğiştirmeyi düzenle"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2285
+#: src/text.c:2294
 msgid "Next word..."
 msgstr "Sonraki kelime..."
 
-#: src/text.c:2421 src/text.c:2653
-msgid "Could not get size of pipe buffer"
-msgstr "Boru arabelleğinin boyutu alınamıyor"
+#: src/text.c:2349
+msgid "Invoking spell checker..."
+msgstr "Yazım denetleyicisini çağırıyor..."
 
-#: src/text.c:2487
+#: src/text.c:2434 src/text.c:2654
+msgid "Could not get size of pipe buffer"
+msgstr "Görev hattı arabelleğinin boyutu alınamıyor"
+
+#: src/text.c:2502
 msgid "Error invoking \"uniq\""
 msgstr "\"uniq\" çağırılırken hata"
 
-#: src/text.c:2490
+#: src/text.c:2504
 msgid "Error invoking \"sort\""
 msgstr "\"sort\" çağırılırken hata"
 
-#: src/text.c:2493
+#: src/text.c:2506
 msgid "Error invoking \"spell\""
 msgstr "\"spell\" çağırılırken hata"
 
-#: src/text.c:2563
-#, c-format
-msgid "%s: %s"
-msgstr "%s: %s"
-
-#: src/text.c:2589
+#: src/text.c:2591
 msgid "No linter is defined for this type of file"
 msgstr "Bu dosya türü için tanımlanmış hiçbir linter yok"
 
-#: src/text.c:2599
+#: src/text.c:2601
 msgid "Save modified buffer before linting?"
 msgstr "Haddelenmeden önce değiştirilmiş arabellek kaydedilsin mi?"
 
-#: src/text.c:2616
-msgid "Invoking linter, please wait"
-msgstr "Linter çağırma, lütfen bekleyin"
+#: src/text.c:2618
+msgid "Invoking linter..."
+msgstr "Linter çağırılıyor..."
 
-#: src/text.c:2749
+#: src/text.c:2751
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Komuttan 0 ayrıştırılabilir satırlar var: %s"
 
-#: src/text.c:2787
+#: src/text.c:2789
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "Bu mesaj için %s açılmamış dosyası, yeni bir arabellekte mi onu açalım?"
 
-#: src/text.c:2826
+#: src/text.c:2828
 msgid "No messages for this file"
 msgstr "Bu dosya için mesaj yok"
 
-#: src/text.c:2873
+#: src/text.c:2875
 msgid "At first message"
 msgstr "İlk mesajda"
 
-#: src/text.c:2883
+#: src/text.c:2885
 msgid "At last message"
 msgstr "Son mesajda"
 
-#: src/text.c:2925
+#: src/text.c:2926
 msgid "No formatter is defined for this type of file"
 msgstr "Bu dosya türü için tanımlanmış hiçbir biçimlendirici yok"
 
-#: src/text.c:3001
+#: src/text.c:3003
 #, c-format
 msgid "%sWords: %zu  Lines: %zd  Chars: %zu"
 msgstr "%sKelimeler: %zu  Satırlar: %zd  Karakterler: %zu"
 
-#: src/text.c:3002
+#: src/text.c:3004
 msgid "In Selection:  "
 msgstr "Seçimde:  "
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:3013
+#: src/text.c:3015
 msgid "Verbatim Input"
 msgstr "Birebir Girdi"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3029
+#: src/text.c:3033
 msgid "Invalid code"
 msgstr "Geçersiz kod"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3105
+#: src/text.c:3109
 msgid "No word fragment"
 msgstr "Sözcük parçası yok"
 
-#: src/text.c:3197
+#: src/text.c:3201
 msgid "No further matches"
 msgstr "Başka eşleşme yok"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3201
+#: src/text.c:3205
 msgid "No matches"
 msgstr "Eşleşme yok"
 
@@ -2811,92 +2813,92 @@ msgstr "Eşleşme yok"
 msgid "Nano is out of memory!\n"
 msgstr "Nano bellek dışı!\n"
 
-#: src/winio.c:95
+#: src/winio.c:97
 msgid "Recording a macro..."
 msgstr "Bir makro kaydediliyor..."
 
-#: src/winio.c:98
+#: src/winio.c:100
 msgid "Stopped recording"
 msgstr "Kayıt durduruldu"
 
-#: src/winio.c:107
+#: src/winio.c:109
 msgid "Cannot run macro while recording"
 msgstr "Makro kayıt sırasında çalıştırılamıyor"
 
-#: src/winio.c:113
+#: src/winio.c:115
 msgid "Macro is empty"
 msgstr "Makro boştur"
 
-#: src/winio.c:206
+#: src/winio.c:208
 msgid "Too many errors from stdin\n"
 msgstr "Stdin den çok sayıda hata\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1350
+#: src/winio.c:1348
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Unicode giriş: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:1928
+#: src/winio.c:1947
 msgid "Linting --"
 msgstr "Linting --"
 
-#: src/winio.c:1934
+#: src/winio.c:1953
 msgid "DIR:"
 msgstr "DIR:"
 
-#: src/winio.c:1955 src/winio.c:1961
+#: src/winio.c:1974 src/winio.c:1980
 msgid "Modified"
 msgstr "Değiştirildi"
 
-#: src/winio.c:1957
+#: src/winio.c:1976
 msgid "View"
 msgstr "Görünüm"
 
-#: src/winio.c:1959
+#: src/winio.c:1978
 msgid "Restricted"
 msgstr "Kısıtlanmış"
 
-#: src/winio.c:3291
+#: src/winio.c:3309
 #, c-format
 msgid "line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"
 msgstr "satır %zd/%zd (%d%%), sütun %zu/%zu (%d%%), karakter %zu/%zu (%d%%)"
 
-#: src/winio.c:3455
+#: src/winio.c:3473
 msgid "The nano text editor"
 msgstr "Nano metin düzenleyicisi"
 
-#: src/winio.c:3456
+#: src/winio.c:3474
 msgid "version"
 msgstr "sürüm"
 
-#: src/winio.c:3457
+#: src/winio.c:3475
 msgid "Brought to you by:"
 msgstr "Size sağlayan:"
 
-#: src/winio.c:3458
+#: src/winio.c:3476
 msgid "Special thanks to:"
 msgstr "Özel teşekkürler:"
 
-#: src/winio.c:3459
+#: src/winio.c:3477
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: src/winio.c:3460
+#: src/winio.c:3478
 msgid "the many translators and the TP"
 msgstr "birçok çevirmen ve TP"
 
-#: src/winio.c:3461
+#: src/winio.c:3479
 msgid "For ncurses:"
 msgstr "Ncurses için:"
 
-#: src/winio.c:3462
+#: src/winio.c:3480
 msgid "and anyone else we forgot..."
 msgstr "ve unuttuğumuz kişilere..."
 
-#: src/winio.c:3463
+#: src/winio.c:3481
 msgid "Thank you for using nano!"
 msgstr "Nano'yu kullandığınız için teşekkür ederiz!"
 
