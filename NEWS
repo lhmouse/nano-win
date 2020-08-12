@@ -1,4 +1,4 @@
-2020.08.12 - GNU nano 5.1
+2020.08.12 - GNU nano 5.1 "Cantabria"
 • M-Bsp (Alt+Backspace) deletes a word backwards, like in Bash.
 • M-[ has become bindable.  (Be careful, though: as it is the
   starting combination of many escape sequences, avoid gluing
