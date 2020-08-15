@@ -2040,6 +2040,58 @@ void titlebar(const char *path)
 	wrefresh(topwin);
 }
 
+#ifndef NANO_TINY
+/* Draw a bar at the bottom with some minimal state information. */
+void minibar(void)
+{
+	char *thisline = openfile->current->data;
+	char *hexadecimal = nmalloc(9);
+	char *location = nmalloc(44);
+	char *thename;
+	wchar_t widecode;
+
+	/* Draw a colored bar over the full width of the screen. */
+	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
+	mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
+
+	/* Display the name of the current file, plus a star when modified. */
+	if (openfile->filename[0] != '\0') {
+		as_an_at = FALSE;
+		thename = display_string(openfile->filename, 0, COLS - 18, FALSE, FALSE);
+	} else
+		thename = copy_of(_("(nameless)"));
+	mvwaddstr(bottomwin, 0, 2, thename);
+	waddstr(bottomwin, openfile->modified ? " *" : "  ");
+
+	/* Display the line/column position of the cursor. */
+	sprintf(location, "%zi,%lu", openfile->current->lineno, xplustabs() + 1);
+	mvwaddstr(bottomwin, 0, COLS - 21 - strlen(location), location);
+
+	/* Display the hexadecimal code of the character under the cursor. */
+	if (thisline[openfile->current_x] == '\0')
+		sprintf(hexadecimal, openfile->current->next ? "U+000A" : "------");
+	else if (thisline[openfile->current_x] == '\n')
+		sprintf(hexadecimal, "U+0000");
+	else if ((unsigned char)thisline[openfile->current_x] >= 0x80 &&
+				mbtowc(&widecode, thisline + openfile->current_x, MAXCHARLEN) >= 0)
+		sprintf(hexadecimal, "U+%04X", widecode);
+	else
+		sprintf(hexadecimal, "U+%04X", (unsigned char)thisline[openfile->current_x]);
+	mvwaddstr(bottomwin, 0, COLS - 17, hexadecimal);
+
+	/* Display the state of three flags, and the state of macro and mark. */
+	wmove(bottomwin, 0, COLS - 7);
+	show_states_at(bottomwin);
+
+	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
+	wrefresh(bottomwin);
+
+	free(hexadecimal);
+	free(location);
+	free(thename);
+}
+#endif /* NANO_TINY */
+
 /* Display the given message on the status bar, but only if its importance
  * is higher than that of a message that is already there. */
 void statusline(message_type importance, const char *msg, ...)

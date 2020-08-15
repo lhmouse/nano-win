@@ -395,9 +395,10 @@ void window_init(void)
 		delwin(bottomwin);
 	}
 
+	topwin = NULL;
+
 	/* If the terminal is very flat, don't set up a title bar. */
 	if (LINES < 3) {
-		topwin = NULL;
 		editwinrows = 1;
 		/* Set up two subwindows.  If the terminal is just one line,
 		 * edit window and status-bar window will cover each other. */
@@ -407,10 +408,15 @@ void window_init(void)
 		int toprows = ((ISSET(EMPTY_LINE) && LINES > 5) ? 2 : 1);
 		int bottomrows = ((ISSET(NO_HELP) || LINES < 5) ? 1 : 3);
 
+#ifndef NANO_TINY
+		if (ISSET(MINIBAR) && COLS > 48)
+			toprows = 0;
+#endif
 		editwinrows = LINES - toprows - bottomrows;
 
 		/* Set up the normal three subwindows. */
-		topwin = newwin(toprows, COLS, 0, 0);
+		if (toprows > 0)
+			topwin = newwin(toprows, COLS, 0, 0);
 		edit = newwin(editwinrows, COLS, toprows, 0);
 		bottomwin = newwin(bottomrows, COLS, toprows + editwinrows, 0);
 	}
@@ -1104,7 +1110,9 @@ void do_toggle(int flag)
 	if (flag == NO_HELP || flag == NO_SYNTAX)
 		enabled = !enabled;
 
-	statusline(HUSH, "%s %s", _(flagtostr(flag)),
+	if (!ISSET(MINIBAR) || flag == SMART_HOME || flag == CUT_FROM_CURSOR ||
+				flag == TABS_TO_SPACES || flag == USE_MOUSE || flag == SUSPENDABLE)
+		statusline(HUSH, "%s %s", _(flagtostr(flag)),
 						enabled ? _("enabled") : _("disabled"));
 }
 #endif /* !NANO_TINY */
@@ -2494,6 +2502,11 @@ int main(int argc, char **argv)
 		if (currmenu != MMAIN)
 			bottombars(MMAIN);
 
+#ifndef NANO_TINY
+		if (ISSET(MINIBAR) && COLS > 48 && lastmessage == VACUUM)
+			minibar();
+		else
+#endif
 		/* Update the displayed current cursor position only when there
 		 * is no message and no keys are waiting in the input buffer. */
 		if (ISSET(CONSTANT_SHOW) && lastmessage == VACUUM && get_key_buffer_len() == 0)

@@ -594,6 +594,7 @@ void set_blankdelay_to_one(void);
 char *display_string(const char *buf, size_t column, size_t span,
 						bool isdata, bool isprompt);
 void titlebar(const char *path);
+void minibar(void);
 void statusline(message_type importance, const char *msg, ...);
 void statusbar(const char *msg);
 void warn_and_briefly_pause(const char *msg);
