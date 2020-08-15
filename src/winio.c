@@ -939,6 +939,13 @@ int parse_kbinput(WINDOW *win)
 												keycode == DEL_CODE)
 				return CONTROL_SHIFT_DELETE;
 #endif
+#ifdef ENABLE_UTF8
+			else if (0xC0 <= keycode && keycode <= 0xFF && using_utf8()) {
+				while (key_buffer_len > 0 && 0x80 <= *key_buffer && *key_buffer <= 0xBF)
+					get_input(NULL);
+				return FOREIGN_SEQUENCE;
+			}
+#endif
 			else if (!solitary && keycode < 0x20)
 				meta_key = TRUE;
 		} else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
