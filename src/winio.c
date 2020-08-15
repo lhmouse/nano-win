@@ -224,8 +224,8 @@ void read_keys_from(WINDOW *win)
 	/* Read in the remaining characters using non-blocking input. */
 	nodelay(win, TRUE);
 
-	/* When taking verbatim input, pause a moment after receiving an ESC,
-	 * to give the keyboard some time to bring the next code to ncurses. */
+	/* After an ESC, when ncurses does not translate escape sequences,
+	 * give the keyboard some time to bring the next code to ncurses. */
 	if (input == ESC_CODE && (linger_after_escape || ISSET(RAW_SEQUENCES)))
 		napms(20);
 
@@ -1372,12 +1372,9 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	int keycode, *yield;
 
 	reveal_cursor = TRUE;
-	linger_after_escape = TRUE;
 
 	/* Read in the first code. */
 	keycode = get_input(win);
-
-	linger_after_escape = FALSE;
 
 #ifndef NANO_TINY
 	/* When the window was resized, abort and return nothing. */
@@ -1398,14 +1395,11 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		char *multibyte;
 
 		reveal_cursor = FALSE;
-		linger_after_escape = TRUE;
 
 		while (unicode == PROCEED) {
 			keycode = get_input(win);
 			unicode = assemble_unicode(keycode);
 		}
-
-		linger_after_escape = FALSE;
 
 #ifndef NANO_TINY
 		if (keycode == KEY_WINCH) {
@@ -1473,6 +1467,8 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	fflush(stdout);
 #endif
 
+	linger_after_escape = TRUE;
+
 	/* Read in a single byte or two escapes. */
 	input = parse_verbatim_kbinput(win, count);
 
@@ -1485,6 +1481,8 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 		} else if ((*input == '\n' && as_an_at) || (*input == '\0' && !as_an_at))
 			*count = 0;
 	}
+
+	linger_after_escape = FALSE;
 
 #ifndef NANO_TINY
 	/* Turn bracketed-paste mode back on. */
