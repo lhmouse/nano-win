@@ -226,7 +226,7 @@ void read_keys_from(WINDOW *win)
 
 	/* When taking verbatim input, pause a moment after receiving an ESC,
 	 * to give the keyboard some time to bring the next code to ncurses. */
-	if (linger_after_escape && input == ESC_CODE)
+	if (input == ESC_CODE && (linger_after_escape || ISSET(RAW_SEQUENCES)))
 		napms(20);
 
 	while (TRUE) {
