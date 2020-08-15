@@ -939,7 +939,7 @@ int parse_kbinput(WINDOW *win)
 												keycode == DEL_CODE)
 				return CONTROL_SHIFT_DELETE;
 #endif
-			else if (!solitary)
+			else if (!solitary && keycode < 0x20)
 				meta_key = TRUE;
 		} else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
 								(keycode != 'O' && keycode != '[')) {
