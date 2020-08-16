@@ -110,6 +110,7 @@ static const rcoption rcopts[] = {
 	{"jumpyscrolling", JUMPY_SCROLLING},
 	{"locking", LOCKING},
 	{"matchbrackets", 0},
+	{"minibar", MINIBAR},
 	{"noconvert", NO_CONVERT},
 	{"showcursor", SHOW_CURSOR},
 	{"smarthome", SMART_HOME},

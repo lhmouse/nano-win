@@ -641,6 +641,7 @@ void usage(void)
 		print_opt("-z", "--suspendable", N_("Enable suspension"));
 #ifndef NANO_TINY
 	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
+	print_opt("-_", "--minibar", N_("Show bar at bottom with some state info"));
 #endif
 #ifdef HAVE_LIBMAGIC
 	print_opt("-!", "--magic", N_("Also try magic to determine syntax"));
@@ -1744,6 +1745,7 @@ int main(int argc, char **argv)
 		{"wordbounds", 0, NULL, 'W'},
 		{"wordchars", 1, NULL, 'X'},
 		{"zap", 0, NULL, 'Z'},
+		{"minibar", 0, NULL, '_'},
 		{"atblanks", 0, NULL, 'a'},
 		{"emptyline", 0, NULL, 'e'},
 		{"autoindent", 0, NULL, 'i'},
@@ -1808,7 +1810,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxyz$%!", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxyz$_%!", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -1927,6 +1929,9 @@ int main(int argc, char **argv)
 #ifndef NANO_TINY
 			case 'Z':
 				SET(LET_THEM_ZAP);
+				break;
+			case '_':
+				SET(MINIBAR);
 				break;
 			case 'a':
 				SET(AT_BLANKS);
