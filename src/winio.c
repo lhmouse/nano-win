@@ -2072,7 +2072,7 @@ void minibar(void)
 	char *thisline = openfile->current->data;
 	char *hexadecimal = nmalloc(9);
 	char *location = nmalloc(44);
-	char *thename;
+	char *thename = NULL, *ranking = NULL;
 	wchar_t widecode;
 
 	/* Draw a colored bar over the full width of the screen. */
@@ -2087,6 +2087,14 @@ void minibar(void)
 		thename = copy_of(_("(nameless)"));
 	mvwaddstr(bottomwin, 0, 2, thename);
 	waddstr(bottomwin, openfile->modified ? " *" : "  ");
+
+#ifdef ENABLE_MULTIBUFFER
+	if (openfile->next != openfile) {
+		ranking = nmalloc(24);
+		sprintf(ranking, " [%i/%i]", buffer_number(openfile), buffer_number(startfile->prev));
+		waddstr(bottomwin, ranking);
+	}
+#endif
 
 	/* Display the line/column position of the cursor. */
 	sprintf(location, "%zi,%lu", openfile->current->lineno, xplustabs() + 1);
@@ -2114,6 +2122,7 @@ void minibar(void)
 	free(hexadecimal);
 	free(location);
 	free(thename);
+	free(ranking);
 }
 #endif /* NANO_TINY */
 
