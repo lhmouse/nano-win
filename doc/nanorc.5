@@ -172,7 +172,7 @@ Display line numbers to the left of the text area.
 Enable vim-style lock-files for when editing files.
 .TP
 .BI "set matchbrackets """ characters """
-Set the opening and closing brackets that can be found by bracket
+Specify the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
 come before the closing set, and the two sets must be in the same order.
 The default value is "\fB(<[{)>]}\fP".
@@ -723,8 +723,8 @@ Goes to a specific line (and column if specified).  Negative numbers count
 from the end of the file (and end of the line).
 .TP
 .B findbracket
-Moves the cursor to the bracket (brace, parenthesis, etc.) that matches
-(pairs) with the one under the cursor.
+Moves the cursor to the bracket (or brace or parenthesis, etc.) that matches
+(pairs) with the one under the cursor.  See \fBset matchbrackets\fR.
 .TP
 .B anchor
 Places an anchor at the current line, or removes it when already present.
