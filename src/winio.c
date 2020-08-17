@@ -1929,8 +1929,8 @@ void titlebar(const char *path)
 		/* The state of the current buffer -- "Modified", "View", or "". */
 	char *caption;
 		/* The presentable form of the pathname. */
-	char *indicator = NULL;
-		/* The buffer sequence number plus buffer count. */
+	char *ranking = NULL;
+		/* The buffer sequence number plus the total buffer count. */
 
 	/* If the screen is too small, there is no title bar. */
 	if (topwin == NULL)
@@ -1962,10 +1962,10 @@ void titlebar(const char *path)
 #ifdef ENABLE_MULTIBUFFER
 		/* If there are/were multiple buffers, show which out of how many. */
 		if (more_than_one) {
-			indicator = charalloc(24);
-			sprintf(indicator, "[%i/%i]", buffer_number(openfile),
+			ranking = charalloc(24);
+			sprintf(ranking, "[%i/%i]", buffer_number(openfile),
 										buffer_number(startfile->prev));
-			upperleft = indicator;
+			upperleft = ranking;
 		} else
 #endif
 			upperleft = BRANDING;
@@ -2010,7 +2010,7 @@ void titlebar(const char *path)
 		}
 	}
 
-	free(indicator);
+	free(ranking);
 
 	/* If we have side spaces left, center the path name. */
 	if (verlen > 0)
