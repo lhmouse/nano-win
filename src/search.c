@@ -493,8 +493,9 @@ char *replace_line(const char *needle)
 void wipe_and_recalculate_colorinfo(void)
 {
 	for (linestruct *line = openfile->filetop; line != NULL; line = line->next)
-		for (short index = 0; index < openfile->syntax->nmultis; index++)
-			line->multidata[index] = -1;
+		if (line->multidata)
+			for (short index = 0; index < openfile->syntax->nmultis; index++)
+				line->multidata[index] = -1;
 
 	precalc_multicolorinfo();
 }
