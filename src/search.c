@@ -132,6 +132,8 @@ void search_init(bool replacing, bool retain_answer)
 			break;
 		}
 
+		retain_answer = TRUE;
+
 		func = func_from_key(&response);
 
 		/* If we're here, one of the five toggles was pressed, or
