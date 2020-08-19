@@ -996,11 +996,12 @@ short indices[9] = { 204, 163, 134, 38, 48, 148, 215, 208, 137 };
  * vivid to TRUE for a lighter color, and thick for a heavier typeface. */
 short color_to_short(const char *colorname, bool *vivid, bool *thick)
 {
-	if (strncmp(colorname, "bright", 6) == 0) {  /* Deprecated; remove in 2023. */
+	if (strncmp(colorname, "bright", 6) == 0 && colorname[6] != '\0') {
+		/* Prefix "bright" is deprecated; remove in 2024. */
 		*vivid = TRUE;
 		*thick = TRUE;
 		colorname += 6;
-	} else if (strncmp(colorname, "light", 5) == 0) {
+	} else if (strncmp(colorname, "light", 5) == 0 && colorname[5] != '\0') {
 		*vivid = TRUE;
 		*thick = FALSE;
 		colorname += 5;
