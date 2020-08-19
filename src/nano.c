@@ -1552,16 +1552,16 @@ void process_a_keystroke(void)
 		else if (ISSET(VIEW_MODE))
 			print_view_warning();
 		else {
+#ifndef NANO_TINY
+			if (openfile->mark && openfile->kind_of_mark == SOFTMARK) {
+				openfile->mark = NULL;
+				refresh_needed = TRUE;
+			}
+#endif
 			/* Store the byte, and leave room for a terminating zero. */
 			puddle = charealloc(puddle, depth + 2);
 			puddle[depth++] = (char)input;
 		}
-#ifndef NANO_TINY
-		if (openfile->mark && openfile->kind_of_mark == SOFTMARK) {
-			openfile->mark = NULL;
-			refresh_needed = TRUE;
-		}
-#endif
 	}
 
 	/* If we have a command, or if there aren't any other key codes waiting,
