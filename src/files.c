@@ -2066,11 +2066,9 @@ int do_writeout(bool exiting, bool withprompt)
 		functionptrtype func;
 		const char *msg;
 #ifndef NANO_TINY
-		const char *formatstr, *backupstr;
-
-		formatstr = (openfile->fmt == DOS_FILE) ? _(" [DOS Format]") :
+		const char *formatstr = (openfile->fmt == DOS_FILE) ? _(" [DOS Format]") :
 						(openfile->fmt == MAC_FILE) ? _(" [Mac Format]") : "";
-		backupstr = ISSET(MAKE_BACKUP) ? _(" [Backup]") : "";
+		const char *backupstr = ISSET(MAKE_BACKUP) ? _(" [Backup]") : "";
 
 		/* When the mark is on, offer to write the selection to disk, but
 		 * not when in restricted mode, because it would allow writing to
