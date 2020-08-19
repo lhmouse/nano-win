@@ -71,9 +71,9 @@ This manual documents the GNU @command{nano} editor, version 5.1.
 * Command-line Options::
 * Editor Basics::
 * Built-in Help::
+* The File Browser::
 * Feature Toggles::
 * Nanorc Files::
-* The File Browser::
 * Pico Compatibility::
 * Building and Configure Options::
 @end menu
@@ -648,6 +648,25 @@ The built-in help system in @command{nano} is available by pressing @kbd{^G}.
 It is fairly self-explanatory.  It documents the various parts of the
 editor and the available keystrokes.  Navigation is via the @kbd{^Y} (Page Up)
 and @kbd{^V} (Page Down) keys.  @kbd{^X} exits from the help system.
+
+
+@node The File Browser
+@chapter The File Browser
+
+When in the Read-File (@kbd{^R}) or Write-Out menu (@kbd{^O}),
+pressing @kbd{^T} will invoke the file browser.
+Here, one can navigate directories in a graphical manner in order to
+find the desired file.
+
+Basic movement in the file browser is accomplished with the arrow and
+other cursor-movement keys.  More targeted movement is accomplished by
+searching, via @kbd{^W} or @kbd{w}, or by changing directory, via
+@kbd{^_} or @kbd{g}.  The behavior of the @kbd{Enter} key (or @kbd{s})
+varies by what is currently selected.
+If the currently selected object is a directory, the file browser will
+enter and display the contents of the directory.  If the object is a
+file, this filename and path are copied to the status bar, and the file
+browser exits.
 
 
 @node Feature Toggles
@@ -1657,25 +1676,6 @@ all menus where the specified @code{function} exists; for @code{unbind}
 it means all menus where the specified @code{key} exists.
 
 @end table
-
-
-@node The File Browser
-@chapter The File Browser
-
-When in the Read-File (@kbd{^R}) or Write-Out menu (@kbd{^O}),
-pressing @kbd{^T} will invoke the file browser.
-Here, one can navigate directories in a graphical manner in order to
-find the desired file.
-
-Basic movement in the file browser is accomplished with the arrow and
-other cursor-movement keys.  More targeted movement is accomplished by
-searching, via @kbd{^W} or @kbd{w}, or by changing directory, via
-@kbd{^_} or @kbd{g}.  The behavior of the @kbd{Enter} key (or @kbd{s})
-varies by what is currently selected.
-If the currently selected object is a directory, the file browser will
-enter and display the contents of the directory.  If the object is a
-file, this filename and path are copied to the status bar, and the file
-browser exits.
 
 
 @node Pico Compatibility
