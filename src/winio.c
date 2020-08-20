@@ -45,8 +45,6 @@ static bool solitary = FALSE;
 		/* Whether an Esc arrived by itself -- not as leader of a sequence. */
 static int digit_count = 0;
 		/* How many digits of a three-digit character code we've eaten. */
-static bool waiting_mode = TRUE;
-		/* Whether getting a character will wait for a key to be pressed. */
 static bool reveal_cursor = FALSE;
 		/* Whether the cursor should be shown when waiting for input. */
 static bool linger_after_escape = FALSE;
@@ -185,7 +183,7 @@ void read_keys_from(WINDOW *win)
 #endif
 	}
 
-	/* Read in the first keycode using whatever mode we're in. */
+	/* Read in the first keycode, waiting for it to arrive. */
 	while (input == ERR) {
 		input = wgetch(win);
 
@@ -195,11 +193,6 @@ void read_keys_from(WINDOW *win)
 			input = KEY_WINCH;
 		}
 #endif
-		if (input == ERR && !waiting_mode) {
-			curs_set(0);
-			return;
-		}
-
 		/* When we've failed to get a keycode over a hundred times in a row,
 		 * assume our input source is gone and die gracefully.  We could
 		 * check if errno is set to EIO ("Input/output error") and die in
@@ -221,7 +214,7 @@ void read_keys_from(WINDOW *win)
 		return;
 #endif
 
-	/* Read in the remaining characters using non-blocking input. */
+	/* Read in any remaining key codes using non-blocking input. */
 	nodelay(win, TRUE);
 
 	/* After an ESC, when ncurses does not translate escape sequences,
@@ -246,9 +239,8 @@ void read_keys_from(WINDOW *win)
 		key_buffer[key_buffer_len - 1] = input;
 	}
 
-	/* Restore waiting mode if it was on. */
-	if (waiting_mode)
-		nodelay(win, FALSE);
+	/* Restore blocking-input mode. */
+	nodelay(win, FALSE);
 
 #ifdef DEBUG
 	fprintf(stderr, "\nSequence of hex codes:");
@@ -3314,18 +3306,6 @@ void report_cursor_position(void)
 		_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
 		openfile->current->lineno, openfile->filebot->lineno, linepct,
 		cur_xpt, cur_lenpt, colpct, sum, openfile->totsize, charpct);
-}
-
-void disable_waiting(void)
-{
-	waiting_mode = FALSE;
-	nodelay(edit, TRUE);
-}
-
-void enable_waiting(void)
-{
-	waiting_mode = TRUE;
-	nodelay(edit, FALSE);
 }
 
 /* Highlight the text between the given two columns on the current line. */

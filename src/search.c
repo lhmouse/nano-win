@@ -185,7 +185,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		/* The time we last looked at the keyboard. */
 
 	/* Set non-blocking input so that we can just peek for a Cancel. */
-	disable_waiting();
+	nodelay(edit, TRUE);
 
 	if (begin == NULL)
 		came_full_circle = FALSE;
@@ -212,7 +212,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 					/* Clear out the key buffer (in case a macro is running). */
 					while (input != ERR)
 						input = parse_kbinput(NULL);
-					enable_waiting();
+					nodelay(edit, FALSE);
 					return -2;
 				}
 
@@ -258,7 +258,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 
 		/* If we're back at the beginning, then there is no needle. */
 		if (came_full_circle) {
-			enable_waiting();
+			nodelay(edit, FALSE);
 			return 0;
 		}
 
@@ -272,7 +272,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		 * but stop when spell-checking or replacing in a region. */
 		if (line == NULL) {
 			if (whole_word_only || modus == INREGION) {
-				enable_waiting();
+				nodelay(edit, FALSE);
 				return 0;
 			}
 
@@ -300,7 +300,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 
 	found_x = found - line->data;
 
-	enable_waiting();
+	nodelay(edit, FALSE);
 
 	/* Ensure that the found occurrence is not beyond the starting x. */
 	if (came_full_circle && ((!ISSET(BACKWARDS_SEARCH) && (found_x > begin_x ||
