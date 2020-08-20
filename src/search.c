@@ -197,10 +197,16 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 			int input = wgetch(edit);
 
 			lastkbcheck = time(NULL);
-			meta_key = FALSE;
 
 			/* Consume all waiting keystrokes until a Cancel. */
 			while (input != ERR) {
+				if (input == ESC_CODE) {
+					napms(20);
+					input = wgetch(edit);
+					meta_key = TRUE;
+				} else
+					meta_key = FALSE;
+
 				if (func_from_key(&input) == do_cancel) {
 					statusbar(_("Cancelled"));
 					/* Clear out the key buffer (in case a macro is running). */
@@ -209,6 +215,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 					enable_waiting();
 					return -2;
 				}
+
 				input = wgetch(edit);
 			}
 
