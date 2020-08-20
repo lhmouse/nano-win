@@ -190,45 +190,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 	if (begin == NULL)
 		came_full_circle = FALSE;
 
-	/* Start searching through the lines, looking for the needle. */
 	while (TRUE) {
-		/* Glance at the keyboard once every second. */
-		if (time(NULL) - lastkbcheck > 0) {
-			int input = wgetch(edit);
-
-			lastkbcheck = time(NULL);
-
-			/* Consume all waiting keystrokes until a Cancel. */
-			while (input != ERR) {
-				if (input == ESC_CODE) {
-					napms(20);
-					input = wgetch(edit);
-					meta_key = TRUE;
-				} else
-					meta_key = FALSE;
-
-				if (func_from_key(&input) == do_cancel) {
-#ifndef NANO_TINY
-					if (the_window_resized)
-						regenerate_screen();
-#endif
-					statusbar(_("Cancelled"));
-					/* Clear out the key buffer (in case a macro is running). */
-					while (input != ERR)
-						input = parse_kbinput(NULL);
-					nodelay(edit, FALSE);
-					return -2;
-				}
-
-				input = wgetch(edit);
-			}
-
-			if (++feedback > 0)
-				/* TRANSLATORS: This is shown when searching takes
-				 * more than half a second. */
-				statusbar(_("Searching..."));
-		}
-
 		/* When starting a new search, skip the first character, then
 		 * (in either case) search for the needle in the current line. */
 		if (skipone) {
@@ -302,6 +264,43 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		from = line->data;
 		if (ISSET(BACKWARDS_SEARCH))
 			from += strlen(line->data);
+
+		/* Glance at the keyboard once every second, to check for a Cancel. */
+		if (time(NULL) - lastkbcheck > 0) {
+			int input = wgetch(edit);
+
+			lastkbcheck = time(NULL);
+
+			/* Consume any queued-up keystrokes, until a Cancel or nothing. */
+			while (input != ERR) {
+				if (input == ESC_CODE) {
+					napms(20);
+					input = wgetch(edit);
+					meta_key = TRUE;
+				} else
+					meta_key = FALSE;
+
+				if (func_from_key(&input) == do_cancel) {
+#ifndef NANO_TINY
+					if (the_window_resized)
+						regenerate_screen();
+#endif
+					statusbar(_("Cancelled"));
+					/* Clear out the key buffer (in case a macro is running). */
+					while (input != ERR)
+						input = parse_kbinput(NULL);
+					nodelay(edit, FALSE);
+					return -2;
+				}
+
+				input = wgetch(edit);
+			}
+
+			if (++feedback > 0)
+				/* TRANSLATORS: This is shown when searching takes
+				 * more than half a second. */
+				statusbar(_("Searching..."));
+		}
 	}
 
 	found_x = found - line->data;
