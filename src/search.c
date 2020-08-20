@@ -194,18 +194,22 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 	while (TRUE) {
 		/* Glance at the keyboard once every second. */
 		if (time(NULL) - lastkbcheck > 0) {
-			int input = parse_kbinput(edit);
+			int input = wgetch(edit);
 
 			lastkbcheck = time(NULL);
+			meta_key = FALSE;
 
 			/* Consume all waiting keystrokes until a Cancel. */
 			while (input != ERR) {
 				if (func_from_key(&input) == do_cancel) {
 					statusbar(_("Cancelled"));
+					/* Clear out the key buffer (in case a macro is running). */
+					while (input != ERR)
+						input = parse_kbinput(NULL);
 					enable_waiting();
 					return -2;
 				}
-				input = parse_kbinput(NULL);
+				input = wgetch(edit);
 			}
 
 			if (++feedback > 0)
