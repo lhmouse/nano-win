@@ -275,10 +275,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		}
 
 		/* Move to the previous or next line in the file. */
-		if (ISSET(BACKWARDS_SEARCH))
-			line = line->prev;
-		else
-			line = line->next;
+		line = (ISSET(BACKWARDS_SEARCH)) ? line->prev : line->next;
 
 		/* If we've reached the start or end of the buffer, wrap around;
 		 * but stop when spell-checking or replacing in a region. */
@@ -288,10 +285,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 				return 0;
 			}
 
-			if (ISSET(BACKWARDS_SEARCH))
-				line = openfile->filebot;
-			else
-				line = openfile->filetop;
+			line = (ISSET(BACKWARDS_SEARCH)) ? openfile->filebot : openfile->filetop;
 
 			if (modus == JUSTFIND) {
 				statusbar(_("Search Wrapped"));
