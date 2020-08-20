@@ -208,6 +208,10 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 					meta_key = FALSE;
 
 				if (func_from_key(&input) == do_cancel) {
+#ifndef NANO_TINY
+					if (the_window_resized)
+						regenerate_screen();
+#endif
 					statusbar(_("Cancelled"));
 					/* Clear out the key buffer (in case a macro is running). */
 					while (input != ERR)
@@ -256,6 +260,14 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 			break;
 		}
 
+#ifndef NANO_TINY
+		if (the_window_resized) {
+			regenerate_screen();
+			nodelay(edit, TRUE);
+			statusbar(_("Searching..."));
+			feedback = 1;
+		}
+#endif
 		/* If we're back at the beginning, then there is no needle. */
 		if (came_full_circle) {
 			nodelay(edit, FALSE);
