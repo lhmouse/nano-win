@@ -3284,10 +3284,11 @@ void draw_all_subwindows(void)
 /* Display details about the current cursor position on the status bar. */
 void report_cursor_position(void)
 {
-	char saved_byte;
-	size_t sum, cur_xpt = xplustabs() + 1;
-	size_t cur_lenpt = breadth(openfile->current->data) + 1;
+	size_t fullwidth = breadth(openfile->current->data) + 1;
+	size_t column = xplustabs() + 1;
 	int linepct, colpct, charpct;
+	char saved_byte;
+	size_t sum;
 
 	/* Determine the size of the file up to the cursor. */
 	saved_byte = openfile->current->data[openfile->current_x];
@@ -3299,13 +3300,13 @@ void report_cursor_position(void)
 
 	/* Display the current cursor position on the status bar. */
 	linepct = 100 * openfile->current->lineno / openfile->filebot->lineno;
-	colpct = 100 * cur_xpt / cur_lenpt;
+	colpct = 100 * column / fullwidth;
 	charpct = (openfile->totsize == 0) ? 0 : 100 * sum / openfile->totsize;
 
 	statusline(HUSH,
 		_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
 		openfile->current->lineno, openfile->filebot->lineno, linepct,
-		cur_xpt, cur_lenpt, colpct, sum, openfile->totsize, charpct);
+		column, fullwidth, colpct, sum, openfile->totsize, charpct);
 }
 
 /* Highlight the text between the given two columns on the current line. */
