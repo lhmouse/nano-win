@@ -3281,7 +3281,7 @@ void draw_all_subwindows(void)
 	bottombars(currmenu);
 }
 
-/* Display details about the current cursor position on the status bar. */
+/* Display on the status bar details about the current cursor position. */
 void report_cursor_position(void)
 {
 	size_t fullwidth = breadth(openfile->current->data) + 1;
@@ -3290,23 +3290,23 @@ void report_cursor_position(void)
 	char saved_byte;
 	size_t sum;
 
-	/* Determine the size of the file up to the cursor. */
 	saved_byte = openfile->current->data[openfile->current_x];
 	openfile->current->data[openfile->current_x] = '\0';
 
+	/* Determine the size of the file up to the cursor. */
 	sum = number_of_characters_in(openfile->filetop, openfile->current);
 
 	openfile->current->data[openfile->current_x] = saved_byte;
 
-	/* Display the current cursor position on the status bar. */
+	/* Calculate the percentages. */
 	linepct = 100 * openfile->current->lineno / openfile->filebot->lineno;
 	colpct = 100 * column / fullwidth;
 	charpct = (openfile->totsize == 0) ? 0 : 100 * sum / openfile->totsize;
 
 	statusline(HUSH,
-		_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
-		openfile->current->lineno, openfile->filebot->lineno, linepct,
-		column, fullwidth, colpct, sum, openfile->totsize, charpct);
+			_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
+			openfile->current->lineno, openfile->filebot->lineno, linepct,
+			column, fullwidth, colpct, sum, openfile->totsize, charpct);
 }
 
 /* Highlight the text between the given two columns on the current line. */
