@@ -1761,8 +1761,6 @@ void do_justify(bool full_justify)
 	linestruct *jusline;
 		/* The line that we're justifying in the current cutbuffer. */
 #ifndef NANO_TINY
-	bool right_side_up = (openfile->mark && mark_is_before_cursor());
-		/* Whether the mark (if any) is before the cursor. */
 	bool before_eol = FALSE;
 		/* Whether the end of a marked region is before the end of its line. */
 	char *primary_lead = NULL;
@@ -1980,7 +1978,7 @@ void do_justify(bool full_justify)
 	update_undo(PASTE);
 
 	/* After justifying a backward-marked text, swap mark and cursor. */
-	if (openfile->mark && !right_side_up) {
+	if (openfile->mark && !mark_is_before_cursor()) {
 		linestruct *bottom = openfile->current;
 		size_t bottom_x = openfile->current_x;
 
