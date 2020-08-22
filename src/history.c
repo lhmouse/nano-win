@@ -447,9 +447,7 @@ void load_poshistory(void)
 
 	free(line);
 
-	if (stat(poshistname, &fileinfo) == -1)
-		jot_error(N_("Error reading %s: %s\n"), poshistname, strerror(errno));
-	else
+	if (stat(poshistname, &fileinfo) == 0)
 		latest_timestamp = fileinfo.st_mtime;
 }
 
@@ -493,9 +491,7 @@ void save_poshistory(void)
 	if (fclose(histfile) == EOF)
 		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
 
-	if (stat(poshistname, &fileinfo) == -1)
-		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
-	else
+	if (stat(poshistname, &fileinfo) == 0)
 		latest_timestamp = fileinfo.st_mtime;
 }
 
@@ -504,9 +500,7 @@ void reload_positions_if_needed(void)
 {
 	struct stat fileinfo;
 
-	if (stat(poshistname, &fileinfo) == -1)
-		jot_error(N_("Error reading %s: %s\n"), poshistname, strerror(errno));
-	else if (fileinfo.st_mtime != latest_timestamp) {
+	if (stat(poshistname, &fileinfo) == 0 && fileinfo.st_mtime != latest_timestamp) {
 		poshiststruct *item, *nextone;
 
 		for (item = position_history; item != NULL; item = nextone) {
