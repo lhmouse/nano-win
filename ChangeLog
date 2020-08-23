@@ -1,3 +1,39 @@
+Changes between v5.1 and v5.2:
+------------------------------
+
+Benno Schulenberg (30):
+      build: stop distributing the README.GIT file
+      build: stop mentioning Slang in two ./configure messages
+      bump version numbers and add a news item for the 5.2 release
+      display: restore the ability to resize the screen while searching
+      docs: add a cross-reference from 'findbracket' to 'set matchbrackets'
+      docs: adjust description of ^T in cheatsheet, and mention M-Bsp
+      docs: mention in the FAQ how to change the escape sequences of urxvt
+      docs: reshuffle the section about the file browser to a better place
+      gnulib: back away from a commit that causes trouble when using clang
+      gnulib: update to its current upstream state
+      history: do not interpret a failing stat() as an error
+      input: allow also a Meta keystroke to abort a Search command
+      input: dawdle after an ESC also when --rawsequences is used
+      input: discard any multibyte character when <Alt> is being held
+      input: do not enter invalid bytes when holding down both Alt keys
+      input: hold on to a shift-selected region when an unbound key is struck
+      rcfile: make sure that "bright"/"light" are prefixes, not separate words
+      replacing: do not try to wipe nonexistent multidata, to avoid crashing
+      search: poll the input stream directly, not nano's own keystroke buffer
+      search: retain the current answer when something is toggled
+      tweaks: adjust a comment, and reshuffle the setting of a boolean
+      tweaks: condense two declarations
+      tweaks: condense two fragments of code, for compactness
+      tweaks: elide an unneeded variable
+      tweaks: improve three comments and an indentation
+      tweaks: move the keyboard-checking code to the end of the search loop
+      tweaks: remove a variable and two functions that have become redundant
+      tweaks: rename a variable, to not seem to refer to the scrollbar
+      tweaks: reshuffle four declarations, and rename two variables
+      verbatim: reserve enough space for the result also in non-UTF-8 locales
+
+
 Changes between v5.0 and v5.1:
 ------------------------------
 

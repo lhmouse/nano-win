@@ -1,3 +1,9 @@
+2020.08.24 - GNU nano 5.2 "Ranrapalca"
+• Making certain replacements after a large paste does not crash.
+• Hitting a toggle at the Search prompt does not clear the answer.
+• Using --positionlog does not complain at the first start.
+• A macro containing a Search command will not sometimes fail.
+
 2020.08.12 - GNU nano 5.1 "Cantabria"
 • M-Bsp (Alt+Backspace) deletes a word backwards, like in Bash.
 • M-[ has become bindable.  (Be careful, though: as it is the
