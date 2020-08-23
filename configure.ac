@@ -628,18 +628,16 @@ if test "x$enable_utf8" != xno && \
 else
 	if test "x$enable_utf8" = xyes; then
 		AC_MSG_ERROR([
-  *** UTF-8 support was requested, but insufficient UTF-8 support was
-  *** detected in your curses and/or C libraries.  Please verify that
-  *** your Slang was built with UTF-8 support or your curses was built
-  *** with wide-character support, and that your C library was built
+  *** UTF-8 support was requested, but insufficient support was
+  *** detected in your curses and/or C libraries.  Please verify
+  *** that both your curses library and your C library were built
   *** with wide-character support.])
 	elif test "x$enable_utf8" != xno; then
 		AC_MSG_WARN([
-  *** Insufficient UTF-8 support was detected in your curses and/or C
-  *** libraries.  If you want UTF-8 support, please verify that your
-  *** Slang was built with UTF-8 support or your curses was built with
-  *** wide-character support, and that your C library was built with
-  *** wide-character support.])
+  *** Insufficient UTF-8 support was detected in your curses
+  *** and/or C libraries.  If you want UTF-8 support, please
+  *** verify that both your curses library and your C library
+  *** were built with wide-character support.])
 	fi
 fi
 
