@@ -1,14 +1,15 @@
 # Korean translation for the nano package.
 # Copyright (C) 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
+# Minho Park <parkmino@daum.net>, 2020.
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2019, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU nano 5.0-pre1\n"
+"Project-Id-Version: GNU nano 5.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2020-08-12 08:32+0200\n"
-"PO-Revision-Date: 2020-07-30 22:22+0900\n"
+"POT-Creation-Date: 2020-08-24 11:05+0200\n"
+"PO-Revision-Date: 2020-08-14 18:06+0900\n"
 "Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>\n"
 "Language-Team: Korean <translation-team-ko@googlegroups.com>\n"
 "Language: ko\n"
@@ -29,9 +30,9 @@ msgstr "디렉터리를 열 수 없음: %s"
 msgid "Go To Directory"
 msgstr "디렉터리로 이동"
 
-#: src/browser.c:240 src/browser.c:641 src/files.c:1148 src/files.c:2108
-#: src/nano.c:316 src/search.c:110 src/search.c:202 src/search.c:715
-#: src/search.c:761 src/text.c:2604 src/text.c:2796
+#: src/browser.c:240 src/browser.c:641 src/files.c:1148 src/files.c:2106
+#: src/nano.c:316 src/search.c:110 src/search.c:288 src/search.c:734
+#: src/search.c:780 src/text.c:2602 src/text.c:2794
 msgid "Cancelled"
 msgstr "취소함"
 
@@ -48,7 +49,7 @@ msgstr "상위 디렉터리로 이동할 수 없습니다"
 
 #: src/browser.c:294 src/files.c:862 src/files.c:868 src/files.c:1773
 #: src/files.c:1788 src/history.c:292 src/history.c:320 src/history.c:389
-#: src/history.c:446 src/rcfile.c:915 src/rcfile.c:1665
+#: src/history.c:446 src/rcfile.c:915 src/rcfile.c:1666
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "%s 읽기 오류: %s"
@@ -83,15 +84,15 @@ msgstr "검색"
 msgid " [Backwards]"
 msgstr " [후위]"
 
-#: src/browser.c:671 src/browser.c:676 src/search.c:272
+#: src/browser.c:671 src/browser.c:676 src/search.c:253
 msgid "Search Wrapped"
 msgstr "순환 검색"
 
-#: src/browser.c:687 src/search.c:404
+#: src/browser.c:687 src/search.c:422
 msgid "This is the only occurrence"
 msgstr "유일한 검색 결과입니다"
 
-#: src/browser.c:733 src/search.c:340
+#: src/browser.c:733 src/search.c:358
 msgid "No current search pattern"
 msgstr "현재 검색 패턴이 없습니다"
 
@@ -221,7 +222,7 @@ msgid "%s -- %zu line (%s)"
 msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu 행(%s)"
 
-#: src/files.c:508 src/files.c:514 src/global.c:1050 src/winio.c:1969
+#: src/files.c:508 src/files.c:514 src/global.c:1050 src/winio.c:1966
 msgid "New Buffer"
 msgstr "새 버퍼"
 
@@ -287,15 +288,15 @@ msgstr "FIFO 읽는 중..."
 msgid "Reading..."
 msgstr "읽는 중..."
 
-#: src/files.c:954 src/text.c:2345 src/text.c:2612
+#: src/files.c:954 src/text.c:2343 src/text.c:2610
 #, c-format
 msgid "Could not create pipe: %s"
-msgstr ""
+msgstr "파이프를 만들 수 없습니다: %s"
 
-#: src/files.c:990 src/text.c:2147 src/text.c:2425 src/text.c:2645
+#: src/files.c:990 src/text.c:2145 src/text.c:2423 src/text.c:2643
 #, c-format
 msgid "Could not fork: %s"
-msgstr ""
+msgstr "포킹할 수 없습니다: %s"
 
 #: src/files.c:995
 msgid "Executing..."
@@ -390,8 +391,8 @@ msgstr "백업을 만들 수 없음: %s"
 msgid "Can't write outside of %s"
 msgstr "%s 외부에 기록할 수 없습니다"
 
-#: src/files.c:1780 src/files.c:1792 src/text.c:2528 src/text.c:2546
-#: src/text.c:2940
+#: src/files.c:1780 src/files.c:1792 src/text.c:2526 src/text.c:2544
+#: src/text.c:2938
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "임시 파일 기록 오류: %s"
@@ -421,72 +422,72 @@ msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "%zu 행 기록함"
 
-#: src/files.c:2071
+#: src/files.c:2069
 msgid " [DOS Format]"
 msgstr " [도스 형식]"
 
-#: src/files.c:2072
+#: src/files.c:2070
 msgid " [Mac Format]"
 msgstr " [맥 형식]"
 
-#: src/files.c:2073
+#: src/files.c:2071
 msgid " [Backup]"
 msgstr " [백업]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2080
+#: src/files.c:2078
 msgid "Prepend Selection to File"
 msgstr "선택 영역 파일 앞부분에 덧붙이기"
 
-#: src/files.c:2081
+#: src/files.c:2079
 msgid "Append Selection to File"
 msgstr "선택 영역 파일 뒷부분에 덧붙이기"
 
-#: src/files.c:2082
+#: src/files.c:2080
 msgid "Write Selection to File"
 msgstr "선택 영역 파일에 기록"
 
-#: src/files.c:2084
+#: src/files.c:2082
 msgid "File Name to Prepend to"
 msgstr "앞에 덧붙일 파일 이름"
 
-#: src/files.c:2085
+#: src/files.c:2083
 msgid "File Name to Append to"
 msgstr "뒤에 덧붙일 파일 이름"
 
-#: src/files.c:2088
+#: src/files.c:2086
 msgid "File Name to Write"
 msgstr "기록할 파일 이름"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2166
+#: src/files.c:2164
 msgid "Too tiny"
 msgstr "너무 작습니다"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2196
+#: src/files.c:2194
 msgid "File exists -- cannot overwrite"
 msgstr "파일이 이미 있습니다 -- 덮어쓰기 불가"
 
-#: src/files.c:2206
+#: src/files.c:2204
 msgid "Save file under DIFFERENT NAME? "
 msgstr "*다른 이름*으로 파일을 저장하시겠습니까? "
 
-#: src/files.c:2214
+#: src/files.c:2212
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "\"%s\" 파일이 이미 있습니다. *덮어쓰*시겠습니까? "
 
-#: src/files.c:2240
+#: src/files.c:2238
 msgid "File on disk has changed"
 msgstr "디스크의 파일 내용이 바뀌었습니다"
 
 #. TRANSLATORS: Try to keep this at most 76 characters.
-#: src/files.c:2243
+#: src/files.c:2241
 msgid "File was modified since you opened it; continue saving? "
 msgstr "이 파일을 열고난 후 파일을 수정했습니다. 계속 저장하시겠습니까? "
 
-#: src/files.c:2621
+#: src/files.c:2619
 msgid "(more)"
 msgstr "(더 보기)"
 
@@ -920,7 +921,7 @@ msgstr "새로 고침"
 
 #: src/global.c:776 src/global.c:853
 msgid "Where Is"
-msgstr "현재 위치"
+msgstr "위치 찾기"
 
 #: src/global.c:779 src/global.c:829
 msgid "Replace"
@@ -1684,16 +1685,11 @@ msgstr ""
 "%s 경로는 디렉터리여야 하지만 그렇지 않습니다.\n"
 "나노에서 검색 기록 또는 커서 위치를 불러오고 저장할 수 없습니다.\n"
 
-#: src/history.c:364 src/history.c:374 src/history.c:377 src/history.c:464
-#: src/history.c:488 src/history.c:494 src/history.c:497
+#: src/history.c:364 src/history.c:374 src/history.c:377 src/history.c:462
+#: src/history.c:486 src/history.c:492
 #, c-format
 msgid "Error writing %s: %s\n"
 msgstr "%s 기록 오류: %s\n"
-
-#: src/history.c:451 src/history.c:508
-#, c-format
-msgid "Error reading %s: %s\n"
-msgstr "%s 읽기 오류: %s\n"
 
 #: src/nano.c:200
 msgid "Key is invalid in view mode"
@@ -2183,17 +2179,17 @@ msgstr "연결하지 않은 키 입력: ^%c"
 msgid "Unbound key: %c"
 msgstr "연결하지 않은 키 입력: %c"
 
-#: src/nano.c:1861 src/rcfile.c:1582
+#: src/nano.c:1861 src/rcfile.c:1583
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "유도 컬럼 \"%s\"은(는) 올바르지 않습니다"
 
-#: src/nano.c:1909 src/rcfile.c:1638
+#: src/nano.c:1909 src/rcfile.c:1639
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "요청한 \"%s\" 탭 간격 길이가 올바르지 않습니다"
 
-#: src/nano.c:2010 src/rcfile.c:1573
+#: src/nano.c:2010 src/rcfile.c:1574
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "요청한 \"%s\" 채우기 용량이 올바르지 않습니다"
@@ -2217,7 +2213,7 @@ msgstr "잘못된 검색 옵션 '%c'"
 msgid "Empty search string"
 msgstr "검색 문자열이 비어있음"
 
-#: src/nano.c:2406 src/search.c:778
+#: src/nano.c:2406 src/search.c:797
 msgid "Invalid line or column number"
 msgstr "잘못된 행, 열 번호"
 
@@ -2349,7 +2345,7 @@ msgstr "'%s' 기능은 '%s' 메뉴에 없습니다"
 msgid "Keystroke %s may not be rebound"
 msgstr "%s 키 입력을 다시 연결할 수 없습니다"
 
-#: src/rcfile.c:949 src/rcfile.c:1482
+#: src/rcfile.c:949 src/rcfile.c:1483
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "\"%s\" 명령을 이해할 수 없음"
@@ -2359,113 +2355,113 @@ msgstr "\"%s\" 명령을 이해할 수 없음"
 msgid "Error expanding %s: %s"
 msgstr "%s 확장 오류: %s"
 
-#: src/rcfile.c:1034
+#: src/rcfile.c:1035
 #, c-format
 msgid "Color '%s' takes no prefix"
 msgstr "'%s' 색상에 접두사가 없습니다"
 
-#: src/rcfile.c:1042
+#: src/rcfile.c:1043
 #, c-format
 msgid "Color \"%s\" not understood"
 msgstr "\"%s\" 색상을 이해할 수 없습니다"
 
-#: src/rcfile.c:1058 src/rcfile.c:1069
+#: src/rcfile.c:1059 src/rcfile.c:1070
 msgid "An attribute requires a subsequent comma"
 msgstr "속성은 쉼표로 구분합니다"
 
-#: src/rcfile.c:1113
+#: src/rcfile.c:1114
 msgid "Missing color name"
 msgstr "색 이름 빠짐"
 
-#: src/rcfile.c:1124 src/rcfile.c:1227
+#: src/rcfile.c:1125 src/rcfile.c:1228
 #, c-format
 msgid "Missing regex string after '%s' command"
 msgstr "'%s' 명령 다음 정규 표현식 문자열이 빠짐"
 
-#: src/rcfile.c:1150
+#: src/rcfile.c:1151
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "\"end=\"에 해당하는 \"start=\"가 필요합니다"
 
-#: src/rcfile.c:1216 src/rcfile.c:1462
+#: src/rcfile.c:1217 src/rcfile.c:1463
 #, c-format
 msgid "A '%s' command requires a preceding 'syntax' command"
 msgstr "'%s' 명령 이전에 'syntax' 명령이 필요합니다"
 
-#: src/rcfile.c:1222
+#: src/rcfile.c:1223
 #, c-format
 msgid "The \"default\" syntax does not accept '%s' regexes"
 msgstr "\"기본\" 문법은 '%s' 정규 표현식을 허용하지 않습니다"
 
-#: src/rcfile.c:1267
+#: src/rcfile.c:1268
 #, c-format
 msgid "Missing argument after '%s'"
 msgstr "'%s' 다음 인자가 빠졌습니다"
 
-#: src/rcfile.c:1277
+#: src/rcfile.c:1278
 #, c-format
 msgid "Argument of '%s' lacks closing \""
 msgstr "'%s' 인자에 \" 닫기 부분이 빠졌습니다"
 
-#: src/rcfile.c:1325
+#: src/rcfile.c:1326
 #, c-format
 msgid "No key is bound to function '%s' in menu '%s'.  Exiting.\n"
 msgstr "'%2$s' 메뉴의 '%1$s' 기능에 연결한 키가 없습니다.  빠져나감.\n"
 
-#: src/rcfile.c:1327
+#: src/rcfile.c:1328
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr "필요할 경우 nanorc 설정을 바꾸려면 -l 옵션을 사용하십시오.\n"
 
-#: src/rcfile.c:1394
+#: src/rcfile.c:1395
 #, c-format
 msgid "Could not find syntax \"%s\" to extend"
 msgstr "확장할 \"%s\" 문법을 찾을 수 없습니다"
 
-#: src/rcfile.c:1451
+#: src/rcfile.c:1452
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "포함 파일에서 \"%s\" 명령을 허용하지 않습니다"
 
-#: src/rcfile.c:1494
+#: src/rcfile.c:1495
 msgid "Missing option"
 msgstr "옵션 빠짐"
 
-#: src/rcfile.c:1508
+#: src/rcfile.c:1509
 #, c-format
 msgid "Unknown option \"%s\""
 msgstr "알 수 없는 \"%s\" 옵션"
 
-#: src/rcfile.c:1523
+#: src/rcfile.c:1524
 #, c-format
 msgid "Cannot unset option \"%s\""
 msgstr "\"%s\" 옵션 설정을 취소할 수 없습니다"
 
-#: src/rcfile.c:1528
+#: src/rcfile.c:1529
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "\"%s\" 옵션에 인자가 필요합니다"
 
-#: src/rcfile.c:1540
+#: src/rcfile.c:1541
 msgid "Argument is not a valid multibyte string"
 msgstr "인자 값은 올바른 다중바이트 문자열이 아닙니다"
 
-#: src/rcfile.c:1588 src/rcfile.c:1609 src/rcfile.c:1615
+#: src/rcfile.c:1589 src/rcfile.c:1610 src/rcfile.c:1616
 msgid "Non-blank characters required"
 msgstr "비어있지 않은 문자가 필요합니다"
 
-#: src/rcfile.c:1591
+#: src/rcfile.c:1592
 msgid "Even number of characters required"
 msgstr "짝수 개 문자가 필요합니다"
 
-#: src/rcfile.c:1597
+#: src/rcfile.c:1598
 msgid "Two single-column characters required"
 msgstr "두 단일 컬럼 문자가 필요합니다"
 
-#: src/rcfile.c:1686
+#: src/rcfile.c:1687
 msgid "Specified rcfile does not exist\n"
 msgstr "지정 rcfile이 없습니다\n"
 
-#: src/rcfile.c:1705
+#: src/rcfile.c:1706
 msgid "I can't find my home directory!  Wah!"
 msgstr "내 기본 디렉터리가 없네요?! 이야~!"
 
@@ -2488,61 +2484,61 @@ msgstr " (바꾸기 대상)"
 
 #. TRANSLATORS: This is shown when searching takes
 #. * more than half a second.
-#: src/search.c:212
+#: src/search.c:229 src/search.c:302
 msgid "Searching..."
 msgstr "검색 중..."
 
-#: src/search.c:377
+#: src/search.c:395
 #, c-format
 msgid "\"%.*s%s\" not found"
 msgstr "\"%.*s%s\" 대상이 없습니다"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:579
+#: src/search.c:598
 msgid "Replace this instance?"
 msgstr "한 번에 바꾸시겠습니까?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:705
+#: src/search.c:724
 msgid "Replace with"
 msgstr "바꿀 단어"
 
-#: src/search.c:730
+#: src/search.c:749
 #, c-format
 msgid "Replaced %zd occurrence"
 msgid_plural "Replaced %zd occurrences"
 msgstr[0] "%zd번 바꾸었습니다"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:757
+#: src/search.c:776
 msgid "Enter line number, column number"
 msgstr "행, 열 번호를 입력하십시오"
 
-#: src/search.c:926
+#: src/search.c:945
 msgid "Not a bracket"
 msgstr "각 괄호 아님"
 
-#: src/search.c:969
+#: src/search.c:988
 msgid "No matching bracket"
 msgstr "일치하는 각 괄호 없음"
 
-#: src/search.c:984
+#: src/search.c:1003
 msgid "Placed anchor"
 msgstr "배치 고정점"
 
-#: src/search.c:986
+#: src/search.c:1005
 msgid "Removed anchor"
 msgstr "제거 고정점"
 
-#: src/search.c:998
+#: src/search.c:1017
 msgid "Jumped to anchor"
 msgstr "고정점으로 건너뜀"
 
-#: src/search.c:1000
+#: src/search.c:1019
 msgid "This is the only anchor"
 msgstr "유일한 고정점입니다"
 
-#: src/search.c:1002
+#: src/search.c:1021
 msgid "There are no anchors"
 msgstr "고정점이 없습니다"
 
@@ -2636,165 +2632,165 @@ msgid "Redid %s"
 msgstr "%s 다시 실행함"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1779 src/text.c:1993
+#: src/text.c:1777 src/text.c:1991
 msgid "justification"
 msgstr "정렬"
 
-#: src/text.c:1790 src/text.c:2110
+#: src/text.c:1788 src/text.c:2108
 msgid "Selection is empty"
 msgstr "선택 내용이 없습니다"
 
-#: src/text.c:2002
+#: src/text.c:2000
 msgid "Justified selection"
 msgstr "선택 영역 정렬함"
 
-#: src/text.c:2006
+#: src/text.c:2004
 msgid "Justified file"
 msgstr "파일 정렬함"
 
-#: src/text.c:2008
+#: src/text.c:2006
 msgid "Justified paragraph"
 msgstr "문단 정렬함"
 
-#: src/text.c:2113
+#: src/text.c:2111
 msgid "Buffer is empty"
-msgstr ""
+msgstr "버퍼가 비어 있습니다"
 
-#: src/text.c:2150 src/text.c:2746
+#: src/text.c:2148 src/text.c:2744
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "'%s' 실행 오류"
 
-#: src/text.c:2153
+#: src/text.c:2151
 #, c-format
 msgid "Program '%s' complained"
 msgstr "'%s' 프로그램에 오류가 있습니다"
 
-#: src/text.c:2159
+#: src/text.c:2157
 msgid "Nothing changed"
 msgstr "바뀐 내용 없음"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2188
+#: src/text.c:2186
 msgid "spelling correction"
 msgstr "철자 수정"
 
-#: src/text.c:2188
+#: src/text.c:2186
 msgid "formatting"
 msgstr "파일 포맷 구성 중"
 
-#: src/text.c:2207 src/text.c:2508
+#: src/text.c:2205 src/text.c:2506
 msgid "Finished checking spelling"
 msgstr "철자 검사가 끝났습니다"
 
-#: src/text.c:2209
+#: src/text.c:2207
 msgid "Buffer has been processed"
 msgstr "버퍼를 처리했습니다"
 
-#: src/text.c:2262
+#: src/text.c:2260
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "찾을 수 없는 단어: %s"
 
 #. TRANSLATORS: This is a prompt.
-#: src/text.c:2281
+#: src/text.c:2279
 msgid "Edit a replacement"
 msgstr "바꿀 단어 편집"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2294
+#: src/text.c:2292
 msgid "Next word..."
 msgstr "다음 단어..."
 
-#: src/text.c:2349
+#: src/text.c:2347
 msgid "Invoking spell checker..."
-msgstr ""
+msgstr "문법 검사기 실행 중..."
 
-#: src/text.c:2434 src/text.c:2654
+#: src/text.c:2432 src/text.c:2652
 msgid "Could not get size of pipe buffer"
 msgstr "파이프 버퍼 크기를 가져올 수 없습니다"
 
-#: src/text.c:2502
+#: src/text.c:2500
 msgid "Error invoking \"uniq\""
 msgstr "\"uniq\" 실행 오류"
 
-#: src/text.c:2504
+#: src/text.c:2502
 msgid "Error invoking \"sort\""
 msgstr "\"sort\" 실행 오류"
 
-#: src/text.c:2506
+#: src/text.c:2504
 msgid "Error invoking \"spell\""
 msgstr "\"spell\" 실행 오류"
 
-#: src/text.c:2591
+#: src/text.c:2589
 msgid "No linter is defined for this type of file"
 msgstr "이 파일 형식에 맞는 검사 도구를 지정하지 않았습니다"
 
-#: src/text.c:2601
+#: src/text.c:2599
 msgid "Save modified buffer before linting?"
 msgstr "분석 도구 실행 전 수정한 버퍼 내용을 저장하시겠습니까?"
 
-#: src/text.c:2618
+#: src/text.c:2616
 msgid "Invoking linter..."
-msgstr ""
+msgstr "분석 도구 실행 중..."
 
-#: src/text.c:2751
+#: src/text.c:2749
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "명령에서 해석 가능한 줄이 없습니다: %s"
 
-#: src/text.c:2789
+#: src/text.c:2787
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "이 메시지는 열지 않은 %s 파일에서 나왔습니다. 새 버퍼에서 여시겠습니까?"
 
-#: src/text.c:2828
+#: src/text.c:2826
 msgid "No messages for this file"
 msgstr "이 파일에 대한 메시지 없음"
 
-#: src/text.c:2875
+#: src/text.c:2873
 msgid "At first message"
 msgstr "처음 메시지"
 
-#: src/text.c:2885
+#: src/text.c:2883
 msgid "At last message"
 msgstr "마지막 메시지"
 
-#: src/text.c:2926
+#: src/text.c:2924
 msgid "No formatter is defined for this type of file"
 msgstr "이 파일 형식에 맞는 형식 도구를 지정하지 않았습니다"
 
-#: src/text.c:3003
+#: src/text.c:3001
 #, c-format
 msgid "%sWords: %zu  Lines: %zd  Chars: %zu"
 msgstr "%s단어: %zu  행: %zd번째  문자: %zu"
 
-#: src/text.c:3004
+#: src/text.c:3002
 msgid "In Selection:  "
 msgstr "선택 범위:  "
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:3015
+#: src/text.c:3013
 msgid "Verbatim Input"
 msgstr "입력 그대로"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3033
+#: src/text.c:3031
 msgid "Invalid code"
 msgstr "잘못된 코드"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3109
+#: src/text.c:3107
 msgid "No word fragment"
 msgstr "단어로 분할하지 않음"
 
-#: src/text.c:3201
+#: src/text.c:3199
 msgid "No further matches"
 msgstr "더 이상 일치하는 항목 없음"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3205
+#: src/text.c:3203
 msgid "No matches"
 msgstr "일치하는 항목 없음"
 
@@ -2802,94 +2798,94 @@ msgstr "일치하는 항목 없음"
 msgid "Nano is out of memory!\n"
 msgstr "나노에서 사용할 메모리가 부족합니다!\n"
 
-#: src/winio.c:97
+#: src/winio.c:95
 msgid "Recording a macro..."
 msgstr "매크로 기록 중..."
 
-#: src/winio.c:100
+#: src/winio.c:98
 msgid "Stopped recording"
 msgstr "기록 멈춤"
 
-#: src/winio.c:109
+#: src/winio.c:107
 msgid "Cannot run macro while recording"
 msgstr "기록 중에는 매크로를 실행할 수 없습니다"
 
-#: src/winio.c:115
+#: src/winio.c:113
 msgid "Macro is empty"
 msgstr "매크로 내용이 없습니다"
 
-#: src/winio.c:208
+#: src/winio.c:201
 msgid "Too many errors from stdin\n"
 msgstr "표준 입력에 오류가 너무 많습니다\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1348
+#: src/winio.c:1347
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "유니코드 입력: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:1947
+#: src/winio.c:1944
 msgid "Linting --"
 msgstr "분석 중 --"
 
-#: src/winio.c:1953
+#: src/winio.c:1950
 msgid "DIR:"
 msgstr "디렉터리:"
 
-#: src/winio.c:1974 src/winio.c:1980
+#: src/winio.c:1971 src/winio.c:1977
 msgid "Modified"
 msgstr "수정함"
 
-#: src/winio.c:1976
+#: src/winio.c:1973
 msgid "View"
 msgstr "보기"
 
-#: src/winio.c:1978
+#: src/winio.c:1975
 msgid "Restricted"
 msgstr "제한"
 
-#: src/winio.c:3309
+#: src/winio.c:3307
 #, c-format
 msgid "line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"
 msgstr ""
 "%zd행/전체 %zd행 (%d%%), %zu열/전체 %zu열 (%d%%), %zu번째 문자/전체 문자 %zu"
 "개 (%d%%)"
 
-#: src/winio.c:3473
+#: src/winio.c:3459
 msgid "The nano text editor"
 msgstr "나노 텍스트 편집기"
 
-#: src/winio.c:3474
+#: src/winio.c:3460
 msgid "version"
 msgstr "버전"
 
-#: src/winio.c:3475
+#: src/winio.c:3461
 msgid "Brought to you by:"
 msgstr "제공자:"
 
-#: src/winio.c:3476
+#: src/winio.c:3462
 msgid "Special thanks to:"
 msgstr "특히 감사드릴 여러분:"
 
-#: src/winio.c:3477
+#: src/winio.c:3463
 msgid "The Free Software Foundation"
 msgstr "자유 소프트웨어 재단"
 
-#: src/winio.c:3478
+#: src/winio.c:3464
 msgid "the many translators and the TP"
 msgstr "다수 번역자와 TranslationProject"
 
-#: src/winio.c:3479
+#: src/winio.c:3465
 msgid "For ncurses:"
 msgstr "ncurses:"
 
-#: src/winio.c:3480
+#: src/winio.c:3466
 msgid "and anyone else we forgot..."
 msgstr "그리고 우리가 잊은 다른 여러분..."
 
-#: src/winio.c:3481
+#: src/winio.c:3467
 msgid "Thank you for using nano!"
 msgstr "나노를 사용해주셔서 감사합니다!"
 
