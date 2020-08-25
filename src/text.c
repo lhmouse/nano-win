@@ -2212,19 +2212,16 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 /* Let the user edit the misspelled word.  Return FALSE if the user cancels. */
 bool fix_spello(const char *word)
 {
-	size_t firstcolumn_save = openfile->firstcolumn;
-	size_t current_x_save = openfile->current_x;
-	linestruct *edittop_save = openfile->edittop;
-	linestruct *current_save = openfile->current;
-		/* Save where we are. */
+	linestruct *was_edittop = openfile->edittop;
+	linestruct *was_current = openfile->current;
+	size_t was_firstcolumn = openfile->firstcolumn;
+	size_t was_x = openfile->current_x;
 	bool proceed = FALSE;
-		/* The return value of this function. */
-	bool result;
-		/* The return value of searching for a misspelled word. */
+	int result;
 #ifndef NANO_TINY
+	bool right_side_up = (openfile->mark && mark_is_before_cursor());
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
-	bool right_side_up = (openfile->mark && mark_is_before_cursor());
 
 	/* If the mark is on, start at the beginning of the marked region. */
 	if (openfile->mark) {
@@ -2279,7 +2276,7 @@ bool fix_spello(const char *word)
 
 		/* If a replacement was given, go through all occurrences. */
 		if (proceed && strcmp(word, answer) != 0) {
-			do_replace_loop(word, TRUE, current_save, &current_x_save);
+			do_replace_loop(word, TRUE, was_current, &was_x);
 
 			/* TRANSLATORS: Shown after fixing misspellings in one word. */
 			statusbar(_("Next word..."));
@@ -2303,13 +2300,13 @@ bool fix_spello(const char *word)
 #endif
 	{
 		/* Restore the (compensated) cursor position. */
-		openfile->current = current_save;
-		openfile->current_x = current_x_save;
+		openfile->current = was_current;
+		openfile->current_x = was_x;
 	}
 
 	/* Restore the viewport to where it was. */
-	openfile->edittop = edittop_save;
-	openfile->firstcolumn = firstcolumn_save;
+	openfile->edittop = was_edittop;
+	openfile->firstcolumn = was_firstcolumn;
 
 	return proceed;
 }
