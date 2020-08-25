@@ -2212,7 +2212,6 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 /* Let the user edit the misspelled word.  Return FALSE if the user cancels. */
 bool fix_spello(const char *word)
 {
-	char *save_search;
 	size_t firstcolumn_save = openfile->firstcolumn;
 	size_t current_x_save = openfile->current_x;
 	linestruct *edittop_save = openfile->edittop;
@@ -2226,13 +2225,7 @@ bool fix_spello(const char *word)
 	linestruct *top, *bot;
 	size_t top_x, bot_x;
 	bool right_side_up = (openfile->mark && mark_is_before_cursor());
-#endif
 
-	/* Save the current search string, then set it to the misspelled word. */
-	save_search = last_search;
-	last_search = copy_of(word);
-
-#ifndef NANO_TINY
 	/* If the mark is on, start at the beginning of the marked region. */
 	if (openfile->mark) {
 		get_region(&top, &top_x, &bot, &bot_x);
@@ -2313,10 +2306,6 @@ bool fix_spello(const char *word)
 		openfile->current = current_save;
 		openfile->current_x = current_x_save;
 	}
-
-	/* Restore the string that was last searched for. */
-	free(last_search);
-	last_search = save_search;
 
 	/* Restore the viewport to where it was. */
 	openfile->edittop = edittop_save;
