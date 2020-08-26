@@ -13,7 +13,7 @@ Overview
 Enhancements
 
     + .nanorc is loaded from '%USERPROFILE%\.nanorc' with normal privilege
-      and from "%ALLUSERPROFILE%\.nanorc" with elevated priviledge.
+      and from "%ALLUSERPROFILES%\.nanorc" with elevated priviledge.
     + Systemwide nanorc is loaded from "%ALLUSERSPROFILE%\nanorc".
     + Added C++11 keywords and identifiers with special meaning
       (that is, override and final) in 'doc/syntax/c.nanorc'.
