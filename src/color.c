@@ -64,7 +64,7 @@ void set_interface_colorpairs(void)
 			interface_color_pair[index] = COLOR_PAIR(index + 1) | A_BANDAID |
 												combo->attributes;
 		} else {
-			if (index == FUNCTION_TAG)
+			if (index == FUNCTION_TAG || index == SCROLL_BAR)
 				interface_color_pair[index] = A_NORMAL;
 			else if (index == GUIDE_STRIPE)
 				interface_color_pair[index] = A_REVERSE;

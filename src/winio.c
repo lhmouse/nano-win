@@ -2882,7 +2882,8 @@ void draw_scrollbar(void)
 		highest = editwinrows;
 
 	for (int row = 0; row < editwinrows; row++) {
-		bardata[row] = ' '|((row >= lowest && row <= highest) ? A_REVERSE : 0);
+		bardata[row] = ' '|interface_color_pair[SCROLL_BAR]|
+					((row < lowest || row > highest) ? A_NORMAL : A_REVERSE);
 		mvwaddch(edit, row, COLS - 1, bardata[row]);
 	}
 }

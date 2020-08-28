@@ -126,6 +126,7 @@ static const rcoption rcopts[] = {
 	{"titlecolor", 0},
 	{"numbercolor", 0},
 	{"stripecolor", 0},
+	{"scrollercolor", 0},
 	{"selectedcolor", 0},
 	{"statuscolor", 0},
 	{"errorcolor", 0},
@@ -1551,6 +1552,8 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			color_combo[LINE_NUMBER] = parse_interface_color(argument);
 		else if (strcmp(option, "stripecolor") == 0)
 			color_combo[GUIDE_STRIPE] = parse_interface_color(argument);
+		else if (strcmp(option, "scrollercolor") == 0)
+			color_combo[SCROLL_BAR] = parse_interface_color(argument);
 		else if (strcmp(option, "selectedcolor") == 0)
 			color_combo[SELECTED_TEXT] = parse_interface_color(argument);
 		else if (strcmp(option, "statuscolor") == 0)
