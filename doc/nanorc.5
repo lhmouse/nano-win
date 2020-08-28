@@ -261,6 +261,12 @@ Regular expressions in \fBnano\fR are of the extended type (ERE).
 Save a changed buffer automatically on exit (\fB^X\fR); don't prompt.
 (The old form of this option, \fBset tempfile\fR, is deprecated.)
 .TP
+.B set scrollercolor \fIfgcolor\fB,\fIbgcolor\fR
+Specify the color combination to use for the indicator alias "scrollbar".
+(On terminal emulators that link to a libvte older than version 0.55,
+using a background color here does not work correctly.)
+See \fBset titlecolor\fR for more details.
+.TP
 .B set selectedcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for selected text.
 See \fBset titlecolor\fR for more details.

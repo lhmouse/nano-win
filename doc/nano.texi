@@ -974,6 +974,12 @@ Regular expressions in @command{nano} are of the extended type (ERE).
 Save a changed buffer automatically on exit (@kbd{^X}); don't prompt.
 (The old form of this option, @code{set tempfile}, is deprecated.)
 
+@item set scrollercolor @var{fgcolor},@var{bgcolor}
+Use this color combination for the indicator alias "scrollbar".
+(On terminal emulators that link to a libvte older than version 0.55,
+using a background color here does not work correctly.)
+@xref{@code{set functioncolor}} for valid color names.
+
 @item set selectedcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for selected text.
 @xref{@code{set functioncolor}} for valid color names.

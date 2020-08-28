@@ -203,15 +203,18 @@
 # set errorcolor bold,lightwhite,red
 # set selectedcolor lightwhite,magenta
 # set stripecolor ,yellow
+# set scrollercolor cyan
 # set numbercolor cyan
 # set keycolor cyan
 # set functioncolor green
+
 ## In root's .nanorc you might want to use:
 # set titlecolor bold,lightwhite,magenta
 # set statuscolor bold,lightwhite,magenta
 # set errorcolor bold,lightwhite,red
 # set selectedcolor lightwhite,cyan
 # set stripecolor ,yellow
+# set scrollercolor magenta
 # set numbercolor magenta
 # set keycolor lightmagenta
 # set functioncolor magenta
