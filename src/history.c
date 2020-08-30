@@ -417,7 +417,7 @@ void load_poshistory(void)
 		*(lineptr++) = '\0';
 
 		/* Create a new position record. */
-		newrecord = (poshiststruct *)nmalloc(sizeof(poshiststruct));
+		newrecord = nmalloc(sizeof(poshiststruct));
 		newrecord->filename = copy_of(line);
 		newrecord->lineno = atoi(lineptr);
 		newrecord->xno = atoi(xptr);
@@ -472,7 +472,7 @@ void save_poshistory(void)
 
 		/* Assume 20 decimal positions each for line and column number,
 		 * plus two spaces, plus the line feed, plus the null byte. */
-		path_and_place = charalloc(strlen(posptr->filename) + 44);
+		path_and_place = nmalloc(strlen(posptr->filename) + 44);
 		sprintf(path_and_place, "%s %zd %zd\n",
 								posptr->filename, posptr->lineno, posptr->xno);
 		length = strlen(path_and_place);
@@ -556,7 +556,7 @@ void update_poshistory(void)
 	/* If we didn't find it, make a new node; otherwise, if we're
 	 * not at the end, move the matching one to the end. */
 	if (theone == NULL) {
-		theone = (poshiststruct *)nmalloc(sizeof(poshiststruct));
+		theone = nmalloc(sizeof(poshiststruct));
 		theone->filename = copy_of(fullpath);
 		if (position_history == NULL)
 			position_history = theone;

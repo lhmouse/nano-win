@@ -1403,7 +1403,7 @@ void suck_up_input_and_paste_it(void)
 			index = 0;
 		} else if ((0x20 <= input && input <= 0xFF && input != DEL_CODE) ||
 														input == '\t') {
-			line->data = charealloc(line->data, index + 2);
+			line->data = nrealloc(line->data, index + 2);
 			line->data[index++] = (char)input;
 			line->data[index] = '\0';
 		} else if (input != BRACKETED_PASTE_MARKER)
@@ -1447,7 +1447,7 @@ void inject(char *burst, size_t count)
 #endif
 
 	/* Make room for the new bytes and copy them into the line. */
-	thisline->data = charealloc(thisline->data, datalen + count + 1);
+	thisline->data = nrealloc(thisline->data, datalen + count + 1);
 	memmove(thisline->data + openfile->current_x + count,
 						thisline->data + openfile->current_x,
 						datalen - openfile->current_x + 1);
@@ -1559,7 +1559,7 @@ void process_a_keystroke(void)
 			}
 #endif
 			/* Store the byte, and leave room for a terminating zero. */
-			puddle = charealloc(puddle, depth + 2);
+			puddle = nrealloc(puddle, depth + 2);
 			puddle[depth++] = (char)input;
 		}
 	}
@@ -2233,7 +2233,7 @@ int main(int argc, char **argv)
 	quoterc = regcomp(&quotereg, quotestr, NANO_REG_EXTENDED);
 	if (quoterc != 0) {
 		size_t size = regerror(quoterc, &quotereg, NULL, 0);
-		char *message = charalloc(size);
+		char *message = nmalloc(size);
 
 		regerror(quoterc, &quotereg, message, size);
 		die(_("Bad quoting regex \"%s\": %s\n"), quotestr, message);

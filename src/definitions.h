@@ -56,10 +56,6 @@
 #define ISSET(flag)  ((FLAGS(flag) & FLAGMASK(flag)) != 0)
 #define TOGGLE(flag)  FLAGS(flag) ^= FLAGMASK(flag)
 
-/* Macros for allocation of character strings. */
-#define charalloc(howmuch)  (char *)nmalloc(howmuch)
-#define charealloc(ptr, howmuch)  (char *)nrealloc(ptr, howmuch)
-
 /* In UTF-8 a character is at most six bytes long. */
 #ifdef ENABLE_UTF8
 #define MAXCHARLEN  6

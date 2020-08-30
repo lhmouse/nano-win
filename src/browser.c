@@ -245,7 +245,7 @@ char *browse(char *path)
 
 			/* If the given path is relative, join it with the current path. */
 			if (*path != '/') {
-				path = charealloc(path, strlen(present_path) +
+				path = nrealloc(path, strlen(present_path) +
 												strlen(answer) + 1);
 				sprintf(path, "%s%s", present_path, answer);
 			}
@@ -359,7 +359,7 @@ char *browse_in(const char *inpath)
 		path = free_and_assign(path, strip_last_component(path));
 
 		if (stat(path, &fileinfo) == -1 || !S_ISDIR(fileinfo.st_mode)) {
-			char *currentdir = charalloc(PATH_MAX + 1);
+			char *currentdir = nmalloc(PATH_MAX + 1);
 
 			path = free_and_assign(path, getcwd(currentdir, PATH_MAX + 1));
 
@@ -422,7 +422,7 @@ void read_the_list(const char *path, DIR *dir)
 
 	filelist_len = i;
 
-	filelist = (char **)nmalloc(filelist_len * sizeof(char *));
+	filelist = nmalloc(filelist_len * sizeof(char *));
 
 	i = 0;
 
@@ -431,7 +431,7 @@ void read_the_list(const char *path, DIR *dir)
 		if (strcmp(nextdir->d_name, ".") == 0)
 			continue;
 
-		filelist[i] = charalloc(path_len + strlen(nextdir->d_name) + 1);
+		filelist[i] = nmalloc(path_len + strlen(nextdir->d_name) + 1);
 		sprintf(filelist[i], "%s%s", path, nextdir->d_name);
 
 		i++;
@@ -520,7 +520,7 @@ void browser_refresh(void)
 			off_t result = state.st_size;
 			char modifier;
 
-			info = charalloc(infomaxlen + 1);
+			info = nmalloc(infomaxlen + 1);
 
 			/* Massage the file size into a human-readable form. */
 			if (state.st_size < (1 << 10))
@@ -617,7 +617,7 @@ int filesearch_init(bool forwards)
 	if (*last_search != '\0') {
 		char *disp = display_string(last_search, 0, COLS / 3, FALSE, FALSE);
 
-		thedefault = charalloc(strlen(disp) + 7);
+		thedefault = nmalloc(strlen(disp) + 7);
 		/* We use (COLS / 3) here because we need to see more on the line. */
 		sprintf(thedefault, " [%s%s]", disp,
 				(breadth(last_search) > COLS / 3) ? "..." : "");

@@ -243,7 +243,7 @@ void find_and_prime_applicable_syntax(void)
 /* Allocate and initialize (for the given line) the cache for multiline info. */
 void set_up_multicache(linestruct *line)
 {
-	line->multidata = (short *)nmalloc(openfile->syntax->nmultis * sizeof(short));
+	line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
 
 	for (short index = 0; index < openfile->syntax->nmultis; index++)
 		line->multidata[index] = -1;

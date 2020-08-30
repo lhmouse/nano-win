@@ -88,7 +88,7 @@ void do_deletion(undo_type action)
 		openfile->current->has_anchor |= joining->has_anchor;
 #endif
 		/* Add the content of the next line to that of the current one. */
-		openfile->current->data = charealloc(openfile->current->data,
+		openfile->current->data = nrealloc(openfile->current->data,
 				strlen(openfile->current->data) + strlen(joining->data) + 1);
 		strcat(openfile->current->data, joining->data);
 
@@ -289,7 +289,7 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 		if (bot->next)
 			bot->next->prev = top;
 
-		top->data = charealloc(top->data, top_x + strlen(bot->data + bot_x) + 1);
+		top->data = nrealloc(top->data, top_x + strlen(bot->data + bot_x) + 1);
 		strcpy(top->data + top_x, bot->data + bot_x);
 
 		last = bot;
@@ -308,7 +308,7 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 		cutbuffer = taken;
 		cutbottom = last;
 	} else {
-		cutbottom->data = charealloc(cutbottom->data,
+		cutbottom->data = nrealloc(cutbottom->data,
 							strlen(cutbottom->data) + strlen(taken->data) + 1);
 		strcat(cutbottom->data, taken->data);
 
@@ -375,7 +375,7 @@ void ingraft_buffer(linestruct *topline)
 
 	if (extralen > 0) {
 		/* Insert the text of topline at the current cursor position. */
-		line->data = charealloc(line->data, length + extralen + 1);
+		line->data = nrealloc(line->data, length + extralen + 1);
 		memmove(line->data + xpos + extralen, line->data + xpos, length - xpos + 1);
 		strncpy(line->data + xpos, topline->data, extralen);
 	}
@@ -401,7 +401,7 @@ void ingraft_buffer(linestruct *topline)
 		/* Add the text after the cursor position at the end of botline. */
 		length = strlen(botline->data);
 		extralen = strlen(tailtext);
-		botline->data = charealloc(botline->data, length + extralen + 1);
+		botline->data = nrealloc(botline->data, length + extralen + 1);
 		strcpy(botline->data + length, tailtext);
 
 		/* Put the cursor at the end of the grafted text. */

@@ -38,7 +38,7 @@ bool regexp_init(const char *regexp)
 	/* If regex compilation failed, show the error message. */
 	if (value != 0) {
 		size_t len = regerror(value, &search_regexp, NULL, 0);
-		char *str = charalloc(len);
+		char *str = nmalloc(len);
 
 		regerror(value, &search_regexp, str, len);
 		statusline(ALERT, _("Bad regex \"%s\": %s"), regexp, str);
@@ -78,7 +78,7 @@ void search_init(bool replacing, bool retain_answer)
 	if (*last_search != '\0') {
 		char *disp = display_string(last_search, 0, COLS / 3, FALSE, FALSE);
 
-		thedefault = charalloc(strlen(disp) + 7);
+		thedefault = nmalloc(strlen(disp) + 7);
 		/* We use (COLS / 3) here because we need to see more on the line. */
 		sprintf(thedefault, " [%s%s]", disp,
 				(breadth(last_search) > COLS / 3) ? "..." : "");
@@ -489,7 +489,7 @@ char *replace_line(const char *needle)
 		new_size += strlen(answer) - match_len;
 	}
 
-	copy = charalloc(new_size);
+	copy = nmalloc(new_size);
 
 	/* Copy the head of the original line. */
 	strncpy(copy, openfile->current->data, openfile->current_x);

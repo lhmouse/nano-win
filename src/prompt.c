@@ -141,7 +141,7 @@ void do_statusbar_cut_text(void)
 void paste_into_answer(void)
 {
 	size_t pastelen = strlen(cutbuffer->data);
-	char *fusion = charalloc(strlen(answer) + pastelen + 1);
+	char *fusion = nmalloc(strlen(answer) + pastelen + 1);
 
 	/* Concatenate: the current answer before the cursor, the first line
 	 * of the cutbuffer, plus the rest of the current answer. */
@@ -184,7 +184,7 @@ void inject_into_answer(char *burst, size_t count)
 		if (burst[index] == '\0')
 			burst[index] = '\n';
 
-	answer = charealloc(answer, strlen(answer) + count + 1);
+	answer = nrealloc(answer, strlen(answer) + count + 1);
 	memmove(answer + typing_x + count, answer + typing_x,
 								strlen(answer) - typing_x + 1);
 	strncpy(answer + typing_x, burst , count);
@@ -253,7 +253,7 @@ int do_statusbar_input(bool *finished)
 			beep();
 		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
 						openfile->filename[0] == '\0') {
-			puddle = charealloc(puddle, depth + 2);
+			puddle = nrealloc(puddle, depth + 2);
 			puddle[depth++] = (char)input;
 		}
 	}
@@ -397,7 +397,7 @@ void add_or_remove_pipe_symbol_from_answer(void)
 		if (typing_x > 0)
 			typing_x--;
 	} else {
-		answer = charealloc(answer, strlen(answer) + 2);
+		answer = nrealloc(answer, strlen(answer) + 2);
 		memmove(answer + 1, answer, strlen(answer) + 1);
 		answer[0] = '|';
 		typing_x++;
@@ -566,7 +566,7 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 #ifndef NANO_TINY
   redo_theprompt:
 #endif
-	prompt = charalloc((COLS * MAXCHARLEN) + 1);
+	prompt = nmalloc((COLS * MAXCHARLEN) + 1);
 	va_start(ap, msg);
 	vsnprintf(prompt, COLS * MAXCHARLEN, msg, ap);
 	va_end(ap);

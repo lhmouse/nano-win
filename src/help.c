@@ -240,7 +240,7 @@ void help_init(void)
 #endif
 
 	/* Allocate memory for the help text. */
-	help_text = charalloc(allocsize + 1);
+	help_text = nmalloc(allocsize + 1);
 
 	/* Now add the text we want. */
 	strcpy(help_text, htx[0]);

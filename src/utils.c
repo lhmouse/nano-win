@@ -68,7 +68,7 @@ const char *tail(const char *path)
 char *concatenate(const char *path, const char *name)
 {
 	size_t pathlen = strlen(path);
-	char *joined = charalloc(pathlen + strlen(name) + 1);
+	char *joined = nmalloc(pathlen + strlen(name) + 1);
 
 	strcpy(joined, path);
 	strcpy(joined + pathlen, name);
@@ -318,7 +318,7 @@ char *mallocstrcpy(char *dest, const char *src)
 {
 	size_t count = strlen(src) + 1;
 
-	dest = charealloc(dest, count);
+	dest = nrealloc(dest, count);
 	strncpy(dest, src, count);
 
 	return dest;
@@ -328,7 +328,7 @@ char *mallocstrcpy(char *dest, const char *src)
  * of the given string, and NUL-terminate the copy. */
 char *measured_copy(const char *string, size_t count)
 {
-	char *thecopy = charalloc(count + 1);
+	char *thecopy = nmalloc(count + 1);
 
 	memcpy(thecopy, string, count);
 	thecopy[count] = '\0';

@@ -612,7 +612,7 @@ bool compile(const char *expression, int rex_flags, regex_t **packed)
 
 	if (outcome != 0) {
 		size_t length = regerror(outcome, compiled, NULL, 0);
-		char *message = charalloc(length);
+		char *message = nmalloc(length);
 
 		regerror(outcome, compiled, message, length);
 		jot_error(N_("Bad regex \"%s\": %s"), expression, message);
@@ -662,7 +662,7 @@ void begin_new_syntax(char *ptr)
 	}
 
 	/* Initialize a new syntax struct. */
-	live_syntax = (syntaxtype *)nmalloc(sizeof(syntaxtype));
+	live_syntax = nmalloc(sizeof(syntaxtype));
 	live_syntax->name = copy_of(nameptr);
 	live_syntax->filename = copy_of(nanorc);
 	live_syntax->lineno = lineno;
@@ -1166,7 +1166,7 @@ void parse_rule(char *ptr, int rex_flags)
 		}
 
 		/* Allocate a rule, fill in the data, and link it into the list. */
-		newcolor = (colortype *)nmalloc(sizeof(colortype));
+		newcolor = nmalloc(sizeof(colortype));
 
 		newcolor->start = start_rgx;
 		newcolor->end = end_rgx;
@@ -1248,7 +1248,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 			continue;
 
 		/* Copy the regex into a struct, and hook this in at the end. */
-		newthing = (regexlisttype *)nmalloc(sizeof(regexlisttype));
+		newthing = nmalloc(sizeof(regexlisttype));
 		newthing->full_regex = copy_of(regexstring);
 		newthing->next = NULL;
 

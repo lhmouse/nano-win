@@ -202,7 +202,7 @@ int mbwidth(const char *c)
  * character and its length.  Otherwise, return a length of zero. */
 char *make_mbchar(long code, int *length)
 {
-	char *mb_char = charalloc(MAXCHARLEN);
+	char *mb_char = nmalloc(MAXCHARLEN);
 
 	*length = wctomb(mb_char, (wchar_t)code);
 

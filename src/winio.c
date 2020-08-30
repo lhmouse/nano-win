@@ -73,7 +73,7 @@ static size_t macro_length = 0;
 void add_to_macrobuffer(int code)
 {
 	macro_length++;
-	macro_buffer = (int*)nrealloc(macro_buffer, macro_length * sizeof(int));
+	macro_buffer = nrealloc(macro_buffer, macro_length * sizeof(int));
 	macro_buffer[macro_length - 1] = code;
 }
 
@@ -114,7 +114,7 @@ void run_macro(void)
 		return;
 	}
 
-	key_buffer = (int *)nrealloc(key_buffer, macro_length * sizeof(int));
+	key_buffer = nrealloc(key_buffer, macro_length * sizeof(int));
 	key_buffer_len = macro_length;
 
 	for (size_t i = 0; i < macro_length; i++)
@@ -204,7 +204,7 @@ void read_keys_from(WINDOW *win)
 	curs_set(0);
 
 	/* Initiate the keystroke buffer, and save the keycode in it. */
-	key_buffer = (int *)nrealloc(key_buffer, sizeof(int));
+	key_buffer = nrealloc(key_buffer, sizeof(int));
 	key_buffer[0] = input;
 	key_buffer_len = 1;
 
@@ -235,7 +235,7 @@ void read_keys_from(WINDOW *win)
 
 		/* Extend the keystroke buffer, and save the keycode at its end. */
 		key_buffer_len++;
-		key_buffer = (int *)nrealloc(key_buffer, key_buffer_len * sizeof(int));
+		key_buffer = nrealloc(key_buffer, key_buffer_len * sizeof(int));
 		key_buffer[key_buffer_len - 1] = input;
 	}
 
@@ -264,7 +264,7 @@ void put_back(int keycode)
 		return;
 
 	/* Extend the keystroke buffer to make room for the extra keycode. */
-	key_buffer = (int *)nrealloc(key_buffer, ++key_buffer_len * sizeof(int));
+	key_buffer = nrealloc(key_buffer, ++key_buffer_len * sizeof(int));
 
 	/* If the keystroke buffer wasn't empty before, move all the
 	 * existing content one step further away. */
@@ -1377,7 +1377,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 #endif
 
 	/* Reserve ample space for the possible result. */
-	yield = (int *)nmalloc(6 * sizeof(int));
+	yield = nmalloc(6 * sizeof(int));
 
 #ifdef ENABLE_UTF8
 	/* If the first code is a valid Unicode starter digit (0 or 1),
@@ -1442,7 +1442,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
  * an escape sequence, and return the resulting number of bytes in count. */
 char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 {
-	char *bytes = charalloc(MAXCHARLEN + 2);
+	char *bytes = nmalloc(MAXCHARLEN + 2);
 	int *input;
 
 	/* Turn off flow control characters if necessary so that we can type
@@ -1722,7 +1722,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 	buf += start_index;
 
 	/* Allocate enough space for converting the relevant part of the line. */
-	converted = charalloc(strlen(buf) * (MAXCHARLEN + tabsize) + 1);
+	converted = nmalloc(strlen(buf) * (MAXCHARLEN + tabsize) + 1);
 
 #ifndef NANO_TINY
 	if (span > HIGHEST_POSITIVE) {
@@ -1954,7 +1954,7 @@ void titlebar(const char *path)
 #ifdef ENABLE_MULTIBUFFER
 		/* If there are/were multiple buffers, show which out of how many. */
 		if (more_than_one) {
-			ranking = charalloc(24);
+			ranking = nmalloc(24);
 			sprintf(ranking, "[%i/%i]", buffer_number(openfile),
 										buffer_number(startfile->prev));
 			upperleft = ranking;
@@ -2092,7 +2092,7 @@ void statusline(message_type importance, const char *msg, ...)
 	blank_statusbar();
 
 	/* Construct the message out of all the arguments. */
-	compound = charalloc(MAXCHARLEN * (COLS + 1));
+	compound = nmalloc(MAXCHARLEN * (COLS + 1));
 	va_start(ap, msg);
 	vsnprintf(compound, MAXCHARLEN * (COLS + 1), msg, ap);
 	va_end(ap);
