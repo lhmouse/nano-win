@@ -6,7 +6,7 @@ magic "^(C|C\+\+) (source|program)"
 comment "//"
 
 # Constants.
-color brightred "\<[A-Z_][0-9A-Z_]+\>"
+color brightred "\<[A-Z_][0-9A-Z_]*\>"
 # Labels.
 color brightmagenta "^[[:space:]]*[A-Z_a-z]+:[[:space:]]*$"
 
@@ -27,7 +27,7 @@ color brightyellow ""([^"]|\\")*"" "#[[:space:]]*include[[:space:]]+<[^[:blank:]
 
 # Preprocessor directives.
 color brightcyan start="^[[:space:]]*#[[:space:]]*(if(n?def)?|elif|warning|error|pragma)\>" end="(\`|[^\\])$"
-color brightcyan "^[[:space:]]*#[[:space:]]*(define|else|endif|include(_next)?|undef)\>"
+color brightcyan "^[[:space:]]*#[[:space:]]*((define|else|endif|include(_next)?|undef)\>|$)"
 
 # Comments.
 color brightblue "//.*"
