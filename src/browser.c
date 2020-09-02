@@ -710,19 +710,15 @@ void do_filesearch(bool forwards)
 	if (filesearch_init(forwards) != 0)
 		return;
 
-	/* If answer is now "", copy last_search into answer. */
-	if (*answer == '\0')
-		answer = mallocstrcpy(answer, last_search);
-	else
+	/* If the user typed an answer, remember it. */
+	if (*answer != '\0') {
 		last_search = mallocstrcpy(last_search, answer);
-
 #ifdef ENABLE_HISTORIES
-	/* If answer is not empty, add the string to the search history list. */
-	if (*answer != '\0')
 		update_history(&search_history, answer);
 #endif
+	}
 
-	findfile(answer, forwards);
+	findfile(last_search, forwards);
 }
 
 /* Search again without prompting for the last given search string,
