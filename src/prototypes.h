@@ -186,11 +186,10 @@ extern size_t light_to_col;
 
 typedef void (*functionptrtype)(void);
 
-/* Most functions in browser.c. */
+/* The two needed functions from browser.c. */
 #ifdef ENABLE_BROWSER
-char *browse_in(const char *inpath);
 void browser_refresh(void);
-char *strip_last_component(const char *path);
+char *browse_in(const char *inpath);
 #endif
 
 /* Most functions in chars.c. */

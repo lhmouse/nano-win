@@ -131,6 +131,135 @@ void browser_select_dirname(const char *needle)
 	}
 }
 
+/* Display at most a screenful of filenames from the gleaned filelist. */
+void browser_refresh(void)
+{
+	int row = 0, col = 0;
+		/* The current row and column while the list is getting displayed. */
+	int the_row = 0, the_column = 0;
+		/* The row and column of the selected item. */
+	char *info;
+		/* The additional information that we'll display about a file. */
+
+	titlebar(present_path);
+	blank_edit();
+
+	for (size_t index = selected - selected % (editwinrows * width);
+					index < filelist_len && row < editwinrows; index++) {
+		const char *thename = tail(filelist[index]);
+				/* The filename we display, minus the path. */
+		size_t namelen = breadth(thename);
+				/* The length of the filename in columns. */
+		size_t infolen;
+				/* The length of the file information in columns. */
+		size_t infomaxlen = 7;
+				/* The maximum length of the file information in columns:
+				 * normally seven, but will be twelve for "(parent dir)". */
+		bool dots = (COLS >= 15 && namelen >= longest - infomaxlen);
+				/* Whether to put an ellipsis before the filename?  We don't
+				 * waste space on dots when there are fewer than 15 columns. */
+		char *disp = display_string(thename, dots ?
+				namelen + infomaxlen + 4 - longest : 0, longest, FALSE, FALSE);
+				/* The filename (or a fragment of it) in displayable format.
+				 * When a fragment, account for dots plus one space padding. */
+		struct stat state;
+
+		/* If this is the selected item, draw its highlighted bar upfront, and
+		 * remember its location to be able to place the cursor on it. */
+		if (index == selected) {
+			wattron(edit, interface_color_pair[SELECTED_TEXT]);
+			mvwprintw(edit, row, col, "%*s", longest, " ");
+			the_row = row;
+			the_column = col;
+		}
+
+		/* If the name is too long, we display something like "...ename". */
+		if (dots)
+			mvwaddstr(edit, row, col, "...");
+		mvwaddstr(edit, row, dots ? col + 3 : col, disp);
+
+		col += longest;
+
+		/* Show information about the file: "--" for symlinks (except when
+		 * they point to a directory) and for files that have disappeared,
+		 * "(dir)" for directories, and the file size for normal files. */
+		if (lstat(filelist[index], &state) == -1 || S_ISLNK(state.st_mode)) {
+			if (stat(filelist[index], &state) == -1 || !S_ISDIR(state.st_mode))
+				info = copy_of("--");
+			else
+				/* TRANSLATORS: Try to keep this at most 7 characters. */
+				info = copy_of(_("(dir)"));
+		} else if (S_ISDIR(state.st_mode)) {
+			if (strcmp(thename, "..") == 0) {
+				/* TRANSLATORS: Try to keep this at most 12 characters. */
+				info = copy_of(_("(parent dir)"));
+				infomaxlen = 12;
+			} else
+				info = copy_of(_("(dir)"));
+		} else {
+			off_t result = state.st_size;
+			char modifier;
+
+			info = nmalloc(infomaxlen + 1);
+
+			/* Massage the file size into a human-readable form. */
+			if (state.st_size < (1 << 10))
+				modifier = ' ';  /* bytes */
+			else if (state.st_size < (1 << 20)) {
+				result >>= 10;
+				modifier = 'K';  /* kilobytes */
+			} else if (state.st_size < (1 << 30)) {
+				result >>= 20;
+				modifier = 'M';  /* megabytes */
+			} else {
+				result >>= 30;
+				modifier = 'G';  /* gigabytes */
+			}
+
+			/* Show the size if less than a terabyte, else show "(huge)". */
+			if (result < (1 << 10))
+				sprintf(info, "%4ju %cB", (intmax_t)result, modifier);
+			else
+				/* TRANSLATORS: Try to keep this at most 7 characters.
+				 * If necessary, you can leave out the parentheses. */
+				info = mallocstrcpy(info, _("(huge)"));
+		}
+
+		/* Make sure info takes up no more than infomaxlen columns. */
+		infolen = breadth(info);
+		if (infolen > infomaxlen) {
+			info[actual_x(info, infomaxlen)] = '\0';
+			infolen = infomaxlen;
+		}
+
+		mvwaddstr(edit, row, col - infolen, info);
+
+		/* If this is the selected item, finish its highlighting. */
+		if (index == selected)
+			wattroff(edit, interface_color_pair[SELECTED_TEXT]);
+
+		free(disp);
+		free(info);
+
+		/* Add some space between the columns. */
+		col += 2;
+
+		/* If the next entry will not fit on this row, move to next row. */
+		if (col > COLS - longest) {
+			row++;
+			col = 0;
+		}
+	}
+
+	/* If requested, put the cursor on the selected item and switch it on. */
+	if (ISSET(SHOW_CURSOR)) {
+		wmove(edit, the_row, the_column);
+		curs_set(1);
+	}
+
+	wnoutrefresh(edit);
+}
+
 /* Look for the given needle in the list of files.  If forwards is TRUE,
  * search forward in the list; otherwise, search backward. */
 void findfile(const char *needle, bool forwards)
@@ -248,6 +377,19 @@ void research_filename(bool forwards)
 		statusbar(_("No current search pattern"));
 	else
 		findfile(last_search, forwards);
+}
+
+/* Strip one element from the end of path, and return the stripped path.
+ * The returned string is dynamically allocated, and should be freed. */
+char *strip_last_component(const char *path)
+{
+	char *copy = copy_of(path);
+	char *last_slash = strrchr(copy, '/');
+
+	if (last_slash != NULL)
+		*last_slash = '\0';
+
+	return copy;
 }
 
 /* Allow the user to browse through the directories in the filesystem,
@@ -592,148 +734,6 @@ char *browse_in(const char *inpath)
 #endif
 
 	return browse(path);
-}
-
-/* Display at most a screenful of filenames from the gleaned filelist. */
-void browser_refresh(void)
-{
-	int row = 0, col = 0;
-		/* The current row and column while the list is getting displayed. */
-	int the_row = 0, the_column = 0;
-		/* The row and column of the selected item. */
-	char *info;
-		/* The additional information that we'll display about a file. */
-
-	titlebar(present_path);
-	blank_edit();
-
-	for (size_t index = selected - selected % (editwinrows * width);
-					index < filelist_len && row < editwinrows; index++) {
-		const char *thename = tail(filelist[index]);
-				/* The filename we display, minus the path. */
-		size_t namelen = breadth(thename);
-				/* The length of the filename in columns. */
-		size_t infolen;
-				/* The length of the file information in columns. */
-		size_t infomaxlen = 7;
-				/* The maximum length of the file information in columns:
-				 * normally seven, but will be twelve for "(parent dir)". */
-		bool dots = (COLS >= 15 && namelen >= longest - infomaxlen);
-				/* Whether to put an ellipsis before the filename?  We don't
-				 * waste space on dots when there are fewer than 15 columns. */
-		char *disp = display_string(thename, dots ?
-				namelen + infomaxlen + 4 - longest : 0, longest, FALSE, FALSE);
-				/* The filename (or a fragment of it) in displayable format.
-				 * When a fragment, account for dots plus one space padding. */
-		struct stat state;
-
-		/* If this is the selected item, draw its highlighted bar upfront, and
-		 * remember its location to be able to place the cursor on it. */
-		if (index == selected) {
-			wattron(edit, interface_color_pair[SELECTED_TEXT]);
-			mvwprintw(edit, row, col, "%*s", longest, " ");
-			the_row = row;
-			the_column = col;
-		}
-
-		/* If the name is too long, we display something like "...ename". */
-		if (dots)
-			mvwaddstr(edit, row, col, "...");
-		mvwaddstr(edit, row, dots ? col + 3 : col, disp);
-
-		col += longest;
-
-		/* Show information about the file: "--" for symlinks (except when
-		 * they point to a directory) and for files that have disappeared,
-		 * "(dir)" for directories, and the file size for normal files. */
-		if (lstat(filelist[index], &state) == -1 || S_ISLNK(state.st_mode)) {
-			if (stat(filelist[index], &state) == -1 || !S_ISDIR(state.st_mode))
-				info = copy_of("--");
-			else
-				/* TRANSLATORS: Try to keep this at most 7 characters. */
-				info = copy_of(_("(dir)"));
-		} else if (S_ISDIR(state.st_mode)) {
-			if (strcmp(thename, "..") == 0) {
-				/* TRANSLATORS: Try to keep this at most 12 characters. */
-				info = copy_of(_("(parent dir)"));
-				infomaxlen = 12;
-			} else
-				info = copy_of(_("(dir)"));
-		} else {
-			off_t result = state.st_size;
-			char modifier;
-
-			info = nmalloc(infomaxlen + 1);
-
-			/* Massage the file size into a human-readable form. */
-			if (state.st_size < (1 << 10))
-				modifier = ' ';  /* bytes */
-			else if (state.st_size < (1 << 20)) {
-				result >>= 10;
-				modifier = 'K';  /* kilobytes */
-			} else if (state.st_size < (1 << 30)) {
-				result >>= 20;
-				modifier = 'M';  /* megabytes */
-			} else {
-				result >>= 30;
-				modifier = 'G';  /* gigabytes */
-			}
-
-			/* Show the size if less than a terabyte, else show "(huge)". */
-			if (result < (1 << 10))
-				sprintf(info, "%4ju %cB", (intmax_t)result, modifier);
-			else
-				/* TRANSLATORS: Try to keep this at most 7 characters.
-				 * If necessary, you can leave out the parentheses. */
-				info = mallocstrcpy(info, _("(huge)"));
-		}
-
-		/* Make sure info takes up no more than infomaxlen columns. */
-		infolen = breadth(info);
-		if (infolen > infomaxlen) {
-			info[actual_x(info, infomaxlen)] = '\0';
-			infolen = infomaxlen;
-		}
-
-		mvwaddstr(edit, row, col - infolen, info);
-
-		/* If this is the selected item, finish its highlighting. */
-		if (index == selected)
-			wattroff(edit, interface_color_pair[SELECTED_TEXT]);
-
-		free(disp);
-		free(info);
-
-		/* Add some space between the columns. */
-		col += 2;
-
-		/* If the next entry will not fit on this row, move to next row. */
-		if (col > COLS - longest) {
-			row++;
-			col = 0;
-		}
-	}
-
-	/* If requested, put the cursor on the selected item and switch it on. */
-	if (ISSET(SHOW_CURSOR)) {
-		wmove(edit, the_row, the_column);
-		curs_set(1);
-	}
-
-	wnoutrefresh(edit);
-}
-
-/* Strip one element from the end of path, and return the stripped path.
- * The returned string is dynamically allocated, and should be freed. */
-char *strip_last_component(const char *path)
-{
-	char *copy = copy_of(path);
-	char *last_slash = strrchr(copy, '/');
-
-	if (last_slash != NULL)
-		*last_slash = '\0';
-
-	return copy;
 }
 
 #endif /* ENABLE_BROWSER */
