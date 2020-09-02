@@ -189,9 +189,7 @@ typedef void (*functionptrtype)(void);
 /* Most functions in browser.c. */
 #ifdef ENABLE_BROWSER
 char *browse_in(const char *inpath);
-void read_the_list(const char *path, DIR *dir);
 void browser_refresh(void);
-void browser_select_dirname(const char *needle);
 char *strip_last_component(const char *path);
 #endif
 

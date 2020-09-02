@@ -39,6 +39,98 @@ static size_t longest = 0;
 static size_t selected = 0;
 		/* The currently selected filename in the list; zero-based. */
 
+/* Set filelist to the list of files contained in the directory path,
+ * set filelist_len to the number of files in that list, set longest to
+ * the width in columns of the longest filename in that list (between 15
+ * and COLS), and set width to the number of files that we can display
+ * per screen row.  And sort the list too. */
+void read_the_list(const char *path, DIR *dir)
+{
+	const struct dirent *nextdir;
+	size_t i = 0, path_len = strlen(path);
+
+	longest = 0;
+
+	/* Find the length of the longest filename in the current folder. */
+	while ((nextdir = readdir(dir)) != NULL) {
+		size_t name_len = breadth(nextdir->d_name);
+
+		if (name_len > longest)
+			longest = name_len;
+
+		i++;
+	}
+
+	/* Put 10 characters' worth of blank space between columns of filenames
+	 * in the list whenever possible, as Pico does. */
+	longest += 10;
+
+	/* If needed, make room for ".. (parent dir)". */
+	if (longest < 15)
+		longest = 15;
+	/* Make sure we're not wider than the window. */
+	if (longest > COLS)
+		longest = COLS;
+
+	rewinddir(dir);
+
+	free_chararray(filelist, filelist_len);
+
+	filelist_len = i;
+
+	filelist = nmalloc(filelist_len * sizeof(char *));
+
+	i = 0;
+
+	while ((nextdir = readdir(dir)) != NULL && i < filelist_len) {
+		/* Don't show the "." entry. */
+		if (strcmp(nextdir->d_name, ".") == 0)
+			continue;
+
+		filelist[i] = nmalloc(path_len + strlen(nextdir->d_name) + 1);
+		sprintf(filelist[i], "%s%s", path, nextdir->d_name);
+
+		i++;
+	}
+
+	/* Maybe the number of files in the directory changed between the
+	 * first time we scanned and the second.  i is the actual length of
+	 * filelist, so record it. */
+	filelist_len = i;
+
+	/* Sort the list of names. */
+	qsort(filelist, filelist_len, sizeof(char *), diralphasort);
+
+	/* Calculate how many files fit on a line -- feigning room for two
+	 * spaces beyond the right edge, and adding two spaces of padding
+	 * between columns. */
+	width = (COLS + 2) / (longest + 2);
+}
+
+/* Look for needle.  If we find it, set selected to its location.
+ * Note that needle must be an exact match for a file in the list. */
+void browser_select_dirname(const char *needle)
+{
+	size_t looking_at = 0;
+
+	for (; looking_at < filelist_len; looking_at++) {
+		if (strcmp(filelist[looking_at], needle) == 0) {
+			selected = looking_at;
+			break;
+		}
+	}
+
+	/* If the sought name isn't found, move the highlight so that the
+	 * changed selection will be noticed. */
+	if (looking_at == filelist_len) {
+		--selected;
+
+		/* Make sure we stay within the available range. */
+		if (selected >= filelist_len)
+			selected = filelist_len - 1;
+	}
+}
+
 /* Look for the given needle in the list of files.  If forwards is TRUE,
  * search forward in the list; otherwise, search backward. */
 void findfile(const char *needle, bool forwards)
@@ -502,74 +594,6 @@ char *browse_in(const char *inpath)
 	return browse(path);
 }
 
-/* Set filelist to the list of files contained in the directory path,
- * set filelist_len to the number of files in that list, set longest to
- * the width in columns of the longest filename in that list (between 15
- * and COLS), and set width to the number of files that we can display
- * per screen row.  And sort the list too. */
-void read_the_list(const char *path, DIR *dir)
-{
-	const struct dirent *nextdir;
-	size_t i = 0, path_len = strlen(path);
-
-	longest = 0;
-
-	/* Find the length of the longest filename in the current folder. */
-	while ((nextdir = readdir(dir)) != NULL) {
-		size_t name_len = breadth(nextdir->d_name);
-
-		if (name_len > longest)
-			longest = name_len;
-
-		i++;
-	}
-
-	/* Put 10 characters' worth of blank space between columns of filenames
-	 * in the list whenever possible, as Pico does. */
-	longest += 10;
-
-	/* If needed, make room for ".. (parent dir)". */
-	if (longest < 15)
-		longest = 15;
-	/* Make sure we're not wider than the window. */
-	if (longest > COLS)
-		longest = COLS;
-
-	rewinddir(dir);
-
-	free_chararray(filelist, filelist_len);
-
-	filelist_len = i;
-
-	filelist = nmalloc(filelist_len * sizeof(char *));
-
-	i = 0;
-
-	while ((nextdir = readdir(dir)) != NULL && i < filelist_len) {
-		/* Don't show the "." entry. */
-		if (strcmp(nextdir->d_name, ".") == 0)
-			continue;
-
-		filelist[i] = nmalloc(path_len + strlen(nextdir->d_name) + 1);
-		sprintf(filelist[i], "%s%s", path, nextdir->d_name);
-
-		i++;
-	}
-
-	/* Maybe the number of files in the directory changed between the
-	 * first time we scanned and the second.  i is the actual length of
-	 * filelist, so record it. */
-	filelist_len = i;
-
-	/* Sort the list of names. */
-	qsort(filelist, filelist_len, sizeof(char *), diralphasort);
-
-	/* Calculate how many files fit on a line -- feigning room for two
-	 * spaces beyond the right edge, and adding two spaces of padding
-	 * between columns. */
-	width = (COLS + 2) / (longest + 2);
-}
-
 /* Display at most a screenful of filenames from the gleaned filelist. */
 void browser_refresh(void)
 {
@@ -697,30 +721,6 @@ void browser_refresh(void)
 	}
 
 	wnoutrefresh(edit);
-}
-
-/* Look for needle.  If we find it, set selected to its location.
- * Note that needle must be an exact match for a file in the list. */
-void browser_select_dirname(const char *needle)
-{
-	size_t looking_at = 0;
-
-	for (; looking_at < filelist_len; looking_at++) {
-		if (strcmp(filelist[looking_at], needle) == 0) {
-			selected = looking_at;
-			break;
-		}
-	}
-
-	/* If the sought name isn't found, move the highlight so that the
-	 * changed selection will be noticed. */
-	if (looking_at == filelist_len) {
-		--selected;
-
-		/* Make sure we stay within the available range. */
-		if (selected >= filelist_len)
-			selected = filelist_len - 1;
-	}
 }
 
 /* Strip one element from the end of path, and return the stripped path.
