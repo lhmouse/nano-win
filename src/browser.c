@@ -604,11 +604,9 @@ void browser_select_dirname(const char *needle)
 	}
 }
 
-/* Prepare the prompt and ask the user what to search for.  If forwards is
- * TRUE, search forward in the list; otherwise, search backward.  Return -2
- * for a blank answer, -1 for Cancel, 0 when we have a string, and a
- * positive value when some function was run. */
-int filesearch_init(bool forwards)
+/* Prepare the prompt and ask the user what to search for; then search for it.
+ * If forwards is TRUE, search forward in the list; otherwise, search backward. */
+void do_filesearch(bool forwards)
 {
 	char *thedefault;
 	int response;
@@ -632,15 +630,22 @@ int filesearch_init(bool forwards)
 						!forwards ? _(" [Backwards]") : "", thedefault);
 	free(thedefault);
 
-	/* If only Enter was pressed but we have a previous string, it's okay. */
-	if (response == -2 && *last_search != '\0')
-		return 0;
-
-	/* Otherwise negative responses are a bailout. */
-	if (response < 0)
+	/* If the user cancelled, or typed <Enter> on a blank answer and
+	 * nothing was searched for yet during this session, get out. */
+	if (response == -1 || (response == -2 && *last_search == '\0')) {
 		statusbar(_("Cancelled"));
+		return;
+	}
 
-	return response;
+	/* If the user typed an answer, remember it. */
+	if (*answer != '\0') {
+		last_search = mallocstrcpy(last_search, answer);
+#ifdef ENABLE_HISTORIES
+		update_history(&search_history, answer);
+#endif
+	}
+
+	findfile(last_search, forwards);
 }
 
 /* Look for the given needle in the list of files.  If forwards is TRUE,
@@ -700,25 +705,6 @@ void findfile(const char *needle, bool forwards)
 
 	/* Select the one we've found. */
 	selected = looking_at;
-}
-
-/* Search for a filename.  If forwards is TRUE, search forward in the list;
- * otherwise, search backward.*/
-void do_filesearch(bool forwards)
-{
-	/* If the user cancelled or jumped to first or last file, don't search. */
-	if (filesearch_init(forwards) != 0)
-		return;
-
-	/* If the user typed an answer, remember it. */
-	if (*answer != '\0') {
-		last_search = mallocstrcpy(last_search, answer);
-#ifdef ENABLE_HISTORIES
-		update_history(&search_history, answer);
-#endif
-	}
-
-	findfile(last_search, forwards);
 }
 
 /* Search again without prompting for the last given search string,
