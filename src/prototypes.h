@@ -192,9 +192,6 @@ char *browse_in(const char *inpath);
 void read_the_list(const char *path, DIR *dir);
 void browser_refresh(void);
 void browser_select_dirname(const char *needle);
-void do_filesearch(bool forwards);
-void findfile(const char *needle, bool forwards);
-void do_fileresearch(bool forwards);
 char *strip_last_component(const char *path);
 #endif
 

@@ -39,6 +39,125 @@ static size_t longest = 0;
 static size_t selected = 0;
 		/* The currently selected filename in the list; zero-based. */
 
+/* Look for the given needle in the list of files.  If forwards is TRUE,
+ * search forward in the list; otherwise, search backward. */
+void findfile(const char *needle, bool forwards)
+{
+	size_t looking_at = selected;
+		/* The location in the file list of the filename we're looking at. */
+	const char *thename;
+		/* The plain filename, without the path. */
+	unsigned stash[sizeof(flags) / sizeof(flags[0])];
+		/* A storage place for the current flag settings. */
+
+	/* Save the settings of all flags. */
+	memcpy(stash, flags, sizeof(flags));
+
+	/* Search forward, case insensitive, and without regexes. */
+	UNSET(BACKWARDS_SEARCH);
+	UNSET(CASE_SENSITIVE);
+	UNSET(USE_REGEXP);
+
+	/* Step through each filename in the list until a match is found or
+	 * we've come back to the point where we started. */
+	while (TRUE) {
+		if (forwards) {
+			if (looking_at++ == filelist_len - 1) {
+				looking_at = 0;
+				statusbar(_("Search Wrapped"));
+			}
+		} else {
+			if (looking_at-- == 0) {
+				looking_at = filelist_len - 1;
+				statusbar(_("Search Wrapped"));
+			}
+		}
+
+		/* Get the bare filename, without the path. */
+		thename = tail(filelist[looking_at]);
+
+		/* If the needle matches, we're done.  And if we're back at the file
+		 * where we started, it is the only occurrence. */
+		if (strstrwrapper(thename, needle, thename)) {
+			if (looking_at == selected)
+				statusbar(_("This is the only occurrence"));
+			break;
+		}
+
+		/* If we're back at the beginning and didn't find any match... */
+		if (looking_at == selected) {
+			not_found_msg(needle);
+			break;
+		}
+	}
+
+	/* Restore the settings of all flags. */
+	memcpy(flags, stash, sizeof(flags));
+
+	/* Select the one we've found. */
+	selected = looking_at;
+}
+
+/* Prepare the prompt and ask the user what to search for; then search for it.
+ * If forwards is TRUE, search forward in the list; otherwise, search backward. */
+void search_filename(bool forwards)
+{
+	char *thedefault;
+	int response;
+
+	/* If something was searched for before, show it between square brackets. */
+	if (*last_search != '\0') {
+		char *disp = display_string(last_search, 0, COLS / 3, FALSE, FALSE);
+
+		thedefault = nmalloc(strlen(disp) + 7);
+		/* We use (COLS / 3) here because we need to see more on the line. */
+		sprintf(thedefault, " [%s%s]", disp,
+				(breadth(last_search) > COLS / 3) ? "..." : "");
+		free(disp);
+	} else
+		thedefault = copy_of("");
+
+	/* Now ask what to search for. */
+	response = do_prompt(MWHEREISFILE, "", &search_history,
+						browser_refresh, "%s%s%s", _("Search"),
+						/* TRANSLATORS: A modifier of the Search prompt. */
+						!forwards ? _(" [Backwards]") : "", thedefault);
+	free(thedefault);
+
+	/* If the user cancelled, or typed <Enter> on a blank answer and
+	 * nothing was searched for yet during this session, get out. */
+	if (response == -1 || (response == -2 && *last_search == '\0')) {
+		statusbar(_("Cancelled"));
+		return;
+	}
+
+	/* If the user typed an answer, remember it. */
+	if (*answer != '\0') {
+		last_search = mallocstrcpy(last_search, answer);
+#ifdef ENABLE_HISTORIES
+		update_history(&search_history, answer);
+#endif
+	}
+
+	findfile(last_search, forwards);
+}
+
+/* Search again without prompting for the last given search string,
+ * either forwards or backwards. */
+void research_filename(bool forwards)
+{
+#ifdef ENABLE_HISTORIES
+	/* If nothing was searched for yet, take the last item from history. */
+	if (*last_search == '\0' && searchbot->prev != NULL)
+		last_search = mallocstrcpy(last_search, searchbot->prev->data);
+#endif
+
+	if (*last_search == '\0')
+		statusbar(_("No current search pattern"));
+	else
+		findfile(last_search, forwards);
+}
+
 /* Allow the user to browse through the directories in the filesystem,
  * starting at the given path. */
 char *browse(char *path)
@@ -177,13 +296,13 @@ char *browse(char *path)
 			kbinput = KEY_WINCH;
 #endif
 		} else if (func == do_search_forward) {
-			do_filesearch(FORWARD);
+			search_filename(FORWARD);
 		} else if (func == do_search_backward) {
-			do_filesearch(BACKWARD);
+			search_filename(BACKWARD);
 		} else if (func == do_findprevious) {
-			do_fileresearch(BACKWARD);
+			research_filename(BACKWARD);
 		} else if (func == do_findnext) {
-			do_fileresearch(FORWARD);
+			research_filename(FORWARD);
 		} else if (func == do_left) {
 			if (selected > 0)
 				selected--;
@@ -602,125 +721,6 @@ void browser_select_dirname(const char *needle)
 		if (selected >= filelist_len)
 			selected = filelist_len - 1;
 	}
-}
-
-/* Prepare the prompt and ask the user what to search for; then search for it.
- * If forwards is TRUE, search forward in the list; otherwise, search backward. */
-void do_filesearch(bool forwards)
-{
-	char *thedefault;
-	int response;
-
-	/* If something was searched for before, show it between square brackets. */
-	if (*last_search != '\0') {
-		char *disp = display_string(last_search, 0, COLS / 3, FALSE, FALSE);
-
-		thedefault = nmalloc(strlen(disp) + 7);
-		/* We use (COLS / 3) here because we need to see more on the line. */
-		sprintf(thedefault, " [%s%s]", disp,
-				(breadth(last_search) > COLS / 3) ? "..." : "");
-		free(disp);
-	} else
-		thedefault = copy_of("");
-
-	/* Now ask what to search for. */
-	response = do_prompt(MWHEREISFILE, "", &search_history,
-						browser_refresh, "%s%s%s", _("Search"),
-						/* TRANSLATORS: A modifier of the Search prompt. */
-						!forwards ? _(" [Backwards]") : "", thedefault);
-	free(thedefault);
-
-	/* If the user cancelled, or typed <Enter> on a blank answer and
-	 * nothing was searched for yet during this session, get out. */
-	if (response == -1 || (response == -2 && *last_search == '\0')) {
-		statusbar(_("Cancelled"));
-		return;
-	}
-
-	/* If the user typed an answer, remember it. */
-	if (*answer != '\0') {
-		last_search = mallocstrcpy(last_search, answer);
-#ifdef ENABLE_HISTORIES
-		update_history(&search_history, answer);
-#endif
-	}
-
-	findfile(last_search, forwards);
-}
-
-/* Look for the given needle in the list of files.  If forwards is TRUE,
- * search forward in the list; otherwise, search backward. */
-void findfile(const char *needle, bool forwards)
-{
-	size_t looking_at = selected;
-		/* The location in the file list of the filename we're looking at. */
-	const char *thename;
-		/* The plain filename, without the path. */
-	unsigned stash[sizeof(flags) / sizeof(flags[0])];
-		/* A storage place for the current flag settings. */
-
-	/* Save the settings of all flags. */
-	memcpy(stash, flags, sizeof(flags));
-
-	/* Search forward, case insensitive, and without regexes. */
-	UNSET(BACKWARDS_SEARCH);
-	UNSET(CASE_SENSITIVE);
-	UNSET(USE_REGEXP);
-
-	/* Step through each filename in the list until a match is found or
-	 * we've come back to the point where we started. */
-	while (TRUE) {
-		if (forwards) {
-			if (looking_at++ == filelist_len - 1) {
-				looking_at = 0;
-				statusbar(_("Search Wrapped"));
-			}
-		} else {
-			if (looking_at-- == 0) {
-				looking_at = filelist_len - 1;
-				statusbar(_("Search Wrapped"));
-			}
-		}
-
-		/* Get the bare filename, without the path. */
-		thename = tail(filelist[looking_at]);
-
-		/* If the needle matches, we're done.  And if we're back at the file
-		 * where we started, it is the only occurrence. */
-		if (strstrwrapper(thename, needle, thename)) {
-			if (looking_at == selected)
-				statusbar(_("This is the only occurrence"));
-			break;
-		}
-
-		/* If we're back at the beginning and didn't find any match... */
-		if (looking_at == selected) {
-			not_found_msg(needle);
-			break;
-		}
-	}
-
-	/* Restore the settings of all flags. */
-	memcpy(flags, stash, sizeof(flags));
-
-	/* Select the one we've found. */
-	selected = looking_at;
-}
-
-/* Search again without prompting for the last given search string,
- * either forwards or backwards. */
-void do_fileresearch(bool forwards)
-{
-#ifdef ENABLE_HISTORIES
-	/* If nothing was searched for yet, take the last item from history. */
-	if (*last_search == '\0' && searchbot->prev != NULL)
-		last_search = mallocstrcpy(last_search, searchbot->prev->data);
-#endif
-
-	if (*last_search == '\0')
-		statusbar(_("No current search pattern"));
-	else
-		findfile(last_search, forwards);
 }
 
 /* Strip one element from the end of path, and return the stripped path.
