@@ -10,7 +10,7 @@ color brightred "\<[A-Z_][0-9A-Z_]*\>"
 # Labels.
 color brightmagenta "^[[:space:]]*[A-Z_a-z]+:[[:space:]]*$"
 
-color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|auto|static|const|struct|union|typedef|extern|(un)?signed|inline)\>"
+color green "\<(float|double|bool|char|int|short|long|sizeof|enum|void|auto|static|const|restrict|struct|union|typedef|extern|(un)?signed|inline)\>"
 color green "\<([[:lower:]][[:lower:]_]*|(u_?)?int(8|16|32|64))_t\>"
 color green "\<(class|namespace|template|public|protected|private|typename|this|friend|virtual|override|using|mutable|volatile|register|explicit)\>"
 color brightyellow "\<(for|if|while|do|else|case|default|switch)\>"
@@ -27,7 +27,7 @@ color brightyellow ""([^"]|\\")*"" "#[[:space:]]*include[[:space:]]+<[^[:blank:]
 
 # Preprocessor directives.
 color brightcyan start="^[[:space:]]*#[[:space:]]*(if(n?def)?|elif|warning|error|pragma)\>" end="(\`|[^\\])$"
-color brightcyan "^[[:space:]]*#[[:space:]]*((define|else|endif|include(_next)?|undef)\>|$)"
+color brightcyan "^[[:space:]]*#[[:space:]]*((define|else|endif|include(_next)?|line|undef)\>|$)"
 
 # Comments.
 color brightblue "//.*"
