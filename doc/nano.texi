@@ -252,7 +252,7 @@ and place it at that position again upon reopening such a file.
 @item -Q "@var{regex}"
 @itemx --quotestr="@var{regex}"
 Set the regular expression for matching the quoting part of a line.
-The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//))+"}.
+The default value is "@t{^([@w{ }\t]*([!#%:;>|@}]|//))+}".
 (Note that @code{\t} stands for a literal Tab character.)
 This makes it possible to rejustify blocks of quoted text when composing
 email, and to rewrap blocks of line comments when writing source code.
@@ -805,7 +805,7 @@ Set the characters treated as closing brackets when justifying
 paragraphs.  This may not include blank characters.  Only closing
 punctuation (see @code{set punct}), optionally followed by the specified
 closing brackets, can end sentences.  The default value is
-@t{""')>]@}"}.
+"@t{"')>]@}}".
 
 @item set breaklonglines
 Automatically hard-wrap the current line when it becomes overlong.
@@ -885,7 +885,7 @@ Enable vim-style lock-files for when editing files.
 Specify the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
 come before the closing set, and the two sets must be in the same order.
-The default value is @t{"(<[@{)>]@}"}.
+The default value is "@t{(<[@{)>]@}}".
 
 @item set morespace
 Deprecated option since it has become the default setting.
@@ -942,7 +942,7 @@ Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the
 specified closing punctuation, optionally followed by closing brackets
 (see @code{set brackets}), can end sentences.
-The default value is @t{"!.?"}.
+The default value is "@t{!.?}".
 
 @item set quickblank
 Do quick status-bar blanking: status-bar messages will disappear after 1
@@ -950,7 +950,7 @@ keystroke instead of 25.  Note that @option{constantshow} overrides this.
 
 @item set quotestr "@var{regex}"
 Set the regular expression for matching the quoting part of a line.
-The default value is @t{"^([@w{ }\t]*([!#%:;>|@}]|//))+"}.
+The default value is "@t{^([@w{ }\t]*([!#%:;>|@}]|//))+}".
 (Note that @code{\t} stands for a literal Tab character.)
 This makes it possible to rejustify blocks of quoted text when composing
 email, and to rewrap blocks of line comments when writing source code.
@@ -1143,7 +1143,7 @@ characters after the pipe are appended at the end of the line.  If no pipe
 character is present, the full string is prepended; for example, @t{"#"} for
 Python files.  If empty double quotes are specified, the comment/uncomment
 functions are disabled; for example, @t{""} for JSON.
-The default value is @t{"#"}.
+The default value is "@t{#}".
 
 @item tabgives "@var{string}"
 Make the <Tab> key produce the given @var{string}.  Useful for languages like

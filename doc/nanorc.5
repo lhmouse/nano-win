@@ -108,7 +108,7 @@ beginning of a paragraph (unless auto-indenting is on).
 Set the characters treated as closing brackets when justifying
 paragraphs.  This may not include blank characters.  Only closing
 punctuation (see \fBset punct\fP), optionally followed by the specified
-closing brackets, can end sentences.  The default value is "\fB"')>]}\fP".
+closing brackets, can end sentences.  The default value is "\fB\(dq')>]}\fR".
 .TP
 .B set breaklonglines
 Automatically hard-wrap the current line when it becomes overlong.
@@ -293,7 +293,7 @@ the screen's edge, by using also \fBset atblanks\fR.)
 .TP
 .B set speller """\fIprogram\fR [\fIargument \fR...]\fB"""
 Use the given \fIprogram\fR to do spell checking and correcting, instead of
-using the built-in corrector that calls \fBhunspell\fR or GNU \fBspell\fR.
+using the built-in corrector that calls \fBhunspell\fR(1) or \fBspell\fR(1).
 .TP
 .B set  statuscolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for the status bar.
@@ -632,8 +632,8 @@ Prompts for a program to execute.  The program's output will be inserted
 into the current buffer (or into a new buffer when \fBM-F\fR is toggled).
 .TP
 .B speller
-Invokes a spell-checking program, either the default \fBhunspell\fR or GNU
-\fBspell\fR, or the one defined by \fB\-\-speller\fR or \fBset speller\fR.
+Invokes a spell-checking program, either the default \fBhunspell\fR(1) or GNU
+\fBspell\fR(1), or the one defined by \fB\-\-speller\fR or \fBset speller\fR.
 .TP
 .B formatter
 Invokes a full-buffer-processing program (if the active syntax defines one).
