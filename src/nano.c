@@ -882,17 +882,16 @@ void signal_init(void)
 	sigaction(SIGWINCH, &deed, NULL);
 #endif
 
-		/* Block all other signals in the suspend and continue handlers.
-		 * If we don't do this, other stuff interrupts them! */
-		sigfillset(&deed.sa_mask);
+	/* In the suspend and continue handlers, block all other signals.
+	 * If we don't do this, other stuff interrupts them! */
+	sigfillset(&deed.sa_mask);
 #ifdef SIGTSTP
-		/* Trap a normal suspend (^Z) so we can handle it ourselves. */
-		deed.sa_handler = do_suspend;
-		sigaction(SIGTSTP, &deed, NULL);
+	deed.sa_handler = do_suspend;
+	sigaction(SIGTSTP, &deed, NULL);
 #endif
 #ifdef SIGCONT
-		deed.sa_handler = do_continue;
-		sigaction(SIGCONT, &deed, NULL);
+	deed.sa_handler = do_continue;
+	sigaction(SIGCONT, &deed, NULL);
 #endif
 
 #if !defined(NANO_TINY) && !defined(DEBUG)
