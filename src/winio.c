@@ -918,7 +918,7 @@ int parse_kbinput(WINDOW *win)
 
 	if (escapes == 0) {
 		/* Most key codes in byte range cannot be special keys. */
-		if (keycode <= 0xFF && keycode != '\t' && keycode != DEL_CODE)
+		if (keycode < 0xFF && keycode != '\t' && keycode != DEL_CODE)
 			return keycode;
 	} else if (escapes == 1) {
 		escapes = 0;
@@ -1247,9 +1247,6 @@ int parse_kbinput(WINDOW *win)
 #endif
 #ifdef KEY_RESIZE  /* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
 		case KEY_RESIZE:
-#endif
-#if defined(USE_SLANG) && defined(ENABLE_UTF8)
-		case KEY_BAD:
 #endif
 		case KEY_FLUSH:
 			return ERR;    /* Ignore this keystroke. */

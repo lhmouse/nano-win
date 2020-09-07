@@ -622,10 +622,7 @@ enum
 #define FOREIGN_SEQUENCE  0x4FC
 
 #ifdef USE_SLANG
-#ifdef ENABLE_UTF8
-#define KEY_BAD  0xFF  /* Clipped error code. */
-#endif
-#define KEY_FLUSH  0x91  /* User-definable control code. */
+#define KEY_FLUSH  0xFF  /* Clipped error code. */
 #else
 #define KEY_FLUSH  KEY_F0  /* Nonexistent function key. */
 #endif
