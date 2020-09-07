@@ -882,7 +882,6 @@ void signal_init(void)
 	sigaction(SIGWINCH, &deed, NULL);
 #endif
 
-	if (ISSET(SUSPENDABLE)) {
 		/* Block all other signals in the suspend and continue handlers.
 		 * If we don't do this, other stuff interrupts them! */
 		sigfillset(&deed.sa_mask);
@@ -895,12 +894,6 @@ void signal_init(void)
 		deed.sa_handler = do_continue;
 		sigaction(SIGCONT, &deed, NULL);
 #endif
-	} else {
-#ifdef SIGTSTP
-		deed.sa_handler = SIG_IGN;
-		sigaction(SIGTSTP, &deed, NULL);
-#endif
-	}
 
 #if !defined(NANO_TINY) && !defined(DEBUG)
 	if (getenv("NANO_NOCATCH") == NULL) {
@@ -1086,9 +1079,6 @@ void do_toggle(int flag)
 			mouse_init();
 			break;
 #endif
-		case SUSPENDABLE:
-			signal_init();
-			break;
 		case SOFTWRAP:
 			if (ISSET(SOFTWRAP))
 				compute_the_extra_rows_per_line_from(openfile->filetop);
