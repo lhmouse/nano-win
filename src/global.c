@@ -728,7 +728,6 @@ void shortcut_init(void)
 #endif
 
 	/* Start populating the different menus with functions. */
-
 	add_to_funcs(do_help, (MMOST | MBROWSER) & ~MFINDINHELP,
 		/* TRANSLATORS: Try to keep the next thirteen strings at most 10 characters. */
 		N_("Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
@@ -827,7 +826,6 @@ void shortcut_init(void)
 
 	add_to_funcs(flip_replace, MWHEREIS,
 		N_("Replace"), WITHORSANS(replace_gist), BLANKAFTER, VIEW);
-
 	add_to_funcs(flip_replace, MREPLACE,
 		N_("No Replace"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
 
@@ -1002,6 +1000,7 @@ void shortcut_init(void)
 	add_to_funcs(complete_a_word, MMAIN,
 		N_("Complete"), WITHORSANS(completion_gist), BLANKAFTER, NOVIEW);
 #endif
+
 #ifndef NANO_TINY
 	add_to_funcs(record_macro, MMAIN,
 		N_("Record"), WITHORSANS(recordmacro_gist), TOGETHER, VIEW);
@@ -1032,10 +1031,12 @@ void shortcut_init(void)
 #endif
 	}
 #endif /* !NANO_TINY */
+
 #ifdef NANO_TINY
 	add_to_funcs(do_search_backward, MMAIN,
 		N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
 #endif
+
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	add_to_funcs(do_center, MMAIN,
 		N_("Center"), WITHORSANS(center_gist), BLANKAFTER, VIEW);
@@ -1108,6 +1109,7 @@ void shortcut_init(void)
 			N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
 	}
 #endif /* !NANO_TINY */
+
 #ifdef ENABLE_BROWSER
 	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
@@ -1124,6 +1126,7 @@ void shortcut_init(void)
 		N_("First File"), WITHORSANS(firstfile_gist), TOGETHER, VIEW);
 	add_to_funcs(to_last_file, MBROWSER|MWHEREISFILE,
 		N_("Last File"), WITHORSANS(lastfile_gist), BLANKAFTER, VIEW);
+
 #ifndef NANO_TINY
 	add_to_funcs(to_prev_word, MBROWSER,
 		N_("Left Column"), WITHORSANS(browserlefthand_gist), TOGETHER, VIEW);
