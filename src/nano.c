@@ -62,6 +62,10 @@ static struct termios original_state;
 
 static struct sigaction oldaction, newaction;
 		/* Containers for the original and the temporary handler for SIGINT. */
+#ifdef USE_SLANG
+static bool selfinduced = FALSE;
+		/* Whether a suspension was caused from inside nano or from outside. */
+#endif
 
 /* Create a new linestruct node.  Note that we do not set prevnode->next. */
 linestruct *make_new_node(linestruct *prevnode)
@@ -947,9 +951,15 @@ RETSIGTYPE do_suspend(int signal)
 /* Put nano to sleep (if suspension is enabled). */
 void do_suspend_void(void)
 {
-	if (ISSET(SUSPENDABLE))
+	if (ISSET(SUSPENDABLE)) {
+#ifdef USE_SLANG
+		selfinduced = TRUE;
 		do_suspend(0);
-	else {
+		selfinduced = FALSE;
+#else
+		do_suspend(0);
+#endif
+	} else {
 		statusbar(_("Suspension is not enabled"));
 		beep();
 	}
@@ -972,8 +982,13 @@ RETSIGTYPE do_continue(int signal)
 	/* Put the terminal in the desired state again. */
 	terminal_init();
 #endif
-	/* Tickle the input routine so it will update the screen. */
+#ifdef USE_SLANG
+	if (!selfinduced)
+		full_refresh();
+#else
+	/* Insert a fake keystroke, to neutralize a key-eating issue. */
 	ungetch(KEY_FLUSH);
+#endif
 }
 
 #if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
