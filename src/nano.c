@@ -1194,19 +1194,19 @@ void terminal_init(void)
 		nonl();
 		noecho();
 		disable_extended_io();
-
-		if (ISSET(PRESERVE))
-			enable_flow_control();
 #ifdef USE_SLANG
-		else
-			disable_flow_control();
-
 		tcgetattr(0, &desired_state);
 		have_new_state = TRUE;
 	} else
 		tcsetattr(0, TCSANOW, &desired_state);
 
 	SLang_init_tty(-1, 0, 0);
+#endif
+	if (ISSET(PRESERVE))
+		enable_flow_control();
+#ifdef USE_SLANG
+	else
+		disable_flow_control();
 #endif
 	disable_kb_interrupt();
 
