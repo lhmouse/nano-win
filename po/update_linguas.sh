@@ -26,6 +26,11 @@ for pofile in *.po; do
 	msgattrib --no-obsolete --no-fuzzy $pofile >trimmed.po || exit 4
 	mv trimmed.po $pofile || exit 4
 done
+echo
+
+if grep "[[:cntrl:]]" ./*.po; then
+	echo "*** PO file contains control character"; exit 5;
+fi
 
 # If needed, fix a problem in the Makefile template.
 grep -q '^datarootdir' Makefile.in.in || \
