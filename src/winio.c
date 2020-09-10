@@ -3305,6 +3305,12 @@ void report_cursor_position(void)
 			_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
 			openfile->current->lineno, openfile->filebot->lineno, linepct,
 			column, fullwidth, colpct, sum, openfile->totsize, charpct);
+
+#ifdef USE_SLANG
+	/* Work around a shy cursor -- https://sv.gnu.org/bugs/?59091. */
+	bottombars(MREPLACEWITH);
+	bottombars(MMAIN);
+#endif
 }
 
 /* Highlight the text between the given two columns on the current line. */

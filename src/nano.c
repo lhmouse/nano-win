@@ -1303,6 +1303,10 @@ void unbound_key(int code)
 	else
 		statusline(ALERT, _("Unbound key: %c"), code);
 #endif
+#ifdef USE_SLANG
+	/* Work around a shy cursor -- https://sv.gnu.org/bugs/?59091. */
+	bottombars(MREPLACEWITH);
+#endif
 }
 
 #ifdef ENABLE_MOUSE
