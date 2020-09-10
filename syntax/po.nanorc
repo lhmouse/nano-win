@@ -29,3 +29,5 @@ color brightwhite,yellow "\<(FIXME|TODO|XXX)\>"
 color red "#~.*"
 # Stray control codes.
 color bold,pink,red "[[:cntrl:]]"
+# Tabs.
+color mint "[[:blank:]]"
