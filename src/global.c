@@ -777,6 +777,16 @@ void shortcut_init(void)
 	add_to_funcs(do_replace, MMAIN,
 		N_("Replace"), WITHORSANS(replace_gist), TOGETHER, NOVIEW);
 
+#ifdef NANO_TINY
+	add_to_funcs(do_search_backward, MHELP,
+		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
+
+	add_to_funcs(do_findprevious, MMAIN|MHELP,
+		N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
+	add_to_funcs(do_findnext, MMAIN|MHELP,
+		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
+#endif
+
 	add_to_funcs(cut_text, MMAIN,
 		N_("Cut"), WITHORSANS(cut_gist), TOGETHER, NOVIEW);
 
@@ -851,25 +861,32 @@ void shortcut_init(void)
 		N_("Where Is"), WITHORSANS(browserwhereis_gist), TOGETHER, VIEW);
 	add_to_funcs(do_search_backward, MBROWSER,
 		N_("Where Was"), WITHORSANS(browserwherewas_gist), TOGETHER, VIEW);
+
+	add_to_funcs(do_findprevious, MBROWSER,
+		N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
+	add_to_funcs(do_findnext, MBROWSER,
+		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
 #endif
 
-#ifndef NANO_TINY
+#ifdef NANO_TINY
+	add_to_funcs(to_prev_word, MMAIN,
+		"Prev Word", WITHORSANS(prevword_gist), TOGETHER, VIEW);
+	add_to_funcs(to_next_word, MMAIN,
+		"Next Word", WITHORSANS(nextword_gist), BLANKAFTER, VIEW);
+#else
 	add_to_funcs(do_find_bracket, MMAIN,
 		N_("To Bracket"), WITHORSANS(bracket_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(do_search_backward, MMAIN|MHELP,
 		/* TRANSLATORS: This starts a backward search. */
 		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
-#else
-	add_to_funcs(do_search_backward, MHELP,
-		N_("Where Was"), WITHORSANS(wherewas_gist), TOGETHER, VIEW);
-#endif
 
-	add_to_funcs(do_findprevious, MMAIN|MBROWSER|MHELP,
+	add_to_funcs(do_findprevious, MMAIN|MHELP,
 		/* TRANSLATORS: This refers to searching the preceding occurrence. */
 		N_("Previous"), WITHORSANS(findprev_gist), TOGETHER, VIEW);
-	add_to_funcs(do_findnext, MMAIN|MBROWSER|MHELP,
+	add_to_funcs(do_findnext, MMAIN|MHELP,
 		N_("Next"), WITHORSANS(findnext_gist), BLANKAFTER, VIEW);
+#endif
 
 	add_to_funcs(do_left, MMAIN,
 		/* TRANSLATORS: This means move the cursor one character back. */
@@ -883,11 +900,13 @@ void shortcut_init(void)
 		N_("Forward"), WITHORSANS(forwardfile_gist), TOGETHER, VIEW);
 #endif
 
+#ifndef NANO_TINY
 	add_to_funcs(to_prev_word, MMAIN,
 		/* TRANSLATORS: Try to keep the next ten strings at most 12 characters. */
 		N_("Prev Word"), WITHORSANS(prevword_gist), TOGETHER, VIEW);
 	add_to_funcs(to_next_word, MMAIN,
 		N_("Next Word"), WITHORSANS(nextword_gist), TOGETHER, VIEW);
+#endif
 
 	add_to_funcs(do_home, MMAIN,
 		N_("Home"), WITHORSANS(home_gist), TOGETHER, VIEW);
@@ -1206,7 +1225,12 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, to_last_line, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "M-W", 0, do_findnext, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "M-Q", 0, do_findprevious, 0);
-#ifndef NANO_TINY
+#ifdef NANO_TINY
+	add_to_sclist(MMAIN, "M-B", 0, to_prev_word, 0);
+	add_to_sclist(MMAIN, "M-D", 0, to_prev_word, 0);
+	add_to_sclist(MMAIN, "M-N", 0, to_next_word, 0);
+	add_to_sclist(MMAIN, "M-F", 0, to_next_word, 0);
+#else
 	add_to_sclist(MMAIN, "M-]", 0, do_find_bracket, 0);
 	add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^6", 0, do_mark, 0);
@@ -1263,12 +1287,6 @@ void shortcut_init(void)
 		}
 #endif
 	}
-#ifdef NANO_TINY
-	add_to_sclist(MMAIN, "M-B", 0, to_prev_word, 0);
-	add_to_sclist(MMAIN, "M-D", 0, to_prev_word, 0);
-	add_to_sclist(MMAIN, "M-F", 0, to_next_word, 0);
-	add_to_sclist(MMAIN, "M-N", 0, to_next_word, 0);
-#endif
 	add_to_sclist(MMOST, "M-Space", 0, to_prev_word, 0);
 	add_to_sclist(MMOST, "^Space", 0, to_next_word, 0);
 	add_to_sclist(MMOST, "^A", 0, do_home, 0);
