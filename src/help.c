@@ -435,8 +435,6 @@ void show_help(void)
 	location = 0;
 	didfind = 0;
 
-	bottombars(MHELP);
-
 	/* Extract the title from the head of the help text. */
 	length = break_line(help_text, HIGHEST_POSITIVE, TRUE);
 	title = measured_copy(help_text, length);
@@ -454,6 +452,8 @@ void show_help(void)
 	while (TRUE) {
 		lastmessage = VACUUM;
 		focusing = TRUE;
+
+		bottombars(MHELP);
 
 		/* Show the cursor when we searched and found something. */
 		kbinput = get_kbinput(edit, didfind == 1 || ISSET(SHOW_CURSOR));
@@ -480,11 +480,9 @@ void show_help(void)
 				do_scroll_down();
 		} else if (func == do_page_up || func == do_page_down ||
 					func == to_first_line || func == to_last_line ||
+					func == do_search_forward || func == do_search_backward ||
 					func == do_findprevious || func == do_findnext) {
 			func();
-		} else if (func == do_search_forward || func == do_search_backward) {
-			func();
-			bottombars(MHELP);
 #ifdef ENABLE_NANORC
 		} else if (func == (functionptrtype)implant) {
 			implant(first_sc_for(MHELP, func)->expansion);
@@ -503,7 +501,6 @@ void show_help(void)
 		} else
 			unbound_key(kbinput);
 
-		currmenu = MHELP;
 		edit_refresh();
 
 		location = 0;
