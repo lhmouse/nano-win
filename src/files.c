@@ -1556,10 +1556,11 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 bool make_backup_of(char *realname)
 {
 	FILE *original = NULL, *backup_file = NULL;
-	int creation_flags, descriptor, verdict;
 	static struct timespec filetime[2];
+	int creation_flags, descriptor;
 	bool second_attempt = FALSE;
 	char *backupname = NULL;
+	int verdict = 0;
 
 	/* Remember the original file's access and modification times. */
 	filetime[0].tv_sec = openfile->statinfo->st_atime;
