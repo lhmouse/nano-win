@@ -223,7 +223,7 @@
 ## === Syntax coloring ===
 ## For all details, see 'man nanorc', section SYNTAX HIGHLIGHTING.
 
-## To include all existing syntax definitions, you can do:
+## To include most of the existing syntax definitions, you can do:
 # include "@PKGDATADIR@/*.nanorc"
 
 ## Or you can select just the ones you need.  For example:
@@ -232,7 +232,8 @@
 # include "@PKGDATADIR@/sh.nanorc"
 
 ## In @PKGDATADIR@/extra/ you can find some syntaxes that are
-## specific for certain distros or for less common languages.
+## specific for certain distros or for some less common languages.
+
 
 ## If <Tab> should always produce four spaces when editing a Python file,
 ## independent of the settings of 'tabsize' and 'tabstospaces':
