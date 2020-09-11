@@ -2293,10 +2293,6 @@ void do_savefile(void)
 {
 	if (do_writeout(FALSE, FALSE) == 2)
 		close_and_go();
-#ifdef USE_SLANG
-	/* Work around a shy cursor -- https://sv.gnu.org/bugs/?59091. */
-	bottombars(MREPLACEWITH);
-#endif
 }
 
 /* Convert the tilde notation when the given path begins with ~/ or ~user/.

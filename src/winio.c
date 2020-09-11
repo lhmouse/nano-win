@@ -2127,6 +2127,11 @@ void statusline(message_type importance, const char *msg, ...)
 		statusblank = 1;
 	else
 		statusblank = 26;
+
+#ifdef USE_SLANG
+	/* Work around a shy cursor -- https://sv.gnu.org/bugs/?59091. */
+	bottombars(MGOTODIR);
+#endif
 }
 
 /* Display a normal message on the status bar, quietly. */
@@ -3307,8 +3312,7 @@ void report_cursor_position(void)
 			column, fullwidth, colpct, sum, openfile->totsize, charpct);
 
 #ifdef USE_SLANG
-	/* Work around a shy cursor -- https://sv.gnu.org/bugs/?59091. */
-	bottombars(MREPLACEWITH);
+	/* Restore the help lines after the above call overwrote them. */
 	bottombars(MMAIN);
 #endif
 }
