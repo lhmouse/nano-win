@@ -1076,6 +1076,9 @@ powerful enough to fully parse a file.  Nevertheless, regular
 expressions can do a lot and are easy to make, so they are a
 good fit for a small editor like @command{nano}.
 
+See @file{/usr/share/nano/} and @file{/usr/share/nano/extra/}
+for the syntax-coloring definitions that are available out of the box.
+
 All regular expressions in @command{nano} are POSIX extended regular expressions
 (ERE).  This means that @code{.}, @code{?}, @code{*}, @code{+}, @code{^},
 @code{$}, and several other characters are special.
