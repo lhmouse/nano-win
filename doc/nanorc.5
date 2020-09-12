@@ -65,7 +65,6 @@ Quotes inside the \fIcharacters\fR  parameters below should not be escaped.
 The last double quote on the line will be seen as the closing quote.
 .sp
 The supported commands and arguments are:
-
 .TP 3
 .B set afterends
 Make Ctrl+Right and Ctrl+Delete stop at word ends instead of beginnings.
@@ -392,13 +391,13 @@ Start the definition of a syntax with this \fIname\fR.
 All subsequent \fBcolor\fR and other such commands
 will be added to this syntax, until a new \fBsyntax\fR
 command is encountered.
-
+.sp
 When \fBnano\fR is run, this syntax will be automatically
 activated if the current filename matches the extended regular
 expression \fIfileregex\fR.  Or the syntax can be explicitly
 activated by using the \fB\-Y\fR or \fB\-\-syntax\fR
 command-line option followed by the \fIname\fR.
-
+.sp
 The syntax \fBdefault\fP is special: it takes no \fIfileregex\fR,
 and applies to files that don't match any syntax's regexes.
 The syntax \fBnone\fP is reserved; specifying it on the command line
@@ -535,11 +534,10 @@ no longer be the case, for all letters.
 where \fIN\fR is a numeric value from 1 to 24.
 Example: F10.
 (Often, \fBF13\fR to \fBF24\fR can be typed as \fBF1\fR to \fBF12\fR with Shift.)
-
 .TP
 .BR Ins " or " Del .
 .RE
-
+.sp
 Rebinding \fB^M\fR (Enter) or \fB^I\fR (Tab) is probably not a good idea.
 Rebinding \fB^[\fR (Esc) is not possible, because its keycode
 is the starter byte of Meta keystrokes and escape sequences.

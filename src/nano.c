@@ -647,9 +647,8 @@ void usage(void)
 		print_opt("-z", "--suspendable", N_("Enable suspension"));
 }
 
-/* Display the current version of nano, the date and time it was
- * compiled, contact information for it, and the configuration options
- * it was compiled with. */
+/* Display the version number of this nano, a copyright notice, some contact
+ * information, and the configuration options this nano was compiled with. */
 void version(void)
 {
 #ifdef REVISION

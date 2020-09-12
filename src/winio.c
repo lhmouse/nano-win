@@ -2299,7 +2299,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 #endif
 			wprintw(edit, " ");
 	}
-#endif
+#endif /* ENABLE_LINENUMBERS */
 
 	/* First simply write the converted line -- afterward we'll add colors
 	 * and the marking highlight on just the pieces that need it. */
