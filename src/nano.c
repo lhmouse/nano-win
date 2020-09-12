@@ -491,11 +491,13 @@ void print_opt(const char *shortflag, const char *longflag, const char *desc)
 void usage(void)
 {
 	printf(_("Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n\n"));
+#ifndef NANO_TINY
 	/* TRANSLATORS: The next two strings are part of the --help output.
 	 * It's best to keep its lines within 80 characters. */
 	printf(_("To place the cursor on a specific line of a file, put the line number with\n"
 				"a '+' before the filename.  The column number can be added after a comma.\n"));
 	printf(_("When a filename is '-', nano reads data from standard input.\n\n"));
+#endif
 	/* TRANSLATORS: The next three are column headers of the --help output. */
 	print_opt(_("Option"), _("Long option"), N_("Meaning"));
 #ifndef NANO_TINY
@@ -803,6 +805,7 @@ void restore_handler_for_Ctrl_C(void)
 	disable_kb_interrupt();
 }
 
+#ifndef NANO_TINY
 /* Reconnect standard input to the tty, and store its state. */
 void reconnect_and_store_state(void)
 {
@@ -860,6 +863,7 @@ bool scoop_stdin(void)
 
 	return TRUE;
 }
+#endif
 
 /* Register half a dozen signal handlers. */
 void signal_init(void)
@@ -2411,13 +2415,16 @@ int main(int argc, char **argv)
 				statusline(ALERT, _("Invalid line or column number"));
 		}
 
+#ifndef NANO_TINY
 		/* If the filename is a dash, read from standard input; otherwise,
 		 * open the file; skip positioning the cursor if either failed. */
 		if (strcmp(argv[optind], "-") == 0) {
 			optind++;
 			if (!scoop_stdin())
 				continue;
-		} else if (!open_buffer(argv[optind++], TRUE))
+		} else
+#endif
+		 if (!open_buffer(argv[optind++], TRUE))
 			continue;
 
 		/* If a position was given on the command line, go there. */
