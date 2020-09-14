@@ -375,8 +375,10 @@ void research_filename(bool forwards)
 
 	if (*last_search == '\0')
 		statusbar(_("No current search pattern"));
-	else
+	else {
+		wipe_statusbar();
 		findfile(last_search, forwards);
+	}
 }
 
 /* Strip one element from the end of path, and return the stripped path.
