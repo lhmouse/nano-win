@@ -475,13 +475,12 @@ void show_help(void)
 		} else if (func == do_up || func == do_scroll_up) {
 			do_scroll_up();
 		} else if (func == do_down || func == do_scroll_down) {
-			if (openfile->edittop->lineno + editwinrows - 1 <
-								openfile->filebot->lineno)
+			if (openfile->edittop->lineno + editwinrows - 1 < openfile->filebot->lineno)
 				do_scroll_down();
 		} else if (func == do_page_up || func == do_page_down ||
 					func == to_first_line || func == to_last_line) {
 			func();
-		} else if (func == do_search_forward || func == do_search_backward ||
+		} else if (func == do_search_backward || func == do_search_forward ||
 					func == do_findprevious || func == do_findnext) {
 			func();
 			bottombars(MHELP);

@@ -527,10 +527,10 @@ char *browse(char *path)
 			window_init();
 			kbinput = KEY_WINCH;
 #endif
-		} else if (func == do_search_forward) {
-			search_filename(FORWARD);
 		} else if (func == do_search_backward) {
 			search_filename(BACKWARD);
+		} else if (func == do_search_forward) {
+			search_filename(FORWARD);
 		} else if (func == do_findprevious) {
 			research_filename(BACKWARD);
 		} else if (func == do_findnext) {
