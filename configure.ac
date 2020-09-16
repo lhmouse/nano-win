@@ -202,6 +202,16 @@ fi
 
 AC_ARG_ENABLE(libmagic,
 AS_HELP_STRING([--disable-libmagic], [Disable detection of file types via libmagic]))
+if test "x$enable_libmagic" = xyes; then
+	if test "x$enable_tiny" = xyes; then
+		if test "x$enable_color" != xyes; then
+			AC_MSG_ERROR([--enable-libmagic needs --enable-color and --enable-nanorc to work])
+		fi
+	fi
+	if test "x$enable_color" = xno; then
+		AC_MSG_ERROR([--enable-libmagic cannot work with --disable-color nor --disable-nanorc])
+	fi
+fi
 
 AC_ARG_ENABLE(linenumbers,
 AS_HELP_STRING([--disable-linenumbers], [Disable line numbering]))
