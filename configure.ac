@@ -528,7 +528,6 @@ dnl Checks for functions.
 if test "x$enable_utf8" != xno; then
 	AC_CHECK_FUNCS(iswalnum iswpunct mblen mbstowcs mbtowc wctomb)
 fi
-dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for available flags.
 
@@ -610,8 +609,6 @@ AC_CHECK_LIB([$CURSES_LIB_NAME], [key_defined],
 			 [AC_DEFINE(HAVE_KEY_DEFINED, 1, [Define this if your curses library has the key_defined() function.])],
 			 [], [$CURSES_LIB])
 
-dnl Parse any configure options.
-
 LIBS="$LIBS $CURSES_LIB"
 
 AC_SUBST(CURSES_LIB)
@@ -664,16 +661,15 @@ AC_DEFINE_UNQUOTED(NANO_REG_EXTENDED, $nano_reg_extended,
 				   [Flag(s) to use to get the full range of extended regular expressions])
 
 if test x$color_support = xyes; then
-#    if test x$CURSES_LIB_NAME = xcurses; then
-		AC_MSG_CHECKING([whether _XOPEN_SOURCE_EXTENDED is needed])
-		AC_TRY_RUN([
+	AC_MSG_CHECKING([whether _XOPEN_SOURCE_EXTENDED is needed])
+	AC_TRY_RUN([
 #include <curses.h>
 int main(void)
 {
 	int testcolor = COLOR_WHITE;
 	return 0;
 }], AC_MSG_RESULT(no),
-	    AC_TRY_RUN([
+    AC_TRY_RUN([
 #ifndef _XOPEN_SOURCE_EXTENDED
 #define _XOPEN_SOURCE_EXTENDED 1
 #endif
@@ -683,13 +679,12 @@ int main(void)
 	int testcolor = COLOR_WHITE;
 	return 0;
 }],
-		AC_DEFINE(NEED_XOPEN_SOURCE_EXTENDED, 1, [Define this if you need the _XOPEN_SOURCE_EXTENDED macro for color support.])
-		AC_MSG_RESULT(yes),
-		AC_MSG_RESULT(not sure)
-		AC_MSG_WARN([*** Couldn't successfully compile basic color test with or without _XOPEN_SOURCE_EXTENDED])
-		AC_MSG_WARN([*** This build may not compile. Consider configuring with --disable-color or installing ncurses])),
-		AC_MSG_WARN([*** Can't check need for _XOPEN_SOURCE_EXTENDED when cross-compiling]))
-#    fi
+	AC_DEFINE(NEED_XOPEN_SOURCE_EXTENDED, 1, [Define this if you need the _XOPEN_SOURCE_EXTENDED macro for color support.])
+	AC_MSG_RESULT(yes),
+	AC_MSG_RESULT(not sure)
+	AC_MSG_WARN([*** Couldn't successfully compile basic color test with or without _XOPEN_SOURCE_EXTENDED])
+	AC_MSG_WARN([*** This build may not compile. Consider configuring with --disable-color or installing ncurses])),
+	AC_MSG_WARN([*** Can't check need for _XOPEN_SOURCE_EXTENDED when cross-compiling]))
 fi
 
 AC_MSG_CHECKING([whether LINES and COLS can be redefined])
