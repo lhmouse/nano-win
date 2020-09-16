@@ -916,7 +916,7 @@ static pid_t pid_of_command = -1;
 		/* The PID of a forked process -- needed when wanting to abort it. */
 
 /* Send an unconditional kill signal to the running external command. */
-RETSIGTYPE cancel_the_command(int signal)
+void cancel_the_command(int signal)
 {
 	kill(pid_of_command, SIGKILL);
 }

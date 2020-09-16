@@ -403,17 +403,17 @@ void restore_handler_for_Ctrl_C(void);
 #ifndef NANO_TINY
 void reconnect_and_store_state(void);
 #endif
-RETSIGTYPE handle_hupterm(int signal);
+void handle_hupterm(int signal);
 #ifndef DEBUG
-RETSIGTYPE handle_crash(int signal);
+void handle_crash(int signal);
 #endif
-RETSIGTYPE do_suspend(int signal);
-RETSIGTYPE do_continue(int signal);
+void do_suspend(int signal);
+void do_continue(int signal);
 #if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
 void block_sigwinch(bool blockit);
 #endif
 #ifndef NANO_TINY
-RETSIGTYPE handle_sigwinch(int signal);
+void handle_sigwinch(int signal);
 void compute_the_extra_rows_per_line_from(linestruct *fromline);
 void regenerate_screen(void);
 void do_toggle(int flag);

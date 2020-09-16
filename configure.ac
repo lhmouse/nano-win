@@ -543,10 +543,6 @@ dnl Checks for available flags.
 
 AX_CHECK_COMPILE_FLAG([-Wall], [CFLAGS="$CFLAGS -Wall"], [], [])
 
-dnl Checks for library functions.
-
-AC_TYPE_SIGNAL
-
 dnl Checks for libraries.
 
 if eval "test x$CURSES_LIB_NAME = x"; then

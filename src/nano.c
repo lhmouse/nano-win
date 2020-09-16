@@ -780,7 +780,7 @@ void version(void)
 }
 
 /* Register that Ctrl+C was pressed during some system call. */
-RETSIGTYPE make_a_note(int signal)
+void make_a_note(int signal)
 {
 	control_C_was_pressed = TRUE;
 }
@@ -915,21 +915,21 @@ void signal_init(void)
 }
 
 /* Handler for SIGHUP (hangup) and SIGTERM (terminate). */
-RETSIGTYPE handle_hupterm(int signal)
+void handle_hupterm(int signal)
 {
 	die(_("Received SIGHUP or SIGTERM\n"));
 }
 
 #if !defined(NANO_TINY) && !defined(DEBUG)
 /* Handler for SIGSEGV (segfault) and SIGABRT (abort). */
-RETSIGTYPE handle_crash(int signal)
+void handle_crash(int signal)
 {
 	die(_("Sorry! Nano crashed!  Code: %d.  Please report a bug.\n"), signal);
 }
 #endif
 
 /* Handler for SIGTSTP (suspend). */
-RETSIGTYPE do_suspend(int signal)
+void do_suspend(int signal)
 {
 #ifdef ENABLE_MOUSE
 	disable_mouse_support();
@@ -971,7 +971,7 @@ void do_suspend_void(void)
 }
 
 /* Handler for SIGCONT (continue after suspend). */
-RETSIGTYPE do_continue(int signal)
+void do_continue(int signal)
 {
 #ifdef ENABLE_MOUSE
 	if (ISSET(USE_MOUSE))
@@ -1013,7 +1013,7 @@ void block_sigwinch(bool blockit)
 
 #ifndef NANO_TINY
 /* Handler for SIGWINCH (window size change). */
-RETSIGTYPE handle_sigwinch(int signal)
+void handle_sigwinch(int signal)
 {
 	/* Let the input routine know that a SIGWINCH has occurred. */
 	the_window_resized = TRUE;
