@@ -430,11 +430,13 @@ void window_init(void)
 	/* In case the terminal shrunk, make sure the status line is clear. */
 	wipe_statusbar();
 
+#ifndef USE_SLANG
 	/* When not disabled, turn escape-sequence translation on. */
 	if (!ISSET(RAW_SEQUENCES)) {
 		keypad(edit, TRUE);
 		keypad(bottomwin, TRUE);
 	}
+#endif
 
 #ifdef ENABLED_WRAPORJUSTIFY
 	/* Set up the wrapping point, accounting for screen width when negative. */
@@ -534,8 +536,10 @@ void usage(void)
 	print_opt(_("-J <number>"), _("--guidestripe=<number>"),
 					N_("Show a guiding bar at this column"));
 #endif
+#ifndef USE_SLANG
 	print_opt("-K", "--rawsequences",
 					N_("Fix numeric keypad key confusion problem"));
+#endif
 #ifndef NANO_TINY
 	print_opt("-L", "--nonewlines",
 					N_("Don't add an automatic newline"));
@@ -1690,7 +1694,9 @@ int main(int argc, char **argv)
 #ifdef ENABLE_NANORC
 		{"ignorercfiles", 0, NULL, 'I'},
 #endif
+#ifndef USE_SLANG
 		{"rawsequences", 0, NULL, 'K'},
+#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 		{"trimblanks", 0, NULL, 'M'},
 #endif
@@ -1871,9 +1877,11 @@ int main(int argc, char **argv)
 				}
 				break;
 #endif
+#ifndef USE_SLANG
 			case 'K':
 				SET(RAW_SEQUENCES);
 				break;
+#endif
 #ifndef NANO_TINY
 			case 'L':
 				SET(NO_NEWLINES);
@@ -2192,9 +2200,15 @@ int main(int argc, char **argv)
 #endif
 	}
 
+#ifdef USE_SLANG
+	/* When using Slang, do not let Slang translate escape sequences to
+	 * key codes, because it does it wrong for the longer sequences. */
+	SET(RAW_SEQUENCES);
+#else
 	/* When getting untranslated escape sequences, the mouse cannot be used. */
 	if (ISSET(RAW_SEQUENCES))
 		UNSET(USE_MOUSE);
+#endif
 
 #ifdef ENABLE_HISTORIES
 	/* Initialize the pointers for the Search/Replace/Execute histories. */

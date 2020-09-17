@@ -1447,9 +1447,10 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	 * don't get extended keypad values. */
 	if (ISSET(PRESERVE))
 		disable_flow_control();
+#ifndef USE_SLANG
 	if (!ISSET(RAW_SEQUENCES))
 		keypad(win, FALSE);
-
+#endif
 #ifndef NANO_TINY
 	/* Turn bracketed-paste mode off. */
 	printf("\x1B[?2004l");
@@ -1483,12 +1484,14 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	 * keypad back on if necessary now that we're done. */
 	if (ISSET(PRESERVE))
 		enable_flow_control();
+#ifndef USE_SLANG
 	/* Use the global window pointers, because a resize may have freed
 	 * the data that the win parameter points to. */
 	if (!ISSET(RAW_SEQUENCES)) {
 		keypad(edit, TRUE);
 		keypad(bottomwin, TRUE);
 	}
+#endif
 
 	if (*count < 999) {
 		for (size_t i = 0; i < *count; i++)
