@@ -677,13 +677,14 @@ AC_DEFINE_UNQUOTED(NANO_REG_EXTENDED, $nano_reg_extended,
 
 if test x$color_support = xyes; then
 	AC_MSG_CHECKING([whether _XOPEN_SOURCE_EXTENDED is needed])
-	AC_TRY_RUN([
+	AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <curses.h>
 int main(void)
 {
 	int testcolor = COLOR_WHITE;
 	return 0;
-}], AC_MSG_RESULT(no),
+}]])],
+	AC_MSG_RESULT(no),
 	AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #ifndef _XOPEN_SOURCE_EXTENDED
 #define _XOPEN_SOURCE_EXTENDED 1
@@ -706,14 +707,14 @@ int main(void)
 fi
 
 AC_MSG_CHECKING([whether LINES and COLS can be redefined])
-AC_TRY_RUN([
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <curses.h>
 int main(void)
 {
 	LINES = 80;
 	COLS = 25;
 	return 0;
-}],
+}]])],
 AC_DEFINE(REDEFINING_MACROS_OK, 1, [Define this if you know your curses library allows LINES and COLS to be redefined to deal with a resizing bug.])
 AC_MSG_RESULT(yes),
 AC_MSG_RESULT(no),
