@@ -1694,6 +1694,12 @@ void check_statusblank(void)
 		edit_refresh();
 }
 
+/* Ensure that the status bar will be wiped upon the next keystroke. */
+void set_blankdelay_to_one(void)
+{
+	statusblank = 1;
+}
+
 /* Convert buf into a string that can be displayed on screen.  The caller
  * wants to display buf starting with the given column, and extending for
  * at most span columns.  column is zero-based, and span is one-based, so

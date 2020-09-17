@@ -1310,6 +1310,7 @@ void unbound_key(int code)
 	else
 		statusline(ALERT, _("Unbound key: %c"), code);
 #endif
+	set_blankdelay_to_one();
 }
 
 #ifdef ENABLE_MOUSE
