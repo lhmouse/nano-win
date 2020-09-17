@@ -36,12 +36,12 @@ gl_cv_glob_lists_symlinks=yes
 
 dnl Checks for programs.
 
-AC_GNU_SOURCE
+AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC
 gl_EARLY
 gl_INIT
 AC_PROG_LN_S
-AC_ISC_POSIX
+AC_SEARCH_LIBS([strerror], [cposix])
 AC_SYS_LARGEFILE
 PKG_PROG_PKG_CONFIG
 
@@ -722,10 +722,10 @@ AC_MSG_WARN([
   *** Can't check for macro redefinability when cross-compiling.]))
 
 AS_IF([test "x$enable_libmagic" != "xno"], [
-  AC_CHECK_HEADERS([magic.h])
-  AC_CHECK_LIB(magic, magic_open)
-  AC_CHECK_HEADERS([zlib.h])
-  AC_CHECK_LIB(z, inflate)
+	AC_CHECK_HEADERS([magic.h])
+	AC_CHECK_LIB(magic, magic_open)
+	AC_CHECK_HEADERS([zlib.h])
+	AC_CHECK_LIB(z, inflate)
 ])
 
 # Check for groff html support.
