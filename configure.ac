@@ -684,7 +684,7 @@ int main(void)
 	int testcolor = COLOR_WHITE;
 	return 0;
 }], AC_MSG_RESULT(no),
-    AC_TRY_RUN([
+	AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #ifndef _XOPEN_SOURCE_EXTENDED
 #define _XOPEN_SOURCE_EXTENDED 1
 #endif
@@ -693,7 +693,7 @@ int main(void)
 {
 	int testcolor = COLOR_WHITE;
 	return 0;
-}],
+}]])],
 	AC_DEFINE(NEED_XOPEN_SOURCE_EXTENDED, 1, [Define this if you need the _XOPEN_SOURCE_EXTENDED macro for color support.])
 	AC_MSG_RESULT(yes),
 	AC_MSG_RESULT(not sure)
