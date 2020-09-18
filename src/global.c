@@ -749,6 +749,9 @@ void shortcut_init(void)
 
 #ifndef ENABLE_HELP
 	add_to_funcs(full_refresh, MMAIN|MREPLACE, "Refresh", "x", 0, VIEW);
+#ifndef NANO_TINY
+	add_to_funcs(full_refresh, MINSERTFILE|MEXECUTE, "Refresh", "x", 0, VIEW);
+#endif
 	add_to_funcs(flip_goto, MWHEREIS, "Go To Line", "x", 0, VIEW);
 	add_to_funcs(flip_goto, MGOTOLINE, "Go To Text", "x", 0, VIEW);
 #endif
