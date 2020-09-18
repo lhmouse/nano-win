@@ -215,14 +215,6 @@ bool in_restricted_mode(void)
 		return FALSE;
 }
 
-#ifndef ENABLE_HELP
-/* Indicate that help texts are unavailable. */
-void say_there_is_no_help(void)
-{
-	statusbar(_("Help is not available"));
-}
-#endif
-
 /* Make sure the cursor is visible, then exit from curses mode, disable
  * bracketed-paste mode, and restore the original terminal settings. */
 void restore_terminal(void)

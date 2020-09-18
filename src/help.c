@@ -567,8 +567,8 @@ void do_help(void)
 #ifdef ENABLE_HELP
 	show_help();
 #else
-	if (currmenu == MMAIN)
-		say_there_is_no_help();
+	if (currmenu == MMAIN || currmenu == MBROWSER)
+		statusbar(_("Help is not available"));
 	else
 		beep();
 #endif

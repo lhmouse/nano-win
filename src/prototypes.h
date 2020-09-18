@@ -390,9 +390,6 @@ void free_lines(linestruct *src);
 void renumber_from(linestruct *line);
 void print_view_warning(void);
 bool in_restricted_mode(void);
-#ifndef ENABLE_HELP
-void say_there_is_no_help(void);
-#endif
 void finish(void);
 void close_and_go(void);
 void do_exit(void);

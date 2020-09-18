@@ -516,14 +516,10 @@ char *browse(char *path)
 			kbinput = KEY_WINCH;
 #endif
 		} else if (func == do_help) {
-#ifdef ENABLE_HELP
 			do_help();
 #ifndef NANO_TINY
 			/* The window dimensions might have changed, so act as if. */
 			kbinput = KEY_WINCH;
-#endif
-#else
-			say_there_is_no_help();
 #endif
 #ifndef NANO_TINY
 		} else if (func == do_toggle_void) {
