@@ -728,9 +728,11 @@ void shortcut_init(void)
 #endif
 
 	/* Start populating the different menus with functions. */
+#ifdef ENABLE_HELP
 	add_to_funcs(do_help, (MMOST | MBROWSER) & ~MFINDINHELP,
 		/* TRANSLATORS: Try to keep the next thirteen strings at most 10 characters. */
 		N_("Help"), WITHORSANS(help_gist), TOGETHER, VIEW);
+#endif
 
 	add_to_funcs(do_cancel, ((MMOST & ~MMAIN) | MYESNO),
 		N_("Cancel"), WITHORSANS(cancel_gist), BLANKAFTER, VIEW);
@@ -743,6 +745,12 @@ void shortcut_init(void)
 #ifdef ENABLE_BROWSER
 	add_to_funcs(do_exit, MBROWSER,
 		close_tag, WITHORSANS(exitbrowser_gist), TOGETHER, VIEW);
+#endif
+
+#ifndef ENABLE_HELP
+	add_to_funcs(full_refresh, MMAIN|MREPLACE, "Refresh", "x", 0, VIEW);
+	add_to_funcs(flip_goto, MWHEREIS, "Go To Line", "x", 0, VIEW);
+	add_to_funcs(flip_goto, MGOTOLINE, "Go To Text", "x", 0, VIEW);
 #endif
 
 	add_to_funcs(do_writeout_void, MMAIN,
@@ -846,17 +854,19 @@ void shortcut_init(void)
 		N_("Newer"), WITHORSANS(newer_gist), BLANKAFTER, VIEW);
 #endif
 
+#ifdef ENABLE_HELP
 	add_to_funcs(flip_goto, MWHEREIS,
 		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
+#endif
 
 #ifdef ENABLE_BROWSER
 	add_to_funcs(goto_dir, MBROWSER,
 		/* TRANSLATORS: Try to keep the next seven strings at most 10 characters. */
 		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
-
+#ifdef ENABLE_HELP
 	add_to_funcs(full_refresh, MBROWSER,
 		N_("Refresh"), WITHORSANS(browserrefresh_gist), BLANKAFTER, VIEW);
-
+#endif
 	add_to_funcs(do_search_forward, MBROWSER,
 		N_("Where Is"), WITHORSANS(browserwhereis_gist), TOGETHER, VIEW);
 	add_to_funcs(do_search_backward, MBROWSER,
@@ -999,8 +1009,10 @@ void shortcut_init(void)
 	add_to_funcs(do_verbatim_input, MMAIN,
 		N_("Verbatim"), WITHORSANS(verbatim_gist), BLANKAFTER, NOVIEW);
 
+#ifdef ENABLE_HELP
 	add_to_funcs(full_refresh, MMAIN,
 		N_("Refresh"), WITHORSANS(refresh_gist), TOGETHER, VIEW);
+#endif
 
 	add_to_funcs(do_suspend_void, MMAIN,
 		N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
@@ -1090,8 +1102,10 @@ void shortcut_init(void)
 			N_("Formatter"), WITHORSANS(formatter_gist), BLANKAFTER, NOVIEW);
 #endif
 
+#ifdef ENABLE_HELP
 	add_to_funcs(flip_goto, MGOTOLINE,
 		N_("Go To Text"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
+#endif
 
 #ifndef NANO_TINY
 	add_to_funcs(dos_format_void, MWRITEFILE,
