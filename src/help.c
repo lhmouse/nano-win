@@ -568,7 +568,7 @@ void do_help(void)
 	show_help();
 #else
 	if (currmenu == MMAIN || currmenu == MBROWSER)
-		statusbar(_("Help is not available"));
+		statusbar(_("^W = Ctrl+W    M-W = Alt+W"));
 	else
 		beep();
 #endif
