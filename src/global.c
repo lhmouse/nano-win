@@ -1363,6 +1363,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-T", 0, cut_till_eof, 0);
 	add_to_sclist(MEXECUTE, "^V", 0, cut_till_eof, 0);
 	add_to_sclist(MMAIN, "M-D", 0, do_wordlinechar_count, 0);
+#else
+	add_to_sclist(MMAIN, "M-H", 0, do_help, 0);
 #endif
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "M-J", 0, do_full_justify, 0);
