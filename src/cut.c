@@ -128,8 +128,6 @@ void do_delete(void)
  * character, and then delete the character under the cursor. */
 void do_backspace(void)
 {
-	static bool give_a_hint = TRUE;
-
 #ifndef NANO_TINY
 	if (openfile->mark && ISSET(LET_THEM_ZAP))
 		zap_text();
@@ -138,10 +136,7 @@ void do_backspace(void)
 	if (openfile->current_x > 0 || openfile->current != openfile->filetop) {
 		do_left();
 		do_deletion(BACK);
-	} else if (give_a_hint && !ISSET(NO_HELP))
-		statusbar(_("^W = Ctrl+W    M-W = Alt+W"));
-
-	give_a_hint = FALSE;
+	}
 }
 
 /* Return FALSE when a cut command would not actually cut anything: when

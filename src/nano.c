@@ -1526,6 +1526,7 @@ void process_a_keystroke(void)
 		/* The input buffer for actual characters. */
 	static size_t depth = 0;
 		/* The length of the input buffer. */
+	static bool give_a_hint = TRUE;
 	const keystruct *shortcut;
 
 	/* Read in a keystroke, and show the cursor while waiting. */
@@ -1590,6 +1591,13 @@ void process_a_keystroke(void)
 		print_view_warning();
 		return;
 	}
+
+	if (input == '\b' && give_a_hint && openfile->current_x == 0 &&
+				openfile->current == openfile->filetop && !ISSET(NO_HELP)) {
+		statusbar(_("^W = Ctrl+W    M-W = Alt+W"));
+		give_a_hint = FALSE;
+	} else if (meta_key)
+		give_a_hint = FALSE;
 
 	/* When not cutting or copying text, drop the cutbuffer the next time. */
 	if (shortcut->func != cut_text) {
