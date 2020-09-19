@@ -114,6 +114,7 @@ static const rcoption rcopts[] = {
 	{"smarthome", SMART_HOME},
 	{"smooth", SMOOTH_SCROLL},  /* Deprecated; remove in 2021. */
 	{"softwrap", SOFTWRAP},
+	{"stateflags", STATEFLAGS},
 	{"tabstospaces", TABS_TO_SPACES},
 	{"trimblanks", TRIM_BLANKS},
 	{"unix", MAKE_IT_UNIX},

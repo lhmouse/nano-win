@@ -541,7 +541,8 @@ enum
 	JUMPY_SCROLLING,
 	EMPTY_LINE,
 	INDICATOR,
-	BOOKSTYLE
+	BOOKSTYLE,
+	STATEFLAGS
 };
 
 /* Flags for the menus in which a given function should be present. */

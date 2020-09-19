@@ -497,6 +497,7 @@ void usage(void)
 #ifndef NANO_TINY
 	/* TRANSLATORS: The next forty or so strings are option descriptions
 	 * for the --help output.  Try to keep them at most 40 characters. */
+	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
 	print_opt("-A", "--smarthome", N_("Enable smart home key"));
 	if (!ISSET(RESTRICTED)) {
 		print_opt("-B", "--backup", N_("Save backups of existing files"));
@@ -1113,6 +1114,10 @@ void do_toggle(int flag)
 #endif
 	}
 
+	if (ISSET(STATEFLAGS) && (flag == AUTOINDENT ||
+						flag == BREAK_LONG_LINES || flag == SOFTWRAP))
+		titlebar(NULL);
+
 	enabled = ISSET(flag);
 
 	if (flag == NO_HELP || flag == NO_SYNTAX)
@@ -1528,6 +1533,9 @@ void process_a_keystroke(void)
 		/* The input buffer for actual characters. */
 	static size_t depth = 0;
 		/* The length of the input buffer. */
+#ifndef NANO_TINY
+	linestruct *was_mark = openfile->mark;
+#endif
 	static bool give_a_hint = TRUE;
 	const keystruct *shortcut;
 
@@ -1667,6 +1675,9 @@ void process_a_keystroke(void)
 #ifndef NANO_TINY
 	if (bracketed_paste)
 		suck_up_input_and_paste_it();
+
+	if (ISSET(STATEFLAGS) && openfile->mark != was_mark)
+		titlebar(NULL);
 #endif
 }
 
@@ -1750,6 +1761,7 @@ int main(int argc, char **argv)
 		{"nohelp", 0, NULL, 'x'},
 		{"suspendable", 0, NULL, 'z'},
 #ifndef NANO_TINY
+		{"stateflags", 0, NULL, '%'},
 		{"smarthome", 0, NULL, 'A'},
 		{"backup", 0, NULL, 'B'},
 		{"backupdir", 1, NULL, 'C'},
@@ -1829,10 +1841,13 @@ int main(int argc, char **argv)
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
 
-	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
+	while ((optchr = getopt_long(argc, argv, "%ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
 				"abcdef:ghijklmno:pqr:s:tuvwxyz$", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
+			case '%':
+				SET(STATEFLAGS);
+				break;
 			case 'A':
 				SET(SMART_HOME);
 				break;

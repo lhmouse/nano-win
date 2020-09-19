@@ -97,6 +97,9 @@ void record_macro(void)
 		snip_last_keystroke();
 		statusbar(_("Stopped recording"));
 	}
+
+	if (ISSET(STATEFLAGS))
+		titlebar(NULL);
 }
 
 /* Copy the stored sequence of codes into the regular key buffer,
@@ -1973,6 +1976,9 @@ void titlebar(const char *path)
 		else
 			path = openfile->filename;
 
+		if (ISSET(STATEFLAGS) && !ISSET(VIEW_MODE))
+			state = "+.xxxxx";
+		else
 		if (openfile->modified)
 			state = _("Modified");
 		else if (ISSET(VIEW_MODE))
@@ -2036,11 +2042,26 @@ void titlebar(const char *path)
 		free(caption);
 	}
 
+	/* When requested, show on the title bar the state of three options and
+	 * the state of the mark and whether a macro is being recorded. */
+	if (ISSET(STATEFLAGS) && !ISSET(VIEW_MODE)) {
+		if (COLS > 1)
+			waddstr(topwin, openfile->modified ? " *" : "  ");
+		if (statelen < COLS) {
+			wmove(topwin, 0, COLS + 2 - statelen);
+			waddstr(topwin, ISSET(AUTOINDENT) ? "I" : " ");
+			waddstr(topwin, openfile->mark ? "M" : " ");
+			waddstr(topwin, ISSET(BREAK_LONG_LINES) ? "L" : " ");
+			waddstr(topwin, recording ? "R" : " ");
+			waddstr(topwin, ISSET(SOFTWRAP) ? "S" : " ");
+		}
+	} else {
 	/* Right-align the state if there's room; otherwise, trim it. */
 	if (statelen > 0 && statelen <= COLS)
 		mvwaddstr(topwin, 0, COLS - statelen, state);
 	else if (statelen > 0)
 		mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
+	}
 
 	wattroff(topwin, interface_color_pair[TITLE_BAR]);
 
