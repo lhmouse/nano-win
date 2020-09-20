@@ -537,23 +537,22 @@ and then pressing the desired key.
 @node The Cutbuffer
 @section The Cutbuffer
 
-Text can be cut from a file, a whole line at a time, by using the 'Cut Text'
-command (default key binding: @kbd{^K}).  The cut line is stored in
-the cutbuffer.  Consecutive strokes of @kbd{^K} will add each cut line
-to this buffer, but a @kbd{^K}
+Text can be cut from a file a whole line at a time with @kbd{^K}.
+The cut line is stored in the cutbuffer.  Consecutive strokes of @kbd{^K}
+will add each cut line to this buffer, but a @kbd{^K}
 after any other keystroke will overwrite the entire cutbuffer.
 
-The contents of the cutbuffer can be pasted back into the file with the
-'Uncut Text' command (default key binding: @kbd{^U}).
+The contents of the cutbuffer can be pasted at the current cursor position
+with @kbd{^U}.
 
-A line of text can be copied into the cutbuffer (without cutting it) with
-the 'Copy Text' command (default key binding: @kbd{M-6}).
+A line of text can be copied into the cutbuffer (without cutting it)
+with @kbd{M-6}.
 
 @node The Mark
 @section The Mark
 
-Text can be selected by first 'setting the Mark' (default key bindings:
-@kbd{^6} and @kbd{M-A}) and then moving the cursor to the other end of the portion
+Text can be selected by first 'setting the Mark' with @kbd{^6}
+or @kbd{M-A} and then moving the cursor to the other end of the portion
 to be selected.  The selected portion of text will be highlighted.
 This selection can now be cut or copied in its entirety with a single
 @kbd{^K} or @kbd{M-6}.  Or the selection can be used to limit the scope of
@@ -564,8 +563,8 @@ while using the cursor keys.  Holding down the @kbd{Ctrl} or @kbd{Alt}
 key too will increase the stride.  Such a selection is cancelled
 upon any cursor movement where @kbd{Shift} isn't held.
 
-Cutting or copying selected text will toggle the mark off automatically.
-If necessary, it can be toggled off manually with another @kbd{^6} or @kbd{M-A}.
+Cutting or copying selected text toggles off the mark automatically.
+If needed, it can be toggled off manually with another @kbd{^6} or @kbd{M-A}.
 
 @node Screen Layout
 @section Screen Layout
