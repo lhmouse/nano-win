@@ -170,6 +170,12 @@ Display line numbers to the left of the text area.
 .B set locking
 Enable vim-style lock-files for when editing files.
 .TP
+.B set magic
+When neither the file's name nor its first line give a clue,
+try using libmagic to determine the applicable syntax.
+(Calling libmagic can be relatively time consuming.
+It is therefore not done by default.)
+.TP
 .BI "set matchbrackets """ characters """
 Specify the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must

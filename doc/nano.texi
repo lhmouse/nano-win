@@ -165,6 +165,11 @@ a command straight into a buffer, and then edit it.
 
 @table @option
 
+@item -!
+@itemx --magic
+When neither the file's name nor its first line give a clue,
+try using libmagic to determine the applicable syntax.
+
 @item -%
 @itemx --stateflags
 Use the top-right corner of the screen for showing some state flags:
@@ -887,6 +892,12 @@ Display line numbers to the left of the text area.
 
 @item set locking
 Enable vim-style lock-files for when editing files.
+
+@item set magic
+When neither the file's name nor its first line give a clue,
+try using libmagic to determine the applicable syntax.
+(Calling libmagic can be relatively time consuming.
+It is therefore not done by default.)
 
 @anchor{@code{set matchbrackets}}
 @item set matchbrackets "@var{characters}"

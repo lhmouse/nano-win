@@ -76,6 +76,9 @@
 ## no plans to implement vim-style undo state in these files.
 # set locking
 
+## Fall back to slow libmagic to try and determine an applicable syntax.
+# set magic
+
 ## The opening and closing brackets that can be found by bracket
 ## searches.  They cannot contain blank characters.  The former set must
 ## come before the latter set, and both must be in the same order.
