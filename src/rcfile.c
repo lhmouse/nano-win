@@ -48,14 +48,12 @@ static const rcoption rcopts[] = {
 #endif
 	{"casesensitive", CASE_SENSITIVE},
 	{"constantshow", CONSTANT_SHOW},
-	{"emptyline", EMPTY_LINE},
 #ifdef ENABLED_WRAPORJUSTIFY
 	{"fill", 0},
 #endif
 #ifdef ENABLE_HISTORIES
 	{"historylog", HISTORYLOG},
 #endif
-	{"jumpyscrolling", JUMPY_SCROLLING},
 #ifdef ENABLE_LINENUMBERS
 	{"linenumbers", LINE_NUMBERS},
 #endif
@@ -105,8 +103,10 @@ static const rcoption rcopts[] = {
 	{"backupdir", 0},
 	{"bookstyle", BOOKSTYLE},
 	{"cutfromcursor", CUT_FROM_CURSOR},
+	{"emptyline", EMPTY_LINE},
 	{"guidestripe", 0},
 	{"indicator", INDICATOR},
+	{"jumpyscrolling", JUMPY_SCROLLING},
 	{"locking", LOCKING},
 	{"matchbrackets", 0},
 	{"noconvert", NO_CONVERT},

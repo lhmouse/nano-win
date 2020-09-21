@@ -115,6 +115,7 @@ void do_page_up(void)
 	int mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
 	size_t leftedge, target_column;
 
+#ifndef NANO_TINY
 	/* If we're not in smooth scrolling mode, put the cursor at the
 	 * beginning of the top line of the edit window, as Pico does. */
 	if (ISSET(JUMPY_SCROLLING)) {
@@ -123,6 +124,7 @@ void do_page_up(void)
 		openfile->current_y = 0;
 		target_column = 0;
 	} else
+#endif
 		get_edge_and_target(&leftedge, &target_column);
 
 	/* Move up the required number of lines or chunks.  If we can't, we're
@@ -145,6 +147,7 @@ void do_page_down(void)
 	int mustmove = (editwinrows < 3) ? 1 : editwinrows - 2;
 	size_t leftedge, target_column;
 
+#ifndef NANO_TINY
 	/* If we're not in smooth scrolling mode, put the cursor at the
 	 * beginning of the top line of the edit window, as Pico does. */
 	if (ISSET(JUMPY_SCROLLING)) {
@@ -153,6 +156,7 @@ void do_page_down(void)
 		openfile->current_y = 0;
 		target_column = 0;
 	} else
+#endif
 		get_edge_and_target(&leftedge, &target_column);
 
 	/* Move down the required number of lines or chunks.  If we can't, we're

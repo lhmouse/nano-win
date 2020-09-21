@@ -587,7 +587,9 @@ void usage(void)
 	print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
 	print_opt("-d", "--rebinddelete",
 					N_("Fix Backspace/Delete confusion problem"));
+#ifndef NANO_TINY
 	print_opt("-e", "--emptyline", N_("Keep the line below the title bar empty"));
+#endif
 #ifdef ENABLE_NANORC
 	print_opt(_("-f <file>"), _("--rcfile=<file>"),
 					N_("Use only this file for configuring nano"));
@@ -598,9 +600,7 @@ void usage(void)
 	print_opt("-h", "--help", N_("Show this help text and exit"));
 #ifndef NANO_TINY
 	print_opt("-i", "--autoindent", N_("Automatically indent new lines"));
-#endif
 	print_opt("-j", "--jumpyscrolling", N_("Scroll per half-screen, not per line"));
-#ifndef NANO_TINY
 	print_opt("-k", "--cutfromcursor", N_("Cut from cursor to end of line"));
 #endif
 #ifdef ENABLE_LINENUMBERS
@@ -609,7 +609,9 @@ void usage(void)
 #ifdef ENABLE_MOUSE
 	print_opt("-m", "--mouse", N_("Enable the use of the mouse"));
 #endif
+#ifndef NANO_TINY
 	print_opt("-n", "--noread", N_("Do not read the file (only write it)"));
+#endif
 #ifdef ENABLE_OPERATINGDIR
 	print_opt(_("-o <dir>"), _("--operatingdir=<dir>"),
 					N_("Set operating directory"));
@@ -1716,7 +1718,6 @@ int main(int argc, char **argv)
 #endif
 		{"constantshow", 0, NULL, 'c'},
 		{"rebinddelete", 0, NULL, 'd'},
-		{"emptyline", 0, NULL, 'e'},
 #ifdef ENABLE_NANORC
 		{"rcfile", 1, NULL, 'f'},
 #endif
@@ -1724,14 +1725,12 @@ int main(int argc, char **argv)
 		{"showcursor", 0, NULL, 'g'},
 #endif
 		{"help", 0, NULL, 'h'},
-		{"jumpyscrolling", 0, NULL, 'j'},
 #ifdef ENABLE_LINENUMBERS
 		{"linenumbers", 0, NULL, 'l'},
 #endif
 #ifdef ENABLE_MOUSE
 		{"mouse", 0, NULL, 'm'},
 #endif
-		{"noread", 0, NULL, 'n'},
 #ifdef ENABLE_OPERATINGDIR
 		{"operatingdir", 1, NULL, 'o'},
 #endif
@@ -1767,8 +1766,11 @@ int main(int argc, char **argv)
 		{"wordchars", 1, NULL, 'X'},
 		{"zap", 0, NULL, 'Z'},
 		{"atblanks", 0, NULL, 'a'},
+		{"emptyline", 0, NULL, 'e'},
 		{"autoindent", 0, NULL, 'i'},
+		{"jumpyscrolling", 0, NULL, 'j'},
 		{"cutfromcursor", 0, NULL, 'k'},
+		{"noread", 0, NULL, 'n'},
 		{"indicator", 0, NULL, 'q'},
 		{"unix", 0, NULL, 'u'},
 		{"afterends", 0, NULL, 'y'},
@@ -1965,9 +1967,11 @@ int main(int argc, char **argv)
 			case 'd':
 				SET(REBIND_DELETE);
 				break;
+#ifndef NANO_TINY
 			case 'e':
 				SET(EMPTY_LINE);
 				break;
+#endif
 #ifdef ENABLE_NANORC
 			case 'f':
 				custom_nanorc = mallocstrcpy(custom_nanorc, optarg);
@@ -1985,11 +1989,9 @@ int main(int argc, char **argv)
 			case 'i':
 				SET(AUTOINDENT);
 				break;
-#endif
 			case 'j':
 				SET(JUMPY_SCROLLING);
 				break;
-#ifndef NANO_TINY
 			case 'k':
 				SET(CUT_FROM_CURSOR);
 				break;
@@ -2004,9 +2006,11 @@ int main(int argc, char **argv)
 				SET(USE_MOUSE);
 				break;
 #endif
+#ifndef NANO_TINY
 			case 'n':
 				SET(NOREAD_MODE);
 				break;
+#endif
 #ifdef ENABLE_OPERATINGDIR
 			case 'o':
 				operating_dir = mallocstrcpy(operating_dir, optarg);
