@@ -542,7 +542,8 @@ enum
 	EMPTY_LINE,
 	INDICATOR,
 	BOOKSTYLE,
-	STATEFLAGS
+	STATEFLAGS,
+	USE_MAGIC
 };
 
 /* Flags for the menus in which a given function should be present. */

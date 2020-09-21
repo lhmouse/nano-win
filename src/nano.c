@@ -494,9 +494,12 @@ void usage(void)
 #endif
 	/* TRANSLATORS: The next three are column headers of the --help output. */
 	print_opt(_("Option"), _("Long option"), N_("Meaning"));
-#ifndef NANO_TINY
+#ifdef HAVE_LIBMAGIC
 	/* TRANSLATORS: The next forty or so strings are option descriptions
 	 * for the --help output.  Try to keep them at most 40 characters. */
+	print_opt("-!", "--magic", N_("Also try magic to determine syntax"));
+#endif
+#ifndef NANO_TINY
 	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
 	print_opt("-A", "--smarthome", N_("Enable smart home key"));
 	if (!ISSET(RESTRICTED)) {
@@ -1701,6 +1704,9 @@ int main(int argc, char **argv)
 		/* Whether the quoting regex was compiled successfully. */
 #endif
 	const struct option long_options[] = {
+#ifdef HAVE_LIBMAGIC
+		{"magic", 0, NULL, '!'},
+#endif
 		{"boldtext", 0, NULL, 'D'},
 #ifdef ENABLE_MULTIBUFFER
 		{"multibuffer", 0, NULL, 'F'},
@@ -1841,9 +1847,14 @@ int main(int argc, char **argv)
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
 
-	while ((optchr = getopt_long(argc, argv, "%ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
+	while ((optchr = getopt_long(argc, argv, "!%ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
 				"abcdef:ghijklmno:pqr:s:tuvwxyz$", long_options, NULL)) != -1) {
 		switch (optchr) {
+#ifdef HAVE_LIBMAGIC
+			case '!':
+				SET(USE_MAGIC);
+				break;
+#endif
 #ifndef NANO_TINY
 			case '%':
 				SET(STATEFLAGS);

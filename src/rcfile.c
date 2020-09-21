@@ -57,6 +57,9 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_LINENUMBERS
 	{"linenumbers", LINE_NUMBERS},
 #endif
+#ifdef HAVE_LIBMAGIC
+	{"magic", USE_MAGIC},
+#endif
 	{"morespace", MORE_SPACE},  /* Deprecated; remove in 2021. */
 #ifdef ENABLE_MOUSE
 	{"mouse", USE_MOUSE},
