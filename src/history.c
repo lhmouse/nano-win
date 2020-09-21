@@ -361,7 +361,7 @@ void save_history(void)
 	histfile = fopen(histname, "wb");
 
 	if (histfile == NULL) {
-		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
+		jot_error(N_("Error writing %s: %s"), histname, strerror(errno));
 		free(histname);
 		return;
 	}
@@ -371,10 +371,10 @@ void save_history(void)
 
 	if (!write_list(searchtop, histfile) || !write_list(replacetop, histfile) ||
 											!write_list(executetop, histfile))
-		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
+		jot_error(N_("Error writing %s: %s"), histname, strerror(errno));
 
 	if (fclose(histfile) == EOF)
-		jot_error(N_("Error writing %s: %s\n"), histname, strerror(errno));
+		jot_error(N_("Error writing %s: %s"), histname, strerror(errno));
 
 	free(histname);
 }
@@ -459,7 +459,7 @@ void save_poshistory(void)
 	FILE *histfile = fopen(poshistname, "wb");
 
 	if (histfile == NULL) {
-		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
+		jot_error(N_("Error writing %s: %s"), poshistname, strerror(errno));
 		return;
 	}
 
@@ -483,13 +483,13 @@ void save_poshistory(void)
 		path_and_place[length - 1] = '\n';
 
 		if (fwrite(path_and_place, sizeof(char), length, histfile) < length)
-			jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
+			jot_error(N_("Error writing %s: %s"), poshistname, strerror(errno));
 
 		free(path_and_place);
 	}
 
 	if (fclose(histfile) == EOF)
-		jot_error(N_("Error writing %s: %s\n"), poshistname, strerror(errno));
+		jot_error(N_("Error writing %s: %s"), poshistname, strerror(errno));
 
 	if (stat(poshistname, &fileinfo) == 0)
 		latest_timestamp = fileinfo.st_mtime;
