@@ -816,6 +816,7 @@ void shortcut_init(void)
 	}
 
 	add_to_funcs(report_cursor_position, MMAIN,
+		/* TRANSLATORS: This refers to the position of the cursor. */
 		N_("Location"), WITHORSANS(cursorpos_gist), TOGETHER, VIEW);
 
 #if defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
