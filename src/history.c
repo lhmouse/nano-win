@@ -396,7 +396,7 @@ void load_poshistory(void)
 	ssize_t read, count = 0;
 	struct stat fileinfo;
 	poshiststruct *record_ptr = NULL, *newrecord;
-	char *lineptr, *xptr;
+	char *lineptr, *columnptr;
 	char *stanza = NULL;
 	size_t dummy = 0;
 
@@ -406,22 +406,22 @@ void load_poshistory(void)
 		recode_NUL_to_LF(stanza, read);
 
 		/* Find the spaces before column number and line number. */
-		xptr = revstrstr(stanza, " ", stanza + read - 3);
-		if (xptr == NULL)
+		columnptr = revstrstr(stanza, " ", stanza + read - 3);
+		if (columnptr == NULL)
 			continue;
-		lineptr = revstrstr(stanza, " ", xptr - 2);
+		lineptr = revstrstr(stanza, " ", columnptr - 2);
 		if (lineptr == NULL)
 			continue;
 
 		/* Now separate the three elements of the line. */
-		*(xptr++) = '\0';
+		*(columnptr++) = '\0';
 		*(lineptr++) = '\0';
 
 		/* Create a new position record. */
 		newrecord = nmalloc(sizeof(poshiststruct));
 		newrecord->filename = copy_of(stanza);
 		newrecord->linenumber = atoi(lineptr);
-		newrecord->columnnumber = atoi(xptr);
+		newrecord->columnnumber = atoi(columnptr);
 		newrecord->next = NULL;
 
 		/* Add the record to the list. */
