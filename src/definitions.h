@@ -341,11 +341,11 @@ typedef struct undostruct {
 #ifdef ENABLE_HISTORIES
 typedef struct poshiststruct {
 	char *filename;
-		/* The file. */
-	ssize_t lineno;
-		/* Line number we left off on. */
-	ssize_t xno;
-		/* The x position in the file we left off on. */
+		/* The full path plus name of the file. */
+	ssize_t linenumber;
+		/* The line where the cursor was when we closed the file. */
+	ssize_t columnnumber;
+		/* The column where the cursor was. */
 	struct poshiststruct *next;
 		/* The next item of position history. */
 } poshiststruct;

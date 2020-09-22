@@ -419,8 +419,8 @@ void load_poshistory(void)
 		/* Create a new position record. */
 		newrecord = nmalloc(sizeof(poshiststruct));
 		newrecord->filename = copy_of(line);
-		newrecord->lineno = atoi(lineptr);
-		newrecord->xno = atoi(xptr);
+		newrecord->linenumber = atoi(lineptr);
+		newrecord->columnnumber = atoi(xptr);
 		newrecord->next = NULL;
 
 		/* Add the record to the list. */
@@ -474,7 +474,7 @@ void save_poshistory(void)
 		 * plus two spaces, plus the line feed, plus the null byte. */
 		path_and_place = nmalloc(strlen(posptr->filename) + 44);
 		sprintf(path_and_place, "%s %zd %zd\n",
-								posptr->filename, posptr->lineno, posptr->xno);
+								posptr->filename, posptr->linenumber, posptr->columnnumber);
 		length = strlen(path_and_place);
 
 		/* Encode newlines in filenames as NULs. */
@@ -573,8 +573,8 @@ void update_poshistory(void)
 	}
 
 	/* Store the last cursor position. */
-	theone->lineno = openfile->current->lineno;
-	theone->xno = xplustabs() + 1;
+	theone->linenumber = openfile->current->lineno;
+	theone->columnnumber = xplustabs() + 1;
 	theone->next = NULL;
 
 	free(fullpath);
@@ -604,8 +604,8 @@ bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
 	if (posptr == NULL)
 		return FALSE;
 
-	*line = posptr->lineno;
-	*column = posptr->xno;
+	*line = posptr->linenumber;
+	*column = posptr->columnnumber;
 	return TRUE;
 }
 #endif /* ENABLE_HISTORIES */
