@@ -299,17 +299,17 @@ void load_history(void)
 	}
 
 	linestruct **history = &search_history;
-	char *line = NULL;
-	size_t buf_len = 0;
+	char *stanza = NULL;
+	size_t dummy = 0;
 	ssize_t read;
 
 	/* Load the three history lists (first search, then replace, then execute)
 	 * from oldest entry to newest.  Between two lists there is an empty line. */
-	while ((read = getline(&line, &buf_len, histfile)) > 0) {
-		line[--read] = '\0';
+	while ((read = getline(&stanza, &dummy, histfile)) > 0) {
+		stanza[--read] = '\0';
 		if (read > 0) {
-			recode_NUL_to_LF(line, read);
-			update_history(history, line);
+			recode_NUL_to_LF(stanza, read);
+			update_history(history, stanza);
 		} else if (history == &search_history)
 			history = &replace_history;
 		else
@@ -320,7 +320,7 @@ void load_history(void)
 		jot_error(N_("Error reading %s: %s"), histname, strerror(errno));
 
 	free(histname);
-	free(line);
+	free(stanza);
 
 	/* Reading in the lists has marked them as changed; undo this side effect. */
 	history_changed = FALSE;
@@ -393,22 +393,23 @@ void load_poshistory(void)
 	if (histfile == NULL)
 		return;
 
-	char *line = NULL, *lineptr, *xptr;
-	size_t buf_len = 0;
 	ssize_t read, count = 0;
 	struct stat fileinfo;
 	poshiststruct *record_ptr = NULL, *newrecord;
+	char *lineptr, *xptr;
+	char *stanza = NULL;
+	size_t dummy = 0;
 
 	/* Read and parse each line, and store the extracted data. */
-	while ((read = getline(&line, &buf_len, histfile)) > 5) {
+	while ((read = getline(&stanza, &dummy, histfile)) > 5) {
 		/* Decode NULs as embedded newlines. */
-		recode_NUL_to_LF(line, read);
+		recode_NUL_to_LF(stanza, read);
 
-		/* Find where the x index and line number are in the line. */
-		xptr = revstrstr(line, " ", line + read - 3);
+		/* Find the spaces before column number and line number. */
+		xptr = revstrstr(stanza, " ", stanza + read - 3);
 		if (xptr == NULL)
 			continue;
-		lineptr = revstrstr(line, " ", xptr - 2);
+		lineptr = revstrstr(stanza, " ", xptr - 2);
 		if (lineptr == NULL)
 			continue;
 
@@ -418,7 +419,7 @@ void load_poshistory(void)
 
 		/* Create a new position record. */
 		newrecord = nmalloc(sizeof(poshiststruct));
-		newrecord->filename = copy_of(line);
+		newrecord->filename = copy_of(stanza);
 		newrecord->linenumber = atoi(lineptr);
 		newrecord->columnnumber = atoi(xptr);
 		newrecord->next = NULL;
@@ -445,7 +446,7 @@ void load_poshistory(void)
 	if (fclose(histfile) == EOF)
 		jot_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
 
-	free(line);
+	free(stanza);
 
 	if (stat(poshistname, &fileinfo) == 0)
 		latest_timestamp = fileinfo.st_mtime;
