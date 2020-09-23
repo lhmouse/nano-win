@@ -294,6 +294,14 @@ the screen's edge, by using also \fBset atblanks\fR.)
 Use the given \fIprogram\fR to do spell checking and correcting, instead of
 using the built-in corrector that calls \fBhunspell\fR(1) or \fBspell\fR(1).
 .TP
+.B set stateflags
+Use the top-right corner of the screen for showing some state flags:
+\fBI\fR when auto-indenting, \fBM\fR when the mark is on, \fBL\fR when
+hard-wrapping (breaking long lines), \fBR\fR when recording a macro,
+and \fBS\fR when soft-wrapping.
+When the buffer is modified, a star (\fB*\fR) is shown after the
+filename in the center of the title bar.
+.TP
 .B set  statuscolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Specify the color combination to use for the status bar.
 See \fBset titlecolor\fR for more details.

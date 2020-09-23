@@ -165,6 +165,15 @@ a command straight into a buffer, and then edit it.
 
 @table @option
 
+@item -%
+@itemx --stateflags
+Use the top-right corner of the screen for showing some state flags:
+@code{I} when auto-indenting, @code{M} when the mark is on, @code{L} when
+hard-wrapping (breaking long lines), @code{R} when recording a macro,
+and @code{S} when soft-wrapping.
+When the buffer is modified, a star (@code{*}) is shown after the
+filename in the center of the title bar.
+
 @item -A
 @itemx --smarthome
 Make the Home key smarter.  When Home is pressed anywhere but at the
@@ -1007,6 +1016,14 @@ the screen's edge, by using also @code{set atblanks}.)
 @item set speller "@var{program} [@var{argument} @dots{}]"
 Use the given program to do spell checking and correcting.
 @xref{@option{--speller}} for details.
+
+@item set stateflags
+Use the top-right corner of the screen for showing some state flags:
+@code{I} when auto-indenting, @code{M} when the mark is on, @code{L} when
+hard-wrapping (breaking long lines), @code{R} when recording a macro,
+and @code{S} when soft-wrapping.
+When the buffer is modified, a star (@code{*}) is shown after the
+filename in the center of the title bar.
 
 @item set statuscolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the status bar.

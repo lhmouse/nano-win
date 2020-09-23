@@ -159,6 +159,10 @@
 ## does not have a default value.
 # set speller "aspell -x -c"
 
+## Use the end of the title bar for some state flags: I = auto-indenting,
+## M = mark, L = hard-wrapping long lines, R = recording, S = soft-wrapping.
+# set stateflags
+
 ## Allow nano to be suspended (with ^Z by default).
 # set suspendable
 ## (The old form of this option, 'set suspend', is deprecated.)
