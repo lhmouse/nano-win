@@ -1976,13 +1976,14 @@ void titlebar(const char *path)
 		else
 			path = openfile->filename;
 
-		if (ISSET(STATEFLAGS) && !ISSET(VIEW_MODE))
-			state = "+.xxxxx";
-		else
-		if (openfile->modified)
-			state = _("Modified");
-		else if (ISSET(VIEW_MODE))
+		if (ISSET(VIEW_MODE))
 			state = _("View");
+#ifndef NANO_TINY
+		else if (ISSET(STATEFLAGS))
+			state = "+.xxxxx";
+#endif
+		else if (openfile->modified)
+			state = _("Modified");
 		else if (ISSET(RESTRICTED))
 			state = _("Restricted");
 		else
@@ -2042,6 +2043,7 @@ void titlebar(const char *path)
 		free(caption);
 	}
 
+#ifndef NANO_TINY
 	/* When requested, show on the title bar the state of three options and
 	 * the state of the mark and whether a macro is being recorded. */
 	if (ISSET(STATEFLAGS) && !ISSET(VIEW_MODE)) {
@@ -2055,12 +2057,14 @@ void titlebar(const char *path)
 			waddstr(topwin, recording ? "R" : " ");
 			waddstr(topwin, ISSET(SOFTWRAP) ? "S" : " ");
 		}
-	} else {
-	/* Right-align the state if there's room; otherwise, trim it. */
-	if (statelen > 0 && statelen <= COLS)
-		mvwaddstr(topwin, 0, COLS - statelen, state);
-	else if (statelen > 0)
-		mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
+	} else
+#endif
+	{
+		/* If there's room, right-align the state word; otherwise, clip it. */
+		if (statelen > 0 && statelen <= COLS)
+			mvwaddstr(topwin, 0, COLS - statelen, state);
+		else if (statelen > 0)
+			mvwaddnstr(topwin, 0, 0, state, actual_x(state, COLS));
 	}
 
 	wattroff(topwin, interface_color_pair[TITLE_BAR]);
