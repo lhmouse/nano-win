@@ -2047,8 +2047,8 @@ void titlebar(const char *path)
 	/* When requested, show on the title bar the state of three options and
 	 * the state of the mark and whether a macro is being recorded. */
 	if (ISSET(STATEFLAGS) && !ISSET(VIEW_MODE)) {
-		if (COLS > 1)
-			waddstr(topwin, openfile->modified ? " *" : "  ");
+		if (openfile->modified && COLS > 1)
+			waddstr(topwin, " *");
 		if (statelen < COLS) {
 			wmove(topwin, 0, COLS + 2 - statelen);
 			waddstr(topwin, ISSET(AUTOINDENT) ? "I" : " ");
