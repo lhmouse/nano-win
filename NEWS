@@ -529,7 +529,7 @@
 
 2016.02.12 - GNU nano 2.5.2 is carrying too many dogs.  This release
              includes several fixes for various memory leaks, position-
-             history size growth, and a long standing issue with using
+             history size growth, and a long-standing issue with using
              nano under sudo creating root-owned files.  There are also
              the usual bevy of documentation and other miscellaneous
              fixes and touchups.  Upgrade today while supplies last,
@@ -771,28 +771,27 @@
 
 2009.11.30 - GNU nano 2.2.0 "Doc Brown" is released!  The culmination
              of almost two years of development and hot on the heels
-             of nano's 10th birthday is available for all your
-             editing needs!  Bugs fixed since the last release
-             include several fixes for tiny mode (involving both
-             the help keys and replace menu text), more 'final'
-             fixes for soft wrapping, and several typo and documentation
-             updates including nanorc tweaks and a new syntax
-             highlighting file for makefiles.  Also included is a long
-             standing fix for random crashing when using nanorc on
-             FreeBSD, and nano will no longer clear the screen on
-             suspend to maintain compatibility with other *nix editors.
-             For those who haven't been playing along at home, please
-             see the official web page for the summary of new
-             features since 2.0.  Special thanks to all who have
-             submitted bug reports recently in support of our new
-             stable release, and apologies for all those bugs we
-             didn't yet find :-) Peace to all.
+             of nano's 10th birthday is available for all your editing
+             needs!  Bugs fixed since the last release include several
+             fixes for tiny mode (involving both the help keys and
+             replace menu text), more 'final' fixes for soft wrapping,
+             and several typo and documentation updates including nanorc
+             tweaks and a new syntax highlighting file for makefiles.
+             Also included is a long-standing fix for random crashing
+             when using nanorc on FreeBSD, and nano will no longer clear
+             the screen on suspend to maintain compatibility with other
+             *nix editors.  For those who haven't been playing along at
+             home, please see the official web page for the summary of
+             new features since 2.0.  Special thanks to all who have
+             submitted bug reports recently in support of our new stable
+             release, and apologies for all those bugs we didn't yet
+             find :-)  Peace to all.
 
 
 2009.11.21 - GNU nano 2.1.99pre2 is available for a special pre-Black
              Friday discount.  Included are some (hopefully final)
              fixes for issues with last page display caused by the
-             soft wrapping code, and a fix for a long standing issue
+             soft wrapping code, and a fix for a long-standing issue
              with hitting the Home key when going through the search
              history.  On the features front, nano will now attempt to
              retain the proper ownership and permissions when trying
@@ -924,7 +923,7 @@
              contains fixes for binding bad keys, some
              configure-specific compilation failures, and more issues
              with the new input back end and in particular the status
-             bar.  Also fixed are some long standing issues with
+             bar.  Also fixed are some long-standing issues with
              compiling on AIX, and a segfault when making the terminal
              window too small.  Rest in Peace Tim and George!
 
@@ -1105,7 +1104,7 @@
 
 2005.12.23 - GNU nano 1.3.10 rises to the surface.  This release
              contains several new features as well as fixes for
-             several longstanding bugs.  The former include the
+             several long-standing bugs.  The former include the
              ability to scroll up or down single lines without
              scrolling the cursor, reworked bracket searching code
              that doesn't require regular expression support,
@@ -1701,7 +1700,7 @@
 
 2000.11.23 - Happy Thanksgiving!  Nano 0.9.21 is our "last version was
              a big turkey" release.  It fixes several bugs introduced
-             by the previous version, as well as a few long- standing
+             by the previous version, as well as a few long-standing
              display bugs.  All 0.9.20 users are strongly encouraged
              to upgrade to this release.
 
