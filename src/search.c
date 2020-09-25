@@ -328,6 +328,9 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		lastmessage = VACUUM;
 	}
 
+	if (LINES == 1)
+		refresh_needed = TRUE;
+
 	return 1;
 }
 
@@ -366,7 +369,8 @@ void do_research(void)
 	/* Use the search-menu key bindings, to allow cancelling. */
 	currmenu = MWHEREIS;
 
-	wipe_statusbar();
+	if (LINES > 1)
+		wipe_statusbar();
 
 	go_looking();
 
