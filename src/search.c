@@ -328,9 +328,6 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		lastmessage = VACUUM;
 	}
 
-	if (LINES == 1)
-		refresh_needed = TRUE;
-
 	return 1;
 }
 
@@ -425,6 +422,8 @@ void go_looking(void)
 	if (didfind == 1 && openfile->current == was_current &&
 				openfile->current_x == was_current_x)
 		statusbar(_("This is the only occurrence"));
+	else if (didfind == 1 && LINES == 1)
+		refresh_needed = TRUE;
 	else if (didfind == 0)
 		not_found_msg(last_search);
 
