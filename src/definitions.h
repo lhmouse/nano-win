@@ -449,8 +449,6 @@ typedef struct keystruct {
 typedef struct funcstruct {
 	void (*func)(void);
 		/* The actual function to call. */
-	int menus;
-		/* In what menus this function applies. */
 	const char *desc;
 		/* The function's short description, for example "Where Is". */
 #ifdef ENABLE_HELP
@@ -462,6 +460,8 @@ typedef struct funcstruct {
 #endif
 	bool viewok;
 		/* Is this function allowed when in view mode? */
+	int menus;
+		/* In what menus this function applies. */
 	long toggle;
 		/* If this is a toggle, which toggle to affect. */
 	struct funcstruct *next;
