@@ -462,8 +462,6 @@ typedef struct funcstruct {
 		/* Is this function allowed when in view mode? */
 	int menus;
 		/* In what menus this function applies. */
-	long toggle;
-		/* If this is a toggle, which toggle to affect. */
 	struct funcstruct *next;
 		/* Next item in the list. */
 } funcstruct;
