@@ -745,18 +745,14 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 		case 'L': /* Esc [ L == Insert on ANSI/FreeBSD console. */
 			return KEY_IC;
 		case 'M': /* Esc [ M == F1 on FreeBSD console. */
-			return KEY_F(1);
 		case 'N': /* Esc [ N == F2 on FreeBSD console. */
-			return KEY_F(2);
-		case 'O':
-				/* Esc [ O == F3 on FreeBSD console. */
-				return KEY_F(3);
+		case 'O': /* Esc [ O == F3 on FreeBSD console. */
 		case 'P': /* Esc [ P == F4 on FreeBSD console. */
 		case 'Q': /* Esc [ Q == F5 on FreeBSD console. */
 		case 'R': /* Esc [ R == F6 on FreeBSD console. */
 		case 'S': /* Esc [ S == F7 on FreeBSD console. */
 		case 'T': /* Esc [ T == F8 on FreeBSD console. */
-			return KEY_F(4 + seq[0] - 'P');
+			return KEY_F(seq[0] - 'L');
 		case 'U': /* Esc [ U == PageDown on Mach console. */
 			return KEY_NPAGE;
 		case 'V': /* Esc [ V == PageUp on Mach console. */
