@@ -398,10 +398,10 @@ int convert_SS3_sequence(const int *seq, size_t length, int *consumed)
 		case 'M': /* Esc O M == Enter on numeric keypad
 				   * with NumLock off on VT100/VT220/VT320. */
 			return KEY_ENTER;
-		case 'P': /* Esc O P == F1 on VT100/VT220/VT320/Mach console. */
-		case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/Mach console. */
-		case 'R': /* Esc O R == F3 on VT100/VT220/VT320/Mach console. */
-		case 'S': /* Esc O S == F4 on VT100/VT220/VT320/Mach console. */
+		case 'P': /* Esc O P == F1 on VT100/VT220/VT320/xterm/Mach console. */
+		case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/xterm/Mach console. */
+		case 'R': /* Esc O R == F3 on VT100/VT220/VT320/xterm/Mach console. */
+		case 'S': /* Esc O S == F4 on VT100/VT220/VT320/xterm/Mach console. */
 		case 'T': /* Esc O T == F5 on Mach console. */
 		case 'U': /* Esc O U == F6 on Mach console. */
 		case 'V': /* Esc O V == F7 on Mach console. */
@@ -749,18 +749,8 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 		case 'N': /* Esc [ N == F2 on FreeBSD console. */
 			return KEY_F(2);
 		case 'O':
-			if (length > 1) {
-				*consumed = 2;
-				if ('O' < seq[1] && seq[1] < 'T')
-					/* Esc [ O P == F1 on xterm. */
-					/* Esc [ O Q == F2 on xterm. */
-					/* Esc [ O R == F3 on xterm. */
-					/* Esc [ O S == F4 on xterm. */
-					return KEY_F(seq[1] - 'O');
-			} else
 				/* Esc [ O == F3 on FreeBSD console. */
 				return KEY_F(3);
-			break;
 		case 'P': /* Esc [ P == F4 on FreeBSD console. */
 		case 'Q': /* Esc [ Q == F5 on FreeBSD console. */
 		case 'R': /* Esc [ R == F6 on FreeBSD console. */
