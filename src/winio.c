@@ -395,6 +395,7 @@ int convert_SS3_sequence(const int *seq, size_t length, int *consumed)
 			return KEY_END;
 		case 'H': /* Esc O H == Home on old xterm. */
 			return KEY_HOME;
+#ifndef NANO_TINY
 		case 'M': /* Esc O M == Enter on numeric keypad
 				   * with NumLock off on VT100/VT220/VT320. */
 			return KEY_ENTER;
@@ -452,6 +453,7 @@ int convert_SS3_sequence(const int *seq, size_t length, int *consumed)
 			return KEY_UP;
 		case 'y': /* Esc O y == PageUp (9) on the same. */
 			return KEY_PPAGE;
+#endif
 	}
 
 	return FOREIGN_SEQUENCE;
@@ -470,19 +472,23 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 			else if (length > 2 && seq[2] == '~') {
 				*consumed = 3;
 				switch (seq[1]) {
+#ifndef NANO_TINY
 					case '1': /* Esc [ 1 1 ~ == F1 on rxvt/Eterm. */
 					case '2': /* Esc [ 1 2 ~ == F2 on rxvt/Eterm. */
 					case '3': /* Esc [ 1 3 ~ == F3 on rxvt/Eterm. */
 					case '4': /* Esc [ 1 4 ~ == F4 on rxvt/Eterm. */
 					case '5': /* Esc [ 1 5 ~ == F5 on xterm/rxvt/Eterm. */
 						return KEY_F(seq[1] - '0');
+#endif
 					case '7': /* Esc [ 1 7 ~ == F6 on VT220/VT320/
 							   * Linux console/xterm/rxvt/Eterm. */
 					case '8': /* Esc [ 1 8 ~ == F7 on the same. */
 					case '9': /* Esc [ 1 9 ~ == F8 on the same. */
 						return KEY_F(seq[1] - '1');
 				}
-			} else if (length > 3 && seq[1] == ';') {
+			}
+#ifndef NANO_TINY
+			 else if (length > 3 && seq[1] == ';') {
 				*consumed = 4;
 				switch (seq[2]) {
 					case '2':
@@ -493,15 +499,12 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 							case 'D': /* Esc [ 1 ; 2 D == Shift-Left on xterm. */
 								shift_held = TRUE;
 								return arrow_from_ABCD(seq[3]);
-#ifndef NANO_TINY
 							case 'F': /* Esc [ 1 ; 2 F == Shift-End on xterm. */
 								return SHIFT_END;
 							case 'H': /* Esc [ 1 ; 2 H == Shift-Home on xterm. */
 								return SHIFT_HOME;
-#endif
 						}
 						break;
-#ifndef NANO_TINY
 					case '9': /* To accommodate iTerm2 in "xterm mode". */
 					case '3':
 						switch (seq[3]) {
@@ -529,7 +532,6 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 								return SHIFT_HOME;
 						}
 						break;
-#endif
 					case '5':
 						switch (seq[3]) {
 							case 'A': /* Esc [ 1 ; 5 A == Ctrl-Up on xterm. */
@@ -546,7 +548,6 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 								return CONTROL_HOME;
 						}
 						break;
-#ifndef NANO_TINY
 					case '6':
 						switch (seq[3]) {
 							case 'A': /* Esc [ 1 ; 6 A == Shift-Ctrl-Up on xterm. */
@@ -563,11 +564,11 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 								return shiftcontrolhome;
 						}
 						break;
-#endif
 				}
 			} else if (length > 4 && seq[2] == ';' && seq[4] == '~')
 				/* Esc [ 1 n ; 2 ~ == F17...F20 on some terminals. */
 				*consumed = 5;
+#endif /* !NANO-TINY */
 #ifdef USE_SLANG
 			else if (length == 3 && seq[2] == ';')
 				/* Discard broken sequences that Slang produces. */
@@ -744,6 +745,7 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 			return KEY_PPAGE;
 		case 'L': /* Esc [ L == Insert on ANSI/FreeBSD console. */
 			return KEY_IC;
+#ifndef NANO_TINY
 		case 'M': /* Esc [ M == F1 on FreeBSD console. */
 		case 'N': /* Esc [ N == F2 on FreeBSD console. */
 		case 'O': /* Esc [ O == F3 on FreeBSD console. */
@@ -753,25 +755,30 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 		case 'S': /* Esc [ S == F7 on FreeBSD console. */
 		case 'T': /* Esc [ T == F8 on FreeBSD console. */
 			return KEY_F(seq[0] - 'L');
+#endif
 		case 'U': /* Esc [ U == PageDown on Mach console. */
 			return KEY_NPAGE;
 		case 'V': /* Esc [ V == PageUp on Mach console. */
 			return KEY_PPAGE;
+#ifndef NANO_TINY
 		case 'W': /* Esc [ W == F11 on FreeBSD console. */
 			return KEY_F(11);
 		case 'X': /* Esc [ X == F12 on FreeBSD console. */
 			return KEY_F(12);
+#endif
 		case 'Y': /* Esc [ Y == End on Mach console. */
 			return KEY_END;
 		case 'Z': /* Esc [ Z == Shift-Tab on ANSI/Linux console/
 				   * FreeBSD console/xterm/rxvt/Terminal. */
 			return SHIFT_TAB;
+#ifndef NANO_TINY
 		case 'a': /* Esc [ a == Shift-Up on rxvt/Eterm. */
 		case 'b': /* Esc [ b == Shift-Down on rxvt/Eterm. */
 		case 'c': /* Esc [ c == Shift-Right on rxvt/Eterm. */
 		case 'd': /* Esc [ d == Shift-Left on rxvt/Eterm. */
 			shift_held = TRUE;
 			return arrow_from_ABCD(seq[0] - 0x20);
+#endif
 		case '[':
 			if (length > 1) {
 				*consumed = 2;
