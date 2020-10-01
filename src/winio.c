@@ -325,10 +325,10 @@ int arrow_from_ABCD(int letter)
 int convert_SS3_sequence(const int *seq, size_t length, int *consumed)
 {
 	switch (seq[0]) {
-#ifndef NANO_TINY
 		case '1':
 			if (length > 3  && seq[1] == ';') {
 				*consumed = 4;
+#ifndef NANO_TINY
 				switch (seq[2]) {
 					case '2':
 						if ('A' <= seq[3] && seq[3] <= 'D') {
@@ -353,9 +353,9 @@ int convert_SS3_sequence(const int *seq, size_t length, int *consumed)
 						}
 						break;
 				}
+#endif
 			}
 			break;
-#endif
 		case '2':  /* Shift */
 		case '3':  /* Alt */
 		case '4':  /* Shift+Alt */
@@ -391,18 +391,21 @@ int convert_SS3_sequence(const int *seq, size_t length, int *consumed)
 		case 'C': /* Esc O C == Right on VT100/VT320. */
 		case 'D': /* Esc O D == Left on VT100/VT320. */
 			return arrow_from_ABCD(seq[0]);
+#ifndef NANO_TINY
 		case 'F': /* Esc O F == End on old xterm. */
 			return KEY_END;
 		case 'H': /* Esc O H == Home on old xterm. */
 			return KEY_HOME;
-#ifndef NANO_TINY
 		case 'M': /* Esc O M == Enter on numeric keypad
 				   * with NumLock off on VT100/VT220/VT320. */
 			return KEY_ENTER;
+#endif
 		case 'P': /* Esc O P == F1 on VT100/VT220/VT320/xterm/Mach console. */
 		case 'Q': /* Esc O Q == F2 on VT100/VT220/VT320/xterm/Mach console. */
 		case 'R': /* Esc O R == F3 on VT100/VT220/VT320/xterm/Mach console. */
 		case 'S': /* Esc O S == F4 on VT100/VT220/VT320/xterm/Mach console. */
+			return KEY_F(seq[0] - 'O');
+#ifndef NANO_TINY
 		case 'T': /* Esc O T == F5 on Mach console. */
 		case 'U': /* Esc O U == F6 on Mach console. */
 		case 'V': /* Esc O V == F7 on Mach console. */
@@ -477,19 +480,18 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 					case '2': /* Esc [ 1 2 ~ == F2 on rxvt/Eterm. */
 					case '3': /* Esc [ 1 3 ~ == F3 on rxvt/Eterm. */
 					case '4': /* Esc [ 1 4 ~ == F4 on rxvt/Eterm. */
+#endif
 					case '5': /* Esc [ 1 5 ~ == F5 on xterm/rxvt/Eterm. */
 						return KEY_F(seq[1] - '0');
-#endif
 					case '7': /* Esc [ 1 7 ~ == F6 on VT220/VT320/
 							   * Linux console/xterm/rxvt/Eterm. */
 					case '8': /* Esc [ 1 8 ~ == F7 on the same. */
 					case '9': /* Esc [ 1 9 ~ == F8 on the same. */
 						return KEY_F(seq[1] - '1');
 				}
-			}
-#ifndef NANO_TINY
-			 else if (length > 3 && seq[1] == ';') {
+			} else if (length > 3 && seq[1] == ';') {
 				*consumed = 4;
+#ifndef NANO_TINY
 				switch (seq[2]) {
 					case '2':
 						switch (seq[3]) {
@@ -565,10 +567,10 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 						}
 						break;
 				}
+#endif /* !NANO-TINY */
 			} else if (length > 4 && seq[2] == ';' && seq[4] == '~')
 				/* Esc [ 1 n ; 2 ~ == F17...F20 on some terminals. */
 				*consumed = 5;
-#endif /* !NANO-TINY */
 #ifdef USE_SLANG
 			else if (length == 3 && seq[2] == ';')
 				/* Discard broken sequences that Slang produces. */
