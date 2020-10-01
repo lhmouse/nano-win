@@ -95,18 +95,6 @@ The default key bindings can be changed via a \fInanorc\fR file -- see
 
 .SH OPTIONS
 .TP
-.BR \-! ", " \-\-magic
-When neither the file's name nor its first line give a clue,
-try using libmagic to determine the applicable syntax.
-.TP
-.BR \-% ", " \-\-stateflags
-Use the top-right corner of the screen for showing some state flags:
-\fBI\fR when auto-indenting, \fBM\fR when the mark is on, \fBL\fR when
-hard-wrapping (breaking long lines), \fBR\fR when recording a macro,
-and \fBS\fR when soft-wrapping.
-When the buffer is modified, a star (\fB*\fR) is shown after the
-filename in the center of the title bar.
-.TP
 .BR \-A ", " \-\-smarthome
 Make the Home key smarter.  When Home is pressed anywhere but at the
 very beginning of non-whitespace characters on a line, the cursor will
@@ -340,6 +328,18 @@ Make Ctrl+Right and Ctrl+Delete stop at word ends instead of beginnings.
 .TP
 .BR \-z ", " \-\-suspendable
 Allow the user to suspend the editor (with \fB^Z\fR by default).
+.TP
+.BR \-% ", " \-\-stateflags
+Use the top-right corner of the screen for showing some state flags:
+\fBI\fR when auto-indenting, \fBM\fR when the mark is on, \fBL\fR when
+hard-wrapping (breaking long lines), \fBR\fR when recording a macro,
+and \fBS\fR when soft-wrapping.
+When the buffer is modified, a star (\fB*\fR) is shown after the
+filename in the center of the title bar.
+.TP
+.BR \-! ", " \-\-magic
+When neither the file's name nor its first line give a clue,
+try using libmagic to determine the applicable syntax.
 
 .SH TOGGLES
 Several of the above options can be switched on and off also while
