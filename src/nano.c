@@ -658,10 +658,12 @@ void version(void)
 #else
 	printf(_(" GNU nano, version %s\n"), VERSION);
 #endif
+#ifndef NANO_TINY
 	printf(" (C) 1999-2011, 2013-2020 Free Software Foundation, Inc.\n");
 	printf(_(" (C) 2014-%s the contributors to nano\n"), "2020");
-	printf(_(" Email: nano@nano-editor.org	Web: https://nano-editor.org/"));
-	printf(_("\n Compiled options:"));
+	printf(_(" Email: nano@nano-editor.org	Web: https://nano-editor.org/\n"));
+#endif
+	printf(_(" Compiled options:"));
 
 #ifdef NANO_TINY
 	printf(" --enable-tiny");
