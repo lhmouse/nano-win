@@ -1326,38 +1326,37 @@
              and enjoy GNU nano 1.2.0.
 
 
-2003.02.13 - GNU nano 1.1.99pre3 "The last testing version, no
-             really!" is released.  This release includes fixes for
-             wrapping (again), resizing, color syntax highlighting,
-             rcfile parsing, the mouse code, more memory leaks, and
-             some reversion of the code to get the user's home
-             directory (nano will now again rely on $HOME).  There
-             are also translation updates, a new manual page for the
-             nanorc file, and an UPGRADE file detailing the changes
-             since version 1.0.  Please submit reports for any bugs
-             you might find to the development team
-             (nano-devel@gnu.org), and enjoy nano almost-1.2.0 ;-)
+2003.02.13 - GNU nano 1.1.99pre3 "The last testing version, no really!"
+             is released.  This release includes fixes for wrapping
+             (again), resizing, color syntax highlighting, rcfile
+             parsing, the mouse code, more memory leaks, and some
+             reversion of the code to get the user's home directory
+             (nano will now again rely on $HOME).  There are also
+             translation updates, a new manual page for the nanorc
+             file, and an UPGRADE file detailing the changes since
+             version 1.0.  Please submit reports for any bugs you
+             might find to the development team (nano-devel@gnu.org),
+             and enjoy nano almost-1.2.0 ;-)
 
-2003.02.03 - GNU nano 1.1.99pre2 "bugs in my pockets, bugs in my
-             shoes" is released.  There are, not surprisingly, only
-             bugfixes in this release as we move toward the stable
-             1.2.0 release.  Fixes are included for translatable
-             string format, subexpression replacement, constant
-             cursor position, invalid search regexes, justify, screen
-             state on SIGHUP and SIGTERM, cutting to end cuts with
-             long lines, many file browser and operating directory
-             bugs, memory and file descriptor leaks, marker code,
-             spell checker, the mouse code with long lines, multiple
-             buffers and non-file open errors, replacement string
-             length, and a silly but serious history message crash.
-             There is also a drastic improvement in CPU utilization
-             for the color regex code.
-                 Depending on the number of bugs found in this
-             release, there may be a 1.1.99pre3 or RC1, or just a
-             1.2.0 release.  Most of the major bugs seem to have been
-             worked out, so if you are waiting for a good time to
-             test nano before the official 1.2.0 release, this would
-             be the one to use.  Happy bug hunting!
+2003.02.03 - GNU nano 1.1.99pre2 "bugs in my pockets, bugs in my shoes"
+             is released.  There are, not surprisingly, only bugfixes
+             in this release as we move toward the stable 1.2.0
+             release.  Fixes are included for translatable string
+             format, subexpression replacement, constant cursor
+             position, invalid search regexes, justify, screen state on
+             SIGHUP and SIGTERM, cutting to end cuts with long lines,
+             many file browser and operating directory bugs, memory and
+             file descriptor leaks, marker code, spell checker, the
+             mouse code with long lines, multiple buffers and non-file
+             open errors, replacement string length, and a silly but
+             serious history message crash.  There is also a drastic
+             improvement in CPU utilization for the color regex code.
+                 Depending on the number of bugs found in this release,
+             there may be a 1.1.99pre3 or RC1, or just a 1.2.0 release.
+             Most of the major bugs seem to have been worked out, so if
+             you are waiting for a good time to test nano before the
+             official 1.2.0 release, this would be the one to use.
+             Happy bug hunting!
 
 2003.01.17 - GNU nano 1.1.99pre1 "enough already" has been released.
              This release is, barring bug fixes and documentation
@@ -1418,19 +1417,19 @@
              word and next word, nanorc parser and line wrapping
              code.  Have fun!
 
-2002.07.25 - At long last!  GNU nano 1.1.10 "What didn't we break?" is
-             released.  This version of GNU nano features version
+2002.07.25 - At long last!  GNU nano 1.1.10 "What didn't we break?"
+             is released.  This version of GNU nano features version
              0.11.2 of gettext, building with automake 1.6, some new
              code for displaying control characters, browser
-             improvements, a new backup file option (-B, --backup), a
-             new option to ignore rc files (-I, --ignorercfiles),
+             improvements, a new backup file option (-B, --backup),
+             a new option to ignore rc files (-I, --ignorercfiles),
              compatibility with -pedantic, handling null characters
              before EOF, a slightly sportier nanorc.sample and more.
-                 Fixes are included for justification,
-             the reading and writing file routines, resizing and fill
-             length, millions of memory leaks, the usage screen was
-             updated, and the --quotestr and --regexp really work
-             now ;-)  Enjoy :)
+                 Fixes are included for justification, the reading
+             and writing file routines, resizing and fill length,
+             millions of memory leaks, the usage screen was updated,
+             and the --quotestr and --regexp really work now ;-)
+             Enjoy :)
 
 2002.05.12 - GNU nano 1.1.9 is released, happy Mother's Day!  This
              release includes many new features, including a prepend
