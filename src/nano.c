@@ -1850,7 +1850,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 
 	while ((optchr = getopt_long(argc, argv, "!%ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxyz$", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxyz$?", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifdef HAVE_LIBMAGIC
 			case '!':
@@ -2011,6 +2011,7 @@ int main(int argc, char **argv)
 				break;
 #endif
 			case 'h':
+			case '?':
 				usage();
 				exit(0);
 #ifndef NANO_TINY
