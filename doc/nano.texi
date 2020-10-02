@@ -99,14 +99,14 @@ Pico differ.
 Starting with version 4.0, @command{nano} no longer hard-wraps an overlong
 line by default.  It further uses linewise scrolling by default, and by
 default includes the line below the title bar into the editing area.
-
 If you want the old, Pico behavior back, you can use the
 following options: @option{--breaklonglines},
 @option{--jumpyscrolling}, and @option{--emptyline}
-(or @option{-bje} for short).
+(or @option{-bje}).
 
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
 
+For background information see @url{https://nano-editor.org/}.
 
 @node Invoking
 @chapter Invoking
