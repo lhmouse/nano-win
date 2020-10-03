@@ -2127,9 +2127,9 @@ int main(int argc, char **argv)
 		ssize_t fill_cmdline = fill;
 #endif
 #ifndef NANO_TINY
-		size_t stripeclm_cmdline = stripe_column;
 		char *backup_dir_cmdline = backup_dir;
 		char *word_chars_cmdline = word_chars;
+		size_t stripeclm_cmdline = stripe_column;
 		ssize_t tabsize_cmdline = tabsize;
 #endif
 #ifdef ENABLE_OPERATINGDIR
@@ -2169,8 +2169,6 @@ int main(int argc, char **argv)
 			fill = fill_cmdline;
 #endif
 #ifndef NANO_TINY
-		if (stripeclm_cmdline > 0)
-			stripe_column = stripeclm_cmdline;
 		if (backup_dir_cmdline != NULL) {
 			free(backup_dir);
 			backup_dir = backup_dir_cmdline;
@@ -2179,6 +2177,8 @@ int main(int argc, char **argv)
 			free(word_chars);
 			word_chars = word_chars_cmdline;
 		}
+		if (stripeclm_cmdline > 0)
+			stripe_column = stripeclm_cmdline;
 		if (tabsize_cmdline != -1)
 			tabsize = tabsize_cmdline;
 #endif

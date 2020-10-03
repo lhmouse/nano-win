@@ -1585,13 +1585,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		} else
 #endif
 #ifndef NANO_TINY
-		if (strcmp(option, "guidestripe") == 0) {
-			if (!parse_num(argument, &stripe_column) || stripe_column <= 0) {
-				jot_error(N_("Guide column \"%s\" is invalid"), argument);
-				stripe_column = 0;
-			}
-			free(argument);
-		} else if (strcmp(option, "matchbrackets") == 0) {
+		if (strcmp(option, "matchbrackets") == 0) {
 			if (has_blank_char(argument)) {
 				jot_error(N_("Non-blank characters required"));
 				free(argument);
@@ -1628,21 +1622,23 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			quotestr = argument;
 		else
 #endif
-#ifndef NANO_TINY
-		if (strcmp(option, "backupdir") == 0)
-			backup_dir = argument;
-		else
-		if (strcmp(option, "wordchars") == 0)
-			word_chars = argument;
-		else
-#endif
 #ifdef ENABLE_SPELLER
 		if (strcmp(option, "speller") == 0)
 			alt_speller = argument;
 		else
 #endif
 #ifndef NANO_TINY
-		if (strcmp(option, "tabsize") == 0) {
+		if (strcmp(option, "backupdir") == 0)
+			backup_dir = argument;
+		else if (strcmp(option, "wordchars") == 0)
+			word_chars = argument;
+		else if (strcmp(option, "guidestripe") == 0) {
+			if (!parse_num(argument, &stripe_column) || stripe_column <= 0) {
+				jot_error(N_("Guide column \"%s\" is invalid"), argument);
+				stripe_column = 0;
+			}
+			free(argument);
+		} else if (strcmp(option, "tabsize") == 0) {
 			if (!parse_num(argument, &tabsize) || tabsize <= 0) {
 				jot_error(N_("Requested tab size \"%s\" is invalid"), argument);
 				tabsize = -1;
