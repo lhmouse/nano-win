@@ -491,10 +491,8 @@ void usage(void)
 	printf(_("To place the cursor on a specific line of a file, put the line number with\n"
 				"a '+' before the filename.  The column number can be added after a comma.\n"));
 	printf(_("When a filename is '-', nano reads data from standard input.\n\n"));
-#endif
 	/* TRANSLATORS: The next three are column headers of the --help output. */
 	print_opt(_("Option"), _("Long option"), N_("Meaning"));
-#ifndef NANO_TINY
 	/* TRANSLATORS: The next forty or so strings are option descriptions
 	 * for the --help output.  Try to keep them at most 40 characters. */
 	print_opt("-A", "--smarthome", N_("Enable smart home key"));
