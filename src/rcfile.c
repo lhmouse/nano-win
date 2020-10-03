@@ -94,7 +94,6 @@ static const rcoption rcopts[] = {
 #endif
 	{"suspend", SUSPENDABLE},  /* Deprecated; remove in 2022. */
 	{"suspendable", SUSPENDABLE},
-	{"tabsize", 0},
 	{"tempfile", SAVE_ON_EXIT},  /* Deprecated; remove in 2022. */
 	{"view", VIEW_MODE},
 #ifndef NANO_TINY
@@ -118,6 +117,7 @@ static const rcoption rcopts[] = {
 	{"smooth", SMOOTH_SCROLL},  /* Deprecated; remove in 2021. */
 	{"softwrap", SOFTWRAP},
 	{"stateflags", STATEFLAGS},
+	{"tabsize", 0},
 	{"tabstospaces", TABS_TO_SPACES},
 	{"trimblanks", TRIM_BLANKS},
 	{"unix", MAKE_IT_UNIX},
@@ -1641,6 +1641,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			alt_speller = argument;
 		else
 #endif
+#ifndef NANO_TINY
 		if (strcmp(option, "tabsize") == 0) {
 			if (!parse_num(argument, &tabsize) || tabsize <= 0) {
 				jot_error(N_("Requested tab size \"%s\" is invalid"), argument);
@@ -1648,6 +1649,9 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			}
 			free(argument);
 		}
+#else
+		;  /* Properly terminate any earlier 'else'. */
+#endif
 	}
 
 	if (intros_only)

@@ -561,9 +561,9 @@ void usage(void)
 		print_opt("-R", "--restricted", N_("Restrict access to the filesystem"));
 #ifndef NANO_TINY
 	print_opt("-S", "--softwrap", N_("Display overlong lines on multiple rows"));
-#endif
 	print_opt(_("-T <number>"), _("--tabsize=<number>"),
 					N_("Make a tab this number of columns wide"));
+#endif
 	print_opt("-U", "--quickblank", N_("Wipe status bar upon next keystroke"));
 	print_opt("-V", "--version", N_("Print version information and exit"));
 #ifndef NANO_TINY
@@ -1724,7 +1724,6 @@ int main(int argc, char **argv)
 		{"quotestr", 1, NULL, 'Q'},
 #endif
 		{"restricted", 0, NULL, 'R'},
-		{"tabsize", 1, NULL, 'T'},
 		{"quickblank", 0, NULL, 'U'},
 		{"version", 0, NULL, 'V'},
 #ifdef ENABLE_COLOR
@@ -1779,6 +1778,7 @@ int main(int argc, char **argv)
 		{"bookstyle", 0, NULL, 'O'},
 		{"positionlog", 0, NULL, 'P'},
 		{"softwrap", 0, NULL, 'S'},
+		{"tabsize", 1, NULL, 'T'},
 		{"wordbounds", 0, NULL, 'W'},
 		{"wordchars", 1, NULL, 'X'},
 		{"zap", 0, NULL, 'Z'},
@@ -1942,7 +1942,6 @@ int main(int argc, char **argv)
 			case '$':  /* Deprecated; remove in 2024. */
 				SET(SOFTWRAP);
 				break;
-#endif
 			case 'T':
 				if (!parse_num(optarg, &tabsize) || tabsize <= 0) {
 					fprintf(stderr, _("Requested tab size \"%s\" is invalid"), optarg);
@@ -1950,6 +1949,7 @@ int main(int argc, char **argv)
 					exit(1);
 				}
 				break;
+#endif
 			case 'U':
 				SET(QUICK_BLANK);
 				break;
@@ -2130,6 +2130,7 @@ int main(int argc, char **argv)
 		size_t stripeclm_cmdline = stripe_column;
 		char *backup_dir_cmdline = backup_dir;
 		char *word_chars_cmdline = word_chars;
+		ssize_t tabsize_cmdline = tabsize;
 #endif
 #ifdef ENABLE_OPERATINGDIR
 		char *operating_dir_cmdline = operating_dir;
@@ -2140,7 +2141,6 @@ int main(int argc, char **argv)
 #ifdef ENABLE_SPELLER
 		char *alt_speller_cmdline = alt_speller;
 #endif
-		ssize_t tabsize_cmdline = tabsize;
 
 		/* Back up the command-line flags. */
 		unsigned flags_cmdline[sizeof(flags) / sizeof(flags[0])];
@@ -2179,6 +2179,8 @@ int main(int argc, char **argv)
 			free(word_chars);
 			word_chars = word_chars_cmdline;
 		}
+		if (tabsize_cmdline != -1)
+			tabsize = tabsize_cmdline;
 #endif
 #ifdef ENABLE_OPERATINGDIR
 		if (operating_dir_cmdline != NULL || ISSET(RESTRICTED)) {
@@ -2198,8 +2200,6 @@ int main(int argc, char **argv)
 			alt_speller = alt_speller_cmdline;
 		}
 #endif
-		if (tabsize_cmdline != -1)
-			tabsize = tabsize_cmdline;
 
 		/* If an rcfile undid the default settings, copy it to the new flags. */
 		if (!ISSET(NO_WRAP))
