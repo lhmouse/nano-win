@@ -1920,19 +1920,19 @@
              it is yours to take care of and keep up to date.
 
 2000.03.01 - Well, to continue my trend of going back on my previous
-             release's comments, nano 0.8.7 is released.  The
-             crashing behavior was still occurring, and this most
-             recent fix also fixes some other wrapping problems, so
-             here you go.  There may be another release soon, there
-             may not be, is that vague enough? =)
+             release's comments, nano 0.8.7 is released.  The crashing
+             behavior was still occurring, and this most recent fix
+             also fixes some other wrapping problems, so here you go.
+             There may be another release soon, there may not be, is
+             that vague enough? =)
 
 2000.02.25 - More minor bugfixes in 0.8.6, the bizarre behavior at the
              end of a page has ceased, thankfully.  I'm also moving
              next weekend, so don't be shocked if you don't see a new
              version of nano next week  =-)
 
-2000.02.11 - Okay, here we go again.  Aside from a few minor fixes and
-             some under-the-hood changes, you won't notice much
+2000.02.11 - Okay, here we go again.  Aside from a few minor fixes
+             and some under-the-hood changes, you won't notice much
              different in this version of nano.  I haven't gotten
              much feedback on the help feature, is it simply amazing
              or does no one care?  Write and let me know! =)
@@ -1947,23 +1947,22 @@
              address nano@asty.org for bugs, etc.
 
 2000.02.02 - Okay, I hate to go back on what I said in the last release,
-             but I may be changing jobs very soon.  I will release
-             version 0.8.2 as is (no i18n, no help menu (yet)).  I
-             expect things to settle down by the end of next week,
-             and then I can try to start on the i18n support and help
-             menu; look for these new features in version 0.8.5 to
-             0.9.0.
+             but I may be changing jobs very soon.  I will release version
+             0.8.2 as is (no i18n, no help menu (yet)).  I expect things
+             to settle down by the end of next week, and then I can try to
+             start on the i18n support and help menu; look for these new
+             features in version 0.8.5 to 0.9.0.
 
 2000.01.28 - Nano 0.8.1 marks our first official step toward
-             internationalization (i18n) and the help system (^G).  I
-             will be merging in Jordi's patches for initial i18n in
-             the next version, and will implement the help system
+             internationalization (i18n) and the help system (^G).
+             I will be merging in Jordi's patches for initial i18n
+             in the next version, and will implement the help system
              with i18n built into it shortly after that.  Please
              don't hesitate to send bug reports, as long as you're
              sure the fault lies with nano =-).
 
-2000.01.25 - Nano 0.8.0 is officially the 'let's try and be at least a
-             little portable, mmmmkay?' release.  There are many
+2000.01.25 - Nano 0.8.0 is officially the "let's try and be at least
+             a little portable, mmmmkay?" release.  There are many
              portability checks and fixes; many thanks to Andy Kahn
              for his patches.  I removed the broken do_spell behavior
              with the 'spell' program; for now, we only try to call
@@ -1973,31 +1972,29 @@
 2000.01.24 - Nano 0.7.9 features many new features.  Among them are a
              new autoindent feature (-i, --autoindent), tempfile flag
              like Pico's -t flag (-t, --tempfile), and preliminary
-             spelling program support.  The spelling function tries
-             to run 'spell' and then 'ispell' in that order, but you
-             can specify another spelling program with -s or
-             --speller.
+             spelling program support.  The spelling function tries to
+             run 'spell' and then 'ispell' in that order, but you can
+             specify another spelling program with -s or --speller.
 
-2000.01.17 - Nano 0.7.7 is officially the 'way too much stuff changed this
-             release' release.  It's the busy time at work for me, so
-             please don't get offended if your patch doesn't get
-             included in the next immediate version of nano.  I'm
-             sure all the changes in this release will cause a few
-             bugs, so 0.7.8 will primarily be about fixing those
-             bugs.
+2000.01.17 - Nano 0.7.7 is officially the "way too much stuff changed
+             this release" release.  It's the busy time at work for me,
+             so please don't get offended if your patch doesn't get
+             included in the next immediate version of nano.  I'm sure
+             all the changes in this release will cause a few bugs, so
+             0.7.8 will primarily be about fixing those bugs.
 
              Things added this release include resizability (kinda),
              new -x and -c flags (see nano -h for help), long command
              line flag support, and the usual array of bugfixes.
 
-2000.01.15 - Nano 0.7.6 is officially the 'lightning' release.  It now
-             loads large files much faster than previous versions,
-             and is even much faster than Pico or vi in some rather
-             rudimentary tests.  Many thanks to Adam Rogoyski for the
-             read_byte patch!
+2000.01.15 - Nano 0.7.6 is officially the "lightning" release.
+             It now loads large files much faster than previous
+             versions, and is even much faster than Pico or vi
+             in some rather rudimentary tests.  Many thanks to
+             Adam Rogoyski for the read_byte patch!
 
-2000.01.09 - As of this version (0.7.4), TIP has officially been renamed
-             to nano.  The new homepage is at
-             http://faculty.plattsburgh.edu/astyanax/nano.  Please
-             update your bookmarks, tell your friends, and all that
-             jazz.
+2000.01.09 - As of this version (0.7.4), TIP has officially
+             been renamed to nano.  The new homepage is at
+             http://faculty.plattsburgh.edu/astyanax/nano.
+             Please update your bookmarks, tell your friends,
+             and all that jazz.
