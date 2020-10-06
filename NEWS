@@ -1,3 +1,14 @@
+2020.10.07 - GNU nano 5.3 "Revolution!"
+• Option 'set stateflags' makes nano show the state of auto-indenting,
+  the mark, hard-wrapping, macro recording, and soft-wrapping in the
+  title bar.  The flags take the place of "Modified", and a modified
+  buffer is instead indicated by an asterisk (*) after its name.
+• Nano no longer by default tries using libmagic to determine the type
+  of a file (when neither filename nor first line gave a clue), because
+  in most cases it is a waste of time.  It requires using the option
+  --magic or -! or 'set magic' to make nano try libmagic.
+• The color of the indicator can be changed with 'set scrollercolor'.
+
 2020.08.24 - GNU nano 5.2 "Ranrapalca"
 • Making certain replacements after a large paste does not crash.
 • Hitting a toggle at the Search prompt does not clear the answer.

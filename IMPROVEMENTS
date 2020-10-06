@@ -2,6 +2,8 @@ Improvements in GNU nano
 ========================
 
 Since 5.0:
+  - For using libmagic the option --magic or -! or 'set magic' is required.
+  - With --stateflags the state of some things is shown in the title bar.
   - M-Bsp deletes a word leftward.
   - With --indicator a "scrollbar" is shown, indicating position+portion.
   - M-Ins places an anchor, M-PgUp/M-PgDn jump to the nearest anchor.

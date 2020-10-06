@@ -1,3 +1,114 @@
+Changes between v5.2 and v5.3:
+------------------------------
+
+Arturo Borrero González (1):
+      syntax: nftables: include author and license lines
+
+Benno Schulenberg (92):
+      browser: make M-W/M-Q functional right after startup, if there is history
+      browser: sort names that differ only in case with uppercase first
+      browser: wipe the status bar before searching again with M-W or M-Q
+      build: abort the update script if a PO file contains a control character
+      build: avoid two compiler warnings when gnulib has been ripped out
+      build: do not accept --enable-libmagic when not having color support
+      build: do not let Slang translate escape sequences to key codes
+      build: exclude bunches of raw escape sequences from the tiny version
+      build: exclude --emptyline, --jumpyscrolling, and --noread from tiny nano
+      build: exclude excessive version information from the tiny version
+      build: exclude option --tabsize (-T) from the tiny version
+      build: exclude reading a file from standard input from the tiny version
+      build: exclude the three --help column headers from the tiny version
+      build: include some raw sequences for the graphical Debian installer
+      build: stop using an obsolete macro, and use 'void' for signal handlers
+      build: to verify wide curses, probe for a function that cannot be a macro
+      bump version numbers and add a news item for the 5.3 release
+      chars: reduce searching time with roughly 85 percent for plain ASCII
+      display: do not unnecessarily wipe the status bar
+      display: do not wipe the status bar when the terminal has just one row
+      display: force the cursor to reappear after a message (when using Slang)
+      display: force the cursor to reappear in a better way (when using Slang)
+      display: skip a special-case refresh when a message was written
+      docs: add a link to the website also to the info manual
+      docs: add the customary (1) after the name of command-line programs
+      docs: condense the desciptions of cutting and pasting
+      docs: explain the purpose of -! / --magic / 'set magic'
+      docs: explain the 'set scrollercolor' option, for coloring the indicator
+      docs: explain what the options --stateflags (-%) and 'set stateflags' do
+      docs: improve two wordings in the sample nanorc
+      docs: mention that syntax definitions are available in /usr/share/nano/
+      feedback: don't give a hint for <Bsp>, and not after an Alt+key was used
+      feedback: in the tiny version, let M-H show the helpful hint too
+      feedback: make an "Unbound key" message disappear on the next keystroke
+      feedback: show a helpful message for ^G even when there is no help
+      feedback: show helpful message for the first ^H at the top of the file
+      gnulib: update to its current upstream state
+      help: do not leave the cursor on the status bar after a search
+      help: do not show "^G Help" in the tiny version when there is no help
+      help: ensure the help lines are always drawn, also when using Slang
+      help: in the tiny version, show Prev/Next Word before Backward/Forward
+      help: nicely pair menu items also when built with just --disable-help
+      new feature: option --stateflags to show some states in top-right corner
+      options: add -? as a synonym of -h (--help), but leave it undocumented
+      options: move --stateflags (-%) and --magic (-!) to the end of the list
+      options: require --magic or 'set magic' to enable the use of libmagic
+      rcfile: add 'set scrollercolor', for changing the color of the indicator
+      suspension: do not enter an invalid byte upon resume (when using Slang)
+      suspension: properly resume from an external SIGSTOP
+      suspension: resume properly from an external SIGSTOP (when using Slang)
+      suspension: switch off flow control at the right moment (for Slang)
+      syntaxes: add author and license lines to four of the files
+      syntax: nanorc: stop coloring 'morespace' and 'smooth' as valid
+      syntax: nanorc: stop coloring 'nopauses' and 'nowrap' as valid
+      syntax: nanorc: stop coloring 'quiet' and 'backwards' and 'finalnewline'
+      syntax: po: do not leave the occasional tab with a red background color
+      syntax: po: highlight embedded control codes that shouldn't be there
+      syntax: sh: recognize some shell scripts by their Emacs modeline
+      tweaks: add a hint for translators
+      tweaks: add some comments to the C syntax, and sort some keywords
+      tweaks: adjust some whitespace in the docs, and improve a comment
+      tweaks: avoid a compiler warning when compiling with more than -O1
+      tweaks: condense a bit of code
+      tweaks: condense a bit of code after the previous change
+      tweaks: drop the unneeded saving and restoring of a global variable
+      tweaks: dummy commit, to add some info about the previous one
+      tweaks: elide a one-line function, after reducing it to a single call
+      tweaks: fold one function into another, to elide an unneeded return value
+      tweaks: harmonize the spelling of a compound word, and rewrap a section
+      tweaks: harmonize the style of error messages and warnings in ./configure
+      tweaks: make two of the changes that 'autoupdate' suggests
+      tweaks: move three functions, to before the ones that call them
+      tweaks: move two more functions, to before the ones that call them
+      tweaks: move two more functions, to before the one that calls them
+      tweaks: normalize the indentation after the previous change
+      tweaks: remove an inconsistent newline from the end of an error message
+      tweaks: remove an usused element from 'funcstruct', saving 8 more bytes
+      tweaks: remove mistaken escape sequences for function keys on xterm
+      tweaks: remove two stray comments and two lines that were commented out
+      tweaks: rename another variable, away from being misnamed
+      tweaks: rename four variables, reshuffle them, and correct one type
+      tweaks: rename two elements of history struct, away from abbreviations
+      tweaks: rename two variables, to be more distinct
+      tweaks: replace two more occurrences of 'AC_TRY_RUN' with 'AC_RUN_IFELSE'
+      tweaks: reshuffle a condition, to elide a blank string
+      tweaks: reshuffle some lines after the previous change
+      tweaks: reshuffle some lines and adjust indentation after previous change
+      tweaks: reshuffle two lines and a function name, for a consistent order
+      tweaks: rewrap nine more old NEWS items, for balanced line lengths
+      tweaks: rewrap three NEWS items, for more balanced line lengths
+      tweaks: stop 'autoupdate' from failing with "end of file in string"
+      version: remove URL and email address from the --version output
+
+Hussam al-Homsi (5):
+      syntax: c: colorize also one-character constants, and the null directive
+      syntax: c: colorize also the keywords that start with an underscore
+      syntax: c: colorize also the 'restrict' keyword, and the #line directive
+      tweaks: reorder a member of 'funcstruct', to save 8 bytes of padding
+      tweaks: stop casting the return of malloc() and friends
+
+Ryan Westlund (1):
+      syntax: markdown: add author and license line
+
+
 Changes between v5.1 and v5.2:
 ------------------------------
 
