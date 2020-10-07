@@ -30,7 +30,7 @@ Benno Schulenberg (92):
       display: skip a special-case refresh when a message was written
       docs: add a link to the website also to the info manual
       docs: add the customary (1) after the name of command-line programs
-      docs: condense the desciptions of cutting and pasting
+      docs: condense the descriptions of cutting and pasting
       docs: explain the purpose of -! / --magic / 'set magic'
       docs: explain the 'set scrollercolor' option, for coloring the indicator
       docs: explain what the options --stateflags (-%) and 'set stateflags' do
@@ -81,7 +81,7 @@ Benno Schulenberg (92):
       tweaks: move two more functions, to before the one that calls them
       tweaks: normalize the indentation after the previous change
       tweaks: remove an inconsistent newline from the end of an error message
-      tweaks: remove an usused element from 'funcstruct', saving 8 more bytes
+      tweaks: remove an unused element from 'funcstruct', saving 8 more bytes
       tweaks: remove mistaken escape sequences for function keys on xterm
       tweaks: remove two stray comments and two lines that were commented out
       tweaks: rename another variable, away from being misnamed
@@ -327,7 +327,7 @@ Benno Schulenberg (374):
       locking: prevent a symlink attack by not opening an existing lock file
       memory: plug a leak, by freeing the cutbuffer after a bracketed paste
       menus: remove unneeded words and shortenings from key labels
-      new feature: a position-plus-portion indicator on the righthand side
+      new feature: a position-plus-portion indicator on the right-hand side
       oops -- restore an accidentally changed file
       options: add --indicator and -q for switching on the scroll-bar thing
       options: add -O/--bookstyle to make leading whitespace mean new paragraph
@@ -387,7 +387,7 @@ Benno Schulenberg (374):
       tweaks: adjust the conditional help-item pairing for absence of speller
       tweaks: adjust the file format indicator in a quicker way
       tweaks: adjust the indentation after the previous change
-      tweask: adjust the indentation after the previous change
+      tweaks: adjust the indentation after the previous change
       tweaks: avoid a compiler warning
       tweaks: avoid a function call when a simple boolean will do
       tweaks: avoid an unnecessary refresh for zero or just one completion
@@ -987,7 +987,7 @@ Benno Schulenberg (166):
       tweaks: reshuffle some declarations, and expand a few variable names
       tweaks: reshuffle some lines, to avoid tallying the menus when not needed
       tweaks: reshuffle some lines, to group all ignored keystrokes together
-      tweaks: reshuffle three lines, to make the grouping tighther
+      tweaks: reshuffle three lines, to make the grouping tighter
       tweaks: reshuffle two lines, to do the linking first, then the content
       tweaks: reword two comments, and rewrap another
       tweaks: rewrap a comment and a line, and reshuffle a fragment of code
@@ -1451,7 +1451,7 @@ Benno Schulenberg (235):
       tweaks: elide a pre-processor #else clause, by using braces instead
       tweaks: elide a variable, drop a comment, and remove unneeded braces
       tweaks: elide two unneeded variables
-      tweaks: enforce the miminum amount of scrolling in a simpler way
+      tweaks: enforce the minimum amount of scrolling in a simpler way
       tweaks: exclude a bug check from the tiny version
       tweaks: exclude another bug check from the tiny version
       tweaks: factor out a fragment of code that is repeated three times
@@ -1471,7 +1471,7 @@ Benno Schulenberg (235):
       tweaks: move a function to the file where it is used
       tweaks: move an assignment that is useful only when searching forward
       tweaks: move a syntax check to a better place, to reduce duplication
-      tweaks: move the tyding-up-after-a-search to a single exit point
+      tweaks: move the tidying-up-after-a-search to a single exit point
       tweaks: normalize the indentation after the previous two changes
       tweaks: place a function better, and reduce some comments to a single one
       tweaks: put some timing code back into the search function
@@ -1677,7 +1677,7 @@ Benno Schulenberg (85):
       tweaks: rename a variable, to be more distinct and more descriptive
       tweaks: rename a variable, to get out of the way for another rename
       tweaks: rename some variables, for more contrast and to match others
-      tweaks: rename some variables, to be less repititious
+      tweaks: rename some variables, to be less repetitious
       tweaks: rename two variables, for more contrast
       tweaks: rename two variables, to be more distinct and more fitting
       tweaks: rename two variables, to make more sense
