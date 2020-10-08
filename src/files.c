@@ -2043,7 +2043,6 @@ bool write_marked_file(const char *name, FILE *stream, bool tmp,
  * the buffer is to be discarded. */
 int do_writeout(bool exiting, bool withprompt)
 {
-	bool result = FALSE;
 	kind_of_writing_type method = OVERWRITE;
 	char *given;
 		/* The filename we offer, or what the user typed so far. */
@@ -2105,7 +2104,8 @@ int do_writeout(bool exiting, bool withprompt)
 
 		if (response < 0) {
 			statusbar(_("Cancelled"));
-			break;
+			free(given);
+			return 0;
 		}
 
 		func = func_from_key(&response);
@@ -2163,7 +2163,9 @@ int do_writeout(bool exiting, bool withprompt)
 			} else
 				/* TRANSLATORS: Concisely say the screen is too small. */
 				statusbar(_("Too tiny"));
-			break;
+
+			free(given);
+			return 0;
 		}
 #endif
 
@@ -2262,23 +2264,20 @@ int do_writeout(bool exiting, bool withprompt)
 #endif
 		}
 
+		free(given);
+		break;
+	}
+
 		/* Here's where we allow the selected text to be written to
 		 * a separate file.  If we're using restricted mode, this
 		 * function is disabled, since it allows reading from or
 		 * writing to files not specified on the command line. */
 #ifndef NANO_TINY
 		if (openfile->mark && !exiting && withprompt && !ISSET(RESTRICTED))
-			result = write_marked_file(answer, NULL, FALSE, method);
+			return write_marked_file(answer, NULL, FALSE, method);
 		else
 #endif
-			result = write_file(answer, NULL, FALSE, method, TRUE);
-
-		break;
-	}
-
-	free(given);
-
-	return result ? 1 : 0;
+			return write_file(answer, NULL, FALSE, method, TRUE);
 }
 
 /* Write the current buffer to disk, or discard it. */
