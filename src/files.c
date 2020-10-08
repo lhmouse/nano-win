@@ -2043,11 +2043,11 @@ bool write_marked_file(const char *name, FILE *stream, bool tmp,
  * the buffer is to be discarded. */
 int do_writeout(bool exiting, bool withprompt)
 {
-	kind_of_writing_type method = OVERWRITE;
 	char *given;
 		/* The filename we offer, or what the user typed so far. */
 	bool maychange = (openfile->filename[0] == '\0');
 		/* Whether it's okay to save the file under a different name. */
+	kind_of_writing_type method = OVERWRITE;
 #ifdef ENABLE_EXTRA
 	static bool did_credits = FALSE;
 #endif
@@ -2147,9 +2147,8 @@ int do_writeout(bool exiting, bool withprompt)
 			continue;
 		}
 #endif
-		if (func == do_help) {
+		if (func == do_help)
 			continue;
-		}
 
 #ifdef ENABLE_EXTRA
 		/* If the user pressed Ctrl-X in the edit window, and answered "Y" at
@@ -2178,6 +2177,7 @@ int do_writeout(bool exiting, bool withprompt)
 			full_filename = get_full_path(openfile->filename);
 			name_exists = (stat((full_answer == NULL) ?
 								answer : full_answer, &st) != -1);
+
 			if (openfile->filename[0] == '\0')
 				do_warning = name_exists;
 			else
@@ -2268,16 +2268,15 @@ int do_writeout(bool exiting, bool withprompt)
 		break;
 	}
 
-		/* Here's where we allow the selected text to be written to
-		 * a separate file.  If we're using restricted mode, this
-		 * function is disabled, since it allows reading from or
-		 * writing to files not specified on the command line. */
+	/* When the mark is on (and we've prompted for a name and we're
+	 * not exiting and we're not in restricted mode), then write out
+	 * the marked region; otherwise, write out the whole buffer. */
 #ifndef NANO_TINY
-		if (openfile->mark && !exiting && withprompt && !ISSET(RESTRICTED))
-			return write_marked_file(answer, NULL, FALSE, method);
-		else
+	if (openfile->mark && withprompt && !exiting && !ISSET(RESTRICTED))
+		return write_marked_file(answer, NULL, FALSE, method);
+	else
 #endif
-			return write_file(answer, NULL, FALSE, method, TRUE);
+		return write_file(answer, NULL, FALSE, method, TRUE);
 }
 
 /* Write the current buffer to disk, or discard it. */
