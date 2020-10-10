@@ -179,9 +179,6 @@
 ## Snip whitespace at the end of lines when justifying or hard-wrapping.
 # set trimblanks
 
-## Disallow file modification.  Why would you want this in an rcfile? ;)
-# set view
-
 ## The two single-column characters used to display the first characters
 ## of tabs and spaces.  187 in ISO 8859-1 (0000BB in Unicode) and 183 in
 ## ISO-8859-1 (0000B7 in Unicode) seem to be good values for these.

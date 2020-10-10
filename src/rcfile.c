@@ -95,7 +95,6 @@ static const rcoption rcopts[] = {
 	{"suspend", SUSPENDABLE},  /* Deprecated; remove in 2022. */
 	{"suspendable", SUSPENDABLE},
 	{"tempfile", SAVE_ON_EXIT},  /* Deprecated; remove in 2022. */
-	{"view", VIEW_MODE},
 #ifndef NANO_TINY
 	{"afterends", AFTER_ENDS},
 	{"allow_insecure_backup", INSECURE_BACKUP},
