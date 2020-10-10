@@ -225,7 +225,7 @@ void restore_terminal(void)
 	printf("\x1B[?2004l");
 	fflush(stdout);
 #endif
-	tcsetattr(0, TCSANOW, &original_state);
+	tcsetattr(STDIN_FILENO, TCSANOW, &original_state);
 }
 
 /* Exit normally: restore terminal state and report any startup errors. */
@@ -813,15 +813,14 @@ void reconnect_and_store_state(void)
 {
 	int thetty = open("/dev/tty", O_RDONLY);
 
-	if (thetty < 1)
+	if (thetty < 0 || dup2(thetty, STDIN_FILENO) < 0)
 		die(_("Could not reconnect stdin to keyboard\n"));
 
-	dup2(thetty, STANDARD_INPUT);
 	close(thetty);
 
 	/* If input was not cut short, store the current state of the terminal. */
 	if (!control_C_was_pressed)
-		tcgetattr(0, &original_state);
+		tcgetattr(STDIN_FILENO, &original_state);
 }
 
 /* Read whatever comes from standard input into a new buffer. */
@@ -832,7 +831,7 @@ bool scoop_stdin(void)
 	restore_terminal();
 
 	/* When input comes from a terminal, show a helpful message. */
-	if (isatty(STANDARD_INPUT))
+	if (isatty(STDIN_FILENO))
 		fprintf(stderr, _("Reading data from keyboard; "
 							"type ^D or ^D^D to finish.\n"));
 
@@ -1801,16 +1800,16 @@ int main(int argc, char **argv)
 	struct vt_stat dummy;
 
 	/* Check whether we're running on a Linux console. */
-	on_a_vt = (ioctl(1, VT_GETSTATE, &dummy) == 0);
+	on_a_vt = (ioctl(STDOUT_FILENO, VT_GETSTATE, &dummy) == 0);
 #endif
 
 	/* Back up the terminal settings so that they can be restored. */
-	tcgetattr(0, &original_state);
+	tcgetattr(STDIN_FILENO, &original_state);
 
 	/* Get the state of standard input and ensure it uses blocking mode. */
-	stdin_flags = fcntl(0, F_GETFL, 0);
+	stdin_flags = fcntl(STDIN_FILENO, F_GETFL, 0);
 	if (stdin_flags != -1)
-		fcntl(0, F_SETFL, stdin_flags & ~O_NONBLOCK);
+		fcntl(STDIN_FILENO, F_SETFL, stdin_flags & ~O_NONBLOCK);
 
 #ifdef ENABLE_UTF8
 	/* If setting the locale is successful and it uses UTF-8, we need

@@ -722,7 +722,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	/* When reading from stdin, restore the terminal and reenter curses mode. */
 	if (isendwin()) {
-		if (!isatty(STANDARD_INPUT))
+		if (!isatty(STDIN_FILENO))
 			reconnect_and_store_state();
 		terminal_init();
 		doupdate();
@@ -966,13 +966,16 @@ bool execute_command(const char *command)
 		close(from_fd[0]);
 
 		/* Connect the write end of the output pipe to the process' output streams. */
-		dup2(from_fd[1], fileno(stdout));
-		dup2(from_fd[1], fileno(stderr));
+		if (dup2(from_fd[1], STDOUT_FILENO) < 0)
+			exit(3);
+		if (dup2(from_fd[1], STDERR_FILENO) < 0)
+			exit(4);
 
 		/* If the parent sends text, connect the read end of the
 		 * feeding pipe to the child's input stream. */
 		if (should_pipe) {
-			dup2(to_fd[0], fileno(stdin));
+			if (dup2(to_fd[0], STDIN_FILENO) < 0)
+				exit(5);
 			close(to_fd[1]);
 		}
 
@@ -980,7 +983,7 @@ bool execute_command(const char *command)
 		execl(theshell, tail(theshell), "-c", should_pipe ? &command[1] : command, NULL);
 
 		/* If the exec call returns, there was an error. */
-		exit(1);
+		exit(6);
 	}
 
 	/* Parent: close the unused write end of the pipe. */

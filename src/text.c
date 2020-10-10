@@ -2340,11 +2340,11 @@ void do_int_speller(const char *tempfile_name)
 			exit(6);
 
 		/* Connect standard input to the temporary file. */
-		if (dup2(tempfile_fd, STDIN_FILENO) != STDIN_FILENO)
+		if (dup2(tempfile_fd, STDIN_FILENO) < 0)
 			exit(7);
 
 		/* Connect standard output to the write end of the first pipe. */
-		if (dup2(spell_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+		if (dup2(spell_fd[1], STDOUT_FILENO) < 0)
 			exit(8);
 
 		close(tempfile_fd);
@@ -2365,11 +2365,11 @@ void do_int_speller(const char *tempfile_name)
 	/* Fork a process to run sort in. */
 	if ((pid_sort = fork()) == 0) {
 		/* Connect standard input to the read end of the first pipe. */
-		if (dup2(spell_fd[0], STDIN_FILENO) != STDIN_FILENO)
+		if (dup2(spell_fd[0], STDIN_FILENO) < 0)
 			exit(7);
 
 		/* Connect standard output to the write end of the second pipe. */
-		if (dup2(sort_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+		if (dup2(sort_fd[1], STDOUT_FILENO) < 0)
 			exit(8);
 
 		close(spell_fd[0]);
@@ -2387,10 +2387,10 @@ void do_int_speller(const char *tempfile_name)
 
 	/* Fork a process to run uniq in. */
 	if ((pid_uniq = fork()) == 0) {
-		if (dup2(sort_fd[0], STDIN_FILENO) != STDIN_FILENO)
+		if (dup2(sort_fd[0], STDIN_FILENO) < 0)
 			exit(7);
 
-		if (dup2(uniq_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+		if (dup2(uniq_fd[1], STDOUT_FILENO) < 0)
 			exit(8);
 
 		close(sort_fd[0]);
@@ -2607,9 +2607,9 @@ void do_linter(void)
 	/* Fork a process to run the linter in. */
 	if ((pid_lint = fork()) == 0) {
 		/* Redirect standard output and standard error into the pipe. */
-		if (dup2(lint_fd[1], STDOUT_FILENO) != STDOUT_FILENO)
+		if (dup2(lint_fd[1], STDOUT_FILENO) < 0)
 			exit(7);
-		if (dup2(lint_fd[1], STDERR_FILENO) != STDERR_FILENO)
+		if (dup2(lint_fd[1], STDERR_FILENO) < 0)
 			exit(8);
 
 		close(lint_fd[0]);
