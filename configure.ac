@@ -608,7 +608,7 @@ fi
 if eval "test x$CURSES_LIB_NAME = x"; then
 	AC_MSG_ERROR([
   *** No curses lib was found.  Please install the curses header files
-  *** from libncursesw5-dev (Debian), ncurses-devel (Fedora), or similar.
+  *** from libncurses-dev (Debian), ncurses-devel (Fedora), or similar.
   *** (Or install ncurses from https://ftp.gnu.org/gnu/ncurses/.)])
 else
 	AC_MSG_RESULT([  The curses library to be used is: $CURSES_LIB_NAME])
