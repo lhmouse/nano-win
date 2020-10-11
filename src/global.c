@@ -529,6 +529,7 @@ functionptrtype interpret(int *keycode)
 			return do_findnext;
 
 		switch (tolower(*keycode)) {
+			case 'b':
 			case '-':
 				return do_page_up;
 			case ' ':
