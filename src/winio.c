@@ -1868,6 +1868,19 @@ int buffer_number(openfilestruct *buffer)
 }
 #endif
 
+#ifndef NANO_TINY
+/* Show the state of auto-indenting, the mark, hard-wrapping, macro recording,
+ * and soft-wrapping by showing corresponding letters in the given window. */
+void show_states_at(WINDOW *window)
+{
+	waddstr(window, ISSET(AUTOINDENT) ? "I" : " ");
+	waddstr(window, openfile->mark ? "M" : " ");
+	waddstr(window, ISSET(BREAK_LONG_LINES) ? "L" : " ");
+	waddstr(window, recording ? "R" : " ");
+	waddstr(window, ISSET(SOFTWRAP) ? "S" : " ");
+}
+#endif
+
 /* If path is NULL, we're in normal editing mode, so display the current
  * version of nano, the current filename, and whether the current file
  * has been modified on the title bar.  If path isn't NULL, we're either
@@ -2010,11 +2023,7 @@ void titlebar(const char *path)
 			waddstr(topwin, " *");
 		if (statelen < COLS) {
 			wmove(topwin, 0, COLS + 2 - statelen);
-			waddstr(topwin, ISSET(AUTOINDENT) ? "I" : " ");
-			waddstr(topwin, openfile->mark ? "M" : " ");
-			waddstr(topwin, ISSET(BREAK_LONG_LINES) ? "L" : " ");
-			waddstr(topwin, recording ? "R" : " ");
-			waddstr(topwin, ISSET(SOFTWRAP) ? "S" : " ");
+			show_states_at(topwin);
 		}
 	} else
 #endif
