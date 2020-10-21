@@ -1200,12 +1200,11 @@ colortype *parse_interface_color(char *combostr)
 {
 	colortype *trio = nmalloc(sizeof(colortype));
 
-	if (parse_combination(combostr, &trio->fg, &trio->bg, &trio->attributes)) {
-		return trio;
-	} else {
+	if (!parse_combination(combostr, &trio->fg, &trio->bg, &trio->attributes)) {
 		free(trio);
 		return NULL;
-	}
+	} else
+		return trio;
 }
 
 /* Read regex strings enclosed in double quotes from the line pointed at
@@ -1580,16 +1579,16 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 #endif
 #ifndef NANO_TINY
 		if (strcmp(option, "matchbrackets") == 0) {
-			if (has_blank_char(argument)) {
+			if (has_blank_char(argument))
 				jot_error(N_("Non-blank characters required"));
-			} else if (mbstrlen(argument) % 2 != 0) {
+			else if (mbstrlen(argument) % 2 != 0)
 				jot_error(N_("Even number of characters required"));
-			} else
+			else
 				matchbrackets = copy_of(argument);
 		} else if (strcmp(option, "whitespace") == 0) {
-			if (mbstrlen(argument) != 2 || breadth(argument) != 2) {
+			if (mbstrlen(argument) != 2 || breadth(argument) != 2)
 				jot_error(N_("Two single-column characters required"));
-			} else {
+			else {
 				whitespace = copy_of(argument);
 				whitelen[0] = char_length(whitespace);
 				whitelen[1] = char_length(whitespace + whitelen[0]);
@@ -1598,14 +1597,14 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 #endif
 #ifdef ENABLE_JUSTIFY
 		if (strcmp(option, "punct") == 0) {
-			if (has_blank_char(argument)) {
+			if (has_blank_char(argument))
 				jot_error(N_("Non-blank characters required"));
-			} else
+			else
 				punct = copy_of(argument);
 		} else if (strcmp(option, "brackets") == 0) {
-			if (has_blank_char(argument)) {
+			if (has_blank_char(argument))
 				jot_error(N_("Non-blank characters required"));
-			} else
+			else
 				brackets = copy_of(argument);
 		} else if (strcmp(option, "quotestr") == 0)
 			quotestr = copy_of(argument);
