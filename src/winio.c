@@ -2072,7 +2072,7 @@ void minibar(void)
 	char *thisline = openfile->current->data;
 	char *hexadecimal = nmalloc(9);
 	char *location = nmalloc(44);
-	char *thename = NULL, *ranking = NULL;
+	char *thename = NULL, *number_of_lines = NULL, *ranking = NULL;
 	wchar_t widecode;
 
 	/* Draw a colored bar over the full width of the screen. */
@@ -2088,8 +2088,16 @@ void minibar(void)
 	mvwaddstr(bottomwin, 0, 2, thename);
 	waddstr(bottomwin, openfile->modified ? " *" : "  ");
 
+	if (report_size) {
+		size_t count = openfile->filebot->lineno - (openfile->filebot->data[0] == '\0');
+
+		number_of_lines = nmalloc(44);
+		sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
+		waddstr(bottomwin, number_of_lines);
+		report_size = FALSE;
+	}
 #ifdef ENABLE_MULTIBUFFER
-	if (openfile->next != openfile) {
+	else if (openfile->next != openfile) {
 		ranking = nmalloc(24);
 		sprintf(ranking, " [%i/%i]", buffer_number(openfile), buffer_number(startfile->prev));
 		waddstr(bottomwin, ranking);
@@ -2119,6 +2127,7 @@ void minibar(void)
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 	wrefresh(bottomwin);
 
+	free(number_of_lines);
 	free(hexadecimal);
 	free(location);
 	free(thename);

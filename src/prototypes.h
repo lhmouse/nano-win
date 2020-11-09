@@ -36,7 +36,7 @@ extern bool bracketed_paste;
 
 extern bool we_are_running;
 extern bool more_than_one;
-
+extern bool report_size;
 extern bool ran_a_tool;
 
 extern bool inhelp;

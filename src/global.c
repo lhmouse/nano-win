@@ -49,7 +49,8 @@ bool we_are_running = FALSE;
 		/* Becomes TRUE as soon as all options and files have been read. */
 bool more_than_one = FALSE;
 		/* Whether more than one buffer is or has been open. */
-
+bool report_size = TRUE;
+		/* Whether to show the number of lines when the minibar is used. */
 bool ran_a_tool = FALSE;
 		/* Whether a tool has been run at the Execute-Command prompt. */
 

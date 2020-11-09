@@ -501,7 +501,13 @@ void mention_name_and_linecount(void)
 {
 	size_t count = openfile->filebot->lineno -
 						(openfile->filebot->data[0] == '\0' ? 1 : 0);
+
 #ifndef NANO_TINY
+	if (ISSET(MINIBAR)) {
+		report_size = TRUE;
+		return;
+	}
+
 	if (openfile->fmt != NIX_FILE)
 		/* TRANSLATORS: First %s is file name, second %s is file format. */
 		statusline(HUSH, P_("%s -- %zu line (%s)", "%s -- %zu lines (%s)", count),
@@ -1982,8 +1988,13 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		titlebar(NULL);
 	}
 
+#ifndef NANO_TINY
+	if (ISSET(MINIBAR) && fullbuffer && !tmp)
+		report_size = TRUE;
+	else
+#endif
 	if (!tmp)
-		statusline(HUSH, P_("Wrote %zu line", "Wrote %zu lines",
+		statusline(REMARK, P_("Wrote %zu line", "Wrote %zu lines",
 								lineswritten), lineswritten);
 	retval = TRUE;
 
