@@ -57,9 +57,18 @@ void do_statusbar_next_word(void)
 			 * and if we've already seen a word, then it's a word end. */
 			if (is_word_char(answer + typing_x, FALSE))
 				seen_word = TRUE;
+#ifdef ENABLE_UTF8
+			else if (is_zerowidth(answer + typing_x))
+				; /* skip */
+#endif
 			else if (seen_word)
 				break;
 		} else {
+#ifdef ENABLE_UTF8
+			if (is_zerowidth(answer + typing_x))
+				; /* skip */
+			else
+#endif
 			/* If this is not a word character, then it's a separator; else
 			 * if we've already seen a separator, then it's a word start. */
 			if (!is_word_char(answer + typing_x, FALSE))
@@ -81,6 +90,10 @@ void do_statusbar_prev_word(void)
 
 		if (is_word_char(answer + typing_x, FALSE))
 			seen_a_word = TRUE;
+#ifdef ENABLE_UTF8
+		else if (is_zerowidth(answer + typing_x))
+			; /* skip */
+#endif
 		else if (seen_a_word) {
 			/* This is space now: we've overshot the start of the word. */
 			step_forward = TRUE;
@@ -98,14 +111,26 @@ void do_statusbar_prev_word(void)
 void do_statusbar_left(void)
 {
 	if (typing_x > 0)
+	{
 		typing_x = step_left(answer, typing_x);
+#ifdef ENABLE_UTF8
+		while (typing_x > 0 && is_zerowidth(answer + typing_x))
+			typing_x = step_left(answer, typing_x);
+#endif
+	}
 }
 
 /* Move right one character in the answer. */
 void do_statusbar_right(void)
 {
 	if (answer[typing_x] != '\0')
+	{
 		typing_x = step_right(answer, typing_x);
+#ifdef ENABLE_UTF8
+		while (answer[typing_x] != '\0' && is_zerowidth(answer + typing_x))
+			typing_x = step_right(answer, typing_x);
+#endif
+	}
 }
 
 /* Delete one character in the answer. */
@@ -116,6 +141,10 @@ void do_statusbar_delete(void)
 
 		memmove(answer + typing_x, answer + typing_x + charlen,
 						strlen(answer) - typing_x - charlen + 1);
+#ifdef ENABLE_UTF8
+		if (is_zerowidth(answer + typing_x))
+			do_statusbar_delete();
+#endif
 	}
 }
 
@@ -123,8 +152,10 @@ void do_statusbar_delete(void)
 void do_statusbar_backspace(void)
 {
 	if (typing_x > 0) {
+		size_t was_x = typing_x;
+
 		typing_x = step_left(answer, typing_x);
-		do_statusbar_delete();
+		memmove(answer + typing_x, answer + was_x, strlen(answer) - was_x + 1);
 	}
 }
 
