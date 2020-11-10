@@ -197,6 +197,12 @@ int mbwidth(const char *c)
 		return 1;
 }
 
+/* Return TRUE when the given character occupies zero cells. */
+bool is_zerowidth(const char *ch)
+{
+	return (use_utf8 && mbwidth(ch) == 0);
+}
+
 /* Convert the given Unicode value to a multibyte character, if possible.
  * If the conversion succeeds, return the (dynamically allocated) multibyte
  * character and its length.  Otherwise, return a length of zero. */

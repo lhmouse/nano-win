@@ -291,6 +291,10 @@ void do_prev_word(bool allow_punct)
 			/* If at the head of a line now, this surely is a word start. */
 			if (openfile->current_x == 0)
 				break;
+#ifdef ENABLE_UTF8
+		} else if (is_zerowidth(openfile->current->data + openfile->current_x)) {
+			; /* skip */
+#endif
 		} else if (seen_a_word) {
 			/* This is space now: we've overshot the start of the word. */
 			step_forward = TRUE;
@@ -339,11 +343,20 @@ bool do_next_word(bool after_ends, bool allow_punct)
 			if (is_word_char(openfile->current->data + openfile->current_x,
 								allow_punct))
 				seen_word = TRUE;
+#ifdef ENABLE_UTF8
+			else if (is_zerowidth(openfile->current->data + openfile->current_x))
+				; /* skip */
+#endif
 			else if (seen_word)
 				break;
 		} else
 #endif
 		{
+#ifdef ENABLE_UTF8
+			if (is_zerowidth(openfile->current->data + openfile->current_x))
+				; /* skip */
+			else
+#endif
 			/* If this is not a word character, then it's a separator; else
 			 * if we've already seen a separator, then it's a word start. */
 			if (!is_word_char(openfile->current->data + openfile->current_x,
@@ -582,8 +595,16 @@ void do_left(void)
 	linestruct *was_current = openfile->current;
 
 	if (openfile->current_x > 0)
+	{
 		openfile->current_x = step_left(openfile->current->data,
 												openfile->current_x);
+#ifdef ENABLE_UTF8
+		while (openfile->current_x > 0 &&
+					is_zerowidth(openfile->current->data + openfile->current_x))
+			openfile->current_x = step_left(openfile->current->data,
+												openfile->current_x);
+#endif
+	}
 	else if (openfile->current != openfile->filetop) {
 		openfile->current = openfile->current->prev;
 		openfile->current_x = strlen(openfile->current->data);
@@ -598,8 +619,16 @@ void do_right(void)
 	linestruct *was_current = openfile->current;
 
 	if (openfile->current->data[openfile->current_x] != '\0')
+	{
 		openfile->current_x = step_right(openfile->current->data,
 												openfile->current_x);
+#ifdef ENABLE_UTF8
+		while (openfile->current->data[openfile->current_x] != '\0' &&
+					is_zerowidth(openfile->current->data + openfile->current_x))
+			openfile->current_x = step_right(openfile->current->data,
+												openfile->current_x);
+#endif
+	}
 	else if (openfile->current != openfile->filebot) {
 		openfile->current = openfile->current->next;
 		openfile->current_x = 0;

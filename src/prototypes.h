@@ -204,6 +204,7 @@ bool is_word_char(const char *c, bool allow_punct);
 char control_mbrep(const char *c, bool isdata);
 #ifdef ENABLE_UTF8
 int mbwidth(const char *c);
+bool is_zerowidth(const char *ch);
 char *make_mbchar(long code, int *length);
 #endif
 int char_length(const char *pointer);
