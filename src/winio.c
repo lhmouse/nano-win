@@ -51,10 +51,6 @@ static bool linger_after_escape = FALSE;
 		/* Whether to give ncurses some time to get the next code. */
 static int statusblank = 0;
 		/* The number of keystrokes left before we blank the status bar. */
-#ifdef USING_OLD_NCURSES
-static bool seen_wide = FALSE;
-		/* Whether we've seen a multicolumn character in the current line. */
-#endif
 static bool has_more = FALSE;
 		/* Whether the current line has more text after the displayed part. */
 static bool is_shorter = TRUE;
@@ -1720,9 +1716,6 @@ char *display_string(const char *buf, size_t column, size_t span,
 	size_t beyond = column + span;
 		/* The column number just beyond the last shown character. */
 
-#ifdef USING_OLD_NCURSES
-	seen_wide = FALSE;
-#endif
 	buf += start_index;
 
 	/* Allocate enough space for converting the relevant part of the line. */
@@ -1855,11 +1848,6 @@ char *display_string(const char *buf, size_t column, size_t span,
 
 		/* If the codepoint is unassigned, assume a width of one. */
 		column += (charwidth < 0 ? 1 : charwidth);
-
-#ifdef USING_OLD_NCURSES
-		if (charwidth > 1)
-			seen_wide = TRUE;
-#endif
 #endif /* ENABLE_UTF8 */
 	}
 
@@ -2341,13 +2329,6 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 #ifndef NANO_TINY
 	if (thebar)
 		mvwaddch(edit, row, COLS - 1, bardata[row]);
-#endif
-#ifdef USING_OLD_NCURSES
-	/* Tell ncurses to really redraw the line without trying to optimize
-	 * for what it thinks is already there, because it gets it wrong in
-	 * the case of a wide character in column zero.  See bug #31743. */
-	if (seen_wide)
-		wredrawln(edit, row, 1);
 #endif
 
 #ifdef ENABLE_COLOR
