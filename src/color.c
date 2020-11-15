@@ -29,15 +29,6 @@
 #endif
 #include <string.h>
 
-/* For early versions of ncurses-6.0, use an additional A_PROTECT attribute
- * for all colors, in order to work around an ncurses miscoloring bug. */
-#if defined(NCURSES_VERSION_MAJOR) && (NCURSES_VERSION_MAJOR == 6) && \
-		(NCURSES_VERSION_MINOR == 0) && (NCURSES_VERSION_PATCH < 20151017)
-#define A_BANDAID  A_PROTECT
-#else
-#define A_BANDAID  A_NORMAL
-#endif
-
 static bool defaults_allowed = FALSE;
 		/* Whether ncurses accepts -1 to mean "default color". */
 
@@ -61,8 +52,7 @@ void set_interface_colorpairs(void)
 					combo->bg = COLOR_BLACK;
 			}
 			init_pair(index + 1, combo->fg, combo->bg);
-			interface_color_pair[index] = COLOR_PAIR(index + 1) | A_BANDAID |
-												combo->attributes;
+			interface_color_pair[index] = COLOR_PAIR(index + 1) | combo->attributes;
 		} else {
 			if (index == FUNCTION_TAG || index == SCROLL_BAR)
 				interface_color_pair[index] = A_NORMAL;
@@ -70,8 +60,7 @@ void set_interface_colorpairs(void)
 				interface_color_pair[index] = A_REVERSE;
 			else if (index == ERROR_MESSAGE) {
 				init_pair(index + 1, COLOR_WHITE, COLOR_RED);
-				interface_color_pair[index] = COLOR_PAIR(index + 1) |
-												A_BOLD | A_BANDAID;
+				interface_color_pair[index] = COLOR_PAIR(index + 1) | A_BOLD;
 			} else
 				interface_color_pair[index] = hilite_attribute;
 		}
@@ -102,7 +91,7 @@ void set_syntax_colorpairs(syntaxtype *sntx)
 
 		ink->pairnum = (older != ink) ? older->pairnum : ++number;
 
-		ink->attributes |= COLOR_PAIR(ink->pairnum) | A_BANDAID;
+		ink->attributes |= COLOR_PAIR(ink->pairnum);
 	}
 }
 
