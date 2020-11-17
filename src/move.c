@@ -594,8 +594,7 @@ void do_left(void)
 {
 	linestruct *was_current = openfile->current;
 
-	if (openfile->current_x > 0)
-	{
+	if (openfile->current_x > 0) {
 		openfile->current_x = step_left(openfile->current->data,
 												openfile->current_x);
 #ifdef ENABLE_UTF8
@@ -604,8 +603,7 @@ void do_left(void)
 			openfile->current_x = step_left(openfile->current->data,
 												openfile->current_x);
 #endif
-	}
-	else if (openfile->current != openfile->filetop) {
+	} else if (openfile->current != openfile->filetop) {
 		openfile->current = openfile->current->prev;
 		openfile->current_x = strlen(openfile->current->data);
 	}
@@ -618,8 +616,7 @@ void do_right(void)
 {
 	linestruct *was_current = openfile->current;
 
-	if (openfile->current->data[openfile->current_x] != '\0')
-	{
+	if (openfile->current->data[openfile->current_x] != '\0') {
 		openfile->current_x = step_right(openfile->current->data,
 												openfile->current_x);
 #ifdef ENABLE_UTF8
@@ -628,8 +625,7 @@ void do_right(void)
 			openfile->current_x = step_right(openfile->current->data,
 												openfile->current_x);
 #endif
-	}
-	else if (openfile->current != openfile->filebot) {
+	} else if (openfile->current != openfile->filebot) {
 		openfile->current = openfile->current->next;
 		openfile->current_x = 0;
 	}

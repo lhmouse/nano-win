@@ -110,8 +110,7 @@ void do_statusbar_prev_word(void)
 /* Move left one character in the answer. */
 void do_statusbar_left(void)
 {
-	if (typing_x > 0)
-	{
+	if (typing_x > 0) {
 		typing_x = step_left(answer, typing_x);
 #ifdef ENABLE_UTF8
 		while (typing_x > 0 && is_zerowidth(answer + typing_x))
@@ -123,8 +122,7 @@ void do_statusbar_left(void)
 /* Move right one character in the answer. */
 void do_statusbar_right(void)
 {
-	if (answer[typing_x] != '\0')
-	{
+	if (answer[typing_x] != '\0') {
 		typing_x = step_right(answer, typing_x);
 #ifdef ENABLE_UTF8
 		while (answer[typing_x] != '\0' && is_zerowidth(answer + typing_x))
