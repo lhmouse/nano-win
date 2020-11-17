@@ -2519,6 +2519,9 @@ int main(int argc, char **argv)
 		if (ISSET(VIEW_MODE))
 			SET(MULTIBUFFER);
 	}
+#else
+	if (optind < argc)
+		die(_("Can open just one file\n"));
 #endif
 
 	prepare_for_display();
