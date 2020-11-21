@@ -2987,9 +2987,12 @@ void do_wordlinechar_count(void)
 	openfile->current = was_current;
 	openfile->current_x = was_x;
 
-	/* Display the total word, line, and character counts on the status bar. */
-	statusline(HUSH, _("%sWords: %zu  Lines: %zd  Chars: %zu"), openfile->mark ?
-						_("In Selection:  ") : "", words, lines, chars);
+	/* Report on the status bar the number of lines, words, and characters. */
+	statusline(HUSH, _("%s%zd %s,  %zu %s,  %zu %s"),
+						openfile->mark ? _("In Selection:  ") : "",
+						lines, P_("line", "lines", lines),
+						words, P_("word", "words", words),
+						chars, P_("character", "characters", chars));
 }
 #endif /* !NANO_TINY */
 
