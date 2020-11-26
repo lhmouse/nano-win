@@ -2216,6 +2216,8 @@ void bottombars(int menu)
 	/* Display the first number of shortcuts in the given menu that
 	 * have a key combination assigned to them. */
 	for (f = allfuncs, index = 0; f != NULL && index < number; f = f->next) {
+		size_t thiswidth = itemwidth;
+
 		if ((f->menus & menu) == 0)
 			continue;
 
@@ -2226,7 +2228,11 @@ void bottombars(int menu)
 
 		wmove(bottomwin, 1 + index % 2, (index / 2) * itemwidth);
 
-		post_one_key(s->keystr, _(f->desc), itemwidth +
+		/* When the number is uneven, the penultimate item can be extra wide. */
+		if ((number % 2) == 1 && (index + 2 == number))
+			thiswidth += itemwidth;
+
+		post_one_key(s->keystr, _(f->desc), thiswidth +
 								((index < number - 2) ? 0 : COLS % itemwidth));
 		index++;
 	}
