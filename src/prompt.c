@@ -407,10 +407,6 @@ void draw_the_promptbar(void)
 
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 
-	/* Work around a cursor-misplacement bug in VTEs. */
-	wmove(bottomwin, 0, 0);
-	wrefresh(bottomwin);
-
 	/* Place the cursor at the right spot. */
 	column = base + wideness(answer, typing_x);
 	wmove(bottomwin, 0, column - get_statusbar_page_start(base, column));
