@@ -2228,12 +2228,16 @@ void bottombars(int menu)
 
 		wmove(bottomwin, 1 + index % 2, (index / 2) * itemwidth);
 
-		/* When the number is uneven, the penultimate item can be extra wide. */
+		/* When the number is uneven, the penultimate item can be double wide. */
 		if ((number % 2) == 1 && (index + 2 == number))
 			thiswidth += itemwidth;
 
-		post_one_key(s->keystr, _(f->desc), thiswidth +
-								((index < number - 2) ? 0 : COLS % itemwidth));
+		/* For the last two items, use also the remaining slack. */
+		if (index + 2 >= number)
+			thiswidth += COLS % itemwidth;
+
+		post_one_key(s->keystr, _(f->desc), thiswidth);
+
 		index++;
 	}
 
