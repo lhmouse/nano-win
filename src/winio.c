@@ -2248,8 +2248,6 @@ void bottombars(int menu)
 		index++;
 	}
 
-	/* Defeat a VTE bug by homing the cursor and forcing a screen update. */
-	wmove(bottomwin, 0, 0);
 	wrefresh(bottomwin);
 }
 
