@@ -841,7 +841,7 @@ int assemble_byte_code(int keycode)
 	}
 
 	/* The second digit may be at most 5 if the first was 2. */
- 	if (digit_count == 2) {
+	if (digit_count == 2) {
 		if (byte < 200 || keycode <= '5') {
 			byte += (keycode - '0') * 10;
 			return PROCEED;

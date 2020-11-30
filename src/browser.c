@@ -30,7 +30,7 @@
 
 static char **filelist = NULL;
 		/* The list of files to display in the file browser. */
-static size_t filelist_len = 0;
+static size_t list_length = 0;
 		/* The number of files in the list. */
 static size_t width = 0;
 		/* The number of files that we can display per screen row. */
@@ -40,14 +40,14 @@ static size_t selected = 0;
 		/* The currently selected filename in the list; zero-based. */
 
 /* Set filelist to the list of files contained in the directory path,
- * set filelist_len to the number of files in that list, set longest to
+ * set list_length to the number of files in that list, set longest to
  * the width in columns of the longest filename in that list (between 15
  * and COLS), and set width to the number of files that we can display
  * per screen row.  And sort the list too. */
 void read_the_list(const char *path, DIR *dir)
 {
+	size_t path_len = strlen(path), index = 0;
 	const struct dirent *nextdir;
-	size_t i = 0, path_len = strlen(path);
 
 	longest = 0;
 
@@ -58,7 +58,7 @@ void read_the_list(const char *path, DIR *dir)
 		if (name_len > longest)
 			longest = name_len;
 
-		i++;
+		index++;
 	}
 
 	/* Put 10 characters' worth of blank space between columns of filenames
@@ -74,32 +74,31 @@ void read_the_list(const char *path, DIR *dir)
 
 	rewinddir(dir);
 
-	free_chararray(filelist, filelist_len);
+	free_chararray(filelist, list_length);
 
-	filelist_len = i;
+	list_length = index;
+	index = 0;
 
-	filelist = nmalloc(filelist_len * sizeof(char *));
+	filelist = nmalloc(list_length * sizeof(char *));
 
-	i = 0;
-
-	while ((nextdir = readdir(dir)) != NULL && i < filelist_len) {
+	while ((nextdir = readdir(dir)) != NULL && index < list_length) {
 		/* Don't show the "." entry. */
 		if (strcmp(nextdir->d_name, ".") == 0)
 			continue;
 
-		filelist[i] = nmalloc(path_len + strlen(nextdir->d_name) + 1);
-		sprintf(filelist[i], "%s%s", path, nextdir->d_name);
+		filelist[index] = nmalloc(path_len + strlen(nextdir->d_name) + 1);
+		sprintf(filelist[index], "%s%s", path, nextdir->d_name);
 
-		i++;
+		index++;
 	}
 
-	/* Maybe the number of files in the directory changed between the
-	 * first time we scanned and the second.  i is the actual length of
-	 * filelist, so record it. */
-	filelist_len = i;
+	/* Maybe the number of files in the directory decreased between the
+	 * first time we scanned and the second time.  index is the actual
+	 * length of the file list, so record it. */
+	list_length = index;
 
 	/* Sort the list of names. */
-	qsort(filelist, filelist_len, sizeof(char *), diralphasort);
+	qsort(filelist, list_length, sizeof(char *), diralphasort);
 
 	/* Calculate how many files fit on a line -- feigning room for two
 	 * spaces beyond the right edge, and adding two spaces of padding
@@ -113,7 +112,7 @@ void browser_select_dirname(const char *needle)
 {
 	size_t looking_at = 0;
 
-	for (; looking_at < filelist_len; looking_at++) {
+	for (; looking_at < list_length; looking_at++) {
 		if (strcmp(filelist[looking_at], needle) == 0) {
 			selected = looking_at;
 			break;
@@ -122,12 +121,12 @@ void browser_select_dirname(const char *needle)
 
 	/* If the sought name isn't found, move the highlight so that the
 	 * changed selection will be noticed. */
-	if (looking_at == filelist_len) {
+	if (looking_at == list_length) {
 		--selected;
 
 		/* Make sure we stay within the available range. */
-		if (selected >= filelist_len)
-			selected = filelist_len - 1;
+		if (selected >= list_length)
+			selected = list_length - 1;
 	}
 }
 
@@ -145,7 +144,7 @@ void browser_refresh(void)
 	blank_edit();
 
 	for (size_t index = selected - selected % (editwinrows * width);
-					index < filelist_len && row < editwinrows; index++) {
+					index < list_length && row < editwinrows; index++) {
 		const char *thename = tail(filelist[index]);
 				/* The filename we display, minus the path. */
 		size_t namelen = breadth(thename);
@@ -283,13 +282,13 @@ void findfile(const char *needle, bool forwards)
 	 * we've come back to the point where we started. */
 	while (TRUE) {
 		if (forwards) {
-			if (looking_at++ == filelist_len - 1) {
+			if (looking_at++ == list_length - 1) {
 				looking_at = 0;
 				statusbar(_("Search Wrapped"));
 			}
 		} else {
 			if (looking_at-- == 0) {
-				looking_at = filelist_len - 1;
+				looking_at = list_length - 1;
 				statusbar(_("Search Wrapped"));
 			}
 		}
@@ -488,8 +487,8 @@ char *browse(char *path)
 					selected--;
 
 				/* If we're beyond the list, select the last filename. */
-				if (selected > filelist_len - 1)
-					selected = filelist_len - 1;
+				if (selected > list_length - 1)
+					selected = list_length - 1;
 
 				/* If we selected the same filename as last time, fake a
 				 * press of the Enter key so that the file is read in. */
@@ -539,19 +538,19 @@ char *browse(char *path)
 			if (selected > 0)
 				selected--;
 		} else if (func == do_right) {
-			if (selected < filelist_len - 1)
+			if (selected < list_length - 1)
 				selected++;
 		} else if (func == to_prev_word) {
 			selected -= (selected % width);
 		} else if (func == to_next_word) {
 			selected += width - 1 - (selected % width);
-			if (selected >= filelist_len)
-				selected = filelist_len - 1;
+			if (selected >= list_length)
+				selected = list_length - 1;
 		} else if (func == do_up) {
 			if (selected >= width)
 				selected -= width;
 		} else if (func == do_down) {
-			if (selected + width <= filelist_len - 1)
+			if (selected + width <= list_length - 1)
 				selected += width;
 		} else if (func == to_prev_block) {
 			selected = ((selected / (editwinrows * width)) *
@@ -560,9 +559,9 @@ char *browse(char *path)
 			selected = ((selected / (editwinrows * width)) *
 								editwinrows * width) + selected % width +
 								editwinrows * width - width;
-			if (selected >= filelist_len)
-				selected = (filelist_len / width) * width + selected % width;
-			if (selected >= filelist_len)
+			if (selected >= list_length)
+				selected = (list_length / width) * width + selected % width;
+			if (selected >= list_length)
 				selected -= width;
 		} else if (func == do_page_up) {
 			if (selected < width)
@@ -572,17 +571,17 @@ char *browse(char *path)
 			else
 				selected -= editwinrows * width;
 		} else if (func == do_page_down) {
-			if (selected + width >= filelist_len - 1)
-				selected = filelist_len - 1;
-			else if (selected + editwinrows * width >= filelist_len)
-				selected = (selected + editwinrows * width - filelist_len) %
-								width + filelist_len - width;
+			if (selected + width >= list_length - 1)
+				selected = list_length - 1;
+			else if (selected + editwinrows * width >= list_length)
+				selected = (selected + editwinrows * width - list_length) %
+								width + list_length - width;
 			else
 				selected += editwinrows * width;
 		} else if (func == to_first_file) {
 			selected = 0;
 		} else if (func == to_last_file) {
-			selected = filelist_len - 1;
+			selected = list_length - 1;
 		} else if (func == goto_dir) {
 			/* Ask for the directory to go to. */
 			if (do_prompt(MGOTODIR, "", NULL,
@@ -616,7 +615,7 @@ char *browse(char *path)
 
 			/* In case the specified directory cannot be entered, select it
 			 * (if it is in the current list) so it will be highlighted. */
-			for (size_t j = 0; j < filelist_len; j++)
+			for (size_t j = 0; j < list_length; j++)
 				if (strcmp(filelist[j], path) == 0)
 					selected = j;
 
@@ -690,9 +689,9 @@ char *browse(char *path)
 
 	free(path);
 
-	free_chararray(filelist, filelist_len);
+	free_chararray(filelist, list_length);
 	filelist = NULL;
-	filelist_len = 0;
+	list_length = 0;
 
 	return chosen;
 }

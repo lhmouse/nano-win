@@ -2823,8 +2823,8 @@ void do_linter(void)
 		}
 
 		if (tmplint != curlint) {
-		    /* Put the cursor at the reported position, but don't go beyond EOL
-		     * when the second number is a column number instead of an index. */
+			/* Put the cursor at the reported position, but don't go beyond EOL
+			 * when the second number is a column number instead of an index. */
 			goto_line_posx(curlint->lineno, curlint->colno - 1);
 			openfile->current_x = actual_x(openfile->current->data, openfile->placewewant);
 			titlebar(NULL);
