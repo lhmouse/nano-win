@@ -1,3 +1,9 @@
+2020.12.02 - GNU nano 5.4 "Terre des hommes"
+• Moving the cursor now skips over combining characters (and other
+  zero-width characters).  Deleting a character deletes also any
+  succeeding zero-width characters, but backspacing deletes just
+  one character at a time.
+
 2020.10.07 - GNU nano 5.3 "Revolution!"
 • Option 'set stateflags' makes nano show the state of auto-indenting,
   the mark, hard-wrapping, macro recording, and soft-wrapping in the

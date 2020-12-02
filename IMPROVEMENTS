@@ -2,6 +2,8 @@ Improvements in GNU nano
 ========================
 
 Since 5.0:
+  - The cursor skips over combining characters, <Del> deletes them together
+    with the character they combine with, but <Bsp> deletes them separately.
   - For using libmagic the option --magic or -! or 'set magic' is required.
   - With --stateflags the state of some things is shown in the title bar.
   - M-Bsp deletes a word leftward.

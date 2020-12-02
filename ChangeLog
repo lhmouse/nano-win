@@ -1,3 +1,40 @@
+Changes between v5.3 and v5.4:
+------------------------------
+
+Benno Schulenberg (31):
+      bindings: accept b for scrolling back up in help viewer and file browser
+      build: exclude a workaround for VTE/Konsole when using a recent ncurses
+      build: include a workaround for VTE only when using an older libvte
+      bump version numbers and add a news item for the 5.4 release
+      copyright: update to the current year for significantly changed files
+      docs: adjust for the changed name of the header-file package on Debian
+      docs: use standard-compliant HTML entities for the four arrows
+      feedback: abort when user tries to open multiple files in tiny version
+      gnulib: update to its current upstream state
+      help: allow the penultimate item extra space when the number is uneven
+      help: show all valid help items also in the Write-Out menu
+      linting: avoid putting the cursor beyond the end of the line
+      moving: skip combining characters and other zero-width characters
+      options: do not spew out the help text when an option is not recognized
+      prompt: skip over combining characters also when editing a search string
+      rcfile: stop accepting 'set view' in a nanorc file, and undocument it
+      statusbar: properly pluralize the line+word+character count report
+      tweaks: avoid copying an option's argument when there is no need
+      tweaks: normalize the formatting after the previous two changes
+      tweaks: rename two variables and improve two comments
+      tweaks: rename two variables, one for contrast, another for visibility
+      tweaks: reshuffle a fragment of code, for clarity
+      tweaks: reshuffle a line, elide two braces, and adjust the indentation
+      tweaks: reshuffle three lines and elide braces after the previous change
+      tweaks: slightly shorten a loop, to place the actual action outside of it
+      tweaks: use the standard symbols for the three standard file descriptors
+      utils: die when trying to allocate zero bytes
+      weeding: remove another unneeded workaround for VTE
+      weeding: remove a workaround for early versions of ncurses-6.0
+      weeding: remove a workaround for versions of ncurses before 5.9
+      weeding: remove a workaround for VTE that is not needed
+
+
 Changes between v5.2 and v5.3:
 ------------------------------
 
