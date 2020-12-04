@@ -890,7 +890,7 @@ int convert_to_control(int kbinput)
 int parse_kbinput(WINDOW *win)
 {
 	static bool first_escape_was_alone = FALSE;
-	static bool solitary = FALSE;
+	static bool last_escape_was_alone = FALSE;
 	static int escapes = 0;
 	int keycode;
 
@@ -906,13 +906,13 @@ int parse_kbinput(WINDOW *win)
 	/* Remember whether an Esc arrived by itself, and increment
 	 * its counter, rolling around on three escapes. */
 	if (keycode == ESC_CODE) {
-		first_escape_was_alone = solitary;
-		solitary = (key_buffer_len == 0);
+		first_escape_was_alone = last_escape_was_alone;
+		last_escape_was_alone = (key_buffer_len == 0);
 		if (digit_count > 0) {
 			digit_count = 0;
 			escapes = 1;
 		} else if (++escapes > 2)
-			escapes = (solitary ? 0 : 1);
+			escapes = (last_escape_was_alone ? 0 : 1);
 		return ERR;
 	}
 
@@ -938,7 +938,7 @@ int parse_kbinput(WINDOW *win)
 				return FOREIGN_SEQUENCE;
 			}
 #endif
-			else if (!solitary && keycode < 0x20)
+			else if (keycode < 0x20 && !last_escape_was_alone)
 				meta_key = TRUE;
 		} else if (key_buffer_len == 0 || *key_buffer == ESC_CODE ||
 								(keycode != 'O' && keycode != '[')) {
@@ -1000,7 +1000,7 @@ int parse_kbinput(WINDOW *win)
 		} else if (digit_count == 0) {
 			/* If the second escape did not arrive alone, it is a Meta
 			 * keystroke; otherwise, it is an "Esc Esc control". */
-			if (first_escape_was_alone && !solitary) {
+			if (first_escape_was_alone && !last_escape_was_alone) {
 				if (!shifted_metas)
 					keycode = tolower(keycode);
 				meta_key = TRUE;
