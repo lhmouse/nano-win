@@ -889,6 +889,7 @@ int convert_to_control(int kbinput)
  * the function keys (F1-F12), and the numeric keypad with NumLock off. */
 int parse_kbinput(WINDOW *win)
 {
+	static bool first_escape_was_alone = FALSE;
 	static bool solitary = FALSE;
 	static int escapes = 0;
 	int keycode;
@@ -905,6 +906,7 @@ int parse_kbinput(WINDOW *win)
 	/* Remember whether an Esc arrived by itself, and increment
 	 * its counter, rolling around on three escapes. */
 	if (keycode == ESC_CODE) {
+		first_escape_was_alone = solitary;
 		solitary = (key_buffer_len == 0);
 		if (digit_count > 0) {
 			digit_count = 0;
@@ -998,7 +1000,7 @@ int parse_kbinput(WINDOW *win)
 		} else if (digit_count == 0) {
 			/* If the second escape did not arrive alone, it is a Meta
 			 * keystroke; otherwise, it is an "Esc Esc control". */
-			if (!solitary) {
+			if (first_escape_was_alone && !solitary) {
 				if (!shifted_metas)
 					keycode = tolower(keycode);
 				meta_key = TRUE;
