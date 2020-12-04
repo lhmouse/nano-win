@@ -46,8 +46,6 @@ static int *key_buffer = NULL;
 		/* A buffer for the keystrokes that haven't been handled yet. */
 static size_t key_buffer_len = 0;
 		/* The length of the keystroke buffer. */
-static bool solitary = FALSE;
-		/* Whether an Esc arrived by itself -- not as leader of a sequence. */
 static int digit_count = 0;
 		/* How many digits of a three-digit character code we've eaten. */
 static bool reveal_cursor = FALSE;
@@ -891,6 +889,7 @@ int convert_to_control(int kbinput)
  * the function keys (F1-F12), and the numeric keypad with NumLock off. */
 int parse_kbinput(WINDOW *win)
 {
+	static bool solitary = FALSE;
 	static int escapes = 0;
 	int keycode;
 
