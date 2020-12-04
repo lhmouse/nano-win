@@ -903,8 +903,8 @@ int parse_kbinput(WINDOW *win)
 	if (keycode == ERR)
 		return ERR;
 
-	/* Remember whether an Esc arrived by itself, and increment
-	 * its counter, rolling around on three escapes. */
+	/* For an Esc, remember whether the last two arrived by themselves.
+	 * Then increment the counter, rolling around on three escapes. */
 	if (keycode == ESC_CODE) {
 		first_escape_was_alone = last_escape_was_alone;
 		last_escape_was_alone = (key_buffer_len == 0);
@@ -998,8 +998,8 @@ int parse_kbinput(WINDOW *win)
 			else
 				return byte;
 		} else if (digit_count == 0) {
-			/* If the second escape did not arrive alone, it is a Meta
-			 * keystroke; otherwise, it is an "Esc Esc control". */
+			/* If the first escape arrived alone but not the second, then it
+			 * is a Meta keystroke; otherwise, it is an "Esc Esc control". */
 			if (first_escape_was_alone && !last_escape_was_alone) {
 				if (!shifted_metas)
 					keycode = tolower(keycode);
