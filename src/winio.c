@@ -174,12 +174,23 @@ void read_keys_from(WINDOW *win)
 {
 	int input = ERR;
 	size_t errcount = 0;
+#ifndef NANO_TINY
+	bool timed = FALSE;
+#endif
 
 	/* Before reading the first keycode, display any pending screen updates. */
 	doupdate();
 
 	if (reveal_cursor)
 		curs_set(1);
+
+#ifndef NANO_TINY
+	if (currmenu == MMAIN && ISSET(MINIBAR) &&
+					lastmessage > VACUUM && lastmessage < ALERT) {
+		timed = TRUE;
+		halfdelay(8);
+	}
+#endif
 
 	/* Read in the first keycode, waiting for it to arrive. */
 	while (input == ERR) {
@@ -189,6 +200,18 @@ void read_keys_from(WINDOW *win)
 		if (the_window_resized) {
 			regenerate_screen();
 			input = KEY_WINCH;
+		}
+
+		if (timed) {
+			timed = FALSE;
+			raw();
+
+			if (input == ERR) {
+				minibar();
+				place_the_cursor();
+				doupdate();
+				continue;
+			}
 		}
 #endif
 		/* When we've failed to get a keycode over a hundred times in a row,

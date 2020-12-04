@@ -1513,6 +1513,8 @@ void process_a_keystroke(void)
 	/* Read in a keystroke, and show the cursor while waiting. */
 	input = get_kbinput(edit, VISIBLE);
 
+	lastmessage = VACUUM;
+
 #ifndef NANO_TINY
 	if (input == KEY_WINCH)
 		return;
@@ -2493,6 +2495,10 @@ int main(int argc, char **argv)
 				openfile->next == openfile && !ISSET(NO_HELP))
 		statusbar(_("Welcome to nano.  For basic help, type Ctrl+G."));
 #endif
+#ifndef NANO_TINY
+	if (ISSET(MINIBAR) && lastmessage < ALERT)
+		lastmessage = VACUUM;
+#endif
 
 	we_are_running = TRUE;
 
@@ -2517,7 +2523,6 @@ int main(int argc, char **argv)
 		if (ISSET(CONSTANT_SHOW) && lastmessage == VACUUM && get_key_buffer_len() == 0)
 			report_cursor_position();
 
-		lastmessage = VACUUM;
 		as_an_at = TRUE;
 
 		/* Refresh just the cursor position or the entire edit window. */

@@ -2894,6 +2894,7 @@ void do_linter(void)
 		refresh_needed = TRUE;
 	}
 
+	lastmessage = VACUUM;
 	currmenu = MMOST;
 	titlebar(NULL);
 }
@@ -3012,7 +3013,7 @@ void do_verbatim_input(void)
 	/* When something valid was obtained, unsuppress cursor-position display,
 	 * insert the bytes into the edit buffer, and blank the status bar. */
 	if (count > 0) {
-		if (ISSET(CONSTANT_SHOW))
+		if (ISSET(CONSTANT_SHOW) || ISSET(MINIBAR))
 			lastmessage = VACUUM;
 
 		if (count < 999)
