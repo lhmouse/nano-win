@@ -178,9 +178,8 @@ void read_keys_from(WINDOW *win)
 	/* Before reading the first keycode, display any pending screen updates. */
 	doupdate();
 
-	if (reveal_cursor) {
+	if (reveal_cursor)
 		curs_set(1);
-	}
 
 	/* Read in the first keycode, waiting for it to arrive. */
 	while (input == ERR) {

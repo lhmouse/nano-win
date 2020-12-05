@@ -945,12 +945,11 @@ void do_suspend(int signal)
 /* Put nano to sleep (if suspension is enabled). */
 void do_suspend_void(void)
 {
-	if (ISSET(SUSPENDABLE)) {
-		do_suspend(0);
-	} else {
+	if (!ISSET(SUSPENDABLE)) {
 		statusbar(_("Suspension is not enabled"));
 		beep();
-	}
+	} else
+		do_suspend(0);
 
 	ran_a_tool = TRUE;
 }
@@ -1181,10 +1180,11 @@ void enable_flow_control(void)
  * control characters. */
 void terminal_init(void)
 {
-		raw();
-		nonl();
-		noecho();
-		disable_extended_io();
+	raw();
+	nonl();
+	noecho();
+
+	disable_extended_io();
 
 	if (ISSET(PRESERVE))
 		enable_flow_control();
@@ -1767,12 +1767,10 @@ int main(int argc, char **argv)
 		fcntl(STDIN_FILENO, F_SETFL, stdin_flags & ~O_NONBLOCK);
 
 #ifdef ENABLE_UTF8
-	/* If setting the locale is successful and it uses UTF-8, we need
-	 * to use the multibyte functions for text processing. */
-	if (setlocale(LC_ALL, "") != NULL &&
-				strcmp(nl_langinfo(CODESET), "UTF-8") == 0) {
+	/* If setting the locale is successful and it uses UTF-8, we will
+	 * need to use the multibyte functions for text processing. */
+	if (setlocale(LC_ALL, "") && strcmp(nl_langinfo(CODESET), "UTF-8") == 0)
 		utf8_init();
-	}
 #else
 	setlocale(LC_ALL, "");
 #endif

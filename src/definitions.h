@@ -68,15 +68,14 @@
 #define PATH_MAX  4096
 #endif
 
-/* Ncurses support. */
+/* Prefer wide ncurses over normal ncurses over curses. */
 #if defined(HAVE_NCURSESW_NCURSES_H)
 #include <ncursesw/ncurses.h>
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>
 #else
-/* Curses support. */
 #include <curses.h>
-#endif /* CURSES_H */
+#endif
 
 #ifdef ENABLE_NLS
 /* Native language support. */
