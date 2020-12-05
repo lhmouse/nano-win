@@ -1132,18 +1132,14 @@ int parse_kbinput(WINDOW *win)
 #endif
 
 	switch (keycode) {
-#ifdef KEY_SLEFT  /* Slang doesn't support KEY_SLEFT. */
 		case KEY_SLEFT:
 			shift_held = TRUE;
 			return KEY_LEFT;
-#endif
-#ifdef KEY_SRIGHT  /* Slang doesn't support KEY_SRIGHT. */
 		case KEY_SRIGHT:
 			shift_held = TRUE;
 			return KEY_RIGHT;
-#endif
 #ifdef KEY_SR
-#ifdef KEY_SUP  /* ncurses and Slang don't support KEY_SUP. */
+#ifdef KEY_SUP  /* Ncurses doesn't know Shift+Up. */
 		case KEY_SUP:
 #endif
 		case KEY_SR:    /* Scroll backward, on Xfce4-terminal. */
@@ -1151,21 +1147,21 @@ int parse_kbinput(WINDOW *win)
 			return KEY_UP;
 #endif
 #ifdef KEY_SF
-#ifdef KEY_SDOWN  /* ncurses and Slang don't support KEY_SDOWN. */
+#ifdef KEY_SDOWN  /* Ncurses doesn't know Shift+Down. */
 		case KEY_SDOWN:
 #endif
 		case KEY_SF:    /* Scroll forward, on Xfce4-terminal. */
 			shift_held = TRUE;
 			return KEY_DOWN;
 #endif
-#ifdef KEY_SHOME  /* HP-UX 10-11 and Slang don't support KEY_SHOME. */
+#ifdef KEY_SHOME  /* HP-UX 10-11 doesn't know Shift+Home. */
 		case KEY_SHOME:
 #endif
 		case SHIFT_HOME:
 			shift_held = TRUE;
 		case KEY_A1:    /* Home (7) on keypad with NumLock off. */
 			return KEY_HOME;
-#ifdef KEY_SEND  /* HP-UX 10-11 and Slang don't support KEY_SEND. */
+#ifdef KEY_SEND  /* HP-UX 10-11 doesn't know Shift+End. */
 		case KEY_SEND:
 #endif
 		case SHIFT_END:
@@ -1200,28 +1196,17 @@ int parse_kbinput(WINDOW *win)
 			return (ISSET(REBIND_DELETE) ? KEY_DC : KEY_BACKSPACE);
 		case KEY_DC:
 			return (ISSET(REBIND_DELETE) ? KEY_BACKSPACE : KEY_DC);
-#ifdef KEY_SDC  /* Slang doesn't support KEY_SDC. */
 		case KEY_SDC:
 			return SHIFT_DELETE;
-#endif
-#if defined(KEY_CANCEL) && defined(KEY_SCANCEL)  /* Slang doesn't support these. */
 		case KEY_SCANCEL:
 			return KEY_CANCEL;
-#endif
-#if defined(KEY_SUSPEND) && defined(KEY_SSUSPEND)  /* Slang doesn't support these. */
 		case KEY_SSUSPEND:
 			return KEY_SUSPEND;
-#endif
-#ifdef KEY_BTAB  /* Slang doesn't support KEY_BTAB. */
 		case KEY_BTAB:
 			return SHIFT_TAB;
-#endif
-#ifdef KEY_SBEG  /* Slang doesn't support KEY_SBEG. */
+
 		case KEY_SBEG:
-#endif
-#ifdef KEY_BEG  /* Slang doesn't support KEY_BEG. */
 		case KEY_BEG:
-#endif
 		case KEY_B2:    /* Center (5) on keypad with NumLock off. */
 #ifdef PDCURSES
 		case KEY_SHIFT_L:
@@ -1231,7 +1216,7 @@ int parse_kbinput(WINDOW *win)
 		case KEY_ALT_L:
 		case KEY_ALT_R:
 #endif
-#ifdef KEY_RESIZE  /* Slang and SunOS 5.7-5.9 don't support KEY_RESIZE. */
+#ifdef KEY_RESIZE  /* SunOS 5.7-5.9 doesn't know KEY_RESIZE. */
 		case KEY_RESIZE:
 #endif
 		case KEY_FLUSH:
