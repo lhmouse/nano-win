@@ -1915,8 +1915,8 @@ Exclude Native Language support.  This will disable the use of any
 available GNU @command{nano} translations.
 
 @item --enable-utf8
-Include support for reading and writing Unicode files.  This will require
-either a wide version of curses, or a UTF-8-enabled version of Slang.
+Include support for reading and writing Unicode files.
+This requires a wide version of the curses library.
 
 @item --disable-utf8
 Exclude support for reading and writing Unicode files.  Normally the
@@ -1926,10 +1926,6 @@ You can use this or the previous option to override that detection.
 @item --enable-altrcname=@var{name}
 Use the file with the given @var{name} (in the user's home directory)
 as nano's settings file, instead of the default @code{.nanorc}.
-
-@item --with-slang
-Compile @command{nano} against Slang instead of against ncurses or other
-curses libraries.
 
 @end table
 
