@@ -68,15 +68,8 @@
 #define PATH_MAX  4096
 #endif
 
-#ifdef USE_SLANG
-/* Slang support. */
-#include <slcurses.h>
-/* Slang curses emulation brain damage, part 3: Slang doesn't define the
- * curses equivalents of the Insert or Delete keys. */
-#define KEY_DC  SL_KEY_DELETE
-#define KEY_IC  SL_KEY_IC
 /* Ncurses support. */
-#elif defined(HAVE_NCURSESW_NCURSES_H)
+#if defined(HAVE_NCURSESW_NCURSES_H)
 #include <ncursesw/ncurses.h>
 #elif defined(HAVE_NCURSES_H)
 #include <ncurses.h>
@@ -615,11 +608,7 @@ enum
 /* A special keycode for when a key produces an unknown escape sequence. */
 #define FOREIGN_SEQUENCE  0x4FC
 
-#ifdef USE_SLANG
-#define KEY_FLUSH  0xFF  /* Clipped error code. */
-#else
 #define KEY_FLUSH  KEY_F0  /* Nonexistent function key. */
-#endif
 
 #ifndef NANO_TINY
 /* An imaginary key for when we get a SIGWINCH (window resize). */

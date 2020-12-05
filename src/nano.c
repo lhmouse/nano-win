@@ -62,10 +62,6 @@ static struct termios original_state;
 
 static struct sigaction oldaction, newaction;
 		/* Containers for the original and the temporary handler for SIGINT. */
-#ifdef USE_SLANG
-static bool selfinduced = FALSE;
-		/* Whether a suspension was caused from inside nano or from outside. */
-#endif
 
 /* Create a new linestruct node.  Note that we do not set prevnode->next. */
 linestruct *make_new_node(linestruct *prevnode)
@@ -422,13 +418,11 @@ void window_init(void)
 	/* In case the terminal shrunk, make sure the status line is clear. */
 	wipe_statusbar();
 
-#ifndef USE_SLANG
 	/* When not disabled, turn escape-sequence translation on. */
 	if (!ISSET(RAW_SEQUENCES)) {
 		keypad(edit, TRUE);
 		keypad(bottomwin, TRUE);
 	}
-#endif
 
 #ifdef ENABLED_WRAPORJUSTIFY
 	/* Set up the wrapping point, accounting for screen width when negative. */
@@ -526,10 +520,8 @@ void usage(void)
 	print_opt(_("-J <number>"), _("--guidestripe=<number>"),
 					N_("Show a guiding bar at this column"));
 #endif
-#ifndef USE_SLANG
 	print_opt("-K", "--rawsequences",
 					N_("Fix numeric keypad key confusion problem"));
-#endif
 #ifndef NANO_TINY
 	print_opt("-L", "--nonewlines",
 					N_("Don't add an automatic newline"));
@@ -776,9 +768,6 @@ void version(void)
 #else
 	printf(" --disable-utf8");
 #endif
-#ifdef USE_SLANG
-	printf(" --with-slang");
-#endif
 	printf("\n");
 }
 
@@ -957,13 +946,7 @@ void do_suspend(int signal)
 void do_suspend_void(void)
 {
 	if (ISSET(SUSPENDABLE)) {
-#ifdef USE_SLANG
-		selfinduced = TRUE;
 		do_suspend(0);
-		selfinduced = FALSE;
-#else
-		do_suspend(0);
-#endif
 	} else {
 		statusbar(_("Suspension is not enabled"));
 		beep();
@@ -987,13 +970,9 @@ void do_continue(int signal)
 	/* Put the terminal in the desired state again. */
 	terminal_init();
 #endif
-#ifdef USE_SLANG
-	if (!selfinduced)
-		full_refresh();
-#else
+
 	/* Insert a fake keystroke, to neutralize a key-eating issue. */
 	ungetch(KEY_FLUSH);
-#endif
 }
 
 #if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
@@ -1202,36 +1181,14 @@ void enable_flow_control(void)
  * control characters. */
 void terminal_init(void)
 {
-#ifdef USE_SLANG
-	/* Slang curses emulation brain damage, part 2: Slang doesn't
-	 * implement raw(), nonl(), or noecho() properly, so there's no way
-	 * to properly reinitialize the terminal using them.  We have to
-	 * disable the special control keys and interpretation of the flow
-	 * control characters using termios, save the terminal state after
-	 * the first call, and restore it on subsequent calls. */
-	static struct termios desired_state;
-	static bool have_new_state = FALSE;
-
-	if (!have_new_state) {
-#endif
 		raw();
 		nonl();
 		noecho();
 		disable_extended_io();
-#ifdef USE_SLANG
-		tcgetattr(0, &desired_state);
-		have_new_state = TRUE;
-	} else
-		tcsetattr(0, TCSANOW, &desired_state);
 
-	SLang_init_tty(-1, 0, 0);
-#endif
 	if (ISSET(PRESERVE))
 		enable_flow_control();
-#ifdef USE_SLANG
-	else
-		disable_flow_control();
-#endif
+
 	disable_kb_interrupt();
 
 #ifndef NANO_TINY
@@ -1711,9 +1668,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_NANORC
 		{"ignorercfiles", 0, NULL, 'I'},
 #endif
-#ifndef USE_SLANG
 		{"rawsequences", 0, NULL, 'K'},
-#endif
 #ifdef ENABLED_WRAPORJUSTIFY
 		{"trimblanks", 0, NULL, 'M'},
 #endif
@@ -1816,9 +1771,6 @@ int main(int argc, char **argv)
 	 * to use the multibyte functions for text processing. */
 	if (setlocale(LC_ALL, "") != NULL &&
 				strcmp(nl_langinfo(CODESET), "UTF-8") == 0) {
-#ifdef USE_SLANG
-		SLutf8_enable(1);
-#endif
 		utf8_init();
 	}
 #else
@@ -1898,11 +1850,9 @@ int main(int argc, char **argv)
 				}
 				break;
 #endif
-#ifndef USE_SLANG
 			case 'K':
 				SET(RAW_SEQUENCES);
 				break;
-#endif
 #ifndef NANO_TINY
 			case 'L':
 				SET(NO_NEWLINES);
@@ -2233,15 +2183,9 @@ int main(int argc, char **argv)
 #endif
 	}
 
-#ifdef USE_SLANG
-	/* When using Slang, do not let Slang translate escape sequences to
-	 * key codes, because it does it wrong for the longer sequences. */
-	SET(RAW_SEQUENCES);
-#else
 	/* When getting untranslated escape sequences, the mouse cannot be used. */
 	if (ISSET(RAW_SEQUENCES))
 		UNSET(USE_MOUSE);
-#endif
 
 #ifdef ENABLE_HISTORIES
 	/* Initialize the pointers for the Search/Replace/Execute histories. */

@@ -180,9 +180,6 @@ void read_keys_from(WINDOW *win)
 
 	if (reveal_cursor) {
 		curs_set(1);
-#ifdef USE_SLANG
-		doupdate();
-#endif
 	}
 
 	/* Read in the first keycode, waiting for it to arrive. */
@@ -570,11 +567,6 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 			} else if (length > 4 && seq[2] == ';' && seq[4] == '~')
 				/* Esc [ 1 n ; 2 ~ == F17...F20 on some terminals. */
 				*consumed = 5;
-#ifdef USE_SLANG
-			else if (length == 3 && seq[2] == ';')
-				/* Discard broken sequences that Slang produces. */
-				*consumed = 3;
-#endif
 			break;
 		case '2':
 			if (length > 2 && seq[2] == '~') {
@@ -605,11 +597,6 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 			else if (length > 4 && seq[2] == ';' && seq[4] == '~')
 				/* Esc [ 2 n ; 2 ~ == F21...F24 on some terminals. */
 				*consumed = 5;
-#ifdef USE_SLANG
-			else if (length == 3 && seq[2] == ';')
-				/* Discard broken sequences that Slang produces. */
-				*consumed = 3;
-#endif
 #ifndef NANO_TINY
 			else if (length > 3 && seq[1] == '0' && seq[3] == '~') {
 				/* Esc [ 2 0 0 ~ == start of a bracketed paste,
@@ -1447,10 +1434,9 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	 * don't get extended keypad values. */
 	if (ISSET(PRESERVE))
 		disable_flow_control();
-#ifndef USE_SLANG
 	if (!ISSET(RAW_SEQUENCES))
 		keypad(win, FALSE);
-#endif
+
 #ifndef NANO_TINY
 	/* Turn bracketed-paste mode off. */
 	printf("\x1B[?2004l");
@@ -1484,14 +1470,13 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	 * keypad back on if necessary now that we're done. */
 	if (ISSET(PRESERVE))
 		enable_flow_control();
-#ifndef USE_SLANG
+
 	/* Use the global window pointers, because a resize may have freed
 	 * the data that the win parameter points to. */
 	if (!ISSET(RAW_SEQUENCES)) {
 		keypad(edit, TRUE);
 		keypad(bottomwin, TRUE);
 	}
-#endif
 
 	if (*count < 999) {
 		for (size_t i = 0; i < *count; i++)
@@ -2152,11 +2137,6 @@ void statusline(message_type importance, const char *msg, ...)
 		statusblank = 1;
 	else
 		statusblank = 26;
-
-#ifdef USE_SLANG
-	/* Work around a shy cursor -- https://sv.gnu.org/bugs/?59091. */
-	bottombars(MGOTODIR);
-#endif
 }
 
 /* Display a normal message on the status bar, quietly. */
@@ -3284,14 +3264,7 @@ void adjust_viewport(update_type manner)
 /* Tell curses to unconditionally redraw whatever was on the screen. */
 void full_refresh(void)
 {
-#ifdef USE_SLANG
-	/* Slang curses emulation brain damage, part 4: Slang doesn't define
-	 * curscr. */
-	SLsmg_touch_screen();
-	SLsmg_refresh();
-#else
 	wrefresh(curscr);
-#endif
 }
 
 /* Draw all elements of the screen.  That is: the title bar plus the content
@@ -3337,11 +3310,6 @@ void report_cursor_position(void)
 			_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
 			openfile->current->lineno, openfile->filebot->lineno, linepct,
 			column, fullwidth, colpct, sum, openfile->totsize, charpct);
-
-#ifdef USE_SLANG
-	/* Restore the help lines after the above call overwrote them. */
-	bottombars(MMAIN);
-#endif
 }
 
 /* Highlight the text between the given two columns on the current line. */
