@@ -3,6 +3,7 @@
   zero-width characters).  Deleting a character deletes also any
   succeeding zero-width characters, but backspacing deletes just
   one character at a time.
+• Workarounds for older ncurses and older libvtes were removed.
 
 2020.10.07 - GNU nano 5.3 "Revolution!"
 • Option 'set stateflags' makes nano show the state of auto-indenting,
