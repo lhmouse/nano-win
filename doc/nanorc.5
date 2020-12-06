@@ -138,7 +138,7 @@ point to vary along with the width of the screen if the screen is resized.
 The default value is \fB\-8\fR.
 .TP
 .B set functioncolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for the function descriptions
+Use this color combination for the concise function descriptions
 in the two help lines at the bottom of the screen.
 See \fBset titlecolor\fR for more details.
 .TP
@@ -159,7 +159,7 @@ and how much of the buffer is covered by the viewport.
 Scroll the buffer contents per half-screen instead of per line.
 .TP
 .B set keycolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for the shortcut key combos
+Use this color combination for the shortcut key combos
 in the two help lines at the bottom of the screen.
 See \fBset titlecolor\fR for more details.
 .TP
@@ -214,7 +214,7 @@ Deprecated option since it has become the default setting.
 When needed, use \fBunset breaklonglines\fR instead.
 .TP
 .B set numbercolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for line numbers.
+Use this color combination for line numbers.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set operatingdir "\fIdirectory\fP"
@@ -231,8 +231,8 @@ The cursor position is remembered for the 200 most-recently edited files.
 Preserve the XON and XOFF keys (\fB^Q\fR and \fB^S\fR).
 .TP
 .B set promptcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for the prompt bar.
-When this option is not specified, the colors of the title bar are used.
+Use this color combination for the prompt bar.
+(When this option is not specified, the colors of the title bar are used.)
 See \fBset titlecolor\fR for more details.
 .TP
 .BI "set punct """ characters """
@@ -272,13 +272,13 @@ Save a changed buffer automatically on exit (\fB^X\fR); don't prompt.
 (The old form of this option, \fBset tempfile\fR, is deprecated.)
 .TP
 .B set scrollercolor \fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for the indicator alias "scrollbar".
+Use this color combination for the indicator alias "scrollbar".
 (On terminal emulators that link to a libvte older than version 0.55,
 using a background color here does not work correctly.)
 See \fBset titlecolor\fR for more details.
 .TP
 .B set selectedcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for selected text.
+Use this color combination for selected text.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set showcursor
@@ -314,11 +314,11 @@ When the buffer is modified, a star (\fB*\fR) is shown after the
 filename in the center of the title bar.
 .TP
 .B set  statuscolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for the status bar.
+Use this color combination for the status bar.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set stripecolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for the vertical guiding stripe.
+Use this color combination for the vertical guiding stripe.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set suspendable
@@ -332,7 +332,7 @@ greater than 0.  The default value is \fB8\fR.
 Convert typed tabs to spaces.
 .TP
 .B set titlecolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
-Specify the color combination to use for the title bar.
+Use this color combination for the title bar.
 Valid names for the foreground and background colors are:
 .BR red ", " green ", " blue ", " magenta ", " yellow ", " cyan ", "
 .BR white ", and " black .
