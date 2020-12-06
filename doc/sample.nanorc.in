@@ -203,6 +203,7 @@
 ## Paint the interface elements of nano.  These are examples;
 ## by default there are no colors, except for errorcolor.
 # set titlecolor bold,lightwhite,blue
+# set promptcolor lightwhite,lightblack
 # set statuscolor bold,lightwhite,green
 # set errorcolor bold,lightwhite,red
 # set selectedcolor lightwhite,magenta
@@ -214,6 +215,7 @@
 
 ## In root's .nanorc you might want to use:
 # set titlecolor bold,lightwhite,magenta
+# set promptcolor black,yellow
 # set statuscolor bold,lightwhite,magenta
 # set errorcolor bold,lightwhite,red
 # set selectedcolor lightwhite,cyan

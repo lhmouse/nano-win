@@ -956,6 +956,11 @@ Display a "scrollbar" on the righthand side of the edit window.
 It shows the position of the viewport in the buffer
 and how much of the buffer is covered by the viewport.
 
+@item set promptcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
+Use this color combination for the prompt bar.
+When this option is not specified, the colors of the title bar are used.
+@xref{@code{set functioncolor}} for valid color names.
+
 @item set punct "@var{characters}"
 Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the

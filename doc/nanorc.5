@@ -230,6 +230,11 @@ The cursor position is remembered for the 200 most-recently edited files.
 .B set preserve
 Preserve the XON and XOFF keys (\fB^Q\fR and \fB^S\fR).
 .TP
+.B set promptcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
+Specify the color combination to use for the prompt bar.
+When this option is not specified, the colors of the title bar are used.
+See \fBset titlecolor\fR for more details.
+.TP
 .BI "set punct """ characters """
 Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the
