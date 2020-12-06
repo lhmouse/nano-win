@@ -118,6 +118,21 @@
 #define MAXCHARLEN  1
 #endif
 
+/* The default width of a tab in spaces. */
+#define WIDTH_OF_TAB  8
+
+/* The default number of columns from end of line where wrapping occurs. */
+#define COLUMNS_FROM_EOL  8
+
+/* The default comment character when a syntax does not specify any. */
+#define GENERAL_COMMENT_CHARACTER  "#"
+
+/* The maximum number of search/replace history strings saved. */
+#define MAX_SEARCH_HISTORY  100
+
+/* The largest size_t number that doesn't have the high bit set. */
+#define HIGHEST_POSITIVE  ((~(size_t)0) >> 1)
+
 #ifdef ENABLE_COLOR
 #define THE_DEFAULT  -1
 #define BAD_COLOR  -2
@@ -135,6 +150,98 @@
 		/* Both the start and end regexes match within this line. */
 #define CWOULDBE        (1<<6)
 		/* An unpaired start match is on or before this line. */
+#endif
+
+/* Basic control codes. */
+#define ESC_CODE  0x1B
+#define DEL_CODE  0x7F
+
+/* Codes for "modified" Arrow keys, beyond KEY_MAX of ncurses. */
+#define CONTROL_LEFT    0x401
+#define CONTROL_RIGHT   0x402
+#define CONTROL_UP      0x403
+#define CONTROL_DOWN    0x404
+#define CONTROL_HOME    0x405
+#define CONTROL_END     0x406
+#define CONTROL_DELETE  0x40D
+#define SHIFT_CONTROL_LEFT    0x411
+#define SHIFT_CONTROL_RIGHT   0x412
+#define SHIFT_CONTROL_UP      0x413
+#define SHIFT_CONTROL_DOWN    0x414
+#define SHIFT_CONTROL_HOME    0x415
+#define SHIFT_CONTROL_END     0x416
+#define CONTROL_SHIFT_DELETE  0x41D
+#define ALT_LEFT      0x421
+#define ALT_RIGHT     0x422
+#define ALT_UP        0x423
+#define ALT_DOWN      0x424
+#define ALT_PAGEUP    0x427
+#define ALT_PAGEDOWN  0x428
+#define ALT_INSERT    0x42C
+#define ALT_DELETE    0x42D
+#define SHIFT_ALT_LEFT   0x431
+#define SHIFT_ALT_RIGHT  0x432
+#define SHIFT_ALT_UP     0x433
+#define SHIFT_ALT_DOWN   0x434
+//#define SHIFT_LEFT 0x451
+//#define SHIFT_RIGHT 0x452
+#define SHIFT_UP        0x453
+#define SHIFT_DOWN      0x454
+#define SHIFT_HOME      0x455
+#define SHIFT_END       0x456
+#define SHIFT_PAGEUP    0x457
+#define SHIFT_PAGEDOWN  0x458
+#define SHIFT_DELETE    0x45D
+#define SHIFT_TAB       0x45F
+
+/* A special keycode for when <Tab> is pressed while the mark is on. */
+#define INDENT_KEY  0x4F1
+
+/* A special keycode to signal the beginning and end of a bracketed paste. */
+#define BRACKETED_PASTE_MARKER  0x4FB
+
+/* A special keycode for when a key produces an unknown escape sequence. */
+#define FOREIGN_SEQUENCE  0x4FC
+
+/* A special keycode for plugging into the input stream after a suspension. */
+#define KEY_FLUSH  KEY_F0
+
+#ifndef NANO_TINY
+/* A special keycode for when we get a SIGWINCH (a window resize). */
+#define KEY_WINCH  -2
+
+/* Some extra flags for the undo function. */
+#define WAS_BACKSPACE_AT_EOF  (1<<1)
+#define WAS_WHOLE_LINE        (1<<2)
+#define INCLUDED_LAST_LINE    (1<<3)
+#define MARK_WAS_SET          (1<<4)
+#define CURSOR_WAS_AT_HEAD    (1<<5)
+#endif /* !NANO_TINY */
+
+/* Identifiers for the different menus. */
+#define MMAIN          (1<<0)
+#define MWHEREIS       (1<<1)
+#define MREPLACE       (1<<2)
+#define MREPLACEWITH   (1<<3)
+#define MGOTOLINE      (1<<4)
+#define MWRITEFILE     (1<<5)
+#define MINSERTFILE    (1<<6)
+#define MEXECUTE       (1<<7)
+#define MHELP          (1<<8)
+#define MSPELL         (1<<9)
+#define MBROWSER      (1<<10)
+#define MWHEREISFILE  (1<<11)
+#define MGOTODIR      (1<<12)
+#define MYESNO        (1<<13)
+#define MLINTER       (1<<14)
+#define MFINDINHELP   (1<<15)
+/* This is an abbreviation for all menus except Help and Browser and YesNo. */
+#define MMOST  (MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|\
+                MEXECUTE|MWHEREISFILE|MGOTODIR|MFINDINHELP|MSPELL|MLINTER)
+#ifndef NANO_TINY
+#define MSOME  MMOST|MBROWSER
+#else
+#define MSOME  MMAIN|MBROWSER
 #endif
 
 /* Enumeration types. */
@@ -158,6 +265,7 @@ typedef enum {
 	CENTERING, FLOWING, STATIONARY
 } update_type;
 
+#ifndef NANO_TINY
 /* The kinds of undo actions.  ADD...REPLACE must come first. */
 typedef enum {
 	ADD, ENTER, BACK, DEL, JOIN, REPLACE,
@@ -171,6 +279,76 @@ typedef enum {
 	ZAP, CUT, CUT_TO_EOF, COPY, PASTE, INSERT,
 	COUPLE_BEGIN, COUPLE_END, OTHER
 } undo_type;
+#endif
+
+/* The elements of the interface that can be colored differently. */
+enum {
+	TITLE_BAR = 0,
+	LINE_NUMBER,
+	GUIDE_STRIPE,
+	SCROLL_BAR,
+	SELECTED_TEXT,
+	STATUS_BAR,
+	ERROR_MESSAGE,
+	KEY_COMBO,
+	FUNCTION_TAG,
+	NUMBER_OF_ELEMENTS
+};
+
+/* Enumeration used in the flags array.  See the definition of FLAGMASK. */
+enum {
+	DONTUSE = 0,
+	CASE_SENSITIVE,
+	CONSTANT_SHOW,
+	NO_HELP,
+	SUSPENDABLE,
+	NO_WRAP,
+	AUTOINDENT,
+	VIEW_MODE,
+	USE_MOUSE,
+	USE_REGEXP,
+	SAVE_ON_EXIT,
+	CUT_FROM_CURSOR,
+	BACKWARDS_SEARCH,
+	MULTIBUFFER,
+	SMOOTH_SCROLL,
+	REBIND_DELETE,
+	RAW_SEQUENCES,
+	NO_CONVERT,
+	MAKE_BACKUP,
+	INSECURE_BACKUP,
+	NO_SYNTAX,
+	PRESERVE,
+	HISTORYLOG,
+	RESTRICTED,
+	SMART_HOME,
+	WHITESPACE_DISPLAY,
+	MORE_SPACE,
+	TABS_TO_SPACES,
+	QUICK_BLANK,
+	WORD_BOUNDS,
+	NO_NEWLINES,
+	BOLD_TEXT,
+	SOFTWRAP,
+	POSITIONLOG,
+	LOCKING,
+	NOREAD_MODE,
+	MAKE_IT_UNIX,
+	TRIM_BLANKS,
+	SHOW_CURSOR,
+	LINE_NUMBERS,
+	NO_PAUSES,
+	AT_BLANKS,
+	AFTER_ENDS,
+	LET_THEM_ZAP,
+	BREAK_LONG_LINES,
+	JUMPY_SCROLLING,
+	EMPTY_LINE,
+	INDICATOR,
+	BOOKSTYLE,
+	STATEFLAGS,
+	USE_MAGIC
+};
 
 /* Structure types. */
 #ifdef ENABLE_COLOR
@@ -218,7 +396,7 @@ typedef struct syntaxtype {
 		/* File where the syntax is defined, or NULL if not an included file. */
 	size_t lineno;
 		/* The line number where the 'syntax' command was found. */
-	struct augmentstruct *augmentations;
+	augmentstruct *augmentations;
 		/* List of extendsyntax commands to apply when loaded. */
 	regexlisttype *extensions;
 		/* The list of extensions that this syntax applies to. */
@@ -458,181 +636,3 @@ typedef struct completion_word {
 	struct completion_word *next;
 } completion_word;
 #endif
-
-/* The elements of the interface that can be colored differently. */
-enum
-{
-	TITLE_BAR = 0,
-	LINE_NUMBER,
-	GUIDE_STRIPE,
-	SCROLL_BAR,
-	SELECTED_TEXT,
-	STATUS_BAR,
-	ERROR_MESSAGE,
-	KEY_COMBO,
-	FUNCTION_TAG,
-	NUMBER_OF_ELEMENTS
-};
-
-/* Enumeration used in the flags array.  See the definition of FLAGMASK. */
-enum
-{
-	DONTUSE,
-	CASE_SENSITIVE,
-	CONSTANT_SHOW,
-	NO_HELP,
-	SUSPENDABLE,
-	NO_WRAP,
-	AUTOINDENT,
-	VIEW_MODE,
-	USE_MOUSE,
-	USE_REGEXP,
-	SAVE_ON_EXIT,
-	CUT_FROM_CURSOR,
-	BACKWARDS_SEARCH,
-	MULTIBUFFER,
-	SMOOTH_SCROLL,
-	REBIND_DELETE,
-	RAW_SEQUENCES,
-	NO_CONVERT,
-	MAKE_BACKUP,
-	INSECURE_BACKUP,
-	NO_SYNTAX,
-	PRESERVE,
-	HISTORYLOG,
-	RESTRICTED,
-	SMART_HOME,
-	WHITESPACE_DISPLAY,
-	MORE_SPACE,
-	TABS_TO_SPACES,
-	QUICK_BLANK,
-	WORD_BOUNDS,
-	NO_NEWLINES,
-	BOLD_TEXT,
-	SOFTWRAP,
-	POSITIONLOG,
-	LOCKING,
-	NOREAD_MODE,
-	MAKE_IT_UNIX,
-	TRIM_BLANKS,
-	SHOW_CURSOR,
-	LINE_NUMBERS,
-	NO_PAUSES,
-	AT_BLANKS,
-	AFTER_ENDS,
-	LET_THEM_ZAP,
-	BREAK_LONG_LINES,
-	JUMPY_SCROLLING,
-	EMPTY_LINE,
-	INDICATOR,
-	BOOKSTYLE,
-	STATEFLAGS,
-	USE_MAGIC
-};
-
-/* Flags for the menus in which a given function should be present. */
-#define MMAIN           (1<<0)
-#define MWHEREIS        (1<<1)
-#define MREPLACE        (1<<2)
-#define MREPLACEWITH    (1<<3)
-#define MGOTOLINE       (1<<4)
-#define MWRITEFILE      (1<<5)
-#define MINSERTFILE     (1<<6)
-#define MEXECUTE        (1<<7)
-#define MHELP           (1<<8)
-#define MSPELL          (1<<9)
-#define MBROWSER        (1<<10)
-#define MWHEREISFILE    (1<<11)
-#define MGOTODIR        (1<<12)
-#define MYESNO          (1<<13)
-#define MLINTER         (1<<14)
-#define MFINDINHELP     (1<<15)
-/* This is an abbreviation for all menus except Help and Browser and YesNo. */
-#define MMOST  (MMAIN|MWHEREIS|MREPLACE|MREPLACEWITH|MGOTOLINE|MWRITEFILE|MINSERTFILE|\
-                MEXECUTE|MWHEREISFILE|MGOTODIR|MFINDINHELP|MSPELL|MLINTER)
-#ifndef NANO_TINY
-#define MSOME  MMOST|MBROWSER
-#else
-#define MSOME  MMAIN|MBROWSER
-#endif
-
-/* Basic control codes. */
-#define ESC_CODE  0x1B
-#define DEL_CODE  0x7F
-
-/* Codes for "modified" Arrow keys, beyond KEY_MAX of ncurses. */
-#define CONTROL_LEFT    0x401
-#define CONTROL_RIGHT   0x402
-#define CONTROL_UP      0x403
-#define CONTROL_DOWN    0x404
-#define CONTROL_HOME    0x405
-#define CONTROL_END     0x406
-#define CONTROL_DELETE  0x40D
-#define SHIFT_CONTROL_LEFT    0x411
-#define SHIFT_CONTROL_RIGHT   0x412
-#define SHIFT_CONTROL_UP      0x413
-#define SHIFT_CONTROL_DOWN    0x414
-#define SHIFT_CONTROL_HOME    0x415
-#define SHIFT_CONTROL_END     0x416
-#define CONTROL_SHIFT_DELETE  0x41D
-#define ALT_LEFT      0x421
-#define ALT_RIGHT     0x422
-#define ALT_UP        0x423
-#define ALT_DOWN      0x424
-#define ALT_PAGEUP    0x427
-#define ALT_PAGEDOWN  0x428
-#define ALT_INSERT    0x42C
-#define ALT_DELETE    0x42D
-#define SHIFT_ALT_LEFT   0x431
-#define SHIFT_ALT_RIGHT  0x432
-#define SHIFT_ALT_UP     0x433
-#define SHIFT_ALT_DOWN   0x434
-//#define SHIFT_LEFT 0x451
-//#define SHIFT_RIGHT 0x452
-#define SHIFT_UP        0x453
-#define SHIFT_DOWN      0x454
-#define SHIFT_HOME      0x455
-#define SHIFT_END       0x456
-#define SHIFT_PAGEUP    0x457
-#define SHIFT_PAGEDOWN  0x458
-#define SHIFT_DELETE    0x45D
-#define SHIFT_TAB       0x45F
-
-/* A special keycode for when <Tab> is pressed while the mark is on. */
-#define INDENT_KEY  0x4F1
-
-/* A special keycode to signal the beginning and end of a bracketed paste. */
-#define BRACKETED_PASTE_MARKER  0x4FB
-
-/* A special keycode for when a key produces an unknown escape sequence. */
-#define FOREIGN_SEQUENCE  0x4FC
-
-#define KEY_FLUSH  KEY_F0  /* Nonexistent function key. */
-
-#ifndef NANO_TINY
-/* An imaginary key for when we get a SIGWINCH (window resize). */
-#define KEY_WINCH  -2
-
-/* Some extra flags for the undo function. */
-#define WAS_BACKSPACE_AT_EOF  (1<<1)
-#define WAS_WHOLE_LINE        (1<<2)
-#define INCLUDED_LAST_LINE    (1<<3)
-#define MARK_WAS_SET          (1<<4)
-#define CURSOR_WAS_AT_HEAD    (1<<5)
-#endif /* !NANO_TINY */
-
-/* The default number of columns from end of line where wrapping occurs. */
-#define COLUMNS_FROM_EOL  8
-
-/* The default width of a tab in spaces. */
-#define WIDTH_OF_TAB  8
-
-/* The default comment character when a syntax does not specify any. */
-#define GENERAL_COMMENT_CHARACTER  "#"
-
-/* The maximum number of search/replace history strings saved, not
- * counting the blank lines at their ends. */
-#define MAX_SEARCH_HISTORY  100
-
-/* The largest size_t number that doesn't have the high bit set. */
-#define HIGHEST_POSITIVE  ((~(size_t)0) >> 1)
