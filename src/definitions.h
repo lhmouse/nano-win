@@ -45,17 +45,6 @@
 #include <sys/param.h>
 #endif
 
-/* Suppress warnings for __attribute__((warn_unused_result)). */
-#define IGNORE_CALL_RESULT(call)  do { if (call) {} } while(0)
-
-/* Macros for flags, indexing each bit in a small array. */
-#define FLAGS(flag)  flags[((flag) / (sizeof(unsigned) * 8))]
-#define FLAGMASK(flag)  ((unsigned)1 << ((flag) % (sizeof(unsigned) * 8)))
-#define SET(flag)  FLAGS(flag) |= FLAGMASK(flag)
-#define UNSET(flag)  FLAGS(flag) &= ~FLAGMASK(flag)
-#define ISSET(flag)  ((FLAGS(flag) & FLAGMASK(flag)) != 0)
-#define TOGGLE(flag)  FLAGS(flag) ^= FLAGMASK(flag)
-
 /* In UTF-8 a character is at most six bytes long. */
 #ifdef ENABLE_UTF8
 #define MAXCHARLEN  6
@@ -108,6 +97,17 @@
 #define ENABLED_WRAPORJUSTIFY  1
 #endif
 
+/* Suppress warnings for __attribute__((warn_unused_result)). */
+#define IGNORE_CALL_RESULT(call)  do { if (call) {} } while(0)
+
+/* Macros for flags, indexing each bit in a small array. */
+#define FLAGS(flag)  flags[((flag) / (sizeof(unsigned) * 8))]
+#define FLAGMASK(flag)  ((unsigned)1 << ((flag) % (sizeof(unsigned) * 8)))
+#define SET(flag)  FLAGS(flag) |= FLAGMASK(flag)
+#define UNSET(flag)  FLAGS(flag) &= ~FLAGMASK(flag)
+#define ISSET(flag)  ((FLAGS(flag) & FLAGMASK(flag)) != 0)
+#define TOGGLE(flag)  FLAGS(flag) ^= FLAGMASK(flag)
+
 #define BACKWARD  FALSE
 #define FORWARD  TRUE
 
@@ -121,6 +121,20 @@
 #ifdef ENABLE_COLOR
 #define THE_DEFAULT  -1
 #define BAD_COLOR  -2
+
+/* Flags for indicating how a multiline regex pair apply to a line. */
+#define CNONE           (1<<1)
+		/* The start/end regexes don't cover this line at all. */
+#define CBEGINBEFORE    (1<<2)
+		/* The start regex matches on an earlier line, the end regex on this one. */
+#define CENDAFTER       (1<<3)
+		/* The start regex matches on this line, the end regex on a later one. */
+#define CWHOLELINE      (1<<4)
+		/* The start regex matches on an earlier line, the end regex on a later one. */
+#define CSTARTENDHERE   (1<<5)
+		/* Both the start and end regexes match within this line. */
+#define CWOULDBE        (1<<6)
+		/* An unpaired start match is on or before this line. */
 #endif
 
 /* Enumeration types. */
@@ -244,20 +258,6 @@ typedef struct lintstruct {
 	struct lintstruct *prev;
 		/* Previous error. */
 } lintstruct;
-
-/* Flags that indicate how a multiline regex applies to a line. */
-#define CNONE           (1<<1)
-		/* Yay, regex doesn't apply to this line at all! */
-#define CBEGINBEFORE    (1<<2)
-		/* Regex starts on an earlier line, ends on this one. */
-#define CENDAFTER       (1<<3)
-		/* Regex starts on this line and ends on a later one. */
-#define CWHOLELINE      (1<<4)
-		/* Whole line engulfed by the regex, start < me, end > me. */
-#define CSTARTENDHERE   (1<<5)
-		/* Regex starts and ends within this line. */
-#define CWOULDBE        (1<<6)
-		/* An unpaired start match on or before this line. */
 #endif /* ENABLE_COLOR */
 
 /* More structure types. */
