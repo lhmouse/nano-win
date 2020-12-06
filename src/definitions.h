@@ -41,21 +41,20 @@
 #include <limits.h>
 #endif
 
-#ifdef HAVE_SYS_PARAM_H
-#include <sys/param.h>
-#endif
-
-/* In UTF-8 a character is at most six bytes long. */
-#ifdef ENABLE_UTF8
-#define MAXCHARLEN  6
-#else
-#define MAXCHARLEN  1
-#endif
-
 /* Set a default value for PATH_MAX if there isn't one. */
 #ifndef PATH_MAX
 #define PATH_MAX  4096
 #endif
+
+#ifdef HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+
+#include <dirent.h>
+#include <regex.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 
 /* Prefer wide ncurses over normal ncurses over curses. */
 #if defined(HAVE_NCURSESW_NCURSES_H)
@@ -66,8 +65,8 @@
 #include <curses.h>
 #endif
 
-#ifdef ENABLE_NLS
 /* Native language support. */
+#ifdef ENABLE_NLS
 #ifdef HAVE_LIBINTL_H
 #include <libintl.h>
 #endif
@@ -77,18 +76,12 @@
 #define _(string)  (string)
 #define P_(singular, plural, number)  (number == 1 ? singular : plural)
 #endif
+/* For marking a string on which gettext() will be called later. */
 #define gettext_noop(string)  (string)
 #define N_(string)  gettext_noop(string)
-		/* Mark a string that will be sent to gettext() later. */
 
-#include <dirent.h>
-#include <regex.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-
-/* If we aren't using an ncurses with mouse support, exclude any
- * mouse routines, as they are useless then. */
+/* If we aren't using an ncurses with mouse support, then
+ * exclude the mouse routines, as they are useless then. */
 #ifndef NCURSES_MOUSE_VERSION
 #undef ENABLE_MOUSE
 #endif
@@ -117,6 +110,13 @@
 #define JUSTFIND   0
 #define REPLACING  1
 #define INREGION   2
+
+/* In UTF-8 a character is at most six bytes long. */
+#ifdef ENABLE_UTF8
+#define MAXCHARLEN  6
+#else
+#define MAXCHARLEN  1
+#endif
 
 #ifdef ENABLE_COLOR
 #define THE_DEFAULT  -1
