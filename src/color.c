@@ -58,6 +58,8 @@ void set_interface_colorpairs(void)
 				interface_color_pair[index] = A_NORMAL;
 			else if (index == GUIDE_STRIPE)
 				interface_color_pair[index] = A_REVERSE;
+			else if (index == PROMPT_BAR)
+				interface_color_pair[index] = interface_color_pair[TITLE_BAR];
 			else if (index == ERROR_MESSAGE) {
 				init_pair(index + 1, COLOR_WHITE, COLOR_RED);
 				interface_color_pair[index] = COLOR_PAIR(index + 1) | A_BOLD;

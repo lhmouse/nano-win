@@ -391,7 +391,7 @@ void draw_the_promptbar(void)
 	end_page = get_statusbar_page_start(base, base + breadth(answer) - 1);
 
 	/* Color the promptbar over its full width. */
-	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
+	wattron(bottomwin, interface_color_pair[PROMPT_BAR]);
 	mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 
 	mvwaddstr(bottomwin, 0, 0, prompt);
@@ -405,7 +405,7 @@ void draw_the_promptbar(void)
 	if (base + breadth(answer) != COLS && the_page < end_page)
 		mvwaddch(bottomwin, 0, COLS - 1, '>');
 
-	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
+	wattroff(bottomwin, interface_color_pair[PROMPT_BAR]);
 
 	/* Place the cursor at the right spot. */
 	column = base + wideness(answer, typing_x);
@@ -685,10 +685,10 @@ int do_yesno_prompt(bool all, const char *msg)
 		}
 
 		/* Color the promptbar over its full width and display the question. */
-		wattron(bottomwin, interface_color_pair[TITLE_BAR]);
+		wattron(bottomwin, interface_color_pair[PROMPT_BAR]);
 		mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 		mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
-		wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
+		wattroff(bottomwin, interface_color_pair[PROMPT_BAR]);
 		wnoutrefresh(bottomwin);
 
 		currmenu = MYESNO;
