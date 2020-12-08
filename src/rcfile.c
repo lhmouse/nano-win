@@ -978,7 +978,7 @@ void parse_includes(char *ptr)
 	ptr = parse_argument(ptr);
 
 	/* Expand a tilde first, then try to match the globbing pattern. */
-	expanded = real_dir_from_tilde(pattern);
+	expanded = get_full_path(pattern);
 	result = glob(expanded, GLOB_ERR, NULL, &files);
 
 	/* If there are matches, process each of them.  Otherwise, only
