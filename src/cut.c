@@ -712,7 +712,7 @@ void paste_text(void)
 		/* The leftedge where we started the paste. */
 
 	if (cutbuffer == NULL) {
-		statusbar(_("Cutbuffer is empty"));
+		statusline(AHEM, _("Cutbuffer is empty"));
 		return;
 	}
 

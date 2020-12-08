@@ -91,10 +91,10 @@ void record_macro(void)
 
 	if (recording) {
 		macro_length = 0;
-		statusbar(_("Recording a macro..."));
+		statusline(REMARK, _("Recording a macro..."));
 	} else {
 		snip_last_keystroke();
-		statusbar(_("Stopped recording"));
+		statusline(REMARK, _("Stopped recording"));
 	}
 
 	if (ISSET(STATEFLAGS))
@@ -106,13 +106,13 @@ void record_macro(void)
 void run_macro(void)
 {
 	if (recording) {
-		statusbar(_("Cannot run macro while recording"));
+		statusline(AHEM, _("Cannot run macro while recording"));
 		snip_last_keystroke();
 		return;
 	}
 
 	if (macro_length == 0) {
-		statusbar(_("Macro is empty"));
+		statusline(REMARK, _("Macro is empty"));
 		return;
 	}
 
@@ -185,8 +185,8 @@ void read_keys_from(WINDOW *win)
 		curs_set(1);
 
 #ifndef NANO_TINY
-	if (currmenu == MMAIN && ISSET(MINIBAR) &&
-					lastmessage > VACUUM && lastmessage < ALERT) {
+	if (currmenu == MMAIN && ISSET(MINIBAR) && lastmessage > HUSH &&
+						lastmessage != INFO && lastmessage < ALERT) {
 		timed = TRUE;
 		halfdelay(8);
 		disable_kb_interrupt();
@@ -209,6 +209,7 @@ void read_keys_from(WINDOW *win)
 
 			if (input == ERR) {
 				minibar();
+				as_an_at = TRUE;
 				place_the_cursor();
 				doupdate();
 				continue;
@@ -1336,7 +1337,7 @@ long assemble_unicode(int symbol)
 
 		/* TRANSLATORS: This is shown while a six-digit hexadecimal
 		 * Unicode character code (%s) is being typed in. */
-		statusline(HUSH, _("Unicode Input: %s"), partial);
+		statusline(INFO, _("Unicode Input: %s"), partial);
 	}
 
 	/* If we have an end result, reset the Unicode digit counter. */
@@ -2135,8 +2136,7 @@ void statusline(message_type importance, const char *msg, ...)
 #endif
 
 	/* Ignore a message with an importance that is lower than the last one. */
-	if ((lastmessage == ALERT && importance != ALERT) ||
-				(lastmessage == MILD && importance == HUSH))
+	if (importance < lastmessage && lastmessage > NOTICE)
 		return;
 
 	/* If there are multiple alert messages, add trailing dots to the first. */
@@ -2154,8 +2154,9 @@ void statusline(message_type importance, const char *msg, ...)
 		return;
 	}
 
-	if (importance == ALERT) {
-		beep();
+	if (importance > NOTICE) {
+		if (importance == ALERT)
+			beep();
 		colorpair = interface_color_pair[ERROR_MESSAGE];
 	} else if (importance == NOTICE)
 		colorpair = interface_color_pair[SELECTED_TEXT];
@@ -3376,7 +3377,7 @@ void report_cursor_position(void)
 	colpct = 100 * column / fullwidth;
 	charpct = (openfile->totsize == 0) ? 0 : 100 * sum / openfile->totsize;
 
-	statusline(HUSH,
+	statusline(INFO,
 			_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
 			openfile->current->lineno, openfile->filebot->lineno, linepct,
 			column, fullwidth, colpct, sum, openfile->totsize, charpct);

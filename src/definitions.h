@@ -250,7 +250,7 @@ typedef enum {
 } format_type;
 
 typedef enum {
-	VACUUM, HUSH, NOTICE, MILD, ALERT
+	VACUUM, HUSH, REMARK, INFO, NOTICE, AHEM, MILD, ALERT
 } message_type;
 
 typedef enum {

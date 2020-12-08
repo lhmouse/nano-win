@@ -42,7 +42,7 @@ bool regexp_init(const char *regexp)
 		char *str = nmalloc(len);
 
 		regerror(value, &search_regexp, str, len);
-		statusline(ALERT, _("Bad regex \"%s\": %s"), regexp, str);
+		statusline(AHEM, _("Bad regex \"%s\": %s"), regexp, str);
 		free(str);
 
 		return FALSE;
@@ -251,7 +251,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 			line = (ISSET(BACKWARDS_SEARCH)) ? openfile->filebot : openfile->filetop;
 
 			if (modus == JUSTFIND) {
-				statusbar(_("Search Wrapped"));
+				statusline(REMARK, _("Search Wrapped"));
 				/* Delay the "Searching..." message for at least two seconds. */
 				feedback = -2;
 			}
@@ -356,7 +356,7 @@ void do_research(void)
 #endif
 
 	if (*last_search == '\0') {
-		statusbar(_("No current search pattern"));
+		statusline(AHEM, _("No current search pattern"));
 		return;
 	}
 
@@ -394,7 +394,7 @@ void not_found_msg(const char *str)
 	char *disp = display_string(str, 0, (COLS / 2) + 1, FALSE, FALSE);
 	size_t numchars = actual_x(disp, wideness(disp, COLS / 2));
 
-	statusline(HUSH, _("\"%.*s%s\" not found"), numchars, disp,
+	statusline(AHEM, _("\"%.*s%s\" not found"), numchars, disp,
 						(disp[numchars] == '\0') ? "" : "...");
 	free(disp);
 }
@@ -421,14 +421,14 @@ void go_looking(void)
 	 * where we started searching, then this is the only occurrence. */
 	if (didfind == 1 && openfile->current == was_current &&
 				openfile->current_x == was_current_x)
-		statusbar(_("This is the only occurrence"));
+		statusline(REMARK, _("This is the only occurrence"));
 	else if (didfind == 1 && LINES == 1)
 		refresh_needed = TRUE;
 	else if (didfind == 0)
 		not_found_msg(last_search);
 
 #ifdef TIMEIT
-	statusline(HUSH, "Took: %.2f", (double)(clock() - start) / CLOCKS_PER_SEC);
+	statusline(INFO, "Took: %.2f", (double)(clock() - start) / CLOCKS_PER_SEC);
 #endif
 
 	edit_redraw(was_current, CENTERING);
@@ -750,7 +750,7 @@ void ask_for_and_do_replacements(void)
 	refresh_needed = TRUE;
 
 	if (numreplaced >= 0)
-		statusline(HUSH, P_("Replaced %zd occurrence",
+		statusline(REMARK, P_("Replaced %zd occurrence",
 				"Replaced %zd occurrences", numreplaced), numreplaced);
 }
 
@@ -798,7 +798,7 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool retain_answer,
 
 		/* Try to extract one or two numbers from the user's response. */
 		if (!parse_line_column(answer, &line, &column)) {
-			statusline(ALERT, _("Invalid line or column number"));
+			statusline(AHEM, _("Invalid line or column number"));
 			return;
 		}
 	} else {
@@ -946,7 +946,7 @@ void do_find_bracket(void)
 	ch = mbstrchr(matchbrackets, openfile->current->data + openfile->current_x);
 
 	if (ch == NULL) {
-		statusbar(_("Not a bracket"));
+		statusline(AHEM, _("Not a bracket"));
 		return;
 	}
 
@@ -989,7 +989,7 @@ void do_find_bracket(void)
 		}
 	}
 
-	statusbar(_("No matching bracket"));
+	statusline(AHEM, _("No matching bracket"));
 
 	/* Restore the cursor position. */
 	openfile->current = was_current;
@@ -1004,9 +1004,9 @@ void put_or_lift_anchor(void)
 	update_line(openfile->current, openfile->current_x);
 
 	if (openfile->current->has_anchor)
-		statusbar(_("Placed anchor"));
+		statusline(REMARK, _("Placed anchor"));
 	else
-		statusbar(_("Removed anchor"));
+		statusline(REMARK, _("Removed anchor"));
 }
 
 /* Make the given line the current line, or report the anchoredness. */
@@ -1020,9 +1020,9 @@ void go_to_and_confirm(linestruct *line)
 		edit_redraw(was_current, CENTERING);
 		statusbar(_("Jumped to anchor"));
 	} else if (openfile->current->has_anchor)
-		statusbar(_("This is the only anchor"));
+		statusline(REMARK, _("This is the only anchor"));
 	else
-		statusbar(_("There are no anchors"));
+		statusline(AHEM, _("There are no anchors"));
 }
 
 /* Jump to the first anchor before the current line; wrap around at the top. */

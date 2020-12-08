@@ -197,14 +197,14 @@ void renumber_from(linestruct *line)
 /* Display a warning about a key disabled in view mode. */
 void print_view_warning(void)
 {
-	statusbar(_("Key is invalid in view mode"));
+	statusline(AHEM, _("Key is invalid in view mode"));
 }
 
 /* When in restricted mode, show a warning and return TRUE. */
 bool in_restricted_mode(void)
 {
 	if (ISSET(RESTRICTED)) {
-		statusbar(_("This function is disabled in restricted mode"));
+		statusline(AHEM, _("This function is disabled in restricted mode"));
 		beep();
 		return TRUE;
 	} else
@@ -953,7 +953,7 @@ void do_suspend(int signal)
 void do_suspend_void(void)
 {
 	if (!ISSET(SUSPENDABLE)) {
-		statusbar(_("Suspension is not enabled"));
+		statusline(AHEM, _("Suspension is not enabled"));
 		beep();
 	} else
 		do_suspend(0);
@@ -1113,7 +1113,7 @@ void do_toggle(int flag)
 
 	if (!ISSET(MINIBAR) || flag == SMART_HOME || flag == CUT_FROM_CURSOR ||
 				flag == TABS_TO_SPACES || flag == USE_MOUSE || flag == SUSPENDABLE)
-		statusline(HUSH, "%s %s", _(flagtostr(flag)),
+		statusline(REMARK, "%s %s", _(flagtostr(flag)),
 						enabled ? _("enabled") : _("disabled"));
 }
 #endif /* !NANO_TINY */
@@ -1255,28 +1255,28 @@ void unbound_key(int code)
 	if (code == FOREIGN_SEQUENCE)
 		/* TRANSLATORS: This refers to a sequence of escape codes
 		 * (from the keyboard) that nano does not recognize. */
-		statusline(ALERT, _("Unknown sequence"));
+		statusline(AHEM, _("Unknown sequence"));
 	else if (code > 0x7F)
-		statusline(ALERT, _("Unbound key"));
+		statusline(AHEM, _("Unbound key"));
 	else if (meta_key) {
 #ifndef NANO_TINY
 		if (code < 0x20)
-			statusline(ALERT, _("Unbindable key: M-^%c"), code + 0x40);
+			statusline(AHEM, _("Unbindable key: M-^%c"), code + 0x40);
 		else
 #endif
 #ifdef ENABLE_NANORC
 		if (shifted_metas && 'A' <= code && code <= 'Z')
-			statusline(ALERT, _("Unbound key: Sh-M-%c"), code);
+			statusline(AHEM, _("Unbound key: Sh-M-%c"), code);
 		else
 #endif
-			statusline(ALERT, _("Unbound key: M-%c"), toupper(code));
+			statusline(AHEM, _("Unbound key: M-%c"), toupper(code));
 	} else if (code == ESC_CODE)
-		statusline(ALERT, _("Unbindable key: ^["));
+		statusline(AHEM, _("Unbindable key: ^["));
 	else if (code < 0x20)
-		statusline(ALERT, _("Unbound key: ^%c"), code + 0x40);
+		statusline(AHEM, _("Unbound key: ^%c"), code + 0x40);
 #if defined(ENABLE_BROWSER) || defined (ENABLE_HELP)
 	else
-		statusline(ALERT, _("Unbound key: %c"), code);
+		statusline(AHEM, _("Unbound key: %c"), code);
 #endif
 	set_blankdelay_to_one();
 }
@@ -2495,10 +2495,6 @@ int main(int argc, char **argv)
 				openfile->next == openfile && !ISSET(NO_HELP))
 		statusbar(_("Welcome to nano.  For basic help, type Ctrl+G."));
 #endif
-#ifndef NANO_TINY
-	if (ISSET(MINIBAR) && lastmessage < ALERT)
-		lastmessage = VACUUM;
-#endif
 
 	we_are_running = TRUE;
 
@@ -2514,7 +2510,7 @@ int main(int argc, char **argv)
 			bottombars(MMAIN);
 
 #ifndef NANO_TINY
-		if (ISSET(MINIBAR) && COLS > 48 && lastmessage == VACUUM)
+		if (ISSET(MINIBAR) && COLS > 48 && lastmessage < REMARK)
 			minibar();
 		else
 #endif

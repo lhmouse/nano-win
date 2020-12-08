@@ -520,7 +520,7 @@ void redecorate_after_switch(void)
 {
 	/* If only one file buffer is open, there is nothing to update. */
 	if (openfile == openfile->next) {
-		statusbar(_("No more open file buffers"));
+		statusline(AHEM, _("No more open file buffers"));
 		return;
 	}
 
@@ -832,7 +832,7 @@ int open_file(const char *filename, bool new_one, FILE **f)
 		free(full_filename);
 
 		if (new_one) {
-			statusbar(_("New File"));
+			statusline(REMARK, _("New File"));
 			return 0;
 		} else {
 			statusline(ALERT, _("File \"%s\" not found"), filename);
@@ -2165,7 +2165,7 @@ int do_writeout(bool exiting, bool withprompt)
 				did_credits = TRUE;
 			} else
 				/* TRANSLATORS: Concisely say the screen is too small. */
-				statusbar(_("Too tiny"));
+				statusline(AHEM, _("Too tiny"));
 
 			free(given);
 			return 0;
