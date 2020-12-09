@@ -265,7 +265,6 @@ typedef enum {
 	CENTERING, FLOWING, STATIONARY
 } update_type;
 
-#ifndef NANO_TINY
 /* The kinds of undo actions.  ADD...REPLACE must come first. */
 typedef enum {
 	ADD, ENTER, BACK, DEL, JOIN, REPLACE,
@@ -279,7 +278,6 @@ typedef enum {
 	ZAP, CUT, CUT_TO_EOF, COPY, PASTE, INSERT,
 	COUPLE_BEGIN, COUPLE_END, OTHER
 } undo_type;
-#endif
 
 /* The elements of the interface that can be colored differently. */
 enum {
