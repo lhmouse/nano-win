@@ -1514,6 +1514,7 @@ void process_a_keystroke(void)
 	input = get_kbinput(edit, VISIBLE);
 
 	lastmessage = VACUUM;
+	hide_cursor = FALSE;
 
 #ifndef NANO_TINY
 	if (input == KEY_WINCH)

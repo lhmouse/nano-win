@@ -181,7 +181,7 @@ void read_keys_from(WINDOW *win)
 	/* Before reading the first keycode, display any pending screen updates. */
 	doupdate();
 
-	if (reveal_cursor)
+	if (reveal_cursor && !hide_cursor)
 		curs_set(1);
 
 #ifndef NANO_TINY

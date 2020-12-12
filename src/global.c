@@ -80,6 +80,8 @@ linestruct *pletion_line = NULL;
 bool also_the_last = FALSE;
 		/* Whether indenting/commenting should include the last line of
 		 * the marked region. */
+bool hide_cursor = FALSE;
+		/* Whether to suppress the cursor when highlighting a search match. */
 
 char *answer = NULL;
 		/* The answer string used by the status-bar prompt. */

@@ -327,6 +327,8 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		openfile->mark = line;
 		openfile->mark_x = found_x + found_len;
 		openfile->softmark = TRUE;
+		if (!ISSET(SHOW_CURSOR))
+			hide_cursor = TRUE;
 		shift_held = TRUE;
 	}
 #endif
