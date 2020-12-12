@@ -322,6 +322,15 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 	if (match_len != NULL)
 		*match_len = found_len;
 
+#ifndef NANO_TINY
+	if (modus == JUSTFIND && (!openfile->mark || openfile->softmark)) {
+		openfile->mark = line;
+		openfile->mark_x = found_x + found_len;
+		openfile->softmark = TRUE;
+		shift_held = TRUE;
+	}
+#endif
+
 	/* Wipe the "Searching..." message and unsuppress cursor-position display. */
 	if (feedback > 0) {
 		wipe_statusbar();
