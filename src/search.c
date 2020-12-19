@@ -323,7 +323,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		*match_len = found_len;
 
 #ifndef NANO_TINY
-	if (modus == JUSTFIND && (!openfile->mark || openfile->softmark)) {
+	if (modus == JUSTFIND && ISSET(MARK_MATCH) && (!openfile->mark || openfile->softmark)) {
 		openfile->mark = line;
 		openfile->mark_x = found_x + found_len;
 		openfile->softmark = TRUE;

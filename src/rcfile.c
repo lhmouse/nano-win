@@ -109,6 +109,7 @@ static const rcoption rcopts[] = {
 	{"indicator", INDICATOR},
 	{"jumpyscrolling", JUMPY_SCROLLING},
 	{"locking", LOCKING},
+	{"markmatch", MARK_MATCH},
 	{"matchbrackets", 0},
 	{"minibar", MINIBAR},
 	{"noconvert", NO_CONVERT},

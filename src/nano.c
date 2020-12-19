@@ -641,6 +641,7 @@ void usage(void)
 		print_opt("-z", "--suspendable", N_("Enable suspension"));
 #ifndef NANO_TINY
 	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
+	print_opt("-^", "--markmatch", N_("Select the match of a search"));
 	print_opt("-_", "--minibar", N_("Show bar at bottom with some state info"));
 #endif
 #ifdef HAVE_LIBMAGIC
@@ -1759,6 +1760,7 @@ int main(int argc, char **argv)
 		{"unix", 0, NULL, 'u'},
 		{"afterends", 0, NULL, 'y'},
 		{"stateflags", 0, NULL, '%'},
+		{"markmatch", 0, NULL, '^'},
 #endif
 #ifdef HAVE_LIBMAGIC
 		{"magic", 0, NULL, '!'},
@@ -1813,7 +1815,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxyz$_%!", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxyz$%^_!", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -2055,6 +2057,9 @@ int main(int argc, char **argv)
 #ifndef NANO_TINY
 			case '%':
 				SET(STATEFLAGS);
+				break;
+			case '^':
+				SET(MARK_MATCH);
 				break;
 #endif
 #ifdef HAVE_LIBMAGIC
