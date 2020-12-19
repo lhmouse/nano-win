@@ -189,6 +189,7 @@ void read_keys_from(WINDOW *win)
 					lastmessage > VACUUM && lastmessage < ALERT) {
 		timed = TRUE;
 		halfdelay(8);
+		disable_kb_interrupt();
 	}
 #endif
 
