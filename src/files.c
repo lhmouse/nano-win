@@ -81,6 +81,7 @@ void make_new_buffer(void)
 #endif
 #ifndef NANO_TINY
 	openfile->mark = NULL;
+	openfile->softmark = FALSE;
 
 	openfile->fmt = NIX_FILE;
 

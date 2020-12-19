@@ -50,8 +50,8 @@ void do_mark(void)
 	if (!openfile->mark) {
 		openfile->mark = openfile->current;
 		openfile->mark_x = openfile->current_x;
+		openfile->softmark = FALSE;
 		statusbar(_("Mark Set"));
-		openfile->kind_of_mark = HARDMARK;
 	} else {
 		openfile->mark = NULL;
 		statusbar(_("Mark Unset"));

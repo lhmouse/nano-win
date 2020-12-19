@@ -1528,7 +1528,7 @@ void process_a_keystroke(void)
 			print_view_warning();
 		else {
 #ifndef NANO_TINY
-			if (openfile->mark && openfile->kind_of_mark == SOFTMARK) {
+			if (openfile->mark && openfile->softmark) {
 				openfile->mark = NULL;
 				refresh_needed = TRUE;
 			}
@@ -1602,7 +1602,7 @@ void process_a_keystroke(void)
 	if (shift_held && !openfile->mark) {
 		openfile->mark = openfile->current;
 		openfile->mark_x = openfile->current_x;
-		openfile->kind_of_mark = SOFTMARK;
+		openfile->softmark = TRUE;
 	}
 #endif
 
@@ -1614,7 +1614,7 @@ void process_a_keystroke(void)
 	 * discard a soft mark.  And when the marked region covers a
 	 * different set of lines, reset  the "last line too" flag. */
 	if (openfile->mark) {
-		if (!shift_held && openfile->kind_of_mark == SOFTMARK &&
+		if (!shift_held && openfile->softmark &&
 							(openfile->current != was_current ||
 							openfile->current_x != was_x ||
 							wanted_to_move(shortcut->func))) {

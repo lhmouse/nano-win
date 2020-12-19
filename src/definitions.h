@@ -258,10 +258,6 @@ typedef enum {
 } kind_of_writing_type;
 
 typedef enum {
-	SOFTMARK, HARDMARK
-} mark_type;
-
-typedef enum {
 	CENTERING, FLOWING, STATIONARY
 } update_type;
 
@@ -547,8 +543,8 @@ typedef struct openfilestruct {
 		/* The line in the file where the mark is set; NULL if not set. */
 	size_t mark_x;
 		/* The mark's x position in the above line. */
-	mark_type kind_of_mark;
-		/* Whether it is a soft (with Shift) or a hard mark. */
+	bool softmark;
+		/* Whether a marked region was made by holding Shift. */
 	format_type fmt;
 		/* The file's format -- Unix or DOS or Mac. */
 	char *lock_filename;
