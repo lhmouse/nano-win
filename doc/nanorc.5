@@ -176,6 +176,12 @@ try using libmagic to determine the applicable syntax.
 (Calling libmagic can be relatively time consuming.
 It is therefore not done by default.)
 .TP
+.B set markmatch
+After a search, set the mark at the end of the found match
+(if there is any) so that it gets highlighted.  This makes
+the match more visible, but also allows deleting the match
+with a single keystroke.
+.TP
 .BI "set matchbrackets """ characters """
 Specify the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must

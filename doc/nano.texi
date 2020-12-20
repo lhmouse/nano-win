@@ -477,6 +477,13 @@ and @code{S} when soft-wrapping.
 When the buffer is modified, a star (@code{*}) is shown after the
 filename in the center of the title bar.
 
+@item -^
+@itemx --markmatch
+After a search, set the mark at the end of the found match
+(if there is any) so that it gets highlighted.  This makes
+the match more visible, but also allows deleting the match
+with a single keystroke.
+
 @item -_
 @itemx --minibar
 Suppress the title bar and instead show information about
@@ -918,6 +925,12 @@ When neither the file's name nor its first line give a clue,
 try using libmagic to determine the applicable syntax.
 (Calling libmagic can be relatively time consuming.
 It is therefore not done by default.)
+
+@item set markmatch
+After a search, set the mark at the end of the found match
+(if there is any) so that it gets highlighted.  This makes
+the match more visible, but also allows deleting the match
+with a single keystroke.
 
 @anchor{@code{set matchbrackets}}
 @item set matchbrackets "@var{characters}"
