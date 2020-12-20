@@ -2106,7 +2106,7 @@ void minibar(void)
 
 	/* Display the line/column position of the cursor. */
 	sprintf(location, "%zi,%lu", openfile->current->lineno, xplustabs() + 1);
-	mvwaddstr(bottomwin, 0, COLS - 21 - strlen(location), location);
+	mvwaddstr(bottomwin, 0, COLS - 27 - strlen(location), location);
 
 	/* Display the hexadecimal code of the character under the cursor. */
 	if (thisline[openfile->current_x] == '\0')
@@ -2118,11 +2118,15 @@ void minibar(void)
 		sprintf(hexadecimal, "U+%04X", widecode);
 	else
 		sprintf(hexadecimal, "U+%04X", (unsigned char)thisline[openfile->current_x]);
-	mvwaddstr(bottomwin, 0, COLS - 17, hexadecimal);
+	mvwaddstr(bottomwin, 0, COLS - 23, hexadecimal);
 
 	/* Display the state of three flags, and the state of macro and mark. */
-	wmove(bottomwin, 0, COLS - 7);
+	wmove(bottomwin, 0, COLS - 13);
 	show_states_at(bottomwin);
+
+	/* Display how many percent the current line is into the file. */
+	sprintf(location, "%3li%%", 100 * openfile->current->lineno / openfile->filebot->lineno);
+	mvwaddstr(bottomwin, 0, COLS - 6, location);
 
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
 	wrefresh(bottomwin);
