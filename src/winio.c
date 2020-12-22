@@ -1487,23 +1487,22 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
  * been handled by putting back keystrokes, or 2 if it's been ignored. */
 int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 {
-	MEVENT mevent;
 	bool in_editwin, in_bottomwin;
+	MEVENT event;
 
 	/* First, get the actual mouse event. */
-	if (getmouse(&mevent) == ERR)
+	if (getmouse(&event) == ERR)
 		return -1;
 
-	in_editwin = wenclose(edit, mevent.y, mevent.x);
+	in_editwin = wenclose(edit, event.y, event.x);
+	in_bottomwin = wenclose(bottomwin, event.y, event.x);
 
 	/* Save the screen coordinates where the mouse event took place. */
-	*mouse_x = mevent.x - (in_editwin ? margin : 0);
-	*mouse_y = mevent.y;
-
-	in_bottomwin = wenclose(bottomwin, *mouse_y, *mouse_x);
+	*mouse_x = event.x - (in_editwin ? margin : 0);
+	*mouse_y = event.y;
 
 	/* Handle releases/clicks of the first mouse button. */
-	if (mevent.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
+	if (event.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
 		/* If we're allowing shortcuts, and the current shortcut list is
 		 * being displayed on the last two lines of the screen, and the
 		 * first mouse button was released on/clicked inside it, we need
@@ -1523,8 +1522,8 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			/* Clicks on the status bar are handled elsewhere, so
 			 * restore the untranslated mouse-event coordinates. */
 			if (*mouse_y == 0) {
-				*mouse_x = mevent.x;
-				*mouse_y = mevent.y;
+				*mouse_x = event.x;
+				*mouse_y = event.y;
 				return 0;
 			}
 
@@ -1575,7 +1574,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 	/* Handle presses of the fourth mouse button (upward rolls of the
 	 * mouse wheel) and presses of the fifth mouse button (downward
 	 * rolls of the mouse wheel) . */
-	else if (mevent.bstate & (BUTTON4_PRESSED | BUTTON5_PRESSED)) {
+	else if (event.bstate & (BUTTON4_PRESSED | BUTTON5_PRESSED)) {
 		bool in_edit = wenclose(edit, *mouse_y, *mouse_x);
 
 		if (in_bottomwin)
@@ -1583,7 +1582,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
 
 		if (in_edit || (in_bottomwin && *mouse_y == 0)) {
-			int keycode = (mevent.bstate & BUTTON4_PRESSED) ? KEY_UP : KEY_DOWN;
+			int keycode = (event.bstate & BUTTON4_PRESSED) ? KEY_UP : KEY_DOWN;
 
 			/* One roll of the mouse wheel should move three lines. */
 			for (int count = 3; count > 0; count--)
