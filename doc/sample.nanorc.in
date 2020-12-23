@@ -84,6 +84,9 @@
 ## come before the latter set, and both must be in the same order.
 # set matchbrackets "(<[{)>]}"
 
+## Suppress title bar and show file name and editor state at the bottom.
+# set minibar
+
 ## Enable mouse support, if available for your system.  When enabled,
 ## mouse clicks can be used to place the cursor, set the mark (with a
 ## double click), and execute shortcuts.  The mouse will work in the X

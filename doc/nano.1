@@ -337,6 +337,20 @@ and \fBS\fR when soft-wrapping.
 When the buffer is modified, a star (\fB*\fR) is shown after the
 filename in the center of the title bar.
 .TP
+.BR \-_ ", " \-\-minibar
+Suppress the title bar and instead show information about
+the current buffer at the bottom of the screen, in the space
+for the status bar.  In this "minibar" the file name is shown
+on the left, followed by an asterisk if the buffer has been modified.
+On the right are displayed the current line and column number, the
+code of the character under the cursor (in Unicode format: U+xxxx),
+the same flags as are shown by \fB\-\-stateflags\fR, and a percentage
+that expresses how far the cursor is into the file (linewise).
+When a file is loaded or saved, and also when switching between buffers,
+the number of lines in the buffer is displayed after the file name.
+This number is cleared upon the next keystroke, or replaced with an
+[i/n] counter when multiple buffers are open.
+.TP
 .BR \-! ", " \-\-magic
 When neither the file's name nor its first line give a clue,
 try using libmagic to determine the applicable syntax.

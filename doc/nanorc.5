@@ -182,6 +182,20 @@ searches.  This may not include blank characters.  The opening set must
 come before the closing set, and the two sets must be in the same order.
 The default value is "\fB(<[{)>]}\fP".
 .TP
+.B set minibar
+Suppress the title bar and instead show information about
+the current buffer at the bottom of the screen, in the space
+for the status bar.  In this "minibar" the file name is shown
+on the left, followed by an asterisk if the buffer has been modified.
+On the right are displayed the current line and column number, the
+code of the character under the cursor (in Unicode format: U+xxxx),
+the same flags as are shown by \fBset stateflags\fR, and a percentage
+that expresses how far the cursor is into the file (linewise).
+When a file is loaded or saved, and also when switching between buffers,
+the number of lines in the buffer is displayed after the file name.
+This number is cleared upon the next keystroke, or replaced with an
+[i/n] counter when multiple buffers are open.
+.TP
 .B set morespace
 Deprecated option since it has become the default setting.
 When needed, use \fBunset emptyline\fR instead.
