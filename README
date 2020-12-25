@@ -74,12 +74,6 @@ Bug Reports
     "Bugs", then click "Submit new").  The issue may have already been
     reported, so please look first.
 
-Current Status
-
-    Since version 2.5.0, GNU nano has abandoned the distinction between
-    a stable and a development branch: it is now on a "rolling" release
-    -- fixing bugs and adding new features go hand in hand.
-
 Copyright Years
 
     When in any file of this package a copyright notice mentions a
