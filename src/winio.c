@@ -2073,6 +2073,7 @@ void minibar(void)
 	char *location = nmalloc(44);
 	char *hexadecimal = nmalloc(9);
 	size_t namewidth, placewidth;
+	size_t tallywidth = 0;
 	size_t padding = 2;
 	wchar_t widecode;
 
@@ -2111,8 +2112,11 @@ void minibar(void)
 
 		number_of_lines = nmalloc(44);
 		sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
-		if (namewidth + placewidth + breadth(number_of_lines) < COLS - 32)
+		tallywidth = breadth(number_of_lines);
+		if (namewidth + tallywidth < COLS - 18)
 			waddstr(bottomwin, number_of_lines);
+		else
+			tallywidth = 0;
 		report_size = FALSE;
 	}
 #ifdef ENABLE_MULTIBUFFER
@@ -2125,11 +2129,11 @@ void minibar(void)
 #endif
 
 	/* Display the line/column position of the cursor. */
-	if (namewidth + placewidth < COLS - 32 && COLS > 35)
+	if (namewidth + tallywidth + placewidth < COLS - 32 && COLS > 35)
 		mvwaddstr(bottomwin, 0, COLS - 27 - placewidth, location);
 
 	/* Display the hexadecimal code of the character under the cursor. */
-	if (namewidth < COLS - 27 && COLS > 29) {
+	if (namewidth + tallywidth < COLS - 27 && COLS > 29) {
 		char *thisline = openfile->current->data;
 
 		if (thisline[openfile->current_x] == '\0')
