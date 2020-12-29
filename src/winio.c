@@ -2069,10 +2069,9 @@ void titlebar(const char *path)
 /* Draw a bar at the bottom with some minimal state information. */
 void minibar(void)
 {
-	char *thisline = openfile->current->data;
-	char *hexadecimal = nmalloc(9);
-	char *location = nmalloc(44);
 	char *thename = NULL, *number_of_lines = NULL, *ranking = NULL;
+	char *location = nmalloc(44);
+	char *hexadecimal = nmalloc(9);
 	size_t namewidth, placewidth;
 	size_t padding = 2;
 	wchar_t widecode;
@@ -2104,7 +2103,7 @@ void minibar(void)
 		} else
 			mvwaddstr(bottomwin, 0, padding, thename);
 
-	waddstr(bottomwin, openfile->modified ? " *" : "  ");
+		waddstr(bottomwin, openfile->modified ? " *" : "  ");
 	}
 
 	if (report_size && COLS > 35) {
@@ -2113,7 +2112,7 @@ void minibar(void)
 		number_of_lines = nmalloc(44);
 		sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
 		if (namewidth + placewidth + breadth(number_of_lines) < COLS - 32)
-		waddstr(bottomwin, number_of_lines);
+			waddstr(bottomwin, number_of_lines);
 		report_size = FALSE;
 	}
 #ifdef ENABLE_MULTIBUFFER
@@ -2121,7 +2120,7 @@ void minibar(void)
 		ranking = nmalloc(24);
 		sprintf(ranking, " [%i/%i]", buffer_number(openfile), buffer_number(startfile->prev));
 		if (namewidth + placewidth + breadth(ranking) < COLS - 32)
-		waddstr(bottomwin, ranking);
+			waddstr(bottomwin, ranking);
 	}
 #endif
 
@@ -2131,28 +2130,31 @@ void minibar(void)
 
 	/* Display the hexadecimal code of the character under the cursor. */
 	if (namewidth < COLS - 27 && COLS > 29) {
-	if (thisline[openfile->current_x] == '\0')
-		sprintf(hexadecimal, openfile->current->next ? "U+000A" : "------");
-	else if (thisline[openfile->current_x] == '\n')
-		sprintf(hexadecimal, "U+0000");
-	else if ((unsigned char)thisline[openfile->current_x] >= 0x80 &&
-				mbtowc(&widecode, thisline + openfile->current_x, MAXCHARLEN) >= 0)
-		sprintf(hexadecimal, "U+%04X", widecode);
-	else
-		sprintf(hexadecimal, "U+%04X", (unsigned char)thisline[openfile->current_x]);
-	mvwaddstr(bottomwin, 0, COLS - 23, hexadecimal);
+		char *thisline = openfile->current->data;
+
+		if (thisline[openfile->current_x] == '\0')
+			sprintf(hexadecimal, openfile->current->next ? "U+000A" : "------");
+		else if (thisline[openfile->current_x] == '\n')
+			sprintf(hexadecimal, "U+0000");
+		else if ((unsigned char)thisline[openfile->current_x] >= 0x80 &&
+					mbtowc(&widecode, thisline + openfile->current_x, MAXCHARLEN) >= 0)
+			sprintf(hexadecimal, "U+%04X", widecode);
+		else
+			sprintf(hexadecimal, "U+%04X", (unsigned char)thisline[openfile->current_x]);
+
+		mvwaddstr(bottomwin, 0, COLS - 23, hexadecimal);
 	}
 
 	/* Display the state of three flags, and the state of macro and mark. */
 	if (namewidth < COLS - 17 && COLS > 19) {
-	wmove(bottomwin, 0, COLS - 13);
-	show_states_at(bottomwin);
+		wmove(bottomwin, 0, COLS - 13);
+		show_states_at(bottomwin);
 	}
 
 	/* Display how many percent the current line is into the file. */
 	if (namewidth < COLS - 6 && COLS > 7) {
-	sprintf(location, "%3li%%", 100 * openfile->current->lineno / openfile->filebot->lineno);
-	mvwaddstr(bottomwin, 0, COLS - 4 - padding, location);
+		sprintf(location, "%3li%%", 100 * openfile->current->lineno / openfile->filebot->lineno);
+		mvwaddstr(bottomwin, 0, COLS - 4 - padding, location);
 	}
 
 	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
