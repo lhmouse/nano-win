@@ -409,7 +409,7 @@ void window_init(void)
 		int bottomrows = ((ISSET(NO_HELP) || LINES < 5) ? 1 : 3);
 
 #ifndef NANO_TINY
-		if (ISSET(MINIBAR) && COLS > 48)
+		if (ISSET(MINIBAR))
 			toprows = 0;
 #endif
 		editwinrows = LINES - toprows - bottomrows;
@@ -2516,7 +2516,7 @@ int main(int argc, char **argv)
 			bottombars(MMAIN);
 
 #ifndef NANO_TINY
-		if (ISSET(MINIBAR) && COLS > 48 && lastmessage < REMARK)
+		if (ISSET(MINIBAR) && lastmessage < REMARK)
 			minibar();
 		else
 #endif
