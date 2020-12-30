@@ -2113,7 +2113,7 @@ void minibar(void)
 		number_of_lines = nmalloc(44);
 		sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
 		tallywidth = breadth(number_of_lines);
-		if (namewidth + tallywidth + 18 < COLS)
+		if (namewidth + tallywidth + 11 < COLS)
 			waddstr(bottomwin, number_of_lines);
 		else
 			tallywidth = 0;
@@ -2150,7 +2150,7 @@ void minibar(void)
 	}
 
 	/* Display the state of three flags, and the state of macro and mark. */
-	if (namewidth + 17 < COLS) {
+	if (namewidth + tallywidth + 18 < COLS) {
 		wmove(bottomwin, 0, COLS - 13);
 		show_states_at(bottomwin);
 	}
