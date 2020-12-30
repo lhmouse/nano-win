@@ -2092,7 +2092,8 @@ void minibar(void)
 	placewidth = strlen(location);
 	namewidth = breadth(thename);
 
-	if (COLS < 12 || namewidth > COLS - 11)
+	/* If the file name is relatively long, drop the side spaces. */
+	if (namewidth + 19 > COLS)
 		padding = 0;
 
 	if (COLS > 4) {
@@ -2133,7 +2134,7 @@ void minibar(void)
 		mvwaddstr(bottomwin, 0, COLS - 27 - placewidth, location);
 
 	/* Display the hexadecimal code of the character under the cursor. */
-	if (namewidth + tallywidth + 27 < COLS) {
+	if (namewidth + tallywidth + 28 < COLS) {
 		char *thisline = openfile->current->data;
 
 		if (thisline[openfile->current_x] == '\0')
@@ -2150,8 +2151,8 @@ void minibar(void)
 	}
 
 	/* Display the state of three flags, and the state of macro and mark. */
-	if (namewidth + tallywidth + 18 < COLS) {
-		wmove(bottomwin, 0, COLS - 13);
+	if (namewidth + tallywidth + 14 + 2 * padding < COLS) {
+		wmove(bottomwin, 0, COLS - 11 - padding);
 		show_states_at(bottomwin);
 	}
 
