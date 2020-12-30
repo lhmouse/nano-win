@@ -2113,7 +2113,7 @@ void minibar(void)
 		number_of_lines = nmalloc(44);
 		sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
 		tallywidth = breadth(number_of_lines);
-		if (namewidth + tallywidth < COLS - 18)
+		if (namewidth + tallywidth + 18 < COLS)
 			waddstr(bottomwin, number_of_lines);
 		else
 			tallywidth = 0;
@@ -2123,17 +2123,17 @@ void minibar(void)
 	else if (openfile->next != openfile && COLS > 35) {
 		ranking = nmalloc(24);
 		sprintf(ranking, " [%i/%i]", buffer_number(openfile), buffer_number(startfile->prev));
-		if (namewidth + placewidth + breadth(ranking) < COLS - 32)
+		if (namewidth + placewidth + breadth(ranking) + 32 < COLS)
 			waddstr(bottomwin, ranking);
 	}
 #endif
 
 	/* Display the line/column position of the cursor. */
-	if (namewidth + tallywidth + placewidth < COLS - 32 && COLS > 35)
+	if (namewidth + tallywidth + placewidth + 32 < COLS)
 		mvwaddstr(bottomwin, 0, COLS - 27 - placewidth, location);
 
 	/* Display the hexadecimal code of the character under the cursor. */
-	if (namewidth + tallywidth < COLS - 27 && COLS > 29) {
+	if (namewidth + tallywidth + 27 < COLS) {
 		char *thisline = openfile->current->data;
 
 		if (thisline[openfile->current_x] == '\0')
@@ -2150,13 +2150,13 @@ void minibar(void)
 	}
 
 	/* Display the state of three flags, and the state of macro and mark. */
-	if (namewidth < COLS - 17 && COLS > 19) {
+	if (namewidth + 17 < COLS) {
 		wmove(bottomwin, 0, COLS - 13);
 		show_states_at(bottomwin);
 	}
 
 	/* Display how many percent the current line is into the file. */
-	if (namewidth < COLS - 6 && COLS > 7) {
+	if (namewidth + 6 < COLS) {
 		sprintf(location, "%3li%%", 100 * openfile->current->lineno / openfile->filebot->lineno);
 		mvwaddstr(bottomwin, 0, COLS - 4 - padding, location);
 	}
