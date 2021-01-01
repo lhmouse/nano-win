@@ -1043,7 +1043,7 @@ void add_undo(undo_type action, const char *message)
 		break;
 	case REPLACE:
 		u->strdata = copy_of(thisline->data);
-		if (thisline == openfile->filebot && u->strdata[0] != '\0')
+		if (thisline == openfile->filebot && answer[0] != '\0')
 			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 #ifdef ENABLE_WRAPPING
