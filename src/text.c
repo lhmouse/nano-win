@@ -1077,9 +1077,7 @@ void add_undo(undo_type action, const char *message)
 		break;
 	case PASTE:
 		u->cutbuffer = copy_buffer(cutbuffer);
-		if (thisline == openfile->filebot)
-			u->xflags |= INCLUDED_LAST_LINE;
-		break;
+		/* Fall-through. */
 	case INSERT:
 		if (thisline == openfile->filebot)
 			u->xflags |= INCLUDED_LAST_LINE;
@@ -1219,17 +1217,11 @@ void update_undo(undo_type action)
 				u->tail_x = strlen(bottomline->data);
 		}
 		break;
-	case PASTE:
-		u->tail_lineno = openfile->current->lineno;
-		u->tail_x = openfile->current_x;
-		break;
-	case INSERT:
-		u->tail_lineno = openfile->current->lineno;
-		u->tail_x = openfile->current_x;
-		break;
 	case COUPLE_BEGIN:
 		break;
 	case COUPLE_END:
+	case PASTE:
+	case INSERT:
 		u->tail_lineno = openfile->current->lineno;
 		u->tail_x = openfile->current_x;
 		break;
