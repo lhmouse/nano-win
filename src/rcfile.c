@@ -71,7 +71,7 @@ static const rcoption rcopts[] = {
 	{"nonewlines", NO_NEWLINES},
 	{"nopauses", NO_PAUSES},  /* Obsolete; remove in 2021. */
 #ifdef ENABLE_WRAPPING
-	{"nowrap", NO_WRAP},  /* Deprecated; remove in 2021. */
+	{"nowrap", NO_WRAP},  /* Deprecated; remove in 2024. */
 #endif
 #ifdef ENABLE_OPERATINGDIR
 	{"operatingdir", 0},
