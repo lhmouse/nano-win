@@ -101,7 +101,7 @@ void make_new_buffer(void)
 /* Return the given file name in a way that fits within the given space. */
 char *crop_to_fit(const char *name, int room)
 {
-	char *fragment, *clipped;
+	char *clipped;
 
 	if (breadth(name) <= room)
 		return display_string(name, 0, room, FALSE, FALSE);
@@ -109,12 +109,11 @@ char *crop_to_fit(const char *name, int room)
 	if (room < 4)
 		return copy_of("_");
 
-	fragment = display_string(name, breadth(name) - room + 3, room, FALSE, FALSE);
+	clipped = display_string(name, breadth(name) - room + 3, room, FALSE, FALSE);
 
-	clipped = nmalloc(strlen(fragment) + 4);
-	strcpy(clipped, "...");
-	strcat(clipped, fragment);
-	free(fragment);
+	clipped = nrealloc(clipped, strlen(clipped) + 4);
+	memmove(clipped + 3, clipped, strlen(clipped) + 1);
+	clipped[0] = '.'; clipped[1] = '.'; clipped[2] = '.';
 
 	return clipped;
 }
@@ -2239,8 +2238,7 @@ int do_writeout(bool exiting, bool withprompt)
 				if (name_exists) {
 					char *question = _("File \"%s\" exists; OVERWRITE? ");
 					char *name = crop_to_fit(answer, COLS - breadth(question) + 1);
-					char *message = nmalloc(strlen(question) +
-												strlen(name) + 1);
+					char *message = nmalloc(strlen(question) + strlen(name) + 1);
 
 					sprintf(message, question, name);
 
