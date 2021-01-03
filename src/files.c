@@ -98,6 +98,27 @@ void make_new_buffer(void)
 #endif
 }
 
+/* Return the given file name in a way that fits within the given space. */
+char *crop_to_fit(const char *name, int room)
+{
+	char *fragment, *clipped;
+
+	if (breadth(name) <= room)
+		return display_string(name, 0, room, FALSE, FALSE);
+
+	if (room < 4)
+		return copy_of("_");
+
+	fragment = display_string(name, breadth(name) - room + 3, room, FALSE, FALSE);
+
+	clipped = nmalloc(strlen(fragment) + 4);
+	strcpy(clipped, "...");
+	strcat(clipped, fragment);
+	free(fragment);
+
+	return clipped;
+}
+
 #ifndef NANO_TINY
 /* Delete the lockfile.  Return TRUE on success, and FALSE otherwise. */
 bool delete_lockfile(const char *lockfilename)
@@ -226,7 +247,7 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 	else if (stat(lockfilename, &fileinfo) != -1) {
 		char *lockbuf, *question, *pidstring, *postedname, *promptstr;
 		static char lockprog[11], lockuser[17];
-		int lockfd, lockpid, room, choice;
+		int lockfd, lockpid, choice;
 		ssize_t readamt;
 
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
@@ -267,19 +288,8 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 
 		/* TRANSLATORS: The second %s is the name of the user, the third that of the editor. */
 		question = _("File %s is being edited by %s (with %s, PID %s); open anyway?");
-		room = COLS - breadth(question) + 7 - breadth(lockuser) -
-								breadth(lockprog) - breadth(pidstring);
-		if (room < 4)
-			postedname = copy_of("_");
-		else if (room < breadth(filename)) {
-			char *fragment = display_string(filename,
-								breadth(filename) - room + 3, room, FALSE, FALSE);
-			postedname = nmalloc(strlen(fragment) + 4);
-			strcpy(postedname, "...");
-			strcat(postedname, fragment);
-			free(fragment);
-		} else
-			postedname = display_string(filename, 0, room, FALSE, FALSE);
+		postedname = crop_to_fit(filename, COLS - breadth(question) - breadth(lockuser) -
+											breadth(lockprog) - breadth(pidstring) + 7);
 
 		/* Allow extra space for username (14), program name (8), PID (8),
 		 * and terminating \0 (1), minus the %s (2) for the file name. */
@@ -2228,8 +2238,7 @@ int do_writeout(bool exiting, bool withprompt)
 
 				if (name_exists) {
 					char *question = _("File \"%s\" exists; OVERWRITE? ");
-					char *name = display_string(answer, 0,
-										COLS - breadth(question) + 1, FALSE, FALSE);
+					char *name = crop_to_fit(answer, COLS - breadth(question) + 1);
 					char *message = nmalloc(strlen(question) +
 												strlen(name) + 1);
 
