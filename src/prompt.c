@@ -403,7 +403,7 @@ void draw_the_promptbar(void)
 	waddstr(bottomwin, expanded);
 	free(expanded);
 
-	if (the_page < end_page && base + breadth(answer) != COLS)
+	if (the_page < end_page && base + breadth(answer) - the_page > COLS)
 		mvwaddch(bottomwin, 0, COLS - 1, '>');
 
 	wattroff(bottomwin, interface_color_pair[PROMPT_BAR]);
