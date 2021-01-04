@@ -384,10 +384,11 @@ void put_cursor_at_end_of_answer(void)
 void draw_the_promptbar(void)
 {
 	size_t base = breadth(prompt) + 2;
-	size_t the_page, end_page, column;
+	size_t column = base + wideness(answer, typing_x);
+	size_t the_page, end_page;
 	char *expanded;
 
-	the_page = get_statusbar_page_start(base, base + wideness(answer, typing_x));
+	the_page = get_statusbar_page_start(base, column);
 	end_page = get_statusbar_page_start(base, base + breadth(answer) - 1);
 
 	/* Color the promptbar over its full width. */
@@ -414,8 +415,7 @@ void draw_the_promptbar(void)
 	}
 
 	/* Place the cursor at the right spot. */
-	column = base + wideness(answer, typing_x);
-	wmove(bottomwin, 0, column - get_statusbar_page_start(base, column));
+	wmove(bottomwin, 0, column - the_page);
 	wnoutrefresh(bottomwin);
 }
 
