@@ -380,7 +380,7 @@ void put_cursor_at_end_of_answer(void)
 	typing_x = HIGHEST_POSITIVE;
 }
 
-/* Redraw the promptbar and place the cursor at the right spot. */
+/* Redraw the prompt bar and place the cursor at the right spot. */
 void draw_the_promptbar(void)
 {
 	size_t base = breadth(prompt) + 2;
@@ -391,7 +391,7 @@ void draw_the_promptbar(void)
 	the_page = get_statusbar_page_start(base, column);
 	end_page = get_statusbar_page_start(base, base + breadth(answer) - 1);
 
-	/* Color the promptbar over its full width. */
+	/* Color the prompt bar over its full width. */
 	wattron(bottomwin, interface_color_pair[PROMPT_BAR]);
 	mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 
@@ -403,7 +403,7 @@ void draw_the_promptbar(void)
 	waddstr(bottomwin, expanded);
 	free(expanded);
 
-	if (base + breadth(answer) != COLS && the_page < end_page)
+	if (the_page < end_page && base + breadth(answer) != COLS)
 		mvwaddch(bottomwin, 0, COLS - 1, '>');
 
 	wattroff(bottomwin, interface_color_pair[PROMPT_BAR]);
@@ -690,7 +690,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			post_one_key(cancelshortcut->keystr, _("Cancel"), width);
 		}
 
-		/* Color the promptbar over its full width and display the question. */
+		/* Color the prompt bar over its full width and display the question. */
 		wattron(bottomwin, interface_color_pair[PROMPT_BAR]);
 		mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 		mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
