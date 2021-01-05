@@ -3398,7 +3398,7 @@ void full_refresh(void)
  * of the edit window (when not in the file browser), and the bottom bars. */
 void draw_all_subwindows(void)
 {
-	if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)
+	if (currmenu & ~(MBROWSER|MWHEREISFILE|MGOTODIR))
 		titlebar(title);
 #ifdef ENABLE_HELP
 	if (inhelp) {
@@ -3406,7 +3406,7 @@ void draw_all_subwindows(void)
 		wrap_help_text_into_buffer();
 	} else
 #endif
-	if (currmenu != MBROWSER && currmenu != MWHEREISFILE && currmenu != MGOTODIR)
+	if (currmenu & ~(MBROWSER|MWHEREISFILE|MGOTODIR))
 		edit_refresh();
 	bottombars(currmenu);
 }

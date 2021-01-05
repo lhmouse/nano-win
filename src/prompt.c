@@ -496,8 +496,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			} else
 #endif
 			/* Allow tab completion of filenames, but not in restricted mode. */
-			if ((currmenu == MINSERTFILE || currmenu == MWRITEFILE ||
-								currmenu == MGOTODIR) && !ISSET(RESTRICTED))
+			if ((currmenu & (MINSERTFILE|MWRITEFILE|MGOTODIR)) && !ISSET(RESTRICTED))
 				answer = input_tab(answer, &typing_x, refresh_func, listed);
 		} else
 #endif /* ENABLE_TABCOMP */
