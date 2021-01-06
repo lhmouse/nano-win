@@ -2135,17 +2135,17 @@ void minibar(void)
 
 	/* Display the hexadecimal code of the character under the cursor. */
 	if (namewidth + tallywidth + 28 < COLS) {
-		char *thisline = openfile->current->data;
+		char *this_position = openfile->current->data + openfile->current_x;
 
-		if (thisline[openfile->current_x] == '\0')
+		if (*this_position == '\0')
 			sprintf(hexadecimal, openfile->current->next ? "U+000A" : "------");
-		else if (thisline[openfile->current_x] == '\n')
+		else if (*this_position == '\n')
 			sprintf(hexadecimal, "U+0000");
-		else if ((unsigned char)thisline[openfile->current_x] >= 0x80 &&
-					mbtowc(&widecode, thisline + openfile->current_x, MAXCHARLEN) >= 0)
+		else if ((unsigned char)*this_position >= 0x80 &&
+					mbtowc(&widecode, this_position, MAXCHARLEN) >= 0)
 			sprintf(hexadecimal, "U+%04X", widecode);
 		else
-			sprintf(hexadecimal, "U+%04X", (unsigned char)thisline[openfile->current_x]);
+			sprintf(hexadecimal, "U+%04X", (unsigned char)*this_position);
 
 		mvwaddstr(bottomwin, 0, COLS - 23, hexadecimal);
 	}
