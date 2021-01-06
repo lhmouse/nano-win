@@ -2072,6 +2072,7 @@ void minibar(void)
 	char *thename = NULL, *number_of_lines = NULL, *ranking = NULL;
 	char *location = nmalloc(44);
 	char *hexadecimal = nmalloc(9);
+	char *successor = NULL;
 	size_t namewidth, placewidth;
 	size_t tallywidth = 0;
 	size_t padding = 2;
@@ -2157,10 +2158,21 @@ void minibar(void)
 			sprintf(hexadecimal, "  0x%02X", (unsigned char)*this_position);
 
 		mvwaddstr(bottomwin, 0, COLS - 23, hexadecimal);
+
+#ifdef ENABLE_UTF8
+		successor = this_position + char_length(this_position);
+
+		if (*this_position != '\0' && is_zerowidth(successor) &&
+					mbtowc(&widecode, successor, MAXCHARLEN) >= 0) {
+			sprintf(hexadecimal, "|%04X", (int)widecode);
+			waddstr(bottomwin, hexadecimal);
+		} else
+			successor = NULL;
+#endif
 	}
 
 	/* Display the state of three flags, and the state of macro and mark. */
-	if (namewidth + tallywidth + 14 + 2 * padding < COLS) {
+	if (!successor && namewidth + tallywidth + 14 + 2 * padding < COLS) {
 		wmove(bottomwin, 0, COLS - 11 - padding);
 		show_states_at(bottomwin);
 	}
