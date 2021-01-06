@@ -2141,7 +2141,7 @@ void minibar(void)
 			sprintf(hexadecimal, openfile->current->next ? "U+000A" : "------");
 		else if (*this_position == '\n')
 			sprintf(hexadecimal, "U+0000");
-		else if ((unsigned char)*this_position >= 0x80 &&
+		else if ((unsigned char)*this_position > 0xC1 &&
 					mbtowc(&widecode, this_position, MAXCHARLEN) >= 0)
 			sprintf(hexadecimal, "U+%04X", widecode);
 		else

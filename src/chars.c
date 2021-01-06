@@ -180,7 +180,7 @@ char control_mbrep(const char *c, bool isdata)
 int mbwidth(const char *c)
 {
 	/* Ask for the width only when the character isn't plain ASCII. */
-	if ((signed char)*c <= 0) {
+	if ((unsigned char)*c > 0xC1) {
 		wchar_t wc;
 		int width;
 
@@ -227,7 +227,7 @@ int char_length(const char *pointer)
 {
 #ifdef ENABLE_UTF8
 	/* If possibly a multibyte character, get its length; otherwise, it's 1. */
-	if ((signed char)*pointer < 0) {
+	if ((unsigned char)*pointer > 0xC1) {
 		int length = mblen(pointer, MAXCHARLEN);
 
 		return (length < 0 ? 1 : length);
@@ -243,7 +243,7 @@ size_t mbstrlen(const char *pointer)
 
 	while (*pointer != '\0') {
 #ifdef ENABLE_UTF8
-		if ((signed char)*pointer < 0) {
+		if ((unsigned char)*pointer > 0xC1) {
 			int length = mblen(pointer, MAXCHARLEN);
 
 			pointer += (length < 0 ? 1 : length);
@@ -265,7 +265,7 @@ int collect_char(const char *string, char *thechar)
 
 #ifdef ENABLE_UTF8
 	/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
-	if ((signed char)*string < 0) {
+	if ((unsigned char)*string > 0xC1) {
 		charlen = mblen(string, MAXCHARLEN);
 
 		/* When the multibyte sequence is invalid, only take the first byte. */
@@ -286,7 +286,7 @@ int collect_char(const char *string, char *thechar)
 int advance_over(const char *string, size_t *column)
 {
 #ifdef ENABLE_UTF8
-	if ((signed char)*string < 0) {
+	if ((unsigned char)*string > 0xC1) {
 		int charlen = mblen(string, MAXCHARLEN);
 
 		if (charlen > 0) {
@@ -310,10 +310,8 @@ int advance_over(const char *string, size_t *column)
 			*column += 2;
 	} else if (*string == 0x7F)
 		*column += 2;
-#ifndef ENABLE_UTF8
-	else if (0x7F < (unsigned char)*string && (unsigned char)*string < 0xA0)
+	else if (!use_utf8 && 0x7F < (unsigned char)*string && (unsigned char)*string < 0xA0)
 		*column += 2;
-#endif
 	else
 		*column += 1;
 
