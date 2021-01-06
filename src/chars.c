@@ -179,8 +179,8 @@ char control_mbrep(const char *c, bool isdata)
 /* Return the width in columns of the given (multibyte) character. */
 int mbwidth(const char *c)
 {
-	/* Ask for the width only when the character isn't plain ASCII. */
-	if ((unsigned char)*c > 0xC1) {
+	/* Only characters beyond U+02FF can be other than one column wide. */
+	if ((unsigned char)*c > 0xCB) {
 		wchar_t wc;
 		int width;
 
