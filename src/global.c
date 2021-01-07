@@ -949,7 +949,7 @@ void shortcut_init(void)
 		N_("Next Block"), WITHORSANS(nextblock_gist), TOGETHER, VIEW);
 #ifdef ENABLE_JUSTIFY
 	add_to_funcs(to_para_begin, MMAIN|MGOTOLINE,
-		/* TRANSLATORS: Try to keep these two strings at most 15 characters. */
+		/* TRANSLATORS: Try to keep these two strings at most 16 characters. */
 		N_("Begin of Paragr."), WITHORSANS(parabegin_gist), TOGETHER, VIEW);
 	add_to_funcs(to_para_end, MMAIN|MGOTOLINE,
 		N_("End of Paragraph"), WITHORSANS(paraend_gist), BLANKAFTER, VIEW);
