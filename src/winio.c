@@ -2162,10 +2162,17 @@ void minibar(void)
 #ifdef ENABLE_UTF8
 		successor = this_position + char_length(this_position);
 
-		if (*this_position != '\0' && is_zerowidth(successor) &&
+		if (*this_position && *successor && is_zerowidth(successor) &&
 					mbtowc(&widecode, successor, MAXCHARLEN) >= 0) {
 			sprintf(hexadecimal, "|%04X", (int)widecode);
 			waddstr(bottomwin, hexadecimal);
+
+			successor += char_length(successor);
+
+			if (is_zerowidth(successor) && mbtowc(&widecode, successor, MAXCHARLEN) >= 0) {
+				sprintf(hexadecimal, "|%04X", (int)widecode);
+				waddstr(bottomwin, hexadecimal);
+			}
 		} else
 			successor = NULL;
 #endif
