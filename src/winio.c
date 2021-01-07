@@ -2138,10 +2138,13 @@ void minibar(void)
 		char *this_position = openfile->current->data + openfile->current_x;
 
 		if (*this_position == '\0')
-			sprintf(hexadecimal, openfile->current->next ? "  0x0A" : "------");
+			sprintf(hexadecimal, openfile->current->next ?
+						(using_utf8() ? "U+000A" : "  0x0A") : "  ----");
 		else if (*this_position == '\n')
 			sprintf(hexadecimal, "  0x00");
 #ifdef ENABLE_UTF8
+		else if ((unsigned char)*this_position < 0x80 && using_utf8())
+			sprintf(hexadecimal, "U+%04X", (unsigned char)*this_position);
 		else if ((unsigned char)*this_position > 0xC1 && using_utf8() &&
 					mbtowc(&widecode, this_position, MAXCHARLEN) >= 0)
 			sprintf(hexadecimal, "U+%04X", widecode);
