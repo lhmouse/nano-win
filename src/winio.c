@@ -2145,8 +2145,7 @@ void minibar(void)
 #ifdef ENABLE_UTF8
 		else if ((unsigned char)*this_position < 0x80 && using_utf8())
 			sprintf(hexadecimal, "U+%04X", (unsigned char)*this_position);
-		else if ((unsigned char)*this_position > 0xC1 && using_utf8() &&
-					mbtowc(&widecode, this_position, MAXCHARLEN) >= 0)
+		else if (using_utf8() && mbtowc(&widecode, this_position, MAXCHARLEN) >= 0)
 			sprintf(hexadecimal, "U+%04X", widecode);
 #endif
 		else
