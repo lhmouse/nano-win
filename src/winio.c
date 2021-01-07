@@ -2088,7 +2088,7 @@ void minibar(void)
 	} else
 		thename = copy_of(_("(nameless)"));
 
-	sprintf(location, "%zi,%lu", openfile->current->lineno, xplustabs() + 1);
+	sprintf(location, "%zi,%zi", openfile->current->lineno, xplustabs() + 1);
 	placewidth = strlen(location);
 	namewidth = breadth(thename);
 
@@ -2146,7 +2146,7 @@ void minibar(void)
 		else if ((unsigned char)*this_position < 0x80 && using_utf8())
 			sprintf(hexadecimal, "U+%04X", (unsigned char)*this_position);
 		else if (using_utf8() && mbtowc(&widecode, this_position, MAXCHARLEN) >= 0)
-			sprintf(hexadecimal, "U+%04X", widecode);
+			sprintf(hexadecimal, "U+%04X", (int)widecode);
 #endif
 		else
 			sprintf(hexadecimal, "  0x%02X", (unsigned char)*this_position);
@@ -2162,7 +2162,7 @@ void minibar(void)
 
 	/* Display how many percent the current line is into the file. */
 	if (namewidth + 6 < COLS) {
-		sprintf(location, "%3li%%", 100 * openfile->current->lineno / openfile->filebot->lineno);
+		sprintf(location, "%3zi%%", 100 * openfile->current->lineno / openfile->filebot->lineno);
 		mvwaddstr(bottomwin, 0, COLS - 4 - padding, location);
 	}
 
