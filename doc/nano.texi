@@ -468,6 +468,13 @@ Make Ctrl+Right and Ctrl+Delete stop at word ends instead of beginnings.
 Enable the ability to suspend @command{nano} using the system's suspend
 keystroke (usually @kbd{^Z}).
 
+@item -^
+@itemx --markmatch
+After a search, set the mark at the end of the found match
+(if there is any) so that it gets highlighted.  This makes
+the match more visible, but also allows deleting the match
+with a single keystroke.
+
 @item -%
 @itemx --stateflags
 Use the top-right corner of the screen for showing some state flags:
@@ -476,13 +483,6 @@ hard-wrapping (breaking long lines), @code{R} when recording a macro,
 and @code{S} when soft-wrapping.
 When the buffer is modified, a star (@code{*}) is shown after the
 filename in the center of the title bar.
-
-@item -^
-@itemx --markmatch
-After a search, set the mark at the end of the found match
-(if there is any) so that it gets highlighted.  This makes
-the match more visible, but also allows deleting the match
-with a single keystroke.
 
 @item -_
 @itemx --minibar

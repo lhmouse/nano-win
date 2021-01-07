@@ -640,8 +640,8 @@ void usage(void)
 	if (!ISSET(RESTRICTED))
 		print_opt("-z", "--suspendable", N_("Enable suspension"));
 #ifndef NANO_TINY
-	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
 	print_opt("-^", "--markmatch", N_("Select the match of a search"));
+	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
 	print_opt("-_", "--minibar", N_("Show a feedback bar at the bottom"));
 #endif
 #ifdef HAVE_LIBMAGIC
