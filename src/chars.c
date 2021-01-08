@@ -286,7 +286,7 @@ int collect_char(const char *string, char *thechar)
 int advance_over(const char *string, size_t *column)
 {
 #ifdef ENABLE_UTF8
-	if ((unsigned char)*string > 0xC1) {
+	if ((signed char)*string < 0) {
 		int charlen = mblen(string, MAXCHARLEN);
 
 		if (charlen > 0) {
@@ -310,8 +310,10 @@ int advance_over(const char *string, size_t *column)
 			*column += 2;
 	} else if (*string == 0x7F)
 		*column += 2;
-	else if (!use_utf8 && 0x7F < (unsigned char)*string && (unsigned char)*string < 0xA0)
+#ifndef ENABLE_UTF8
+	else if (0x7F < (unsigned char)*string && (unsigned char)*string < 0xA0)
 		*column += 2;
+#endif
 	else
 		*column += 1;
 

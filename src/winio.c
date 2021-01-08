@@ -2075,7 +2075,9 @@ void minibar(void)
 	size_t namewidth, placewidth;
 	size_t tallywidth = 0;
 	size_t padding = 2;
+#ifdef ENABLE_UTF8
 	wchar_t widecode;
+#endif
 
 	/* Draw a colored bar over the full width of the screen. */
 	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
@@ -2139,7 +2141,10 @@ void minibar(void)
 
 		if (*this_position == '\0')
 			sprintf(hexadecimal, openfile->current->next ?
-						(using_utf8() ? "U+000A" : "  0x0A") : "  ----");
+#ifdef ENABLE_UTF8
+											using_utf8() ? "U+000A" :
+#endif
+											"  0x0A" : "  ----");
 		else if (*this_position == '\n')
 			sprintf(hexadecimal, "  0x00");
 #ifdef ENABLE_UTF8
