@@ -2142,12 +2142,16 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 
 	if (thepid < 0) {
 		statusline(ALERT, _("Could not fork: %s"), strerror(errornumber));
+		free(arguments[0]);
 		return;
 	} else if (!WIFEXITED(program_status) || WEXITSTATUS(program_status) > 2) {
 		statusline(ALERT, _("Error invoking '%s'"), arguments[0]);
+		free(arguments[0]);
 		return;
 	} else if (WEXITSTATUS(program_status) != 0)
 		statusline(ALERT, _("Program '%s' complained"), arguments[0]);
+
+	free(arguments[0]);
 
 	/* When the temporary file wasn't touched, say so and leave. */
 	if (timestamp_sec > 0 && stat(tempfile_name, &fileinfo) == 0 &&
@@ -2561,7 +2565,6 @@ void do_linter(void)
 	int lint_status, lint_fd[2];
 	pid_t pid_lint;
 	bool helpless = ISSET(NO_HELP);
-	static char **lintargs = NULL;
 	lintstruct *lints = NULL, *tmplint = NULL, *curlint = NULL;
 	time_t last_wait = 0;
 
@@ -2600,10 +2603,10 @@ void do_linter(void)
 	currmenu = MLINTER;
 	statusbar(_("Invoking linter..."));
 
-	construct_argument_list(&lintargs, openfile->syntax->linter, openfile->filename);
-
 	/* Fork a process to run the linter in. */
 	if ((pid_lint = fork()) == 0) {
+		char **lintargs = NULL;
+
 		/* Redirect standard output and standard error into the pipe. */
 		if (dup2(lint_fd[1], STDOUT_FILENO) < 0)
 			exit(7);
@@ -2612,6 +2615,8 @@ void do_linter(void)
 
 		close(lint_fd[0]);
 		close(lint_fd[1]);
+
+		construct_argument_list(&lintargs, openfile->syntax->linter, openfile->filename);
 
 		/* Start the linter program; we are using $PATH. */
 		execvp(lintargs[0], lintargs);
