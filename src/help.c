@@ -458,11 +458,12 @@ void show_help(void)
 		/* Show the cursor when we searched and found something. */
 		kbinput = get_kbinput(edit, didfind == 1 || ISSET(SHOW_CURSOR));
 
-		openfile->mark = NULL;
-		hide_cursor = FALSE;
 		didfind = 0;
 
 #ifndef NANO_TINY
+		openfile->mark = NULL;
+		hide_cursor = FALSE;
+
 		if (bracketed_paste || kbinput == BRACKETED_PASTE_MARKER) {
 			beep();
 			continue;
