@@ -2168,7 +2168,7 @@ int main(int argc, char **argv)
 		}
 		/* Strip leading whitespace from the speller command, if any. */
 		while (alt_speller && *alt_speller && isblank(*alt_speller))
-			alt_speller++;
+			memmove(alt_speller, alt_speller + 1, strlen(alt_speller));
 #endif
 
 		/* If an rcfile undid the default settings, copy it to the new flags. */
