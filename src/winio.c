@@ -2286,12 +2286,8 @@ void statusline(message_type importance, const char *msg, ...)
 		SET(WHITESPACE_DISPLAY);
 #endif
 
-	/* If doing quick blanking, blank the status bar after just one keystroke.
-	 * Otherwise, blank it after twenty-six keystrokes, as Pico does. */
-	if (ISSET(QUICK_BLANK))
-		statusblank = 1;
-	else
-		statusblank = 26;
+	/* When requested, wipe the status bar after just one keystroke. */
+	statusblank = (ISSET(QUICK_BLANK) ? 1 : 20);
 }
 
 /* Display a normal message on the status bar, quietly. */
