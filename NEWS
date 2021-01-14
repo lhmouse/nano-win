@@ -1,3 +1,21 @@
+2021.01.14 - GNU nano 5.5 "Rebecca"
+• Option 'set minibar' makes nano suppress the title bar and instead
+  show a bar with basic editing information at the bottom: file name
+  (plus an asterisk when the buffer is modified), the cursor position
+  (line,column), the character under the cursor (U+xxxx), the flags
+  that --stateflags normally shows, plus the percentage of the buffer
+  that is above the cursor.
+• With 'set promptcolor' the color combination of the prompt bar can
+  be changed, to allow contrasting it with the mini bar (which always
+  has the same color as the title bar).
+• Option 'set markmatch' highlights the result of a successful search
+  by putting the mark at the end of the match, making the match more
+  visible.  It also suppresses the cursor until the next keystroke.
+  (If you dislike the hiding of the cursor, use 'set showcursor'.)
+• The bindable toggle 'nowrap' has been renamed to 'breaklonglines',
+  to match the corresponding option, like for all other toggles.
+• Support for Slang has been removed.
+
 2020.12.02 - GNU nano 5.4 "Terre des hommes"
 • Moving the cursor now skips over combining characters (and other
   zero-width characters).  Deleting a character deletes also any

@@ -1,3 +1,96 @@
+Changes between v5.4 and v5.5:
+------------------------------
+
+Benno Schulenberg (84):
+      build: fix compilation for --enable-{tiny,help,multibuffer}
+      build: fix compilation when configured with --disable-utf8
+      build: fix compilation when configured with --enable-tiny
+      build: remove the '--with-slang' configure option
+      bump version numbers and add a news item for the 5.5 release
+      chars: short-circuit determining the width of characters under U+0300
+      chars: speed up the handling of invalid UTF-8 starter bytes
+      copyright: update the years for the FSF
+      display: add code for showing minimal state-information bar at the bottom
+      display: do not show the state flags in the help viewer or file browser
+      docs: explain the effect of --minibar / -_ / 'set minibar'
+      docs: explain the purpose of --markmatch / -^ / 'set markmatch'
+      docs: insert links to the mailing-list archives into the README
+      docs: mention in NEWS that some workarounds were removed
+      docs: mention the new 'set promptcolor' option
+      docs: remove all mentions of Slang
+      feedback: differentiate between remarks, mistakes, and information
+      feedback: wipe the status bar by default after 20 keystrokes
+      files: when truncating a file name, give an indication of this
+      general: remove support for Slang
+      gnulib: update to its current upstream state
+      input: intercept ^Z also when --minibar is active
+      input: interpret a keystroke as Meta only when an earlier escape was solo
+      memory: avoid leaking the speller or linter command string, when invoked
+      minibar: add an [x/y] "counter" when multiple files are open
+      minibar: add a percentage that shows how far the cursor is into the file
+      minibar: allow the number-of-lines to overrule also the state flags
+      minibar: allow the number-of-lines to overrule location + character code
+      minibar: drop the side spaces before suppressing the state flags
+      minibar: represent bytes as 0xNN and valid Unicode code points as U+NNNN
+      minibar: show the info bar again some 0.8 seconds after a message
+      minibar: show the line count in the bar (at startup and when saving)
+      minibar: show Unicode codes when in a UTF-8 locale
+      minibar: suppress some elements when there is no room to show them
+      minibar: when the next character has zero width, show its code too
+      minibar: when the overnext character has zero width too, show its code
+      mouse: do not offset the shortcuts by 'margin' when using --linenumbers
+      oops: use the correct condition for checking the last line will change
+      options: accept 'set promptcolor' for setting the color of the prompt bar
+      options: add --markmatch and -^ for activating the select-match behavior
+      options: add --minibar and -_ for activating basic state-information bar
+      prompt: restore a workaround for a cursor misplacement bug in ncurses
+      prompt: suppress the ">" character always when exactly at the right edge
+      rcfile: rename 'nowrap' toggle to 'breaklonglines', to match the option
+      search: set the mark at the end of a found match so it gets highlighted
+      search: suppress the cursor when highlighting a match
+      speller: do an internal spell check when --speller is an empty string
+      speller: strip leading whitespace from command, to avoid a sneaky crash
+      syntax: go: add author and license line
+      syntax: nanorc: colorize 'bookstyle' as a valid option
+      syntax: nanorc: colorize 'set promptcolor' as valid
+      syntax: sh: recognize shebangs with any shell after 'env', not just 'sh'
+      tweaks: adjust the indentation after the previous change
+      tweaks: avoid compilation warnings on 32-bit machine plus newer compiler
+      tweaks: avoid computing the cursor column twice, and the "page" too
+      tweaks: avoid hitting negative values when using size_t
+      tweaks: change an intermediate variable to a better one
+      tweaks: clean up after the previous change
+      tweaks: condense the description of how to report a bug
+      tweaks: correct a translator hint
+      tweaks: correct two comments after the previous changes
+      tweaks: do not change the pointer, but move the content of the string
+      tweaks: drop a small optimization for invalid UTF-8 starter bytes
+      tweaks: elide a variable, by using a reallocation instead
+      tweaks: fold some conditions into bitwise masks, for efficiency
+      tweaks: fold two similar and three identical cases together
+      tweaks: move 'set indicator' to its alphabetical place in the manual
+      tweaks: move the displaying of the state letters into a separate function
+      tweaks: push back the deprecation of the 'set nowrap' option
+      tweaks: put the new options in a consistent order in the code
+      tweaks: reduce the scope of a static variable
+      tweaks: remove some #ifdefs that were there only for Slang
+      tweaks: rename a variable, to be similar to its sister
+      tweaks: reshuffle a condition, to probably avoid an unneeded calculation
+      tweaks: reshuffle an option, to have two related ones grouped together
+      tweaks: reshuffle some lines, to group things better
+      tweaks: reshuffle some lines, to have most #includes near the beginning
+      tweaks: reshuffle some more lines, to have most #defines together
+      tweaks: reshuffle two lines, and rename a variable to a plain word
+      tweaks: reword the description of an option
+      tweaks: simplify a bit of logic
+      tweaks: use a boolean instead of an enumeration of two values
+      undo: remove the added magic line when a replacement caused one
+      weeding: remove some obsolete information from the README
+
+OIX (1):
+      mouse: update title bar (the M flag) when the click is on the cursor
+
+
 Changes between v5.3 and v5.4:
 ------------------------------
 
