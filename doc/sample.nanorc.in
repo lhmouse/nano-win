@@ -79,7 +79,7 @@
 ## Fall back to slow libmagic to try and determine an applicable syntax.
 # set magic
 
-# After a search, set the mark at the end of the found match (if any).
+## After a search, set the mark at the end of the found match (if any).
 # set markmatch
 
 ## The opening and closing brackets that can be found by bracket
