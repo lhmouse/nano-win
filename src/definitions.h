@@ -366,8 +366,8 @@ typedef struct colortype {
 } colortype;
 
 typedef struct regexlisttype {
-	char *full_regex;
-		/* A regex string to match things that imply a certain syntax. */
+	regex_t *one_rgx;
+		/* A regex to match things that imply a certain syntax. */
 	struct regexlisttype *next;
 		/* The next regex. */
 } regexlisttype;

@@ -120,17 +120,10 @@ void prepare_palette(void)
 bool found_in_list(regexlisttype *head, const char *shibboleth)
 {
 	regexlisttype *item;
-	regex_t rgx;
 
 	for (item = head; item != NULL; item = item->next) {
-		regcomp(&rgx, item->full_regex, NANO_REG_EXTENDED | REG_NOSUB);
-
-		if (regexec(&rgx, shibboleth, 0, NULL, 0) == 0) {
-			regfree(&rgx);
+		if (regexec(item->one_rgx, shibboleth, 0, NULL, 0) == 0)
 			return TRUE;
-		}
-
-		regfree(&rgx);
 	}
 
 	return FALSE;

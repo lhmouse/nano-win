@@ -622,9 +622,7 @@ bool compile(const char *expression, int rex_flags, regex_t **packed)
 		regerror(outcome, compiled, message, length);
 		jot_error(N_("Bad regex \"%s\": %s"), expression, message);
 		free(message);
-	}
 
-	if (packed == NULL || outcome != 0) {
 		regfree(compiled);
 		free(compiled);
 	} else
@@ -1239,6 +1237,8 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 
 	/* Now gather any valid regexes and add them to the linked list. */
 	while (*ptr != '\0') {
+		regex_t *packed_rgx = NULL;
+
 		regexstring = ++ptr;
 		ptr = parse_next_regex(ptr);
 
@@ -1246,12 +1246,12 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 			return;
 
 		/* If the regex string is malformed, skip it. */
-		if (!compile(regexstring, NANO_REG_EXTENDED | REG_NOSUB, NULL))
+		if (!compile(regexstring, NANO_REG_EXTENDED | REG_NOSUB, &packed_rgx))
 			continue;
 
 		/* Copy the regex into a struct, and hook this in at the end. */
 		newthing = nmalloc(sizeof(regexlisttype));
-		newthing->full_regex = copy_of(regexstring);
+		newthing->one_rgx = packed_rgx;
 		newthing->next = NULL;
 
 		if (lastthing == NULL)
