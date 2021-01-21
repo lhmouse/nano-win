@@ -120,7 +120,7 @@ bool found_in_list(regexlisttype *head, const char *shibboleth)
 	regex_t rgx;
 
 	for (item = head; item != NULL; item = item->next) {
-		regcomp(&rgx, item->full_regex, NANO_REG_EXTENDED);
+		regcomp(&rgx, item->full_regex, NANO_REG_EXTENDED | REG_NOSUB);
 
 		if (regexec(&rgx, shibboleth, 0, NULL, 0) == 0) {
 			regfree(&rgx);
