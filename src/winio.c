@@ -2602,7 +2602,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				if (startmatch.rm_so == startmatch.rm_eo &&
 								endmatch.rm_so == endmatch.rm_eo) {
 					if (start_line->data[index] == '\0')
-						break;
+						goto step_two;
 					index = step_right(start_line->data, index);
 				}
 				/* If there is no later start on this line, next step. */
