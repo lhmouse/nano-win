@@ -2432,11 +2432,10 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 #if !defined(NANO_TINY) || defined(ENABLE_COLOR)
 	size_t from_x = actual_x(line->data, from_col);
 		/* The position in the line's data of the leftmost character
-		 * that displays at least partially on the window. */
+		 * that is at least partially onscreen. */
 	size_t till_x = actual_x(line->data, from_col + editwincols - 1) + 1;
-		/* The position in the line's data of the first character that
-		 * is completely off the window to the right.  Note that till_x
-		 * might be beyond the null terminator of the string. */
+		/* The position in the line's data just after the start of
+		 * the last character that is at least partially onscreen. */
 #endif
 
 #ifdef ENABLE_LINENUMBERS
@@ -2506,29 +2505,17 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			regmatch_t startmatch, endmatch;
 				/* The match positions of the start and end regexes. */
 
-			/* Two notes about regexec().  A return value of zero means
-			 * that there is a match.  Also, rm_eo is the first
-			 * non-matching character after the match. */
-
 			wattron(edit, varnish->attributes);
 
 			/* First case: varnish is a single-line expression. */
 			if (varnish->end == NULL) {
-				/* We increment index by rm_eo, to move past the end of the
-				 * last match.  Even though two matches may overlap, we
-				 * want to ignore them, so that we can highlight e.g. C
-				 * strings correctly. */
 				while (index < till_x) {
-					/* Note the fifth parameter to regexec().  It says
-					 * not to match the beginning-of-line character
-					 * unless index is zero.  If regexec() returns
-					 * REG_NOMATCH, there are no more matches in the
-					 * line. */
+					/* If there is no match, go on to the next line. */
 					if (regexec(varnish->start, &line->data[index], 1,
 								&match, (index == 0) ? 0 : REG_NOTBOL) != 0)
 						break;
 
-					/* If the match is of length zero, skip it. */
+					/* If the match is of length zero, skip over it. */
 					if (match.rm_so == match.rm_eo) {
 						index = step_right(line->data, index + match.rm_eo);
 						continue;
@@ -2600,7 +2587,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 						start_line->multidata[varnish->id] == CSTARTENDHERE))
 				goto step_two;
 
-			/* Is there an uncomplemented start on the found line? */
+			/* Maybe there is an end on that same line?  If yes, maybe
+			 * there is another start after it?  And so on until EOL. */
 			while (TRUE) {
 				/* Begin searching for an end after the start match. */
 				index += startmatch.rm_eo;
@@ -2622,7 +2610,6 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 								1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
 					goto step_two;
 			}
-			/* Indeed, there is a start without an end on that line. */
 
   seek_an_end:
 			/* We've already checked that there is no end between the start
