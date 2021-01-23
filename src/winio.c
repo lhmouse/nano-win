@@ -2505,8 +2505,6 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			regmatch_t startmatch, endmatch;
 				/* The match positions of the start and end regexes. */
 
-			wattron(edit, varnish->attributes);
-
 			/* First case: varnish is a single-line expression. */
 			if (varnish->end == NULL) {
 				while (index < till_x) {
@@ -2539,9 +2537,12 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 					paintlen = actual_x(thetext, wideness(line->data,
 										match.rm_eo) - from_col - start_col);
 
+					wattron(edit, varnish->attributes);
 					mvwaddnstr(edit, row, margin + start_col, thetext, paintlen);
+					wattroff(edit, varnish->attributes);
 				}
-				goto tail_of_loop;
+
+				continue;
 			}
 
 			/* Second case: varnish is a multiline expression. */
@@ -2622,21 +2623,25 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			/* If there is no end, there is nothing to paint. */
 			if (end_line == NULL) {
 				line->multidata[varnish->id] = CWOULDBE;
-				goto tail_of_loop;
+				continue;
 			}
 
 			/* If the end is on a later line, paint whole line, and be done. */
 			if (end_line != line) {
+				wattron(edit, varnish->attributes);
 				mvwaddnstr(edit, row, margin, converted, -1);
+				wattroff(edit, varnish->attributes);
 				line->multidata[varnish->id] = CWHOLELINE;
-				goto tail_of_loop;
+				continue;
 			}
 
 			/* Only if it is visible, paint the part to be coloured. */
 			if (endmatch.rm_eo > from_x) {
 				paintlen = actual_x(converted, wideness(line->data,
 												endmatch.rm_eo) - from_col);
+				wattron(edit, varnish->attributes);
 				mvwaddnstr(edit, row, margin, converted, paintlen);
+				wattroff(edit, varnish->attributes);
 			}
 			line->multidata[varnish->id] = CBEGINBEFORE;
 
@@ -2673,8 +2678,10 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 						paintlen = actual_x(thetext, wideness(line->data,
 										endmatch.rm_eo) - from_col - start_col);
 
+						wattron(edit, varnish->attributes);
 						mvwaddnstr(edit, row, margin + start_col,
 												thetext, paintlen);
+						wattroff(edit, varnish->attributes);
 
 						line->multidata[varnish->id] = CSTARTENDHERE;
 					}
@@ -2703,12 +2710,12 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				}
 
 				/* Paint the rest of the line, and we're done. */
+				wattron(edit, varnish->attributes);
 				mvwaddnstr(edit, row, margin + start_col, thetext, -1);
+				wattroff(edit, varnish->attributes);
 				line->multidata[varnish->id] = CENDAFTER;
 				break;
 			}
-  tail_of_loop:
-			wattroff(edit, varnish->attributes);
 		}
 	}
 #endif /* ENABLE_COLOR */
