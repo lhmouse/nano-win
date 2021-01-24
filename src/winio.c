@@ -2524,9 +2524,13 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 					match.rm_eo += index;
 					index = match.rm_eo;
 
-					/* If the matching part is not visible, skip it. */
-					if (match.rm_eo <= from_x || match.rm_so >= till_x)
+					/* If the match is offscreen to the left, skip to next. */
+					if (match.rm_eo <= from_x)
 						continue;
+
+					/* If the match is off to the right, this rule is done. */
+					if (match.rm_so >= till_x)
+						break;
 
 					start_col = (match.rm_so <= from_x) ?
 										0 : wideness(line->data,
