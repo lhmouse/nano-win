@@ -2513,24 +2513,24 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 								&match, (index == 0) ? 0 : REG_NOTBOL) != 0)
 						break;
 
-					/* If the match is of length zero, skip over it. */
-					if (match.rm_so == match.rm_eo) {
-						index = step_right(line->data, index + match.rm_eo);
-						continue;
-					}
-
 					/* Translate the match to the beginning of the line. */
 					match.rm_so += index;
 					match.rm_eo += index;
 					index = match.rm_eo;
 
+					/* If the match is offscreen to the right, this rule is done. */
+					if (match.rm_so >= till_x)
+						break;
+
+					/* If the match has length zero, advance over it. */
+					if (match.rm_so == match.rm_eo) {
+						index = step_right(line->data, index);
+						continue;
+					}
+
 					/* If the match is offscreen to the left, skip to next. */
 					if (match.rm_eo <= from_x)
 						continue;
-
-					/* If the match is off to the right, this rule is done. */
-					if (match.rm_so >= till_x)
-						break;
 
 					if (match.rm_so > from_x)
 						start_col = wideness(line->data, match.rm_so) - from_col;
