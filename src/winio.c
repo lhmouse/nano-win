@@ -2490,7 +2490,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		for (; varnish != NULL; varnish = varnish->next) {
 			size_t index = 0;
 				/* Where in the line we currently begin looking for a match. */
-			int start_col;
+			int start_col = 0;
 				/* The starting column of a piece to paint.  Zero-based. */
 			int paintlen = 0;
 				/* The number of characters to paint. */
@@ -2532,9 +2532,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 					if (match.rm_so >= till_x)
 						break;
 
-					start_col = (match.rm_so <= from_x) ?
-										0 : wideness(line->data,
-										match.rm_so) - from_col;
+					if (match.rm_so > from_x)
+						start_col = wideness(line->data, match.rm_so) - from_col;
 
 					thetext = converted + actual_x(converted, start_col);
 
@@ -2662,9 +2661,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				startmatch.rm_so += index;
 				startmatch.rm_eo += index;
 
-				start_col = (startmatch.rm_so <= from_x) ?
-								0 : wideness(line->data,
-								startmatch.rm_so) - from_col;
+				if (startmatch.rm_so > from_x)
+					start_col = wideness(line->data, startmatch.rm_so) - from_col;
 
 				thetext = converted + actual_x(converted, start_col);
 
