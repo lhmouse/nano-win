@@ -2524,6 +2524,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 
 					/* If the match has length zero, advance over it. */
 					if (match.rm_so == match.rm_eo) {
+						if (line->data[index] == '\0')
+							break;
 						index = step_right(line->data, index);
 						continue;
 					}
