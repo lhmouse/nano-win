@@ -2854,7 +2854,7 @@ int update_line(linestruct *line, size_t index)
 		wattroff(edit, hilite_attribute);
 	}
 
-	if (spotlighted && line == openfile->current && !inhelp)
+	if (spotlighted && line == openfile->current)
 		spotlight(light_from_col, light_to_col);
 
 	return 1;
@@ -2915,7 +2915,7 @@ int update_softwrapped_line(linestruct *line)
 		from_col = to_col;
 	}
 
-	if (spotlighted && line == openfile->current && !inhelp)
+	if (spotlighted && line == openfile->current)
 		spotlight_softwrapped(light_from_col, light_to_col);
 
 	return (row - starting_row);

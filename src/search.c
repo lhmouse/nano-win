@@ -324,12 +324,12 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 
 #ifndef NANO_TINY
 	if (modus == JUSTFIND && ISSET(MARK_MATCH) && (!openfile->mark || openfile->softmark)) {
-		openfile->mark = line;
-		openfile->mark_x = found_x + found_len;
-		openfile->softmark = TRUE;
+		spotlighted = TRUE;
+		light_from_col = xplustabs();
+		light_to_col = wideness(line->data, found_x + found_len);
 		if (!ISSET(SHOW_CURSOR))
 			hide_cursor = TRUE;
-		shift_held = TRUE;
+		refresh_needed = TRUE;
 	}
 #endif
 

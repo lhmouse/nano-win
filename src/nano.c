@@ -2540,6 +2540,11 @@ int main(int argc, char **argv)
 		} else
 			edit_refresh();
 
+#ifndef NANO_TINY
+		/* Let the next keystroke cancel the highlighting of a search match. */
+		refresh_needed = spotlighted;
+		spotlighted = FALSE;
+#endif
 		errno = 0;
 		focusing = TRUE;
 
