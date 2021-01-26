@@ -3359,6 +3359,12 @@ void edit_refresh(void)
 		draw_scrollbar();
 #endif
 
+//#define TIMEREFRESH  123
+#ifdef TIMEREFRESH
+#include <time.h>
+	clock_t start = clock();
+#endif
+
 	line = openfile->edittop;
 
 	while (row < editwinrows && line != NULL) {
@@ -3377,6 +3383,10 @@ void edit_refresh(void)
 #endif
 		row++;
 	}
+
+#ifdef TIMEREFRESH
+	statusline(INFO, "Refresh: %.1f ms", 1000 * (double)(clock() - start) / CLOCKS_PER_SEC);
+#endif
 
 	place_the_cursor();
 	wnoutrefresh(edit);

@@ -299,6 +299,12 @@ void precalc_multicolorinfo(void)
 					openfile->filetop->multidata || ISSET(NO_SYNTAX))
 		return;
 
+//#define TIMEPRECALC  123
+#ifdef TIMEPRECALC
+#include <time.h>
+	clock_t start = clock();
+#endif
+
 	/* For each line, allocate cache space for the multiline-regex info. */
 	for (line = openfile->filetop; line != NULL; line = line->next)
 		set_up_multicache(line);
@@ -372,6 +378,11 @@ void precalc_multicolorinfo(void)
 			}
 		}
 	}
+
+#ifdef TIMEPRECALC
+	statusline(INFO, "Precalculation: %.1f ms", 1000 * (double)(clock() - start) / CLOCKS_PER_SEC);
+	napms(1200);
+#endif
 }
 
 #endif /* ENABLE_COLOR */
