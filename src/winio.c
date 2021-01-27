@@ -2557,7 +2557,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 
 			/* First check the multidata of the preceding line -- it tells
 			 * us about the situation so far, and thus what to do here. */
-			if (start_line != NULL && start_line->multidata != NULL) {
+			if (row > 0 && start_line != NULL && start_line->multidata != NULL) {
 				if (start_line->multidata[varnish->id] == CWHOLELINE ||
 						start_line->multidata[varnish->id] == CENDAFTER ||
 						start_line->multidata[varnish->id] == CWOULDBE)
@@ -2621,12 +2621,21 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			/* We've already checked that there is no end between the start
 			 * and the current line.  But is there an end after the start
 			 * at all?  We don't paint unterminated starts. */
+			if (row == 0) {
 			while (end_line != NULL && regexec(varnish->end, end_line->data,
 								1, &endmatch, 0) == REG_NOMATCH)
 				end_line = end_line->next;
+			} else if (regexec(varnish->end, line->data, 1, &endmatch, 0) != 0)
+				end_line = line->next;
 
 			/* If there is no end, there is nothing to paint. */
 			if (end_line == NULL) {
+				line->multidata[varnish->id] = CWOULDBE;
+				continue;
+			}
+
+			if (end_line != line && line->prev == start_line && line->prev->multidata &&
+								line->prev->multidata[varnish->id] == CWOULDBE) {
 				line->multidata[varnish->id] = CWOULDBE;
 				continue;
 			}
