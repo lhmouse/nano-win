@@ -2553,18 +2553,18 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			/* Second case: varnish is a multiline expression. */
 
 			/* Assume nothing gets painted until proven otherwise below. */
-			line->multidata[varnish->id] = CNONE;
+			line->multidata[varnish->id] = NOTHING;
 
 			/* Apart from the first row, check the multidata of the preceding line:
 			 * it tells us about the situation so far, and thus what to do here. */
 			if (row > 0 && start_line != NULL && start_line->multidata != NULL) {
-				if (start_line->multidata[varnish->id] == CWHOLELINE ||
-						start_line->multidata[varnish->id] == CENDAFTER ||
-						start_line->multidata[varnish->id] == CWOULDBE)
+				if (start_line->multidata[varnish->id] == WHOLELINE ||
+						start_line->multidata[varnish->id] == STARTSHERE ||
+						start_line->multidata[varnish->id] == WOULDBE)
 					goto seek_an_end;
-				if (start_line->multidata[varnish->id] == CNONE ||
-						start_line->multidata[varnish->id] == CBEGINBEFORE ||
-						start_line->multidata[varnish->id] == CSTARTENDHERE)
+				if (start_line->multidata[varnish->id] == NOTHING ||
+						start_line->multidata[varnish->id] == ENDSHERE ||
+						start_line->multidata[varnish->id] == JUSTONTHIS)
 					goto step_two;
 			}
 
@@ -2588,8 +2588,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 
 			/* If the start has been qualified as an end earlier, believe it. */
 			if (start_line->multidata != NULL &&
-						(start_line->multidata[varnish->id] == CBEGINBEFORE ||
-						start_line->multidata[varnish->id] == CSTARTENDHERE))
+						(start_line->multidata[varnish->id] == ENDSHERE ||
+						start_line->multidata[varnish->id] == JUSTONTHIS))
 				goto step_two;
 
 			/* Maybe there is an end on that same line?  If yes, maybe
@@ -2629,14 +2629,14 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 
 			/* If there is no end, there is nothing to paint. */
 			if (end_line == NULL) {
-				line->multidata[varnish->id] = CWOULDBE;
+				line->multidata[varnish->id] = WOULDBE;
 				continue;
 			}
 
 			/* If it was already determined that there is no end... */
 			if (end_line != line && line->prev == start_line && line->prev->multidata &&
-								line->prev->multidata[varnish->id] == CWOULDBE) {
-				line->multidata[varnish->id] = CWOULDBE;
+								line->prev->multidata[varnish->id] == WOULDBE) {
+				line->multidata[varnish->id] = WOULDBE;
 				continue;
 			}
 
@@ -2645,7 +2645,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				wattron(edit, varnish->attributes);
 				mvwaddnstr(edit, row, margin, converted, -1);
 				wattroff(edit, varnish->attributes);
-				line->multidata[varnish->id] = CWHOLELINE;
+				line->multidata[varnish->id] = WHOLELINE;
 				continue;
 			}
 
@@ -2657,7 +2657,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				mvwaddnstr(edit, row, margin, converted, paintlen);
 				wattroff(edit, varnish->attributes);
 			}
-			line->multidata[varnish->id] = CBEGINBEFORE;
+			line->multidata[varnish->id] = ENDSHERE;
 
   step_two:
 			/* Second step: look for starts on this line, but begin
@@ -2694,7 +2694,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 												thetext, paintlen);
 						wattroff(edit, varnish->attributes);
 
-						line->multidata[varnish->id] = CSTARTENDHERE;
+						line->multidata[varnish->id] = JUSTONTHIS;
 					}
 					index = endmatch.rm_eo;
 					/* If both start and end match are anchors, advance. */
@@ -2716,7 +2716,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 
 				/* If there is no end, we're done with this regex. */
 				if (end_line == NULL) {
-					line->multidata[varnish->id] = CWOULDBE;
+					line->multidata[varnish->id] = WOULDBE;
 					break;
 				}
 
@@ -2724,7 +2724,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				wattron(edit, varnish->attributes);
 				mvwaddnstr(edit, row, margin + start_col, thetext, -1);
 				wattroff(edit, varnish->attributes);
-				line->multidata[varnish->id] = CENDAFTER;
+				line->multidata[varnish->id] = STARTSHERE;
 				break;
 			}
 		}

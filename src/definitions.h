@@ -138,17 +138,17 @@
 #define BAD_COLOR  -2
 
 /* Flags for indicating how a multiline regex pair apply to a line. */
-#define CNONE           (1<<1)
+#define NOTHING      (1<<1)
 		/* The start/end regexes don't cover this line at all. */
-#define CBEGINBEFORE    (1<<2)
-		/* The start regex matches on an earlier line, the end regex on this one. */
-#define CENDAFTER       (1<<3)
+#define STARTSHERE   (1<<2)
 		/* The start regex matches on this line, the end regex on a later one. */
-#define CWHOLELINE      (1<<4)
+#define WHOLELINE    (1<<3)
 		/* The start regex matches on an earlier line, the end regex on a later one. */
-#define CSTARTENDHERE   (1<<5)
+#define ENDSHERE     (1<<4)
+		/* The start regex matches on an earlier line, the end regex on this one. */
+#define JUSTONTHIS   (1<<5)
 		/* Both the start and end regexes match within this line. */
-#define CWOULDBE        (1<<6)
+#define WOULDBE      (1<<6)
 		/* An unpaired start match is on or before this line. */
 #endif
 

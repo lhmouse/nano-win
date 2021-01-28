@@ -266,17 +266,17 @@ void check_the_multis(linestruct *line)
 		anend = (regexec(ink->end, afterstart, 1, &endmatch, 0) == 0);
 
 		/* Check whether the multidata still matches the current situation. */
-		if (line->multidata[ink->id] == CNONE ||
-						line->multidata[ink->id] == CWHOLELINE) {
+		if (line->multidata[ink->id] == NOTHING ||
+						line->multidata[ink->id] == WHOLELINE) {
 			if (!astart && !anend)
 				continue;
-		} else if (line->multidata[ink->id] == CSTARTENDHERE) {
+		} else if (line->multidata[ink->id] == JUSTONTHIS) {
 			if (astart && anend && startmatch.rm_so < endmatch.rm_so)
 				continue;
-		} else if (line->multidata[ink->id] == CBEGINBEFORE) {
+		} else if (line->multidata[ink->id] == ENDSHERE) {
 			if (!astart && anend)
 				continue;
-		} else if (line->multidata[ink->id] == CENDAFTER) {
+		} else if (line->multidata[ink->id] == STARTSHERE) {
 			if (astart && !anend)
 				continue;
 		}
@@ -318,13 +318,13 @@ void precalc_multicolorinfo(void)
 			int index = 0;
 
 			/* For an unpaired start match, mark each remaining line. */
-			if (line->prev && line->prev->multidata[ink->id] == CWOULDBE) {
-				line->multidata[ink->id] = CWOULDBE;
+			if (line->prev && line->prev->multidata[ink->id] == WOULDBE) {
+				line->multidata[ink->id] = WOULDBE;
 				continue;
 			}
 
 			/* Assume nothing applies until proven otherwise below. */
-			line->multidata[ink->id] = CNONE;
+			line->multidata[ink->id] = NOTHING;
 
 			/* When the line contains a start match, look for an end,
 			 * and if found, mark all the lines that are affected. */
@@ -337,7 +337,7 @@ void precalc_multicolorinfo(void)
 				 * but continue looking for other starts after it. */
 				if (regexec(ink->end, line->data + index, 1,
 							&endmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
-					line->multidata[ink->id] = CSTARTENDHERE;
+					line->multidata[ink->id] = JUSTONTHIS;
 					index += endmatch.rm_eo;
 					/* If both start and end are mere anchors, step ahead. */
 					if (startmatch.rm_so == startmatch.rm_eo &&
@@ -358,18 +358,18 @@ void precalc_multicolorinfo(void)
 					tailline = tailline->next;
 
 				if (tailline == NULL) {
-					line->multidata[ink->id] = CWOULDBE;
+					line->multidata[ink->id] = WOULDBE;
 					break;
 				}
 
 				/* We found it, we found it, la lala lala.  Mark the lines. */
-				line->multidata[ink->id] = CENDAFTER;
+				line->multidata[ink->id] = STARTSHERE;
 
 				// Note that this also advances the line in the main loop.
 				for (line = line->next; line != tailline; line = line->next)
-					line->multidata[ink->id] = CWHOLELINE;
+					line->multidata[ink->id] = WHOLELINE;
 
-				tailline->multidata[ink->id] = CBEGINBEFORE;
+				tailline->multidata[ink->id] = ENDSHERE;
 
 				/* Look for a possible new start after the end match. */
 				index = endmatch.rm_eo;
