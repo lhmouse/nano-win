@@ -317,24 +317,24 @@ void precalc_multicolorinfo(void)
 		for (line = openfile->filetop; line != NULL; line = line->next) {
 			int index = 0;
 
-			/* Assume nothing applies until proven otherwise below. */
-			line->multidata[ink->id] = CNONE;
-
-			/* For an unpaired start match, mark all remaining lines. */
+			/* For an unpaired start match, mark each remaining line. */
 			if (line->prev && line->prev->multidata[ink->id] == CWOULDBE) {
 				line->multidata[ink->id] = CWOULDBE;
 				continue;
 			}
 
-			/* When the line contains a start match, look for an end, and if
-			 * found, mark all the lines that are affected. */
+			/* Assume nothing applies until proven otherwise below. */
+			line->multidata[ink->id] = CNONE;
+
+			/* When the line contains a start match, look for an end,
+			 * and if found, mark all the lines that are affected. */
 			while (regexec(ink->start, line->data + index, 1,
 							&startmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
 				/* Begin looking for an end match after the start match. */
 				index += startmatch.rm_eo;
 
-				/* If there is an end match on this line, mark the line, but
-				 * continue looking for other starts after it. */
+				/* If there is an end match on this line, mark the line,
+				 * but continue looking for other starts after it. */
 				if (regexec(ink->end, line->data + index, 1,
 							&endmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
 					line->multidata[ink->id] = CSTARTENDHERE;
@@ -353,27 +353,25 @@ void precalc_multicolorinfo(void)
 				/* Look for an end match on later lines. */
 				tailline = line->next;
 
-				while (tailline != NULL) {
-					if (regexec(ink->end, tailline->data, 1, &endmatch, 0) == 0)
-						break;
+				while (tailline && regexec(ink->end, tailline->data,
+											1, &endmatch, 0) != 0)
 					tailline = tailline->next;
-				}
 
 				if (tailline == NULL) {
 					line->multidata[ink->id] = CWOULDBE;
 					break;
 				}
 
-				/* We found it, we found it, la la la la la.  Mark all
-				 * the lines in between and the end properly. */
+				/* We found it, we found it, la lala lala.  Mark the lines. */
 				line->multidata[ink->id] = CENDAFTER;
 
+				// Note that this also advances the line in the main loop.
 				for (line = line->next; line != tailline; line = line->next)
 					line->multidata[ink->id] = CWHOLELINE;
 
 				tailline->multidata[ink->id] = CBEGINBEFORE;
 
-				/* Begin looking for a new start after the end match. */
+				/* Look for a possible new start after the end match. */
 				index = endmatch.rm_eo;
 			}
 		}
