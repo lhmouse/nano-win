@@ -2555,8 +2555,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			/* Assume nothing gets painted until proven otherwise below. */
 			line->multidata[varnish->id] = CNONE;
 
-			/* First check the multidata of the preceding line -- it tells
-			 * us about the situation so far, and thus what to do here. */
+			/* Apart from the first row, check the multidata of the preceding line:
+			 * it tells us about the situation so far, and thus what to do here. */
 			if (row > 0 && start_line != NULL && start_line->multidata != NULL) {
 				if (start_line->multidata[varnish->id] == CWHOLELINE ||
 						start_line->multidata[varnish->id] == CENDAFTER ||
@@ -2568,13 +2568,13 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 					goto step_two;
 			}
 
-			/* The preceding line has no precalculated multidata.  So, do
-			 * some backtracking to find out what to paint. */
+			/* The preceding line has no precalculated multidata.
+			 * So, do some backtracking to find out what to paint. */
 
 			/* First step: see if there is a line before current that
 			 * matches 'start' and is not complemented by an 'end'. */
 			while (start_line != NULL && regexec(varnish->start,
-					start_line->data, 1, &startmatch, 0) == REG_NOMATCH) {
+						start_line->data, 1, &startmatch, 0) == REG_NOMATCH) {
 				/* There is no start on this line; but if there is an end,
 				 * there is no need to look for starts on earlier lines. */
 				if (regexec(varnish->end, start_line->data, 0, NULL, 0) == 0)
@@ -2586,15 +2586,14 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			if (start_line == NULL)
 				goto step_two;
 
-			/* If a found start has been qualified as an end earlier,
-			 * believe it and skip to the next step. */
+			/* If the start has been qualified as an end earlier, believe it. */
 			if (start_line->multidata != NULL &&
 						(start_line->multidata[varnish->id] == CBEGINBEFORE ||
 						start_line->multidata[varnish->id] == CSTARTENDHERE))
 				goto step_two;
 
 			/* Maybe there is an end on that same line?  If yes, maybe
-			 * there is another start after it?  And so on until EOL. */
+			 * there is another start after it?  And so on, until EOL. */
 			while (TRUE) {
 				/* Begin searching for an end after the start match. */
 				index += startmatch.rm_eo;
@@ -2620,11 +2619,11 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
   seek_an_end:
 			/* We've already checked that there is no end between the start
 			 * and the current line.  But is there an end after the start
-			 * at all?  We don't paint unterminated starts. */
+			 * at all?  Because we don't paint unterminated starts. */
 			if (row == 0) {
-			while (end_line != NULL && regexec(varnish->end, end_line->data,
-								1, &endmatch, 0) == REG_NOMATCH)
-				end_line = end_line->next;
+				while (end_line != NULL && regexec(varnish->end, end_line->data,
+											1, &endmatch, 0) == REG_NOMATCH)
+					end_line = end_line->next;
 			} else if (regexec(varnish->end, line->data, 1, &endmatch, 0) != 0)
 				end_line = line->next;
 
@@ -2634,6 +2633,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				continue;
 			}
 
+			/* If it was already determined that there is no end... */
 			if (end_line != line && line->prev == start_line && line->prev->multidata &&
 								line->prev->multidata[varnish->id] == CWOULDBE) {
 				line->multidata[varnish->id] = CWOULDBE;
@@ -2667,8 +2667,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			while (regexec(varnish->start, line->data + index,
 								1, &startmatch, (index == 0) ?
 								0 : REG_NOTBOL) == 0) {
-				/* Translate the match to be relative to the
-				 * beginning of the line. */
+				/* Make the match relative to the beginning of the line. */
 				startmatch.rm_so += index;
 				startmatch.rm_eo += index;
 
@@ -2680,12 +2679,11 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				if (regexec(varnish->end, line->data + startmatch.rm_eo,
 								1, &endmatch, (startmatch.rm_eo == 0) ?
 								0 : REG_NOTBOL) == 0) {
-					/* Translate the end match to be relative to
-					 * the beginning of the line. */
+					/* Make the match relative to the beginning of the line. */
 					endmatch.rm_so += startmatch.rm_eo;
 					endmatch.rm_eo += startmatch.rm_eo;
-					/* Only paint the match if it is visible on screen and
-					 * it is more than zero characters long. */
+					/* Only paint the match if it is visible on screen
+					 * and it is more than zero characters long. */
 					if (endmatch.rm_eo > from_x &&
 										endmatch.rm_eo > startmatch.rm_so) {
 						paintlen = actual_x(thetext, wideness(line->data,
