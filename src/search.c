@@ -669,13 +669,6 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			if (ISSET(SOFTWRAP))
 				openfile->current->extrarows = extra_chunks_in(openfile->current);
 #endif
-#ifdef ENABLE_COLOR
-			/* Check whether the replacement requires a change in the coloring. */
-			check_the_multis(openfile->current);
-
-			if (refresh_needed && !replaceall)
-				precalc_multicolorinfo();
-#endif
 			set_modified();
 			as_an_at = TRUE;
 			numreplaced++;
@@ -684,11 +677,6 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
 	if (numreplaced == -1)
 		not_found_msg(needle);
-
-#ifdef ENABLE_COLOR
-	if (refresh_needed)
-		precalc_multicolorinfo();
-#endif
 
 #ifndef NANO_TINY
 	openfile->mark = was_mark;
