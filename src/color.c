@@ -261,18 +261,17 @@ void check_the_multis(linestruct *line)
 		anend = (regexec(ink->end, afterstart, 1, &endmatch, 0) == 0);
 
 		/* Check whether the multidata still matches the current situation. */
-		if (line->multidata[ink->id] == NOTHING ||
-						line->multidata[ink->id] == WHOLELINE) {
+		if (line->multidata[ink->id] & (NOTHING|WHOLELINE)) {
 			if (!astart && !anend)
 				continue;
 		} else if (line->multidata[ink->id] == JUSTONTHIS) {
 			if (astart && anend && startmatch.rm_so < endmatch.rm_so)
 				continue;
-		} else if (line->multidata[ink->id] == ENDSHERE) {
-			if (!astart && anend)
-				continue;
 		} else if (line->multidata[ink->id] == STARTSHERE) {
 			if (astart && !anend)
+				continue;
+		} else if (line->multidata[ink->id] == ENDSHERE) {
+			if (!astart && anend)
 				continue;
 		}
 
