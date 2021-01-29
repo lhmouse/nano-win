@@ -253,8 +253,12 @@ void check_the_multis(linestruct *line)
 	if (openfile->syntax == NULL || openfile->syntax->nmultis == 0)
 		return;
 
-	if (line->multidata == NULL)
-		set_up_multicache(line);
+	if (line->multidata == NULL) {
+		statusline(ALERT, "Onscreen line without multidata?");
+		napms(1200);
+		refresh_needed = TRUE;
+		return;
+	}
 
 	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
 		/* If it's not a multiline regex, skip. */
