@@ -521,19 +521,6 @@ char *replace_line(const char *needle)
 	return copy;
 }
 
-#ifdef ENABLE_COLOR
-/* Reset the multiline coloring info and then recalculate it. */
-void wipe_and_recalculate_colorinfo(void)
-{
-	for (linestruct *line = openfile->filetop; line != NULL; line = line->next)
-		if (line->multidata)
-			for (short index = 0; index < openfile->syntax->nmultis; index++)
-				line->multidata[index] = -1;
-
-	precalc_multicolorinfo();
-}
-#endif
-
 /* Step through each occurrence of the search string and prompt the user
  * before replacing it.  We seek for needle, and replace it with answer.
  * The parameters real_current and real_current_x are needed in order to
@@ -687,7 +674,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			check_the_multis(openfile->current);
 
 			if (refresh_needed && !replaceall)
-				wipe_and_recalculate_colorinfo();
+				precalc_multicolorinfo();
 #endif
 			set_modified();
 			as_an_at = TRUE;
@@ -700,7 +687,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
 #ifdef ENABLE_COLOR
 	if (refresh_needed)
-		wipe_and_recalculate_colorinfo();
+		precalc_multicolorinfo();
 #endif
 
 #ifndef NANO_TINY
