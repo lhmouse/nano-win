@@ -2664,9 +2664,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			 * looking only after an end match, if there is one. */
 			index = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
-			while (regexec(varnish->start, line->data + index,
-								1, &startmatch, (index == 0) ?
-								0 : REG_NOTBOL) == 0) {
+			while (regexec(varnish->start, line->data + index, 1, &startmatch,
+										(index == 0) ? 0 : REG_NOTBOL) == 0) {
 				/* Make the match relative to the beginning of the line. */
 				startmatch.rm_so += index;
 				startmatch.rm_eo += index;
@@ -2676,22 +2675,19 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 
 				thetext = converted + actual_x(converted, start_col);
 
-				if (regexec(varnish->end, line->data + startmatch.rm_eo,
-								1, &endmatch, (startmatch.rm_eo == 0) ?
-								0 : REG_NOTBOL) == 0) {
+				if (regexec(varnish->end, line->data + startmatch.rm_eo, 1, &endmatch,
+									(startmatch.rm_eo == 0) ? 0 : REG_NOTBOL) == 0) {
 					/* Make the match relative to the beginning of the line. */
 					endmatch.rm_so += startmatch.rm_eo;
 					endmatch.rm_eo += startmatch.rm_eo;
 					/* Only paint the match if it is visible on screen
 					 * and it is more than zero characters long. */
-					if (endmatch.rm_eo > from_x &&
-										endmatch.rm_eo > startmatch.rm_so) {
+					if (endmatch.rm_eo > from_x && endmatch.rm_eo > startmatch.rm_so) {
 						paintlen = actual_x(thetext, wideness(line->data,
-										endmatch.rm_eo) - from_col - start_col);
+											endmatch.rm_eo) - from_col - start_col);
 
 						wattron(edit, varnish->attributes);
-						mvwaddnstr(edit, row, margin + start_col,
-												thetext, paintlen);
+						mvwaddnstr(edit, row, margin + start_col, thetext, paintlen);
 						wattroff(edit, varnish->attributes);
 
 						line->multidata[varnish->id] = JUSTONTHIS;
@@ -2699,7 +2695,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 					index = endmatch.rm_eo;
 					/* If both start and end match are anchors, advance. */
 					if (startmatch.rm_so == startmatch.rm_eo &&
-								endmatch.rm_so == endmatch.rm_eo) {
+										endmatch.rm_so == endmatch.rm_eo) {
 						if (line->data[index] == '\0')
 							break;
 						index = step_right(line->data, index);
@@ -2710,8 +2706,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				/* There is no end on this line.  But maybe on later lines? */
 				end_line = line->next;
 
-				while (end_line != NULL && regexec(varnish->end, end_line->data,
-										0, NULL, 0) == REG_NOMATCH)
+				while (end_line && regexec(varnish->end, end_line->data,
+											0, NULL, 0) == REG_NOMATCH)
 					end_line = end_line->next;
 
 				/* If there is no end, we're done with this regex. */
