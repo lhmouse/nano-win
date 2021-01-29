@@ -231,12 +231,6 @@ void find_and_prime_applicable_syntax(void)
 	openfile->syntax = sntx;
 }
 
-/* Allocate and initialize (for the given line) the cache for multiline info. */
-void set_up_multicache(linestruct *line)
-{
-	line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
-}
-
 /* Determine whether the matches of multiline regexes are still the same,
  * and if not, schedule a screen refresh, so things will be repainted. */
 void check_the_multis(linestruct *line)
@@ -308,7 +302,7 @@ void precalc_multicolorinfo(void)
 
 	/* For each line, allocate cache space for the multiline-regex info. */
 	for (line = openfile->filetop; line != NULL; line = line->next)
-		set_up_multicache(line);
+		line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
 
 	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
 		/* If this is not a multi-line regex, skip it. */

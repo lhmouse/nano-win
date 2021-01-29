@@ -239,7 +239,6 @@ bool is_valid_unicode(wchar_t wc);
 void set_interface_colorpairs(void);
 void prepare_palette(void);
 void find_and_prime_applicable_syntax(void);
-void set_up_multicache(linestruct *line);
 void check_the_multis(linestruct *line);
 void precalc_multicolorinfo(void);
 #endif

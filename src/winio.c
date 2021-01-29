@@ -2482,9 +2482,9 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 	if (openfile->syntax && !ISSET(NO_SYNTAX)) {
 		const colortype *varnish = openfile->syntax->color;
 
-		/* If there are multiline regexes, make sure there is a cache. */
+		/* If there are multiline regexes, make sure this line has a cache. */
 		if (openfile->syntax->nmultis > 0 && line->multidata == NULL)
-			set_up_multicache(line);
+			line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
 
 		/* Iterate through all the coloring regexes. */
 		for (; varnish != NULL; varnish = varnish->next) {
