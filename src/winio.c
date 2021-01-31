@@ -2133,11 +2133,11 @@ void minibar(void)
 #endif
 
 	/* Display the line/column position of the cursor. */
-	if (namewidth + tallywidth + placewidth + 32 < COLS)
+	if (ISSET(CONSTANT_SHOW) && namewidth + tallywidth + placewidth + 32 < COLS)
 		mvwaddstr(bottomwin, 0, COLS - 27 - placewidth, location);
 
 	/* Display the hexadecimal code of the character under the cursor. */
-	if (namewidth + tallywidth + 28 < COLS) {
+	if (ISSET(CONSTANT_SHOW) && namewidth + tallywidth + 28 < COLS) {
 		char *this_position = openfile->current->data + openfile->current_x;
 
 		if (*this_position == '\0')
