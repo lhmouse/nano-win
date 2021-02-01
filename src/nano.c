@@ -1112,7 +1112,7 @@ void do_toggle(int flag)
 	if (flag == NO_HELP || flag == NO_SYNTAX)
 		enabled = !enabled;
 
-	if (!ISSET(MINIBAR) || flag == SMART_HOME || flag == CUT_FROM_CURSOR ||
+	if (!ISSET(MINIBAR) || !ISSET(STATEFLAGS) || flag == SMART_HOME || flag == CUT_FROM_CURSOR ||
 				flag == TABS_TO_SPACES || flag == USE_MOUSE || flag == SUSPENDABLE)
 		statusline(REMARK, "%s %s", _(flagtostr(flag)),
 						enabled ? _("enabled") : _("disabled"));

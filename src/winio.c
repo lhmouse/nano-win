@@ -2179,7 +2179,7 @@ void minibar(void)
 	}
 
 	/* Display the state of three flags, and the state of macro and mark. */
-	if (!successor && namewidth + tallywidth + 14 + 2 * padding < COLS) {
+	if (ISSET(STATEFLAGS) && !successor && namewidth + tallywidth + 14 + 2 * padding < COLS) {
 		wmove(bottomwin, 0, COLS - 11 - padding);
 		show_states_at(bottomwin);
 	}
