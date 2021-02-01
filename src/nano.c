@@ -1235,6 +1235,8 @@ void confirm_margin(void)
 		needed_margin = 0;
 
 	if (needed_margin != margin) {
+		bool keep_focus = (margin > 0) && focusing;
+
 		margin = needed_margin;
 		editwincols = COLS - margin - thebar;
 
@@ -1243,6 +1245,7 @@ void confirm_margin(void)
 		 * and ensure a proper starting column for the first screen row. */
 		compute_the_extra_rows_per_line_from(openfile->filetop);
 		ensure_firstcolumn_is_aligned();
+		focusing = keep_focus;
 #endif
 		/* The margin has changed -- schedule a full refresh. */
 		refresh_needed = TRUE;
