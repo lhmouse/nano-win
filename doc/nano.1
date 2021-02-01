@@ -356,6 +356,9 @@ When a file is loaded or saved, and also when switching between buffers,
 the number of lines in the buffer is displayed after the file name.
 This number is cleared upon the next keystroke, or replaced with an
 [i/n] counter when multiple buffers are open.
+The line plus column numbers and the character code are displayed only when
+\fB\-\-constantshow\fR is used, and can be toggled on and off with \fBM-C\fR.
+The state flags are displayed only when \fB\-\-stateflags\fR is used.
 .TP
 .BR \-! ", " \-\-magic
 When neither the file's name nor its first line give a clue,
