@@ -3504,11 +3504,11 @@ void spotlight(size_t from_col, size_t to_col)
 		word = display_string(openfile->current->data, from_col,
 								to_col - from_col, FALSE, overshoots);
 
-	wattron(edit, interface_color_pair[SELECTED_TEXT]);
+	wattron(edit, interface_color_pair[HIGHLIGHTED]);
 	waddnstr(edit, word, actual_x(word, to_col));
 	if (overshoots)
 		mvwaddch(edit, openfile->current_y, COLS - 1 - thebar, '>');
-	wattroff(edit, interface_color_pair[SELECTED_TEXT]);
+	wattroff(edit, interface_color_pair[HIGHLIGHTED]);
 
 	free(word);
 }
