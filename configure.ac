@@ -59,7 +59,7 @@ AC_DEFINE_DIR([PKGDATADIR], [pkgdatadir], [Where data are placed to.])
 dnl Whether this is a git repository.
 
 AC_MSG_CHECKING([whether building from git])
-if test -f roll-a-release.sh ; then
+if test -f "$srcdir/roll-a-release.sh" ; then
 	AC_MSG_RESULT([yes])
 	from_git=yes
 else
