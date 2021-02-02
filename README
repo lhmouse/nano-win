@@ -5,18 +5,18 @@ Overview
     Here is the source code for a ported, standalone version of GNU nano,
     a famous, easy-to-use and handy text editor on Linux.
 
-    The script 'build_nano-win.sh' can be run in MSYS2 with mingw-w64
-    toolchains installed.  That script does static linking such that
-    the executable, nano.exe, relies on no third party .DLL files,
-    including Microsoft Visual C++ Redistributable packages.
+    The script "build_nano-win.sh" can be run in MSYS2 with the mingw-w64
+    toolchains installed.  That script statically links the executable,
+    nano.exe, so that it does not require any third-party .DLL files to run,
+    including any Microsoft Visual C++ Redistributable packages.
 
 Enhancements
 
-    + .nanorc is loaded from '%USERPROFILE%\.nanorc' with normal privilege
-      and from "%ALLUSERSPROFILE%\.nanorc" with elevated priviledge.
+    + .nanorc is loaded from "%USERPROFILE%\.nanorc" with normal privilege
+      and from "%ALLUSERSPROFILE%\.nanorc" with elevated privilege.
     + Systemwide nanorc is loaded from "%ALLUSERSPROFILE%\nanorc".
     + Added C++11 keywords and identifiers with special meaning
-      (that is, override and final) in 'doc/syntax/c.nanorc'.
+      (that is, override and final) in "doc/syntax/c.nanorc".
     + Vim-style locking files have been enabled.
 
 Features Removed
