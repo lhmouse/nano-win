@@ -640,7 +640,6 @@ void usage(void)
 	if (!ISSET(RESTRICTED))
 		print_opt("-z", "--suspendable", N_("Enable suspension"));
 #ifndef NANO_TINY
-	print_opt("-^", "--markmatch", N_("Select the match of a search"));
 	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
 	print_opt("-_", "--minibar", N_("Show a feedback bar at the bottom"));
 #endif
@@ -1761,7 +1760,6 @@ int main(int argc, char **argv)
 		{"indicator", 0, NULL, 'q'},
 		{"unix", 0, NULL, 'u'},
 		{"afterends", 0, NULL, 'y'},
-		{"markmatch", 0, NULL, '^'},
 		{"stateflags", 0, NULL, '%'},
 		{"minibar", 0, NULL, '_'},
 #endif
@@ -1818,7 +1816,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxyz$^%_!", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxyz$%_!", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -2055,9 +2053,6 @@ int main(int argc, char **argv)
 				SET(SUSPENDABLE);
 				break;
 #ifndef NANO_TINY
-			case '^':
-				SET(MARK_MATCH);
-				break;
 			case '%':
 				SET(STATEFLAGS);
 				break;
