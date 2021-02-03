@@ -734,6 +734,10 @@ void paste_text(void)
 	/* If we pasted less than a screenful, don't center the cursor. */
 	if (less_than_a_screenful(was_lineno, was_leftedge))
 		focusing = FALSE;
+#ifdef ENABLE_COLOR
+	else
+		precalc_multicolorinfo();
+#endif
 
 	/* Set the desired x position to where the pasted text ends. */
 	openfile->placewewant = xplustabs();

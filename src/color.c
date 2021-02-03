@@ -289,8 +289,7 @@ void precalc_multicolorinfo(void)
 	regmatch_t startmatch, endmatch;
 	linestruct *line, *tailline;
 
-	if (openfile->syntax == NULL || openfile->syntax->nmultis == 0 ||
-					openfile->filetop->multidata || ISSET(NO_SYNTAX))
+	if (!openfile->syntax || openfile->syntax->nmultis == 0 || ISSET(NO_SYNTAX))
 		return;
 
 //#define TIMEPRECALC  123

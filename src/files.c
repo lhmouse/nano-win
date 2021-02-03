@@ -498,7 +498,8 @@ void prepare_for_display(void)
 
 #ifdef ENABLE_COLOR
 	/* Precalculate the data for any multiline coloring regexes. */
-	precalc_multicolorinfo();
+	if (!openfile->filetop->multidata)
+		precalc_multicolorinfo();
 	have_palette = FALSE;
 #endif
 	refresh_needed = TRUE;
@@ -818,6 +819,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	/* If we inserted less than a screenful, don't center the cursor. */
 	if (undoable && less_than_a_screenful(was_lineno, was_leftedge))
 		focusing = FALSE;
+#ifdef ENABLE_COLOR
+	else if (undoable)
+		precalc_multicolorinfo();
+#endif
 
 #ifndef NANO_TINY
 	if (undoable)
