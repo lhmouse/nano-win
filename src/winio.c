@@ -2500,7 +2500,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				/* The match positions of a single-line regex. */
 			const linestruct *start_line = line->prev;
 				/* The first line before line that matches 'start'. */
-			const linestruct *end_line = line;
+			linestruct *end_line = line;
 				/* The line that matches 'end'. */
 			regmatch_t startmatch, endmatch;
 				/* The match positions of the start and end regexes. */
@@ -2720,7 +2720,16 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				wattron(edit, varnish->attributes);
 				mvwaddnstr(edit, row, margin + start_col, thetext, -1);
 				wattroff(edit, varnish->attributes);
+
 				line->multidata[varnish->id] = STARTSHERE;
+
+				if (end_line->multidata == NULL) {
+					end_line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+					for (short item = 0; item < openfile->syntax->nmultis; item++)
+						end_line->multidata[item] = 0;
+				}
+				end_line->multidata[varnish->id] = ENDSHERE;
+
 				break;
 			}
 		}
