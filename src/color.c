@@ -310,12 +310,6 @@ void precalc_multicolorinfo(void)
 		for (line = openfile->filetop; line != NULL; line = line->next) {
 			int index = 0;
 
-			/* For an unpaired start match, mark each remaining line. */
-			if (line->prev && line->prev->multidata[ink->id] == WOULDBE) {
-				line->multidata[ink->id] = WOULDBE;
-				continue;
-			}
-
 			/* Assume nothing applies until proven otherwise below. */
 			line->multidata[ink->id] = NOTHING;
 
@@ -350,7 +344,10 @@ void precalc_multicolorinfo(void)
 											1, &endmatch, 0) != 0)
 					tailline = tailline->next;
 
+				/* When there is no end match, mark relevant lines as such. */
 				if (tailline == NULL) {
+					for (; line->next != NULL; line = line->next)
+						line->multidata[ink->id] = WOULDBE;
 					line->multidata[ink->id] = WOULDBE;
 					break;
 				}
