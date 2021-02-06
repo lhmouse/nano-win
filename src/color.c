@@ -245,8 +245,6 @@ void check_the_multis(linestruct *line)
 		return;
 
 	if (line->multidata == NULL) {
-		statusline(ALERT, "Onscreen line without multidata?");
-		napms(1200);
 		refresh_needed = TRUE;
 		return;
 	}
