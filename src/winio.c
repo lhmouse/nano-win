@@ -188,7 +188,7 @@ void read_keys_from(WINDOW *win)
 	if (currmenu == MMAIN && ISSET(MINIBAR) && lastmessage > HUSH &&
 						lastmessage != INFO && lastmessage < ALERT) {
 		timed = TRUE;
-		halfdelay(8);
+		halfdelay(ISSET(QUICK_BLANK) ? 8 : 15);
 		disable_kb_interrupt();
 	}
 #endif
