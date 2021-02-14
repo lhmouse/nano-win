@@ -203,13 +203,15 @@
 ## of a single character, and without affecting the cutbuffer).
 # set zap
 
-## Paint the interface elements of nano.  These are examples;
-## by default there are no colors, except for errorcolor.
+
+## Paint the interface elements of nano.  These are examples; there are
+## no colors by default, except for errorcolor and highlightcolor.
 # set titlecolor bold,lightwhite,blue
 # set promptcolor lightwhite,lightblack
 # set statuscolor bold,lightwhite,green
 # set errorcolor bold,lightwhite,red
 # set selectedcolor lightwhite,magenta
+# set highlightcolor black,lime
 # set stripecolor ,yellow
 # set scrollercolor cyan
 # set numbercolor cyan
@@ -222,6 +224,7 @@
 # set statuscolor bold,lightwhite,magenta
 # set errorcolor bold,lightwhite,red
 # set selectedcolor lightwhite,cyan
+# set highlightcolor black,orange
 # set stripecolor ,yellow
 # set scrollercolor magenta
 # set numbercolor magenta
