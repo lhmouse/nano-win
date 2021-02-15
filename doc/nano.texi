@@ -894,7 +894,7 @@ text.  (The color of the stripe can be changed with @code{set stripecolor}.)
 
 @item set highlightcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for highlighting a search match.
-The default value is @t{black,yellow}.
+The default value is @t{black,lightyellow}.
 @xref{@code{set functioncolor}} for valid color names.
 
 @item set historylog
