@@ -326,15 +326,17 @@ void precalc_multicolorinfo(void)
 				if (regexec(ink->end, line->data + index, 1,
 							&endmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
 					line->multidata[ink->id] = JUSTONTHIS;
+
 					index += endmatch.rm_eo;
-					/* If both start and end are mere anchors, step ahead. */
-					if (startmatch.rm_so == startmatch.rm_eo &&
-								endmatch.rm_so == endmatch.rm_eo) {
-						/* When at end-of-line, we're done. */
+
+					/* If the total match has zero length, force an advance. */
+					if (startmatch.rm_eo - startmatch.rm_so + endmatch.rm_eo == 0) {
+						/* When at end-of-line, there is no other start. */
 						if (line->data[index] == '\0')
 							break;
 						index = step_right(line->data, index);
 					}
+
 					continue;
 				}
 
