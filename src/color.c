@@ -262,7 +262,10 @@ void check_the_multis(linestruct *line)
 		anend = (regexec(ink->end, afterstart, 1, &endmatch, 0) == 0);
 
 		/* Check whether the multidata still matches the current situation. */
-		if (line->multidata[ink->id] & (NOTHING|WHOLELINE)) {
+		if (line->multidata[ink->id] == NOTHING) {
+			if (!astart)
+				continue;
+		} else if (line->multidata[ink->id] & (WHOLELINE|WOULDBE)) {
 			if (!astart && !anend)
 				continue;
 		} else if (line->multidata[ink->id] == JUSTONTHIS) {
