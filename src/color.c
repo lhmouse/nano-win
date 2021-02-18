@@ -269,7 +269,8 @@ void check_the_multis(linestruct *line)
 			if (!astart && !anend)
 				continue;
 		} else if (line->multidata[ink->id] == JUSTONTHIS) {
-			if (astart && anend && startmatch.rm_so < endmatch.rm_so)
+			if (astart && anend && regexec(ink->start, line->data + endmatch.rm_eo,
+														1, &startmatch, 0) != 0)
 				continue;
 		} else if (line->multidata[ink->id] == STARTSHERE) {
 			if (astart && !anend)
