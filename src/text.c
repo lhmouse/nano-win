@@ -2000,7 +2000,7 @@ void do_justify(bool full_justify)
 	else
 #endif
 	if (full_justify)
-		statusbar(_("Justified file"));
+		statusline(REMARK, _("Justified file"));
 	else
 		statusbar(_("Justified paragraph"));
 
