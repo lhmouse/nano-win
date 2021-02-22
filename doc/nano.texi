@@ -281,9 +281,9 @@ Set the displayed tab length to @var{number} columns.  The value of
 
 @item -U
 @itemx --quickblank
-Do quick status-bar blanking: status-bar messages will disappear after 1
-keystroke instead of 25.  Note that option @option{-c}
-(@option{--constantshow}) overrides this.
+Make status-bar messages disappear after 1 keystroke instead of after 20.
+Note that options @option{-c} (@option{--constantshow})
+and @option{-_} (@option{--minibar}) override this.
 
 @item -V
 @itemx --version
@@ -1009,8 +1009,8 @@ specified closing punctuation, optionally followed by closing brackets
 The default value is "@t{!.?}".
 
 @item set quickblank
-Do quick status-bar blanking: status-bar messages will disappear after 1
-keystroke instead of 25.  Note that @option{constantshow} overrides this.
+Make status-bar messages disappear after 1 keystroke instead of after 20.
+Note that options @option{constantshow} and @option{minibar} override this.
 
 @item set quotestr "@var{regex}"
 Set the regular expression for matching the quoting part of a line.
