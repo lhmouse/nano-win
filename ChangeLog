@@ -1,3 +1,61 @@
+Changes between v5.5 and v5.6:
+------------------------------
+
+Benno Schulenberg (52):
+      build: avoid a warning about duplicate symbol when building from tarball
+      build: detect a build from git also when building out of tree
+      build: include a workaround only for versions of ncurses that need it
+      bump version numbers and add a news item for the 5.6 release
+      color: do not look for another 'end' match after already finding one
+      color: give highlighted text its own color, to not look like marked text
+      color: recompile the file-probing regexes a little faster with REG_NOSUB
+      color: use bright yellow to highlight a search match
+      color: use inverse video for highlighting when there are no colors
+      debug: add timing instruments to cache precalculation and screen refresh
+      display: for a large paste or insertion, recalculate the multiline cache
+      docs: correct the description of --quickblank for the changed base value
+      docs: correct the formatting of a comment in the sample nanorc
+      docs: correct the word order for Alt+D in the cheat sheet -- it changed
+      docs: mention the new 'set highlightcolor' option
+      docs: remove all mentions of --markmatch and 'set markmatch'
+      docs: say that --minibar is modified by --constantshow and --stateflags
+      feedback: make Full Justify show a message also when using --minibar
+      gnulib: update to its current upstream state
+      minibar: show a message a little longer when --quickblank isn't used
+      minibar: show cursor position + character code only with --constantshow
+      minibar: show the state flags only when --stateflags is used
+      minibar: suppress the toggling feedback for M-C, but show it for M-Y/M-P
+      options: remove --markmatch and 'set markmatch', as the behavior is gone
+      painting: always do backtracking for the first row of the screen
+      painting: trigger a refresh when a second start match appears on a line
+      painting: trigger fewer unneeded full-screen refreshes
+      painting: when finding an end match, set its multidata right away
+      scrolling: keep centering after large paste, also when line numbers widen
+      search: just highlight the found occurrence, instead of marking it
+      search: make highlighting the standard, non-changeable behavior
+      tweaks: avoid the vague possibility of advancing beyond end-of-line
+      tweaks: be slightly more efficient in marking lines as WOULDBE
+      tweaks: call wattron()/wattroff() only when actually painting something
+      tweaks: correct a comment, improve another, and trim some verbosity
+      tweaks: don't bother comparing virgin multidata with current situation
+      tweaks: don't bother initializing freshly allocated multidata
+      tweaks: don't bother wiping the multidata before recomputing it
+      tweaks: elide a function that is now just one line
+      tweaks: frob a condition, to be more concise, and reshuffle another
+      tweaks: frob some comments, and adjust indentation after previous change
+      tweaks: frob some comments, and reshuffle two fragments of code
+      tweaks: frob two fragments of code, to be more readable
+      tweaks: make a skipping condition more precise
+      tweaks: remove an old fix that was made superfluous by a recent fix
+      tweaks: remove a strangely placed warning
+      tweaks: rename six symbols, to be more straightforward
+      tweaks: reshuffle some code, and reduce the scope of a variable
+      tweaks: reshuffle three conditions into a better order
+      tweaks: rewrap and reindent a few lines
+      tweaks: rewrap two lines, for esthetics
+      tweaks: stop evaluating a rule when the match is offscreen to the right
+
+
 Changes between v5.4 and v5.5:
 ------------------------------
 
