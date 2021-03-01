@@ -3544,9 +3544,9 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 			word = display_string(openfile->current->data, from_col,
 										break_col - from_col, FALSE, FALSE);
 
-		wattron(edit, interface_color_pair[SELECTED_TEXT]);
+		wattron(edit, interface_color_pair[HIGHLIGHTED]);
 		waddnstr(edit, word, actual_x(word, break_col));
-		wattroff(edit, interface_color_pair[SELECTED_TEXT]);
+		wattroff(edit, interface_color_pair[HIGHLIGHTED]);
 
 		free(word);
 
