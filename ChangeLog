@@ -1,3 +1,13 @@
+Changes between v5.6 and v5.6.1:
+--------------------------------
+
+Benno Schulenberg (4):
+      bump version numbers and add a news item for the 5.6.1 release
+      options: rename 'highlightcolor' to the more distinct 'spotlightcolor'
+      search: correctly colorize a match also when softwrapping is active
+      tweaks: rename a symbol, to better match the corresponding option
+
+
 Changes between v5.5 and v5.6:
 ------------------------------
 

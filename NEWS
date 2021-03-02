@@ -1,3 +1,7 @@
+2021.03.03 - GNU nano 5.6.1 "Geelgors"
+• Search matches are properly colorized in softwrap mode too.
+• Option 'highlightcolor' has been renamed to 'spotlightcolor'.
+
 2021.02.24 - GNU nano 5.6 "Wielewaal"
 • A search match gets highlighted (in black on yellow by default),
   in addition to placing the cursor at the start of the match.
