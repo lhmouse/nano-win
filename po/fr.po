@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 5.5-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2021-02-24 11:05+0100\n"
-"PO-Revision-Date: 2021-01-07 22:03+0100\n"
+"POT-Creation-Date: 2021-03-03 10:07+0100\n"
+"PO-Revision-Date: 2021-02-24 12:02+0100\n"
 "Last-Translator: Jean-Philippe Guérard <jean-philippe.guerard@corbeaunoir."
 "org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -985,7 +985,7 @@ msgstr "Refaire"
 
 #: src/global.c:842
 msgid "Set Mark"
-msgstr "Placer la marque"
+msgstr "Marquer"
 
 #: src/global.c:844
 msgid "Copy"
