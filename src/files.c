@@ -200,7 +200,8 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	 * some byte-order-checking numbers (bytes 1008-1022). */
 	lockdata[0] = 0x62;
 	lockdata[1] = 0x30;
-	snprintf(&lockdata[2], 10, "nano %s", VERSION);
+	/* It's fine to overwrite byte 12 with the \0 as it is 0x00 anyway. */
+	snprintf(&lockdata[2], 11, "nano %s", VERSION);
 	lockdata[24] = mypid % 256;
 	lockdata[25] = (mypid / 256) % 256;
 	lockdata[26] = (mypid / (256 * 256)) % 256;
