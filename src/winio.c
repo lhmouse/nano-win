@@ -3504,11 +3504,11 @@ void spotlight(size_t from_col, size_t to_col)
 		word = display_string(openfile->current->data, from_col,
 								to_col - from_col, FALSE, overshoots);
 
-	wattron(edit, interface_color_pair[HIGHLIGHTED]);
+	wattron(edit, interface_color_pair[SPOTLIGHTED]);
 	waddnstr(edit, word, actual_x(word, to_col));
 	if (overshoots)
 		mvwaddch(edit, openfile->current_y, COLS - 1 - thebar, '>');
-	wattroff(edit, interface_color_pair[HIGHLIGHTED]);
+	wattroff(edit, interface_color_pair[SPOTLIGHTED]);
 
 	free(word);
 }
@@ -3544,9 +3544,9 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 			word = display_string(openfile->current->data, from_col,
 										break_col - from_col, FALSE, FALSE);
 
-		wattron(edit, interface_color_pair[HIGHLIGHTED]);
+		wattron(edit, interface_color_pair[SPOTLIGHTED]);
 		waddnstr(edit, word, actual_x(word, break_col));
-		wattroff(edit, interface_color_pair[HIGHLIGHTED]);
+		wattroff(edit, interface_color_pair[SPOTLIGHTED]);
 
 		free(word);
 

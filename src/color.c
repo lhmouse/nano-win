@@ -58,7 +58,7 @@ void set_interface_colorpairs(void)
 				interface_color_pair[index] = A_NORMAL;
 			else if (index == GUIDE_STRIPE)
 				interface_color_pair[index] = A_REVERSE;
-			else if (index == HIGHLIGHTED) {
+			else if (index == SPOTLIGHTED) {
 				init_pair(index + 1, COLOR_BLACK, COLOR_YELLOW + (COLORS > 15 ? 8 : 0));
 				interface_color_pair[index] = COLOR_PAIR(index + 1);
 			} else if (index == PROMPT_BAR)
