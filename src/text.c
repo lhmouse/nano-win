@@ -951,7 +951,7 @@ void discard_until(const undostruct *thisitem)
 		while (group != NULL) {
 			groupstruct *next = group->next;
 			free_chararray(group->indentations,
-								group->bottom_line - group->top_line);
+								group->bottom_line - group->top_line + 1);
 			free(group);
 			group = next;
 		}
