@@ -305,7 +305,8 @@ void precalc_multicolorinfo(void)
 
 	/* For each line, allocate cache space for the multiline-regex info. */
 	for (line = openfile->filetop; line != NULL; line = line->next)
-		line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+		if (!line->multidata)
+			line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
 
 	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
 		/* If this is not a multi-line regex, skip it. */
