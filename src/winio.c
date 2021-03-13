@@ -2229,6 +2229,12 @@ void statusline(message_type importance, const char *msg, ...)
 	vsnprintf(compound, MAXCHARLEN * COLS + 1, msg, ap);
 	va_end(ap);
 
+#ifdef ENABLE_MULTIBUFFER
+	if (!we_are_running && importance == ALERT &&
+						!openfile->errormessage && openfile->next != openfile)
+		openfile->errormessage = copy_of(compound);
+#endif
+
 	/* If there are multiple alert messages, add trailing dots to the first. */
 	if (lastmessage == ALERT) {
 		if (start_col > 4) {

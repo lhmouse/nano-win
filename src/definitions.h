@@ -567,6 +567,8 @@ typedef struct openfilestruct {
 		/* The syntax that applies to this file, if any. */
 #endif
 #ifdef ENABLE_MULTIBUFFER
+	char *errormessage;
+		/* The ALERT message (if any) that occurred when opening the file. */
 	struct openfilestruct *next;
 		/* The next open file, if any. */
 	struct openfilestruct *prev;

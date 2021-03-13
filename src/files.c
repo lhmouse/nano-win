@@ -92,6 +92,8 @@ void make_new_buffer(void)
 
 	openfile->statinfo = NULL;
 	openfile->lock_filename = NULL;
+
+	openfile->errormessage = NULL;
 #endif
 #ifdef ENABLE_COLOR
 	openfile->syntax = NULL;
@@ -558,6 +560,11 @@ void redecorate_after_switch(void)
 	/* Prevent a possible Shift selection from getting cancelled. */
 	shift_held = TRUE;
 
+	if (openfile->errormessage) {
+		statusline(ALERT, openfile->errormessage);
+		free(openfile->errormessage);
+		openfile->errormessage = NULL;
+	} else
 	/* Indicate on the status bar where we switched to. */
 	mention_name_and_linecount();
 }
@@ -595,6 +602,7 @@ void close_buffer(void)
 	/* Free the undo stack. */
 	discard_until(NULL);
 #endif
+	free(orphan->errormessage);
 
 	openfile = orphan->prev;
 	free(orphan);
