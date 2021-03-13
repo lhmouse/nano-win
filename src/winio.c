@@ -2223,6 +2223,12 @@ void statusline(message_type importance, const char *msg, ...)
 	if (importance < lastmessage && lastmessage > NOTICE)
 		return;
 
+	/* Construct the message out of all the arguments. */
+	compound = nmalloc(MAXCHARLEN * COLS + 1);
+	va_start(ap, msg);
+	vsnprintf(compound, MAXCHARLEN * COLS + 1, msg, ap);
+	va_end(ap);
+
 	/* If there are multiple alert messages, add trailing dots to the first. */
 	if (lastmessage == ALERT) {
 		if (start_col > 4) {
@@ -2235,6 +2241,7 @@ void statusline(message_type importance, const char *msg, ...)
 			napms(100);
 			beep();
 		}
+		free(compound);
 		return;
 	}
 
@@ -2251,11 +2258,6 @@ void statusline(message_type importance, const char *msg, ...)
 
 	blank_statusbar();
 
-	/* Construct the message out of all the arguments. */
-	compound = nmalloc(MAXCHARLEN * (COLS + 1));
-	va_start(ap, msg);
-	vsnprintf(compound, MAXCHARLEN * (COLS + 1), msg, ap);
-	va_end(ap);
 	message = display_string(compound, 0, COLS, FALSE, FALSE);
 	free(compound);
 
@@ -2267,7 +2269,6 @@ void statusline(message_type importance, const char *msg, ...)
 	if (bracketed)
 		waddstr(bottomwin, "[ ");
 	waddstr(bottomwin, message);
-	free(message);
 	if (bracketed)
 		waddstr(bottomwin, " ]");
 	wattroff(bottomwin, colorpair);
@@ -2280,6 +2281,7 @@ void statusline(message_type importance, const char *msg, ...)
 
 	/* Push the message to the screen straightaway. */
 	wrefresh(bottomwin);
+	free(message);
 
 #ifndef NANO_TINY
 	if (old_whitespace)
