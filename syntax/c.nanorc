@@ -8,7 +8,8 @@ comment "//"
 # Constants.
 color brightred "\<[A-Z_][0-9A-Z_]*\>"
 # Labels.
-color brightmagenta "^[[:space:]]*[A-Z_a-z]+:[[:space:]]*$"
+color brightmagenta "^\s*[A-Z_a-z][0-9A-Z_a-z]*:\s*$"
+color normal ":\s*$"
 
 # Types and related keywords.
 color green "\<(auto|bool|char|const|double|enum|extern|float|inline|int|long|restrict|short|signed|sizeof|static|struct|typedef|union|unsigned|void)\>"
