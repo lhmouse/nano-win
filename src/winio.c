@@ -3478,9 +3478,11 @@ void report_cursor_position(void)
 	charpct = (openfile->totsize == 0) ? 0 : 100 * sum / openfile->totsize;
 
 	statusline(INFO,
-			_("line %zd/%zd (%d%%), col %zu/%zu (%d%%), char %zu/%zu (%d%%)"),
+			_("line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"),
+			digits(openfile->filebot->lineno),
 			openfile->current->lineno, openfile->filebot->lineno, linepct,
-			column, fullwidth, colpct, sum, openfile->totsize, charpct);
+			column, fullwidth, colpct,
+			digits(openfile->totsize), sum, openfile->totsize, charpct);
 }
 
 /* Highlight the text between the given two columns on the current line. */
