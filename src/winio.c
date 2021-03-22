@@ -2230,7 +2230,7 @@ void statusline(message_type importance, const char *msg, ...)
 	va_end(ap);
 
 #ifdef ENABLE_MULTIBUFFER
-	if (!we_are_running && importance == ALERT &&
+	if (!we_are_running && importance == ALERT && openfile &&
 						!openfile->errormessage && openfile->next != openfile)
 		openfile->errormessage = copy_of(compound);
 #endif
