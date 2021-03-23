@@ -83,7 +83,7 @@ void make_new_buffer(void)
 	openfile->mark = NULL;
 	openfile->softmark = FALSE;
 
-	openfile->fmt = NIX_FILE;
+	openfile->fmt = UNSPECIFIED;
 
 	openfile->undotop = NULL;
 	openfile->current_undo = NULL;
@@ -821,9 +821,11 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 						num_lines), num_lines);
 	}
 #endif
-	else
+	else {
+		openfile->fmt = NIX_FILE;
 		statusline(HUSH, P_("Read %zu line", "Read %zu lines",
 						num_lines), num_lines);
+	}
 
 	/* If we inserted less than a screenful, don't center the cursor. */
 	if (undoable && less_than_a_screenful(was_lineno, was_leftedge))

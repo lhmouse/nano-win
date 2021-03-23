@@ -246,7 +246,7 @@
 
 /* Enumeration types. */
 typedef enum {
-	NIX_FILE, DOS_FILE, MAC_FILE
+	UNSPECIFIED, NIX_FILE, DOS_FILE, MAC_FILE
 } format_type;
 
 typedef enum {
