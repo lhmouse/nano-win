@@ -373,9 +373,6 @@ bool open_buffer(const char *filename, bool new_one)
 {
 	char *realname;
 		/* The filename after tilde expansion. */
-#ifndef NANO_TINY
-	char *thelocksname = NULL;
-#endif
 	struct stat fileinfo;
 	int descriptor = 0;
 		/* Code 0 means new file, -1 means failure, and else it's the fd. */
@@ -420,22 +417,27 @@ bool open_buffer(const char *filename, bool new_one)
 
 	/* When loading into a new buffer, first check the file's path is valid,
 	 * and then (if requested and possible) create a lock file for it. */
-	if (new_one && has_valid_path(realname)) {
+	if (new_one) {
+		make_new_buffer();
+
+		if (has_valid_path(realname)) {
 #ifndef NANO_TINY
 		if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
-			thelocksname = do_lockfile(realname, TRUE);
+			char *thelocksname = do_lockfile(realname, TRUE);
 
-			/* When not overriding an existing lock, don't open a buffer. */
+			/* When not overriding an existing lock, discard the buffer. */
 			if (thelocksname == SKIPTHISFILE) {
+#ifdef ENABLE_MULTIBUFFER
+				close_buffer();
+#endif
 				free(realname);
 				return FALSE;
-			}
+			} else
+				openfile->lock_filename = thelocksname;
 		}
-#endif
+#endif /* NANO_TINY */
+		}
 	}
-
-	if (new_one)
-		make_new_buffer();
 
 	/* If we have a filename and are not in NOREAD mode, open the file. */
 	if (filename[0] != '\0' && !ISSET(NOREAD_MODE))
@@ -459,9 +461,6 @@ bool open_buffer(const char *filename, bool new_one)
 	 * and put the cursor at the start of the buffer. */
 	if (descriptor >= 0 && new_one) {
 		openfile->filename = mallocstrcpy(openfile->filename, realname);
-#ifndef NANO_TINY
-		openfile->lock_filename = thelocksname;
-#endif
 		openfile->current = openfile->filetop;
 		openfile->current_x = 0;
 		openfile->placewewant = 0;
@@ -610,6 +609,9 @@ void close_buffer(void)
 	/* When just one buffer remains open, show "Exit" in the help lines. */
 	if (openfile == openfile->next)
 		exitfunc->desc = exit_tag;
+
+	if (openfile == orphan)
+		openfile = NULL;
 }
 #endif /* ENABLE_MULTIBUFFER */
 
