@@ -656,8 +656,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	bool writable = TRUE;
 		/* Whether the file is writable (in case we care). */
 #ifndef NANO_TINY
-	int format = 0;
-		/* 0 = Unix, 1 = DOS, 2 = Mac. */
+	format_type format = NIX_FILE;
+		/* The type of line ending the file uses: Unix, DOS, or Mac. */
 #endif
 
 #ifndef NANO_TINY
@@ -697,12 +697,12 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 #ifndef NANO_TINY
 			if (len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
 				if (num_lines == 0)
-					format = 1;
+					format = DOS_FILE;
 				len--;
 			}
 		} else if ((num_lines == 0 || format == 2) &&
 					len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
-			format = 2;
+			format = MAC_FILE;
 			len--;
 #endif
 		} else {
@@ -781,7 +781,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		 * strip this CR and indicate that an extra blank line is needed. */
 		if (buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
 			if (num_lines == 0)
-				format = 2;
+				format = MAC_FILE;
 			buf[--len] = '\0';
 			mac_line_needs_newline = TRUE;
 		}
@@ -810,24 +810,23 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	if (!writable)
 		statusline(ALERT, _("File '%s' is unwritable"), filename);
 #ifndef NANO_TINY
-	else if (format == 2) {
+	else if (format == MAC_FILE)
 		/* TRANSLATORS: Keep the next three messages at most 78 characters. */
-		openfile->fmt = MAC_FILE;
 		statusline(HUSH, P_("Read %zu line (Converted from Mac format)",
 						"Read %zu lines (Converted from Mac format)",
 						num_lines), num_lines);
-	} else if (format == 1) {
-		openfile->fmt = DOS_FILE;
+	else if (format == DOS_FILE)
 		statusline(HUSH, P_("Read %zu line (Converted from DOS format)",
 						"Read %zu lines (Converted from DOS format)",
 						num_lines), num_lines);
-	}
 #endif
-	else {
-		openfile->fmt = NIX_FILE;
+	else
 		statusline(HUSH, P_("Read %zu line", "Read %zu lines",
 						num_lines), num_lines);
-	}
+
+#ifndef NANO_TINY
+	openfile->fmt = format;
+#endif
 
 	/* If we inserted less than a screenful, don't center the cursor. */
 	if (undoable && less_than_a_screenful(was_lineno, was_leftedge))
