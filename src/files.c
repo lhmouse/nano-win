@@ -824,10 +824,6 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		statusline(HUSH, P_("Read %zu line", "Read %zu lines",
 						num_lines), num_lines);
 
-#ifndef NANO_TINY
-	openfile->fmt = format;
-#endif
-
 	/* If we inserted less than a screenful, don't center the cursor. */
 	if (undoable && less_than_a_screenful(was_lineno, was_leftedge))
 		focusing = FALSE;
@@ -842,6 +838,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	if (ISSET(MAKE_IT_UNIX))
 		openfile->fmt = NIX_FILE;
+	else if (openfile->fmt == UNSPECIFIED)
+		openfile->fmt = format;
 #endif
 }
 
@@ -1121,9 +1119,6 @@ void do_insertfile(bool execute)
 #ifdef ENABLE_MULTIBUFFER
 	bool was_multibuffer = ISSET(MULTIBUFFER);
 #endif
-#ifndef NANO_TINY
-	format_type was_fmt = openfile->fmt;
-#endif
 
 	/* Display newlines in filenames as ^J. */
 	as_an_at = FALSE;
@@ -1293,10 +1288,7 @@ void do_insertfile(bool execute)
 				if (openfile->current->lineno != was_current_lineno ||
 								openfile->current_x != was_current_x)
 					set_modified();
-#ifndef NANO_TINY
-				/* Ensure that the buffer retains the format that it had. */
-				openfile->fmt = was_fmt;
-#endif
+
 				refresh_needed = TRUE;
 			}
 
