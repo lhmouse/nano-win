@@ -76,7 +76,6 @@ char *concatenate(const char *path, const char *name)
 	return joined;
 }
 
-#ifdef ENABLE_LINENUMBERS
 /* Return the number of digits that the given integer n takes up. */
 int digits(ssize_t n)
 {
@@ -106,7 +105,6 @@ int digits(ssize_t n)
 		}
 	}
 }
-#endif
 
 /* Read an integer from the given string.  If it parses okay,
  * store it in *result and return TRUE; otherwise, return FALSE. */

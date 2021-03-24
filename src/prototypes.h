@@ -532,9 +532,7 @@ void complete_a_word(void);
 void get_homedir(void);
 const char *tail(const char *path);
 char *concatenate(const char *path, const char *name);
-#ifdef ENABLE_LINENUMBERS
 int digits(ssize_t n);
-#endif
 bool parse_num(const char *str, ssize_t *result);
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column);
 void recode_NUL_to_LF(char *string, size_t length);
