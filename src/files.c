@@ -457,8 +457,7 @@ bool open_buffer(const char *filename, bool new_one)
 #endif
 	}
 
-	/* When we've loaded a file into a new buffer, set the filename
-	 * and put the cursor at the start of the buffer. */
+	/* For a new buffer, store filename and put cursor at start of buffer. */
 	if (descriptor >= 0 && new_one) {
 		openfile->filename = mallocstrcpy(openfile->filename, realname);
 		openfile->current = openfile->filetop;
@@ -471,6 +470,7 @@ bool open_buffer(const char *filename, bool new_one)
 	if (new_one)
 		find_and_prime_applicable_syntax();
 #endif
+
 	free(realname);
 	return TRUE;
 }
@@ -658,9 +658,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 #ifndef NANO_TINY
 	format_type format = NIX_FILE;
 		/* The type of line ending the file uses: Unix, DOS, or Mac. */
-#endif
 
-#ifndef NANO_TINY
 	if (undoable)
 		add_undo(INSERT, NULL);
 
@@ -1286,7 +1284,7 @@ void do_insertfile(bool execute)
 			{
 				/* If the file actually changed, mark it as modified. */
 				if (openfile->current->lineno != was_current_lineno ||
-								openfile->current_x != was_current_x)
+									openfile->current_x != was_current_x)
 					set_modified();
 
 				refresh_needed = TRUE;
