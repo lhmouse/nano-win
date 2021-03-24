@@ -422,19 +422,19 @@ bool open_buffer(const char *filename, bool new_one)
 
 		if (has_valid_path(realname)) {
 #ifndef NANO_TINY
-		if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
-			char *thelocksname = do_lockfile(realname, TRUE);
+			if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && filename[0] != '\0') {
+				char *thelocksname = do_lockfile(realname, TRUE);
 
-			/* When not overriding an existing lock, discard the buffer. */
-			if (thelocksname == SKIPTHISFILE) {
+				/* When not overriding an existing lock, discard the buffer. */
+				if (thelocksname == SKIPTHISFILE) {
 #ifdef ENABLE_MULTIBUFFER
-				close_buffer();
+					close_buffer();
 #endif
-				free(realname);
-				return FALSE;
-			} else
-				openfile->lock_filename = thelocksname;
-		}
+					free(realname);
+					return FALSE;
+				} else
+					openfile->lock_filename = thelocksname;
+			}
 #endif /* NANO_TINY */
 		}
 	}
