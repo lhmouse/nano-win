@@ -230,9 +230,6 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer);
 bool has_blank_char(const char *string);
 #endif
 bool white_string(const char *string);
-#ifdef ENABLE_UTF8
-bool is_valid_unicode(wchar_t wc);
-#endif
 
 /* Most functions in color.c. */
 #ifdef ENABLE_COLOR

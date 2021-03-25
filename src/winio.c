@@ -1823,7 +1823,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 		charlength = mbtowc(&wc, buf, MAXCHARLEN);
 
 		/* Represent an invalid character with the Replacement Character. */
-		if (charlength < 0 || !is_valid_unicode(wc)) {
+		if (charlength < 0 || wc > 0x10FFFF) {
 			converted[index++] = '\xEF';
 			converted[index++] = '\xBF';
 			converted[index++] = '\xBD';

@@ -212,8 +212,7 @@ char *make_mbchar(long code, int *length)
 
 	*length = wctomb(mb_char, (wchar_t)code);
 
-	/* Reject invalid Unicode characters. */
-	if (*length < 0 || !is_valid_unicode((wchar_t)code)) {
+	if (*length < 0) {
 		IGNORE_CALL_RESULT(wctomb(NULL, 0));
 		*length = 0;
 	}
@@ -615,11 +614,3 @@ bool white_string(const char *string)
 
 	return !*string;
 }
-
-#ifdef ENABLE_UTF8
-/* Return TRUE if wc is valid Unicode, and FALSE otherwise. */
-bool is_valid_unicode(wchar_t wc)
-{
-	return ((0 <= wc && wc <= 0xD7FF) || (0xE000 <= wc && wc <= 0x10FFFF));
-}
-#endif
