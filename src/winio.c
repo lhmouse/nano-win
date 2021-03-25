@@ -1820,14 +1820,14 @@ char *display_string(const char *buf, size_t column, size_t span,
 		wchar_t wc;
 
 		/* Convert a multibyte character to a single code. */
-		charlength = mbtowc(&wc, buf, MAXCHARLEN);
+		charlength = mbtowide(&wc, buf);
 
 		/* Represent an invalid character with the Replacement Character. */
-		if (charlength < 0 || wc > 0x10FFFF) {
+		if (charlength < 0) {
 			converted[index++] = '\xEF';
 			converted[index++] = '\xBF';
 			converted[index++] = '\xBD';
-			buf += (charlength > 0 ? charlength : 1);
+			buf++;
 			column++;
 			continue;
 		}
@@ -2151,7 +2151,7 @@ void minibar(void)
 #ifdef ENABLE_UTF8
 		else if ((unsigned char)*this_position < 0x80 && using_utf8())
 			sprintf(hexadecimal, "U+%04X", (unsigned char)*this_position);
-		else if (using_utf8() && mbtowc(&widecode, this_position, MAXCHARLEN) >= 0)
+		else if (using_utf8() && mbtowide(&widecode, this_position) > 0)
 			sprintf(hexadecimal, "U+%04X", (int)widecode);
 #endif
 		else
@@ -2163,13 +2163,13 @@ void minibar(void)
 		successor = this_position + char_length(this_position);
 
 		if (*this_position && *successor && is_zerowidth(successor) &&
-					mbtowc(&widecode, successor, MAXCHARLEN) >= 0) {
+								mbtowide(&widecode, successor) > 0) {
 			sprintf(hexadecimal, "|%04X", (int)widecode);
 			waddstr(bottomwin, hexadecimal);
 
 			successor += char_length(successor);
 
-			if (is_zerowidth(successor) && mbtowc(&widecode, successor, MAXCHARLEN) >= 0) {
+			if (is_zerowidth(successor) && mbtowide(&widecode, successor) > 0) {
 				sprintf(hexadecimal, "|%04X", (int)widecode);
 				waddstr(bottomwin, hexadecimal);
 			}

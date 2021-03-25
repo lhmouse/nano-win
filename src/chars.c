@@ -51,7 +51,7 @@ bool is_alpha_char(const char *c)
 #ifdef ENABLE_UTF8
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
+	if (mbtowide(&wc, c) < 0)
 		return FALSE;
 
 	return iswalpha(wc);
@@ -67,7 +67,7 @@ bool is_alnum_char(const char *c)
 #ifdef ENABLE_UTF8
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
+	if (mbtowide(&wc, c) < 0)
 		return FALSE;
 
 	return iswalnum(wc);
@@ -85,7 +85,7 @@ bool is_blank_char(const char *c)
 	if ((signed char)*c >= 0)
 		return (*c == ' ' || *c == '\t');
 
-	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
+	if (mbtowide(&wc, c) < 0)
 		return FALSE;
 
 	return iswblank(wc);
@@ -112,7 +112,7 @@ bool is_punct_char(const char *c)
 #ifdef ENABLE_UTF8
 	wchar_t wc;
 
-	if (mbtowc(&wc, c, MAXCHARLEN) < 0)
+	if (mbtowide(&wc, c) < 0)
 		return FALSE;
 
 	return iswpunct(wc);
@@ -176,6 +176,18 @@ char control_mbrep(const char *c, bool isdata)
 }
 
 #ifdef ENABLE_UTF8
+/* Convert the given multibyte sequence c to wide character wc, and return
+ * the number of bytes in the sequence, or -1 for an invalid sequence. */
+int mbtowide(wchar_t *wc, const char *c)
+{
+	int count = mbtowc(wc, c, MAXCHARLEN);
+
+	if (count < 0 || *wc > 0x10FFFF)
+		return -1;
+	else
+		return count;
+}
+
 /* Return the width in columns of the given (multibyte) character. */
 int mbwidth(const char *c)
 {
@@ -184,7 +196,7 @@ int mbwidth(const char *c)
 		wchar_t wc;
 		int width;
 
-		if (mbtowc(&wc, c, MAXCHARLEN) < 0)
+		if (mbtowide(&wc, c) < 0)
 			return 1;
 
 		width = wcwidth(wc);
@@ -226,8 +238,13 @@ int char_length(const char *pointer)
 {
 #ifdef ENABLE_UTF8
 	/* If possibly a multibyte character, get its length; otherwise, it's 1. */
-	if ((unsigned char)*pointer > 0xC1) {
+	if ((unsigned char)*pointer > 0xC1 && use_utf8) {
 		int length = mblen(pointer, MAXCHARLEN);
+
+		/* Codes beyond U+10FFFF are invalid, even when glibc thinks otherwise. */
+		if ((unsigned char)*pointer > 0xF4 || ((unsigned char)*pointer == 0xF4 &&
+											(unsigned char)*(pointer + 1) > 0x8F))
+			return 1;
 
 		return (length < 0 ? 1 : length);
 	} else
@@ -243,9 +260,7 @@ size_t mbstrlen(const char *pointer)
 	while (*pointer != '\0') {
 #ifdef ENABLE_UTF8
 		if ((unsigned char)*pointer > 0xC1) {
-			int length = mblen(pointer, MAXCHARLEN);
-
-			pointer += (length < 0 ? 1 : length);
+			pointer += char_length(pointer);
 		} else
 #endif
 			pointer++;
@@ -265,11 +280,7 @@ int collect_char(const char *string, char *thechar)
 #ifdef ENABLE_UTF8
 	/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
 	if ((unsigned char)*string > 0xC1) {
-		charlen = mblen(string, MAXCHARLEN);
-
-		/* When the multibyte sequence is invalid, only take the first byte. */
-		if (charlen <= 0)
-			charlen = 1;
+		charlen = char_length(string);
 	} else
 #endif
 		charlen = 1;
@@ -286,19 +297,12 @@ int advance_over(const char *string, size_t *column)
 {
 #ifdef ENABLE_UTF8
 	if ((signed char)*string < 0) {
-		int charlen = mblen(string, MAXCHARLEN);
-
-		if (charlen > 0) {
 			if (is_cntrl_char(string))
 				*column += 2;
 			else
 				*column += mbwidth(string);
-		} else {
-			charlen = 1;
-			*column += 1;
-		}
 
-		return charlen;
+		return char_length(string);
 	}
 #endif
 
@@ -395,8 +399,8 @@ int mbstrncasecmp(const char *s1, const char *s2, size_t n)
 				continue;
 			}
 
-			bool bad1 = (mbtowc(&wc1, s1, MAXCHARLEN) < 0);
-			bool bad2 = (mbtowc(&wc2, s2, MAXCHARLEN) < 0);
+			bool bad1 = (mbtowide(&wc1, s1) < 0);
+			bool bad2 = (mbtowide(&wc2, s2) < 0);
 
 			if (bad1 || bad2) {
 				if (*s1 != *s2)
@@ -521,13 +525,13 @@ char *mbstrchr(const char *string, const char *chr)
 		bool bad_s = FALSE, bad_c = FALSE;
 		wchar_t ws, wc;
 
-		if (mbtowc(&wc, chr, MAXCHARLEN) < 0) {
+		if (mbtowide(&wc, chr) < 0) {
 			wc = (unsigned char)*chr;
 			bad_c = TRUE;
 		}
 
 		while (*string != '\0') {
-			int symlen = mbtowc(&ws, string, MAXCHARLEN);
+			int symlen = mbtowide(&ws, string);
 
 			if (symlen < 0) {
 				ws = (unsigned char)*string;
