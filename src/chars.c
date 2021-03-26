@@ -259,9 +259,9 @@ size_t mbstrlen(const char *pointer)
 
 	while (*pointer != '\0') {
 #ifdef ENABLE_UTF8
-		if ((unsigned char)*pointer > 0xC1) {
+		if ((unsigned char)*pointer > 0xC1)
 			pointer += char_length(pointer);
-		} else
+		else
 #endif
 			pointer++;
 
@@ -279,9 +279,9 @@ int collect_char(const char *string, char *thechar)
 
 #ifdef ENABLE_UTF8
 	/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
-	if ((unsigned char)*string > 0xC1) {
+	if ((unsigned char)*string > 0xC1)
 		charlen = char_length(string);
-	} else
+	else
 #endif
 		charlen = 1;
 
@@ -297,10 +297,10 @@ int advance_over(const char *string, size_t *column)
 {
 #ifdef ENABLE_UTF8
 	if ((signed char)*string < 0) {
-			if (is_cntrl_char(string))
-				*column += 2;
-			else
-				*column += mbwidth(string);
+		if (is_cntrl_char(string))
+			*column += 2;
+		else
+			*column += mbwidth(string);
 
 		return char_length(string);
 	}
