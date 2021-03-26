@@ -92,7 +92,8 @@ void make_new_buffer(void)
 
 	openfile->statinfo = NULL;
 	openfile->lock_filename = NULL;
-
+#endif
+#ifdef ENABLE_MULTIBUFFER
 	openfile->errormessage = NULL;
 #endif
 #ifdef ENABLE_COLOR
