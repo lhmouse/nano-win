@@ -233,21 +233,39 @@ char *make_mbchar(long code, int *length)
 }
 #endif /* ENABLE_UTF8 */
 
-/* Return the length (in bytes) of the character located at *pointer. */
+/* Return the number of bytes in the character that starts at *pointer. */
 int char_length(const char *pointer)
 {
 #ifdef ENABLE_UTF8
-	/* If possibly a multibyte character, get its length; otherwise, it's 1. */
 	if ((unsigned char)*pointer > 0xC1 && use_utf8) {
-		int length = mblen(pointer, MAXCHARLEN);
+		unsigned char c1 = (unsigned char)pointer[0];
+		unsigned char c2 = (unsigned char)pointer[1];
 
-		/* Codes beyond U+10FFFF are invalid, even when glibc thinks otherwise. */
-		if ((unsigned char)*pointer > 0xF4 || ((unsigned char)*pointer == 0xF4 &&
-											(unsigned char)*(pointer + 1) > 0x8F))
+		if ((c2 ^ 0x80) > 0x3F)
 			return 1;
 
-		return (length < 0 ? 1 : length);
-	} else
+		if (c1 < 0xE0)
+			return 2;
+
+		if (((unsigned char)pointer[2] ^ 0x80) > 0x3F)
+			return 1;
+
+		if (c1 < 0xF0) {
+			if ((c1 > 0xE0 || c2 >= 0xA0) && (c1 != 0xED || c2 < 0xA0))
+				return 3;
+			else
+				return 1;
+		}
+
+		if (((unsigned char)pointer[3] ^ 0x80) > 0x3F)
+			return 1;
+
+		if (c1 > 0xF4)
+			return 1;
+
+		if ((c1 > 0xF0 || c2 >= 0x90) && (c1 != 0xF4 || c2 < 0x90))
+			return 4;
+	}
 #endif
 		return 1;
 }
