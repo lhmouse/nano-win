@@ -180,12 +180,49 @@ char control_mbrep(const char *c, bool isdata)
  * the number of bytes in the sequence, or -1 for an invalid sequence. */
 int mbtowide(wchar_t *wc, const char *c)
 {
-	int count = mbtowc(wc, c, MAXCHARLEN);
+#ifdef ENABLE_UTF8
+	if ((signed char)*c < 0 && use_utf8) {
+		unsigned char v1 = (unsigned char)c[0];
+		unsigned char v2 = (unsigned char)c[1] ^ 0x80;
 
-	if (count < 0 || *wc > 0x10FFFF)
-		return -1;
-	else
-		return count;
+		if (v2 > 0x3F || v1 < 0xC2)
+			return -1;
+
+		if (v1 < 0xE0) {
+			*wc = (((unsigned int)(v1 & 0x1F) << 6) | (unsigned int)v2);
+			return 2;
+		}
+
+		unsigned char v3 = (unsigned char)c[2] ^ 0x80;
+
+		if (v3 > 0x3F)
+			return -1;
+
+		if (v1 < 0xF0) {
+			if ((v1 > 0xE0 || v2 >= 0x20) && (v1 != 0xED || v2 < 0x20)) {
+				*wc = (((unsigned int)(v1 & 0x0F) << 12) |
+							((unsigned int)v2 << 6) | (unsigned int)v3);
+				return 3;
+			} else
+				return -1;
+		}
+
+		unsigned char v4 = (unsigned char)c[3] ^ 0x80;
+
+		if (v4 > 0x3F || v1 > 0xF4)
+			return -1;
+
+		if ((v1 > 0xF0 || v2 >= 0x10) && (v1 != 0xF4 || v2 < 0x10)) {
+			*wc = (((unsigned int)(v1 & 0x07) << 18) | ((unsigned int)v2 << 12) |
+							((unsigned int)v3 << 6) | (unsigned int)v4);
+			return 4;
+		} else
+			return -1;
+	}
+#endif
+
+	*wc = (unsigned int)*c;
+	return 1;
 }
 
 /* Return the width in columns of the given (multibyte) character. */
