@@ -1453,21 +1453,12 @@ ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl)
  * "indentation" of a line is the leading consecutive whitespace. */
 size_t indent_length(const char *line)
 {
-	size_t len = 0;
-	char onechar[MAXCHARLEN];
-	int charlen;
+	const char *start = line;
 
-	while (*line != '\0') {
-		charlen = collect_char(line, onechar);
+	while (*line != '\0' && is_blank_char(line))
+		line += char_length(line);
 
-		if (!is_blank_char(onechar))
-			break;
-
-		line += charlen;
-		len += charlen;
-	}
-
-	return len;
+	return (line - start);
 }
 #endif
 

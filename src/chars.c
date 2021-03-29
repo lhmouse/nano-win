@@ -648,20 +648,13 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer)
 #endif /* !NANO_TINY */
 
 #if defined(ENABLE_NANORC) && (!defined(NANO_TINY) || defined(ENABLE_JUSTIFY))
-/* Return TRUE if the given string contains at least one blank character,
- * and FALSE otherwise. */
+/* Return TRUE if the given string contains at least one blank character. */
 bool has_blank_char(const char *string)
 {
-	char symbol[MAXCHARLEN];
+	while (*string != '\0' && !is_blank_char(string))
+		string += char_length(string);
 
-	while (*string != '\0') {
-		string += collect_char(string, symbol);
-
-		if (is_blank_char(symbol))
-			return TRUE;
-	}
-
-	return FALSE;
+	return *string;
 }
 #endif /* ENABLE_NANORC && (!NANO_TINY || ENABLE_JUSTIFY) */
 
