@@ -249,7 +249,7 @@ void read_keys_from(WINDOW *frame)
 	/* Initiate the keystroke buffer, and save the keycode in it. */
 	key_buffer = nrealloc(key_buffer, sizeof(int) * 2);
 	nextcodes = key_buffer;
-	if (GetAsyncKeyState(VK_MENU) < 0) {
+	if (GetAsyncKeyState(VK_LMENU) < 0) {
 		key_buffer[0] = ESC_CODE;
 		key_buffer[1] = input;
 		waiting_codes = 2;
@@ -293,7 +293,7 @@ void read_keys_from(WINDOW *frame)
 		/* Extend the keystroke buffer, and save the keycode at its end. */
 		key_buffer = nrealloc(key_buffer, (waiting_codes + 2) * sizeof(int));
 		nextcodes = key_buffer;
-		if (GetAsyncKeyState(VK_MENU) < 0) {
+		if (GetAsyncKeyState(VK_LMENU) < 0) {
 			key_buffer[waiting_codes++] = ESC_CODE;
 			key_buffer[waiting_codes++] = input;
 		}
@@ -1131,7 +1131,7 @@ int parse_kbinput(WINDOW *frame)
 		modifiers |= 0x01;
 	if(GetAsyncKeyState(VK_CONTROL) < 0)
 		modifiers |= 0x04;
-	if(GetAsyncKeyState(VK_MENU) < 0)
+	if(GetAsyncKeyState(VK_LMENU) < 0)
 		modifiers |= 0x08;
 	if (!mute_modifiers) {
 #ifndef NANO_TINY
