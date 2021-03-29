@@ -242,7 +242,7 @@ void read_keys_from(WINDOW *win)
 	curs_set(0);
 
 	/* Is either Alt key is down? */
-	if(GetAsyncKeyState(VK_MENU) < 0)
+	if(GetAsyncKeyState(VK_LMENU) < 0)
 		altdown = 1;
 
 	/* Initiate the keystroke buffer, and save the keycode in it. */
@@ -1124,7 +1124,7 @@ int parse_kbinput(WINDOW *win)
 		modifiers |= 0x01;
 	if(GetAsyncKeyState(VK_CONTROL) < 0)
 		modifiers |= 0x04;
-	if(GetAsyncKeyState(VK_MENU) < 0)
+	if(GetAsyncKeyState(VK_LMENU) < 0)
 		modifiers |= 0x08;
 	if (!mute_modifiers) {
 #ifndef NANO_TINY
