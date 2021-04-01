@@ -2502,11 +2502,16 @@ int main(int argc, char **argv)
 #ifdef ENABLE_NANORC
 	if (startup_problem != NULL)
 		statusline(ALERT, startup_problem);
+
+#define NOTREBOUND  first_sc_for(MMAIN, do_help) && \
+						first_sc_for(MMAIN, do_help)->keycode == 0x07
+#else
+#define NOTREBOUND  TRUE
 #endif
 
 #ifdef ENABLE_HELP
 	if (*openfile->filename == '\0' && openfile->totsize == 0 &&
-				openfile->next == openfile && !ISSET(NO_HELP))
+				openfile->next == openfile && !ISSET(NO_HELP) && NOTREBOUND)
 		statusbar(_("Welcome to nano.  For basic help, type Ctrl+G."));
 #endif
 
