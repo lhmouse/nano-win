@@ -193,22 +193,18 @@ void free_chararray(char **array, size_t len)
 #endif
 
 #ifdef ENABLE_SPELLER
-/* Is the word starting at the given position in buf and of the given length
- * a separate word?  That is: is it not part of a longer word?*/
-bool is_separate_word(size_t position, size_t length, const char *buf)
+/* Is the word starting at the given position in 'text' and of the given
+ * length a separate word?  That is: is it not part of a longer word? */
+bool is_separate_word(size_t position, size_t length, const char *text)
 {
-	char before[MAXCHARLEN], after[MAXCHARLEN];
-	size_t word_end = position + length;
-
-	/* Get the characters before and after the word, if any. */
-	collect_char(buf + step_left(buf, position), before);
-	collect_char(buf + word_end, after);
+	const char *before = text + step_left(text, position);
+	const char *after = text + position + length;
 
 	/* If the word starts at the beginning of the line OR the character before
 	 * the word isn't a letter, and if the word ends at the end of the line OR
 	 * the character after the word isn't a letter, we have a whole word. */
 	return ((position == 0 || !is_alpha_char(before)) &&
-				(buf[word_end] == '\0' || !is_alpha_char(after)));
+					(*after == '\0' || !is_alpha_char(after)));
 }
 #endif /* ENABLE_SPELLER */
 
