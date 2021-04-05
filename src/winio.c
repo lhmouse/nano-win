@@ -1731,8 +1731,8 @@ char *display_string(const char *buf, size_t column, size_t span,
 #endif
 	/* If the first character starts before the left edge, or would be
 	 * overwritten by a "<" token, then show placeholders instead. */
-	if (*buf != '\0' && *buf != '\t' && (start_col < column ||
-						(start_col > 0 && isdata && !ISSET(SOFTWRAP)))) {
+	if ((start_col < column || (start_col > 0 && isdata && !ISSET(SOFTWRAP))) &&
+											*buf != '\0' && *buf != '\t') {
 		if (is_cntrl_char(buf)) {
 			if (start_col < column) {
 				converted[index++] = control_mbrep(buf, isdata);
