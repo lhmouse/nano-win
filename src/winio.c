@@ -1695,20 +1695,20 @@ void set_blankdelay_to_one(void)
 	statusblank = 1;
 }
 
-/* Convert buf into a string that can be displayed on screen.  The caller
- * wants to display buf starting with the given column, and extending for
+/* Convert text into a string that can be displayed on screen.  The caller
+ * wants to display text starting with the given column, and extending for
  * at most span columns.  column is zero-based, and span is one-based, so
  * span == 0 means you get "" returned.  The returned string is dynamically
  * allocated, and should be freed.  If isdata is TRUE, the caller might put
  * "<" at the beginning or ">" at the end of the line if it's too long.  If
  * isprompt is TRUE, the caller might put ">" at the end of the line if it's
  * too long. */
-char *display_string(const char *buf, size_t column, size_t span,
+char *display_string(const char *text, size_t column, size_t span,
 						bool isdata, bool isprompt)
 {
-	size_t start_index = actual_x(buf, column);
+	size_t start_index = actual_x(text, column);
 		/* The index of the first character that the caller wishes to show. */
-	size_t start_col = wideness(buf, start_index);
+	size_t start_col = wideness(text, start_index);
 		/* The actual column where that first character starts. */
 	char *converted;
 		/* The expanded string we will return. */
@@ -1717,10 +1717,10 @@ char *display_string(const char *buf, size_t column, size_t span,
 	size_t beyond = column + span;
 		/* The column number just beyond the last shown character. */
 
-	buf += start_index;
+	text += start_index;
 
 	/* Allocate enough space for converting the relevant part of the line. */
-	converted = nmalloc(strlen(buf) * (MAXCHARLEN + tabsize) + 1);
+	converted = nmalloc(strlen(text) * (MAXCHARLEN + tabsize) + 1);
 
 #ifndef NANO_TINY
 	if (span > HIGHEST_POSITIVE) {
@@ -1732,16 +1732,16 @@ char *display_string(const char *buf, size_t column, size_t span,
 	/* If the first character starts before the left edge, or would be
 	 * overwritten by a "<" token, then show placeholders instead. */
 	if ((start_col < column || (start_col > 0 && isdata && !ISSET(SOFTWRAP))) &&
-											*buf != '\0' && *buf != '\t') {
-		if (is_cntrl_char(buf)) {
+											*text != '\0' && *text != '\t') {
+		if (is_cntrl_char(text)) {
 			if (start_col < column) {
-				converted[index++] = control_mbrep(buf, isdata);
+				converted[index++] = control_mbrep(text, isdata);
 				column++;
-				buf += char_length(buf);
+				text += char_length(text);
 			}
 		}
 #ifdef ENABLE_UTF8
-		else if (mbwidth(buf) == 2) {
+		else if (mbwidth(text) == 2) {
 			if (start_col == column) {
 				converted[index++] = ' ';
 				column++;
@@ -1750,29 +1750,29 @@ char *display_string(const char *buf, size_t column, size_t span,
 			/* Display the right half of a two-column character as ']'. */
 			converted[index++] = ']';
 			column++;
-			buf += char_length(buf);
+			text += char_length(text);
 		}
 #endif
 	}
 
 #ifdef ENABLE_UTF8
 #define ISO8859_CHAR  FALSE
-#define ZEROWIDTH_CHAR  (mbwidth(buf) == 0)
+#define ZEROWIDTH_CHAR  (mbwidth(text) == 0)
 #else
-#define ISO8859_CHAR  ((unsigned char)*buf > 0x9F)
+#define ISO8859_CHAR  ((unsigned char)*text > 0x9F)
 #define ZEROWIDTH_CHAR  FALSE
 #endif
 
-	while (*buf != '\0' && (column < beyond || ZEROWIDTH_CHAR)) {
+	while (*text != '\0' && (column < beyond || ZEROWIDTH_CHAR)) {
 		/* A plain printable ASCII character is one byte, one column. */
-		if (((signed char)*buf > 0x20 && *buf != DEL_CODE) || ISO8859_CHAR) {
-			converted[index++] = *(buf++);
+		if (((signed char)*text > 0x20 && *text != DEL_CODE) || ISO8859_CHAR) {
+			converted[index++] = *(text++);
 			column++;
 			continue;
 		}
 
 		/* Show a space as a visible character, or as a space. */
-		if (*buf == ' ') {
+		if (*text == ' ') {
 #ifndef NANO_TINY
 			if (ISSET(WHITESPACE_DISPLAY)) {
 				for (int i = whitelen[0]; i < whitelen[0] + whitelen[1];)
@@ -1781,12 +1781,12 @@ char *display_string(const char *buf, size_t column, size_t span,
 #endif
 				converted[index++] = ' ';
 			column++;
-			buf++;
+			text++;
 			continue;
 		}
 
 		/* Show a tab as a visible character plus spaces, or as just spaces. */
-		if (*buf == '\t') {
+		if (*text == '\t') {
 #ifndef NANO_TINY
 			if (ISSET(WHITESPACE_DISPLAY) && (index > 0 || !isdata ||
 						!ISSET(SOFTWRAP) || column % tabsize == 0 ||
@@ -1802,15 +1802,15 @@ char *display_string(const char *buf, size_t column, size_t span,
 				converted[index++] = ' ';
 				column++;
 			}
-			buf++;
+			text++;
 			continue;
 		}
 
 		/* Represent a control character with a leading caret. */
-		if (is_cntrl_char(buf)) {
+		if (is_cntrl_char(text)) {
 			converted[index++] = '^';
-			converted[index++] = control_mbrep(buf, isdata);
-			buf += char_length(buf);
+			converted[index++] = control_mbrep(text, isdata);
+			text += char_length(text);
 			column += 2;
 			continue;
 		}
@@ -1820,14 +1820,14 @@ char *display_string(const char *buf, size_t column, size_t span,
 		wchar_t wc;
 
 		/* Convert a multibyte character to a single code. */
-		charlength = mbtowide(&wc, buf);
+		charlength = mbtowide(&wc, text);
 
 		/* Represent an invalid character with the Replacement Character. */
 		if (charlength < 0) {
 			converted[index++] = '\xEF';
 			converted[index++] = '\xBF';
 			converted[index++] = '\xBD';
-			buf++;
+			text++;
 			column++;
 			continue;
 		}
@@ -1839,13 +1839,13 @@ char *display_string(const char *buf, size_t column, size_t span,
 		/* On a Linux console, skip zero-width characters, as it would show
 		 * them WITH a width, thus messing up the display.  See bug #52954. */
 		if (on_a_vt && charwidth == 0) {
-			buf += charlength;
+			text += charlength;
 			continue;
 		}
 #endif
 		/* For any valid character, just copy its bytes. */
 		for (; charlength > 0; charlength--)
-			converted[index++] = *(buf++);
+			converted[index++] = *(text++);
 
 		/* If the codepoint is unassigned, assume a width of one. */
 		column += (charwidth < 0 ? 1 : charwidth);
@@ -1853,7 +1853,7 @@ char *display_string(const char *buf, size_t column, size_t span,
 	}
 
 	/* If there is more text than can be shown, make room for the ">". */
-	if (column > beyond || (*buf != '\0' && (isprompt ||
+	if (column > beyond || (*text != '\0' && (isprompt ||
 							(isdata && !ISSET(SOFTWRAP))))) {
 #ifdef ENABLE_UTF8
 		do {
