@@ -349,14 +349,12 @@ char *free_and_assign(char *dest, char *src)
 	return src;
 }
 
-/* When not in softwrap mode, nano scrolls horizontally within a line in
- * chunks (a bit smaller than the chunks used in softwrapping).  Return the
- * column number of the first character displayed in the edit window when the
- * cursor is at the given column.  Note that (0 <= column -
- * get_page_start(column) < COLS). */
+/* When not softwrapping, nano scrolls the current line horizontally by
+ * chunks ("pages").  Return the column number of the first character
+ * displayed in the edit window when the cursor is at the given column. */
 size_t get_page_start(size_t column)
 {
-	if (column + 2 < editwincols || ISSET(SOFTWRAP) || column == 0)
+	if (column == 0 || column + 2 < editwincols || ISSET(SOFTWRAP))
 		return 0;
 	else if (editwincols > 8)
 		return column - 6 - (column - 6) % (editwincols - 8);
