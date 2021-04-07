@@ -207,7 +207,6 @@ char control_mbrep(const char *c, bool isdata);
 int mbtowide(wchar_t *wc, const char *c);
 int mbwidth(const char *c);
 bool is_zerowidth(const char *ch);
-char *make_mbchar(long code, int *length);
 #endif
 int char_length(const char *pointer);
 size_t mbstrlen(const char *pointer);

@@ -251,21 +251,6 @@ bool is_zerowidth(const char *ch)
 {
 	return (use_utf8 && mbwidth(ch) == 0);
 }
-
-/* Convert the given Unicode value to a multibyte character, if possible.
- * If the conversion succeeds, return the (dynamically allocated) multibyte
- * character and its length.  Otherwise, return a length of zero. */
-char *make_mbchar(long code, int *length)
-{
-	char *mb_char = nmalloc(MAXCHARLEN);
-
-	*length = wctomb(mb_char, (wchar_t)code);
-
-	if (*length < 0)
-		*length = 0;
-
-	return mb_char;
-}
 #endif /* ENABLE_UTF8 */
 
 /* Return the number of bytes in the character that starts at *pointer. */

@@ -1381,7 +1381,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 	 * commence Unicode input.  Otherwise, put the code back. */
 	if (using_utf8() && (keycode == '0' || keycode == '1')) {
 		long unicode = assemble_unicode(keycode);
-		char *multibyte;
+		char multibyte[MB_CUR_MAX];
 
 		reveal_cursor = FALSE;
 
@@ -1411,13 +1411,14 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		}
 
 		/* Convert the Unicode value to a multibyte sequence. */
-		multibyte = make_mbchar(unicode, (int *)count);
+		*count = wctomb(multibyte, unicode);
+
+		if (*count > MAXCHARLEN)
+			*count = 0;
 
 		/* Change the multibyte character into a series of integers. */
 		for (size_t i = 0; i < *count; i++)
 			yield[i] = (int)multibyte[i];
-
-		free(multibyte);
 
 		return yield;
 	}
