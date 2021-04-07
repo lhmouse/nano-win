@@ -261,10 +261,8 @@ char *make_mbchar(long code, int *length)
 
 	*length = wctomb(mb_char, (wchar_t)code);
 
-	if (*length < 0) {
-		IGNORE_CALL_RESULT(wctomb(NULL, 0));
+	if (*length < 0)
 		*length = 0;
-	}
 
 	return mb_char;
 }
