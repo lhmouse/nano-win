@@ -2094,7 +2094,6 @@ void minibar(void)
 	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
 	mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 
-	/* Display the name of the current file, plus a star when modified. */
 	if (openfile->filename[0] != '\0') {
 		as_an_at = FALSE;
 		thename = display_string(openfile->filename, 0, COLS, FALSE, FALSE);
@@ -2109,8 +2108,9 @@ void minibar(void)
 	if (namewidth + 19 > COLS)
 		padding = 0;
 
+	/* Display the name of the current file (dottifying it if it doesn't fit),
+	 * plus a star when the file has been modified. */
 	if (COLS > 4) {
-		/* If the full file name doesn't fit, dottify it. */
 		if (namewidth > COLS - 2) {
 			thename = display_string(thename, namewidth - COLS + 5, COLS - 5, FALSE, FALSE);
 			mvwaddstr(bottomwin, 0, 0, "...");
@@ -2121,6 +2121,8 @@ void minibar(void)
 		waddstr(bottomwin, openfile->modified ? " *" : "  ");
 	}
 
+	/* Right after reading or writing a file, display its number of lines;
+	 * otherwise, when there a mutiple buffers, display an [x/n] counter. */
 	if (report_size && COLS > 35) {
 		size_t count = openfile->filebot->lineno - (openfile->filebot->data[0] == '\0');
 
@@ -2146,7 +2148,8 @@ void minibar(void)
 	if (ISSET(CONSTANT_SHOW) && namewidth + tallywidth + placewidth + 32 < COLS)
 		mvwaddstr(bottomwin, 0, COLS - 27 - placewidth, location);
 
-	/* Display the hexadecimal code of the character under the cursor. */
+	/* Display the hexadecimal code of the character under the cursor,
+	 * plus the codes of upto two succeeding zero-width characters. */
 	if (ISSET(CONSTANT_SHOW) && namewidth + tallywidth + 28 < COLS) {
 		char *this_position = openfile->current->data + openfile->current_x;
 
