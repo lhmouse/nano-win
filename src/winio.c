@@ -2097,7 +2097,7 @@ void minibar(void)
 	/* Display the name of the current file, plus a star when modified. */
 	if (openfile->filename[0] != '\0') {
 		as_an_at = FALSE;
-		thename = display_string(openfile->filename, 0, HIGHEST_POSITIVE, FALSE, FALSE);
+		thename = display_string(openfile->filename, 0, COLS, FALSE, FALSE);
 	} else
 		thename = copy_of(_("(nameless)"));
 
