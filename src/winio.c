@@ -54,6 +54,10 @@ static bool linger_after_escape = FALSE;
 		/* Whether to give ncurses some time to get the next code. */
 static int statusblank = 0;
 		/* The number of keystrokes left before we blank the status bar. */
+size_t from_x = 0;
+		/* From where in the relevant line the current row is drawn. */
+size_t till_x = 0;
+		/* Until where in the relevant line the current row is drawn. */
 static bool has_more = FALSE;
 		/* Whether the current line has more text after the displayed part. */
 static bool is_shorter = TRUE;
@@ -1706,6 +1710,8 @@ void set_blankdelay_to_one(void)
 char *display_string(const char *text, size_t column, size_t span,
 						bool isdata, bool isprompt)
 {
+	const char *origin = text;
+		/* The beginning of the text, to later determine the covered part. */
 	size_t start_index = actual_x(text, column);
 		/* The index of the first character that the caller wishes to show. */
 	size_t start_col = wideness(text, start_index);
@@ -1874,6 +1880,10 @@ char *display_string(const char *text, size_t column, size_t span,
 
 	/* Null-terminate the converted string. */
 	converted[index] = '\0';
+
+	/* Remember what part of the original text is covered by converted. */
+	from_x = start_index;
+	till_x = text - origin;
 
 	return converted;
 }
@@ -2437,15 +2447,6 @@ void place_the_cursor(void)
  * from_col is the column number of the first character of this "page". */
 void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 {
-#if !defined(NANO_TINY) || defined(ENABLE_COLOR)
-	size_t from_x = actual_x(line->data, from_col);
-		/* The position in the line's data of the leftmost character
-		 * that is at least partially onscreen. */
-	size_t till_x = actual_x(line->data, from_col + editwincols - 1) + 1;
-		/* The position in the line's data just after the start of
-		 * the last character that is at least partially onscreen. */
-#endif
-
 #ifdef ENABLE_LINENUMBERS
 	/* If line numbering is switched on, put a line number in front of
 	 * the text -- but only for the parts that are not softwrapped. */
