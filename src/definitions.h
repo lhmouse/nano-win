@@ -111,9 +111,9 @@
 #define REPLACING  1
 #define INREGION   2
 
-/* In UTF-8 a character is at most six bytes long. */
 #ifdef ENABLE_UTF8
-#define MAXCHARLEN  6
+/* In UTF-8 a valid character is at most four bytes long. */
+#define MAXCHARLEN  4
 #else
 #define MAXCHARLEN  1
 #endif

@@ -1804,12 +1804,6 @@ int main(int argc, char **argv)
 	textdomain(PACKAGE);
 #endif
 
-#if defined(ENABLE_UTF8) && !defined(NANO_TINY)
-	if (MB_CUR_MAX > MAXCHARLEN)
-		fprintf(stderr, "Unexpected large character size: %i bytes"
-						" -- please report a bug\n", (int)MB_CUR_MAX);
-#endif
-
 	/* Set sensible defaults, different from what Pico does. */
 	SET(NO_WRAP);
 	SET(SMOOTH_SCROLL);
