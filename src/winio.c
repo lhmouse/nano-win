@@ -1713,9 +1713,9 @@ char *display_string(const char *text, size_t column, size_t span,
 {
 	const char *origin = text;
 		/* The beginning of the text, to later determine the covered part. */
-	size_t start_index = actual_x(text, column);
+	size_t start_x = actual_x(text, column);
 		/* The index of the first character that the caller wishes to show. */
-	size_t start_col = wideness(text, start_index);
+	size_t start_col = wideness(text, start_x);
 		/* The actual column where that first character starts. */
 	size_t stowaways = 20;
 		/* The number of zero-width characters for which to reserve space. */
@@ -1728,7 +1728,7 @@ char *display_string(const char *text, size_t column, size_t span,
 	size_t beyond = column + span;
 		/* The column number just beyond the last shown character. */
 
-	text += start_index;
+	text += start_x;
 
 #ifndef NANO_TINY
 	if (span > HIGHEST_POSITIVE) {
@@ -1891,7 +1891,7 @@ char *display_string(const char *text, size_t column, size_t span,
 	converted[index] = '\0';
 
 	/* Remember what part of the original text is covered by converted. */
-	from_x = start_index;
+	from_x = start_x;
 	till_x = text - origin;
 
 	return converted;
