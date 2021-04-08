@@ -1717,17 +1717,18 @@ char *display_string(const char *text, size_t column, size_t span,
 		/* The index of the first character that the caller wishes to show. */
 	size_t start_col = wideness(text, start_index);
 		/* The actual column where that first character starts. */
-	char *converted;
-		/* The expanded string we will return. */
+	size_t stowaways = 20;
+		/* The number of zero-width characters for which to reserve space. */
+	size_t allocsize = (COLS + stowaways) * MAXCHARLEN + 1;
+		/* The amount of memory to reserve for the displayable string. */
+	char *converted = nmalloc(allocsize);
+		/* The displayable string we will return. */
 	size_t index = 0;
 		/* Current position in converted. */
 	size_t beyond = column + span;
 		/* The column number just beyond the last shown character. */
 
 	text += start_index;
-
-	/* Allocate enough space for converting the relevant part of the line. */
-	converted = nmalloc(strlen(text) * (MAXCHARLEN + tabsize) + 1);
 
 #ifndef NANO_TINY
 	if (span > HIGHEST_POSITIVE) {
@@ -1841,6 +1842,13 @@ char *display_string(const char *text, size_t column, size_t span,
 
 		/* Determine whether the character takes zero, one, or two columns. */
 		charwidth = wcwidth(wc);
+
+		/* Watch the number of zero-widths, to keep ample memory reserved. */
+		if (charwidth == 0 && --stowaways == 0) {
+			stowaways = 40;
+			allocsize += stowaways * MAXCHARLEN;
+			converted = nrealloc(converted, allocsize);
+		}
 
 #ifdef __linux__
 		/* On a Linux console, skip zero-width characters, as it would show
