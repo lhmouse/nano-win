@@ -1749,7 +1749,7 @@ char *display_string(const char *text, size_t column, size_t span,
 			}
 		}
 #ifdef ENABLE_UTF8
-		else if (mbwidth(text) == 2) {
+		else if (is_doublewidth(text)) {
 			if (start_col == column) {
 				converted[index++] = ' ';
 				column++;
@@ -1765,7 +1765,7 @@ char *display_string(const char *text, size_t column, size_t span,
 
 #ifdef ENABLE_UTF8
 #define ISO8859_CHAR  FALSE
-#define ZEROWIDTH_CHAR  (mbwidth(text) == 0)
+#define ZEROWIDTH_CHAR  (is_zerowidth(text))
 #else
 #define ISO8859_CHAR  ((unsigned char)*text > 0x9F)
 #define ZEROWIDTH_CHAR  FALSE
@@ -1873,10 +1873,10 @@ char *display_string(const char *text, size_t column, size_t span,
 #ifdef ENABLE_UTF8
 		do {
 			index = step_left(converted, index);
-		} while (mbwidth(converted + index) == 0);
+		} while (is_zerowidth(converted + index));
 
 		/* Display the left half of a two-column character as '['. */
-		if (mbwidth(converted + index) == 2)
+		if (is_doublewidth(converted + index))
 			converted[index++] = '[';
 #else
 		index--;

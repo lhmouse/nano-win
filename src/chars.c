@@ -225,31 +225,34 @@ int mbtowide(wchar_t *wc, const char *c)
 	return 1;
 }
 
-/* Return the width in columns of the given (multibyte) character. */
-int mbwidth(const char *c)
+/* Return TRUE when the given character occupies two cells. */
+bool is_doublewidth(const char *ch)
 {
-	/* Only characters beyond U+02FF can be other than one column wide. */
-	if ((unsigned char)*c > 0xCB) {
-		wchar_t wc;
-		int width;
+	wchar_t wc;
 
-		if (mbtowide(&wc, c) < 0)
-			return 1;
+	/* Only from U+1100 can code points have double width. */
+	if ((unsigned char)*ch < 0xE1 || !use_utf8)
+		return FALSE;
 
-		width = wcwidth(wc);
+	if (mbtowide(&wc, ch) < 0)
+		return FALSE;
 
-		if (width < 0)
-			return 1;
-
-		return width;
-	} else
-		return 1;
+	return (wcwidth(wc) == 2);
 }
 
 /* Return TRUE when the given character occupies zero cells. */
 bool is_zerowidth(const char *ch)
 {
-	return (use_utf8 && mbwidth(ch) == 0);
+	wchar_t wc;
+
+	/* Only from U+0300 can code points have zero width. */
+	if ((unsigned char)*ch < 0xCC || !use_utf8)
+		return FALSE;
+
+	if (mbtowide(&wc, ch) < 0)
+		return FALSE;
+
+	return (wcwidth(wc) == 0);
 }
 #endif /* ENABLE_UTF8 */
 
