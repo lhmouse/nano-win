@@ -334,13 +334,26 @@ int collect_char(const char *string, char *thechar)
 int advance_over(const char *string, size_t *column)
 {
 #ifdef ENABLE_UTF8
-	if ((signed char)*string < 0) {
-		if (is_cntrl_char(string))
+	if ((signed char)*string < 0 && use_utf8) {
+		/* A UTF-8 upper control code has two bytes and takes two columns. */
+		if (((unsigned char)string[0] == 0xC2 && (signed char)string[1] < -96)) {
 			*column += 2;
-		else
-			*column += mbwidth(string);
+			return 2;
+		} else {
+			wchar_t wc;
+			int charlen = mbtowide(&wc, string);
 
-		return char_length(string);
+			if (charlen < 0) {
+				*column += 1;
+				return 1;
+			}
+
+			int width = wcwidth(wc);
+
+			*column += (width < 0) ? 1 : width;
+
+			return charlen;
+		}
 	}
 #endif
 
@@ -349,12 +362,8 @@ int advance_over(const char *string, size_t *column)
 			*column += tabsize - *column % tabsize;
 		else
 			*column += 2;
-	} else if (*string == 0x7F)
+	} else if (0x7E < (unsigned char)*string && (unsigned char)*string < 0xA0)
 		*column += 2;
-#ifndef ENABLE_UTF8
-	else if (0x7F < (unsigned char)*string && (unsigned char)*string < 0xA0)
-		*column += 2;
-#endif
 	else
 		*column += 1;
 
