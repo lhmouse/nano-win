@@ -180,7 +180,6 @@ char control_mbrep(const char *c, bool isdata)
  * the number of bytes in the sequence, or -1 for an invalid sequence. */
 int mbtowide(wchar_t *wc, const char *c)
 {
-#ifdef ENABLE_UTF8
 	if ((signed char)*c < 0 && use_utf8) {
 		unsigned char v1 = (unsigned char)c[0];
 		unsigned char v2 = (unsigned char)c[1] ^ 0x80;
@@ -219,7 +218,6 @@ int mbtowide(wchar_t *wc, const char *c)
 		} else
 			return -1;
 	}
-#endif
 
 	*wc = (unsigned int)*c;
 	return 1;
