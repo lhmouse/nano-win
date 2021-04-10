@@ -2251,7 +2251,7 @@ void statusline(message_type importance, const char *msg, ...)
 	vsnprintf(compound, MAXCHARLEN * COLS + 1, msg, ap);
 	va_end(ap);
 
-#ifdef ENABLE_MULTIBUFFER
+#if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
 	if (!we_are_running && importance == ALERT && openfile && !openfile->fmt &&
 						!openfile->errormessage && openfile->next != openfile)
 		openfile->errormessage = copy_of(compound);
