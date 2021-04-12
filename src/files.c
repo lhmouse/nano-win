@@ -699,7 +699,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 					format = DOS_FILE;
 				len--;
 			}
-		} else if ((num_lines == 0 || format == 2) &&
+		} else if ((num_lines == 0 || format == MAC_FILE) &&
 					len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
 			format = MAC_FILE;
 			len--;
