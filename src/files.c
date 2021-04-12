@@ -688,10 +688,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 		if (control_C_was_pressed)
 			break;
 
-		/* When the byte before the current one is a CR and we're doing
-		 * format conversion, then strip this CR when it's before a LF
-		 * OR when the file is in Mac format.  Also, when still on the
-		 * first line, set the format to either DOS (1) or Mac (2). */
+		/* When the byte before the current one is a CR and automatic format
+		 * conversion has not been switched off, then strip this CR when it's
+		 * before a LF OR when the file is in Mac format.  Also, when this is
+		 * the first line break, make a note of the format. */
 		if (input == '\n') {
 #ifndef NANO_TINY
 			if (len > 0 && buf[len - 1] == '\r' && !ISSET(NO_CONVERT)) {
@@ -768,7 +768,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	if (fd > 0 && !undoable && !ISSET(VIEW_MODE))
 		writable = (access(filename, W_OK) == 0);
 
-	/* If the file ended with newline, or it was entirely empty, make the
+	/* If the file ended with a newline, or it was entirely empty, make the
 	 * last line blank.  Otherwise, put the last read data in. */
 	if (len == 0)
 		bottomline->data = copy_of("");
