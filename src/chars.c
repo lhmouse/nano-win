@@ -297,13 +297,7 @@ size_t mbstrlen(const char *pointer)
 	size_t count = 0;
 
 	while (*pointer != '\0') {
-#ifdef ENABLE_UTF8
-		if ((unsigned char)*pointer > 0xC1)
-			pointer += char_length(pointer);
-		else
-#endif
-			pointer++;
-
+		pointer += char_length(pointer);
 		count++;
 	}
 
@@ -314,15 +308,7 @@ size_t mbstrlen(const char *pointer)
  * given string, and return a copy of this character in *thechar. */
 int collect_char(const char *string, char *thechar)
 {
-	int charlen;
-
-#ifdef ENABLE_UTF8
-	/* If this is a UTF-8 starter byte, get the number of bytes of the character. */
-	if ((unsigned char)*string > 0xC1)
-		charlen = char_length(string);
-	else
-#endif
-		charlen = 1;
+	int charlen = char_length(string);
 
 	for (int i = 0; i < charlen; i++)
 		thechar[i] = string[i];
