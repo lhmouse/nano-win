@@ -1804,12 +1804,8 @@ int main(int argc, char **argv)
 	textdomain(PACKAGE);
 #endif
 
-	/* Set sensible defaults, different from what Pico does. */
+	/* Set a sensible default, different from what Pico does. */
 	SET(NO_WRAP);
-	SET(SMOOTH_SCROLL);
-
-	/* Give a small visual hint that nano has changed. */
-	SET(MORE_SPACE);
 
 	/* If the executable's name starts with 'r', activate restricted mode. */
 	if (*(tail(argv[0])) == 'r')
@@ -2169,13 +2165,9 @@ int main(int argc, char **argv)
 			memmove(alt_speller, alt_speller + 1, strlen(alt_speller));
 #endif
 
-		/* If an rcfile undid the default settings, copy it to the new flags. */
+		/* If an rcfile undid the default setting, copy it to the new flag. */
 		if (!ISSET(NO_WRAP))
 			SET(BREAK_LONG_LINES);
-		if (!ISSET(SMOOTH_SCROLL))
-			SET(JUMPY_SCROLLING);
-		if (!ISSET(MORE_SPACE))
-			SET(EMPTY_LINE);
 
 		/* Simply OR the boolean flags from rcfile and command line. */
 		for (size_t i = 0; i < sizeof(flags) / sizeof(flags[0]); i++)

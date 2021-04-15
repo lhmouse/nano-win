@@ -60,7 +60,6 @@ static const rcoption rcopts[] = {
 #ifdef HAVE_LIBMAGIC
 	{"magic", USE_MAGIC},
 #endif
-	{"morespace", MORE_SPACE},  /* Deprecated; remove in 2021. */
 #ifdef ENABLE_MOUSE
 	{"mouse", USE_MOUSE},
 #endif
@@ -69,7 +68,6 @@ static const rcoption rcopts[] = {
 #endif
 	{"nohelp", NO_HELP},
 	{"nonewlines", NO_NEWLINES},
-	{"nopauses", NO_PAUSES},  /* Obsolete; remove in 2021. */
 #ifdef ENABLE_WRAPPING
 	{"nowrap", NO_WRAP},  /* Deprecated; remove in 2024. */
 #endif
@@ -114,7 +112,6 @@ static const rcoption rcopts[] = {
 	{"noconvert", NO_CONVERT},
 	{"showcursor", SHOW_CURSOR},
 	{"smarthome", SMART_HOME},
-	{"smooth", SMOOTH_SCROLL},  /* Deprecated; remove in 2021. */
 	{"softwrap", SOFTWRAP},
 	{"stateflags", STATEFLAGS},
 	{"tabsize", 0},
