@@ -250,6 +250,12 @@ bool is_zerowidth(const char *ch)
 	if (mbtowide(&wc, ch) < 0)
 		return FALSE;
 
+#if defined(__OpenBSD__)
+	/* Work around an OpenBSD bug -- see https://sv.gnu.org/bugs/?60393. */
+	if (wc >= 0xF0000)
+		return FALSE;
+#endif
+
 	return (wcwidth(wc) == 0);
 }
 #endif /* ENABLE_UTF8 */
@@ -337,8 +343,11 @@ int advance_over(const char *string, size_t *column)
 
 			int width = wcwidth(wc);
 
+#if defined(__OpenBSD__)
+			*column += (width < 0 || wc >= 0xF0000) ? 1 : width;
+#else
 			*column += (width < 0) ? 1 : width;
-
+#endif
 			return charlen;
 		}
 	}
