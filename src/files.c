@@ -544,9 +544,8 @@ void redecorate_after_switch(void)
 	}
 
 #ifndef NANO_TINY
-	/* While in a different buffer, the effective width of the screen may
-	 * have changed, so make sure that
-	 * the starting column for the first row get corresponding values. */
+	/* While in a different buffer, the width of the screen may have changed,
+	 * so make sure that the starting column for the first row is fitting. */
 	ensure_firstcolumn_is_aligned();
 #endif
 

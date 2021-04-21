@@ -49,12 +49,9 @@ void do_deletion(undo_type action)
 					&openfile->current->data[openfile->current_x + charlen],
 					line_len - charlen + 1);
 #ifndef NANO_TINY
-		/* When softwrapping, recompute the number of chunks in the line,
-		 * and schedule a refresh if the number changed. */
-		if (ISSET(SOFTWRAP)) {
-			if (extra_chunks_in(openfile->current) != old_amount)
-				refresh_needed = TRUE;
-		}
+		/* When softwrapping, a changed number of chunks requires a refresh. */
+		if (ISSET(SOFTWRAP) && extra_chunks_in(openfile->current) != old_amount)
+			refresh_needed = TRUE;
 
 		/* Adjust the mark if it is after the cursor on the current line. */
 		if (openfile->mark == openfile->current &&

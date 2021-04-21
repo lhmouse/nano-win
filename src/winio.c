@@ -3055,12 +3055,12 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 /* Draw a scroll bar on the righthand side of the screen. */
 void draw_scrollbar(void)
 {
-	int totalrows = openfile->filebot->lineno;
-	int first_row = openfile->edittop->lineno;
-	int lowest = ((first_row - 1) * editwinrows) / totalrows;
-	int highest = lowest + (editwinrows * editwinrows) / totalrows;
+	int totallines = openfile->filebot->lineno;
+	int fromline = openfile->edittop->lineno - 1;
+	int lowest = (fromline * editwinrows) / totallines;
+	int highest = lowest + (editwinrows * editwinrows) / totallines;
 
-	if (editwinrows > totalrows)
+	if (editwinrows > totallines)
 		highest = editwinrows;
 
 	for (int row = 0; row < editwinrows; row++) {

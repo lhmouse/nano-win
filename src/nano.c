@@ -1468,13 +1468,11 @@ void inject(char *burst, size_t count)
 	/* When softwrapping and the number of chunks in the current line changed,
 	 * or we were on the last row of the edit window and moved to a new chunk,
 	 * we need a full refresh. */
-	if (ISSET(SOFTWRAP)) {
-		if (extra_chunks_in(openfile->current) != old_amount ||
+	if (ISSET(SOFTWRAP) && (extra_chunks_in(openfile->current) != old_amount ||
 					(openfile->current_y == editwinrows - 1 &&
-					chunk_for(xplustabs(), openfile->current) > original_row)) {
-			refresh_needed = TRUE;
-			focusing = FALSE;
-		}
+					chunk_for(xplustabs(), openfile->current) > original_row))) {
+		refresh_needed = TRUE;
+		focusing = FALSE;
 	}
 #endif
 
