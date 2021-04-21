@@ -76,7 +76,6 @@ linestruct *make_new_node(linestruct *prevnode)
 #endif
 	newnode->lineno = (prevnode) ? prevnode->lineno + 1 : 1;
 #ifndef NANO_TINY
-	newnode->extrarows = -2;  /* Bad value, to make it easier to find bugs. */
 	newnode->has_anchor = FALSE;
 #endif
 
@@ -152,7 +151,6 @@ linestruct *copy_node(const linestruct *src)
 #endif
 	dst->lineno = src->lineno;
 #ifndef NANO_TINY
-	dst->extrarows = src->extrarows;
 	dst->has_anchor = FALSE;
 #endif
 
@@ -1006,14 +1004,6 @@ void handle_sigwinch(int signal)
 	the_window_resized = TRUE;
 }
 
-/* Compute and store how many extra rows each line needs when softwrapping. */
-void compute_the_extra_rows_per_line_from(linestruct *fromline)
-{
-	if (ISSET(SOFTWRAP))
-		for (linestruct *line = fromline; line != NULL; line = line->next)
-			line->extrarows = extra_chunks_in(line);
-}
-
 /* Reinitialize and redraw the screen completely. */
 void regenerate_screen(void)
 {
@@ -1056,7 +1046,6 @@ void regenerate_screen(void)
 
 	/* If we have an open buffer, redraw the contents of the subwindows. */
 	if (openfile) {
-		compute_the_extra_rows_per_line_from(openfile->filetop);
 		ensure_firstcolumn_is_aligned();
 		draw_all_subwindows();
 	}
@@ -1082,9 +1071,7 @@ void do_toggle(int flag)
 			break;
 #endif
 		case SOFTWRAP:
-			if (ISSET(SOFTWRAP))
-				compute_the_extra_rows_per_line_from(openfile->filetop);
-			else
+			if (!ISSET(SOFTWRAP))
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
 			break;
@@ -1246,9 +1233,7 @@ void confirm_margin(void)
 		editwincols = COLS - margin - thebar;
 
 #ifndef NANO_TINY
-		/* Recompute the softwrapped chunks for each line in the buffer,
-		 * and ensure a proper starting column for the first screen row. */
-		compute_the_extra_rows_per_line_from(openfile->filetop);
+		/* Ensure a proper starting column for the first screen row. */
 		ensure_firstcolumn_is_aligned();
 		focusing = keep_focus;
 #endif
@@ -1414,7 +1399,7 @@ void inject(char *burst, size_t count)
 	linestruct *thisline = openfile->current;
 	size_t datalen = strlen(thisline->data);
 #ifndef NANO_TINY
-	size_t old_amount = openfile->current->extrarows;
+	size_t old_amount = extra_chunks_in(openfile->current);
 	size_t original_row = 0;
 
 	if (ISSET(SOFTWRAP)) {
@@ -1484,8 +1469,7 @@ void inject(char *burst, size_t count)
 	 * or we were on the last row of the edit window and moved to a new chunk,
 	 * we need a full refresh. */
 	if (ISSET(SOFTWRAP)) {
-		openfile->current->extrarows = extra_chunks_in(openfile->current);
-		if (openfile->current->extrarows != old_amount ||
+		if (extra_chunks_in(openfile->current) != old_amount ||
 					(openfile->current_y == editwinrows - 1 &&
 					chunk_for(xplustabs(), openfile->current) > original_row)) {
 			refresh_needed = TRUE;

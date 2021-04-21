@@ -665,10 +665,6 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			free(openfile->current->data);
 			openfile->current->data = copy;
 
-#ifndef NANO_TINY
-			if (ISSET(SOFTWRAP))
-				openfile->current->extrarows = extra_chunks_in(openfile->current);
-#endif
 			set_modified();
 			as_an_at = TRUE;
 			numreplaced++;

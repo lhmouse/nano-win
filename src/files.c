@@ -545,9 +545,8 @@ void redecorate_after_switch(void)
 
 #ifndef NANO_TINY
 	/* While in a different buffer, the effective width of the screen may
-	 * have changed, so make sure that the softwrapped chunks per line and
+	 * have changed, so make sure that
 	 * the starting column for the first row get corresponding values. */
-	compute_the_extra_rows_per_line_from(openfile->filetop);
 	ensure_firstcolumn_is_aligned();
 #endif
 

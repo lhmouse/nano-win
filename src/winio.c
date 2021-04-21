@@ -3057,16 +3057,6 @@ void draw_scrollbar(void)
 {
 	int totalrows = openfile->filebot->lineno;
 	int first_row = openfile->edittop->lineno;
-
-	if (ISSET(SOFTWRAP)) {
-		for (linestruct *ln = openfile->filetop; ln != openfile->edittop; ln = ln->next)
-			first_row += ln->extrarows;
-		first_row += chunk_for(openfile->firstcolumn, openfile->edittop);
-
-		for (linestruct *ln = openfile->filetop; ln != NULL; ln = ln->next)
-			totalrows += ln->extrarows;
-	}
-
 	int lowest = ((first_row - 1) * editwinrows) / totalrows;
 	int highest = lowest + (editwinrows * editwinrows) / totalrows;
 

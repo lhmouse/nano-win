@@ -409,7 +409,6 @@ void block_sigwinch(bool blockit);
 #endif
 #ifndef NANO_TINY
 void handle_sigwinch(int signal);
-void compute_the_extra_rows_per_line_from(linestruct *fromline);
 void regenerate_screen(void);
 void do_toggle(int flag);
 #endif

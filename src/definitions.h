@@ -438,10 +438,6 @@ typedef struct linestruct {
 		/* The text of this line. */
 	ssize_t lineno;
 		/* The number of this line. */
-#ifndef NANO_TINY
-	ssize_t extrarows;
-		/* The extra rows that this line occupies when softwrapping. */
-#endif
 	struct linestruct *next;
 		/* Next node. */
 	struct linestruct *prev;
