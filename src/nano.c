@@ -1399,12 +1399,13 @@ void inject(char *burst, size_t count)
 	linestruct *thisline = openfile->current;
 	size_t datalen = strlen(thisline->data);
 #ifndef NANO_TINY
-	size_t old_amount = extra_chunks_in(openfile->current);
 	size_t original_row = 0;
+	size_t old_amount = 0;
 
 	if (ISSET(SOFTWRAP)) {
 		if (openfile->current_y == editwinrows - 1)
 			original_row = chunk_for(xplustabs(), thisline);
+		old_amount = extra_chunks_in(thisline);
 	}
 #endif
 
