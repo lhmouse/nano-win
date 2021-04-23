@@ -3288,14 +3288,11 @@ size_t actual_last_column(size_t leftedge, size_t column)
 	return leftedge + column;
 }
 
-/* Return TRUE if current[current_x] is above the top of the screen, and FALSE
- * otherwise. */
+/* Return TRUE if current[current_x] is before the viewport. */
 bool current_is_above_screen(void)
 {
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP))
-		/* The cursor is above screen when current[current_x] is before edittop
-		 * at column firstcolumn. */
 		return (openfile->current->lineno < openfile->edittop->lineno ||
 				(openfile->current->lineno == openfile->edittop->lineno &&
 				xplustabs() < openfile->firstcolumn));
@@ -3304,8 +3301,7 @@ bool current_is_above_screen(void)
 		return (openfile->current->lineno < openfile->edittop->lineno);
 }
 
-/* Return TRUE if current[current_x] is below the bottom of the screen, and
- * FALSE otherwise. */
+/* Return TRUE if current[current_x] is beyond the viewport. */
 bool current_is_below_screen(void)
 {
 #ifndef NANO_TINY
@@ -3318,16 +3314,14 @@ bool current_is_below_screen(void)
 		return (go_forward_chunks(editwinrows - 1, &line, &leftedge) == 0 &&
 						(line->lineno < openfile->current->lineno ||
 						(line->lineno == openfile->current->lineno &&
-						leftedge < leftedge_for(xplustabs(),
-												openfile->current))));
+						leftedge < leftedge_for(xplustabs(), openfile->current))));
 	} else
 #endif
 		return (openfile->current->lineno >=
 						openfile->edittop->lineno + editwinrows);
 }
 
-/* Return TRUE if current[current_x] is offscreen relative to edittop, and
- * FALSE otherwise. */
+/* Return TRUE if current[current_x] is outside the viewport. */
 bool current_is_offscreen(void)
 {
 	return (current_is_above_screen() || current_is_below_screen());
