@@ -603,14 +603,14 @@ void close_buffer(void)
 	free(orphan->errormessage);
 
 	openfile = orphan->prev;
+	if (openfile == orphan)
+		openfile = NULL;
+
 	free(orphan);
 
 	/* When just one buffer remains open, show "Exit" in the help lines. */
-	if (openfile == openfile->next)
+	if (openfile && openfile == openfile->next)
 		exitfunc->desc = exit_tag;
-
-	if (openfile == orphan)
-		openfile = NULL;
 }
 #endif /* ENABLE_MULTIBUFFER */
 
