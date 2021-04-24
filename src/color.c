@@ -115,25 +115,12 @@ void prepare_palette(void)
 	have_palette = TRUE;
 }
 
-/* Try to match the given shibboleth string with one of the regexes in
- * the list starting at head.  Return TRUE upon success. */
-bool found_in_list(regexlisttype *head, const char *shibboleth)
-{
-	regexlisttype *item;
-
-	for (item = head; item != NULL; item = item->next) {
-		if (regexec(item->one_rgx, shibboleth, 0, NULL, 0) == 0)
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
 /* Find a syntax that applies to the current buffer, based upon filename
  * or buffer content, and load and prime this syntax when needed. */
 void find_and_prime_applicable_syntax(void)
 {
 	syntaxtype *sntx = NULL;
+	regexlisttype *item;
 
 	/* If the rcfiles were not read, or contained no syntaxes, get out. */
 	if (syntaxes == NULL)
@@ -162,8 +149,9 @@ void find_and_prime_applicable_syntax(void)
 			fullname = mallocstrcpy(fullname, openfile->filename);
 
 		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
-			if (found_in_list(sntx->extensions, fullname))
-				break;
+			for (item = sntx->extensions; item != NULL; item = item->next)
+				if (regexec(item->one_rgx, fullname, 0, NULL, 0) == 0)
+					break;
 
 		free(fullname);
 	}
@@ -171,8 +159,9 @@ void find_and_prime_applicable_syntax(void)
 	/* If the filename didn't match anything, try the first line. */
 	if (sntx == NULL && !inhelp) {
 		for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
-			if (found_in_list(sntx->headers, openfile->filetop->data))
-				break;
+			for (item = sntx->headers; item != NULL; item = item->next)
+				if (regexec(item->one_rgx, openfile->filetop->data, 0, NULL, 0) == 0)
+					break;
 	}
 
 #ifdef HAVE_LIBMAGIC
@@ -202,8 +191,9 @@ void find_and_prime_applicable_syntax(void)
 		/* Now try and find a syntax that matches the magic string. */
 		if (magicstring != NULL) {
 			for (sntx = syntaxes; sntx != NULL; sntx = sntx->next)
-				if (found_in_list(sntx->magics, magicstring))
-					break;
+				for (item = sntx->magics; item != NULL; item = item->next)
+					if (regexec(item->one_rgx, magicstring, 0, NULL, 0) == 0)
+						break;
 		}
 
 		if (stat(openfile->filename, &fileinfo) == 0)
