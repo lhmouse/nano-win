@@ -30,7 +30,7 @@ color cyan "__attribute__[[:space:]]*\(\([^)]*\)\)" "__(aligned|asm|builtin|hidd
 
 # Strings.  (In general you will want your strings and comments to come last,
 # because highlighting rules are applied in the order they are read in.)
-color brightyellow ""([^"]|\\")*"" "#[[:space:]]*include[[:space:]]+<[^[:blank:]=]*>"
+color brightyellow ""([^"]|\\")*"" "#[[:space:]]*include[[:space:]]*<[^>]+>"
 
 # Preprocessor directives.
 color brightcyan start="^[[:space:]]*#[[:space:]]*(if(n?def)?|elif|warning|error|pragma)\>" end="(\`|[^\\])$"
