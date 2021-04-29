@@ -1,3 +1,77 @@
+Changes between v5.6.1 and v5.7:
+--------------------------------
+
+Benno Schulenberg (62):
+      build: drop the check for two functions that we don't use any more
+      build: fix compilation for --enable-tiny plus --enable-multibuffer
+      build: fix compilation when configured with --disable-multibuffer
+      build: fix compilation when configured with --enable-tiny
+      bump version numbers and add a news item for the 5.7 release
+      chars: implement mblen() ourselves, for efficiency
+      chars: implement mbtowc() ourselves, for more efficiency
+      chars: work around a UTF-8 bug in glibc, to display invalid codes right
+      chars: work around the wrong private-use-character widths on OpenBSD
+      display: avoid determining twice from and until where to draw each row
+      display: make the output of --constantshow less jittery
+      editing: prevent the pointer for the top row from becoming dangling
+      feedback: upon first switch to a buffer, show its error message (if any)
+      files: always register the format, also when the file is unwritable
+      files: create a new buffer earlier, so that error messages can be stored
+      files: when Mac format has been detected, stay with it
+      gnulib: pull in the fix for a build problem on older Debian
+      gnulib: update to its current upstream state
+      indicator: adjust the size to the number of visible lines, not chunks
+      input: accept Unicode codes for non-characters as valid, since they are
+      memory: do not allocate space for multidata when it's already allocated
+      memory: fix an off-by-one error to free also the last line in a group
+      memory: prevent a use-after-free when the user respects a lock file
+      oops: that doesn't work -- you can't break out of two for loops at once
+      options: retire the obsolete 'smooth', 'morespace', and 'nopauses'
+      softwrap: avoid time-consuming computations, to burden large files less
+      startup: do not crash when trying to open a device or directory
+      startup: do not store an error message in the record of another buffer
+      startup: save the compiled file-matching regexes, to avoid recompiling
+      startup: show the helpful message only when ^G has not been rebound
+      syntax: c: colorize also labels that contain digits, and uncolorize colon
+      syntax: po: improve the coloring of format specifiers
+      syntaxes: replace [[:space:]] with [[:blank:]] to exclude carriage return
+      tweaks: adjust and improve one comment, and frob another
+      tweaks: adjust two comments, and reshuffle two fragments
+      tweaks: avoid a warning on newer compilers, by writing an extra byte
+      tweaks: avoid calling extra_chunks_in() when not softwrapping
+      tweaks: avoid converting a file name for more than will fit on screen
+      tweaks: avoid parsing a multibyte character twice
+      tweaks: condense three comments, drop another, and rewrap a line
+      tweaks: drop unneeded braces and adjust indentation after previous change
+      tweaks: elide a call of strlen() for every row
+      tweaks: elide a function that is now basically just two lines
+      tweaks: elide an unneeded resetting NULL call to wctomb()
+      tweaks: elide a small function that is used just once
+      tweaks: elide the pointless is_valid_unicode() function
+      tweaks: elide two more instances of useless character copying
+      tweaks: improve a couple of comments
+      tweaks: morph a function into what it is actually used for
+      tweaks: normalize the indentation after an earlier change
+      tweaks: put the most likely condition first, for a quicker return
+      tweaks: reduce the maximum character length from six bytes to four
+      tweaks: remove a misplaced (and nested) #ifdef
+      tweaks: rename a variable, away from an abbreviation
+      tweaks: rename a variable, for contrast with another
+      tweaks: reshuffle a comment, and put the main extension first
+      tweaks: reshuffle a fragment of code, to prepare for the next change
+      tweaks: reshuffle two conditions, to have the most unlikely one first
+      tweaks: set the file format only when unset, so it doesn't need saving
+      tweaks: shorten a comment and trim an #ifdef
+      tweaks: simplify two fragments of code
+      tweaks: simplify two fragments of code, eliding useless character copying
+
+Hussam al-Homsi (1):
+      syntax: c: make the highlighting of '#include <...>' more compliant
+
+Mike Frysinger (1):
+      syntax: tcl: support Expect scripts too
+
+
 Changes between v5.6 and v5.6.1:
 --------------------------------
 
