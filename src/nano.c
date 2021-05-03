@@ -2501,7 +2501,7 @@ int main(int argc, char **argv)
 			bottombars(MMAIN);
 
 #ifndef NANO_TINY
-		if (ISSET(MINIBAR) && lastmessage < REMARK)
+		if (ISSET(MINIBAR) && LINES > 1 && lastmessage < REMARK)
 			minibar();
 		else
 #endif

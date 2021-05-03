@@ -189,7 +189,7 @@ void read_keys_from(WINDOW *win)
 		curs_set(1);
 
 #ifndef NANO_TINY
-	if (currmenu == MMAIN && ISSET(MINIBAR) && lastmessage > HUSH &&
+	if (currmenu == MMAIN && ISSET(MINIBAR) && LINES > 1 && lastmessage > HUSH &&
 						lastmessage != INFO && lastmessage < ALERT) {
 		timed = TRUE;
 		halfdelay(ISSET(QUICK_BLANK) ? 8 : 15);

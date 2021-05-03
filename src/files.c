@@ -2004,7 +2004,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	}
 
 #ifndef NANO_TINY
-	if (ISSET(MINIBAR) && fullbuffer && !tmp)
+	if (ISSET(MINIBAR) && LINES > 1 && fullbuffer && !tmp)
 		report_size = TRUE;
 	else
 #endif
