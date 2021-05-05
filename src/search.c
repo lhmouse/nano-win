@@ -729,7 +729,8 @@ void ask_for_and_do_replacements(void)
 	openfile->firstcolumn = was_firstcolumn;
 	openfile->current = beginline;
 	openfile->current_x = begin_x;
-	refresh_needed = TRUE;
+
+	edit_refresh();
 
 	if (numreplaced >= 0)
 		statusline(REMARK, P_("Replaced %zd occurrence",
