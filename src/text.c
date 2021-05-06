@@ -2610,6 +2610,9 @@ void do_linter(void)
 		return;
 	}
 
+	/* Block resizing signals while reading from the pipe. */
+	block_sigwinch(TRUE);
+
 	/* Read in the returned syntax errors. */
 	totalread = 0;
 	buffersize = pipesize + 1;
@@ -2625,6 +2628,8 @@ void do_linter(void)
 
 	*pointer = '\0';
 	close(lint_fd[0]);
+
+	block_sigwinch(FALSE);
 
 	/* Process the linter output. */
 	pointer = lintings;
