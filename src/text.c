@@ -2631,10 +2631,10 @@ void do_linter(void)
 
 	block_sigwinch(FALSE);
 
-	/* Process the linter output. */
 	pointer = lintings;
 	onelint = lintings;
 
+	/* Now parse the output of the linter. */
 	while (*pointer != '\0') {
 		if ((*pointer == '\r') || (*pointer == '\n')) {
 			*pointer = '\0';
@@ -2642,11 +2642,8 @@ void do_linter(void)
 				char *filename = NULL, *linestr = NULL, *maybecol = NULL;
 				char *message = copy_of(onelint);
 
-				/* At the moment we handle the following formats:
-				 *
-				 * filenameorcategory:line:column:message (e.g. splint)
-				 * filenameorcategory:line,column:message (e.g. pylint)
-				 * filenameorcategory:line:message        (e.g. pyflakes) */
+				/* The recognized format is "filename:line:column: message",
+				 * where ":column" may be absent or be ",column" instead. */
 				if (strstr(message, ": ") != NULL) {
 					filename = strtok(onelint, ":");
 					if ((linestr = strtok(NULL, ":")) != NULL) {
