@@ -433,8 +433,6 @@ void go_looking(void)
 	if (didfind == 1 && openfile->current == was_current &&
 				openfile->current_x == was_current_x)
 		statusline(REMARK, _("This is the only occurrence"));
-	else if (didfind == 1 && LINES == 1)
-		refresh_needed = TRUE;
 	else if (didfind == 0)
 		not_found_msg(last_search);
 
