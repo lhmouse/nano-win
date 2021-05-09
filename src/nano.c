@@ -2507,7 +2507,8 @@ int main(int argc, char **argv)
 #endif
 		/* Update the displayed current cursor position only when there
 		 * is no message and no keys are waiting in the input buffer. */
-		if (ISSET(CONSTANT_SHOW) && lastmessage == VACUUM && get_key_buffer_len() == 0)
+		if (ISSET(CONSTANT_SHOW) && lastmessage == VACUUM && LINES > 1 &&
+										get_key_buffer_len() == 0)
 			report_cursor_position();
 
 		as_an_at = TRUE;

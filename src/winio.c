@@ -1683,7 +1683,7 @@ void check_statusblank(void)
 	statusblank--;
 
 	/* When editing and 'constantshow' is active, skip the blanking. */
-	if (currmenu == MMAIN && ISSET(CONSTANT_SHOW))
+	if (currmenu == MMAIN && ISSET(CONSTANT_SHOW) && LINES > 1)
 		return;
 
 	if (statusblank == 0)
