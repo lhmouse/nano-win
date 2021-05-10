@@ -193,7 +193,7 @@ void read_keys_from(WINDOW *win)
 		curs_set(1);
 
 #ifndef NANO_TINY
-	if (currmenu == MMAIN && ISSET(MINIBAR) && LINES > 1 && lastmessage > HUSH &&
+	if (currmenu == MMAIN && (ISSET(MINIBAR) || LINES == 1) && lastmessage > HUSH &&
 						lastmessage != INFO && lastmessage < ALERT) {
 		timed = TRUE;
 		halfdelay(ISSET(QUICK_BLANK) ? 8 : 15);
@@ -216,7 +216,11 @@ void read_keys_from(WINDOW *win)
 			raw();
 
 			if (input == ERR) {
-				minibar();
+				if (LINES == 1) {
+					edit_refresh();
+					curs_set(1);
+				} else
+					minibar();
 				as_an_at = TRUE;
 				place_the_cursor();
 				doupdate();
