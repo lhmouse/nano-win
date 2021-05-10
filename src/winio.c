@@ -182,10 +182,14 @@ void read_keys_from(WINDOW *win)
 	bool timed = FALSE;
 #endif
 
+	/* On a one-row terminal, overwrite an unimportant message. */
+	if (LINES == 1 && currmenu == MMAIN && lastmessage == HUSH)
+		edit_refresh();
+
 	/* Before reading the first keycode, display any pending screen updates. */
 	doupdate();
 
-	if (reveal_cursor && !hide_cursor)
+	if (reveal_cursor && !hide_cursor && (LINES > 1 || lastmessage <= HUSH))
 		curs_set(1);
 
 #ifndef NANO_TINY
@@ -2244,6 +2248,11 @@ void statusline(message_type importance, const char *msg, ...)
 	/* Ignore a message with an importance that is lower than the last one. */
 	if (importance < lastmessage && lastmessage > NOTICE)
 		return;
+
+	/* On a one-row terminal, ensure that any changes in the edit window are
+	 * written out first, to prevent them from overwriting the message. */
+	if (LINES == 1 && importance < INFO)
+		wnoutrefresh(edit);
 
 	/* Construct the message out of all the arguments. */
 	compound = nmalloc(MAXCHARLEN * COLS + 1);
