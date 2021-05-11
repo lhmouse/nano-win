@@ -3161,8 +3161,8 @@ void complete_a_word(void)
 
 	/* The search has reached the end of the file. */
 	if (list_of_completions != NULL) {
+		edit_refresh();
 		statusline(AHEM, _("No further matches"));
-		refresh_needed = TRUE;
 	} else
 		/* TRANSLATORS: Shown when there are zero possible completions. */
 		statusline(AHEM, _("No matches"));
