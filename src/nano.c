@@ -2517,7 +2517,7 @@ int main(int argc, char **argv)
 		if (!refresh_needed) {
 			place_the_cursor();
 			wnoutrefresh(edit);
-		} else
+		} else if (LINES > 1 || lastmessage == VACUUM)
 			edit_refresh();
 
 #ifndef NANO_TINY
