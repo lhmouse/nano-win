@@ -217,6 +217,7 @@ void read_keys_from(WINDOW *win)
 
 			if (input == ERR) {
 				if (LINES == 1) {
+					lastmessage = VACUUM;
 					edit_refresh();
 					curs_set(1);
 				} else
