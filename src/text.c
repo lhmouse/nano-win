@@ -1332,6 +1332,7 @@ bool do_wrap(void)
 		strncpy(line->data, line->prev->data, lead_len);
 
 		openfile->current_x += lead_len;
+		openfile->totsize += lead_len;
 #ifndef NANO_TINY
 		free(openfile->undotop->strdata);
 		update_undo(ENTER);
