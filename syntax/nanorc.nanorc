@@ -20,6 +20,9 @@ color green "^[[:blank:]]*((un)?(bind|set)|include|syntax|header|magic|comment|f
 # Strings
 color brightmagenta "([[:blank:]]|(start|end)=)".+"([[:blank:]]|$)"
 
+# Control codes
+color bold,pink "[[:cntrl:]]"
+
 # Colors
 color yellow "^[[:blank:]]*i?color[[:blank:]]*(bold,)?(italic,)?(bright|light)?(white|black|red|blue|green|yellow|magenta|cyan|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte)?(,(light)?(white|black|red|blue|green|yellow|magenta|cyan|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte))?\>"
 color magenta "^[[:blank:]]*i?color\>" "\<(start|end)="
