@@ -1333,6 +1333,7 @@ bool do_wrap(void)
 
 		openfile->current_x += lead_len;
 #ifndef NANO_TINY
+		free(openfile->undotop->strdata);
 		update_undo(ENTER);
 #endif
 		if (autowhite)
