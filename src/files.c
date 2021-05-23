@@ -521,7 +521,7 @@ void mention_name_and_linecount(void)
 		return;
 	}
 
-	if (openfile->fmt != NIX_FILE)
+	if (openfile->fmt > NIX_FILE)
 		/* TRANSLATORS: First %s is file name, second %s is file format. */
 		statusline(HUSH, P_("%s -- %zu line (%s)", "%s -- %zu lines (%s)", count),
 						openfile->filename[0] == '\0' ?
