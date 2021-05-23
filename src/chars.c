@@ -540,7 +540,7 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 		size_t tail_len = mbstrlen(pointer);
 
 		if (tail_len < needle_len)
-			pointer += tail_len - needle_len;
+			pointer -= (needle_len - tail_len);
 
 		if (pointer < haystack)
 			return NULL;
