@@ -498,7 +498,7 @@ char *revstrstr(const char *haystack, const char *needle,
 	size_t tail_len = strlen(pointer);
 
 	if (tail_len < needle_len)
-		pointer += tail_len - needle_len;
+		pointer -= (needle_len - tail_len);
 
 	while (pointer >= haystack) {
 		if (strncmp(pointer, needle, needle_len) == 0)
@@ -518,7 +518,7 @@ char *revstrcasestr(const char *haystack, const char *needle,
 	size_t tail_len = strlen(pointer);
 
 	if (tail_len < needle_len)
-		pointer += tail_len - needle_len;
+		pointer -= (needle_len - tail_len);
 
 	while (pointer >= haystack) {
 		if (strncasecmp(pointer, needle, needle_len) == 0)
