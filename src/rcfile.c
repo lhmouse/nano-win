@@ -991,19 +991,21 @@ void parse_includes(char *ptr)
 	free(expanded);
 }
 
-#define COLORCOUNT  18
+#define COLORCOUNT  20
 
 const char hues[COLORCOUNT][8] = { "red", "green", "blue",
 								   "yellow", "cyan", "magenta",
 								   "white", "black", "normal",
 								   "pink", "purple", "mauve",
 								   "lagoon", "mint", "lime",
-								   "peach", "orange", "latte" };
+								   "peach", "orange", "latte",
+								   "grey", "gray" };
 
 short indices[COLORCOUNT] = { COLOR_RED, COLOR_GREEN, COLOR_BLUE,
 							  COLOR_YELLOW, COLOR_CYAN, COLOR_MAGENTA,
 							  COLOR_WHITE, COLOR_BLACK, THE_DEFAULT,
-							  204, 163, 134, 38, 48, 148, 215, 208, 137 };
+							  204, 163, 134, 38, 48, 148, 215, 208, 137,
+							  COLOR_BLACK + 8, COLOR_BLACK + 8 };
 
 /* Return the short value corresponding to the given color name, and set
  * vivid to TRUE for a lighter color, and thick for a heavier typeface. */
