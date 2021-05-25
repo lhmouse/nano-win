@@ -333,11 +333,8 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 	}
 #endif
 
-	/* Wipe the "Searching..." message and unsuppress cursor-position display. */
-	if (feedback > 0) {
+	if (feedback > 0)
 		wipe_statusbar();
-		lastmessage = VACUUM;
-	}
 
 	return 1;
 }
