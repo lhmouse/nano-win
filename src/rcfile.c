@@ -991,10 +991,19 @@ void parse_includes(char *ptr)
 	free(expanded);
 }
 
-#define COLORCOUNT  9
-const char hues[COLORCOUNT][7] = { "pink", "purple", "mauve", "lagoon", "mint",
-						  "lime", "peach", "orange", "latte" };
-short indices[COLORCOUNT] = { 204, 163, 134, 38, 48, 148, 215, 208, 137 };
+#define COLORCOUNT  18
+
+const char hues[COLORCOUNT][8] = { "red", "green", "blue",
+								   "yellow", "cyan", "magenta",
+								   "white", "black", "normal",
+								   "pink", "purple", "mauve",
+								   "lagoon", "mint", "lime",
+								   "peach", "orange", "latte" };
+
+short indices[COLORCOUNT] = { COLOR_RED, COLOR_GREEN, COLOR_BLUE,
+							  COLOR_YELLOW, COLOR_CYAN, COLOR_MAGENTA,
+							  COLOR_WHITE, COLOR_BLACK, THE_DEFAULT,
+							  204, 163, 134, 38, 48, 148, 215, 208, 137 };
 
 /* Return the short value corresponding to the given color name, and set
  * vivid to TRUE for a lighter color, and thick for a heavier typeface. */
@@ -1014,31 +1023,12 @@ short color_to_short(const char *colorname, bool *vivid, bool *thick)
 		*thick = FALSE;
 	}
 
-	if (strcmp(colorname, "green") == 0)
-		return COLOR_GREEN;
-	else if (strcmp(colorname, "red") == 0)
-		return COLOR_RED;
-	else if (strcmp(colorname, "blue") == 0)
-		return COLOR_BLUE;
-	else if (strcmp(colorname, "white") == 0)
-		return COLOR_WHITE;
-	else if (strcmp(colorname, "yellow") == 0)
-		return COLOR_YELLOW;
-	else if (strcmp(colorname, "cyan") == 0)
-		return COLOR_CYAN;
-	else if (strcmp(colorname, "magenta") == 0)
-		return COLOR_MAGENTA;
-	else if (strcmp(colorname, "black") == 0)
-		return COLOR_BLACK;
-	else if (strcmp(colorname, "normal") == 0)
-		return THE_DEFAULT;
-	else
 		for (int index = 0; index < COLORCOUNT; index++)
 			if (strcmp(colorname, hues[index]) == 0) {
-				if (*vivid) {
+				if (index > 8 && *vivid) {
 					jot_error(N_("Color '%s' takes no prefix"), colorname);
 					return BAD_COLOR;
-				} else if (COLORS < 255)
+				} else if (index > 8 && COLORS < 255)
 					return THE_DEFAULT;
 				else
 					return indices[index];
