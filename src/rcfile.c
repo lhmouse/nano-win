@@ -1025,7 +1025,7 @@ short color_to_short(const char *colorname, bool *vivid, bool *thick)
 
 	for (int index = 0; index < COLORCOUNT; index++)
 		if (strcmp(colorname, hues[index]) == 0) {
-			if (index > 8 && *vivid) {
+			if (index > 7 && *vivid) {
 				jot_error(N_("Color '%s' takes no prefix"), colorname);
 				return BAD_COLOR;
 			} else if (index > 8 && COLORS < 255)
