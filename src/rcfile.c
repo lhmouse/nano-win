@@ -1023,16 +1023,16 @@ short color_to_short(const char *colorname, bool *vivid, bool *thick)
 		*thick = FALSE;
 	}
 
-		for (int index = 0; index < COLORCOUNT; index++)
-			if (strcmp(colorname, hues[index]) == 0) {
-				if (index > 8 && *vivid) {
-					jot_error(N_("Color '%s' takes no prefix"), colorname);
-					return BAD_COLOR;
-				} else if (index > 8 && COLORS < 255)
-					return THE_DEFAULT;
-				else
-					return indices[index];
-			}
+	for (int index = 0; index < COLORCOUNT; index++)
+		if (strcmp(colorname, hues[index]) == 0) {
+			if (index > 8 && *vivid) {
+				jot_error(N_("Color '%s' takes no prefix"), colorname);
+				return BAD_COLOR;
+			} else if (index > 8 && COLORS < 255)
+				return THE_DEFAULT;
+			else
+				return indices[index];
+		}
 
 	jot_error(N_("Color \"%s\" not understood"), colorname);
 	return BAD_COLOR;
