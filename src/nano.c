@@ -2403,7 +2403,7 @@ int main(int argc, char **argv)
 				optind++;
 			} else
 #endif
-			if (!parse_line_column(&argv[optind++][n], &givenline, &givencol))
+			if (!parse_line_column(&argv[optind++][1], &givenline, &givencol))
 				statusline(ALERT, _("Invalid line or column number"));
 		}
 
