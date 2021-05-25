@@ -1670,6 +1670,7 @@ void wipe_statusbar(void)
 {
 	blank_row(bottomwin, 0);
 	wnoutrefresh(bottomwin);
+	lastmessage = VACUUM;
 }
 
 /* Blank out the two help lines (when they are present). */

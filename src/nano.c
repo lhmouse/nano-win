@@ -2433,7 +2433,7 @@ int main(int argc, char **argv)
 			if (!findnextstr(searchstring, FALSE, JUSTFIND, NULL,
 							ISSET(BACKWARDS_SEARCH), openfile->filetop, 0))
 				not_found_msg(searchstring);
-			else if (lastmessage == HUSH)
+			else if (lastmessage <= REMARK)
 				wipe_statusbar();
 			openfile->placewewant = xplustabs();
 			if (ISSET(USE_REGEXP))
