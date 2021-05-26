@@ -876,6 +876,8 @@ Valid names for the foreground and background colors are:
 @code{white}, and @code{black}.
 Each of these eight names may be prefixed with the word
 @code{light} to get a brighter version of that color.
+The word @code{grey} or @code{gray} may be used as
+a synonym for @code{lightblack}.
 
 On terminal emulators that can do at least 256 colors,
 other valid (but unprefixable) color names are:
