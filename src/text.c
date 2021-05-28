@@ -60,8 +60,8 @@ void do_mark(void)
 }
 #endif /* !NANO_TINY */
 
-/* Insert a tab.  If the TABS_TO_SPACES flag is set, insert the number
- * of spaces that a tab would normally take up. */
+/* Insert a tab.  Or, if --tabstospaces is in effect, insert the number
+ * of spaces that a tab would normally take up at this position. */
 void do_tab(void)
 {
 #ifdef ENABLE_COLOR
@@ -133,12 +133,12 @@ void do_indent(void)
 
 	indentation = nmalloc(tabsize + 1);
 
-	/* Set the indentation to either a bunch of spaces or a single tab. */
 #ifdef ENABLE_COLOR
 	if (openfile->syntax && openfile->syntax->tab)
 		indentation = mallocstrcpy(indentation, openfile->syntax->tab);
 	else
 #endif
+	/* Set the indentation to either a bunch of spaces or a single tab. */
 	if (ISSET(TABS_TO_SPACES)) {
 		memset(indentation, ' ', tabsize);
 		indentation[tabsize] = '\0';
@@ -415,11 +415,9 @@ void do_comment(void)
 
 	/* Comment/uncomment each of the selected lines when possible, and
 	 * store undo data when a line changed. */
-	for (line = top; line != bot->next; line = line->next) {
-		if (comment_line(action, line, comment_seq)) {
+	for (line = top; line != bot->next; line = line->next)
+		if (comment_line(action, line, comment_seq))
 			update_multiline_undo(line->lineno, "");
-		}
-	}
 
 	set_modified();
 	ensure_firstcolumn_is_aligned();
@@ -1084,24 +1082,24 @@ void update_multiline_undo(ssize_t lineno, char *indentation)
 	/* If there already is a group and the current line is contiguous with it,
 	 * extend the group; otherwise, create a new group. */
 	if (u->grouping && u->grouping->bottom_line + 1 == lineno) {
-		size_t number_of_lines;
+		size_t number_of_lines = lineno - u->grouping->top_line + 1;
 
-		u->grouping->bottom_line++;
+		u->grouping->bottom_line = lineno;
 
-		number_of_lines = u->grouping->bottom_line - u->grouping->top_line + 1;
 		u->grouping->indentations = nrealloc(u->grouping->indentations,
 										number_of_lines * sizeof(char *));
 		u->grouping->indentations[number_of_lines - 1] = copy_of(indentation);
 	} else {
 		groupstruct *born = nmalloc(sizeof(groupstruct));
 
-		born->next = u->grouping;
-		u->grouping = born;
 		born->top_line = lineno;
 		born->bottom_line = lineno;
 
-		u->grouping->indentations = nmalloc(sizeof(char *));
-		u->grouping->indentations[0] = copy_of(indentation);
+		born->indentations = nmalloc(sizeof(char *));
+		born->indentations[0] = copy_of(indentation);
+
+		born->next = u->grouping;
+		u->grouping = born;
 	}
 
 	/* Store the file size after the change, to be used when redoing. */
