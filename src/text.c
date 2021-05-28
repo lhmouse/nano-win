@@ -278,9 +278,6 @@ void handle_indent_action(undostruct *u, bool undoing, bool add_indent)
 	groupstruct *group = u->grouping;
 	linestruct *line = line_from_number(group->top_line);
 
-	if (group->next != NULL)
-		die("Multiple groups -- please report a bug\n");
-
 	/* When redoing, reposition the cursor and let the indenter adjust it. */
 	if (!undoing)
 		goto_line_posx(u->head_lineno, u->head_x);
