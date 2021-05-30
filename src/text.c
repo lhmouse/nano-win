@@ -2673,7 +2673,7 @@ void do_linter(void)
 							curlint->prev = tmplint;
 							if (curlint->prev != NULL)
 								curlint->prev->next = curlint;
-							curlint->msg = copy_of(message);
+							curlint->msg = copy_of(strstr(message, ": ") + 2);
 							curlint->lineno = tmplineno;
 							curlint->colno = tmpcolno;
 							curlint->filename = copy_of(filename);
