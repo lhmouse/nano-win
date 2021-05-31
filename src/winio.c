@@ -193,8 +193,9 @@ void read_keys_from(WINDOW *win)
 		curs_set(1);
 
 #ifndef NANO_TINY
-	if (currmenu == MMAIN && (ISSET(MINIBAR) || LINES == 1) && lastmessage > HUSH &&
-						lastmessage != INFO && lastmessage < ALERT) {
+	if (currmenu == MMAIN && (spotlighted || ((ISSET(MINIBAR) || LINES == 1) &&
+						lastmessage > HUSH &&
+						lastmessage != INFO && lastmessage < ALERT))) {
 		timed = TRUE;
 		halfdelay(ISSET(QUICK_BLANK) ? 8 : 15);
 		disable_kb_interrupt();
@@ -216,11 +217,13 @@ void read_keys_from(WINDOW *win)
 			raw();
 
 			if (input == ERR) {
-				if (LINES == 1) {
+				if (spotlighted || LINES == 1) {
 					lastmessage = VACUUM;
+					spotlighted = FALSE;
 					edit_refresh();
 					curs_set(1);
-				} else
+				}
+				if (ISSET(MINIBAR) && LINES > 1)
 					minibar();
 				as_an_at = TRUE;
 				place_the_cursor();
@@ -245,6 +248,10 @@ void read_keys_from(WINDOW *win)
 	key_buffer_len = 1;
 
 #ifndef NANO_TINY
+	/* Cancel the highlighting of a search match, if there still is one. */
+	refresh_needed |= spotlighted;
+	spotlighted = FALSE;
+
 	/* If we got a SIGWINCH, get out as the win argument is no longer valid. */
 	if (input == KEY_WINCH)
 		return;
