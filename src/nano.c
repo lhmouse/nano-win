@@ -2298,6 +2298,7 @@ int main(int argc, char **argv)
 		interface_color_pair[SCROLL_BAR] = A_NORMAL;
 		interface_color_pair[SELECTED_TEXT] = hilite_attribute;
 		interface_color_pair[SPOTLIGHTED] = A_REVERSE;
+		interface_color_pair[MINI_INFOBAR] = hilite_attribute;
 		interface_color_pair[PROMPT_BAR] = hilite_attribute;
 		interface_color_pair[STATUS_BAR] = hilite_attribute;
 		interface_color_pair[ERROR_MESSAGE] = hilite_attribute;

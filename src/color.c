@@ -61,7 +61,7 @@ void set_interface_colorpairs(void)
 			else if (index == SPOTLIGHTED) {
 				init_pair(index + 1, COLOR_BLACK, COLOR_YELLOW + (COLORS > 15 ? 8 : 0));
 				interface_color_pair[index] = COLOR_PAIR(index + 1);
-			} else if (index == PROMPT_BAR)
+			} else if (index == MINI_INFOBAR || index == PROMPT_BAR)
 				interface_color_pair[index] = interface_color_pair[TITLE_BAR];
 			else if (index == ERROR_MESSAGE) {
 				init_pair(index + 1, COLOR_WHITE, COLOR_RED);

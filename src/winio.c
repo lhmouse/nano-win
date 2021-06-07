@@ -2117,7 +2117,7 @@ void minibar(void)
 #endif
 
 	/* Draw a colored bar over the full width of the screen. */
-	wattron(bottomwin, interface_color_pair[TITLE_BAR]);
+	wattron(bottomwin, interface_color_pair[MINI_INFOBAR]);
 	mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
 
 	if (openfile->filename[0] != '\0') {
@@ -2229,7 +2229,7 @@ void minibar(void)
 		mvwaddstr(bottomwin, 0, COLS - 4 - padding, location);
 	}
 
-	wattroff(bottomwin, interface_color_pair[TITLE_BAR]);
+	wattroff(bottomwin, interface_color_pair[MINI_INFOBAR]);
 	wrefresh(bottomwin);
 
 	free(number_of_lines);
