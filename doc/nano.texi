@@ -948,6 +948,11 @@ The line plus column numbers and the character code are displayed only when
 @code{set constantshow} is used, and can be toggled on and off with @key{M-C}.
 The state flags are displayed only when @code{set stateflags} is used.
 
+@item set minicolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
+Use this color combination for the minibar.
+(When this option is not specified, the colors of the title bar are used.)
+@xref{@code{set functioncolor}} for valid color names.
+
 @item set mouse
 Enable mouse support, so that mouse clicks can be used to place the
 cursor, set the mark (with a double click), or execute shortcuts.
