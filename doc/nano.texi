@@ -53,8 +53,10 @@ under the terms of either of the following licenses:
   along with this program.  If not, see @url{https://www.gnu.org/licenses/}.
 
 @sp 1
-You may contact the author by
+You may contact the original author by
 e-mail: @email{chrisa@@asty.org}@*
+
+For suggesting improvements: @email{nano-devel@@gnu.org}@*
 @end titlepage
 
 @ifnottex
@@ -103,9 +105,9 @@ If you want the old, Pico behavior back, you can use the
 following options: @option{--breaklonglines},
 @option{--jumpyscrolling}, and @option{--emptyline}
 (or @option{-bje}).
-
+@sp 1
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
-
+@sp 1
 For background information see @url{https://nano-editor.org/}.
 
 @node Invoking
