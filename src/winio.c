@@ -220,7 +220,8 @@ void read_keys_from(WINDOW *win)
 				if (spotlighted || LINES == 1) {
 					lastmessage = VACUUM;
 					spotlighted = FALSE;
-					edit_refresh();
+					update_line(openfile->current, openfile->current_x);
+					wnoutrefresh(edit);
 					curs_set(1);
 				}
 				if (ISSET(MINIBAR) && LINES > 1)
