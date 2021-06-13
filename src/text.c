@@ -1704,6 +1704,9 @@ void justify_paragraph(linestruct **line, size_t count)
 	free(lead_string);
 }
 
+#define ONE_PARAGRAPH  FALSE
+#define WHOLE_BUFFER  TRUE
+
 /* Justify the current paragraph, or the entire buffer when full_justify is
  * TRUE.  But if the mark is on, justify only the marked text instead. */
 void do_justify(bool full_justify)
@@ -1978,13 +1981,13 @@ void do_justify(bool full_justify)
 /* Justify the current paragraph. */
 void do_justify_void(void)
 {
-	do_justify(FALSE);
+	do_justify(ONE_PARAGRAPH);
 }
 
 /* Justify the entire file. */
 void do_full_justify(void)
 {
-	do_justify(TRUE);
+	do_justify(WHOLE_BUFFER);
 	ran_a_tool = TRUE;
 }
 #endif /* ENABLE_JUSTIFY */
