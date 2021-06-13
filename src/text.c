@@ -1707,9 +1707,9 @@ void justify_paragraph(linestruct **line, size_t count)
 #define ONE_PARAGRAPH  FALSE
 #define WHOLE_BUFFER  TRUE
 
-/* Justify the current paragraph, or the entire buffer when full_justify is
+/* Justify the current paragraph, or the entire buffer when whole_buffer is
  * TRUE.  But if the mark is on, justify only the marked text instead. */
-void justify_text(bool full_justify)
+void justify_text(bool whole_buffer)
 {
 	size_t linecount;
 		/* The number of lines in the original paragraph. */
@@ -1825,7 +1825,7 @@ void justify_text(bool full_justify)
 	{
 		/* When justifying the entire buffer, start at the top.  Otherwise, when
 		 * in a paragraph but not at its beginning, move back to its first line. */
-		if (full_justify)
+		if (whole_buffer)
 			openfile->current = openfile->filetop;
 		else if (inpar(openfile->current) && !begpar(openfile->current, 0))
 			do_para_begin(&openfile->current);
@@ -1847,7 +1847,7 @@ void justify_text(bool full_justify)
 		start_x = 0;
 
 		/* Set the end point of the paragraph. */
-		if (full_justify)
+		if (whole_buffer)
 			endline = openfile->filebot;
 		else {
 			endline = startline;
@@ -1922,7 +1922,7 @@ void justify_text(bool full_justify)
 		justify_paragraph(&jusline, linecount);
 
 		/* When justifying the entire buffer, find and justify all paragraphs. */
-		if (full_justify) {
+		if (whole_buffer) {
 			while (find_paragraph(&jusline, &linecount)) {
 				justify_paragraph(&jusline, linecount);
 
@@ -1934,7 +1934,7 @@ void justify_text(bool full_justify)
 
 #ifndef NANO_TINY
 	add_undo(PASTE, NULL);
-	if (full_justify && !openfile->mark && !cutbuffer->has_anchor)
+	if (whole_buffer && !openfile->mark && !cutbuffer->has_anchor)
 		openfile->current->has_anchor = FALSE;
 #endif
 	/* Do the equivalent of a paste of the justified text. */
@@ -1965,7 +1965,7 @@ void justify_text(bool full_justify)
 		statusline(REMARK, _("Justified selection"));
 	else
 #endif
-	if (full_justify)
+	if (whole_buffer)
 		statusline(REMARK, _("Justified file"));
 	else
 		statusbar(_("Justified paragraph"));
