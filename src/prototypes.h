@@ -507,8 +507,7 @@ size_t indent_length(const char *line);
 size_t quote_length(const char *line);
 bool begpar(const linestruct *const line, int depth);
 bool inpar(const linestruct *const line);
-void do_justify(bool full_justify);
-void do_justify_void(void);
+void do_justify(void);
 void do_full_justify(void);
 #endif
 #ifdef ENABLE_SPELLER

@@ -291,7 +291,7 @@ keystruct *strtosc(const char *input)
 		s->func = do_gotolinecolumn_void;
 #ifdef ENABLE_JUSTIFY
 	else if (!strcmp(input, "justify"))
-		s->func = do_justify_void;
+		s->func = do_justify;
 	else if (!strcmp(input, "fulljustify"))
 		s->func = do_full_justify;
 	else if (!strcmp(input, "beginpara"))

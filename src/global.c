@@ -776,7 +776,7 @@ void shortcut_init(void)
 				CAN_OPEN_OTHER_BUFFER);
 #ifdef ENABLE_JUSTIFY
 	else
-		add_to_funcs(do_justify_void, MMAIN,
+		add_to_funcs(do_justify, MMAIN,
 				N_("Justify"), WITHORSANS(justify_gist), BLANKAFTER, NOVIEW);
 #endif
 
@@ -815,7 +815,7 @@ void shortcut_init(void)
 				N_("Execute"), WITHORSANS(execute_gist), TOGETHER, NOVIEW);
 #endif
 #ifdef ENABLE_JUSTIFY
-		add_to_funcs(do_justify_void, MMAIN,
+		add_to_funcs(do_justify, MMAIN,
 				N_("Justify"), WITHORSANS(justify_gist), BLANKAFTER, NOVIEW);
 #endif
 	}
@@ -1226,7 +1226,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^T", 0, do_execute, 0);
 #endif
 #ifdef ENABLE_JUSTIFY
-	add_to_sclist(MMAIN, "^J", '\n', do_justify_void, 0);
+	add_to_sclist(MMAIN, "^J", '\n', do_justify, 0);
 #endif
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MEXECUTE, "^S", 0, do_spell, 0);
@@ -1514,7 +1514,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "F2", KEY_F(2), do_exit, 0);
 	add_to_sclist(MMAIN, "F3", KEY_F(3), do_writeout_void, 0);
 #ifdef ENABLE_JUSTIFY
-	add_to_sclist(MMAIN, "F4", KEY_F(4), do_justify_void, 0);
+	add_to_sclist(MMAIN, "F4", KEY_F(4), do_justify, 0);
 #endif
 	add_to_sclist(MMAIN, "F5", KEY_F(5), do_insertfile_void, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "F6", KEY_F(6), do_search_forward, 0);
