@@ -186,6 +186,7 @@
 
 2019.06.18 - GNU nano 4.3 "Musa Kart"
 • The ability to read from and write to a FIFO has been regained.
+• Opening a file no longer triggers an inotify CLOSE_WRITE event.
 • Startup time is reduced by fully parsing a syntax only when needed.
 • Asking for help (^G) when using --operatingdir does not crash.
 • The reading of a huge or slow file can be stopped with ^C.
