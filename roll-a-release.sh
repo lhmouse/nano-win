@@ -12,7 +12,7 @@ po/update_linguas.sh &&
 
 make distcheck &&  make dist-xz &&
 
-git add po/*.po po/nano.pot &&
+git add po/*.po po/nano.pot po/LINGUAS &&
 git commit -m "$(git log -1 --grep 'po: up' | grep o: | sed 's/^    //')" &&
 
 gpg -a -b nano-$VERSION.tar.gz &&
