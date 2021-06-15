@@ -2379,9 +2379,9 @@ int main(int argc, char **argv)
 #endif
 		/* If there's a +LINE[,COLUMN] argument here, eat it up. */
 		if (optind < argc - 1 && argv[optind][0] == '+') {
+#ifndef NANO_TINY
 			int n = 1;
 
-#ifndef NANO_TINY
 			while (isalpha(argv[optind][n])) {
 				switch (argv[optind][n++]) {
 					case 'c': SET(CASE_SENSITIVE); break;
