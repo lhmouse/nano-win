@@ -1,3 +1,12 @@
+2021.06.15 - GNU nano 5.8 "Why is it necessary to be special?"
+• After a search, the spotlighting is dropped after 1.5 seconds (0.8
+  seconds with --quick) to avoid the idea that the text is selected.
+• A + and a space before a filename on the command line will put the
+  cursor at the end of the corresponding buffer.
+• Linter messages no longer include filename and line/column numbers.
+• Color name "grey" or "gray" can be used instead of "lightblack".
+• The color of the minibar can be chosen with 'set minicolor'.
+
 2021.04.29 - GNU nano 5.7 "Toți ceilalți arau câmpurile"
 • The output of --constantshow (without --minibar) is more stable.
 • When opening multiple buffers and there is an error message, this

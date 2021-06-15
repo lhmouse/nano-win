@@ -1,3 +1,65 @@
+Changes between v5.7 and v5.8:
+------------------------------
+
+Benno Schulenberg (53):
+      bindings: show either "^/" or "^-" in the help lines, instead of "^_"
+      bump version numbers and add a news item for the 5.8 release
+      display: when a message gets overwritten, note that it is cleared
+      docs: add a relevant item to the news for the 4.3 release
+      docs: add example bindings for uppercasing and lowercasing a word
+      docs: improve the contact info and some line spacing in the PDF
+      docs: make ^E access the Execute menu in the example CUA bindings
+      docs: mention that "grey"/"gray" may be used as a synonym of "lightblack"
+      docs: mention the new 'set minicolor' option
+      docs: say thanks to the Icelandic and Slovak translators
+      feedback: ensure that the reporting of DOS/Mac format is truthful
+      gnulib: update to its current upstream state
+      help: use smaller triangles for the arrows
+      linter: block the resizing signal while reading output from the linter
+      linter: strip filename and line plus column number from the message
+      memory: move the correct number of bytes, and not one too many
+      memory: prevent a leak when copying the leading quoting to the next line
+      minibar: stay out of sight when the terminal has just one row
+      options: accept 'set minicolor' for setting the color of the minibar
+      rcfile: allow using "grey" or "gray" as a synonym for "lightblack"
+      rcfile: do not allow color name "normal" to have a prefix
+      replacing: report the number of replacements also on a one-row terminal
+      search: automatically drop the spotlighting after a few moments
+      search: show "This is the only occurrence" also on a one-row terminal
+      startup: allow using a bare "+" to mean put-cursor-on-last-line
+      startup: do not accept stray characters after a "+" on the command line
+      startup: skip drawing edit window when having message on one-row terminal
+      startup: suppress "Search Wrapped" when using +? to search from EOF
+      statusbar: ensure that "No further matches" does not get overwritten
+      statusbar: on a one-row terminal, drop light messages after a few moments
+      statusbar: suppress --constantshow when the terminal has just one row
+      statusbar: suppress the cursor when the terminal has just one row
+      syntax: nanohelp: avoid colorizing M-) in (M-) and M-" in "M-"
+      syntax: nanorc: colorize "light" as valid only for the eight basic colors
+      syntax: nanorc: colorize literal control codes, to make them stand out
+      syntax: php: colorize the full short tag for echo (<?=)
+      tweaks: avoid the subtraction of two size_t variables becoming negative
+      tweaks: condense and correct a comment, and move another
+      tweaks: condense some code by putting all color names in a single array
+      tweaks: drop an assignment that is already part of the called function
+      tweaks: frob some whitespace, and rewrap a line
+      tweaks: improve a comment, remove unneeded braces, reshuffle some lines
+      tweaks: normalize the indentation after the previous change
+      tweaks: prevent two more size_t subtractions from going negative
+      tweaks: redraw only the affected line instead of doing a full refresh
+      tweaks: remove a check that has become superfluous
+      tweaks: remove a check that is not needed
+      tweaks: rename a variable, for contrast with the function name
+      tweaks: rename two functions, to get rid of an ugly _void suffix
+      tweaks: reshuffle the coloring of color names, to remove some duplication
+      tweaks: use a symbol instead of a hard-coded number
+      tweaks: use two symbolic names instead of TRUE and FALSE, for clarity
+      wrapping: when copying the quoting part, adjust the file size accordingly
+
+Hussam al-Homsi (1):
+      bindings: allow copying text (with M-6) also when in view mode
+
+
 Changes between v5.6.1 and v5.7:
 --------------------------------
 
