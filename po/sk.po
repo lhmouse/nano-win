@@ -1,231 +1,230 @@
-# German messages for the nano editor.
-# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
+# Slovak translation of nano
+# Copyright (C) 2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
-# Karl Eichwalder <keichwa@gmx.net>, 2001.
-# Florian König <floki@bigfoot.com>, 2000-2001.
-# Michael Piefel <piefel@informatik.hu-berlin.de>, 2001-2006, 2008-2011, 2013-2014.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2014-2019, 2020-2021.
+# Marek Felšöci <marek@felsoci.sk>, 2021.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 5.7-pre1\n"
+"Project-Id-Version: GNU nano 5.7-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
 "POT-Creation-Date: 2021-06-15 10:25+0200\n"
-"PO-Revision-Date: 2021-04-23 20:05+0200\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
-"Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
-"Language: de\n"
+"PO-Revision-Date: 2021-05-06 23:28+0200\n"
+"Last-Translator: Marek Felšöci <marek@felsoci.sk>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.12.3\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #: src/browser.c:190 src/browser.c:197
 msgid "(dir)"
-msgstr "(Verz.)"
+msgstr "(prieč)"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
 #: src/browser.c:194
 msgid "(parent dir)"
-msgstr "(Verz. höher)"
+msgstr "(nadr prieč)"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #. * If necessary, you can leave out the parentheses.
 #: src/browser.c:224
 msgid "(huge)"
-msgstr "(riesig)"
+msgstr "(veľký)"
 
 #: src/browser.c:287 src/browser.c:292 src/search.c:254
 msgid "Search Wrapped"
-msgstr "Suche umbrechen"
+msgstr "Hľadá sa od opačného konca"
 
 #: src/browser.c:303 src/search.c:432
 msgid "This is the only occurrence"
-msgstr "Das ist das einzige Auftreten"
+msgstr "Toto je jediná zhoda"
 
 #. TRANSLATORS: This is the main search prompt.
 #: src/browser.c:342 src/search.c:97
 msgid "Search"
-msgstr "Suche"
+msgstr "Hľadať"
 
 #. TRANSLATORS: A modifier of the Search prompt.
 #: src/browser.c:344 src/search.c:101
 msgid " [Backwards]"
-msgstr " [Rückwärts]"
+msgstr " [Dozadu]"
 
 #: src/browser.c:350 src/browser.c:590 src/files.c:1176 src/files.c:2136
 #: src/nano.c:309 src/search.c:111 src/search.c:289 src/search.c:714
 #: src/search.c:761 src/text.c:2556 src/text.c:2752
 msgid "Cancelled"
-msgstr "Abgebrochen"
+msgstr "Zrušené"
 
 #: src/browser.c:376 src/search.c:367
 msgid "No current search pattern"
-msgstr "Kein aktuelles Suchmuster"
+msgstr "Žiadny výraz vyhľadávania"
 
 #: src/browser.c:419
 #, c-format
 msgid "Cannot open directory: %s"
-msgstr "Verzeichnis kann nicht geöffnet werden: %s"
+msgstr "Nedá sa otvoriť priečinok: %s"
 
 #. TRANSLATORS: This is a prompt.
 #: src/browser.c:589
 msgid "Go To Directory"
-msgstr "Gehe zu Verzeichnis"
+msgstr "Prejsť do priečinka"
 
 #. TRANSLATORS: This refers to the confining effect of the
 #. * option --operatingdir, not of --restricted.
 #: src/browser.c:607 src/browser.c:638
 #, c-format
 msgid "Can't go outside of %s"
-msgstr "Außerhalb von %s kann nicht geschrieben werden"
+msgstr "Nedá sa vyjsť z %s"
 
 #: src/browser.c:629
 msgid "Can't move up a directory"
-msgstr "Ins übergeordnete Verzeichnis kann nicht gewechselt werden"
+msgstr "Nedá sa prejsť do nadradeného priečinka"
 
 #: src/browser.c:644 src/files.c:890 src/files.c:896 src/files.c:1799
 #: src/files.c:1814 src/history.c:292 src/history.c:320 src/history.c:389
 #: src/history.c:447 src/rcfile.c:919 src/rcfile.c:1660
 #, c-format
 msgid "Error reading %s: %s"
-msgstr "Fehler beim Lesen von %s: %s"
+msgstr "Chyba čítania %s: %s"
 
 #: src/browser.c:717
 msgid "The working directory has disappeared"
-msgstr "Das Arbeitsverzeichnis ist nicht mehr vorhanden"
+msgstr "Pracovný priečinok zmizol"
 
 #: src/color.c:150
 #, c-format
 msgid "Unknown syntax name: %s"
-msgstr "Unbekannter Syntaxname: %s"
+msgstr "Neznámy názov skladby: %s"
 
 #: src/color.c:190
 #, c-format
 msgid "magic_load() failed: %s"
-msgstr "magic_load() fehlgeschlagen: %s"
+msgstr "zlyhanie magic_load(): %s"
 
 #: src/color.c:194
 #, c-format
 msgid "magic_file(%s) failed: %s"
-msgstr "magic_file(%s) fehlgeschlagen: %s"
+msgstr "zlyhanie magic_file(%s): %s"
 
 #: src/cut.c:162 src/cut.c:227 src/cut.c:540
 msgid "Nothing was cut"
-msgstr "Nichts ausgeschnitten"
+msgstr "Nič sa nevystrihlo"
 
 #: src/cut.c:590 src/cut.c:636
 msgid "Copied nothing"
-msgstr "Nichts kopiert"
+msgstr "Nič nebolo skopírované"
 
 #: src/cut.c:695
 msgid "Cutbuffer is empty"
-msgstr "Zwischenablage ist leer"
+msgstr "Zásobník vystrihovania je prázdny"
 
 #: src/files.c:129
 #, c-format
 msgid "Error deleting lock file %s: %s"
-msgstr "Fehler beim Löschen der Sperrdatei %s: %s"
+msgstr "Chyba pri odstraňovaní zamknutého súboru %s: %s"
 
 #. TRANSLATORS: Keep the next seven messages at most 76 characters.
 #: src/files.c:158
 msgid "Couldn't determine my identity for lock file"
-msgstr "Meine Identität für die Sperrdatei konnte nicht bestimmt werden"
+msgstr "Nepodarilo sa zistiť moju totožnosť pre zamknutý súbor"
 
 #: src/files.c:163
 #, c-format
 msgid "Couldn't determine hostname: %s"
-msgstr "Rechnername konnte nicht bestimmt werden: %s"
+msgstr "Nepodarilo sa zistiť názov hostiteľa: %s"
 
 #: src/files.c:179 src/files.c:222
 #, c-format
 msgid "Error writing lock file %s: %s"
-msgstr "Fehler beim Schreiben der Sperrdatei %s: %s"
+msgstr "Chyba pri zápise zamknutého súboru %s: %s"
 
 #: src/files.c:249
 msgid "Someone else is also editing this file"
-msgstr "Die Datei wirdauch von jemand anderem bearbeitet"
+msgstr "Tento súbor upravuje ešte niekto iný"
 
 #: src/files.c:257
 #, c-format
 msgid "Error opening lock file %s: %s"
-msgstr "Fehler beim Öffnen der Sperrdatei %s: %s"
+msgstr "Chyba pri otváraní zamknutého súboru %s: %s"
 
 #: src/files.c:272
 #, c-format
 msgid "Bad lock file is ignored: %s"
-msgstr "Fehlerhafte Sperrdatei wird ignoriert: %s"
+msgstr "Preskakuje sa chybný zamknutý súbor: %s"
 
 #. TRANSLATORS: The second %s is the name of the user, the third that of the editor.
 #: src/files.c:293
 #, c-format
 msgid "File %s is being edited by %s (with %s, PID %s); open anyway?"
-msgstr "Datei %s wird von %s bearbeitet (mit %s, Prozess-ID %s); fortsetzen?"
+msgstr "Súbor %s práve upravuje %s (pomocou %s, PID %s); napriek tomu otvoriť?"
 
 #. TRANSLATORS: Keep the next ten messages at most 76 characters.
 #: src/files.c:351
 #, c-format
 msgid "Directory '%s' does not exist"
-msgstr "Verzeichnis „%s“ existiert nicht"
+msgstr "Priečinok „%s“ neexistuje"
 
 #: src/files.c:353
 #, c-format
 msgid "Path '%s': %s"
-msgstr "Pfad „%s“: %s"
+msgstr "Cesta „%s“: %s"
 
 #: src/files.c:355
 #, c-format
 msgid "Path '%s' is not a directory"
-msgstr "Pfad „%s“ ist kein Verzeichnis"
+msgstr "„%s“ nie je priečinok"
 
 #: src/files.c:357
 #, c-format
 msgid "Path '%s' is not accessible"
-msgstr "Auf Pfad „%s“ kann nicht zugegriffen werden"
+msgstr "Nedá sa pristupovať k „%s“"
 
 #: src/files.c:360
 #, c-format
 msgid "Directory '%s' is not writable"
-msgstr "Verzeichnis „%s“ ist schreibgeschützt"
+msgstr "Do priečinka „%s“ sa nedá zapisovať"
 
 #: src/files.c:387
 #, c-format
 msgid "Can't read file from outside of %s"
-msgstr "Datei kann außerhalb von %s nicht gelesen werden"
+msgstr "Nedá sa čítať súbor mimo %s"
 
 #: src/files.c:397 src/rcfile.c:895
 #, c-format
 msgid "\"%s\" is a directory"
-msgstr "„%s“ ist ein Verzeichnis"
+msgstr "„%s“ je priečinok"
 
 #: src/files.c:402 src/rcfile.c:896
 #, c-format
 msgid "\"%s\" is a device file"
-msgstr "„%s“ ist eine Gerätedatei"
+msgstr "„%s“ je súbor zariadenia"
 
 #: src/files.c:408
 #, c-format
 msgid "\"%s\" is a FIFO"
-msgstr "„%s“ ist eine FIFO"
+msgstr "„%s“ je FIFO"
 
 #: src/files.c:415
 #, c-format
 msgid "%s is meant to be read-only"
-msgstr "%s ist als schreibgeschützt deklariert"
+msgstr "%s je len na čítanie"
 
 #. TRANSLATORS: First %s is file name, second %s is file format.
 #: src/files.c:526
 #, c-format
 msgid "%s -- %zu line (%s)"
 msgid_plural "%s -- %zu lines (%s)"
-msgstr[0] "%s -- %zu Zeile (%s)"
-msgstr[1] "%s -- %zu Zeilen (%s)"
+msgstr[0] "%s -- %zu riadok (%s)"
+msgstr[1] "%s -- %zu riadky (%s)"
+msgstr[2] "%s -- %zu riadkov (%s)"
 
 #: src/files.c:528 src/files.c:534 src/global.c:1091 src/winio.c:2009
 msgid "New Buffer"
-msgstr "Neuer Puffer"
+msgstr "Nový zásobník"
 
 #: src/files.c:529
 msgid "DOS"
@@ -239,174 +238,177 @@ msgstr "Mac"
 #, c-format
 msgid "%s -- %zu line"
 msgid_plural "%s -- %zu lines"
-msgstr[0] "%s -- %zu Zeile"
-msgstr[1] "%s -- %zu Zeilen"
+msgstr[0] "%s -- %zu riadok"
+msgstr[1] "%s -- %zu riadky"
+msgstr[2] "%s -- %zu riadkov"
 
 #: src/files.c:542
 msgid "No more open file buffers"
-msgstr "Keine weiteren offenen Dateipuffer"
+msgstr "Žiadne ďalšie otvorené zásobníky súborov"
 
 #: src/files.c:762 src/files.c:888 src/files.c:1851
 msgid "Interrupted"
-msgstr "Unterbrochen"
+msgstr "Prerušené"
 
 #: src/files.c:808
 #, c-format
 msgid "File '%s' is unwritable"
-msgstr "Datei „%s“ ist schreibgeschützt"
+msgstr "Do súboru „%s“ sa nedá zapisovať"
 
 #. TRANSLATORS: Keep the next three messages at most 78 characters.
 #: src/files.c:812
 #, c-format
 msgid "Read %zu line (Converted from Mac format)"
 msgid_plural "Read %zu lines (Converted from Mac format)"
-msgstr[0] "%zu Zeile gelesen (aus Mac-Format konvertiert)"
-msgstr[1] "%zu Zeilen gelesen (aus Mac-Format konvertiert)"
+msgstr[0] "Čítať %zu riadok (prevedené z Mac formátu)"
+msgstr[1] "Čítať %zu riadky (prevedené z Mac formátu)"
+msgstr[2] "Čítať %zu riadkov (prevedené z Mac formátu)"
 
 #: src/files.c:816
 #, c-format
 msgid "Read %zu line (Converted from DOS format)"
 msgid_plural "Read %zu lines (Converted from DOS format)"
-msgstr[0] "%zu Zeile gelesen (aus DOS-Format konvertiert)"
-msgstr[1] "%zu Zeilen gelesen (aus DOS-Format konvertiert)"
+msgstr[0] "Čítať %zu riadok (prevedené z DOS formátu)"
+msgstr[1] "Čítať %zu riadky (prevedené z DOS formátu)"
+msgstr[2] "Čítať %zu riadkov (prevedené z DOS formátu)"
 
 #: src/files.c:821
 #, c-format
 msgid "Read %zu line"
 msgid_plural "Read %zu lines"
-msgstr[0] "%zu Zeile gelesen"
-msgstr[1] "%zu Zeilen gelesen"
+msgstr[0] "Čítať %zu riadok"
+msgstr[1] "Čítať %zu riadky"
+msgstr[2] "Čítať %zu riadkov"
 
 #: src/files.c:862
 msgid "New File"
-msgstr "Neue Datei"
+msgstr "Nový súbor"
 
 #: src/files.c:865
 #, c-format
 msgid "File \"%s\" not found"
-msgstr "Datei „%s“ nicht gefunden"
+msgstr "Súbor „%s“ sa nenašiel"
 
 #: src/files.c:872
 msgid "Reading from FIFO..."
-msgstr "Aus FIFO wird gelesen …"
+msgstr "Číta sa z FIFO..."
 
 #: src/files.c:900
 msgid "Reading..."
-msgstr "Lesen …"
+msgstr "Číta sa..."
 
 #: src/files.c:982 src/text.c:2298 src/text.c:2564
 #, c-format
 msgid "Could not create pipe: %s"
-msgstr "Pipe konnte nicht erstellt werden: %s"
+msgstr "Nepodarilo sa vytvoriť zreťazenie: %s"
 
 #: src/files.c:1021 src/text.c:2110 src/text.c:2378 src/text.c:2599
 #, c-format
 msgid "Could not fork: %s"
-msgstr "Fork konnte nicht durchgeführt werden: %s"
+msgstr "Zlyhanie príkazu fork: %s"
 
 #: src/files.c:1026
 msgid "Executing..."
-msgstr "Wird ausgeführt …"
+msgstr "Spúšťa sa..."
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
 #: src/files.c:1046 src/files.c:1090
 msgid "filtering"
-msgstr "Filtern"
+msgstr "filtruje sa"
 
 #: src/files.c:1085
 #, c-format
 msgid "Failed to open pipe: %s"
-msgstr "Weiterleitung kann nicht geöffnet werden: %s"
+msgstr "Nepodarilo sa otvoriť zreťazenie: %s"
 
 #. TRANSLATORS: The next six messages are prompts.
 #: src/files.c:1132
 msgid "Command to execute in new buffer"
-msgstr "In neuem Puffer auszuführender Befehl"
+msgstr "Príkaz na vykonanie v novom zásobníku"
 
 #: src/files.c:1135
 msgid "Command to execute"
-msgstr "Auszuführender Befehl"
+msgstr "Príkaz na vykonanie"
 
 #: src/files.c:1143
 #, c-format
 msgid "File to read unconverted into new buffer [from %s]"
-msgstr "In neuen Puffer ohne Umwandlung einzulesende Datei [von %s]"
+msgstr "Nepodarilo sa načítať neprevedený obsah do nového zásobníka [z %s]"
 
 #: src/files.c:1146
 #, c-format
 msgid "File to read into new buffer [from %s]"
-msgstr "In neuen Puffer einzulesende Datei [von %s]"
+msgstr "Nepodarilo sa načítať do nového zásobníka [z %s]"
 
 #: src/files.c:1151
 #, c-format
 msgid "File to insert unconverted [from %s]"
-msgstr "In neuen Puffer ohne Umwandlung einzufügende Datei [von %s]"
+msgstr "Nepodarilo sa vložiť neprevedený obsah [z %s]"
 
 #: src/files.c:1154
 #, c-format
 msgid "File to insert [from %s]"
-msgstr "Einzufügende Datei [von %s]"
+msgstr "Nepodarilo sa vložiť [z %s]"
 
 #: src/files.c:1490
 #, c-format
 msgid "Invalid operating directory: %s\n"
-msgstr "Ungültiges Arbeitsverzeichnis: %s\n"
+msgstr "Neplatný pracovný priečinok: %s\n"
 
 #: src/files.c:1539
 #, c-format
 msgid "Invalid backup directory: %s\n"
-msgstr "Ungültiges Sicherungsverzeichnis: %s\n"
+msgstr "Neplatný záložný priečinok: %s\n"
 
 #: src/files.c:1594
 msgid "Making backup..."
-msgstr "Sicherung wird erstellt …"
+msgstr "Vytvára sa záloha..."
 
 #: src/files.c:1626
 msgid "Too many existing backup files"
-msgstr "Zu viele Sicherungsdateien vorhanden"
+msgstr "Priveľa existujúcich záložných súborov"
 
 #: src/files.c:1671
 msgid "Cannot read original file"
-msgstr "Originaldatei kann nicht gelesen werden"
+msgstr "Nedá sa čítať pôvodný súbor"
 
 #: src/files.c:1703
 msgid "Cannot make regular backup"
-msgstr "Reguläre Sicherung kann nicht erstellt werden"
+msgstr "Nedá sa vytvoriť pravidelná záloha"
 
 #: src/files.c:1704
 msgid "Trying again in your home directory"
-msgstr "Wird im Heimatverzeichnis erneut versucht"
+msgstr "Skúša sa znova vo vašom domovskom priečinku"
 
 #: src/files.c:1716
 msgid "Cannot make backup"
-msgstr "Sicherung kann nicht erstellt werden"
+msgstr "Nedá sa vytvoriť záloha"
 
 #. TRANSLATORS: Try to keep this message at most 76 characters.
 #: src/files.c:1727
 msgid "Cannot make backup; continue and save actual file? "
-msgstr ""
-"Sicherung kann nicht erstellt werden; tatsächliche Datei trotzdem speichern?"
+msgstr "Nedá sa vytvoriť záloha; pokračovať a uložiť súčasný súbor? "
 
 #. TRANSLATORS: The %s is the reason of failure.
 #: src/files.c:1732
 #, c-format
 msgid "Cannot make backup: %s"
-msgstr "Sicherung kann nicht erstellt werden: %s"
+msgstr "Nedá sa vytvoriť záloha: %s"
 
 #: src/files.c:1768
 #, c-format
 msgid "Can't write outside of %s"
-msgstr "Außerhalb von %s kann nicht geschrieben werden"
+msgstr "Nedá sa zapisovať mimo %s"
 
 #: src/files.c:1806 src/files.c:1818 src/text.c:2481 src/text.c:2499
 #: src/text.c:2900
 #, c-format
 msgid "Error writing temp file: %s"
-msgstr "Fehler beim Schreiben der temporären Datei: %s"
+msgstr "Chyba pri zápise dočasného súboru: %s"
 
 #: src/files.c:1825
 msgid "Writing to FIFO..."
-msgstr "In FIFO wird geschrieben …"
+msgstr "Zapisovanie do FIFO..."
 
 #: src/files.c:1853 src/files.c:1864 src/files.c:1886 src/files.c:1903
 #: src/files.c:1912 src/files.c:1940 src/files.c:1951 src/files.c:1957
@@ -414,706 +416,702 @@ msgstr "In FIFO wird geschrieben …"
 #: src/history.c:487 src/history.c:493
 #, c-format
 msgid "Error writing %s: %s"
-msgstr "Fehler beim Schreiben von %s: %s"
+msgstr "Chyba pri zápise %s: %s"
 
 #: src/files.c:1871
 msgid "Writing..."
-msgstr "Wird geschrieben …"
+msgstr "Zapisuje sa..."
 
 #: src/files.c:1928 src/files.c:1936
 #, c-format
 msgid "Error reading temp file: %s"
-msgstr "Fehler beim Lesen der temporären Datei: %s"
+msgstr "Chyba pri čítaní dočasného súboru: %s"
 
 #: src/files.c:2012
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
-msgstr[0] "%zu Zeile geschrieben"
-msgstr[1] "%zu Zeilen geschrieben"
+msgstr[0] "Zapísal sa %zu riadok"
+msgstr[1] "Zapísali sa %zu riadky"
+msgstr[2] "Zapísalo sa %zu riadkov"
 
 #: src/files.c:2099
 msgid " [DOS Format]"
-msgstr " [DOS-Format]"
+msgstr " [Formát DOS]"
 
 #: src/files.c:2100
 msgid " [Mac Format]"
-msgstr " [Mac-Format]"
+msgstr " [Formát Mac]"
 
 #: src/files.c:2101
 msgid " [Backup]"
-msgstr " [Sicherungsdatei]"
+msgstr " [Záloha]"
 
 #. TRANSLATORS: The next six strings are prompts.
 #: src/files.c:2108
 msgid "Prepend Selection to File"
-msgstr "Auswahl vorne an Datei anfügen"
+msgstr "Vložiť výber na začiatok súboru"
 
 #: src/files.c:2109
 msgid "Append Selection to File"
-msgstr "Auswahl an Datei anhängen"
+msgstr "Vložiť výber na koniec súboru"
 
 #: src/files.c:2110
 msgid "Write Selection to File"
-msgstr "Auswahl in Datei schreiben"
+msgstr "Zapísať výber do súboru"
 
 #: src/files.c:2112
 msgid "File Name to Prepend to"
-msgstr "Dateiname zum vorn Anfügen"
+msgstr "Názov súboru kde sa má vložiť na začiatok"
 
 #: src/files.c:2113
 msgid "File Name to Append to"
-msgstr "Dateiname zum Anhängen"
+msgstr "Názov súboru kde sa má vložiť na koniec"
 
 #: src/files.c:2116
 msgid "File Name to Write"
-msgstr "Dateiname zum Speichern"
+msgstr "Názov súboru pre zápis"
 
 #. TRANSLATORS: Concisely say the screen is too small.
 #: src/files.c:2194
 msgid "Too tiny"
-msgstr "Zu klein"
+msgstr "Príliš malá"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
 #: src/files.c:2227
 msgid "File exists -- cannot overwrite"
-msgstr "Datei existiert – kann nicht überschrieben werden"
+msgstr "Súbor existuje -- nedá sa prepísať"
 
 #: src/files.c:2237
 msgid "Save file under DIFFERENT NAME? "
-msgstr "Datei unter einem ANDEREN NAMEN speichern? "
+msgstr "Uložiť súbor pod INÝM NÁZVOM? "
 
 #: src/files.c:2245
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
-msgstr "Datei „%s“ existiert, ÜBERSCHREIBEN? "
+msgstr "Súbor „%s“ existuje; PREPÍSAŤ? "
 
 #: src/files.c:2269
 msgid "File on disk has changed"
-msgstr "Die Datei wurde auf dem Datenträger geändert"
+msgstr "Súbor na disku sa zmenil"
 
 #. TRANSLATORS: Try to keep this at most 76 characters.
 #: src/files.c:2272
 msgid "File was modified since you opened it; continue saving? "
-msgstr "Datei wurde seit dem Öffnen geändert, dennoch speichern? "
+msgstr "Súbor sa zmenil odkedy ste ho otvorili; pokračovať v ukladaní? "
 
 #: src/files.c:2648
 msgid "(more)"
-msgstr "(mehr)"
+msgstr "(viac)"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
 #: src/global.c:565
 msgid "Exit"
-msgstr "Beenden"
+msgstr "Ukončiť"
 
 #: src/global.c:566
 msgid "Close"
-msgstr "Schließen"
+msgstr "Zavrieť"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
 #: src/global.c:574
 msgid "Cancel the current function"
-msgstr "Funktion abbrechen"
+msgstr "Zrušiť súčasnú funkciu"
 
 #: src/global.c:575
 msgid "Display this help text"
-msgstr "Diese Hilfe anzeigen"
+msgstr "Zobraziť túto pomocnú správu"
 
 #: src/global.c:576
 msgid "Close the current buffer / Exit from nano"
-msgstr "Aktuellen Puffer schließen / Nano beenden"
+msgstr "Zavrieť súčasný zásobník / Ukončiť nano"
 
 #: src/global.c:578
 msgid "Write the current buffer (or the marked region) to disk"
-msgstr ""
-"Den aktuellen Puffer (oder den markierten Bereich) auf Festplatte speichern"
+msgstr "Zapísať súčasný zásobník (alebo označený výber) na disk"
 
 #: src/global.c:580
 msgid "Insert another file into current buffer (or into new buffer)"
-msgstr "Weitere Datei in die aktuellen (oder einen neuen) Puffer einfügen"
+msgstr "Vložiť iný súbor do súčasného zásobníka (alebo do nového zásobníka)"
 
 #: src/global.c:582
 msgid "Search forward for a string or a regular expression"
-msgstr "Nach einer Zeichenkette oder einem regulären Ausdruck vorwärts suchen"
+msgstr "Hľadať reťazec alebo regulárny výraz dopredu"
 
 #: src/global.c:584
 msgid "Search backward for a string or a regular expression"
-msgstr "Nach einer Zeichenkette oder einem regulären Ausdruck rückwärts suchen"
+msgstr "Hľadať reťazec alebo regulárny výraz dozadu"
 
 #: src/global.c:586
 msgid "Cut current line (or marked region) and store it in cutbuffer"
 msgstr ""
-"Die aktuelle Zeile (oder den markierten Bereich) ausschneiden und in der "
-"Zwischenablage speichern"
+"Vystrihnúť súčasný riadok (alebo označenú oblasť) a uložiť ho do zásobníka "
+"vystrihovania"
 
 #: src/global.c:588
 msgid "Paste the contents of cutbuffer at current cursor position"
-msgstr "Inhalt der Zwischenablage an der aktuellen Cursorposition einfügen"
+msgstr "Vložiť obsah zásobníka vystrihovania na miesto kurzora"
 
 #: src/global.c:589
 msgid "Display the position of the cursor"
-msgstr "Die aktuelle Cursorposition anzeigen"
+msgstr "Zobraziť umiestnenie kurzora"
 
 #: src/global.c:591
 msgid "Invoke the spell checker, if available"
-msgstr "Rechtschreibprüfung aufrufen (wenn verfügbar)"
+msgstr "Spustiť nástroj na kontrolu pravopisu ak je dostupný"
 
 #: src/global.c:593
 msgid "Replace a string or a regular expression"
-msgstr "Eine Zeichenkette oder einen regulären Ausdruck ersetzen"
+msgstr "Nahradiť reťazec alebo regulárny výraz"
 
 #: src/global.c:594
 msgid "Go to line and column number"
-msgstr "Zu einer bestimmten Zeile und Spalte springen"
+msgstr "Ísť na riadok a stĺpec"
 
 #: src/global.c:596
 msgid "Mark text starting from the cursor position"
-msgstr "Text beginnend an Cursorposition markieren"
+msgstr "Označiť text od miesta kurzora"
 
 #: src/global.c:598
 msgid "Copy current line (or marked region) and store it in cutbuffer"
 msgstr ""
-"Die aktuelle Zeile (oder den markierten Bereich) kopieren und in der "
-"Zwischenablage speichern"
+"Kopírovať súčasný riadok (alebo označenú oblasť) a uložiť ho do zásobníka "
+"vystrihovania"
 
 #: src/global.c:599
 msgid "Throw away the current line (or marked region)"
-msgstr "Die aktuelle Zeile oder den markierten Bereich verwerfen"
+msgstr "Zahodiť súčasný riadok (alebo označenú oblasť)"
 
 #: src/global.c:600
 msgid "Indent the current line (or marked lines)"
-msgstr "Die aktuelle Zeile oder die markierten Zeilen einrücken"
+msgstr "Odsadiť súčasný riadok (alebo vybraté riadky)"
 
 #: src/global.c:601
 msgid "Unindent the current line (or marked lines)"
-msgstr "Die aktuelle Zeile oder die markierten Zeilen ausrücken"
+msgstr "Zmenšiť odsadenie súčasného riadku (alebo vybratých riadkov)"
 
 #: src/global.c:602
 msgid "Undo the last operation"
-msgstr "Letzte Operation rückgängig machen"
+msgstr "Vrátiť poslednú činnosť"
 
 #: src/global.c:603
 msgid "Redo the last undone operation"
-msgstr "Rückgängig gemachte Operation wiederholen"
+msgstr "Znova vykonať poslednú vrátenú činnosť"
 
 #: src/global.c:605
 msgid "Go back one character"
-msgstr "Ein Zeichen rückwärts gehen"
+msgstr "Vrátiť sa o jeden znak vzad"
 
 #: src/global.c:606
 msgid "Go forward one character"
-msgstr "Ein Zeichen vorwärts gehen"
+msgstr "Posunúť sa o jeden znak vpred"
 
 #: src/global.c:607
 msgid "Go back one word"
-msgstr "Ein Wort rückwärts gehen"
+msgstr "Vrátiť sa o jedno slovo vzad"
 
 #: src/global.c:608
 msgid "Go forward one word"
-msgstr "Ein Wort vorwärts gehen"
+msgstr "Posunúť sa o jedno slovo vpred"
 
 #: src/global.c:609
 msgid "Go to previous line"
-msgstr "Zur vorhergehenden Zeile gehen"
+msgstr "Vrátiť sa na predchádzajúci riadok"
 
 #: src/global.c:610
 msgid "Go to next line"
-msgstr "Zur folgenden Zeile gehen"
+msgstr "Prejsť na ďalší riadok"
 
 #: src/global.c:611
 msgid "Go to beginning of current line"
-msgstr "Zum Anfang der aktuellen Zeile springen"
+msgstr "Vrátiť sa na začiatok súčasného riadku"
 
 #: src/global.c:612
 msgid "Go to end of current line"
-msgstr "Zum Ende der aktuellen Zeile springen"
+msgstr "Prejsť na koniec súčasného riadku"
 
 #: src/global.c:613
 msgid "Go to previous block of text"
-msgstr "Zum vorhergehenden Textblock gehen"
+msgstr "Vrátiť sa k predchádzajúcemu bloku textu"
 
 #: src/global.c:614
 msgid "Go to next block of text"
-msgstr "Zum folgenden Textblock gehen"
+msgstr "Prejsť na ďalší blok textu"
 
 #: src/global.c:617
 msgid "Go to beginning of paragraph; then of previous paragraph"
-msgstr "Zum Anfang des aktuellen Absatzes springen; dann des vorigen Absatzes"
+msgstr "Prejsť na začiatok odseku; potom predchádzajúceho odseku"
 
 #: src/global.c:619
 msgid "Go just beyond end of paragraph; then of next paragraph"
-msgstr ""
-"Hinter das Ende des aktuellen Absatzes springen; dann des nächsten Absatzes"
+msgstr "Prejsť hneď za koniec odseku; potom ďalšieho odseku"
 
 #: src/global.c:621
 msgid "Go one screenful up"
-msgstr "Eine Bildschirmseite hoch gehen"
+msgstr "Posunúť sa o obrazovku vyššie"
 
 #: src/global.c:622
 msgid "Go one screenful down"
-msgstr "Eine Bildschirmseite runter gehen"
+msgstr "Posunúť sa o obrazovku nižšie"
 
 #: src/global.c:623
 msgid "Go to the first line of the file"
-msgstr "Zur ersten Zeile der Datei springen"
+msgstr "Prejsť do prvého riadku súboru"
 
 #: src/global.c:624
 msgid "Go to the last line of the file"
-msgstr "Zur letzten Zeile der Datei springen"
+msgstr "Prejsť do posledného riadku súboru"
 
 #: src/global.c:626
 msgid "Go to the matching bracket"
-msgstr "Zur passenden Klammer springen"
+msgstr "Prejsť k zodpovedajúcej zátvorke"
 
 #: src/global.c:630
 msgid "Scroll up one line without moving the cursor textually"
-msgstr "Eine Zeile hochrollen, ohne den Cursor im Text zu bewegen"
+msgstr "Posunúť sa o riadok vyššie bez pohnutia kurzora"
 
 #: src/global.c:632
 msgid "Scroll down one line without moving the cursor textually"
-msgstr "Eine Zeile hinunterrollen, ohne den Cursor im Text zu bewegen"
+msgstr "Posunúť sa o riadok nižšie bez pohnutia kurzora"
 
 #: src/global.c:633
 msgid "Center the line where the cursor is"
-msgstr "Zeile zentrieren, die den Cursor enthält"
+msgstr "Zarovnať na stred riadok kde sa nachádza kurzor"
 
 #: src/global.c:636
 msgid "Switch to the previous file buffer"
-msgstr "Zum vorhergehenden Dateipuffer umschalten"
+msgstr "Prepnúť na predchádzajúci zásobník súboru"
 
 #: src/global.c:637
 msgid "Switch to the next file buffer"
-msgstr "Zum folgenden Dateipuffer umschalten"
+msgstr "Prepnúť na nasledujúci zásobník súboru"
 
 #: src/global.c:639
 msgid "Insert the next keystroke verbatim"
-msgstr "Nächstes Zeichen direkt (nicht interpretiert) einfügen"
+msgstr "Vložiť ďalší znak priamo (taký aký je)"
 
 #: src/global.c:640
 msgid "Insert a tab at the cursor position"
-msgstr "Einen Tabulator an der Cursorposition einfügen"
+msgstr "Vložiť odsadenie na miesto kurzora"
 
 #: src/global.c:641
 msgid "Insert a newline at the cursor position"
-msgstr "Einen Zeilenumbruch an der Cursorposition einfügen"
+msgstr "Zalomiť riadok na miesto kurzora"
 
 #: src/global.c:642
 msgid "Delete the character under the cursor"
-msgstr "Zeichen an der Cursorposition löschen"
+msgstr "Odstrániť znak na mieste kurzora"
 
 #: src/global.c:644
 msgid "Delete the character to the left of the cursor"
-msgstr "Zeichen links vom Cursor löschen"
+msgstr "Odstrániť znak naľavo od kurzora"
 
 #: src/global.c:647
 msgid "Delete backward from cursor to word start"
-msgstr "Vom Cursor rückwärts bis zum Beginn des Wortes ausschneiden"
+msgstr "Odstrániť dozadu od kurzora po začiatok slova"
 
 #: src/global.c:649
 msgid "Delete forward from cursor to next word start"
-msgstr "Vom Cursor vorwärts bis zum Beginn des nächsten Wortes ausschneiden"
+msgstr "Odstrániť dopredu od kurzora po začiatok ďalšieho slova"
 
 #: src/global.c:651
 msgid "Cut from the cursor position to the end of the file"
-msgstr "Vom Cursor bis zum Dateiende ausschneiden"
+msgstr "Vystrihnúť od kurzora po koniec súboru"
 
 #: src/global.c:654
 msgid "Justify the current paragraph"
-msgstr "Absatz ausrichten"
+msgstr "Zarovnať súčasný odsek"
 
 #: src/global.c:655
 msgid "Justify the entire file"
-msgstr "Die gesamte Datei ausrichten"
+msgstr "Zarovnať celý súbor"
 
 #: src/global.c:659
 msgid "Count the number of words, lines, and characters"
-msgstr "Die Wörter, Zeilen und Zeichen zählen"
+msgstr "Spočítať slová, riadky a znaky"
 
 #: src/global.c:661
 msgid "Refresh (redraw) the current screen"
-msgstr "Bildschirm auffrischen (neu zeichnen)"
+msgstr "Obnoviť (prekresliť) súčasnú obrazovku"
 
 #: src/global.c:662
 msgid "Suspend the editor (if suspension is enabled)"
-msgstr "Den Editor in den Hintergrund schieben (wenn nano so eingerichtet ist)"
+msgstr "Uspať editor (ak je spánok povolený)"
 
 #: src/global.c:664
 msgid "Try and complete the current word"
-msgstr "Versuchen, das aktuelle Wort zu vervollständigen"
+msgstr "Skúsiť a doplniť súčasné slovo"
 
 #: src/global.c:668
 msgid "Comment/uncomment the current line (or marked lines)"
-msgstr ""
-"Die aktuelle Zeile oder die markierten Zeilen auskommentieren oder "
-"Kommentierung aufheben"
+msgstr "Komentovať/odkomentovať súčasný riadok (alebo vyznačené riadky)"
 
 #: src/global.c:670
 msgid "Save file without prompting"
-msgstr "Datei ohne Nachfrage speichern"
+msgstr "Uložiť súbor bez opýtania"
 
 #: src/global.c:671
 msgid "Search next occurrence backward"
-msgstr "Nächstes Vorkommen rückwärts suchen"
+msgstr "Hľadať ďalšiu zhodu dozadu"
 
 #: src/global.c:672
 msgid "Search next occurrence forward"
-msgstr "Nächstes Vorkommen vorwärts suchen"
+msgstr "Hľadať ďalšiu zhodu dopredu"
 
 #: src/global.c:674
 msgid "Start/stop recording a macro"
-msgstr "Aufzeichnung eines Makros starten/stoppen"
+msgstr "Spustiť/zastaviť nahrávanie makra"
 
 #: src/global.c:675
 msgid "Run the last recorded macro"
-msgstr "Zuletzt aufgezeichnetes Makro ausführen"
+msgstr "Spustiť posledné nahraté makro"
 
 #: src/global.c:676
 msgid "Place or remove an anchor at the current line"
-msgstr "Einen Anker in der aktuellen Zeile setzen oder daraus entfernen"
+msgstr "Umiestniť alebo odstrániť odkaz v súčasnom riadku"
 
 #: src/global.c:677
 msgid "Jump backward to the nearest anchor"
-msgstr "Zurück zum nächstliegenden Anker springen"
+msgstr "Preskočiť dozadu na najbližší odkaz"
 
 #: src/global.c:678
 msgid "Jump forward to the nearest anchor"
-msgstr "Vorwärts zum nächstliegenden Anker springen"
+msgstr "Preskočiť dopredu na najbližší odkaz"
 
 #: src/global.c:680
 msgid "Toggle the case sensitivity of the search"
-msgstr "Unterscheidung von Groß- und Kleinschreibung bei Suche umschalten"
+msgstr "Prepnúť rozlišovanie veľkých a malých písmen pri hľadaní"
 
 #: src/global.c:681
 msgid "Reverse the direction of the search"
-msgstr "Die Richtung der Suche umkehren"
+msgstr "Obrátiť smer hľadania"
 
 #: src/global.c:682
 msgid "Toggle the use of regular expressions"
-msgstr "Benutzung regulärer Ausdrücke umschalten"
+msgstr "Prepnúť používanie regulárnych výrazov"
 
 #: src/global.c:684
 msgid "Recall the previous search/replace string"
-msgstr "Den vorhergehenden Suchen-/Ersetzen-Begriff hervorholen"
+msgstr "Vyvolať predchádzajúci reťazec hľadania/nahradenia"
 
 #: src/global.c:685
 msgid "Recall the next search/replace string"
-msgstr "Den nächsten Suchen-/Ersetzen-Begriff hervorholen"
+msgstr "Vyvolať ďalší reťazec hľadania/nahradenia"
 
 #: src/global.c:688
 msgid "Toggle the use of DOS format"
-msgstr "Schreiben im DOS-Format umschalten"
+msgstr "Prepnúť použitie formátu DOS"
 
 #: src/global.c:689
 msgid "Toggle the use of Mac format"
-msgstr "Schreiben im Mac-Format umschalten"
+msgstr "Prepnúť použitie formátu Mac"
 
 #: src/global.c:690
 msgid "Toggle appending"
-msgstr "Anhängen umschalten"
+msgstr "Prepnúť vkladanie na koniec"
 
 #: src/global.c:691
 msgid "Toggle prepending"
-msgstr "Vorn-Anfügen umschalten"
+msgstr "Prepnúť vkladanie na začiatok"
 
 #: src/global.c:692
 msgid "Toggle backing up of the original file"
-msgstr "Sicherung existierender Dateien beim Speichern umschalten"
+msgstr "Prepnúť zálohovanie pôvodného súboru"
 
 #: src/global.c:693
 msgid "Execute a function or an external command"
-msgstr "Funktion oder externen Befehl ausführen"
+msgstr "Vykonať funkciu alebo vonkajší príkaz"
 
 #: src/global.c:695
 msgid "Pipe the current buffer (or marked region) to the command"
-msgstr "Den aktuellen Puffer (oder den markierten Bereich) in Pipe senden"
+msgstr "Zreťaziť súčasný zásobník (alebo označenú oblasť) s príkazom"
 
 #: src/global.c:696
 msgid "Do not convert from DOS/Mac format"
-msgstr "Keine Umwandlung aus DOS/Mac-Format"
+msgstr "Neprevádzať z formátu DOS/Mac"
 
 #: src/global.c:699
 msgid "Toggle the use of a new buffer"
-msgstr "Benutzung eines neuen Puffers umschalten"
+msgstr "Prepnúť použitie nového zásobníka"
 
 #: src/global.c:701
 msgid "Close buffer without saving it"
-msgstr "Puffer schließen, ohne zu speichern"
+msgstr "Zavrieť zásobník bez uloženia"
 
 #: src/global.c:703
 msgid "Go to file browser"
-msgstr "Zum Dateibrowser gehen"
+msgstr "Prejsť do prehliadača súborov"
 
 #: src/global.c:704
 msgid "Exit from the file browser"
-msgstr "Den Dateibrowser beenden"
+msgstr "Ukončiť prehliadač súborov"
 
 #: src/global.c:705
 msgid "Go to the first file in the list"
-msgstr "Zur ersten Datei der Liste springen"
+msgstr "Prejsť na prvý súbor v zozname"
 
 #: src/global.c:706
 msgid "Go to the last file in the list"
-msgstr "Zur letzten Datei der Liste springen"
+msgstr "Prejsť na posledný súbor v zozname"
 
 #: src/global.c:707
 msgid "Go to the previous file in the list"
-msgstr "Zur vorigen Datei der Liste springen"
+msgstr "Prejsť na predchádzajúci súbor v zozname"
 
 #: src/global.c:708
 msgid "Go to the next file in the list"
-msgstr "Zur nächsten Datei der Liste springen"
+msgstr "Prejsť na ďalší súbor v zozname"
 
 #: src/global.c:710
 msgid "Go to lefthand column"
-msgstr "Zur linken Spalte springen"
+msgstr "Prejsť do ľavého stĺpca"
 
 #: src/global.c:711
 msgid "Go to righthand column"
-msgstr "Zur rechten Spalte springen"
+msgstr "Prejsť do pravého stĺpca"
 
 #: src/global.c:712
 msgid "Go to first row in this column"
-msgstr "Zur ersten Zeile in dieser Spalte springen"
+msgstr "Prejsť do prvého riadku v tomto stĺpci"
 
 #: src/global.c:713
 msgid "Go to last row in this column"
-msgstr "Zur letzten Zeile in dieser Spalte springen"
+msgstr "Prejsť do posledného riadku v tomto stĺpci"
 
 #: src/global.c:715
 msgid "Search forward for a string"
-msgstr "Vorwärts nach einer Zeichenkette suchen"
+msgstr "Hľadať reťazec dopredu"
 
 #: src/global.c:716
 msgid "Search backward for a string"
-msgstr "Rückwärts nach einer Zeichenkette suchen"
+msgstr "Hľadať reťazec dozadu"
 
 #: src/global.c:717
 msgid "Refresh the file list"
-msgstr "Dateiliste aktualisieren"
+msgstr "Obnoviť zoznam súborov"
 
 #: src/global.c:718
 msgid "Go to directory"
-msgstr "Zu Verzeichnis gehen"
+msgstr "Prejsť do priečinka"
 
 #: src/global.c:721
 msgid "Invoke the linter, if available"
-msgstr "Den Linter aufrufen (wenn verfügbar)"
+msgstr "Vyvolať nástroj na rozbor, ak je dostupný"
 
 #: src/global.c:722
 msgid "Go to previous linter msg"
-msgstr "Zur vorhergehenden Linter-Meldung gehen"
+msgstr "Prejsť na predchádzajúcu správu rozboru"
 
 #: src/global.c:723
 msgid "Go to next linter msg"
-msgstr "Zur nächsten Linter-Meldung gehen"
+msgstr "Prejsť na ďalšiu správu rozboru"
 
 #: src/global.c:725
 msgid "Invoke a program to format/arrange/manipulate the buffer"
-msgstr ""
-"Ein Programm zum Formatieren/Arrangieren/Bearbeiten des Puffers aufrufen"
+msgstr "Vyvolať program na formátovanie/usporiadanie/narábanie so zásobníkom"
 
 #. TRANSLATORS: Try to keep the next thirteen strings at most 10 characters.
 #: src/global.c:739
 msgid "Help"
-msgstr "Hilfe"
+msgstr "Pomoc"
 
 #: src/global.c:743 src/prompt.c:691
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "Zrušiť"
 
 #: src/global.c:765
 msgid "Write Out"
-msgstr "Speichern"
+msgstr "Zapísať"
 
 #: src/global.c:773
 msgid "Read File"
-msgstr "Datei öffnen"
+msgstr "Otv. súbor"
 
 #: src/global.c:780 src/global.c:819
 msgid "Justify"
-msgstr "Ausrichten"
+msgstr "Zarovnať"
 
 #: src/global.c:786 src/global.c:877 src/global.c:1023
 msgid "Refresh"
-msgstr "Auffrischen"
+msgstr "Obnoviť"
 
 #: src/global.c:791 src/global.c:880
 msgid "Where Is"
-msgstr "Wo ist"
+msgstr "Hľadať"
 
 #: src/global.c:794 src/global.c:855
 msgid "Replace"
-msgstr "Ersetzen"
+msgstr "Nahradiť"
 
 #. TRANSLATORS: This starts a backward search.
 #: src/global.c:798 src/global.c:882 src/global.c:901 src/global.c:1077
 msgid "Where Was"
-msgstr "Wo war"
+msgstr "Hľ. dozadu"
 
 #. TRANSLATORS: This refers to searching the preceding occurrence.
 #: src/global.c:801 src/global.c:885 src/global.c:905
 msgid "Previous"
-msgstr "Vorige"
+msgstr "Predch"
 
 #: src/global.c:803 src/global.c:887 src/global.c:907
 msgid "Next"
-msgstr "Nächste"
+msgstr "Ďalšia"
 
 #: src/global.c:807
 msgid "Cut"
-msgstr "Ausschneiden"
+msgstr "Vystrihnúť"
 
 #: src/global.c:810
 msgid "Paste"
-msgstr "Einfügen"
+msgstr "Vložiť"
 
 #: src/global.c:815
 msgid "Execute"
-msgstr "Ausführen"
+msgstr "Vykonať"
 
 #. TRANSLATORS: This refers to the position of the cursor.
 #: src/global.c:825
 msgid "Location"
-msgstr "Position"
+msgstr "Umiestnenie"
 
 #: src/global.c:831 src/global.c:868 src/global.c:978
 msgid "Go To Line"
-msgstr "Zu Zeile"
+msgstr "Prejsť na riadok"
 
 #. TRANSLATORS: Try to keep the next ten strings at most 12 characters.
 #: src/global.c:837
 msgid "Undo"
-msgstr "Rückgängig"
+msgstr "Vrátiť späť"
 
 #: src/global.c:839
 msgid "Redo"
-msgstr "Wiederholen"
+msgstr "Znovu"
 
 #: src/global.c:842
 msgid "Set Mark"
-msgstr "Markierung setzen"
+msgstr "Značka"
 
 #: src/global.c:844
 msgid "Copy"
-msgstr "Kopieren"
+msgstr "Kopírovať"
 
 #: src/global.c:848
 msgid "Case Sens"
-msgstr "GROSS/klein"
+msgstr "VEĽKÉ/malé"
 
 #: src/global.c:850
 msgid "Reg.exp."
-msgstr "Reg.Ausdr."
+msgstr "Reg. výr."
 
 #: src/global.c:852
 msgid "Backwards"
-msgstr "Rückwärts"
+msgstr "Dozadu"
 
 #: src/global.c:857
 msgid "No Replace"
-msgstr "Keine Ersetzung"
+msgstr "Nenahrádzať"
 
 #: src/global.c:861
 msgid "Older"
-msgstr "Älter"
+msgstr "Starší"
 
 #: src/global.c:863
 msgid "Newer"
-msgstr "Neuer"
+msgstr "Novší"
 
 #. TRANSLATORS: Try to keep the next seven strings at most 10 characters.
 #: src/global.c:874
 msgid "Go To Dir"
-msgstr "Gehe zu Verz."
+msgstr "Ísť do prč"
 
 #: src/global.c:897
 msgid "To Bracket"
-msgstr "Zu Klammer"
+msgstr "K zátv"
 
 #. TRANSLATORS: This means move the cursor one character back.
 #: src/global.c:912 src/global.c:917
 msgid "Back"
-msgstr "Zurück"
+msgstr "Dozadu"
 
 #: src/global.c:914 src/global.c:919
 msgid "Forward"
-msgstr "Vorwärts"
+msgstr "Dopredu"
 
 #. TRANSLATORS: Try to keep the next ten strings at most 12 characters.
 #: src/global.c:925
 msgid "Prev Word"
-msgstr "Vorheriges Wort"
+msgstr "Predch slovo"
 
 #: src/global.c:927
 msgid "Next Word"
-msgstr "Nächstes Wort"
+msgstr "Ďalšie slovo"
 
 #: src/global.c:931
 msgid "Home"
-msgstr "Pos 1"
+msgstr "Začiatok"
 
 #: src/global.c:933
 msgid "End"
-msgstr "Ende"
+msgstr "Koniec"
 
 #: src/global.c:936
 msgid "Prev Line"
-msgstr "Zeile zurück"
+msgstr "Predch riadok"
 
 #: src/global.c:938
 msgid "Next Line"
-msgstr "Zeile vor"
+msgstr "Ďalší riadok"
 
 #: src/global.c:941
 msgid "Scroll Up"
-msgstr "Hochrollen"
+msgstr "Posun vyššie"
 
 #: src/global.c:943
 msgid "Scroll Down"
-msgstr "Herunterrollen"
+msgstr "Posun nižšie"
 
 #: src/global.c:947
 msgid "Prev Block"
-msgstr "Vorh. Block"
+msgstr "Predch blok"
 
 #: src/global.c:949
 msgid "Next Block"
-msgstr "Nächster Block"
+msgstr "Ďalší blok"
 
 #. TRANSLATORS: Try to keep these two strings at most 16 characters.
 #: src/global.c:953
 msgid "Begin of Paragr."
-msgstr "Anf des Abs."
+msgstr "Zač. ods."
 
 #: src/global.c:955
 msgid "End of Paragraph"
-msgstr "Ende des Abs."
+msgstr "Kon. odseku"
 
 #. TRANSLATORS: Try to keep the next six strings at most 12 characters.
 #: src/global.c:960 src/global.c:1163
 msgid "Prev Page"
-msgstr "Seite zurück"
+msgstr "Predch str"
 
 #: src/global.c:962 src/global.c:1165
 msgid "Next Page"
-msgstr "Seite vor"
+msgstr "Ďalšia str"
 
 #: src/global.c:965
 msgid "First Line"
-msgstr "Erste Zeile"
+msgstr "Prvý riadok"
 
 #: src/global.c:967
 msgid "Last Line"
-msgstr "Letzte Zeile"
+msgstr "Posl riadok"
 
 #: src/global.c:971
 msgid "Prev File"
-msgstr "Vorh. Datei"
+msgstr "Predch súbor"
 
 #: src/global.c:973
 msgid "Next File"
-msgstr "Nächste Datei"
+msgstr "Ďalší súbor"
 
 #. TRANSLATORS: The next four strings are names of keyboard keys.
 #: src/global.c:983
@@ -1126,233 +1124,233 @@ msgstr "Enter"
 
 #: src/global.c:988
 msgid "Backspace"
-msgstr "Rücktaste"
+msgstr "Backspace"
 
 #: src/global.c:990
 msgid "Delete"
-msgstr "Löschen"
+msgstr "Delete"
 
 #. TRANSLATORS: The next two strings refer to deleting words.
 #: src/global.c:1001
 msgid "Chop Left"
-msgstr "Wort links"
+msgstr "Odseknúť zľava"
 
 #: src/global.c:1003
 msgid "Chop Right"
-msgstr "Wort rechts"
+msgstr "Odseknúť sprava"
 
 #: src/global.c:1005 src/global.c:1148
 msgid "Cut Till End"
-msgstr "Bis Ende ausschneiden"
+msgstr "Vystrihnúť do konca"
 
 #: src/global.c:1010 src/global.c:1107
 msgid "Full Justify"
-msgstr "Kompl. Ausr."
+msgstr "Úplné zarovnanie"
 
 #: src/global.c:1015
 msgid "Word Count"
-msgstr "Wortanzahl"
+msgstr "Počet slov"
 
 #: src/global.c:1019
 msgid "Verbatim"
-msgstr "Direkt"
+msgstr "Priame zadanie"
 
 #: src/global.c:1027 src/global.c:1151
 msgid "Suspend"
-msgstr "In den Hintergrund"
+msgstr "Uspať"
 
 #: src/global.c:1031
 msgid "Indent"
-msgstr "Einrücken"
+msgstr "Odsadiť"
 
 #: src/global.c:1033
 msgid "Unindent"
-msgstr "Ausrücken"
+msgstr "Zrušiť odsadenie"
 
 #: src/global.c:1037
 msgid "Comment Lines"
-msgstr "Kommentarzeilen"
+msgstr "Komentovať riadky"
 
 #: src/global.c:1041
 msgid "Complete"
-msgstr "Vervollständigen"
+msgstr "Dokončiť"
 
 #: src/global.c:1046
 msgid "Record"
-msgstr "Aufzeichnen"
+msgstr "Nahrať"
 
 #: src/global.c:1048
 msgid "Run Macro"
-msgstr "Makro ausführen"
+msgstr "Spustiť makro"
 
 #: src/global.c:1051
 msgid "Anchor"
-msgstr "Anker"
+msgstr "Odkaz"
 
 #: src/global.c:1053
 msgid "Up to anchor"
-msgstr "Nach oben zum Anker"
+msgstr "Na odkaz vyššie"
 
 #: src/global.c:1055
 msgid "Down to anchor"
-msgstr "Nach unten zum Anker"
+msgstr "Na odkaz nižšie"
 
 #. TRANSLATORS: This *deletes* a line or marked region.
 #: src/global.c:1059
 msgid "Zap"
-msgstr "Löschen"
+msgstr "Zap"
 
 #: src/global.c:1064 src/global.c:1099
 msgid "Spell Check"
-msgstr "Rechtschreibung"
+msgstr "Kontrola pravopisu"
 
 #: src/global.c:1068 src/global.c:1103
 msgid "Linter"
-msgstr "Linter"
+msgstr "Rozbor"
 
 #: src/global.c:1070 src/global.c:1111
 msgid "Formatter"
-msgstr "Formatierer"
+msgstr "Formátovač"
 
 #: src/global.c:1082
 msgid "Center"
-msgstr "Zentrieren"
+msgstr "Stred"
 
 #: src/global.c:1085
 msgid "Save"
-msgstr "Speichern"
+msgstr "Uložiť"
 
 #: src/global.c:1095
 msgid "Pipe Text"
-msgstr "Text in Pipe"
+msgstr "Zreťaziť text"
 
 #: src/global.c:1116
 msgid "Go To Text"
-msgstr "Zu Text"
+msgstr "Prejsť na text"
 
 #: src/global.c:1121
 msgid "DOS Format"
-msgstr "DOS-Format"
+msgstr "Formát DOS"
 
 #: src/global.c:1123
 msgid "Mac Format"
-msgstr "Mac-Format"
+msgstr "Formát Mac"
 
 #: src/global.c:1131
 msgid "Append"
-msgstr "Anhängen"
+msgstr "Vložiť na koniec"
 
 #: src/global.c:1133
 msgid "Prepend"
-msgstr "Vorn anfügen"
+msgstr "Vložiť na začiatok"
 
 #: src/global.c:1136
 msgid "Backup File"
-msgstr "Sicherungsdatei"
+msgstr "Zálohovať súbor"
 
 #: src/global.c:1140
 msgid "No Conversion"
-msgstr "Keine Umwandlung"
+msgstr "Žiadny prevod"
 
 #: src/global.c:1145
 msgid "Execute Command"
-msgstr "Befehl ausführen"
+msgstr "Vykonať príkaz"
 
 #. TRANSLATORS: This invokes the file browser.
 #: src/global.c:1160
 msgid "Browse"
-msgstr "Dateien …"
+msgstr "Prehliadať"
 
 #: src/global.c:1168
 msgid "First File"
-msgstr "Erste Datei"
+msgstr "Prvý súbor"
 
 #: src/global.c:1170
 msgid "Last File"
-msgstr "Letzte Datei"
+msgstr "Posledný súbor"
 
 #: src/global.c:1174
 msgid "Left Column"
-msgstr "Linke Spalte"
+msgstr "Ľavý stĺpec"
 
 #: src/global.c:1176
 msgid "Right Column"
-msgstr "Rechte Spalte"
+msgstr "Pravý stĺpec"
 
 #: src/global.c:1178
 msgid "Top Row"
-msgstr "Oberste Zeile"
+msgstr "Horný riadok"
 
 #: src/global.c:1180
 msgid "Bottom Row"
-msgstr "Unterste Zeile"
+msgstr "Dolný riadok"
 
 #: src/global.c:1185
 msgid "Discard buffer"
-msgstr "Puffer verwerfen"
+msgstr "Zahodiť zásobník"
 
 #. TRANSLATORS: The next two strings may be up to 37 characters each.
 #: src/global.c:1190
 msgid "Previous Linter message"
-msgstr "Vorhergehende Linter-Meldung"
+msgstr "Predchádzajúca správa rozboru"
 
 #: src/global.c:1192
 msgid "Next Linter message"
-msgstr "Nächste Linter-Meldung"
+msgstr "Ďalšia správa rozboru"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
 #: src/global.c:1548
 msgid "Help mode"
-msgstr "Hilfe-Modus"
+msgstr "Režim pomocníka"
 
 #: src/global.c:1550
 msgid "Constant cursor position display"
-msgstr "Cursorposition ständig anzeigen"
+msgstr "Stále zobrazovanie umiestnenia kurzora"
 
 #: src/global.c:1552
 msgid "Soft wrapping of overlong lines"
-msgstr "Überlange Zeilen fließend umbrechen"
+msgstr "Plynulé zalamovanie pridlhých riadkov"
 
 #: src/global.c:1554
 msgid "Whitespace display"
-msgstr "Leerzeichenanzeige"
+msgstr "Zobrazovanie bielych znakov"
 
 #: src/global.c:1556
 msgid "Color syntax highlighting"
-msgstr "Farbige Syntaxhervorhebung"
+msgstr "Farebné zobrazovanie skladby"
 
 #: src/global.c:1558
 msgid "Smart home key"
-msgstr "Intelligente Pos1-Taste"
+msgstr "Chytrá klávesa pre začiatok dokumentu"
 
 #: src/global.c:1560
 msgid "Auto indent"
-msgstr "Automatische Einrückung"
+msgstr "Automatické odsadenie"
 
 #: src/global.c:1562
 msgid "Cut to end"
-msgstr "Bis Ende ausschneiden"
+msgstr "Vystrihnutie do konca"
 
 #: src/global.c:1564
 msgid "Hard wrapping of overlong lines"
-msgstr "Überlange Zeilen hart umbrechen"
+msgstr "Tvrdé zalamovanie pridlhých riadkov"
 
 #: src/global.c:1566
 msgid "Conversion of typed tabs to spaces"
-msgstr "Umwandlungen eingegebener Tabulatoren in Leerzeichen"
+msgstr "Prevod tabulátorov na medzery"
 
 #: src/global.c:1568
 msgid "Mouse support"
-msgstr "Mausunterstützung"
+msgstr "Podpora myši"
 
 #: src/global.c:1570
 msgid "Suspension"
-msgstr "In den Hintergrund"
+msgstr "Uspanie"
 
 #: src/global.c:1572
 msgid "Line numbering"
-msgstr "Zeilennummerierung"
+msgstr "Číslovanie riadkov"
 
 #: src/help.c:54
 msgid ""
@@ -1366,16 +1364,15 @@ msgid ""
 "prompt.  Hitting Enter without entering any text will perform the previous "
 "search.  "
 msgstr ""
-"Hilfetext für den Suchbefehl\n"
+"Pomocník príkazu Hľadať\n"
 "\n"
-" Geben Sie die Wörter oder Buchstaben ein, nach denen Sie suchen möchten, "
-"und drücken Sie die Eingabetaste. Wenn eine Übereinstimmung für den "
-"eingegebenen Text gefunden wird, dann wird die Anzeige zur nächsten "
-"Fundstelle bewegt.\n"
+" Zadajte slová alebo znaky, ktoré chcete hľadať a stlačte Enter.  V prípade, "
+"že sa nájde zhoda so zadaným textom, obrazovka sa presunie na miesto "
+"najbližšie zhody s hľadaným reťazcom.\n"
 "\n"
-" Die vorhergehende Suchzeichenkette wird in eckigen Klammern nach der Such-"
-"Aufforderung angezeigt. Drücken der Eingabetaste ohne Eingabe irgendwelchen "
-"Textes führt die vorhergehende Suche durch. "
+"  Predtým hľadaný reťazec sa zobrazí v hranatých zátvorkách za výzvou na "
+"hľadanie.  Stlačením klávesy Enter bez zadania akéhokoľvek textu sa zopakuje "
+"predchádzajúce hľadanie.  "
 
 #: src/help.c:63
 msgid ""
@@ -1385,10 +1382,10 @@ msgid ""
 " The following function keys are available in Search mode:\n"
 "\n"
 msgstr ""
-"Wenn Sie Text markiert haben und dann suchen, um zu ersetzen, werden nur "
-"Treffer in der ausgewählten Region ersetzt.\n"
+"Ak ste označili oblasť textu a pokúšate sa o hľadanie a nahradenie, nahradia "
+"sa iba zhody vo vybratom texte.\n"
 "\n"
-" Die folgenden Funktionstasten sind im Suchmodus verfügbar:\n"
+" V režime vyhľadávania sú dostupné nasledovné klávesy funkcií:\n"
 "\n"
 
 #: src/help.c:69
@@ -1402,13 +1399,14 @@ msgid ""
 " The following function keys are available in Go To Line mode:\n"
 "\n"
 msgstr ""
-"Hilfetext für „Zu Zeile“\n"
+"Pomocník príkazu Prejsť na riadok\n"
 "\n"
-"Geben Sie die Nummer der gewünschten Zeile ein und drücken Sie die "
-"Eingabetaste. Gibt es weniger Zeilen im Text, so springt Nano zur letzten "
-"Zeile der Datei.\n"
+" Zadajte číslo riadku, na ktorý chcete prejsť a stlačte Enter.  Ak text "
+"obsahuje menej riadkov ako číslo, ktoré ste zadali, prejde sa na posledný "
+"riadok v súbore.\n"
 "\n"
-" Die folgenden Funktionstasten sind im Zu-Zeile-Modus verfügbar:\n"
+" V režime prechodu na riadok sú dostupné nasledovné klávesy funkcií:\n"
+"\n"
 "\n"
 
 #: src/help.c:78
@@ -1423,17 +1421,16 @@ msgid ""
 "Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded "
 "into a separate buffer (use Meta-< and > to switch between file buffers).  "
 msgstr ""
-"Hilfetext für „Datei einfügen“\n"
+"Pomocník príkazu Vložiť súbor\n"
 "\n"
-" Geben Sie den Namen einer Datei ein, die an der momentanen Cursorposition "
-"in den momentanen Dateipuffer eingefügt werden soll.\n"
+" Zadajte názov súboru, ktorý sa má vložiť do súčasného zásobníka a na "
+"súčasné umiestnenie kurzora.\n"
 "\n"
-" Wenn Sie Nano mit Unterstützung für mehrere Dateipuffer kompiliert haben "
-"und diese Funktion mit den Befehlszeilenoptionen -F oder --multibuffer, mit "
-"der Tastenkombination Meta-F oder mittels einer nanorc-Datei eingeschaltet "
-"haben, so wird die Einfügeoperation die Datei in einen separaten Puffer "
-"laden. (Benutzen Sie Meta-< und >, um zwischen den Dateipuffern "
-"umzuschalten.) "
+" Ak ste zostavili nano s podporou viacerých zásobníkov a povolíte ich "
+"pomocou prepínača -F alebo --multibuffer v príkazovom riadku, Meta-F "
+"prepínača alebo súboru nanorc, vloženie súboru spôsobí, že sa jeho obsah "
+"vloží do nového zásobníka (použite Meta-< a > na prepínanie medzi zásobníkmi "
+"súborov).  "
 
 #: src/help.c:87
 msgid ""
@@ -1443,11 +1440,10 @@ msgid ""
 " The following function keys are available in Insert File mode:\n"
 "\n"
 msgstr ""
-"Wenn Sie einen weiteren leeren Puffer benötigen, drücken Sie einfach die "
-"Eingabetaste, ohne einen Dateinamen einzugeben, oder geben Sie einen "
-"nichtexistierenden Dateinamen an.\n"
+"Ak potrebujete ďalší prázdny zásobník, nezadávajte žiadny názov súboru alebo "
+"zadajte neexistujúci názov súboru a stlačte Enter.\n"
 "\n"
-" Die folgenden Funktionstasten sind im Datei-Einfügen-Modus verfügbar:\n"
+" V režime vkladania súboru sú dostupné nasledovné klávesy funkcií:\n"
 "\n"
 
 #: src/help.c:93
@@ -1465,18 +1461,17 @@ msgid ""
 " The following function keys are available in Write File mode:\n"
 "\n"
 msgstr ""
-"Hilfetext für „Datei schreiben“\n"
+"Pomocník príkazu Zapísať do súboru\n"
 "\n"
-" Geben Sie den Namen ein, unter dem Sie die momentane Datei speichern "
-"wollen, und drücken Sie die Eingabetaste.\n"
+" Zadajte názov, pod ktorým chcete uložiť súčasný súbor a stlačte Enter pre "
+"uloženie súboru.\n"
 "\n"
-" Wenn Sie Text markiert haben, so werden Sie gefragt, ob Sie nur den "
-"ausgewählten Teil des Textes in eine separate Datei schreiben wollen. Um die "
-"Gefahr zu minimieren, dass eine Datei mit einem Teil von ihr selbst "
-"überschrieben wird, ist der aktuelle Dateiname in diesem Modus nicht die "
-"Vorgabe.\n"
+" Ak ste označili oblasť textu, bude vám položená otázka či chcete uložiť "
+"vybratú oblasť do samostatného súboru.  Aby sa predišlo prepísaniu súčasného "
+"súboru len jeho časťou, v tomto režime nie je predvolený názov súčasného "
+"súboru.\n"
 "\n"
-" Die folgenden Funktionstasten sind im Datei-Schreiben-Modus verfügbar:\n"
+" V režime zápisu do súboru sú dostupné nasledovné klávesy funkcií:\n"
 "\n"
 
 #: src/help.c:107
@@ -1492,16 +1487,15 @@ msgid ""
 " The following function keys are available in the file browser:\n"
 "\n"
 msgstr ""
-"Hilfetext für den Dateibrowser\n"
+"Pomocník príkazu Prehliadať súbory\n"
 "\n"
-" Mit dem Dateiwähler kann die Verzeichnisstruktur visuell durchsucht werden, "
-"um eine Datei für Lese- und Schreiboperationen auszuwählen. Sie können die "
-"Pfeiltasten oder Bild-Auf/Ab benutzen, um durch die Dateien zu blättern, und "
-"S oder die Eingabe, um die markierte Datei bzw. das markierte Verzeichnis "
-"auszuwählen. Um sich eine Ebene aufwärts zu bewegen, wählen Sie das "
-"Verzeichnis namens „..“ ganz oben in der Dateiliste.\n"
+" Prehliadač súborov sa používa na vizuálne prehliadanie stromu súborov a na "
+"výber súboru na čítanie alebo zápis.  Môžete používať šípky alebo klávesy "
+"PgUp/PgDown na prechádzanie medzi súbormi a S alebo Enter na výber súboru "
+"alebo na vstup do vybratého priečinka.  Na prechod o úroveň vyššie zvoľte "
+"priečinok s názvom „..“ na vrchole zoznamu súborov.\n"
 "\n"
-" Die folgenden Funktionstasten sind im Dateibrowser verfügbar:\n"
+" V prehliadači súborov sú dostupné nasledovné klávesy funkcií:\n"
 "\n"
 
 #: src/help.c:120
@@ -1517,15 +1511,15 @@ msgid ""
 "search.\n"
 "\n"
 msgstr ""
-"Hilfetext für den Suchbefehl des Dateibrowsers\n"
+"Pomocník príkazu Hľadať v prehliadači súborov\n"
 "\n"
-" Geben Sie die Wörter oder Zeichen ein, nach denen Sie suchen möchten, und "
-"drücken Sie die Eingabetaste. Wenn eine Übereinstimmung für den eingegebenen "
-"Text gefunden wird, dann wird die Anzeige zur nächsten Fundstelle bewegt.\n"
+" Zadajte slová alebo znaky, ktoré chcete vyhľadať a stlačte Enter.  Ak sa "
+"nájde zhoda so zadaným textom, obrazovka sa presunie na miesto najbližšej "
+"zhody s hľadaným reťazcom.\n"
 "\n"
-" Die vorhergehende Suchzeichenkette wird in eckigen Klammern nach der Such-"
-"Aufforderung angezeigt. Drücken der Eingabetaste ohne Eingabe irgendwelchen "
-"Textes führt die vorhergehende Suche durch.\n"
+" Predtým hľadaný reťazec sa zobrazí v hranatých zátvorkách za výzvou na "
+"hľadanie.  Stlačením klávesy Enter bez zadania akéhokoľvek textu sa zopakuje "
+"predchádzajúce hľadanie.\n"
 "\n"
 
 #: src/help.c:129
@@ -1533,8 +1527,9 @@ msgid ""
 " The following function keys are available in Browser Search mode:\n"
 "\n"
 msgstr ""
-" Die folgenden Funktionstasten sind im Suchbefehl-Modus des Dateibrowsers "
-"verfügbar:\n"
+" V režime hľadania v prehliadači súborov sú dostupné nasledovné klávesy "
+"funkcií:\n"
+"\n"
 "\n"
 
 #: src/help.c:133
@@ -1549,16 +1544,15 @@ msgid ""
 " The following function keys are available in Browser Go To Directory mode:\n"
 "\n"
 msgstr ""
-"Hilfetext für Gehe-zu-Verzeichnis im Dateibrowser\n"
+"Pomocník príkazu Prejsť na priečinok v prehliadači súborov\n"
 "\n"
-" Geben Sie den Namen des Verzeichnisses ein, das Sie durchsuchen wollen.\n"
+" Zadajte názov priečinka, ktorý chcete prehliadať.\n"
 "\n"
-"Wenn Tabulator-Vervollständigung nicht abgeschaltet worden ist, so können "
-"Sie die Tabulator-Taste benutzen, um (zu versuchen) den Verzeichnisnamen "
-"automatisch vervollständigen zu lassen.\n"
+" Ak nebolo dokončovanie zakázané, môžete použiť klávesu Tab na (pokus o) "
+"automatické dokončenie názvu priečinka.\n"
 "\n"
-"Die folgenden Funktionstasten sind im Gehe-zu-Verzeichnis-Modus des "
-"Dateibrowsers verfügbar:\n"
+" V režime prechodu na priečinok v prehliadači súborov sú dostupné nasledovné "
+"klávesy funkcií:\n"
 "\n"
 
 #: src/help.c:146
@@ -1574,15 +1568,15 @@ msgid ""
 " The following function keys are available in Spell Check mode:\n"
 "\n"
 msgstr ""
-"Hilfetext für die Rechtschreibprüfung\n"
+"Pomocník príkazu Kontrola pravopisu\n"
 "\n"
-" Die Rechtschreibprüfung überprüft die Rechtschreibung des gesamten Texts "
-"der aktuellen Datei. Wenn ein unbekanntes Wort gefunden wird, wird es "
-"hervorgehoben und eine Ersetzung kann bearbeitet werden. Sie werden dann "
-"gefragt, ob Sie die vorgenommene Ersetzung in der ganzen Datei, oder, wenn "
-"Sie Text markiert haben, innerhalb der Auswahl vornehmen lassen wollen.\n"
+" Nástroj na kontrolu pravopisu kontroluje pravopis v celom súbore.  Ak "
+"narazí na neznáme slovo, vyznačí ho a umožní jeho nahradenie.  Následne vám "
+"bude položená otázka, či chcete nahradiť všetky výskyty daného nesprávneho "
+"slova v súčasnom súbore, alebo ak ste označili oblasť textu, v označenej "
+"oblasti.\n"
 "\n"
-" Die folgenden Funktionstasten sind in der Rechtschreibprüfung verfügbar:\n"
+" V režime kontroly pravopisu sú dostupné nasledovné klávesy funkcií:\n"
 "\n"
 
 #: src/help.c:161
@@ -1594,13 +1588,12 @@ msgid ""
 "by '|' (the pipe symbol), the current contents of the buffer (or marked "
 "region) will be piped to the command.  "
 msgstr ""
-"Hilfetext für Externen Befehl\n"
+"Pomocník príkazu Vykonať príkaz\n"
 "\n"
-" Dieses Menü erlaubt es, die Ausgabe eines externen Befehls, der in der "
-"Shell ausgeführt wird, in den aktuellen Puffer einzufügen (oder in einen "
-"neuen Puffer). Wenn dem Befehl ein „|“ vorangestellt ist (das Pipe-Zeichen), "
-"dann wird der aktuelle Inhalt des Puffers (oder der markierte Bereich) an "
-"den Befehl weitergeleitet. "
+" Tento režim vám umožňuje vložiť výstup programu spusteného v príkazovom "
+"riadku do súčasného zásobníka (alebo do nového zásobníka).  Ak príkaz "
+"predchádza „|“ (znak reťazenia), súčasný obsah zásobníka (alebo označenej "
+"oblasti) sa zreťazí s príkazom.  "
 
 #: src/help.c:167
 msgid ""
@@ -1610,11 +1603,10 @@ msgid ""
 "put the editor to sleep.\n"
 "\n"
 msgstr ""
-"Falls Sie nur einen weiteren leeren Puffer benötigen, geben Sie keinen "
-"Befehl ein.\n"
+"Ak potrebujete ďalší prázdny zásobník, nezadávajte žiadny príkaz.\n"
 "\n"
-" Sie können auch eines aus vier Werkzeugen auswählen oder ein großes Stück "
-"des Puffers ausschneiden oder den Editor schlafen schicken.\n"
+" Môžete si tiež vybrať spomedzi štyroch nástrojov, vystrihnúť veľkú časť "
+"zásobníka alebo uspať editor.\n"
 "\n"
 
 #: src/help.c:170
@@ -1622,7 +1614,7 @@ msgid ""
 " The following function keys are available in Execute Command mode:\n"
 "\n"
 msgstr ""
-" Die folgenden Funktionstasten sind im Befehl-Ausführen-Modus verfügbar:\n"
+" V režime spustenia príkazu sú dostupné nasledovné klávesy funkcií:\n"
 "\n"
 
 #: src/help.c:173
@@ -1634,11 +1626,11 @@ msgid ""
 "PageDown you can switch to earlier and later messages.\n"
 "\n"
 msgstr ""
-"=== Linter ===\n"
+"=== Nástroj na rozbor ===\n"
 "\n"
-" In diesem Modus zeigt die Statusleiste eine Fehlermeldung oder Warnung und "
-"der Cursor wird an die korrespondierende Position in der Datei gesetzt. Mit "
-"BildAuf und BildAb können Sie zwischen den Positionen wechseln.\n"
+" V tomto režime sa na stavovom riadku zobrazí chybové alebo varovné hlásenie "
+"a kurzor sa presunie na príslušné miesto v súbore.  Pomocou PageUp a "
+"PageDown môžete prepínať na staršie a novšie hlásenia.\n"
 "\n"
 
 #: src/help.c:178
@@ -1646,7 +1638,7 @@ msgid ""
 " The following function keys are available in Linter mode:\n"
 "\n"
 msgstr ""
-" Die folgenden Funktionstasten sind im Linter-Modus verfügbar:\n"
+" V režime rozboru sú dostupné nasledovné klávesy funkcií:\n"
 "\n"
 
 #: src/help.c:185
@@ -1660,14 +1652,14 @@ msgid ""
 "showing the file being edited.  The status line is the third line from the "
 "bottom and shows important messages.  "
 msgstr ""
-"Haupt-Hilfe für Nano\n"
+"Hlavný pomocný text pre nano\n"
 "\n"
-" Nano wurde konzipiert, die Funktionalität und die Benutzerfreundlichkeit "
-"des UW-Pico-Texteditors zu imitieren. Es gibt vier Hauptbereiche: Die "
-"Titelzeile zeigt die Version des Programms, den Namen der momentan "
-"editierten Datei und ob die Datei verändert wurde oder nicht. Das "
-"Hauptfenster enthält die zu bearbeitende Datei. Die Statuszeile (die dritte "
-"Zeile von unten) zeigt wichtige Meldungen. "
+" Editor nano je navrhnutý tak, aby napodobňoval možnosti a jednoduché "
+"používanie textového editora UW Pico.  Editor je zložený zo štyroch hlavných "
+"oblastí.  Horný riadok zobrazuje verziu programu, názov súčasného súboru a "
+"či bol súbor upravený alebo nie.  Ďalej nasleduje hlavné okno editora "
+"zobrazujúce práve upravovaný súbor.  Stavový riadok je tretím riadkom "
+"zospodu a zobrazuje dôležité hlásenia.  "
 
 #: src/help.c:195
 msgid ""
@@ -1678,14 +1670,13 @@ msgid ""
 "twice.  Meta-key sequences are notated with 'M-' and can be entered using "
 "either the Alt, Cmd, or Esc key, depending on your keyboard setup.  "
 msgstr ""
-"Die untersten zwei Zeilen listen die meistgebrauchten Tastenkombinationen "
-"von Nano auf.\n"
+"Posledné dva riadky zobrazujú najčastejšie používané príkazy editora.\n"
 "\n"
-" Tastenkombinationen werden wie folgt abgekürzt: Kombinationen mit der Strg-"
-"Taste werden mit einem ^ ausgedrückt und können auch eingegeben werden, "
-"indem Esc zweimal gedrückt wird. Escape-Sequenzen werden mit dem Meta-Symbol "
-"(M) angegeben und können mit Alt, Cmd oder Meta eingegeben werden, abhängig "
-"von Ihrer Tastatureinstellung. "
+" Klávesové skratky majú nasledovný vzor: skratky zahŕňajúce klávesu Control "
+"sú označené znakom „^“ a je možné ich zadať pomocou klávesy Control alebo "
+"dvojitým stlačením klávesy Esc.  Skratky zahŕňajúce Meta-klávesy sú označené "
+"znakmi „M-“ a je možné ich zadať pomocou kláves Alt, Cmd alebo Esc v "
+"závislosti na vašom nastavení klávesnice.  "
 
 #: src/help.c:202
 msgid ""
@@ -1695,19 +1686,20 @@ msgid ""
 "keys are shown in parentheses:\n"
 "\n"
 msgstr ""
-"Zudem kann durch zweimaliges Drücken von Esc und anschließender Eingabe "
-"einer dreistelligen Zahl von 000 bis 255 das Zeichen mit dem entsprechenden "
-"Wert eingegeben werden. Die folgenden Tasten(-kombinationen) sind im "
-"Hauptfenster verfügbar. Alternative Tasten stehen in Klammern:\n"
+"Okrem toho, v prípade, že dvakrát po sebe stlačíte Esc a následne zadáte "
+"číslo od 0 do 255, vloží sa príslušný znak.  V hlavnom okne editora sú "
+"dostupné nasledovné klávesy funkcií. Náhradné klávesy sú zobrazené v "
+"zátvorkách:\n"
+"\n"
 "\n"
 
 #: src/help.c:234 src/help.c:306
 msgid "enable/disable"
-msgstr "aktivieren/deaktivieren"
+msgstr "povoliť/zakázať"
 
 #: src/help.c:574 src/nano.c:1576
 msgid "^W = Ctrl+W    M-W = Alt+W"
-msgstr "^W = Strg+W    M-W = Alt+W"
+msgstr "^W = Ctrl+W    M-W = Alt+W"
 
 #: src/history.c:266
 #, c-format
@@ -1715,9 +1707,9 @@ msgid ""
 "Unable to create directory %s: %s\n"
 "It is required for saving/loading search history or cursor positions.\n"
 msgstr ""
-"Verzeichnis %s kann nicht angelegt werden: %s\n"
-"Es wird benötigt, um Suchverlauf und Cursorposition zu speichern und zu "
-"laden.\n"
+"Nepodarilo sa vytvoriť priečinok %s: %s\n"
+"Vyžaduje sa na ukladanie/načítavanie histórie vyhľadávania alebo umiestnení "
+"kurzora.\n"
 
 #: src/history.c:273
 #, c-format
@@ -1725,24 +1717,25 @@ msgid ""
 "Path %s is not a directory and needs to be.\n"
 "Nano will be unable to load or save search history or cursor positions.\n"
 msgstr ""
-"Pfad %s ist kein Verzeichnis, obwohl er eines sein muss.\n"
-"Nano wird Suchverlauf und Cursorposition nicht laden oder speichern können.\n"
+"%s nie je priečinok ale mal by byť.\n"
+"Nano nebude môcť načítavať a ukladať históriu vyhľadávania ani umiestnenia "
+"kurzora.\n"
 
 #: src/nano.c:201
 msgid "Key is invalid in view mode"
-msgstr "Taste unzulässig im Nur-Lese-Modus"
+msgstr "Neplatná klávesa v režime zobrazovania"
 
 #: src/nano.c:208
 msgid "This function is disabled in restricted mode"
-msgstr "Im eingeschränkten Modus ist diese Funktion deaktiviert"
+msgstr "Táto funkcia je obmedzenom režime zablokovaná"
 
 #: src/nano.c:300
 msgid "No file name"
-msgstr "Kein Dateiname"
+msgstr "Žiadny názov súboru"
 
 #: src/nano.c:302
 msgid "Save modified buffer? "
-msgstr "Geänderten Puffer speichern? "
+msgstr "Uložiť upravený zásobník? "
 
 #: src/nano.c:328
 #, c-format
@@ -1751,7 +1744,7 @@ msgid ""
 "Buffer written to %s\n"
 msgstr ""
 "\n"
-"Puffer in %s geschrieben\n"
+"Zásobník bol zapísaný do %s\n"
 
 #: src/nano.c:330
 #, c-format
@@ -1760,7 +1753,7 @@ msgid ""
 "Buffer not written to %s: %s\n"
 msgstr ""
 "\n"
-"Puffer nicht in %s geschrieben: %s\n"
+"Zásobník nebol zapísaný do %s: %s\n"
 
 #: src/nano.c:333
 #, c-format
@@ -1769,7 +1762,7 @@ msgid ""
 "Too many .save files"
 msgstr ""
 "\n"
-"Zu viele .save-Dateien"
+"Priveľa súborov .save"
 
 #: src/nano.c:488
 #, c-format
@@ -1777,7 +1770,7 @@ msgid ""
 "Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n"
 "\n"
 msgstr ""
-"Aufruf: nano [OPTIONEN] [[+ZEILE[,SPALTE]] DATEI]...\n"
+"Použitie: nano [PREPÍNAČE] [[+RIADOK[,STĹPEC]] SÚBOR]...\n"
 "\n"
 
 #. TRANSLATORS: The next two strings are part of the --help output.
@@ -1788,10 +1781,8 @@ msgid ""
 "To place the cursor on a specific line of a file, put the line number with\n"
 "a '+' before the filename.  The column number can be added after a comma.\n"
 msgstr ""
-"Um den Cursor in einer bestimmten Zeile der Datei zu platzieren, geben Sie\n"
-"die Zeilennummer mit einem „+“ vor dem Dateinamen an. Die Spaltennummer "
-"kann\n"
-"nach einem Komma hinzugefügt werden.\n"
+"Pre umiestnenie kurzora do určitého riadku súboru zadajte číslo riadku so\n"
+"znamienkom „+“ pred názov súboru.  Číslo stĺpca môžete zadať za čiarku.\n"
 
 #: src/nano.c:494
 #, c-format
@@ -1799,477 +1790,472 @@ msgid ""
 "When a filename is '-', nano reads data from standard input.\n"
 "\n"
 msgstr ""
-"Wenn ein Dateiname „-“ ist, liest Nano aus der Standardeingabe.\n"
+"Keď je názov súboru „-“, nano bude čítať údaje zo štandardného vstupu.\n"
 "\n"
 
 #. TRANSLATORS: The next three are column headers of the --help output.
 #: src/nano.c:496
 msgid "Option"
-msgstr "Option"
+msgstr "Prepínač"
 
 #: src/nano.c:496
 msgid "Long option"
-msgstr "Lange Option"
+msgstr "Dlhý prepínač"
 
 #: src/nano.c:496
 msgid "Meaning"
-msgstr "Bedeutung"
+msgstr "Popis"
 
 #. TRANSLATORS: The next forty or so strings are option descriptions
 #. * for the --help output.  Try to keep them at most 40 characters.
 #: src/nano.c:499
 msgid "Enable smart home key"
-msgstr "Intelligente Pos1-Taste aktivieren"
+msgstr "Povoliť chytrú klávesu pre začiatok dokumentu"
 
 #: src/nano.c:501
 msgid "Save backups of existing files"
-msgstr "Existierende Dateien beim Speichern sichern"
+msgstr "Uložiť zálohy existujúcich súborov"
 
 #: src/nano.c:502
 msgid "-C <dir>"
-msgstr "-C <Verz>"
+msgstr "-C <priečinok>"
 
 #: src/nano.c:502
 msgid "--backupdir=<dir>"
-msgstr "--backupdir=<Verz>"
+msgstr "--backupdir=<priečinok>"
 
 #: src/nano.c:503
 msgid "Directory for saving unique backup files"
-msgstr "Verzeichnis zum Speichern von Sicherungsdateien"
+msgstr "Priečinok na ukladanie jedinečných záložných súborov"
 
 #: src/nano.c:506
 msgid "Use bold instead of reverse video text"
-msgstr "Fettdruck anstelle von inversem Text benutzen"
+msgstr "Použiť tučný text namiesto obráteného textu"
 
 #: src/nano.c:508
 msgid "Convert typed tabs to spaces"
-msgstr "Eingegebebene Tabulatoren in Leerzeichen umwandeln"
+msgstr "Previesť tabulátory na medzery"
 
 #: src/nano.c:513
 msgid "Read a file into a new buffer by default"
-msgstr "Eine Datei standardmäßig in einen neuen Puffer einlesen"
+msgstr "Predvolene načítať súbor do nového zásobníka"
 
 #: src/nano.c:516
 msgid "Use (vim-style) lock files"
-msgstr "Sperrdateien benutzen (nach Art von Vim)"
+msgstr "Použiť súbory zámkov v štýle editoru vim"
 
 #: src/nano.c:521
 msgid "Log & read search/replace string history"
-msgstr "Verlauf der Suchen-/Ersetzen-Begriffe mitschreiben und lesen"
+msgstr "Zaznamenávať a čítať históriu hľadaných/nahradených reťazcov"
 
 #: src/nano.c:524
 msgid "Don't look at nanorc files"
-msgstr "Die nanorc-Dateien ignorieren"
+msgstr "Nebrať do úvahy súbory nanorc"
 
 #: src/nano.c:527
 msgid "-J <number>"
-msgstr "-J <Nummer>"
+msgstr "-J <číslo>"
 
 #: src/nano.c:527
 msgid "--guidestripe=<number>"
-msgstr "--guidestripe=<Nummer>"
+msgstr "--guidestripe=<číslo>"
 
 #: src/nano.c:528
 msgid "Show a guiding bar at this column"
-msgstr "Einen Markierungsstreifen in dieser Spalte einblenden"
+msgstr "Zobraziť vodiacu čiaru v tomto stĺpci"
 
 #: src/nano.c:531
 msgid "Fix numeric keypad key confusion problem"
-msgstr "Verwirrung um Zehnertastatur lösen"
+msgstr "Predísť zmätkom s klávesami na numerickej klávesnici"
 
 #: src/nano.c:534
 msgid "Don't add an automatic newline"
-msgstr "Keine neue Zeile automatisch einfügen"
+msgstr "Nepridávať automaticky nový riadok"
 
 #: src/nano.c:538
 msgid "Trim tail spaces when hard-wrapping"
-msgstr "Bei hartem Umbruch angehängte Leerzeichen entfernen"
+msgstr "Odstrániť koncové biele znaky pri tvrdom zalamovaní riadkov"
 
 #: src/nano.c:542
 msgid "Don't convert files from DOS/Mac format"
-msgstr "Keine Umwandlung aus DOS/Mac-Format"
+msgstr "Neprevádzať súbory z formátu DOS/Mac"
 
 #: src/nano.c:544
 msgid "Leading whitespace means new paragraph"
-msgstr "Vorangestellter Leerraum beginnt einen neuen Absatz"
+msgstr "Prvý biely znak určuje nový odsek"
 
 #: src/nano.c:549
 msgid "Log & read location of cursor position"
-msgstr "Cursorposition aufzeichnen und lesen"
+msgstr "Zaznamenávať a čítať umiestnenie kurzora"
 
 #: src/nano.c:552
 msgid "-Q <regex>"
-msgstr "-Q <Ausdruck>"
+msgstr "-Q <regulárny-výraz>"
 
 #: src/nano.c:552
 msgid "--quotestr=<regex>"
-msgstr "--quotestr=<Ausdruck>"
+msgstr "--quotestr=<regulárny-výraz>"
 
 #. TRANSLATORS: This refers to email quoting,
 #. * like the > in: > quoted text.
 #: src/nano.c:555
 msgid "Regular expression to match quoting"
-msgstr "Als Zitat zu betrachtender regulärer Ausdruck"
+msgstr "Regulárny výraz zodpovedajúci citovanému textu"
 
 #: src/nano.c:558
 msgid "Restrict access to the filesystem"
-msgstr "Dateisystemzugriff beschränken"
+msgstr "Obmedziť prístup k súborovému systému"
 
 #: src/nano.c:560
 msgid "Display overlong lines on multiple rows"
-msgstr "Überlange Zeilen in mehreren Zeilen anzeigen"
+msgstr "Zobraziť pridlhé riadky na viacerých riadkoch"
 
 #: src/nano.c:561
 msgid "-T <number>"
-msgstr "-T <Zahl>"
+msgstr "-T <číslo>"
 
 #: src/nano.c:561
 msgid "--tabsize=<number>"
-msgstr "--tabsize=<Zahl>"
+msgstr "--tabsize=<číslo>"
 
 #: src/nano.c:562
 msgid "Make a tab this number of columns wide"
-msgstr "Tabulator in dieser Breite in Spalten erstellen"
+msgstr "Nastaviť šírku odsadenia na danú hodnotu"
 
 #: src/nano.c:564
 msgid "Wipe status bar upon next keystroke"
-msgstr "Statuszeile beim nächsten Tastendruck leeren"
+msgstr "Vyčistiť stavový riadok pri ďalšom stlačení klávesy"
 
 #: src/nano.c:565
 msgid "Print version information and exit"
-msgstr "Versionsinfo ausgeben und beenden"
+msgstr "Zobraziť údaje o verzii a skončiť"
 
 #: src/nano.c:568
 msgid "Detect word boundaries more accurately"
-msgstr "Wortgrenzen genauer erkennen"
+msgstr "Presnejšie rozpoznávať hranice slov"
 
 #: src/nano.c:569
 msgid "-X <string>"
-msgstr "-X <Zeichenkette>"
+msgstr "-X <reťazec>"
 
 #: src/nano.c:569
 msgid "--wordchars=<string>"
-msgstr "--wordchars=<Zeichenkette>"
+msgstr "--wordchars=<reťazec>"
 
 #: src/nano.c:570
 msgid "Which other characters are word parts"
-msgstr "Welche anderen Zeichen Wortteile sind"
+msgstr "Ktoré ďalšie znaky sa považujú za súčasť slov"
 
 #: src/nano.c:574
 msgid "-Y <name>"
-msgstr "-Y <Name>"
+msgstr "-Y <názov>"
 
 #: src/nano.c:574
 msgid "--syntax=<name>"
-msgstr "--syntax=<Name>"
+msgstr "--syntax=<názov>"
 
 #: src/nano.c:575
 msgid "Syntax definition to use for coloring"
-msgstr "Zu benutzende Syntaxdefinition für Einfärben"
+msgstr "Voľba typu skladby pre farebné zvýrazňovanie"
 
 #: src/nano.c:578
 msgid "Let Bsp and Del erase a marked region"
-msgstr "Mit Rücktaste und Entf einen markierten Bereich löschen"
+msgstr "Používať Backspace a Delete na odstránenie označenej oblasti"
 
 #: src/nano.c:579
 msgid "When soft-wrapping, do it at whitespace"
-msgstr "Fließenden Zeilenumbruch am Leerzeichen vornehmen"
+msgstr "Pri plynulom zalamovaní zalamovať na bielych znakoch"
 
 #: src/nano.c:582
 msgid "Automatically hard-wrap overlong lines"
-msgstr "Lange Zeilen automatisch hart umbrechen"
+msgstr "Automaticky tvrdo zalamovať pridlhé riadky"
 
 #: src/nano.c:584
 msgid "Constantly show cursor position"
-msgstr "Cursorposition ständig anzeigen"
+msgstr "Vždy zobrazovať umiestnenie kurzora"
 
 #: src/nano.c:586
 msgid "Fix Backspace/Delete confusion problem"
-msgstr "Vertauschung von Rücktaste/Entf beheben"
+msgstr "Predísť zmätkom s klávesami Backspace/Delete"
 
 #: src/nano.c:588
 msgid "Keep the line below the title bar empty"
-msgstr "Zeile unter der Titelleiste leer lassen"
+msgstr "Ponechať riadok pod úvodným riadkom prázdny"
 
 #: src/nano.c:591
 msgid "-f <file>"
-msgstr "-f <Datei>"
+msgstr "-f <súbor>"
 
 #: src/nano.c:591
 msgid "--rcfile=<file>"
-msgstr "--rcfile=<Datei>"
+msgstr "--rcfile=<súbor>"
 
 #: src/nano.c:592
 msgid "Use only this file for configuring nano"
-msgstr "Nur diese Datei für die Konfiguration von Nano verwenden"
+msgstr "Na nastavenie nano použiť len tento súbor"
 
 #: src/nano.c:595
 msgid "Show cursor in file browser & help text"
-msgstr "Cursor im Dateibrowser und Hilfetext anzeigen"
+msgstr "Zobraziť kurzor v prehliadači súborov a v režime pomocníka"
 
 #: src/nano.c:597
 msgid "Show this help text and exit"
-msgstr "Diese Hilfe anzeigen und beenden"
+msgstr "Zobraziť túto pomocnú správu a skončiť"
 
 #: src/nano.c:599
 msgid "Automatically indent new lines"
-msgstr "Neue Zeilen automatisch einrücken"
+msgstr "Automaticky odsadiť nové riadky"
 
 #: src/nano.c:600
 msgid "Scroll per half-screen, not per line"
-msgstr "Halbbildschirmweise statt zeilenweise rollen"
+msgstr "Posúvať sa po poloviciach obrazovky a nie po jednom riadku"
 
 #: src/nano.c:601
 msgid "Cut from cursor to end of line"
-msgstr "Vom Cursor bis zum Zeilenende ausschneiden"
+msgstr "Vystrihnúť od kurzora po koniec riadku"
 
 #: src/nano.c:604
 msgid "Show line numbers in front of the text"
-msgstr "Zeilennummern vor dem Text anzeigen"
+msgstr "Zobraziť čísla riadkov pred textom"
 
 #: src/nano.c:607
 msgid "Enable the use of the mouse"
-msgstr "Benutzung der Maus aktivieren"
+msgstr "Povoliť používanie myši"
 
 #: src/nano.c:610
 msgid "Do not read the file (only write it)"
-msgstr "Datei nicht lesen (nur schreiben)"
+msgstr "Nečítať súbor (len ho zapísať)"
 
 #: src/nano.c:613
 msgid "-o <dir>"
-msgstr "-o <Verz>"
+msgstr "-o <priečinok>"
 
 #: src/nano.c:613
 msgid "--operatingdir=<dir>"
-msgstr "--operatingdir=<Verz>"
+msgstr "--operatingdir=<priečinok>"
 
 #: src/nano.c:614
 msgid "Set operating directory"
-msgstr "Arbeitsverzeichnis setzen"
+msgstr "Nastaviť pracovný priečinok"
 
 #: src/nano.c:616
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
-msgstr "Tasten XON (^Q) und XOFF (^S) beibehalten"
+msgstr "Zachovať klávesy XON (^Q) a XOFF (^S)"
 
 #: src/nano.c:618
 msgid "Show a position+portion indicator"
-msgstr "Indikator für Position und Teil anzeigen"
+msgstr "Zobraziť ukazovateľa umiestnenie+oblasť"
 
 #: src/nano.c:621
 msgid "-r <number>"
-msgstr "-r <Zahl>"
+msgstr "-r <číslo>"
 
 #: src/nano.c:621
 msgid "--fill=<number>"
-msgstr "--fill=<Zahl>"
+msgstr "--fill=<číslo>"
 
 #: src/nano.c:622
 msgid "Set width for hard-wrap and justify"
-msgstr "Breite für harte Umbrüche und Ausrichtung festlegen"
+msgstr "Nastaviť dĺžku pre tvrdé zalamovanie riadkov a zarovnať"
 
 #: src/nano.c:626
 msgid "-s <program>"
-msgstr "-s <Programm>"
+msgstr "-s <program>"
 
 #: src/nano.c:626
 msgid "--speller=<program>"
-msgstr "--speller=<Programm>"
+msgstr "--speller=<program>"
 
 #: src/nano.c:627
 msgid "Use this alternative spell checker"
-msgstr "Dieses alternative Rechtschreibprüfungsprogramm verwenden"
+msgstr "Použiť tento náhradný nástroj na kontrolu pravopisu"
 
 #: src/nano.c:629
 msgid "Save changes on exit, don't prompt"
-msgstr "Änderungen beim Beenden ohne Rückfrage speichern"
+msgstr "Pri ukončení uložiť zmeny a nepýtať sa"
 
 #: src/nano.c:631
 msgid "Save a file by default in Unix format"
-msgstr "Eine Datei standardmäßig im Unix-Format speichern"
+msgstr "Predvolene ukladať súbory vo formáte Unix"
 
 #: src/nano.c:633
 msgid "View mode (read-only)"
-msgstr "Nur-Lesen-Modus (keine Veränderungen möglich)"
+msgstr "Zobrazovací režim (len na čítanie)"
 
 #: src/nano.c:635
 msgid "Don't hard-wrap long lines [default]"
-msgstr "Lange Zeilen nicht hart umbrechen [Standard]"
+msgstr "Nepoužívať tvrdé zalamovanie riadkov [predvolené]"
 
 #: src/nano.c:637
 msgid "Don't show the two help lines"
-msgstr "Die zwei Hilfe-Zeilen nicht anzeigen"
+msgstr "Nezobrazovať dva pomocné riadky"
 
 #: src/nano.c:639
 msgid "Make Ctrl+Right stop at word ends"
-msgstr "Strg+Rechts als Stopp am Wortende einrichten"
+msgstr "Nastaviť presun na koniec slova pomocou Ctrl+Right"
 
 #: src/nano.c:642
 msgid "Enable suspension"
-msgstr "Schieben in den Hintergrund (anhalten und zurück zur Shell) aktivieren"
+msgstr "Povoliť uspanie"
 
 #: src/nano.c:644
 msgid "Show some states on the title bar"
-msgstr "Statusanzeigen in der Titelleiste aktivieren"
+msgstr "Zobraziť nejaké štatistiky v úvodnom riadku"
 
 #: src/nano.c:645
 msgid "Show a feedback bar at the bottom"
-msgstr "Einen Rückmeldungsstreifen am unteren Rand einblenden"
+msgstr "Dole zobraziť riadok spätnej väzby"
 
 #: src/nano.c:648
 msgid "Also try magic to determine syntax"
-msgstr "Auch versuchen, die Syntax magisch zu bestimmen"
+msgstr "Použiť čary na zistenie typu skladby"
 
 #: src/nano.c:659
 #, c-format
 msgid " GNU nano, version %s\n"
-msgstr " GNU nano, Version %s\n"
+msgstr " GNU nano, verzia %s\n"
 
 #: src/nano.c:663
 #, c-format
 msgid " (C) 2014-%s the contributors to nano\n"
-msgstr " (C) 2014-%s Die Nano-Mitwirkenden\n"
+msgstr " (C) 2014-%s prispievatelia do nano\n"
 
 #: src/nano.c:665
 #, c-format
 msgid " Compiled options:"
-msgstr " Kompilierte Optionen:"
+msgstr " Voľby zostavenia:"
 
 #: src/nano.c:814
 msgid "Could not reconnect stdin to keyboard\n"
-msgstr ""
-"Standardeingabe konnte leider nicht erneut mit der Tastatur verbunden "
-"werden.\n"
+msgstr "Nepodarilo sa opätovne prepojiť štandardný výstup s klávesnicou\n"
 
 #: src/nano.c:832
 #, c-format
 msgid "Reading data from keyboard; type ^D or ^D^D to finish.\n"
-msgstr ""
-"Daten werden von der Tastatur gelesen, geben Sie ^D oder ^D^D zum Beenden "
-"ein.\n"
+msgstr "Čítajú sa údaje z klávesnice; stlačte ^D alebo ^D^D pre ukončenie.\n"
 
 #: src/nano.c:842
 #, c-format
 msgid "Failed to open stdin: %s"
-msgstr "Standardeingabe kann nicht geöffnet werden: %s"
+msgstr "Nepodarilo sa otvoriť štandardný vstup: %s"
 
 #: src/nano.c:919
 msgid "Received SIGHUP or SIGTERM\n"
-msgstr "SIGHUP oder SIGTERM empfangen\n"
+msgstr "Bol prijatý SIGHUP alebo SIGTERM\n"
 
 #: src/nano.c:926
 #, c-format
 msgid "Sorry! Nano crashed!  Code: %d.  Please report a bug.\n"
-msgstr ""
-"Hoppla! Nano ist abgestürzt  Code: %d.  Bitte melden Sie dies als Fehler.\n"
+msgstr "Prepáčte! Nano spadol!  Kód: %d.  Prosím, ohláste túto chybu.\n"
 
 #: src/nano.c:941
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
-msgstr "Benutzen Sie „fg“, um zu Nano zurückzukehren.\n"
+msgstr "Použite „fg“ pre návrat do nano.\n"
 
 #: src/nano.c:957
 msgid "Suspension is not enabled"
-msgstr "Suspend ist nicht aktiviert"
+msgstr "Uspanie nie je povolené"
 
 #: src/nano.c:1112
 msgid "enabled"
-msgstr "aktiviert"
+msgstr "povolené"
 
 #: src/nano.c:1112
 msgid "disabled"
-msgstr "deaktiviert"
+msgstr "zakázané"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
 #: src/nano.c:1255
 msgid "Unknown sequence"
-msgstr "Unbekannte Sequenz"
+msgstr "Neznáma postupnosť"
 
 #: src/nano.c:1257
 msgid "Unbound key"
-msgstr "Nicht zugewiesen"
+msgstr "Nepridelená klávesa"
 
 #: src/nano.c:1261
 #, c-format
 msgid "Unbindable key: M-^%c"
-msgstr "Nicht zuweisbar: M-^%c"
+msgstr "Neprideliteľná klávesa: M-^%c"
 
 #: src/nano.c:1266
 #, c-format
 msgid "Unbound key: Sh-M-%c"
-msgstr "Nicht zugewiesen: Umsch-M-%c"
+msgstr "Nepridelená klávesa: Sh-M-%c"
 
 #: src/nano.c:1269
 #, c-format
 msgid "Unbound key: M-%c"
-msgstr "Nicht zugewiesen: M-%c"
+msgstr "Nepridelená klávesa: M-%c"
 
 #: src/nano.c:1271
 msgid "Unbindable key: ^["
-msgstr "Nicht zuweisbar: ^["
+msgstr "Neprideliteľná klávesa: ^["
 
 #: src/nano.c:1273
 #, c-format
 msgid "Unbound key: ^%c"
-msgstr "Nicht zugewiesen: ^%c"
+msgstr "Nepridelená klávesa: ^%c"
 
 #: src/nano.c:1276
 #, c-format
 msgid "Unbound key: %c"
-msgstr "Nicht zugewiesen: %c"
+msgstr "Nepridelená klávesa: %c"
 
 #: src/nano.c:1845 src/rcfile.c:1626
 #, c-format
 msgid "Guide column \"%s\" is invalid"
-msgstr "Markierungsspalte „%s“ ist ungültig"
+msgstr "Vodiaci stĺpec „%s“ je neplatný"
 
 #: src/nano.c:1892 src/rcfile.c:1631
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
-msgstr "Angeforderte Tabulatorbreite „%s“ ist ungültig"
+msgstr "Požadovaná šírka odsadenia „%s“ je neplatná"
 
 #: src/nano.c:1996 src/rcfile.c:1576
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
-msgstr "Angeforderte Füllgröße „%s“ ist ungültig"
+msgstr "Požadovaná veľkosť výplne „%s“ je neplatná"
 
 #: src/nano.c:2051
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
-msgstr "Benutzen Sie „%s -h“ für eine Liste verfügbarer Optionen.\n"
+msgstr "Zadajte „%s -h“ pre získanie zoznamu dostupných prepínačov.\n"
 
 #: src/nano.c:2237
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
-msgstr "Ungültiger regulärer Zitatausdruck „%s“: %s\n"
+msgstr "Neplatný regulárny výraz pre citovaný text „%s“: %s\n"
 
 #: src/nano.c:2392
 #, c-format
 msgid "Invalid search modifier '%c'"
-msgstr "Ungültiger Suchmodifikator „%c“"
+msgstr "Neplatná voľba vyhľadávania '%c'"
 
 #: src/nano.c:2403
 msgid "Empty search string"
-msgstr "Leere Suchzeichenkette"
+msgstr "Prázdny reťazec vyhľadávania"
 
 #: src/nano.c:2412 src/search.c:778
 msgid "Invalid line or column number"
-msgstr "Ungültige Zeilen- oder Spaltennummer"
+msgstr "Neplatné číslo riadku alebo stĺpca"
 
 #: src/nano.c:2474
 msgid "Can open just one file\n"
-msgstr "Es kann nur eine Datei geöffnet werden\n"
+msgstr "Môže sa otvoriť len jeden súbor\n"
 
 #: src/nano.c:2492
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
-msgstr "Willkommen bei Nano. Grundlegende Hilfe erhalten Sie mit Strg+G."
+msgstr "Víta vás nano.  Základnú pomoc získate stlačením Ctrl+G."
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
 #: src/prompt.c:652
 msgid "Yy"
-msgstr "JjYy"
+msgstr "Áá"
 
 #: src/prompt.c:653
 msgid "Nn"
@@ -2277,530 +2263,533 @@ msgstr "Nn"
 
 #: src/prompt.c:654
 msgid "Aa"
-msgstr "Aa"
+msgstr "Vv"
 
 #: src/prompt.c:678
 msgid "Yes"
-msgstr "Ja"
+msgstr "Áno"
 
 #: src/prompt.c:682
 msgid "No"
-msgstr "Nein"
+msgstr "Nie"
 
 #: src/prompt.c:687
 msgid "All"
-msgstr "Alle"
+msgstr "Všetky"
 
 #: src/rcfile.c:203
 #, c-format
 msgid "Mistakes in '%s'"
-msgstr "Fehler in „%s“"
+msgstr "Chyby v „%s“"
 
 #: src/rcfile.c:207
 msgid "Problems with history file"
-msgstr "Probleme mit der Verlaufsdatei"
+msgstr "Ťažkosti so súborom histórie"
 
 #: src/rcfile.c:211
 #, c-format
 msgid "Error in %s on line %zu: "
-msgstr "Fehler in %s in Zeile %zu: "
+msgstr "Chyba v %s v riadku %zu: "
 
 #: src/rcfile.c:562
 #, c-format
 msgid "Argument '%s' has an unterminated \""
-msgstr "Argument „%s“ hat nicht beendetes \""
+msgstr "Parameter „%s“ postráda pravú úvodzovku"
 
 #: src/rcfile.c:583 src/rcfile.c:594
 msgid "Regex strings must begin and end with a \" character"
-msgstr "Zeichenketten für reguläre Ausdrücke müssen mit \" anfangen und enden"
+msgstr "Regulárne výrazy musia začínať aj končiť úvodzovkami"
 
 #: src/rcfile.c:599
 msgid "Empty regex string"
-msgstr "Leerer regulärer Ausdruck"
+msgstr "Prázdny regulárny výraz"
 
 #: src/rcfile.c:624 src/search.c:45
 #, c-format
 msgid "Bad regex \"%s\": %s"
-msgstr "Ungültiger regulärer Ausdruck „%s“: %s"
+msgstr "Neplatný regulárny výraz „%s“: %s"
 
 #: src/rcfile.c:644
 msgid "Missing syntax name"
-msgstr "Fehlender Syntaxname"
+msgstr "Chýba názov skladby"
 
 #: src/rcfile.c:652
 msgid "Unpaired quote in syntax name"
-msgstr "Fehlendes schließendes Zitatzeichen im Syntaxnamen"
+msgstr "Osamotená úvodzovka v názve skladby"
 
 #: src/rcfile.c:664
 msgid "The \"none\" syntax is reserved"
-msgstr "Die Syntax „none“ ist reserviert"
+msgstr "Názov skladby „none“ nie je možné použiť"
 
 #: src/rcfile.c:695
 msgid "The \"default\" syntax does not accept extensions"
-msgstr "Die Syntax „default“ akzeptiert keine Erweiterungen"
+msgstr "Skladba „default“ neprijíma rozšírenia"
 
 #: src/rcfile.c:713
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
-msgstr "Syntax „%s“ hat keine Farbbefehle"
+msgstr "Skladba „%s“ nemá príkazy farieb"
 
 #: src/rcfile.c:744
 msgid "Missing key name"
-msgstr "Fehlender Schlüsselname"
+msgstr "Chýbajúci názov klávesy"
 
 #: src/rcfile.c:760 src/rcfile.c:767
 #, c-format
 msgid "Key name %s is invalid"
-msgstr "Schlüsselname „%s“ ist ungültig"
+msgstr "Názov klávesy %s je neplatný"
 
 #: src/rcfile.c:776
 msgid "Must specify a function to bind the key to"
-msgstr "Die an die Taste zu bindende Funktion muss angegeben werden"
+msgstr "Musíte zadať funkciu, ku ktorej sa má prideliť klávesa"
 
 #. TRANSLATORS: Do not translate the word "all".
 #: src/rcfile.c:787
 msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
 msgstr ""
-"Ein Menü (oder „all“) muss angegeben werden, um Tasten zu binden/zu lösen"
+"Musíte zadať ponuku (alebo „all“), do ktorej pridať alebo zrušiť pridelenie "
+"klávesy"
 
 #: src/rcfile.c:806
 #, c-format
 msgid "Cannot map name \"%s\" to a function"
-msgstr "„%s“ kann nicht auf eine Funktion gebunden werden"
+msgstr "Funkcii sa nedá prideliť názov „%s“"
 
 #: src/rcfile.c:813
 #, c-format
 msgid "Cannot map name \"%s\" to a menu"
-msgstr "„%s“ kann nicht auf ein Menü gebunden werden"
+msgstr "Ponuke sa nedá prideliť názov „%s“"
 
 #: src/rcfile.c:851
 #, c-format
 msgid "Function '%s' does not exist in menu '%s'"
-msgstr "Funktion „%s“ existiert im Menü „%s“ nicht"
+msgstr "Funkcia „%s“ neexistuje v ponuke „%s“"
 
 #: src/rcfile.c:862
 #, c-format
 msgid "Keystroke %s may not be rebound"
-msgstr "Taste %s kann nicht neu zugewiesen werden"
+msgstr "Klávesová skratka „%s“ nemôže byť opätovne pridelená"
 
 #: src/rcfile.c:953 src/rcfile.c:1479
 #, c-format
 msgid "Command \"%s\" not understood"
-msgstr "Befehl „%s“ nicht verstanden"
+msgstr "Neznámy príkaz „%s“"
 
 #: src/rcfile.c:989
 #, c-format
 msgid "Error expanding %s: %s"
-msgstr "Fehler beim Erweitern von %s: %s"
+msgstr "Chyba pri rozširovaní %s: %s"
 
 #: src/rcfile.c:1032
 #, c-format
 msgid "Color '%s' takes no prefix"
-msgstr "Farbe „%s“ akzeptiert kein Präfix"
+msgstr "Farba „%s“ nemá predponu"
 
 #: src/rcfile.c:1040
 #, c-format
 msgid "Color \"%s\" not understood"
-msgstr "Farbe „%s“ nicht verstanden"
+msgstr "Neznáma farba „%s“"
 
 #: src/rcfile.c:1056 src/rcfile.c:1067
 msgid "An attribute requires a subsequent comma"
-msgstr "Auf ein Argument muss ein Komma folgen"
+msgstr "Príznak musí byť nasledovaný čiarkou"
 
 #: src/rcfile.c:1111
 msgid "Missing color name"
-msgstr "Fehlender Farbname"
+msgstr "Chýba názov farby"
 
 #: src/rcfile.c:1122 src/rcfile.c:1222
 #, c-format
 msgid "Missing regex string after '%s' command"
-msgstr "Fehlende Regex-Zeichenkette nach „%s“-Befehl"
+msgstr "Chýba regulárny výraz za príkazom „%s“"
 
 #: src/rcfile.c:1148
 msgid "\"start=\" requires a corresponding \"end=\""
-msgstr "„start=“ erfordert ein entsprechendes „end=“"
+msgstr "„start=“ vyžaduje príslušný „end=“"
 
 #: src/rcfile.c:1211 src/rcfile.c:1459
 #, c-format
 msgid "A '%s' command requires a preceding 'syntax' command"
-msgstr "Einem „%s“-Befehl muss ein „syntax“-Befehl vorausgehen"
+msgstr "Príkazu „%s“ musí predchádzať príkaz skladby"
 
 #: src/rcfile.c:1217
 #, c-format
 msgid "The \"default\" syntax does not accept '%s' regexes"
-msgstr "Die Syntax „default“ akzeptiert keine „%s“-Regexe"
+msgstr "Skladba „default“ neprijíma regulárne výrazy „%s“"
 
 #: src/rcfile.c:1264
 #, c-format
 msgid "Missing argument after '%s'"
-msgstr "Fehlendes Argument nach „%s“"
+msgstr "Chýba parameter za „%s“"
 
 #: src/rcfile.c:1274
 #, c-format
 msgid "Argument of '%s' lacks closing \""
-msgstr "Argument „%s“ hat kein schließendes \""
+msgstr "Parameter „%s“ postráda pravú úvodzovku"
 
 #: src/rcfile.c:1322
 #, c-format
 msgid "No key is bound to function '%s' in menu '%s'.  Exiting.\n"
-msgstr "Der Funktion „%s“ im Menü „%s“ ist keine Taste zugeordnet. Abbruch.\n"
+msgstr ""
+"Funkcia „%s“ v ponuke „%s“ nemá pridelenú žiadnu klávesu.  Ukončuje sa.\n"
 
 #: src/rcfile.c:1324
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr ""
-"Bitte starten Sie nano bei Bedarf mit der Option „-I“, um Ihre nanorc-"
-"Einstellungen anzupassen\n"
+"V prípade potreby spustite nano s prepínačom -I pre prispôsobenie vašich "
+"nastavení v nanorc.\n"
 
 #: src/rcfile.c:1391
 #, c-format
 msgid "Could not find syntax \"%s\" to extend"
-msgstr "Zu erweiternde Syntax „%s“ konnte nicht gefunden werden"
+msgstr "Nepodarilo sa nájsť skladbu „%s“ na rozšírenie"
 
 #: src/rcfile.c:1448
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
-msgstr "Befehl „%s“ nicht in eingebundener Datei erlaubt"
+msgstr "V zahrnutom súbore nie je povolený príkaz „%s“"
 
 #: src/rcfile.c:1491
 msgid "Missing option"
-msgstr "Fehlende Option"
+msgstr "Chýba prepínač"
 
 #: src/rcfile.c:1505
 #, c-format
 msgid "Unknown option \"%s\""
-msgstr "Unbekannte Option „%s“"
+msgstr "Neznámy prepínač „%s“"
 
 #: src/rcfile.c:1520
 #, c-format
 msgid "Cannot unset option \"%s\""
-msgstr "Option „%s“ kann nicht zurückgesetzt werden"
+msgstr "Nie je možné odstaviť prepínač „%s“"
 
 #: src/rcfile.c:1525
 #, c-format
 msgid "Option \"%s\" requires an argument"
-msgstr "Option „%s“ erfordert ein Argument"
+msgstr "Prepínač „%s“ vyžaduje parameter"
 
 #: src/rcfile.c:1537
 msgid "Argument is not a valid multibyte string"
-msgstr "Argument ist keine gültige Multibyte-Zeichenkette"
+msgstr "Parameter nie je platným viacbajtovým reťazcom"
 
 #: src/rcfile.c:1584 src/rcfile.c:1602 src/rcfile.c:1607
 msgid "Non-blank characters required"
-msgstr "Nicht-Leerraum-Zeichen erforderlich"
+msgstr "Vyžadujú sa iné ako biele znaky"
 
 #: src/rcfile.c:1586
 msgid "Even number of characters required"
-msgstr "Gerade Zeichenanzahl erforderlich"
+msgstr "Požaduje sa párny počet znakov"
 
 #: src/rcfile.c:1591
 msgid "Two single-column characters required"
-msgstr "Zwei einspaltige Zeichen erforderlich"
+msgstr "Požadujú sa dva znaky v rozsahu jedného stĺpca"
 
 #: src/rcfile.c:1681
 msgid "Specified rcfile does not exist\n"
-msgstr "Angegebene Konfigurationsdatei existiert nicht\n"
+msgstr "Určený súbor rcfile neexistuje\n"
 
 #: src/rcfile.c:1700
 msgid "I can't find my home directory!  Wah!"
-msgstr "Heimatverzeichnis kann nicht gefunden werden! Autsch!"
+msgstr "Nemôžem nájsť svoj domovský priečinok!  Jaj!"
 
 #. TRANSLATORS: The next four modify the search prompt.
 #: src/search.c:99
 msgid " [Case Sensitive]"
-msgstr " [GROSS/klein]"
+msgstr " [Rozlišuje sa veľkosť písmen]"
 
 #: src/search.c:100
 msgid " [Regexp]"
-msgstr " [reg. Ausdruck]"
+msgstr " [Regulárny výraz]"
 
 #: src/search.c:104
 msgid " (to replace) in selection"
-msgstr " (zu ersetzen) in Auswahl"
+msgstr " (nahradiť) vo výbere"
 
 #: src/search.c:106
 msgid " (to replace)"
-msgstr " (zu ersetzen)"
+msgstr " (nahradiť)"
 
 #. TRANSLATORS: This is shown when searching takes
 #. * more than half a second.
 #: src/search.c:230 src/search.c:303
 msgid "Searching..."
-msgstr "Suchen …"
+msgstr "Hľadá sa..."
 
 #: src/search.c:405
 #, c-format
 msgid "\"%.*s%s\" not found"
-msgstr "„%.*s%s“ nicht gefunden"
+msgstr "nenašlo sa „%.*s%s“"
 
 #. TRANSLATORS: This is a prompt.
 #: src/search.c:594
 msgid "Replace this instance?"
-msgstr "Fundstelle ersetzen?"
+msgstr "Nahradiť tento výskyt?"
 
 #. TRANSLATORS: This is a prompt.
 #: src/search.c:704
 msgid "Replace with"
-msgstr "Ersetzen durch"
+msgstr "Nahradiť nasledovným"
 
 #: src/search.c:730
 #, c-format
 msgid "Replaced %zd occurrence"
 msgid_plural "Replaced %zd occurrences"
-msgstr[0] "%zd Ersetzung vorgenommen"
-msgstr[1] "%zd Ersetzungen vorgenommen"
+msgstr[0] "Bol nahradený %zd výskyt"
+msgstr[1] "Boli nahradené %zd výskyty"
+msgstr[2] "Bolo nahradených %zd výskytov"
 
 #. TRANSLATORS: This is a prompt.
 #: src/search.c:757
 msgid "Enter line number, column number"
-msgstr "Zeilennummer, Spaltennummer eingeben"
+msgstr "Zadajte číslo riadka, číslo stĺpca"
 
 #: src/search.c:926
 msgid "Not a bracket"
-msgstr "Keine Klammer"
+msgstr "Nie je zátvorka"
 
 #: src/search.c:969
 msgid "No matching bracket"
-msgstr "Keine passende Klammer"
+msgstr "Chýba zodpovedajúca zátvorka"
 
 #: src/search.c:984
 msgid "Placed anchor"
-msgstr "Anker gesetzt"
+msgstr "Odkaz umiestnený"
 
 #: src/search.c:986
 msgid "Removed anchor"
-msgstr "Anker entfernt"
+msgstr "Odkaz odstránený"
 
 #: src/search.c:998
 msgid "Jumped to anchor"
-msgstr "Zum Anker gesprungen"
+msgstr "Preskočilo sa na odkaz"
 
 #: src/search.c:1000
 msgid "This is the only anchor"
-msgstr "Das ist der einzige Anker"
+msgstr "Toto je jediný odkaz"
 
 #: src/search.c:1002
 msgid "There are no anchors"
-msgstr "Es gibt keine Anker"
+msgstr "Nie sú žiadne odkazy"
 
 #: src/text.c:54
 msgid "Mark Set"
-msgstr "Markierung gesetzt"
+msgstr "Značka nastavená"
 
 #: src/text.c:57
 msgid "Mark Unset"
-msgstr "Markierung entfernt"
+msgstr "Značka odstránená"
 
 #: src/text.c:381
 msgid "Commenting is not supported for this file type"
-msgstr "Kommentare werden für diesen Dateityp nicht unterstützt"
+msgstr "Tento typ súboru nepodporuje komentáre"
 
 #: src/text.c:391
 msgid "Cannot comment past end of file"
-msgstr "Nach dem Ende der Datei kann nicht kommentiert werden"
+msgstr "Nedá sa pridať komentár za koniec súboru"
 
 #: src/text.c:507
 msgid "Nothing to undo"
-msgstr "Nichts rückgängig zu machen"
+msgstr "Nie je čo vrátiť"
 
 #. TRANSLATORS: The next thirteen strings describe actions
 #. * that are undone or redone.  They are all nouns, not verbs.
 #: src/text.c:518 src/text.c:578 src/text.c:694 src/text.c:754
 msgid "addition"
-msgstr "Hinzufügung"
+msgstr "súčet"
 
 #: src/text.c:526 src/text.c:706
 msgid "line break"
-msgstr "Zeilenvorschub"
+msgstr "zalomenie riadka"
 
 #: src/text.c:542 src/text.c:716
 msgid "deletion"
-msgstr "Löschung"
+msgstr "odstránenie"
 
 #: src/text.c:552 src/text.c:722
 msgid "line join"
-msgstr "Zeile verbinden"
+msgstr "spojenie riadka"
 
 #: src/text.c:568 src/text.c:737
 msgid "replacement"
-msgstr "Ersetzung"
+msgstr "nahradenie"
 
 #: src/text.c:588 src/text.c:758
 msgid "erasure"
-msgstr "löschen"
+msgstr "vymazanie"
 
 #. TRANSLATORS: Remember: these are nouns, NOT verbs.
 #: src/text.c:594 src/text.c:763
 msgid "cut"
-msgstr "ausschneiden"
+msgstr "vystrihnutie"
 
 #: src/text.c:598 src/text.c:767
 msgid "paste"
-msgstr "einfügen"
+msgstr "vloženie"
 
 #: src/text.c:605 src/text.c:771
 msgid "insertion"
-msgstr "Einfügung"
+msgstr "vloženie"
 
 #: src/text.c:634 src/text.c:794
 msgid "indent"
-msgstr "Einrücken"
+msgstr "odsadenie"
 
 #: src/text.c:638 src/text.c:798
 msgid "unindent"
-msgstr "Ausrücken"
+msgstr "zrušenie odsadenia"
 
 #: src/text.c:643 src/text.c:803
 msgid "comment"
-msgstr "Kommentieren"
+msgstr "komentár"
 
 #: src/text.c:647 src/text.c:807
 msgid "uncomment"
-msgstr "Nicht kommentieren"
+msgstr "odstránenie komentára"
 
 #: src/text.c:655
 #, c-format
 msgid "Undid %s"
-msgstr "%s wurde rückgängig gemacht"
+msgstr "Vrátilo sa %s"
 
 #: src/text.c:681
 msgid "Nothing to redo"
-msgstr "Nichts zu wiederholen"
+msgstr "Nie je čo vykonať znova"
 
 #: src/text.c:815
 #, c-format
 msgid "Redid %s"
-msgstr "%s wurde wiederholt"
+msgstr "Vykonalo sa znova %s"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
 #: src/text.c:1742 src/text.c:1956
 msgid "justification"
-msgstr "Ausrichtung"
+msgstr "zarovnanie"
 
 #: src/text.c:1753 src/text.c:2073
 msgid "Selection is empty"
-msgstr "Auswahl ist leer"
+msgstr "Výber je prázdny"
 
 #: src/text.c:1965
 msgid "Justified selection"
-msgstr "Auswahl wurde ausgerichtet"
+msgstr "Výber zarovnaný"
 
 #: src/text.c:1969
 msgid "Justified file"
-msgstr "Datei wurde ausgerichtet"
+msgstr "Súbor zarovnaný"
 
 #: src/text.c:1971
 msgid "Justified paragraph"
-msgstr "Absatz wurde ausgerichtet"
+msgstr "Odsek zarovnaný"
 
 #: src/text.c:2076
 msgid "Buffer is empty"
-msgstr "Zwischenablage ist leer"
+msgstr "Zásobník je prázdny"
 
 #: src/text.c:2114 src/text.c:2702
 #, c-format
 msgid "Error invoking '%s'"
-msgstr "Fehler beim Aufruf von „%s“"
+msgstr "Chyba pri spúšťaní „%s“"
 
 #: src/text.c:2118
 #, c-format
 msgid "Program '%s' complained"
-msgstr "Programm „%s“ hat sich beschwert"
+msgstr "Program „%s“ sa sťažoval"
 
 #: src/text.c:2126
 msgid "Nothing changed"
-msgstr "Nichts geändert"
+msgstr "Nič sa nezmenilo"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
 #: src/text.c:2155
 msgid "spelling correction"
-msgstr "Rechtschreibprüfung"
+msgstr "oprava pravopisnej chyby"
 
 #: src/text.c:2155
 msgid "formatting"
-msgstr "Formatierung"
+msgstr "formátovanie"
 
 #: src/text.c:2174 src/text.c:2461
 msgid "Finished checking spelling"
-msgstr "Rechtschreibprüfung abgeschlossen"
+msgstr "Kontrola pravopisu dokončená"
 
 #: src/text.c:2176
 msgid "Buffer has been processed"
-msgstr "Puffer wurde verarbeitet"
+msgstr "Zásobník bol spracovaný"
 
 #: src/text.c:2219
 #, c-format
 msgid "Unfindable word: %s"
-msgstr "Wort ist nicht auffindbar: %s"
+msgstr "Nenájditeľné slovo: %s"
 
 #. TRANSLATORS: This is a prompt.
 #: src/text.c:2238
 msgid "Edit a replacement"
-msgstr "Ersetzung editieren"
+msgstr "Upraviť nahradenie"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
 #: src/text.c:2251
 msgid "Next word..."
-msgstr "Nächstes Wort …"
+msgstr "Ďalšie slovo..."
 
 #: src/text.c:2302
 msgid "Invoking spell checker..."
-msgstr "Rechtschreibprüfung wird aufgerufen …"
+msgstr "Spúšťam nástroj na kontrolu pravopisu..."
 
 #: src/text.c:2387 src/text.c:2608
 msgid "Could not get size of pipe buffer"
-msgstr "Größe des Pipe-Puffers konnte nicht bestimmt werden"
+msgstr "Nepodarilo sa zistiť veľkosť zásobníka zreťazenia"
 
 #: src/text.c:2455
 msgid "Error invoking \"uniq\""
-msgstr "Fehler beim Aufruf von „uniq“"
+msgstr "Chyba pri spúšťaní „uniq“"
 
 #: src/text.c:2457
 msgid "Error invoking \"sort\""
-msgstr "Fehler beim Aufruf von „sort“"
+msgstr "Chyba pri spúšťaní „sort“"
 
 #: src/text.c:2459
 msgid "Error invoking \"spell\""
-msgstr "Fehler beim Aufruf von „spell“"
+msgstr "Chyba pri spúšťaní „spell“"
 
 #: src/text.c:2543
 msgid "No linter is defined for this type of file"
-msgstr "Kein Linter für diesen Dateityp definiert"
+msgstr "Pre tento typ súboru nie je určený žiaden nástroj na rozbor"
 
 #: src/text.c:2553
 msgid "Save modified buffer before linting?"
-msgstr "Geänderten Puffer vor dem Linter-Aufruf speichern?"
+msgstr "Uložiť upravený zásobník pred rozborom?"
 
 #: src/text.c:2570
 msgid "Invoking linter..."
-msgstr "Linter wird aufgerufen …"
+msgstr "Spúšťa sa nástroj na rozbor..."
 
 #: src/text.c:2707
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
-msgstr "Keine verarbeitbaren Zeilen vom Befehl erhalten: %s"
+msgstr "Príkaz „%s“ poskytol 0 spracovateľných riadkov"
 
 #: src/text.c:2745
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
-"Diese Meldung ist für nicht geöffnete Datei %s, in neuem Puffer öffnen?"
+"Táto správa sa týka neotvoreného súboru %s, otvoriť ho v novom zásobníku?"
 
 #: src/text.c:2784
 msgid "No messages for this file"
-msgstr "Keine Meldungen für diese Datei"
+msgstr "Žiadne správy pre tento súbor"
 
 #: src/text.c:2834
 msgid "At first message"
-msgstr "Bei erster Meldung"
+msgstr "Na prvej správe"
 
 #: src/text.c:2844
 msgid "At last message"
-msgstr "Bei letzter Meldung"
+msgstr "Na poslednej správe"
 
 #: src/text.c:2886
 msgid "No formatter is defined for this type of file"
-msgstr "Kein Formatierer für diesen Dateityp definiert"
+msgstr "Pre tento typ súbor nie je určený žiaden nástroj na formátovanie"
 
 #: src/text.c:2963
 #, c-format
@@ -2809,134 +2798,138 @@ msgstr "%s%zd %s,  %zu %s,  %zu %s"
 
 #: src/text.c:2964
 msgid "In Selection:  "
-msgstr "In Auswahl:  "
+msgstr "Vo výbere:  "
 
 #: src/text.c:2965
 msgid "line"
 msgid_plural "lines"
-msgstr[0] "Zeile"
-msgstr[1] "Zeilen"
+msgstr[0] "riadok"
+msgstr[1] "riadky"
+msgstr[2] "riadkov"
 
 #: src/text.c:2966
 msgid "word"
 msgid_plural "words"
-msgstr[0] "Wort"
-msgstr[1] "Wörter"
+msgstr[0] "slovo"
+msgstr[1] "slová"
+msgstr[2] "slov"
 
 #: src/text.c:2967
 msgid "character"
 msgid_plural "characters"
-msgstr[0] "Zeichen"
-msgstr[1] "Zeichen"
+msgstr[0] "znak"
+msgstr[1] "znaky"
+msgstr[2] "znakov"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
 #: src/text.c:2978
 msgid "Verbatim Input"
-msgstr "Direkte Eingabe"
+msgstr "Priame zadanie"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
 #: src/text.c:2996
 msgid "Invalid code"
-msgstr "Ungültiger Code"
+msgstr "Neplatný kód"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
 #: src/text.c:3072
 msgid "No word fragment"
-msgstr "Kein Wort-Fragment"
+msgstr "Žiadna časť slova"
 
 #: src/text.c:3165
 msgid "No further matches"
-msgstr "Keine weiteren Treffer"
+msgstr "Žiadne ďalšie zhody"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
 #: src/text.c:3168
 msgid "No matches"
-msgstr "Keine Treffer"
+msgstr "Žiadne zhody"
 
 #: src/utils.c:295 src/utils.c:310
 msgid "Nano is out of memory!\n"
-msgstr "Nano hat keinen Speicher mehr!\n"
+msgstr "Nano nemá dostatok pamäte!\n"
 
 #: src/winio.c:98
 msgid "Recording a macro..."
-msgstr "Makro wird aufgezeichnet …"
+msgstr "Nahráva sa makro..."
 
 #: src/winio.c:101
 msgid "Stopped recording"
-msgstr "Aufzeichnung gestoppt"
+msgstr "Nahrávanie zastavené"
 
 #: src/winio.c:113
 msgid "Cannot run macro while recording"
-msgstr "Makro kann während der Aufzeichnung nicht ausgeführt werden"
+msgstr "Nedá sa spustiť makro počas nahrávania"
 
 #: src/winio.c:119
 msgid "Macro is empty"
-msgstr "Makro ist leer"
+msgstr "Makro je prázdne"
 
 #: src/winio.c:241
 msgid "Too many errors from stdin\n"
-msgstr "Zu viele Fehler aus der Standardeingabe\n"
+msgstr "Priveľa chýb na štandardnom vstupe\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
 #: src/winio.c:1361
 #, c-format
 msgid "Unicode Input: %s"
-msgstr "Unicode-Eingabe: %s"
+msgstr "Vstup Unicode: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
 #: src/winio.c:1987
 msgid "Linting --"
-msgstr "Linter läuft --"
+msgstr "Rozbor --"
 
 #: src/winio.c:1993
 msgid "DIR:"
-msgstr "Verz.:"
+msgstr "PIEČ:"
 
 #: src/winio.c:2014
 msgid "View"
-msgstr "Ansehen"
+msgstr "Zobrazenie"
 
 #: src/winio.c:2020 src/winio.c:2024
 msgid "Modified"
-msgstr "Verändert"
+msgstr "Upravený"
 
 #: src/winio.c:2022
 msgid "Restricted"
-msgstr "Eingeschränkt"
+msgstr "Neprístupný"
 
 #: src/winio.c:2128
 msgid "(nameless)"
-msgstr "(unbenannt)"
+msgstr "(bez názvu)"
 
 #: src/winio.c:2157
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
-msgstr[0] " (%zu Zeile)"
-msgstr[1] " (%zu Zeilen)"
+msgstr[0] " (%zu riadok)"
+msgstr[1] " (%zu riadky)"
+msgstr[2] " (%zu riadkov)"
 
 #: src/winio.c:3523
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
-"Zeile %*zd/%zd (%2d%%), Spalte %2zu/%2zu (%3d%%), Zeichen %*zu/%zu (%2d%%)"
+"riadok %*zd/%zd (%2d%%), stĺpec %2zu/%2zu (%3d%%), znak %*zu/%zu (%2d%%)"
 
 #: src/winio.c:3677
 msgid "The nano text editor"
-msgstr "Der Texteditor Nano"
+msgstr "Textový editor nano"
 
 #: src/winio.c:3678
 msgid "version"
-msgstr "Version"
+msgstr "verzia"
 
 #: src/winio.c:3679
 msgid "Brought to you by:"
-msgstr "Entwickelt von:"
+msgstr "Prinášajú:"
 
 #: src/winio.c:3680
 msgid "Special thanks to:"
-msgstr "Speziellen Dank an:"
+msgstr "Zvláštne poďakovanie patrí:"
 
 #: src/winio.c:3681
 msgid "The Free Software Foundation"
@@ -2944,123 +2937,123 @@ msgstr "The Free Software Foundation"
 
 #: src/winio.c:3682
 msgid "the many translators and the TP"
-msgstr "die zahlreichen Übersetzer und das TP"
+msgstr "mnohým prekladateľom a TP"
 
 #: src/winio.c:3683
 msgid "For ncurses:"
-msgstr "Für ncurses:"
+msgstr "Za ncurses:"
 
 #: src/winio.c:3684
 msgid "and anyone else we forgot..."
-msgstr "und alle Nichtgenannten …"
+msgstr "a každému na koho sme zabudli..."
 
 #: src/winio.c:3685
 msgid "Thank you for using nano!"
-msgstr "Danke für die Benutzung von nano!"
+msgstr "Ďakujeme Vám, že používate nano!"
 
 #: lib/getopt.c:278
 #, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: Option „%s%s“ ist nicht eindeutig\n"
+msgstr "%s: prepínač „%s%s“ je nejednoznačný\n"
 
 #: lib/getopt.c:284
 #, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: Option „%s%s“ ist mehrdeutig; Möglichkeiten:"
+msgstr "%s: prepínač „%s%s“ je nejednoznačný; možnosti:"
 
 #: lib/getopt.c:319
 #, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: Unbekannte Option „%s%s“\n"
+msgstr "%s: nerozpoznaný prepínač „%s%s“\n"
 
 #: lib/getopt.c:345
 #, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "%s: Option „%s%s“ erlaubt kein Argument\n"
+msgstr "%s: prepínač „%s%s“ nepripúšťa žiadne parametre\n"
 
 #: lib/getopt.c:360
 #, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: Option „%s%s“ erwartet ein Argument\n"
+msgstr "%s: prepínač „%s%s“ vyžaduje parameter\n"
 
 #: lib/getopt.c:621
 #, c-format
 msgid "%s: invalid option -- '%c'\n"
-msgstr "%s: Ungültige Option -- „%c“\n"
+msgstr "%s: neplatný prepínač -- „%c“\n"
 
 #: lib/getopt.c:636 lib/getopt.c:682
 #, c-format
 msgid "%s: option requires an argument -- '%c'\n"
-msgstr "%s: Option benötigt ein Argument -- „%c“\n"
+msgstr "%s: prepínač vyžaduje parameter -- „%c“\n"
 
 #: lib/regcomp.c:135
 msgid "Success"
-msgstr "Erfolg"
+msgstr "Úspešné"
 
 #: lib/regcomp.c:138
 msgid "No match"
-msgstr "Kein Treffer"
+msgstr "Žiadna zhoda"
 
 #: lib/regcomp.c:141
 msgid "Invalid regular expression"
-msgstr "Ungültiger regulärer Ausdruck"
+msgstr "Neplatný regulárny výraz"
 
 #: lib/regcomp.c:144
 msgid "Invalid collation character"
-msgstr "Ungültiges Vergleichszeichen"
+msgstr "Neplatný porovnávací znak"
 
 #: lib/regcomp.c:147
 msgid "Invalid character class name"
-msgstr "Ungültiger Zeichenklassenname"
+msgstr "Neplatný názov triedy znaku"
 
 #: lib/regcomp.c:150
 msgid "Trailing backslash"
-msgstr "Angehängter Rückschrägstrich"
+msgstr "Opačná lomka na konci"
 
 #: lib/regcomp.c:153
 msgid "Invalid back reference"
-msgstr "Ungültige Rückreferenz"
+msgstr "Neplatný spätný odkaz"
 
 #: lib/regcomp.c:156
 msgid "Unmatched [, [^, [:, [., or [="
-msgstr "Kein Gegenstück für [, [^, [:, [. oder [="
+msgstr "Chýba zodpovedajúca [, [^, [:, [., alebo [="
 
 #: lib/regcomp.c:159
 msgid "Unmatched ( or \\("
-msgstr "Kein Gegenstück für ( oder \\("
+msgstr "Chýba zodpovedajúca ( alebo \\("
 
 #: lib/regcomp.c:162
 msgid "Unmatched \\{"
-msgstr "Kein Gegenstück für \\{"
+msgstr "Chýba zodpovedajúca \\{"
 
 #: lib/regcomp.c:165
 msgid "Invalid content of \\{\\}"
-msgstr "Ungültiger Inhalt von \\{\\}"
+msgstr "Neplatný obsah \\{\\}"
 
 #: lib/regcomp.c:168
 msgid "Invalid range end"
-msgstr "Ungültiges Bereichsende"
+msgstr "Neplatný koniec rozmedzia"
 
 #: lib/regcomp.c:171
 msgid "Memory exhausted"
-msgstr "Speicher ausgeschöpft"
+msgstr "Pamäť vyčerpaná"
 
 #: lib/regcomp.c:174
 msgid "Invalid preceding regular expression"
-msgstr "Ungültiger vorangestellter regulärer Ausdruck"
+msgstr "Neplatný predchádzajúci regulárny výraz"
 
 #: lib/regcomp.c:177
 msgid "Premature end of regular expression"
-msgstr "Vorzeitiges Ende des regulären Ausdrucks"
+msgstr "Predčasný koniec regulárneho výrazu"
 
 #: lib/regcomp.c:180
 msgid "Regular expression too big"
-msgstr "Regulärer Ausdruck ist zu groß"
+msgstr "Priveľký regulárny výraz"
 
 #: lib/regcomp.c:183
 msgid "Unmatched ) or \\)"
-msgstr "Kein Gegenstück für ) oder \\)"
+msgstr "Chýba zodpovedajúca ) alebo \\)"
 
 #: lib/regcomp.c:676
 msgid "No previous regular expression"
-msgstr "Kein vorangehender regulärer Ausdruck"
+msgstr "Žiadny predchádzajúci regulárny výraz"
