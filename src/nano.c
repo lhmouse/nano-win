@@ -1094,7 +1094,7 @@ void do_toggle(int flag)
 		if (flag == AUTOINDENT || flag == BREAK_LONG_LINES || flag == SOFTWRAP)
 			titlebar(NULL);
 
-	if (ISSET(MINIBAR) && (flag == NO_HELP || flag == LINE_NUMBERS ))
+	if (ISSET(MINIBAR) && (flag == NO_HELP || flag == LINE_NUMBERS))
 		return;
 
 	if (flag == CONSTANT_SHOW)
@@ -2203,7 +2203,7 @@ int main(int argc, char **argv)
 		load_history();
 	if (ISSET(POSITIONLOG))
 		load_poshistory();
-#endif /* ENABLE_HISTORIES */
+#endif
 
 #ifndef NANO_TINY
 	/* If a backup directory was specified and we're not in restricted mode,
@@ -2237,7 +2237,7 @@ int main(int argc, char **argv)
 		die(_("Bad quoting regex \"%s\": %s\n"), quotestr, message);
 	} else
 		free(quotestr);
-#endif /* ENABLE_JUSTIFY */
+#endif
 
 #ifdef ENABLE_SPELLER
 	/* If we don't have an alternative spell checker after reading the

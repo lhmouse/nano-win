@@ -550,7 +550,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			openfile->current_x = bot_x;
 		}
 	}
-#endif /* !NANO_TINY */
+#endif
 
 	came_full_circle = FALSE;
 

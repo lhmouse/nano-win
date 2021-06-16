@@ -766,7 +766,7 @@ int do_yesno_prompt(bool all, const char *msg)
 					choice = -2;
 			}
 		}
-#endif /* ENABLE_MOUSE */
+#endif
 		else if (func_from_key(&kbinput) == full_refresh)
 			full_refresh();
 #ifndef NANO_TINY

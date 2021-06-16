@@ -644,7 +644,7 @@ bool has_blank_char(const char *string)
 
 	return *string;
 }
-#endif /* ENABLE_NANORC && (!NANO_TINY || ENABLE_JUSTIFY) */
+#endif
 
 /* Return TRUE when the given string is empty or consists of only blanks. */
 bool white_string(const char *string)

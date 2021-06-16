@@ -58,7 +58,7 @@ void do_mark(void)
 		refresh_needed = TRUE;
 	}
 }
-#endif /* !NANO_TINY */
+#endif
 
 /* Insert a tab.  Or, if --tabstospaces is in effect, insert the number
  * of spaces that a tab would normally take up at this position. */

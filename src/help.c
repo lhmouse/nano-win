@@ -310,7 +310,7 @@ void help_init(void)
 				}
 		}
 	}
-#endif /* !NANO_TINY */
+#endif
 }
 
 /* Hard-wrap the concatenated help text, and write it into a new buffer. */
