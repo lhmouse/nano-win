@@ -2149,7 +2149,7 @@ void minibar(void)
 	}
 
 	/* Right after reading or writing a file, display its number of lines;
-	 * otherwise, when there a mutiple buffers, display an [x/n] counter. */
+	 * otherwise, when there are multiple buffers, display an [x/n] counter. */
 	if (report_size && COLS > 35) {
 		size_t count = openfile->filebot->lineno - (openfile->filebot->data[0] == '\0');
 
@@ -2176,7 +2176,7 @@ void minibar(void)
 		mvwaddstr(bottomwin, 0, COLS - 27 - placewidth, location);
 
 	/* Display the hexadecimal code of the character under the cursor,
-	 * plus the codes of upto two succeeding zero-width characters. */
+	 * plus the codes of up to two succeeding zero-width characters. */
 	if (ISSET(CONSTANT_SHOW) && namewidth + tallywidth + 28 < COLS) {
 		char *this_position = openfile->current->data + openfile->current_x;
 
