@@ -523,7 +523,7 @@ void usage(void)
 #ifdef ENABLE_HISTORIES
 	if (!ISSET(RESTRICTED))
 		print_opt("-H", "--historylog",
-					N_("Log & read search/replace string history"));
+					N_("Save & reload old search/replace strings"));
 #endif
 #ifdef ENABLE_NANORC
 	print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
@@ -551,7 +551,7 @@ void usage(void)
 #ifdef ENABLE_HISTORIES
 	if (!ISSET(RESTRICTED))
 		print_opt("-P", "--positionlog",
-					N_("Log & read location of cursor position"));
+					N_("Save & restore position of the cursor"));
 #endif
 #ifdef ENABLE_JUSTIFY
 	print_opt(_("-Q <regex>"), _("--quotestr=<regex>"),
