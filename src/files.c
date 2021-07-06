@@ -1792,7 +1792,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 
 	if (!is_existing_file)
 		/* Ensure the data has reached the disk before reporting it as written. */
-		if (fflush(thefile) != 0 || fsync(fileno(thefile)) != 0) {
+		if (fflush(thefile) != 0) {
 			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			fclose(thefile);
 			goto cleanup_and_exit;

@@ -31,7 +31,7 @@ Features Removed
 
 Workarounds
 
-    + Either `Alt` key can be used as a `Meta` key.
+    + Left `Alt` key can be used as a `Meta` key.
     + UNIX style end-of-line handling by default.
     + Standard-conforming `sprintf()` function from mingw-w64.
 
