@@ -1758,8 +1758,6 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		/* An iterator for moving through the lines of the buffer. */
 	size_t lineswritten = 0;
 		/* The number of lines written, for feedback on the status bar. */
-	bool retval = FALSE;
-		/* The return value, to become TRUE when writing has succeeded. */
 
 #ifdef ENABLE_OPERATINGDIR
 	/* If we're writing a temporary file, we're probably going outside
@@ -1955,7 +1953,11 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 	if (fclose(thefile) != 0) {
 		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
-		goto cleanup_and_exit;
+
+  cleanup_and_exit:
+		free(tempname);
+		free(realname);
+		return FALSE;
 	}
 
 	/* When having written an entire buffer, update some administrivia. */
@@ -2011,13 +2013,11 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	if (!tmp)
 		statusline(REMARK, P_("Wrote %zu line", "Wrote %zu lines",
 								lineswritten), lineswritten);
-	retval = TRUE;
 
-  cleanup_and_exit:
 	free(tempname);
 	free(realname);
 
-	return retval;
+	return TRUE;
 }
 
 #ifndef NANO_TINY
