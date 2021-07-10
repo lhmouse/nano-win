@@ -313,7 +313,7 @@ void do_exit(void)
  * for a nameless buffer).  If needed, the name is modified to be unique. */
 void emergency_save(const char *plainname)
 {
-	bool failed = TRUE;
+	bool saved = FALSE;
 	char *targetname;
 
 	if (*plainname == '\0')
@@ -322,9 +322,9 @@ void emergency_save(const char *plainname)
 	targetname = get_next_filename(plainname, ".save");
 
 	if (*targetname != '\0')
-		failed = !write_file(targetname, NULL, TRUE, OVERWRITE, FALSE);
+		saved = write_file(targetname, NULL, TRUE, OVERWRITE, FALSE);
 
-	if (!failed)
+	if (saved)
 		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
 	else if (*targetname != '\0')
 		fprintf(stderr, _("\nBuffer not written to %s: %s\n"),
