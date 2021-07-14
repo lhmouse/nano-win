@@ -327,17 +327,16 @@ void emergency_save(const char *filename)
 		fprintf(stderr, _("\nToo many .save files\n"));
 	else if (write_file(targetname, NULL, TRUE, OVERWRITE, FALSE)) {
 		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
-	}
-
 #ifndef NANO_TINY
-	/* Try to chmod/chown the saved file to the values of the original file,
-	 * but ignore any failure as we are in a hurry to get out. */
-	if (openfile->statinfo) {
-		IGNORE_CALL_RESULT(chmod(targetname, openfile->statinfo->st_mode));
-		IGNORE_CALL_RESULT(chown(targetname, openfile->statinfo->st_uid,
-												openfile->statinfo->st_gid));
-	}
+		/* Try to chmod/chown the saved file to the values of the original file,
+		 * but ignore any failure as we are in a hurry to get out. */
+		if (openfile->statinfo) {
+			IGNORE_CALL_RESULT(chmod(targetname, openfile->statinfo->st_mode));
+			IGNORE_CALL_RESULT(chown(targetname, openfile->statinfo->st_uid,
+													openfile->statinfo->st_gid));
+		}
 #endif
+	}
 
 	free(targetname);
 	free(plainname);
