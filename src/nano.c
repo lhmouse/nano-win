@@ -309,12 +309,11 @@ void do_exit(void)
 		statusbar(_("Cancelled"));
 }
 
-/* Save the current buffer under the given name (or under "nano.<PID>"
- * for a nameless buffer).  If needed, the name is modified to be unique. */
+/* Save the current buffer under the given name (or "nano.<pid>" when nameless)
+ * with suffix ".save".  If needed, the name is further suffixed to be unique. */
 void emergency_save(const char *filename)
 {
 	char *plainname, *targetname;
-	bool saved = FALSE;
 
 	if (*filename == '\0') {
 		plainname = nmalloc(28);
@@ -324,13 +323,11 @@ void emergency_save(const char *filename)
 
 	targetname = get_next_filename(plainname, ".save");
 
-	if (*targetname != '\0')
-		saved = write_file(targetname, NULL, TRUE, OVERWRITE, FALSE);
-
-	if (saved)
+	if (*targetname == '\0')
+		fprintf(stderr, _("\nToo many .save files\n"));
+	else if (write_file(targetname, NULL, TRUE, OVERWRITE, FALSE)) {
 		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
-	else if (*targetname == '\0')
-		fprintf(stderr, _("\nToo many .save files"));
+	}
 
 #ifndef NANO_TINY
 	/* Try to chmod/chown the saved file to the values of the original file,
