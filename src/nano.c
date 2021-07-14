@@ -329,10 +329,7 @@ void emergency_save(const char *filename)
 
 	if (saved)
 		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
-	else if (*targetname != '\0')
-		fprintf(stderr, _("\nBuffer not written to %s: %s\n"),
-										targetname, strerror(errno));
-	else
+	else if (*targetname == '\0')
 		fprintf(stderr, _("\nToo many .save files"));
 
 #ifndef NANO_TINY
