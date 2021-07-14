@@ -311,15 +311,16 @@ void do_exit(void)
 
 /* Save the current buffer under the given name (or under "nano.<PID>"
  * for a nameless buffer).  If needed, the name is modified to be unique. */
-void emergency_save(char *plainname)
+void emergency_save(const char *filename)
 {
+	char *plainname, *targetname;
 	bool saved = FALSE;
-	char *targetname;
 
-	if (*plainname == '\0') {
-		plainname = nrealloc(plainname, 28);
+	if (*filename == '\0') {
+		plainname = nmalloc(28);
 		sprintf(plainname, "nano.%u", getpid());
-	}
+	} else
+		plainname = copy_of(filename);
 
 	targetname = get_next_filename(plainname, ".save");
 
@@ -345,6 +346,7 @@ void emergency_save(char *plainname)
 #endif
 
 	free(targetname);
+	free(plainname);
 }
 
 /* Die gracefully -- by restoring the terminal state and saving any buffers
