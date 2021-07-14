@@ -2264,11 +2264,6 @@ void statusline(message_type importance, const char *msg, ...)
 	if (importance < lastmessage && lastmessage > NOTICE)
 		return;
 
-	/* On a one-row terminal, ensure that any changes in the edit window are
-	 * written out first, to prevent them from overwriting the message. */
-	if (LINES == 1 && importance < INFO)
-		wnoutrefresh(edit);
-
 	/* Construct the message out of all the arguments. */
 	compound = nmalloc(MAXCHARLEN * COLS + 1);
 	va_start(ap, msg);
@@ -2280,6 +2275,11 @@ void statusline(message_type importance, const char *msg, ...)
 						!openfile->errormessage && openfile->next != openfile)
 		openfile->errormessage = copy_of(compound);
 #endif
+
+	/* On a one-row terminal, ensure that any changes in the edit window are
+	 * written out first, to prevent them from overwriting the message. */
+	if (LINES == 1 && importance < INFO)
+		wnoutrefresh(edit);
 
 	/* If there are multiple alert messages, add trailing dots to the first. */
 	if (lastmessage == ALERT) {
