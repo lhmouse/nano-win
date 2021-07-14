@@ -2254,10 +2254,6 @@ void statusline(message_type importance, const char *msg, ...)
 	bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
 
 	UNSET(WHITESPACE_DISPLAY);
-
-	/* When not in curses mode, there is no status bar to display anything on. */
-	if (isendwin())
-		return;
 #endif
 
 	/* Ignore a message with an importance that is lower than the last one. */
@@ -2269,6 +2265,13 @@ void statusline(message_type importance, const char *msg, ...)
 	va_start(ap, msg);
 	vsnprintf(compound, MAXCHARLEN * COLS + 1, msg, ap);
 	va_end(ap);
+
+	/* When not in curses mode, write the message to standard error. */
+	if (isendwin()) {
+		fprintf(stderr, "\n%s\n", compound);
+		free(compound);
+		return;
+	}
 
 #if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
 	if (!we_are_running && importance == ALERT && openfile && !openfile->fmt &&
