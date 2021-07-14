@@ -309,15 +309,17 @@ void do_exit(void)
 		statusbar(_("Cancelled"));
 }
 
-/* Save the current buffer under the given name (or under the name "nano"
+/* Save the current buffer under the given name (or under "nano.<PID>"
  * for a nameless buffer).  If needed, the name is modified to be unique. */
-void emergency_save(const char *plainname)
+void emergency_save(char *plainname)
 {
 	bool saved = FALSE;
 	char *targetname;
 
-	if (*plainname == '\0')
-		plainname = "nano";
+	if (*plainname == '\0') {
+		plainname = nrealloc(plainname, 28);
+		sprintf(plainname, "nano.%u", getpid());
+	}
 
 	targetname = get_next_filename(plainname, ".save");
 
