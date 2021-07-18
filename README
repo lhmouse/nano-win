@@ -1,10 +1,19 @@
 
           GNU nano -- a simple editor, inspired by Pico
 
-Overview
+Purpose
 
-    The nano project was started because of a few "problems" with the
-    wonderfully easy-to-use and friendly Pico text editor.
+    Nano is a small and simple text editor for use on the terminal.
+    It copied the interface and key bindings of the Pico editor but
+    added several missing features: undo/redo, syntax highlighting,
+    line numbers, softwrapping, multiple buffers, selecting text by
+    holding Shift, search-and-replace with regular expressions, and
+    several other conveniences.
+
+Origin
+
+    The nano project was started in 1999 because of a few "problems"
+    with the wonderfully easy-to-use and friendly Pico text editor.
 
     First and foremost was its license: the Pine suite does not use
     the GPL, and (before using the Apache License) it had unclear
