@@ -32,6 +32,19 @@ Origin
     The nano editor is an official GNU package.  For more information on
     GNU and the Free Software Foundation, please see https://www.gnu.org/.
 
+License
+
+    Nano's code and documentation are covered by the GPL version 3 or
+    (at your option) any later version, except for two functions that
+    were copied from busybox which are under a BSD license.  Nano's
+    documentation is additionally covered by the GNU Free Documentation
+    License version 1.2 or (at your option) any later version.  See the
+    files COPYING and COPYING.DOC for the full text of these licenses.
+
+    When in any file of this package a copyright notice mentions a
+    year range (such as 1999-2011), it is a shorthand for a list of
+    all the years in that interval.
+
 How to compile and install nano
 
     Download the latest nano source tarball, and then:
@@ -80,9 +93,3 @@ Bug Reports
 
     If you find a bug, please file a detailed description of the problem
     on nano's bug tracker: https://savannah.gnu.org/bugs/?group=nano.
-
-Copyright Years
-
-    When in any file of this package a copyright notice mentions a
-    year range (such as 1999-2011), it is a shorthand for a list of
-    all the years in that interval.
