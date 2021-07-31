@@ -22,7 +22,7 @@ Appearance
   |                                                                    |
   | The top row of the screen is the 'title bar'; it shows nano's      |
   | version, the name of the file, and whether you modified it.        |
-  | The two bottom rows display the most important shorcuts; in        |
+  | The two bottom rows display the most important shortcuts; in       |
   | those lines ^ means Ctrl.  The third row from the bottom shows     |
   | some feedback message, or gets replaced with a prompt bar when     |
   | you tell nano to do something that requires extra input.           |
