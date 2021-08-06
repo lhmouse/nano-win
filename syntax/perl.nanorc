@@ -20,5 +20,3 @@ color white start="(^use| = new)" end=";"
 
 # Comments.
 color green "(^|[[:blank:]])#.*"
-
-color yellow start="<< 'STOP'" end="STOP"
