@@ -40,7 +40,7 @@
 </p></blockquote>
 <h3><a href="#4">4. Running</a></h3>
 <blockquote><p>
-  <a href="#4.1">4.1. How do I open a file with a name beginning with '+' from the command line?</a><br>
+  <a href="#4.1">4.1. Alt+Up does nothing on a Linux console. How can I make it work?</a><br>
   <a href="#4.2">4.2. How can I make Ctrl+Shift+Left/Right select words on urxvt?</a><br>
   <a href="#4.3">4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</a><br>
   <a href="#4.4">4.4. With what keystroke can I paste text from the clipboard into nano?</a><br>
@@ -175,13 +175,14 @@
 <hr width="100%">
 
 <h1><a name="4"></a>4. Running</h1>
-<h3><a name="4.1"></a>4.1. How do I open a file with a name beginning with '+' from the command line?</h3>
-<blockquote><p>If a command-line argument that begins with '+' is followed by another argument, the former is always treated as a starting line (plus column number), and the latter always as a filename. If a command-line argument that begins with '+' isn't followed by another argument, it's treated as a filename. Examples:</p>
-  <p>To open '+filename.txt': <b>nano +filename.txt</b><br>
-  To open '+filename.txt' starting on line 10: <b>nano +10 +filename.txt</b><br>
-  To open '+filename.txt' starting on line 1, column 20: <b>nano +,20 +filename.txt</b><br>
-  To open '+filename.txt' starting on line 10, column 20: <b>nano +10,20 +filename.txt</b><br>
-  To open '+filename.txt' starting on line 1 and 'filename.txt' starting on line 40: <b>nano +1 +filename.txt +40 filename.txt</b></p></blockquote>
+<h3><a name="4.1"></a>4.1. Alt+Up does nothing on a Linux console. How can I make it work?</h3>
+<blockquote><p>On Debian and its derivatives, the <b>Alt+Up</b> keystroke on a Linux console
+  produces by default a 'KeyboardSignal', which normally does absolutely nothing and is useless
+  for the average user.  To get the keystroke to work normally, run this in a Linux console:</p>
+  <b>dumpkeys --full | sed s/KeyboardSignal/Up/ | sudo loadkeys -</b>
+  <p>You will need to run this command whenever you first switch to a Linux console.
+  Or you can put the command in your .bashrc or equivalent, conditionalized with:
+  <b>if [ $TERM == linux ]; then ... ; fi</b>.</p></blockquote>
 <h3><a name="4.2"></a>4.2. How can I make Ctrl+Shift+Left/Right select words on urxvt?</h3>
 <blockquote><p>The urxvt terminal emulator produces non-standard escape sequences for the modified cursor keys.  These deviant sequences are not listed in the terminfo database, which means that ncurses does not recognize them.  The easiest way around this is to tell urxvt to produce xterm-compatible escape sequences for the relevant keystrokes.  To achieve this, add the following lines to your ~/.Xresources file:</p>
 <pre>
