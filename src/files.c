@@ -1451,7 +1451,7 @@ char *safe_tempfile(FILE **stream)
 {
 	const char *env_dir = getenv("TMPDIR");
 	char *tempdir = NULL, *tempfile_name = NULL;
-	int fd;
+	int descriptor;
 
 	/* Get the absolute path for the first directory among $TMPDIR
 	 * and P_tmpdir that is writable, otherwise use /tmp/. */
@@ -1467,13 +1467,13 @@ char *safe_tempfile(FILE **stream)
 	tempfile_name = nrealloc(tempdir, strlen(tempdir) + 12);
 	strcat(tempfile_name, "nano.XXXXXX");
 
-	fd = mkstemp(tempfile_name);
+	descriptor = mkstemp(tempfile_name);
 
-	*stream = (fd > 0) ? fdopen(fd, "r+b") : NULL;
+	*stream = (descriptor > 0) ? fdopen(descriptor, "r+b") : NULL;
 
 	if (*stream == NULL) {
-		if (fd > 0)
-			close(fd);
+		if (descriptor > 0)
+			close(descriptor);
 		free(tempfile_name);
 		return NULL;
 	}
