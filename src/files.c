@@ -1451,6 +1451,7 @@ char *safe_tempfile(FILE **stream)
 {
 	const char *env_dir = getenv("TMPDIR");
 	char *tempdir = NULL, *tempfile_name = NULL;
+	char *extension;
 	int descriptor;
 
 	/* Get the absolute path for the first directory among $TMPDIR
@@ -1464,10 +1465,16 @@ char *safe_tempfile(FILE **stream)
 	if (tempdir == NULL)
 		tempdir = copy_of("/tmp/");
 
-	tempfile_name = nrealloc(tempdir, strlen(tempdir) + 12);
-	strcat(tempfile_name, "nano.XXXXXX");
+	extension = strrchr(openfile->filename, '.');
 
-	descriptor = mkstemp(tempfile_name);
+	if (!extension)
+		extension = openfile->filename + strlen(openfile->filename);
+
+	tempfile_name = nrealloc(tempdir, strlen(tempdir) + 12 + strlen(extension));
+	strcat(tempfile_name, "nano.XXXXXX");
+	strcat(tempfile_name, extension);
+
+	descriptor = mkstemps(tempfile_name, strlen(extension));
 
 	*stream = (descriptor > 0) ? fdopen(descriptor, "r+b") : NULL;
 
