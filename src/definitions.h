@@ -29,6 +29,10 @@
 #endif
 #endif
 
+#if defined(__HAIKU__) && !defined(_DEFAULT_SOURCE)
+#define _DEFAULT_SOURCE  1
+#endif
+
 #ifdef __TANDEM
 /* Tandem NonStop Kernel support. */
 #include <floss.h>
