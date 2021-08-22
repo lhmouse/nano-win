@@ -13,6 +13,7 @@ modules="
 	isblank
 	iswblank
 	lstat
+	mkstemps
 	nl_langinfo
 	regex
 	sigaction
