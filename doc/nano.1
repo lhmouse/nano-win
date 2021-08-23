@@ -44,7 +44,7 @@ regular expression by inserting \fBc\fR and/or \fBr\fR after the \fB+\fR sign.
 These search modes can be explicitly disabled by using the uppercase variant
 of those letters: \fBC\fR and/or \fBR\fR.  When the string contains spaces,
 it needs to be enclosed in quotes.  To give an example: to open a file at
-the first occurrence of the word "Foo", one would do:
+the first occurrence of the word "Foo", you would do:
 .sp
 .RS 4
 .BI "nano +c/Foo " file
@@ -63,10 +63,10 @@ Any cursor movement or executing any other command will cause the next
 \fB^K\fR to overwrite the cutbuffer.  A \fB^U\fR will paste the current
 contents of the cutbuffer at the current cursor position.
 .sp
-When a more precise piece of text needs to be cut or copied, one can mark
+When a more precise piece of text needs to be cut or copied, you can mark
 its start with \fB^6\fR, move the cursor to its end (the marked text will be
 highlighted), and then use \fB^K\fR to cut it, or \fBM\-6\fR to copy it to the
-cutbuffer.  One can also save the marked text to a file with \fB^O\fR, or
+cutbuffer.  You can also save the marked text to a file with \fB^O\fR, or
 spell check it with \fB^T\fR.
 .sp
 On some terminals, text can be selected also by holding down Shift while
