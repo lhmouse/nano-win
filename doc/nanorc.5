@@ -657,7 +657,8 @@ the line, column, and character positions.
 (The old name of this function, 'curpos', is deprecated.)
 .TP
 .B wordcount
-Counts the number of words, lines and characters in the current buffer.
+Counts and reports on the status bar the number of lines, words,
+and characters in the current buffer (or in the marked region).
 .TP
 .B execute
 Prompts for a program to execute.  The program's output will be inserted
@@ -674,27 +675,28 @@ Invokes a full-buffer-processing program (if the active syntax defines one).
 Invokes a syntax-checking program (if the active syntax defines one).
 .TP
 .B justify
-Justifies the current paragraph.  A paragraph is a group of contiguous lines
+Justifies the current paragraph (or the marked region).
+A paragraph is a group of contiguous lines
 that, apart from possibly the first line, all have the same indentation.  The
 beginning of a paragraph is detected by either this lone line with a differing
 indentation or by a preceding blank line.
 .TP
 .B fulljustify
-Justifies the entire current buffer.
+Justifies the entire current buffer (or the marked region).
 .TP
 .B indent
-Indents (shifts to the right) the currently marked text.
+Indents (shifts to the right) the current line or the marked lines.
 .TP
 .B unindent
-Unindents (shifts to the left) the currently marked text.
+Unindents (shifts to the left) the current line or the marked lines.
 .TP
 .B comment
-Comments or uncomments the current line or marked lines, using the comment
-style specified in the active syntax.
+Comments or uncomments the current line or the marked lines,
+using the comment style specified in the active syntax.
 .TP
 .B complete
-Completes the fragment before the cursor to a full word found elsewhere
-in the current buffer.
+Completes (when possible) the fragment before the cursor
+to a full word found elsewhere in the current buffer.
 .TP
 .B left
 Goes left one position (in the editor or browser).
