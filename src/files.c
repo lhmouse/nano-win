@@ -1467,7 +1467,7 @@ char *safe_tempfile(FILE **stream)
 
 	extension = strrchr(openfile->filename, '.');
 
-	if (!extension)
+	if (!extension || strchr(extension, '/'))
 		extension = openfile->filename + strlen(openfile->filename);
 
 	tempfile_name = nrealloc(tempdir, strlen(tempdir) + 12 + strlen(extension));
