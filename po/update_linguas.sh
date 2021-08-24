@@ -9,6 +9,9 @@ rm *.po
 wget --recursive --level=1 --accept=po --no-directories --no-verbose \
        https://translationproject.org/latest/nano/  ||  exit 2
 
+# These PO files are less than twenty percent translated:
+rm -v  id.po  nn.po
+
 # Are there now PO files that are not in git yet?
 NEWSTUFF=$(git status --porcelain *.po | grep "^??")
 
