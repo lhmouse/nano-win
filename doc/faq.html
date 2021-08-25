@@ -146,23 +146,23 @@
 <h3><a name="3.5"></a>3.5. How can I make the executable smaller? This is too bloated!</h3>
 <blockquote><p>Actually, there are several parts of the editor that can be disabled. You can pass arguments to the <b>configure</b> script that disable certain features. Here's a brief list:</p>
   <pre>
-  <b>--disable-browser</b>       Disable the built-in file browser
-  <b>--disable-color</b>         Disable color and syntax highlighting
-  <b>--disable-comment</b>       Disable the comment/uncomment function
-  <b>--disable-extra</b>         Disable the easter egg
-  <b>--disable-help</b>          Disable the built-in help texts
-  <b>--disable-histories</b>     Disable the saving of search strings and cursor positions
-  <b>--disable-justify</b>       Disable the justify/unjustify functions
-  <b>--disable-libmagic</b>      Disable the use of libmagic for determining a file's syntax
-  <b>--disable-linenumbers</b>   Disable line numbering
-  <b>--disable-mouse</b>         Disable mouse support
-  <b>--disable-multibuffer</b>   Disable the opening of multiple file buffers
-  <b>--disable-nanorc</b>        Disable the use of .nanorc files
-  <b>--disable-operatingdir</b>  Disable the setting of an operating directory
-  <b>--disable-speller</b>       Disable the spell-checker functions
-  <b>--disable-tabcomp</b>       Disable the tab-completion functions
-  <b>--disable-wordcomp</b>      Disable the word-completion function
-  <b>--disable-wrapping</b>      Disable all hard-wrapping of text</pre>
+    <b>--disable-browser</b>       Disable the built-in file browser
+    <b>--disable-color</b>         Disable color and syntax highlighting
+    <b>--disable-comment</b>       Disable the comment/uncomment function
+    <b>--disable-extra</b>         Disable the easter egg
+    <b>--disable-help</b>          Disable the built-in help texts
+    <b>--disable-histories</b>     Disable the saving of search strings and cursor positions
+    <b>--disable-justify</b>       Disable the justify/unjustify functions
+    <b>--disable-libmagic</b>      Disable the use of libmagic for determining a file's syntax
+    <b>--disable-linenumbers</b>   Disable line numbering
+    <b>--disable-mouse</b>         Disable mouse support
+    <b>--disable-multibuffer</b>   Disable the opening of multiple file buffers
+    <b>--disable-nanorc</b>        Disable the use of .nanorc files
+    <b>--disable-operatingdir</b>  Disable the setting of an operating directory
+    <b>--disable-speller</b>       Disable the spell-checker functions
+    <b>--disable-tabcomp</b>       Disable the tab-completion functions
+    <b>--disable-wordcomp</b>      Disable the word-completion function
+    <b>--disable-wrapping</b>      Disable all hard-wrapping of text</pre>
   <p>There's also the <b>--enable-tiny</b> option which disables everything above, as well as some larger chunks of the program (like the undo/redo code and the code for selecting text). Also, if you know you don't need other languages, you can use <b>--disable-nls</b> to disable internationalization and save a few kilobytes. And finally, there's always good old <b>strip</b> to remove all unneeded symbols.</p>
 </blockquote>
 <h3><a name="3.6"></a>3.6. Tell me more about this multibuffer stuff!</h3>
