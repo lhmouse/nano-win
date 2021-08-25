@@ -43,7 +43,7 @@
 </p></blockquote>
 <h3><a href="#4">4. Running</a></h3>
 <blockquote><p>
-  <a href="#4.1">4.1. Alt+Up does nothing on a Linux console. How can I make it work?</a><br>
+  <a href="#4.1">4.1. Alt+Up does nothing on a Linux console. How can I make it scroll?</a><br>
   <a href="#4.2">4.2. How can I make Ctrl+Shift+Left/Right select words on urxvt?</a><br>
   <a href="#4.3">4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</a><br>
   <a href="#4.4">4.4. With what keystroke can I paste text from the clipboard into nano?</a><br>
@@ -178,14 +178,19 @@
 <hr width="100%">
 
 <h1><a name="4"></a>4. Running</h1>
-<h3><a name="4.1"></a>4.1. Alt+Up does nothing on a Linux console. How can I make it work?</h3>
+<h3><a name="4.1"></a>4.1. Alt+Up does nothing on a Linux console. How can I make it scroll?</h3>
 <blockquote><p>On Debian and its derivatives, the <b>Alt+Up</b> keystroke on a Linux console
   produces by default a 'KeyboardSignal', which normally does absolutely nothing and is useless
-  for the average user.  To get the keystroke to work normally, run this in a Linux console:</p>
+  for the average user.  To get the keystroke to do what it ought to do (scroll the viewport
+  one row up), run this in a Linux console:</p>
   <p class="indented"><b>dumpkeys --full | sed s/KeyboardSignal/Up/ | sudo loadkeys -</b></p>
-  <p>You will need to run this command whenever you first switch to a Linux console.
-  Or you can put the command in your .bashrc or equivalent, conditionalized with:
-  <b>if [ $TERM == linux ]; then ... ; fi</b>.</p></blockquote>
+  <p>You will need to run this command whenever you first switch to a Linux console.</p>
+  <p>Or you can (as root) execute the following little script just once:</p>
+  <p class="indented"><b>for file in /etc/console-setup/cached*.kmap.gz; do<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;gunzip $file;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;sed -i 's/KeyboardSignal/Up/' ${file%.gz};<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;gzip ${file%.gz};<br>
+  done</b></p></blockquote>
 <h3><a name="4.2"></a>4.2. How can I make Ctrl+Shift+Left/Right select words on urxvt?</h3>
 <blockquote><p>The urxvt terminal emulator produces non-standard escape sequences for the modified cursor keys.  These deviant sequences are not listed in the terminfo database, which means that ncurses does not recognize them.  The easiest way around this is to tell urxvt to produce xterm-compatible escape sequences for the relevant keystrokes.  To achieve this, add the following lines to your ~/.Xresources file:</p>
 <pre>
