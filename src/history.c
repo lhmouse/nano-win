@@ -367,7 +367,8 @@ void save_history(void)
 	}
 
 	/* Don't allow others to read or write the history file. */
-	chmod(histname, S_IRUSR | S_IWUSR);
+	if (chmod(histname, S_IRUSR | S_IWUSR) < 0)
+		jot_error(N_("Cannot limit permissions on %s: %s"), histname, strerror(errno));
 
 	if (!write_list(searchtop, histfile) || !write_list(replacetop, histfile) ||
 											!write_list(executetop, histfile))
@@ -465,7 +466,8 @@ void save_poshistory(void)
 	}
 
 	/* Don't allow others to read or write the history file. */
-	chmod(poshistname, S_IRUSR | S_IWUSR);
+	if (chmod(poshistname, S_IRUSR | S_IWUSR) < 0)
+		jot_error(N_("Cannot limit permissions on %s: %s"), poshistname, strerror(errno));
 
 	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
 		char *path_and_place;
