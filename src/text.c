@@ -39,7 +39,7 @@
 #ifdef ENABLE_WORDCOMPLETION
 static int pletion_x = 0;
 		/* The x position in pletion_line of the last found completion. */
-static completion_word *list_of_completions;
+static completionstruct *list_of_completions;
 		/* A linked list of the completions that have been attempted. */
 #endif
 
@@ -3027,7 +3027,7 @@ void complete_a_word(void)
 	char *shard, *completion = NULL;
 	size_t start_of_shard, shard_length = 0;
 	size_t i = 0, j = 0;
-	completion_word *some_word;
+	completionstruct *some_word;
 #ifdef ENABLE_WRAPPING
 	bool was_set_wrapping = ISSET(BREAK_LONG_LINES);
 #endif
@@ -3036,7 +3036,7 @@ void complete_a_word(void)
 	if (pletion_line == NULL) {
 		/* Clear the list of words of a previous completion run. */
 		while (list_of_completions != NULL) {
-			completion_word *dropit = list_of_completions;
+			completionstruct *dropit = list_of_completions;
 			list_of_completions = list_of_completions->next;
 			free(dropit->word);
 			free(dropit);
@@ -3129,7 +3129,7 @@ void complete_a_word(void)
 			}
 
 			/* Add the found word to the list of completions. */
-			some_word = nmalloc(sizeof(completion_word));
+			some_word = nmalloc(sizeof(completionstruct));
 			some_word->word = completion;
 			some_word->next = list_of_completions;
 			list_of_completions = some_word;

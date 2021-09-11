@@ -628,8 +628,8 @@ typedef struct funcstruct {
 } funcstruct;
 
 #ifdef ENABLE_WORDCOMPLETION
-typedef struct completion_word {
+typedef struct completionstruct {
 	char *word;
-	struct completion_word *next;
-} completion_word;
+	struct completionstruct *next;
+} completionstruct;
 #endif
