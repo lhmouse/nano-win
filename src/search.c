@@ -609,14 +609,13 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			size_t length_change;
 			char *altered;
 
-#ifndef NANO_TINY
-			add_undo(REPLACE, NULL);
-#endif
 			altered = replace_line(needle);
 
 			length_change = strlen(altered) - strlen(openfile->current->data);
 
 #ifndef NANO_TINY
+			add_undo(REPLACE, NULL);
+
 			/* If the mark was on and it was located after the cursor,
 			 * then adjust its x position for any text length changes. */
 			if (was_mark && !right_side_up) {
@@ -632,8 +631,9 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 
 			/* If the mark was not on or it was before the cursor, then
 			 * adjust the cursor's x position for any text length changes. */
-			if (!was_mark || right_side_up) {
+			if (!was_mark || right_side_up)
 #endif
+			{
 				if (openfile->current == real_current &&
 						openfile->current_x < *real_current_x) {
 					if (*real_current_x < openfile->current_x + match_len)
@@ -641,8 +641,8 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 					*real_current_x += length_change;
 #ifndef NANO_TINY
 					bot_x = *real_current_x;
-				}
 #endif
+				}
 			}
 
 			/* Don't find the same zero-length or BOL match again. */
