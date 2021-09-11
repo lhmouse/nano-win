@@ -84,7 +84,6 @@ Problems?
 Please submit any bugs you find in the code in git via the bug tracker
 on Savannah (https://savannah.gnu.org/bugs/?group=nano).
 
-
 Contributing something
 ----------------------
 
@@ -114,3 +113,11 @@ to include 'set tabsize 4', or you could use -T4 on the command line.
 To make git display things as intended, you can do:
 
     $ git config --local core.pager "less -x1,5"
+
+To see all types that are used in nano's source code colorized as types,
+you can add these lines to your ~/.nanorc:
+
+    extendsyntax c color green "\<struct (dirent|option|passwd)\>"
+    extendsyntax c color green "\<struct (sigaction|stat|termios)\>"
+    extendsyntax c color green "\<struct (timespec|vt_stat|winsize)\>"
+    extendsyntax c color green "\<([[:lower:]_]+(struct|type)|va_list)\>"
