@@ -245,9 +245,11 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 	free(secondcopy);
 	free(namecopy);
 
-	if (!ask_the_user && stat(lockfilename, &fileinfo) != -1)
-		warn_and_briefly_pause(_("Someone else is also editing this file"));
-	else if (stat(lockfilename, &fileinfo) != -1) {
+	if (!ask_the_user && stat(lockfilename, &fileinfo) != -1) {
+		blank_bottombars();
+		statusline(ALERT, _("Someone else is also editing this file"));
+		napms(1200);
+	} else if (stat(lockfilename, &fileinfo) != -1) {
 		char *lockbuf, *question, *pidstring, *postedname, *promptstr;
 		static char lockprog[11], lockuser[17];
 		int lockfd, lockpid, choice;
