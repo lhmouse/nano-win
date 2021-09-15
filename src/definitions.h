@@ -220,6 +220,7 @@
 #define INCLUDED_LAST_LINE    (1<<3)
 #define MARK_WAS_SET          (1<<4)
 #define CURSOR_WAS_AT_HEAD    (1<<5)
+#define HAD_ANCHOR_AT_START   (1<<6)
 #endif /* !NANO_TINY */
 
 /* Identifiers for the different menus. */

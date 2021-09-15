@@ -463,6 +463,10 @@ void undo_cut(undostruct *u)
 {
 	goto_line_posx(u->head_lineno, (u->xflags & WAS_WHOLE_LINE) ? 0 : u->head_x);
 
+	/* Clear an inherited anchor but not a user-placed one. */
+	if (!(u->xflags & HAD_ANCHOR_AT_START))
+		openfile->current->has_anchor = FALSE;
+
 	if (u->cutbuffer)
 		copy_from_buffer(u->cutbuffer);
 
@@ -1023,6 +1027,8 @@ void add_undo(undo_type action, const char *message)
 #endif
 	case CUT_TO_EOF:
 		u->xflags |= (INCLUDED_LAST_LINE | CURSOR_WAS_AT_HEAD);
+		if (openfile->current->has_anchor)
+			u->xflags |= HAD_ANCHOR_AT_START;
 		break;
 	case ZAP:
 	case CUT:
@@ -1044,6 +1050,9 @@ void add_undo(undo_type action, const char *message)
 			u->tail_x = 0;
 		} else
 			u->xflags |= CURSOR_WAS_AT_HEAD;
+		if ((openfile->mark && mark_is_before_cursor() && openfile->mark->has_anchor) ||
+				((!openfile->mark || !mark_is_before_cursor()) && openfile->current->has_anchor))
+			u->xflags |= HAD_ANCHOR_AT_START;
 		break;
 	case PASTE:
 		u->cutbuffer = copy_buffer(cutbuffer);

@@ -154,7 +154,7 @@ linestruct *copy_node(const linestruct *src)
 #endif
 	dst->lineno = src->lineno;
 #ifndef NANO_TINY
-	dst->has_anchor = FALSE;
+	dst->has_anchor = src->has_anchor;
 #endif
 
 	return dst;

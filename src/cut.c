@@ -249,6 +249,7 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 	bool same_line = (openfile->mark == top);
 	bool post_marked = (openfile->mark && (openfile->mark->lineno > top->lineno ||
 						(same_line && openfile->mark_x > top_x)));
+	static bool inherited_anchor = FALSE;
 	bool had_anchor = top->has_anchor;
 
 	if (top == bot && top_x == bot_x)
@@ -269,7 +270,9 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 		taken = top;
 		last = make_new_node(NULL);
 		last->data = copy_of("");
-
+#ifndef NANO_TINY
+		last->has_anchor = bot->has_anchor;
+#endif
 		last->prev = bot->prev;
 		bot->prev->next = last;
 		last->next = NULL;
@@ -309,11 +312,17 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 	if (cutbuffer == NULL) {
 		cutbuffer = taken;
 		cutbottom = last;
+#ifndef NANO_TINY
+		inherited_anchor = taken->has_anchor;
+#endif
 	} else {
 		cutbottom->data = nrealloc(cutbottom->data,
 							strlen(cutbottom->data) + strlen(taken->data) + 1);
 		strcat(cutbottom->data, taken->data);
-
+#ifndef NANO_TINY
+		cutbottom->has_anchor = taken->has_anchor && !inherited_anchor;
+		inherited_anchor |= taken->has_anchor;
+#endif
 		cutbottom->next = taken->next;
 		delete_node(taken);
 
@@ -686,6 +695,11 @@ void copy_text(void)
 /* Copy text from the cutbuffer into the current buffer. */
 void paste_text(void)
 {
+	/* Remember where the paste started. */
+#ifndef NANO_TINY
+	linestruct *was_current = openfile->current;
+	bool had_anchor = was_current->has_anchor;
+#endif
 	ssize_t was_lineno = openfile->current->lineno;
 		/* The line number where we started the paste. */
 	size_t was_leftedge = 0;
@@ -708,6 +722,12 @@ void paste_text(void)
 	copy_from_buffer(cutbuffer);
 
 #ifndef NANO_TINY
+	/* Wipe any anchors in the pasted text, so that they don't move around. */
+	for (linestruct *line = was_current; line != openfile->current->next; line = line->next)
+		line->has_anchor = FALSE;
+
+	was_current->has_anchor = had_anchor;
+
 	update_undo(PASTE);
 #endif
 
