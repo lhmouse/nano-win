@@ -78,18 +78,19 @@
 ## Fall back to slow libmagic to try and determine an applicable syntax.
 # set magic
 
-## The opening and closing brackets that can be found by bracket
-## searches.  They cannot contain blank characters.  The former set must
-## come before the latter set, and both must be in the same order.
+## The opening and closing brackets that are found by a matching-bracket
+## search.  This may not contain blank characters.  The opening brackets
+## must come before the closing ones, and they must be in the same order.
 # set matchbrackets "(<[{)>]}"
 
-## Suppress title bar and show file name and editor state at the bottom.
+## Suppress the title bar and show the filename plus a cursor-position
+## percentage in the space of the status bar.
 # set minibar
 
 ## Enable mouse support, if available for your system.  When enabled,
 ## mouse clicks can be used to place the cursor, set the mark (with a
-## double click), and execute shortcuts.  The mouse will work in the X
-## Window System, and on the console when gpm is running.
+## double click), and execute shortcuts.  The mouse will work in the
+## X Window System, and on the console when gpm is running.
 # set mouse
 
 ## Switch on multiple file buffers (inserting a file will put it into
@@ -117,10 +118,9 @@
 ## Preserve the XON and XOFF keys (^Q and ^S).
 # set preserve
 
-## The characters treated as closing punctuation when justifying
-## paragraphs.  They cannot contain blank characters.  Only closing
-## punctuation, optionally followed by closing brackets, can end
-## sentences.
+## The characters treated as closing punctuation when justifying paragraphs.
+## This may not contain blank characters.  Only these closing punctuations,
+## optionally followed by closing brackets, can end sentences.
 # set punct "!.?"
 
 ## Make status-bar messages disappear after 1 keystroke instead of after 20.
@@ -144,16 +144,16 @@
 # set saveonexit
 ## (The old form of this option, 'set tempfile', is deprecated.)
 
-## Put the cursor on the highlighted item in the file browser, and show
-## the cursor in the help viewer; useful for people who use a braille
-## display and people with poor vision.
+## Put the cursor on the highlighted item in the file browser, and
+## show the cursor in the help viewer; useful for people who use a
+## braille display and people with poor vision.
 # set showcursor
 
-## Make the Home key smarter.  When Home is pressed anywhere but at the
+## Make the Home key smarter: when Home is pressed anywhere but at the
 ## very beginning of non-whitespace characters on a line, the cursor
 ## will jump to that beginning (either forwards or backwards).  If the
-## cursor is already at that position, it will jump to the true
-## beginning of the line.
+## cursor is already at that position, it will jump to the true start
+## of the line (the left edge).
 # set smarthome
 
 ## Spread overlong lines over multiple screen lines.
