@@ -1,6 +1,6 @@
 ## Syntax highlighting for nanorc files.
 
-syntax nanorc "\.?nanorc$"
+syntax nanorc "\.?nanorc(\.in)?$"
 comment "#"
 
 # Everything that does not get recolored is invalid
