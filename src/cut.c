@@ -249,14 +249,14 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 	bool same_line = (openfile->mark == top);
 	bool post_marked = (openfile->mark && (openfile->mark->lineno > top->lineno ||
 						(same_line && openfile->mark_x > top_x)));
-	bool was_anchored = top->has_anchor;
+	bool had_anchor = top->has_anchor;
 
 	if (top == bot && top_x == bot_x)
 		return;
 
 	if (top != bot)
 		for (linestruct *line = top->next; line != bot->next; line = line->next)
-			was_anchored |= line->has_anchor;
+			had_anchor |= line->has_anchor;
 #endif
 
 	if (top == bot) {
@@ -326,7 +326,7 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 	openfile->current_x = top_x;
 
 #ifndef NANO_TINY
-	openfile->current->has_anchor = was_anchored;
+	openfile->current->has_anchor = had_anchor;
 
 	if (post_marked || same_line)
 		openfile->mark = openfile->current;
