@@ -1933,9 +1933,11 @@ void justify_text(bool whole_buffer)
 	}
 
 #ifndef NANO_TINY
-	add_undo(PASTE, NULL);
+	/* Wipe an anchor on the first paragraph if it was only inherited. */
 	if (whole_buffer && !openfile->mark && !cutbuffer->has_anchor)
 		openfile->current->has_anchor = FALSE;
+
+	add_undo(PASTE, NULL);
 #endif
 	/* Do the equivalent of a paste of the justified text. */
 	ingraft_buffer(cutbuffer);
@@ -1954,13 +1956,8 @@ void justify_text(bool whole_buffer)
 	}
 
 	add_undo(COUPLE_END, N_("justification"));
-#endif
 
-	/* We're done justifying.  Restore the old cutbuffer. */
-	cutbuffer = was_cutbuffer;
-
-	/* Show what we justified on the status bar. */
-#ifndef NANO_TINY
+	/* Report on the status bar what we justified. */
 	if (openfile->mark)
 		statusline(REMARK, _("Justified selection"));
 	else
@@ -1969,6 +1966,9 @@ void justify_text(bool whole_buffer)
 		statusline(REMARK, _("Justified file"));
 	else
 		statusbar(_("Justified paragraph"));
+
+	/* We're done justifying.  Restore the cutbuffer. */
+	cutbuffer = was_cutbuffer;
 
 	/* Set the desired screen column (always zero, except at EOF). */
 	openfile->placewewant = xplustabs();
