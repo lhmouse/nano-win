@@ -2502,7 +2502,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		if (line->has_anchor && (from_col == 0 || !ISSET(SOFTWRAP)))
 #ifdef ENABLE_UTF8
 			if (using_utf8())
-				wprintw(edit, "\xE2\x97\x86");  /* black diamond */
+				wprintw(edit, "\xE2\xAC\xA5");  /* black medium diamond */
 			else
 #endif
 				wprintw(edit, "+");
