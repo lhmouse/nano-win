@@ -115,4 +115,8 @@ Mailing Lists
 Bug Reports
 
     If you find a bug, please file a detailed description of the problem
-    on nano's bug tracker: https://savannah.gnu.org/bugs/?group=nano.
+    on nano's issue tracker: https://savannah.gnu.org/bugs/?group=nano
+    (you will need an account to be able to do so), or send an email
+    to the nano-devel list (no need to subscribe, but mention it if
+    you want to be CC'ed on an answer).
+
