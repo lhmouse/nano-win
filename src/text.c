@@ -2061,9 +2061,9 @@ bool replace_buffer(const char *filename, undo_type action, const char *operatio
 /* Execute the given program, with the given temp file as last argument. */
 void treat(char *tempfile_name, char *theprogram, bool spelling)
 {
-	ssize_t lineno_save = openfile->current->lineno;
-	size_t current_x_save = openfile->current_x;
-	size_t pww_save = openfile->placewewant;
+	ssize_t was_lineno = openfile->current->lineno;
+	size_t was_pww = openfile->placewewant;
+	size_t was_x = openfile->current_x;
 	bool was_at_eol = (openfile->current->data[openfile->current_x] == '\0');
 	struct stat fileinfo;
 	long timestamp_sec = 0;
@@ -2147,7 +2147,7 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 		/* Adjust the end point of the marked region for any change in
 		 * length of the region's last line. */
 		if (upright)
-			current_x_save = openfile->current_x;
+			was_x = openfile->current_x;
 		else
 			openfile->mark_x = openfile->current_x;
 
@@ -2165,7 +2165,7 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 	}
 
 	/* Go back to the old position. */
-	goto_line_posx(lineno_save, current_x_save);
+	goto_line_posx(was_lineno, was_x);
 	if (was_at_eol || openfile->current_x > strlen(openfile->current->data))
 		openfile->current_x = strlen(openfile->current->data);
 
@@ -2176,7 +2176,7 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 #endif
 	}
 
-	openfile->placewewant = pww_save;
+	openfile->placewewant = was_pww;
 	adjust_viewport(STATIONARY);
 
 	if (spelling)

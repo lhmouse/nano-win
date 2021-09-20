@@ -263,8 +263,7 @@ void extract_segment(linestruct *top, size_t top_x, linestruct *bot, size_t bot_
 	if (top == bot) {
 		taken = make_new_node(NULL);
 		taken->data = measured_copy(top->data + top_x, bot_x - top_x);
-		memmove(top->data + top_x, top->data + bot_x,
-										strlen(top->data + bot_x) + 1);
+		memmove(top->data + top_x, top->data + bot_x, strlen(top->data + bot_x) + 1);
 		last = taken;
 	} else if (top_x == 0 && bot_x == 0) {
 		taken = top;
@@ -695,15 +694,13 @@ void copy_text(void)
 /* Copy text from the cutbuffer into the current buffer. */
 void paste_text(void)
 {
-	/* Remember where the paste started. */
 #ifndef NANO_TINY
+	/* Remember where the paste started. */
 	linestruct *was_current = openfile->current;
 	bool had_anchor = was_current->has_anchor;
 #endif
 	ssize_t was_lineno = openfile->current->lineno;
-		/* The line number where we started the paste. */
 	size_t was_leftedge = 0;
-		/* The leftedge where we started the paste. */
 
 	if (cutbuffer == NULL) {
 		statusline(AHEM, _("Cutbuffer is empty"));
@@ -722,7 +719,7 @@ void paste_text(void)
 	copy_from_buffer(cutbuffer);
 
 #ifndef NANO_TINY
-	/* Wipe any anchors in the pasted text, so that they don't move around. */
+	/* Wipe any anchors in the pasted text, so that they don't proliferate. */
 	for (linestruct *line = was_current; line != openfile->current->next; line = line->next)
 		line->has_anchor = FALSE;
 

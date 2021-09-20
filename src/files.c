@@ -973,10 +973,10 @@ bool execute_command(const char *command)
 {
 	int from_fd[2], to_fd[2];
 		/* The pipes through which text will be written and read. */
-	const bool should_pipe = (command[0] == '|');
-	FILE *stream;
 	struct sigaction oldaction, newaction = {{0}};
 		/* Original and temporary handlers for SIGINT. */
+	const bool should_pipe = (command[0] == '|');
+	FILE *stream;
 
 	/* Create a pipe to read the command's output from, and, if needed,
 	 * a pipe to feed the command's input through. */
