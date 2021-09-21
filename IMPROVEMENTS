@@ -2,7 +2,7 @@ Improvements in GNU nano
 ========================
 
 Since 5.0:
-  - A search highlights the found text, in black on yellow by default.
+  - A search briefly spotlights the found text, in black on yellow by default.
   - Option --minibar reduces the interface to a bottom bar with basic info.
   - The cursor skips over combining characters, <Del> deletes them together
     with the character they combine with, but <Bsp> deletes them separately.
