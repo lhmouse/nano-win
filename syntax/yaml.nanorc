@@ -1,0 +1,39 @@
+## Syntax highlighting for YAML files.
+
+## Original author:  Benno Schulenberg
+## License:  GPL version 3 or newer
+
+syntax yaml "\.ya?ml$"
+header "^---"
+
+tabgives "  "
+comment "#"
+
+# Keys:
+color lightgreen "(\w|-)+:( |$)"
+color lightgreen "\[(\w|[, -])+\]:( |$)"
+
+# Values (booleans, numbers, octal/hex, dates, strings):
+color lightmagenta "[:,] +(Y(es)?|No?|y(es)?|no?|[Tt]rue|[Ff]alse|[Oo](n|ff))( *[]}]|, | +#|$)"
+color lightmagenta "[:,] +[+-]?[0-9]+(\.([0-9]+)?)?( *[]}]|, | +#|$)"
+color lightmagenta " 0(o[0-7]+|x[0-9ABCDEFabcdef]+)( *[]}]|, | +#|$)"
+color normal "[:,]( |$)"
+color lightmagenta " [12][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])"
+color lightmagenta "("[^"]+"|'[^']+')"
+
+# Anchors and references:
+color pink " [&*]\w+( |$)"
+
+# Symbols:
+color bold,lagoon "^(---|\.\.\.)( |$)" " [|>]([1-9]?[+-]|[+-][1-9]?)?$"
+color yellow "(^ *- |[]{}[])"
+
+# Types:
+color mint " !!(binary|bool|float|int|map|null|omap|seq|set|str)( |$)"
+color mint " !(\w|-)+( |$)"
+
+# Mistakes (control codes, missing space, trailing space):
+color ,red "[[:cntrl:]]|[:,][^ ]| *$"
+
+# Comments:
+color italic,cyan "(^| )#.*"
