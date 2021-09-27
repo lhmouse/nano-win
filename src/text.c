@@ -665,7 +665,7 @@ void do_undo(void)
 
 	openfile->totsize = u->wassize;
 
-	/* When at the point where the file was last saved, unset "Modified". */
+	/* When at the point where the buffer was last saved, unset "Modified". */
 	if (openfile->current_undo == openfile->last_saved) {
 		openfile->modified = FALSE;
 		titlebar(NULL);
@@ -825,7 +825,7 @@ void do_redo(void)
 
 	openfile->totsize = u->newsize;
 
-	/* When at the point where the file was last saved, unset "Modified". */
+	/* When at the point where the buffer was last saved, unset "Modified". */
 	if (openfile->current_undo == openfile->last_saved) {
 		openfile->modified = FALSE;
 		titlebar(NULL);

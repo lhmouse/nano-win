@@ -40,19 +40,19 @@ void make_new_buffer(void)
 
 #ifdef ENABLE_MULTIBUFFER
 	if (openfile == NULL) {
-		/* Make the first open file the only element in the list. */
+		/* Make the first buffer the only element in the list. */
 		newnode->prev = newnode;
 		newnode->next = newnode;
 
 		startfile = newnode;
 	} else {
-		/* Add the new open file after the current one in the list. */
+		/* Add the new buffer after the current one in the list. */
 		newnode->prev = openfile;
 		newnode->next = openfile->next;
 		openfile->next->prev = newnode;
 		openfile->next = newnode;
 
-		/* There is more than one file open: show "Close" in help lines. */
+		/* There is more than one buffer: show "Close" in help lines. */
 		exitfunc->desc = close_tag;
 		more_than_one = !inhelp || more_than_one;
 	}
@@ -122,7 +122,7 @@ char *crop_to_fit(const char *name, int room)
 }
 
 #ifndef NANO_TINY
-/* Delete the lockfile.  Return TRUE on success, and FALSE otherwise. */
+/* Delete the lock file.  Return TRUE on success, and FALSE otherwise. */
 bool delete_lockfile(const char *lockfilename)
 {
 	if (unlink(lockfilename) < 0 && errno != ENOENT) {
@@ -478,8 +478,8 @@ bool open_buffer(const char *filename, bool new_one)
 	return TRUE;
 }
 
-/* Mark the current file as modified if it isn't already, and
- * then update the title bar to display the file's new status. */
+/* Mark the current buffer as modified if it isn't already, and
+ * then update the title bar to display the buffer's new status. */
 void set_modified(void)
 {
 	if (openfile->modified)
@@ -569,14 +569,14 @@ void redecorate_after_switch(void)
 	mention_name_and_linecount();
 }
 
-/* Switch to the previous entry in the list of open files. */
+/* Switch to the previous entry in the circular list of buffers. */
 void switch_to_prev_buffer(void)
 {
 	openfile = openfile->prev;
 	redecorate_after_switch();
 }
 
-/* Switch to the next entry in the list of open files. */
+/* Switch to the next entry in the circular list of buffers. */
 void switch_to_next_buffer(void)
 {
 	openfile = openfile->next;
@@ -1283,7 +1283,7 @@ void do_insertfile(bool execute)
 			} else
 #endif /* ENABLE_MULTIBUFFER */
 			{
-				/* If the file actually changed, mark it as modified. */
+				/* If the buffer actually changed, mark it as modified. */
 				if (openfile->current->lineno != was_current_lineno ||
 									openfile->current_x != was_current_x)
 					set_modified();
@@ -1359,7 +1359,7 @@ char *get_full_path(const char *origpath)
 	target = real_dir_from_tilde(origpath);
 
 	/* Determine whether the target path refers to a directory.  If statting
-	 * target fails, however, assume that it refers to a new, unsaved file. */
+	 * target fails, however, assume that it refers to a new, unsaved buffer. */
 	path_only = (stat(target, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
 
 	/* If the target is a directory, make sure its path ends in a slash. */
@@ -2010,7 +2010,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		/* Get or update the stat info to reflect the current state. */
 		stat_with_alloc(realname, &openfile->statinfo);
 
-		/* Record at which point in the undo stack the file was saved. */
+		/* Record at which point in the undo stack the buffer was saved. */
 		openfile->last_saved = openfile->current_undo;
 		openfile->last_action = OTHER;
 #endif
@@ -2078,18 +2078,18 @@ bool write_marked_file(const char *name, FILE *stream, bool tmp,
 }
 #endif /* !NANO_TINY */
 
-/* Write the current file to disk.  If the mark is on, write the current
- * marked selection to disk.  If exiting is TRUE, write the entire file
+/* Write the current buffer to disk.  If the mark is on, write the current
+ * marked selection to disk.  If exiting is TRUE, write the entire buffer
  * to disk regardless of whether the mark is on.  Do not ask for a name
  * when withprompt is FALSE nor when the SAVE_ON_EXIT flag is set and the
- * file already has a name.  Return 0 on error, 1 on success, and 2 when
+ * buffer already has a name.  Return 0 on error, 1 on success, and 2 when
  * the buffer is to be discarded. */
 int do_writeout(bool exiting, bool withprompt)
 {
 	char *given;
 		/* The filename we offer, or what the user typed so far. */
 	bool maychange = (openfile->filename[0] == '\0');
-		/* Whether it's okay to save the file under a different name. */
+		/* Whether it's okay to save the buffer under a different name. */
 	kind_of_writing_type method = OVERWRITE;
 #ifdef ENABLE_EXTRA
 	static bool did_credits = FALSE;
@@ -2234,11 +2234,10 @@ int do_writeout(bool exiting, bool withprompt)
 			if (do_warning) {
 				/* When in restricted mode, we aren't allowed to overwrite
 				 * an existing file with the current buffer, nor to change
-				 * the name of the current file if it already has one. */
+				 * the name of the current buffer if it already has one. */
 				if (ISSET(RESTRICTED)) {
 					/* TRANSLATORS: Restricted mode forbids overwriting. */
-					warn_and_briefly_pause(_("File exists -- "
-												"cannot overwrite"));
+					warn_and_briefly_pause(_("File exists -- cannot overwrite"));
 					continue;
 				}
 
@@ -2328,7 +2327,7 @@ void do_writeout_void(void)
 		close_and_go();
 }
 
-/* If it has a name, write the current file to disk without prompting. */
+/* If it has a name, write the current buffer to disk without prompting. */
 void do_savefile(void)
 {
 	if (do_writeout(FALSE, FALSE) == 2)
