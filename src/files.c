@@ -1848,7 +1848,8 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 
 #ifndef NANO_TINY
 		block_sigwinch(TRUE);
-		install_handler_for_Ctrl_C();
+		if (!tmp)
+			install_handler_for_Ctrl_C();
 #endif
 
 		/* Now open the file.  Use O_EXCL for an emergency file. */
@@ -1856,7 +1857,8 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 					O_APPEND : (tmp ? O_EXCL : O_TRUNC)), permissions);
 
 #ifndef NANO_TINY
-		restore_handler_for_Ctrl_C();
+		if (!tmp)
+			restore_handler_for_Ctrl_C();
 		block_sigwinch(FALSE);
 #endif
 
