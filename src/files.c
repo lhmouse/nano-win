@@ -1954,7 +1954,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		unlink(tempname);
 	}
 
-	if (!S_ISFIFO(st.st_mode))
+	if (!is_existing_file || !S_ISFIFO(st.st_mode))
 #endif
 	/* Ensure the data has reached the disk before reporting it as written. */
 	if (fflush(thefile) != 0 || fsync(fileno(thefile)) != 0) {
