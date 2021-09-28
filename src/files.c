@@ -1799,6 +1799,11 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 			goto cleanup_and_exit;
 	}
 
+	if (method == PREPEND && is_existing_file && S_ISFIFO(st.st_mode)) {
+		statusline(ALERT, _("Error writing %s: %s"), realname, "FIFO");
+		goto cleanup_and_exit;
+	}
+
 	/* When prepending, first copy the existing file to a temporary file. */
 	if (method == PREPEND) {
 		FILE *source = fopen(realname, "rb");
