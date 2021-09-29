@@ -2499,10 +2499,10 @@ void do_spell(void)
 
 #ifndef NANO_TINY
 	if (openfile->mark)
-		okay = write_marked_file(temp_name, stream, TRUE, OVERWRITE);
+		okay = write_marked_file(temp_name, stream, FALSE, OVERWRITE);
 	else
 #endif
-		okay = write_file(temp_name, stream, TRUE, OVERWRITE, TRUE);
+		okay = write_file(temp_name, stream, FALSE, OVERWRITE, TRUE);
 
 	if (!okay) {
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
@@ -2903,7 +2903,7 @@ void do_formatter(void)
 	temp_name = safe_tempfile(&stream);
 
 	if (temp_name != NULL)
-		okay = write_file(temp_name, stream, TRUE, OVERWRITE, TRUE);
+		okay = write_file(temp_name, stream, FALSE, OVERWRITE, TRUE);
 
 	if (!okay) {
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));

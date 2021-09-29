@@ -1746,13 +1746,13 @@ bool make_backup_of(char *realname)
 #endif /* !NANO_TINY */
 
 /* Write the current buffer to disk.  If thefile isn't NULL, we write to a
- * temporary file that is already open.  If tmp is TRUE (when spell checking
- * or emergency dumping, for example), we don't make a backup and don't give
+ * temporary file that is already open.  If normal is FALSE (for a spellcheck
+ * or an emergency save, for example), we don't make a backup and don't give
  * feedback.  If method is APPEND or PREPEND, it means we will be appending
  * or prepending instead of overwriting the given file.  If fullbuffer is TRUE
  * and when writing normally, we set the current filename and stat info.
  * Return TRUE on success, and FALSE otherwise. */
-bool write_file(const char *name, FILE *thefile, bool tmp,
+bool write_file(const char *name, FILE *thefile, bool normal,
 		kind_of_writing_type method, bool fullbuffer)
 {
 #ifndef NANO_TINY
@@ -1773,14 +1773,14 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #ifdef ENABLE_OPERATINGDIR
 	/* If we're writing a temporary file, we're probably going outside
 	 * the operating directory, so skip the operating directory test. */
-	if (!tmp && outside_of_confinement(realname, FALSE)) {
+	if (normal && outside_of_confinement(realname, FALSE)) {
 		statusline(ALERT, _("Can't write outside of %s"), operating_dir);
 		goto cleanup_and_exit;
 	}
 #endif
 #ifndef NANO_TINY
 	/* Check whether the file (at the end of the symlink) exists. */
-	is_existing_file = (!tmp) && (stat(realname, &fileinfo) != -1);
+	is_existing_file = normal && (stat(realname, &fileinfo) != -1);
 
 	/* If we haven't statted this file before (say, the user just specified
 	 * it interactively), stat and save the value now, or else we will chase
@@ -1845,21 +1845,21 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	/* When it's not a temporary file, this is where we open or create it.
 	 * For an emergency file, access is restricted to just the owner. */
 	if (thefile == NULL) {
-		mode_t permissions = (tmp ? S_IRUSR|S_IWUSR : RW_FOR_ALL);
+		mode_t permissions = (normal ? RW_FOR_ALL : S_IRUSR|S_IWUSR);
 		int fd;
 
 #ifndef NANO_TINY
 		block_sigwinch(TRUE);
-		if (!tmp)
+		if (normal)
 			install_handler_for_Ctrl_C();
 #endif
 
 		/* Now open the file.  Use O_EXCL for an emergency file. */
 		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
-					O_APPEND : (tmp ? O_EXCL : O_TRUNC)), permissions);
+					O_APPEND : (normal ? O_TRUNC : O_EXCL)), permissions);
 
 #ifndef NANO_TINY
-		if (!tmp)
+		if (normal)
 			restore_handler_for_Ctrl_C();
 		block_sigwinch(FALSE);
 #endif
@@ -1886,7 +1886,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		}
 	}
 
-	if (!tmp)
+	if (normal)
 		statusbar(_("Writing..."));
 
 	while (TRUE) {
@@ -1983,7 +1983,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	}
 
 	/* When having written an entire buffer, update some administrivia. */
-	if (fullbuffer && method == OVERWRITE && !tmp) {
+	if (fullbuffer && method == OVERWRITE && normal) {
 		/* If the filename was changed, write a new lockfile when needed,
 		 * and check whether it means a different syntax gets used. */
 		if (strcmp(openfile->filename, realname) != 0) {
@@ -2030,11 +2030,11 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	}
 
 #ifndef NANO_TINY
-	if (ISSET(MINIBAR) && LINES > 1 && fullbuffer && !tmp)
+	if (ISSET(MINIBAR) && LINES > 1 && fullbuffer && normal)
 		report_size = TRUE;
 	else
 #endif
-	if (!tmp)
+	if (normal)
 		statusline(REMARK, P_("Wrote %zu line", "Wrote %zu lines",
 								lineswritten), lineswritten);
 
@@ -2047,7 +2047,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #ifndef NANO_TINY
 /* Write the marked region of the current buffer out to disk.
  * Return TRUE on success and FALSE on error. */
-bool write_marked_file(const char *name, FILE *stream, bool tmp,
+bool write_marked_file(const char *name, FILE *stream, bool normal,
 		kind_of_writing_type method)
 {
 	linestruct *birthline, *topline, *botline, *stopper, *afterline;
@@ -2074,7 +2074,7 @@ bool write_marked_file(const char *name, FILE *stream, bool tmp,
 	birthline = openfile->filetop;
 	openfile->filetop = topline;
 
-	retval = write_file(name, stream, tmp, method, FALSE);
+	retval = write_file(name, stream, normal, method, FALSE);
 
 	/* Restore the proper state of the buffer. */
 	openfile->filetop = birthline;
@@ -2302,7 +2302,7 @@ int do_writeout(bool exiting, bool withprompt)
 					free(given);
 					if (choice == 1)
 						return write_file(openfile->filename, NULL,
-											FALSE, OVERWRITE, TRUE);
+											TRUE, OVERWRITE, TRUE);
 					else if (choice == 0)
 						return 2;
 					else
@@ -2324,10 +2324,10 @@ int do_writeout(bool exiting, bool withprompt)
 	 * the marked region; otherwise, write out the whole buffer. */
 #ifndef NANO_TINY
 	if (openfile->mark && withprompt && !exiting && !ISSET(RESTRICTED))
-		return write_marked_file(answer, NULL, FALSE, method);
+		return write_marked_file(answer, NULL, TRUE, method);
 	else
 #endif
-		return write_file(answer, NULL, FALSE, method, TRUE);
+		return write_file(answer, NULL, TRUE, method, TRUE);
 }
 
 /* Write the current buffer to disk, or discard it. */

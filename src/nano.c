@@ -325,7 +325,7 @@ void emergency_save(const char *filename)
 
 	if (*targetname == '\0')
 		fprintf(stderr, _("\nToo many .save files\n"));
-	else if (write_file(targetname, NULL, TRUE, OVERWRITE, FALSE)) {
+	else if (write_file(targetname, NULL, FALSE, OVERWRITE, FALSE)) {
 		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
 #ifndef NANO_TINY
 		/* Try to chmod/chown the saved file to the values of the original file,
