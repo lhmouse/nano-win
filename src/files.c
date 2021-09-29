@@ -1758,7 +1758,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #ifndef NANO_TINY
 	bool is_existing_file;
 		/* Becomes TRUE when the file is non-temporary and exists. */
-	struct stat st;
+	struct stat fileinfo;
 		/* The status fields filled in by statting the file. */
 #endif
 	char *realname = real_dir_from_tilde(name);
@@ -1780,7 +1780,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 #endif
 #ifndef NANO_TINY
 	/* Check whether the file (at the end of the symlink) exists. */
-	is_existing_file = (!tmp) && (stat(realname, &st) != -1);
+	is_existing_file = (!tmp) && (stat(realname, &fileinfo) != -1);
 
 	/* If we haven't statted this file before (say, the user just specified
 	 * it interactively), stat and save the value now, or else we will chase
@@ -1791,9 +1791,9 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	/* When the user requested a backup, we do this only if the file exists and
 	 * isn't temporary AND the file has not been modified by someone else since
 	 * we opened it (or we are appending/prepending or writing a selection). */
-	if (ISSET(MAKE_BACKUP) && is_existing_file && !S_ISFIFO(st.st_mode) &&
+	if (ISSET(MAKE_BACKUP) && is_existing_file && !S_ISFIFO(fileinfo.st_mode) &&
 						openfile->statinfo &&
-						(openfile->statinfo->st_mtime == st.st_mtime ||
+						(openfile->statinfo->st_mtime == fileinfo.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
 		if (!make_backup_of(realname))
 			goto cleanup_and_exit;
@@ -1805,7 +1805,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		FILE *target = NULL;
 		int verdict;
 
-		if (is_existing_file && S_ISFIFO(st.st_mode)) {
+		if (is_existing_file && S_ISFIFO(fileinfo.st_mode)) {
 			statusline(ALERT, _("Error writing %s: %s"), realname, "FIFO");
 			goto cleanup_and_exit;
 		}
@@ -1838,7 +1838,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		}
 	}
 
-	if (is_existing_file && S_ISFIFO(st.st_mode))
+	if (is_existing_file && S_ISFIFO(fileinfo.st_mode))
 		statusbar(_("Writing to FIFO..."));
 #endif /* !NANO_TINY */
 
@@ -1964,7 +1964,7 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 		unlink(tempname);
 	}
 
-	if (!is_existing_file || !S_ISFIFO(st.st_mode))
+	if (!is_existing_file || !S_ISFIFO(fileinfo.st_mode))
 		/* Ensure the data has reached the disk before reporting it as written. */
 		if (fflush(thefile) != 0 || fsync(fileno(thefile)) != 0) {
 			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
@@ -2225,12 +2225,12 @@ int do_writeout(bool exiting, bool withprompt)
 		if (method == OVERWRITE) {
 			bool name_exists, do_warning;
 			char *full_answer, *full_filename;
-			struct stat st;
+			struct stat fileinfo;
 
 			full_answer = get_full_path(answer);
 			full_filename = get_full_path(openfile->filename);
 			name_exists = (stat((full_answer == NULL) ?
-								answer : full_answer, &st) != -1);
+								answer : full_answer, &fileinfo) != -1);
 
 			if (openfile->filename[0] == '\0')
 				do_warning = name_exists;
@@ -2285,9 +2285,9 @@ int do_writeout(bool exiting, bool withprompt)
 			 * and the stat information we had before does not match
 			 * what we have now. */
 			else if (name_exists && openfile->statinfo &&
-						(openfile->statinfo->st_mtime < st.st_mtime ||
-						openfile->statinfo->st_dev != st.st_dev ||
-						openfile->statinfo->st_ino != st.st_ino)) {
+						(openfile->statinfo->st_mtime < fileinfo.st_mtime ||
+						openfile->statinfo->st_dev != fileinfo.st_dev ||
+						openfile->statinfo->st_ino != fileinfo.st_ino)) {
 
 				warn_and_briefly_pause(_("File on disk has changed"));
 
