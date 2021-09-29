@@ -2074,7 +2074,7 @@ bool write_marked_file(const char *name, FILE *stream, bool normal,
 	birthline = openfile->filetop;
 	openfile->filetop = topline;
 
-	retval = write_file(name, stream, normal, method, FALSE);
+	retval = write_file(name, stream, normal, method, NONOTES);
 
 	/* Restore the proper state of the buffer. */
 	openfile->filetop = birthline;
@@ -2302,7 +2302,7 @@ int do_writeout(bool exiting, bool withprompt)
 					free(given);
 					if (choice == 1)
 						return write_file(openfile->filename, NULL,
-											TRUE, OVERWRITE, FALSE);
+											NORMAL, OVERWRITE, NONOTES);
 					else if (choice == 0)
 						return 2;
 					else
@@ -2324,10 +2324,10 @@ int do_writeout(bool exiting, bool withprompt)
 	 * the marked region; otherwise, write out the whole buffer. */
 #ifndef NANO_TINY
 	if (openfile->mark && withprompt && !exiting && !ISSET(RESTRICTED))
-		return write_marked_file(answer, NULL, TRUE, method);
+		return write_marked_file(answer, NULL, NORMAL, method);
 	else
 #endif
-		return write_file(answer, NULL, TRUE, method, TRUE);
+		return write_file(answer, NULL, NORMAL, method, ANNOTATE);
 }
 
 /* Write the current buffer to disk, or discard it. */

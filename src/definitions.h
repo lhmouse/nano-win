@@ -115,6 +115,13 @@
 #define REPLACING  1
 #define INREGION   2
 
+#define NORMAL  TRUE
+#define SPECIAL  FALSE
+#define TEMPORARY  FALSE
+
+#define ANNOTATE  TRUE
+#define NONOTES  FALSE
+
 #ifdef ENABLE_UTF8
 /* In UTF-8 a valid character is at most four bytes long. */
 #define MAXCHARLEN  4
