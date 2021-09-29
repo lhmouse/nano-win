@@ -1791,24 +1791,26 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	/* When the user requested a backup, we do this only if the file exists and
 	 * isn't temporary AND the file has not been modified by someone else since
 	 * we opened it (or we are appending/prepending or writing a selection). */
-	if (ISSET(MAKE_BACKUP) && is_existing_file && openfile->statinfo &&
-						!S_ISFIFO(st.st_mode) &&
+	if (ISSET(MAKE_BACKUP) && is_existing_file && !S_ISFIFO(st.st_mode) &&
+						openfile->statinfo &&
 						(openfile->statinfo->st_mtime == st.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
 		if (!make_backup_of(realname))
 			goto cleanup_and_exit;
 	}
 
-	if (method == PREPEND && is_existing_file && S_ISFIFO(st.st_mode)) {
-		statusline(ALERT, _("Error writing %s: %s"), realname, "FIFO");
-		goto cleanup_and_exit;
-	}
-
 	/* When prepending, first copy the existing file to a temporary file. */
 	if (method == PREPEND) {
-		FILE *source = fopen(realname, "rb");
+		FILE *source = NULL;
 		FILE *target = NULL;
 		int verdict;
+
+		if (is_existing_file && S_ISFIFO(st.st_mode)) {
+			statusline(ALERT, _("Error writing %s: %s"), realname, "FIFO");
+			goto cleanup_and_exit;
+		}
+
+		source = fopen(realname, "rb");
 
 		if (source == NULL) {
 			statusline(ALERT, _("Error reading %s: %s"), realname, strerror(errno));
@@ -1963,12 +1965,12 @@ bool write_file(const char *name, FILE *thefile, bool tmp,
 	}
 
 	if (!is_existing_file || !S_ISFIFO(st.st_mode))
-	/* Ensure the data has reached the disk before reporting it as written. */
-	if (fflush(thefile) != 0 || fsync(fileno(thefile)) != 0) {
-		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
-		fclose(thefile);
-		goto cleanup_and_exit;
-	}
+		/* Ensure the data has reached the disk before reporting it as written. */
+		if (fflush(thefile) != 0 || fsync(fileno(thefile)) != 0) {
+			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
+			fclose(thefile);
+			goto cleanup_and_exit;
+		}
 #endif
 
 	if (fclose(thefile) != 0) {
