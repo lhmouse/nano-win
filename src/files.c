@@ -1749,11 +1749,11 @@ bool make_backup_of(char *realname)
  * temporary file that is already open.  If normal is FALSE (for a spellcheck
  * or an emergency save, for example), we don't make a backup and don't give
  * feedback.  If method is APPEND or PREPEND, it means we will be appending
- * or prepending instead of overwriting the given file.  If fullbuffer is TRUE
- * and when writing normally, we set the current filename and stat info.
+ * or prepending instead of overwriting the given file.  If annotate is TRUE
+ * and when writing a normal file, we set the current filename and stat info.
  * Return TRUE on success, and FALSE otherwise. */
 bool write_file(const char *name, FILE *thefile, bool normal,
-		kind_of_writing_type method, bool fullbuffer)
+		kind_of_writing_type method, bool annotate)
 {
 #ifndef NANO_TINY
 	bool is_existing_file;
@@ -1983,7 +1983,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 	}
 
 	/* When having written an entire buffer, update some administrivia. */
-	if (fullbuffer && method == OVERWRITE && normal) {
+	if (annotate && method == OVERWRITE && normal) {
 		/* If the filename was changed, write a new lockfile when needed,
 		 * and check whether it means a different syntax gets used. */
 		if (strcmp(openfile->filename, realname) != 0) {
@@ -2030,7 +2030,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 	}
 
 #ifndef NANO_TINY
-	if (ISSET(MINIBAR) && LINES > 1 && fullbuffer && normal)
+	if (ISSET(MINIBAR) && LINES > 1 && annotate && normal)
 		report_size = TRUE;
 	else
 #endif
