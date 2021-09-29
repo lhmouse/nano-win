@@ -2499,7 +2499,7 @@ void do_spell(void)
 
 #ifndef NANO_TINY
 	if (openfile->mark)
-		okay = write_marked_file(temp_name, stream, TEMPORARY, OVERWRITE);
+		okay = write_region_to_file(temp_name, stream, TEMPORARY, OVERWRITE);
 	else
 #endif
 		okay = write_file(temp_name, stream, TEMPORARY, OVERWRITE, NONOTES);

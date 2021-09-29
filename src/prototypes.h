@@ -294,11 +294,11 @@ bool outside_of_confinement(const char *currpath, bool allow_tabcomp);
 void init_backup_dir(void);
 #endif
 int copy_file(FILE *inn, FILE *out, bool close_out);
-bool write_file(const char *name, FILE *thefile, bool tmp,
-		kind_of_writing_type method, bool fullbuffer);
+bool write_file(const char *name, FILE *thefile, bool normal,
+				kind_of_writing_type method, bool annotate);
 #ifndef NANO_TINY
-bool write_marked_file(const char *name, FILE *stream, bool tmp,
-		kind_of_writing_type method);
+bool write_region_to_file(const char *name, FILE *stream, bool normal,
+				kind_of_writing_type method);
 #endif
 int do_writeout(bool exiting, bool withprompt);
 void do_writeout_void(void);

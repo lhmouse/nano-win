@@ -2047,7 +2047,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 #ifndef NANO_TINY
 /* Write the marked region of the current buffer out to disk.
  * Return TRUE on success and FALSE on error. */
-bool write_marked_file(const char *name, FILE *stream, bool normal,
+bool write_region_to_file(const char *name, FILE *stream, bool normal,
 		kind_of_writing_type method)
 {
 	linestruct *birthline, *topline, *botline, *stopper, *afterline;
@@ -2324,7 +2324,7 @@ int do_writeout(bool exiting, bool withprompt)
 	 * the marked region; otherwise, write out the whole buffer. */
 #ifndef NANO_TINY
 	if (openfile->mark && withprompt && !exiting && !ISSET(RESTRICTED))
-		return write_marked_file(answer, NULL, NORMAL, method);
+		return write_region_to_file(answer, NULL, NORMAL, method);
 	else
 #endif
 		return write_file(answer, NULL, NORMAL, method, ANNOTATE);
