@@ -2502,7 +2502,7 @@ void do_spell(void)
 		okay = write_marked_file(temp_name, stream, FALSE, OVERWRITE);
 	else
 #endif
-		okay = write_file(temp_name, stream, FALSE, OVERWRITE, TRUE);
+		okay = write_file(temp_name, stream, FALSE, OVERWRITE, FALSE);
 
 	if (!okay) {
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
@@ -2903,7 +2903,7 @@ void do_formatter(void)
 	temp_name = safe_tempfile(&stream);
 
 	if (temp_name != NULL)
-		okay = write_file(temp_name, stream, FALSE, OVERWRITE, TRUE);
+		okay = write_file(temp_name, stream, FALSE, OVERWRITE, FALSE);
 
 	if (!okay) {
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));

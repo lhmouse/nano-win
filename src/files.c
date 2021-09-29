@@ -1983,7 +1983,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 	}
 
 	/* When having written an entire buffer, update some administrivia. */
-	if (annotate && method == OVERWRITE && normal) {
+	if (annotate && method == OVERWRITE) {
 		/* If the filename was changed, write a new lockfile when needed,
 		 * and check whether it means a different syntax gets used. */
 		if (strcmp(openfile->filename, realname) != 0) {
@@ -2030,7 +2030,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 	}
 
 #ifndef NANO_TINY
-	if (ISSET(MINIBAR) && LINES > 1 && annotate && normal)
+	if (ISSET(MINIBAR) && LINES > 1 && annotate)
 		report_size = TRUE;
 	else
 #endif
@@ -2302,7 +2302,7 @@ int do_writeout(bool exiting, bool withprompt)
 					free(given);
 					if (choice == 1)
 						return write_file(openfile->filename, NULL,
-											TRUE, OVERWRITE, TRUE);
+											TRUE, OVERWRITE, FALSE);
 					else if (choice == 0)
 						return 2;
 					else
