@@ -4,14 +4,14 @@
 ## License:  GPL version 3 or newer
 
 syntax yaml "\.ya?ml$"
-header "^---"
+header "^---( |$)"
 
 tabgives "  "
 comment "#"
 
 # Keys:
-color lightgreen "(\w|-)+:( |$)"
-color lightgreen "\[(\w|[, -])+\]:( |$)"
+color lightgreen "(\w|::|-)+:( |$)"
+color lightgreen "\[(\w|::|[, -])+\]:( |$)"
 
 # Values (booleans, numbers, octal/hex, dates, strings):
 color lightmagenta "[:,] +(Y(es)?|No?|y(es)?|no?|[Tt]rue|[Ff]alse|[Oo](n|ff))( *[]}]|, | +#|$)"
@@ -32,8 +32,8 @@ color yellow "(^ *- |[]{}[])"
 color mint " !!(binary|bool|float|int|map|null|omap|seq|set|str)( |$)"
 color mint " !(\w|-)+( |$)"
 
-# Mistakes (control codes, missing space, trailing space):
-color ,red "[[:cntrl:]]|[:,][^ ]| *$"
+# Mistakes (control codes, trailing space):
+color ,red "[[:cntrl:]]| +$"
 
 # Comments:
 color italic,cyan "(^| )#.*"
