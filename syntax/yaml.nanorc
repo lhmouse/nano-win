@@ -13,11 +13,12 @@ comment "#"
 color lightgreen "(\w|::|-)+:( |$)"
 color lightgreen "\[(\w|::|[, -])+\]:( |$)"
 
-# Values (booleans, numbers, octal/hex, dates, strings):
+# Values (booleans, numbers, octal/hex):
 color lightmagenta "[:,] +(Y(es)?|No?|y(es)?|no?|[Tt]rue|[Ff]alse|[Oo](n|ff))( *[]}]|, | +#|$)"
 color lightmagenta "[:,] +[+-]?[0-9]+(\.([0-9]+)?)?( *[]}]|, | +#|$)"
 color lightmagenta " 0(o[0-7]+|x[[:xdigit:]]+)( *[]}]|, | +#|$)"
 color normal "[:,]( |$)"
+# Values (dates, strings):
 color lightmagenta " [12][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])"
 color lightmagenta "("([^"]|\\")+"|'[^']+')"
 
@@ -26,7 +27,9 @@ color pink " [&*](\w|-)+( |$)"
 
 # Symbols:
 color bold,lagoon "^(---|\.\.\.)( |$)" " [|>]([1-9]?[+-]|[+-][1-9]?)?$"
-color yellow "(^ *- |[]{}[])"
+color bold,yellow "^ *(\?|([?:] +)?-) "
+color yellow "[]{}[]"
+color normal "^ *: "
 
 # Types:
 color mint " !!(binary|bool|float|int|map|null|omap|seq|set|str)( |$)"
