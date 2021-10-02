@@ -61,7 +61,7 @@ const char *tail(const char *path)
 	if (slash == NULL)
 		return path;
 	else
-		return ++slash;
+		return slash + 1;
 }
 
 /* Return a copy of the two given strings, welded together. */

@@ -186,7 +186,7 @@ size_t length_of_white(const char *text)
 
 	while (TRUE) {
 		if (*text == '\t')
-			return ++white_count;
+			return white_count + 1;
 
 		if (*text != ' ')
 			return white_count;
