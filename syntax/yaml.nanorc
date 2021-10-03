@@ -4,7 +4,7 @@
 ## License:  GPL version 3 or newer
 
 syntax yaml "\.ya?ml$"
-header "^---( |$)"
+header "^%YAML |^---( |$)"
 
 tabgives "  "
 comment "#"
@@ -26,7 +26,8 @@ color lightmagenta "("([^"]|\\")+"|'[^']+')"
 color pink " [&*](\w|-)+( |$)"
 
 # Symbols:
-color bold,lagoon "^(---|\.\.\.)( |$)" " [|>]([1-9]?[+-]|[+-][1-9]?)?$"
+color bold,lagoon "^(%YAML +[1-9]\.[0-9]$|%TAG |(---|\.\.\.)( |$))"
+color bold,lagoon " [|>]([1-9]?[+-]|[+-][1-9]?)?$"
 color bold,yellow "^ *(\?|([?:] +)?-) "
 color yellow "[]{}[]"
 color normal "^ *: "
