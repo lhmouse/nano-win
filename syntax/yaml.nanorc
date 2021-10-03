@@ -22,7 +22,7 @@ color normal "[:,]( |$)"
 color lightmagenta " [12][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])"
 color lightmagenta "("([^"]|\\")+"|'[^']+')"
 
-# Anchors and references:
+# Anchors and aliases:
 color pink " [&*](\w|-)+( |$)"
 
 # Symbols:
@@ -32,9 +32,9 @@ color bold,yellow "^ *(\?|([?:] +)?-) "
 color yellow "[]{}[]"
 color normal "^ *: "
 
-# Types:
+# Tags:
 color mint " !!(binary|bool|float|int|map|null|omap|seq|set|str)( |$)"
-color mint " !(\w|-)+( |$)"
+color mint " ![^ 	]+( |$)"
 
 # Escaped characters (first color all as bad, then recolor the good ones):
 color lightwhite,red "\\."
