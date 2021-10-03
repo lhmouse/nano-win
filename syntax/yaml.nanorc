@@ -10,8 +10,8 @@ tabgives "  "
 comment "#"
 
 # Keys:
-color lightgreen "(\w|::|-)+:( |$)"
-color lightgreen "\[(\w|::|[, -])+\]:( |$)"
+color lightgreen "(\w|::|[/.-])+:( |$)"
+color lightgreen "\[(\w|::|[/., -])+\]:( |$)"
 
 # Values (booleans, numbers, octal/hex):
 color lightmagenta "[:,] +(Y(es)?|No?|y(es)?|no?|[Tt]rue|[Ff]alse|[Oo](n|ff))( *[]}]|, | +#|$)"
@@ -33,11 +33,10 @@ color yellow "[]{}[]"
 color normal "^ *: "
 
 # Tags:
-color mint " !!(binary|bool|float|int|map|null|omap|seq|set|str)( |$)"
-color mint " ![^ 	]+( |$)"
+color mint " !!(binary|bool|float|int|map|null|omap|seq|set|str)( |,|$)"
+color mint " ![^! 	][^ 	]*( |$)"
 
-# Escaped characters (first color all as bad, then recolor the good ones):
-color lightwhite,red "\\."
+# Escaped characters:
 color orange "\\([0abefnrtv"/ \_NLP]|$)"
 color orange "\\(x[[:xdigit:]]{2}|u[[:xdigit:]]{4}|U[[:xdigit:]]{8})"
 
