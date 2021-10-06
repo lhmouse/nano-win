@@ -1,3 +1,14 @@
+2021.10.06 - GNU nano 5.9 "El manicomio ha decidido: mañana sol!"
+• The extension of a filename is added to the name of a corresponding
+  temporary file, so that spell checking a C file, for example, will
+  check only the comments and strings (when using 'aspell').
+• The process number is added to the name of an emergency save file,
+  so that when multiple nanos die they will not fight over a filename.
+• Undoing a cutting operation will restore an anchor that was located
+  in the cut area to its original line.
+• When using --locking, saving a new buffer will create a lock file.
+• Syntax highlighting for YAML files has been added.
+
 2021.06.15 - GNU nano 5.8 "Why is it necessary to be special?"
 • After a search, the spotlighting is dropped after 1.5 seconds (0.8
   seconds with --quick) to avoid the idea that the text is selected.

@@ -1,3 +1,106 @@
+Changes between v5.8 and v5.9:
+------------------------------
+
+Benno Schulenberg (88):
+      browser: make the keystrokes ^W^Y and ^W^V work again
+      build: ensure that mkstemps() is available by importing the gnulib module
+      build: help Haiku find the header files that define mkstemps()
+      bump version numbers and add a news item for the 5.9 release
+      copyright: update to the current year for significantly changed files
+      cutting: copy anchors into the cutbuffer, so that undo can restore them
+      docs: add a paragraph at the start of the README about what nano is
+      docs: add a simulated "screenshot" of nano to the README
+      docs: add some details to the bug-reporting paragraph in the README
+      docs: correct the descriptions of how to invoke the spell checker
+      docs: don't use "light" after "bold", as the latter often implies "light"
+      docs: improve the description of the spotlighting of a search match
+      docs: improve the description of the 'tabstospaces' option
+      docs: improve the descriptions of several bindable functions
+      docs: improve the recipe in the FAQ for dealing with Alt+Up on a console
+      docs: indent the paragraphs in the FAQ that list commands to be typed
+      docs: list the default color combo for 'spotlightcolor' in sample nanorc
+      docs: mention how to properly colorize all types in nano's source code
+      docs: mention in the README which licenses cover nano's code and docs
+      docs: move the notice in the main man page, to try and catch other eyes
+      docs: refer to the FAQ when <Alt+Up> does nothing on a Linux console
+      docs: replace a non-problem in the FAQ with something possibly useful
+      docs: spell "filename" as a single word, like in most other occurrences
+      feedback: use a smaller diamond to represent an anchor, to not overflow
+      feedback: when not in curses mode, just skip displaying any message
+      feedback: when not in curses mode, write error messages to the terminal
+      files: add the original file's suffix to the name of a temporary file
+      files: check for a fifo only when it is an existing file
+      files: check the result of fdopen(), to avoid a possible crash
+      files: do not call fsync() on a fifo, to avoid a spurious error message
+      files: exclude the call of fsync() from the tiny version
+      files: give the user time to absorb a warning about someone else editing
+      files: making a backup of a fifo makes no sense, so do not try that
+      files: prepending to a fifo makes no sense, so do not try that
+      files: when the buffer is nameless, include the PID in name of dump file
+      files: when there is a slash after the dot, then there is no extension
+      files: write a lock file also for a freshly saved buffer
+      general: prevent die() from getting recursed into
+      gnulib: update to its current upstream state
+      help: make the keystrokes ^W^Y and ^W^V work again
+      history: emit a warning when file cannot be made private  [coverity]
+      input: give up on the input stream only after millions of errors
+      memory: free any allocated strings, also in the emergency code path
+      po: delete the ancient PO files for Indonesian and Nynorsk
+      po: permit the Indonesian PO file to come back -- there was a big update
+      shutdown: when dying, do not install/restore a handler for Ctrl+C
+      startup: if TERM is unset, try falling back to VT220 instead of failing
+      syntax: nanorc: recognize also the template of the sample nanorc file
+      syntax: rust: update the license to GPL3 or newer
+      syntax: yaml: allow any character in tags except whitespace
+      syntax: yaml: allow double colon in key & do not colorize unspaced colon
+      syntax: yaml: allow slash and period in key names
+      syntax: yaml: colorize backslash-escaped characters as valid or invalid
+      syntax: yaml: colorize the question mark of complex mappings too
+      syntax: yaml: colorize the two known directives
+      syntax: yaml: new file -- coloring rules for YAML files
+      tweaks: add Schiermonnikoog to the list of friendly islands
+      tweaks: adjust a description of 'showcursor', to match the other ones
+      tweaks: adjust three parameters -- two were mistaken, one superfluous
+      tweaks: correct two typos and a spello  [codespell]
+      tweaks: fix a typo
+      tweaks: fold two lines into two others, for conciseness
+      tweaks: harmonize the indentations in the FAQ somewhat
+      tweaks: in comments, say "buffer" instead of "file" where appropriate
+      tweaks: instead of "one" use "you", like in the rest of the man page
+      tweaks: remove a redundant feedback message
+      tweaks: rename a defined type, to fit within the general pattern
+      tweaks: rename a function, to be more fitting
+      tweaks: rename a parameter and invert its logic
+      tweaks: rename a parameter, to fit better what it is used for
+      tweaks: rename a variable and flip its logic, to avoid two negations
+      tweaks: rename a variable, away form an abbreviation
+      tweaks: rename a variable, to be more grammatical
+      tweaks: rename a variable, to be more visible and to match others
+      tweaks: rename a variable, to make more sense
+      tweaks: rename three variables, to follow the general scheme
+      tweaks: reshuffle a few lines, for esthetics and to elide an #ifdef
+      tweaks: reshuffle a few lines to avoid an #ifdef and unbalanced braces
+      tweaks: reshuffle a fragment of code, to prepare for the next change
+      tweaks: reshuffle some code to elide a variable, and improve a comment
+      tweaks: reshuffle some lines and adjust some indentation
+      tweaks: reshuffle some lines to elide a variable
+      tweaks: restore a quote that was accidentally deleted four months ago
+      tweaks: rewrap three lines, for esthetics
+      tweaks: slightly reword or rewrap some comments in the sample nanorc
+      tweaks: try chmodding a dump file only when it was actually written
+      tweaks: use five symbolic names, to make eight function calls clearer
+      usage: improve the description of the --positionlog option
+
+David Michael (2):
+      syntax: gentoo: highlight additional EAPI 7/8 variables
+      syntax: gentoo: remove some obsolete keywords and add some new ones
+
+Hussam al-Homsi (3):
+      docs: correct the default value of the errorcolor option
+      syntax: perl, ruby: remove arbitrary highlighting of here documents
+      tweaks: change 'return ++var;' to 'return var + 1;'
+
+
 Changes between v5.7 and v5.8:
 ------------------------------
 
