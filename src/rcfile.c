@@ -312,11 +312,9 @@ keystruct *strtosc(const char *input)
 		s->func = do_indent;
 	else if (!strcmp(input, "unindent"))
 		s->func = do_unindent;
-	else if (!strcmp(input, "chopwordleft") ||
-	         !strcmp(input, "cutwordleft"))  /* Deprecated; remove in 2021. */
+	else if (!strcmp(input, "chopwordleft"))
 		s->func = chop_previous_word;
-	else if (!strcmp(input, "chopwordright") ||
-	         !strcmp(input, "cutwordright"))  /* Deprecated; remove in 2021. */
+	else if (!strcmp(input, "chopwordright"))
 		s->func = chop_next_word;
 	else if (!strcmp(input, "findbracket"))
 		s->func = do_find_bracket;
