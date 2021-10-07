@@ -2194,9 +2194,13 @@ int do_writeout(bool exiting, bool withprompt)
 			TOGGLE(MAKE_BACKUP);
 			continue;
 		} else if (func == prepend_void) {
+			if (strcmp(answer, openfile->filename) == 0)
+				given[0] = '\0';
 			method = (method == PREPEND) ? OVERWRITE : PREPEND;
 			continue;
 		} else if (func == append_void) {
+			if (strcmp(answer, openfile->filename) == 0)
+				given[0] = '\0';
 			method = (method == APPEND) ? OVERWRITE : APPEND;
 			continue;
 		}
