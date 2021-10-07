@@ -2116,9 +2116,10 @@ int do_writeout(bool exiting, bool withprompt)
 #endif
 
 	while (TRUE) {
-		int response = 0, choice = 0;
 		functionptrtype func;
 		const char *msg;
+		int response = 0;
+		int choice = 0;
 #ifndef NANO_TINY
 		const char *formatstr = (openfile->fmt == DOS_FILE) ? _(" [DOS Format]") :
 						(openfile->fmt == MAC_FILE) ? _(" [Mac Format]") : "";
@@ -2193,17 +2194,15 @@ int do_writeout(bool exiting, bool withprompt)
 		} else if (func == backup_file_void) {
 			TOGGLE(MAKE_BACKUP);
 			continue;
-		} else if (func == prepend_void) {
+		} else if (func == prepend_void || func == append_void) {
+			if (func == prepend_void)
+				method = (method == PREPEND) ? OVERWRITE : PREPEND;
+			else
+				method = (method == APPEND) ? OVERWRITE : APPEND;
 			if (strcmp(answer, openfile->filename) == 0)
 				given[0] = '\0';
-			method = (method == PREPEND) ? OVERWRITE : PREPEND;
 			continue;
-		} else if (func == append_void) {
-			if (strcmp(answer, openfile->filename) == 0)
-				given[0] = '\0';
-			method = (method == APPEND) ? OVERWRITE : APPEND;
-			continue;
-		}
+		} else
 #endif
 		if (func == do_help)
 			continue;
