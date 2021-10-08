@@ -643,11 +643,11 @@ void goto_dir(void);
 #ifndef NANO_TINY
 void do_nothing(void);
 void do_toggle_void(void);
-void dos_format_void(void);
-void mac_format_void(void);
-void append_void(void);
-void prepend_void(void);
-void backup_file_void(void);
+void dos_format(void);
+void mac_format(void);
+void append_it(void);
+void prepend_it(void);
+void back_it_up(void);
 void flip_execute(void);
 void flip_pipe(void);
 void flip_convert(void);

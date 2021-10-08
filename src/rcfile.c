@@ -415,15 +415,15 @@ keystruct *strtosc(const char *input)
 #endif
 #ifndef NANO_TINY
 	else if (!strcmp(input, "dosformat"))
-		s->func = dos_format_void;
+		s->func = dos_format;
 	else if (!strcmp(input, "macformat"))
-		s->func = mac_format_void;
+		s->func = mac_format;
 	else if (!strcmp(input, "append"))
-		s->func = append_void;
+		s->func = append_it;
 	else if (!strcmp(input, "prepend"))
-		s->func = prepend_void;
+		s->func = prepend_it;
 	else if (!strcmp(input, "backup"))
-		s->func = backup_file_void;
+		s->func = back_it_up;
 	else if (!strcmp(input, "flipexecute"))
 		s->func = flip_execute;
 	else if (!strcmp(input, "flippipe"))

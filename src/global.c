@@ -312,19 +312,19 @@ void do_nothing(void)
 void do_toggle_void(void)
 {
 }
-void dos_format_void(void)
+void dos_format(void)
 {
 }
-void mac_format_void(void)
+void mac_format(void)
 {
 }
-void append_void(void)
+void append_it(void)
 {
 }
-void prepend_void(void)
+void prepend_it(void)
 {
 }
-void backup_file_void(void)
+void back_it_up(void)
 {
 }
 void flip_execute(void)
@@ -1111,9 +1111,9 @@ void shortcut_init(void)
 #endif
 
 #ifndef NANO_TINY
-	add_to_funcs(dos_format_void, MWRITEFILE,
+	add_to_funcs(dos_format, MWRITEFILE,
 		N_("DOS Format"), WITHORSANS(dos_gist), TOGETHER, NOVIEW);
-	add_to_funcs(mac_format_void, MWRITEFILE,
+	add_to_funcs(mac_format, MWRITEFILE,
 		N_("Mac Format"), WITHORSANS(mac_gist), TOGETHER, NOVIEW);
 
 	/* If we're using restricted mode, the Append, Prepend, and Backup toggles
@@ -1121,12 +1121,12 @@ void shortcut_init(void)
 	 * reduplicating the current file, and the third is not allowed as it
 	 * would write to a file not specified on the command line. */
 	if (!ISSET(RESTRICTED)) {
-		add_to_funcs(append_void, MWRITEFILE,
+		add_to_funcs(append_it, MWRITEFILE,
 			N_("Append"), WITHORSANS(append_gist), TOGETHER, NOVIEW);
-		add_to_funcs(prepend_void, MWRITEFILE,
+		add_to_funcs(prepend_it, MWRITEFILE,
 			N_("Prepend"), WITHORSANS(prepend_gist), TOGETHER, NOVIEW);
 
-		add_to_funcs(backup_file_void, MWRITEFILE,
+		add_to_funcs(back_it_up, MWRITEFILE,
 			N_("Backup File"), WITHORSANS(backup_gist), BLANKAFTER, NOVIEW);
 	}
 
@@ -1461,14 +1461,14 @@ void shortcut_init(void)
 	if (ISSET(SAVE_ON_EXIT) && !ISSET(PRESERVE))
 		add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
 #ifndef NANO_TINY
-	add_to_sclist(MWRITEFILE, "M-D", 0, dos_format_void, 0);
-	add_to_sclist(MWRITEFILE, "M-M", 0, mac_format_void, 0);
+	add_to_sclist(MWRITEFILE, "M-D", 0, dos_format, 0);
+	add_to_sclist(MWRITEFILE, "M-M", 0, mac_format, 0);
 	/* Only when not in restricted mode, allow Appending, Prepending,
 	 * making backups, and executing a command. */
 	if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE)) {
-		add_to_sclist(MWRITEFILE, "M-A", 0, append_void, 0);
-		add_to_sclist(MWRITEFILE, "M-P", 0, prepend_void, 0);
-		add_to_sclist(MWRITEFILE, "M-B", 0, backup_file_void, 0);
+		add_to_sclist(MWRITEFILE, "M-A", 0, append_it, 0);
+		add_to_sclist(MWRITEFILE, "M-P", 0, prepend_it, 0);
+		add_to_sclist(MWRITEFILE, "M-B", 0, back_it_up, 0);
 		add_to_sclist(MINSERTFILE|MEXECUTE, "^X", 0, flip_execute, 0);
 	}
 	add_to_sclist(MINSERTFILE, "M-N", 0, flip_convert, 0);

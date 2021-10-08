@@ -2185,17 +2185,17 @@ int do_writeout(bool exiting, bool withprompt)
 		} else
 #endif
 #ifndef NANO_TINY
-		if (func == dos_format_void) {
+		if (func == dos_format) {
 			openfile->fmt = (openfile->fmt == DOS_FILE) ? NIX_FILE : DOS_FILE;
 			continue;
-		} else if (func == mac_format_void) {
+		} else if (func == mac_format) {
 			openfile->fmt = (openfile->fmt == MAC_FILE) ? NIX_FILE : MAC_FILE;
 			continue;
-		} else if (func == backup_file_void) {
+		} else if (func == back_it_up) {
 			TOGGLE(MAKE_BACKUP);
 			continue;
-		} else if (func == prepend_void || func == append_void) {
-			if (func == prepend_void)
+		} else if (func == prepend_it || func == append_it) {
+			if (func == prepend_it)
 				method = (method == PREPEND) ? OVERWRITE : PREPEND;
 			else
 				method = (method == APPEND) ? OVERWRITE : APPEND;
