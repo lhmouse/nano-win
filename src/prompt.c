@@ -446,8 +446,6 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	bool finished;
 	functionptrtype func;
 #ifdef ENABLE_HISTORIES
-	char *history = NULL;
-		/* The current history string. */
 	char *magichistory = NULL;
 		/* The (partial) answer that was typed at the prompt, if any. */
 #ifdef ENABLE_TABCOMP
@@ -515,8 +513,9 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 
 				/* Get the older search from the history list and save it in
 				 * answer.  If there is no older search, don't do anything. */
-				if ((history = get_history_older(history_list)) != NULL) {
-					answer = mallocstrcpy(answer, history);
+				if ((*history_list)->prev != NULL) {
+					*history_list = (*history_list)->prev;
+					answer = mallocstrcpy(answer, (*history_list)->data);
 					typing_x = strlen(answer);
 				}
 			}
@@ -524,8 +523,9 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			if (history_list != NULL) {
 				/* Get the newer search from the history list and save it in
 				 * answer.  If there is no newer search, don't do anything. */
-				if ((history = get_history_newer(history_list)) != NULL) {
-					answer = mallocstrcpy(answer, history);
+				if ((*history_list)->next != NULL) {
+					*history_list = (*history_list)->next;
+					answer = mallocstrcpy(answer, (*history_list)->data);
 					typing_x = strlen(answer);
 				}
 

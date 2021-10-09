@@ -145,30 +145,6 @@ void update_history(linestruct **item, const char *text)
 	*item = *hbot;
 }
 
-/* Move h to the string in the history list just before it, and return
- * that string.  If there isn't one, don't move h and return NULL. */
-char *get_history_older(linestruct **h)
-{
-	if ((*h)->prev == NULL)
-		return NULL;
-
-	*h = (*h)->prev;
-
-	return (*h)->data;
-}
-
-/* Move h to the string in the history list just after it, and return
- * that string.  If there isn't one, don't move h and return NULL. */
-char *get_history_newer(linestruct **h)
-{
-	if ((*h)->next == NULL)
-		return NULL;
-
-	*h = (*h)->next;
-
-	return (*h)->data;
-}
-
 /* Two empty placeholder functions. */
 void get_history_older_void(void)
 {

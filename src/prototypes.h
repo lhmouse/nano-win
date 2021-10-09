@@ -336,8 +336,6 @@ void do_help(void);
 void history_init(void);
 void history_reset(const linestruct *list);
 void update_history(linestruct **item, const char *text);
-char *get_history_older(linestruct **h);
-char *get_history_newer(linestruct **h);
 void get_history_older_void(void);
 void get_history_newer_void(void);
 #ifdef ENABLE_TABCOMP
