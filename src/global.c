@@ -291,6 +291,14 @@ void regexp_void(void)
 void backwards_void(void)
 {
 }
+#ifdef ENABLE_HISTORIES
+void get_older_item(void)
+{
+}
+void get_newer_item(void)
+{
+}
+#endif
 void flip_replace(void)
 {
 }
@@ -851,9 +859,9 @@ void shortcut_init(void)
 		N_("No Replace"), WITHORSANS(whereis_gist), BLANKAFTER, VIEW);
 
 #ifdef ENABLE_HISTORIES
-	add_to_funcs(get_history_older_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
+	add_to_funcs(get_older_item, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
 		N_("Older"), WITHORSANS(older_gist), TOGETHER, VIEW);
-	add_to_funcs(get_history_newer_void, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
+	add_to_funcs(get_newer_item, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
 		N_("Newer"), WITHORSANS(newer_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -1426,17 +1434,17 @@ void shortcut_init(void)
 	add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace, 0);
 	add_to_sclist(MWHEREIS|MGOTOLINE, "^T", 0, flip_goto, 0);
 #ifdef ENABLE_HISTORIES
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^P", 0, get_history_older_void, 0);
-	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^N", 0, get_history_newer_void, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^P", 0, get_older_item, 0);
+	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^N", 0, get_newer_item, 0);
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
-		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "\xE2\x96\xb4", KEY_UP, get_history_older_void, 0);
-		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "\xE2\x96\xbe", KEY_DOWN, get_history_newer_void, 0);
+		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "\xE2\x96\xb4", KEY_UP, get_older_item, 0);
+		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "\xE2\x96\xbe", KEY_DOWN, get_newer_item, 0);
 	} else
 #endif
 	{
-		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "Up", KEY_UP, get_history_older_void, 0);
-		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "Down", KEY_DOWN, get_history_newer_void, 0);
+		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "Up", KEY_UP, get_older_item, 0);
+		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "Down", KEY_DOWN, get_newer_item, 0);
 	}
 #endif
 #ifdef ENABLE_JUSTIFY

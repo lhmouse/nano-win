@@ -409,9 +409,9 @@ keystruct *strtosc(const char *input)
 		s->func = flip_goto;
 #ifdef ENABLE_HISTORIES
 	else if (!strcmp(input, "older"))
-		s->func = get_history_older_void;
+		s->func = get_older_item;
 	else if (!strcmp(input, "newer"))
-		s->func = get_history_newer_void;
+		s->func = get_newer_item;
 #endif
 #ifndef NANO_TINY
 	else if (!strcmp(input, "dosformat"))

@@ -145,14 +145,6 @@ void update_history(linestruct **item, const char *text)
 	*item = *hbot;
 }
 
-/* Two empty placeholder functions. */
-void get_history_older_void(void)
-{
-}
-void get_history_newer_void(void)
-{
-}
-
 #ifdef ENABLE_TABCOMP
 /* Go backward through one of three history lists, starting at its item h,
  * searching for a string that is a tab completion of the given string s,

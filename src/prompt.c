@@ -304,8 +304,8 @@ int do_statusbar_input(bool *finished)
 		if (shortcut->func == do_tab || shortcut->func == do_enter)
 			;
 #ifdef ENABLE_HISTORIES
-		else if (shortcut->func == get_history_older_void ||
-					shortcut->func == get_history_newer_void)
+		else if (shortcut->func == get_older_item ||
+					shortcut->func == get_newer_item)
 			;
 #endif
 		else if (shortcut->func == do_left)
@@ -504,7 +504,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		} else
 #endif /* ENABLE_TABCOMP */
 #ifdef ENABLE_HISTORIES
-		if (func == get_history_older_void) {
+		if (func == get_older_item) {
 			if (history_list != NULL) {
 				/* If we're scrolling up at the bottom of the history list
 				 * and answer isn't blank, save answer in magichistory. */
@@ -519,7 +519,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 					typing_x = strlen(answer);
 				}
 			}
-		} else if (func == get_history_newer_void) {
+		} else if (func == get_newer_item) {
 			if (history_list != NULL) {
 				/* Get the newer search from the history list and save it in
 				 * answer.  If there is no newer search, don't do anything. */

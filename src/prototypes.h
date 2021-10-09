@@ -336,8 +336,6 @@ void do_help(void);
 void history_init(void);
 void history_reset(const linestruct *list);
 void update_history(linestruct **item, const char *text);
-void get_history_older_void(void);
-void get_history_newer_void(void);
 #ifdef ENABLE_TABCOMP
 char *get_history_completion(linestruct **h, char *s, size_t len);
 #endif
@@ -632,6 +630,10 @@ void do_credits(void);
 void case_sens_void(void);
 void regexp_void(void);
 void backwards_void(void);
+#ifdef ENABLE_HISTORIES
+void get_older_item(void);
+void get_newer_item(void);
+#endif
 void flip_replace(void);
 void flip_goto(void);
 #ifdef ENABLE_BROWSER
