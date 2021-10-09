@@ -456,6 +456,9 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	size_t fragment_length = 0;
 		/* The length of the fragment that the user tries to tab complete. */
 #endif
+
+	if (history_list != NULL)
+		history_reset(*history_list);
 #endif /* ENABLE_HISTORIES */
 
 	if (typing_x > strlen(answer))
@@ -563,7 +566,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	}
 
 #ifdef ENABLE_HISTORIES
-	/* Set the current position in the history list to the bottom. */
+	/* Put the history pointer back at the bottom of the list. */
 	if (history_list != NULL) {
 		history_reset(*history_list);
 		free(magichistory);
