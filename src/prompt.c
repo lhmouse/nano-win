@@ -501,38 +501,33 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		} else
 #endif /* ENABLE_TABCOMP */
 #ifdef ENABLE_HISTORIES
-		if (func == get_older_item) {
-			if (history_list != NULL) {
-				/* If this is the first step into history, start at the bottom. */
-				if (stored_string == NULL)
-					reset_history_pointer_for(*history_list);
+		if (func == get_older_item && history_list != NULL) {
+			/* If this is the first step into history, start at the bottom. */
+			if (stored_string == NULL)
+				reset_history_pointer_for(*history_list);
 
-				/* When moving up from the bottom, remember the current answer. */
-				if ((*history_list)->next == NULL)
-					stored_string = mallocstrcpy(stored_string, answer);
+			/* When moving up from the bottom, remember the current answer. */
+			if ((*history_list)->next == NULL)
+				stored_string = mallocstrcpy(stored_string, answer);
 
-				/* If there is an older item, move to it and copy its string. */
-				if ((*history_list)->prev != NULL) {
-					*history_list = (*history_list)->prev;
-					answer = mallocstrcpy(answer, (*history_list)->data);
-					typing_x = strlen(answer);
-				}
+			/* If there is an older item, move to it and copy its string. */
+			if ((*history_list)->prev != NULL) {
+				*history_list = (*history_list)->prev;
+				answer = mallocstrcpy(answer, (*history_list)->data);
+				typing_x = strlen(answer);
 			}
-		} else if (func == get_newer_item) {
-			if (history_list != NULL) {
-				/* If there is a newer item, move to it and copy its string. */
-				if ((*history_list)->next != NULL) {
-					*history_list = (*history_list)->next;
-					answer = mallocstrcpy(answer, (*history_list)->data);
-					typing_x = strlen(answer);
-				}
+		} else if (func == get_newer_item && history_list != NULL) {
+			/* If there is a newer item, move to it and copy its string. */
+			if ((*history_list)->next != NULL) {
+				*history_list = (*history_list)->next;
+				answer = mallocstrcpy(answer, (*history_list)->data);
+				typing_x = strlen(answer);
+			}
 
-				/* When at the bottom of the history list, restore the old answer. */
-				if ((*history_list)->next == NULL &&
-								*answer == '\0' && stored_string != NULL) {
-					answer = mallocstrcpy(answer, stored_string);
-					typing_x = strlen(answer);
-				}
+			/* When at the bottom of the history list, restore the old answer. */
+			if ((*history_list)->next == NULL && stored_string && *answer == '\0') {
+				answer = mallocstrcpy(answer, stored_string);
+				typing_x = strlen(answer);
 			}
 		} else
 #endif /* ENABLE_HISTORIES */
