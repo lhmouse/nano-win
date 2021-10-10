@@ -454,9 +454,6 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	size_t fragment_length = 0;
 		/* The length of the fragment that the user tries to tab complete. */
 #endif
-
-	if (history_list != NULL)
-		reset_history_pointer_for(*history_list);
 #endif /* ENABLE_HISTORIES */
 
 	if (typing_x > strlen(answer))
@@ -506,6 +503,10 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #ifdef ENABLE_HISTORIES
 		if (func == get_older_item) {
 			if (history_list != NULL) {
+				/* If this is the first step into history, start at the bottom. */
+				if (magichistory == NULL)
+					reset_history_pointer_for(*history_list);
+
 				/* If we're scrolling up at the bottom of the history list
 				 * and answer isn't blank, save answer in magichistory. */
 				if ((*history_list)->next == NULL)
@@ -566,8 +567,8 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	}
 
 #ifdef ENABLE_HISTORIES
-	/* Put the history pointer back at the bottom of the list. */
-	if (history_list != NULL) {
+	/* If the history pointer was moved, point it at the bottom again. */
+	if (magichistory != NULL) {
 		reset_history_pointer_for(*history_list);
 		free(magichistory);
 	}
