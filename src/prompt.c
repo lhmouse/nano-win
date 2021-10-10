@@ -446,8 +446,8 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	bool finished;
 	functionptrtype func;
 #ifdef ENABLE_HISTORIES
-	char *magichistory = NULL;
-		/* The (partial) answer that was typed at the prompt, if any. */
+	char *stored_string = NULL;
+		/* Whatever the answer was before the user foraged into history. */
 #ifdef ENABLE_TABCOMP
 	bool previous_was_tab = FALSE;
 		/* Whether the previous keystroke was an attempt at tab completion. */
@@ -470,7 +470,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			refresh_func();
 			*actual = KEY_WINCH;
 #ifdef ENABLE_HISTORIES
-			free(magichistory);
+			free(stored_string);
 #endif
 			return NULL;
 		}
@@ -504,16 +504,14 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		if (func == get_older_item) {
 			if (history_list != NULL) {
 				/* If this is the first step into history, start at the bottom. */
-				if (magichistory == NULL)
+				if (stored_string == NULL)
 					reset_history_pointer_for(*history_list);
 
-				/* If we're scrolling up at the bottom of the history list
-				 * and answer isn't blank, save answer in magichistory. */
+				/* When moving up from the bottom, remember the current answer. */
 				if ((*history_list)->next == NULL)
-					magichistory = mallocstrcpy(magichistory, answer);
+					stored_string = mallocstrcpy(stored_string, answer);
 
-				/* Get the older search from the history list and save it in
-				 * answer.  If there is no older search, don't do anything. */
+				/* If there is an older item, move to it and copy its string. */
 				if ((*history_list)->prev != NULL) {
 					*history_list = (*history_list)->prev;
 					answer = mallocstrcpy(answer, (*history_list)->data);
@@ -522,19 +520,17 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			}
 		} else if (func == get_newer_item) {
 			if (history_list != NULL) {
-				/* Get the newer search from the history list and save it in
-				 * answer.  If there is no newer search, don't do anything. */
+				/* If there is a newer item, move to it and copy its string. */
 				if ((*history_list)->next != NULL) {
 					*history_list = (*history_list)->next;
 					answer = mallocstrcpy(answer, (*history_list)->data);
 					typing_x = strlen(answer);
 				}
 
-				/* If we've reached the bottom of the history list, and answer
-				 * is blank, and magichistory is set, restore the old answer. */
+				/* When at the bottom of the history list, restore the old answer. */
 				if ((*history_list)->next == NULL &&
-						*answer == '\0' && magichistory != NULL) {
-					answer = mallocstrcpy(answer, magichistory);
+								*answer == '\0' && stored_string != NULL) {
+					answer = mallocstrcpy(answer, stored_string);
 					typing_x = strlen(answer);
 				}
 			}
@@ -568,9 +564,9 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 
 #ifdef ENABLE_HISTORIES
 	/* If the history pointer was moved, point it at the bottom again. */
-	if (magichistory != NULL) {
+	if (stored_string != NULL) {
 		reset_history_pointer_for(*history_list);
-		free(magichistory);
+		free(stored_string);
 	}
 #endif
 
