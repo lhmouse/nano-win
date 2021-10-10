@@ -334,7 +334,7 @@ void do_help(void);
 /* Most functions in history.c. */
 #ifdef ENABLE_HISTORIES
 void history_init(void);
-void history_reset(const linestruct *list);
+void reset_history_pointer_for(const linestruct *list);
 void update_history(linestruct **item, const char *text);
 #ifdef ENABLE_TABCOMP
 char *get_history_completion(linestruct **h, char *s, size_t len);

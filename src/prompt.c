@@ -456,7 +456,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #endif
 
 	if (history_list != NULL)
-		history_reset(*history_list);
+		reset_history_pointer_for(*history_list);
 #endif /* ENABLE_HISTORIES */
 
 	if (typing_x > strlen(answer))
@@ -568,7 +568,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #ifdef ENABLE_HISTORIES
 	/* Put the history pointer back at the bottom of the list. */
 	if (history_list != NULL) {
-		history_reset(*history_list);
+		reset_history_pointer_for(*history_list);
 		free(magichistory);
 	}
 #endif

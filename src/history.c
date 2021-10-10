@@ -63,14 +63,14 @@ void history_init(void)
 	executebot = execute_history;
 }
 
-/* Set the current position in the given history list to the bottom. */
-void history_reset(const linestruct *list)
+/* Reset the pointer into the history list that contains item to the bottom. */
+void reset_history_pointer_for(const linestruct *item)
 {
-	if (list == search_history)
+	if (item == search_history)
 		search_history = searchbot;
-	else if (list == replace_history)
+	else if (item == replace_history)
 		replace_history = replacebot;
-	else if (list == execute_history)
+	else if (item == execute_history)
 		execute_history = executebot;
 }
 
