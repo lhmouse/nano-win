@@ -282,80 +282,36 @@ size_t light_to_col = 0;
 #endif
 
 /* Empty functions, for the most part corresponding to toggles. */
-void case_sens_void(void)
-{
-}
-void regexp_void(void)
-{
-}
-void backwards_void(void)
-{
-}
+void case_sens_void(void)  {;}
+void regexp_void(void)  {;}
+void backwards_void(void)  {;}
 #ifdef ENABLE_HISTORIES
-void get_older_item(void)
-{
-}
-void get_newer_item(void)
-{
-}
+void get_older_item(void)  {;}
+void get_newer_item(void)  {;}
 #endif
-void flip_replace(void)
-{
-}
-void flip_goto(void)
-{
-}
+void flip_replace(void)  {;}
+void flip_goto(void)  {;}
 #ifdef ENABLE_BROWSER
-void to_files(void)
-{
-}
-void goto_dir(void)
-{
-}
+void to_files(void)  {;}
+void goto_dir(void)  {;}
 #endif
 #ifndef NANO_TINY
-void do_nothing(void)
-{
-}
-void do_toggle_void(void)
-{
-}
-void dos_format(void)
-{
-}
-void mac_format(void)
-{
-}
-void append_it(void)
-{
-}
-void prepend_it(void)
-{
-}
-void back_it_up(void)
-{
-}
-void flip_execute(void)
-{
-}
-void flip_pipe(void)
-{
-}
-void flip_convert(void)
-{
-}
+void do_nothing(void)  {;}
+void do_toggle_void(void)  {;}
+void dos_format(void)  {;}
+void mac_format(void)  {;}
+void append_it(void)  {;}
+void prepend_it(void)  {;}
+void back_it_up(void)  {;}
+void flip_execute(void)  {;}
+void flip_pipe(void)  {;}
+void flip_convert(void)  {;}
 #endif
 #ifdef ENABLE_MULTIBUFFER
-void flip_newbuffer(void)
-{
-}
+void flip_newbuffer(void)  {;}
 #endif
-void discard_buffer(void)
-{
-}
-void do_cancel(void)
-{
-}
+void discard_buffer(void)  {;}
+void do_cancel(void)  {;}
 
 /* Add a function to the linked list of functions. */
 void add_to_funcs(void (*func)(void), int menus, const char *desc,
