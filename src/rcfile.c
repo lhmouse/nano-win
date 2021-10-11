@@ -1565,7 +1565,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 #endif
 #ifdef ENABLE_OPERATINGDIR
 		if (strcmp(option, "operatingdir") == 0)
-			operating_dir = copy_of(argument);
+			operating_dir = free_and_assign(operating_dir, copy_of(argument));
 		else
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
@@ -1583,12 +1583,12 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			else if (mbstrlen(argument) % 2 != 0)
 				jot_error(N_("Even number of characters required"));
 			else
-				matchbrackets = copy_of(argument);
+				matchbrackets = free_and_assign(matchbrackets, copy_of(argument));
 		} else if (strcmp(option, "whitespace") == 0) {
 			if (mbstrlen(argument) != 2 || breadth(argument) != 2)
 				jot_error(N_("Two single-column characters required"));
 			else {
-				whitespace = copy_of(argument);
+				whitespace = free_and_assign(whitespace, copy_of(argument));
 				whitelen[0] = char_length(whitespace);
 				whitelen[1] = char_length(whitespace + whitelen[0]);
 			}
@@ -1599,26 +1599,26 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 			if (has_blank_char(argument))
 				jot_error(N_("Non-blank characters required"));
 			else
-				punct = copy_of(argument);
+				punct = free_and_assign(punct, copy_of(argument));
 		} else if (strcmp(option, "brackets") == 0) {
 			if (has_blank_char(argument))
 				jot_error(N_("Non-blank characters required"));
 			else
-				brackets = copy_of(argument);
+				brackets = free_and_assign(brackets, copy_of(argument));
 		} else if (strcmp(option, "quotestr") == 0)
-			quotestr = copy_of(argument);
+			quotestr = free_and_assign(quotestr, copy_of(argument));
 		else
 #endif
 #ifdef ENABLE_SPELLER
 		if (strcmp(option, "speller") == 0)
-			alt_speller = copy_of(argument);
+			alt_speller = free_and_assign(alt_speller, copy_of(argument));
 		else
 #endif
 #ifndef NANO_TINY
 		if (strcmp(option, "backupdir") == 0)
-			backup_dir = copy_of(argument);
+			backup_dir = free_and_assign(backup_dir, copy_of(argument));
 		else if (strcmp(option, "wordchars") == 0)
-			word_chars = copy_of(argument);
+			word_chars = free_and_assign(word_chars, copy_of(argument));
 		else if (strcmp(option, "guidestripe") == 0) {
 			if (!parse_num(argument, &stripe_column) || stripe_column <= 0) {
 				jot_error(N_("Guide column \"%s\" is invalid"), argument);
