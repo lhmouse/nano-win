@@ -2139,9 +2139,11 @@ void minibar(void)
 	 * plus a star when the file has been modified. */
 	if (COLS > 4) {
 		if (namewidth > COLS - 2) {
-			thename = display_string(thename, namewidth - COLS + 5, COLS - 5, FALSE, FALSE);
+			char *shortname = display_string(thename, namewidth - COLS + 5,
+												COLS - 5, FALSE, FALSE);
 			mvwaddstr(bottomwin, 0, 0, "...");
-			waddstr(bottomwin, thename);
+			waddstr(bottomwin, shortname);
+			free(shortname);
 		} else
 			mvwaddstr(bottomwin, 0, padding, thename);
 
