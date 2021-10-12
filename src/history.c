@@ -469,21 +469,21 @@ void save_poshistory(void)
 /* Reload the position history file if it has been modified since last load. */
 void reload_positions_if_needed(void)
 {
+	poshiststruct *item, *nextone;
 	struct stat fileinfo;
 
-	if (stat(poshistname, &fileinfo) == 0 && fileinfo.st_mtime != latest_timestamp) {
-		poshiststruct *item, *nextone;
+	if (stat(poshistname, &fileinfo) != 0 || fileinfo.st_mtime == latest_timestamp)
+		return;
 
-		for (item = position_history; item != NULL; item = nextone) {
-			nextone = item->next;
-			free(item->filename);
-			free(item);
-		}
-
-		position_history = NULL;
-
-		load_poshistory();
+	for (item = position_history; item != NULL; item = nextone) {
+		nextone = item->next;
+		free(item->filename);
+		free(item);
 	}
+
+	position_history = NULL;
+
+	load_poshistory();
 }
 
 /* Update the recorded last file positions with the current position in the
