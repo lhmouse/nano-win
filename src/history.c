@@ -424,9 +424,9 @@ void load_poshistory(void)
 /* Save the recorded cursor positions for files that were edited. */
 void save_poshistory(void)
 {
-	poshiststruct *posptr;
-	struct stat fileinfo;
 	FILE *histfile = fopen(poshistname, "wb");
+	struct stat fileinfo;
+	poshiststruct *item;
 
 	if (histfile == NULL) {
 		jot_error(N_("Error writing %s: %s"), poshistname, strerror(errno));
@@ -437,15 +437,15 @@ void save_poshistory(void)
 	if (chmod(poshistname, S_IRUSR | S_IWUSR) < 0)
 		jot_error(N_("Cannot limit permissions on %s: %s"), poshistname, strerror(errno));
 
-	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
+	for (item = position_history; item != NULL; item = item->next) {
 		char *path_and_place;
 		size_t length;
 
 		/* Assume 20 decimal positions each for line and column number,
 		 * plus two spaces, plus the line feed, plus the null byte. */
-		path_and_place = nmalloc(strlen(posptr->filename) + 44);
+		path_and_place = nmalloc(strlen(item->filename) + 44);
 		sprintf(path_and_place, "%s %zd %zd\n",
-								posptr->filename, posptr->linenumber, posptr->columnnumber);
+								item->filename, item->linenumber, item->columnnumber);
 		length = strlen(path_and_place);
 
 		/* Encode newlines in filenames as NULs. */
@@ -490,8 +490,9 @@ void reload_positions_if_needed(void)
  * current buffer.  If no existing entry is found, add a new one at the end. */
 void update_poshistory(void)
 {
-	poshiststruct *posptr, *theone, *posprev = NULL;
 	char *fullpath = get_full_path(openfile->filename);
+	poshiststruct *previous = NULL;
+	poshiststruct *item, *theone;
 
 	if (fullpath == NULL || openfile->filename[0] == '\0') {
 		free(fullpath);
@@ -501,28 +502,28 @@ void update_poshistory(void)
 	reload_positions_if_needed();
 
 	/* Look for a matching filename in the list. */
-	for (posptr = position_history; posptr != NULL; posptr = posptr->next) {
-		if (!strcmp(posptr->filename, fullpath))
+	for (item = position_history; item != NULL; item = item->next) {
+		if (!strcmp(item->filename, fullpath))
 			break;
-		posprev = posptr;
+		previous = item;
 	}
 
 	/* Don't record files that have the default cursor position. */
 	if (openfile->current->lineno == 1 && openfile->current_x == 0) {
-		if (posptr != NULL) {
-			if (posprev == NULL)
-				position_history = posptr->next;
+		if (item != NULL) {
+			if (previous == NULL)
+				position_history = item->next;
 			else
-				posprev->next = posptr->next;
-			free(posptr->filename);
-			free(posptr);
+				previous->next = item->next;
+			free(item->filename);
+			free(item);
 			save_poshistory();
 		}
 		free(fullpath);
 		return;
 	}
 
-	theone = posptr;
+	theone = item;
 
 	/* If we didn't find it, make a new node; otherwise, if we're
 	 * not at the end, move the matching one to the end. */
@@ -532,15 +533,15 @@ void update_poshistory(void)
 		if (position_history == NULL)
 			position_history = theone;
 		else
-			posprev->next = theone;
-	} else if (posptr->next != NULL) {
-		if (posprev == NULL)
-			position_history = posptr->next;
+			previous->next = theone;
+	} else if (item->next != NULL) {
+		if (previous == NULL)
+			position_history = item->next;
 		else
-			posprev->next = posptr->next;
-		while (posptr->next != NULL)
-			posptr = posptr->next;
-		posptr->next = theone;
+			previous->next = item->next;
+		while (item->next != NULL)
+			item = item->next;
+		item->next = theone;
 	}
 
 	/* Store the last cursor position. */
@@ -558,25 +559,25 @@ void update_poshistory(void)
  * set line and column to the retrieved values. */
 bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
 {
-	poshiststruct *posptr;
 	char *fullpath = get_full_path(file);
+	poshiststruct *item;
 
 	if (fullpath == NULL)
 		return FALSE;
 
 	reload_positions_if_needed();
 
-	posptr = position_history;
-	while (posptr != NULL && strcmp(posptr->filename, fullpath) != 0)
-		posptr = posptr->next;
+	item = position_history;
+	while (item != NULL && strcmp(item->filename, fullpath) != 0)
+		item = item->next;
 
 	free(fullpath);
 
-	if (posptr == NULL)
+	if (item == NULL)
 		return FALSE;
 
-	*line = posptr->linenumber;
-	*column = posptr->columnnumber;
+	*line = item->linenumber;
+	*column = item->columnnumber;
 	return TRUE;
 }
 #endif /* ENABLE_HISTORIES */
