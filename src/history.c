@@ -94,7 +94,8 @@ linestruct *find_history(const linestruct *start, const linestruct *end,
  * with a fresh string text.  That is: add text, or move it to the end. */
 void update_history(linestruct **item, const char *text)
 {
-	linestruct **htop = NULL, **hbot = NULL, *thesame;
+	linestruct **htop = NULL, **hbot = NULL;
+	linestruct *thesame;
 
 	if (*item == search_history) {
 		htop = &searchtop;
@@ -196,15 +197,15 @@ char *get_history_completion(linestruct **h, char *s, size_t len)
 /* Check whether we have or could make a directory for history files. */
 bool have_statedir(void)
 {
-	struct stat dirstat;
 	const char *xdgdatadir;
+	struct stat dirinfo;
 
 	get_homedir();
 
 	if (homedir != NULL) {
 		statedir = concatenate(homedir, "/.nano/");
 
-		if (stat(statedir, &dirstat) == 0 && S_ISDIR(dirstat.st_mode)) {
+		if (stat(statedir, &dirinfo) == 0 && S_ISDIR(dirinfo.st_mode)) {
 			poshistname = concatenate(statedir, POSITION_HISTORY);
 			return TRUE;
 		}
@@ -221,7 +222,7 @@ bool have_statedir(void)
 	else
 		statedir = concatenate(homedir, "/.local/share/nano/");
 
-	if (stat(statedir, &dirstat) == -1) {
+	if (stat(statedir, &dirinfo) == -1) {
 		if (xdgdatadir == NULL) {
 			char *statepath = concatenate(homedir, "/.local");
 			mkdir(statepath, S_IRWXU | S_IRWXG | S_IRWXO);
@@ -237,7 +238,7 @@ bool have_statedir(void)
 								statedir, strerror(errno));
 			return FALSE;
 		}
-	} else if (!S_ISDIR(dirstat.st_mode)) {
+	} else if (!S_ISDIR(dirinfo.st_mode)) {
 		jot_error(N_("Path %s is not a directory and needs to be.\n"
 								"Nano will be unable to load or save "
 								"search history or cursor positions.\n"),
@@ -362,13 +363,14 @@ void load_poshistory(void)
 	if (histfile == NULL)
 		return;
 
-	ssize_t read, count = 0;
-	struct stat fileinfo;
 	poshiststruct *lastitem = NULL;
 	poshiststruct *newitem;
 	char *lineptr, *columnptr;
 	char *stanza = NULL;
+	struct stat fileinfo;
 	size_t dummy = 0;
+	ssize_t count = 0;
+	ssize_t read;
 
 	/* Read and parse each line, and store the extracted data. */
 	while ((read = getline(&stanza, &dummy, histfile)) > 5) {
