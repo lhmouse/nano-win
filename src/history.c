@@ -364,7 +364,8 @@ void load_poshistory(void)
 
 	ssize_t read, count = 0;
 	struct stat fileinfo;
-	poshiststruct *record_ptr = NULL, *newrecord;
+	poshiststruct *lastitem = NULL;
+	poshiststruct *newitem;
 	char *lineptr, *columnptr;
 	char *stanza = NULL;
 	size_t dummy = 0;
@@ -387,19 +388,19 @@ void load_poshistory(void)
 		*(lineptr++) = '\0';
 
 		/* Create a new position record. */
-		newrecord = nmalloc(sizeof(poshiststruct));
-		newrecord->filename = copy_of(stanza);
-		newrecord->linenumber = atoi(lineptr);
-		newrecord->columnnumber = atoi(columnptr);
-		newrecord->next = NULL;
+		newitem = nmalloc(sizeof(poshiststruct));
+		newitem->filename = copy_of(stanza);
+		newitem->linenumber = atoi(lineptr);
+		newitem->columnnumber = atoi(columnptr);
+		newitem->next = NULL;
 
 		/* Add the record to the list. */
 		if (position_history == NULL)
-			position_history = newrecord;
+			position_history = newitem;
 		else
-			record_ptr->next = newrecord;
+			lastitem->next = newitem;
 
-		record_ptr = newrecord;
+		lastitem = newitem;
 
 		/* Impose a limit, so the file will not grow indefinitely. */
 		if (++count > 200) {
