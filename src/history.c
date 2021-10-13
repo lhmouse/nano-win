@@ -147,50 +147,51 @@ void update_history(linestruct **item, const char *text)
 }
 
 #ifdef ENABLE_TABCOMP
-/* Go backward through one of three history lists, starting at its item h,
- * searching for a string that is a tab completion of the given string s,
- * looking at only the first len characters of s.  When found, make h point
- * at it and return that string; otherwise, don't move h and return s. */
-char *get_history_completion(linestruct **h, char *s, size_t len)
+/* Go backward through one of three history lists, starting at item *here,
+ * searching for a string that is a tab completion of the given string,
+ * looking at only its first len characters.  When found, make *here point
+ * at the item and return its string; otherwise, just return the string. */
+char *get_history_completion(linestruct **here, char *string, size_t len)
 {
-	linestruct *htop = NULL, *hbot = NULL, *p;
+	linestruct *htop = NULL, *hbot = NULL;
+	linestruct *item;
 
-	if (*h == search_history) {
+	if (*here == search_history) {
 		htop = searchtop;
 		hbot = searchbot;
-	} else if (*h == replace_history) {
+	} else if (*here == replace_history) {
 		htop = replacetop;
 		hbot = replacebot;
-	} else if (*h == execute_history) {
+	} else if (*here == execute_history) {
 		htop = executetop;
 		hbot = executebot;
 	}
 
 	/* First search from the current position to the top of the list
 	 * for a match of len characters.  Skip over an exact match. */
-	p = find_history((*h)->prev, htop, s, len);
+	item = find_history((*here)->prev, htop, string, len);
 
-	while (p != NULL && strcmp(p->data, s) == 0)
-		p = find_history(p->prev, htop, s, len);
+	while (item != NULL && strcmp(item->data, string) == 0)
+		item = find_history(item->prev, htop, string, len);
 
-	if (p != NULL) {
-		*h = p;
-		return mallocstrcpy(s, (*h)->data);
+	if (item) {
+		*here = item;
+		return mallocstrcpy(string, item->data);
 	}
 
 	/* Now search from the bottom of the list to the original position. */
-	p = find_history(hbot, *h, s, len);
+	item = find_history(hbot, *here, string, len);
 
-	while (p != NULL && strcmp(p->data, s) == 0)
-		p = find_history(p->prev, *h, s, len);
+	while (item != NULL && strcmp(item->data, string) == 0)
+		item = find_history(item->prev, *here, string, len);
 
-	if (p != NULL) {
-		*h = p;
-		return mallocstrcpy(s, (*h)->data);
+	if (item) {
+		*here = item;
+		return mallocstrcpy(string, item->data);
 	}
 
 	/* When no useful match was found, simply return the given string. */
-	return (char *)s;
+	return (char *)string;
 }
 #endif /* ENABLE_TABCOMP */
 
