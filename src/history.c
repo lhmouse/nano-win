@@ -77,7 +77,7 @@ void reset_history_pointer_for(const linestruct *item)
 /* Return from the history list that starts at start and ends at end
  * the first node that contains the first len characters of the given
  * text, or NULL if there is no such node. */
-linestruct *find_history(const linestruct *start, const linestruct *end,
+linestruct *find_in_history(const linestruct *start, const linestruct *end,
 		const char *text, size_t len)
 {
 	const linestruct *item;
@@ -109,7 +109,7 @@ void update_history(linestruct **item, const char *text)
 	}
 
 	/* See if the string is already in the history. */
-	thesame = find_history(*hbot, *htop, text, HIGHEST_POSITIVE);
+	thesame = find_in_history(*hbot, *htop, text, HIGHEST_POSITIVE);
 
 	/* If an identical string was found, delete that item. */
 	if (thesame != NULL) {
@@ -169,10 +169,10 @@ char *get_history_completion(linestruct **here, char *string, size_t len)
 
 	/* First search from the current position to the top of the list
 	 * for a match of len characters.  Skip over an exact match. */
-	item = find_history((*here)->prev, htop, string, len);
+	item = find_in_history((*here)->prev, htop, string, len);
 
 	while (item != NULL && strcmp(item->data, string) == 0)
-		item = find_history(item->prev, htop, string, len);
+		item = find_in_history(item->prev, htop, string, len);
 
 	if (item) {
 		*here = item;
@@ -180,10 +180,10 @@ char *get_history_completion(linestruct **here, char *string, size_t len)
 	}
 
 	/* Now search from the bottom of the list to the original position. */
-	item = find_history(hbot, *here, string, len);
+	item = find_in_history(hbot, *here, string, len);
 
 	while (item != NULL && strcmp(item->data, string) == 0)
-		item = find_history(item->prev, *here, string, len);
+		item = find_in_history(item->prev, *here, string, len);
 
 	if (item) {
 		*here = item;
