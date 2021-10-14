@@ -92,10 +92,10 @@ linestruct *find_in_history(const linestruct *start, const linestruct *end,
 
 /* Update a history list (the one in which item is the current position)
  * with a fresh string text.  That is: add text, or move it to the end. */
-void update_history(linestruct **item, const char *text)
+void update_history(linestruct **item, const char *text, bool avoid_duplicates)
 {
 	linestruct **htop = NULL, **hbot = NULL;
-	linestruct *thesame;
+	linestruct *thesame = NULL;
 
 	if (*item == search_history) {
 		htop = &searchtop;
@@ -108,11 +108,12 @@ void update_history(linestruct **item, const char *text)
 		hbot = &executebot;
 	}
 
-	/* See if the string is already in the history. */
-	thesame = find_in_history(*hbot, *htop, text, HIGHEST_POSITIVE);
+	/* When requested, check if the string is already in the history. */
+	if (avoid_duplicates)
+		thesame = find_in_history(*hbot, *htop, text, HIGHEST_POSITIVE);
 
 	/* If an identical string was found, delete that item. */
-	if (thesame != NULL) {
+	if (thesame) {
 		linestruct *after = thesame->next;
 
 		/* If the string is at the head of the list, move the head. */
@@ -279,7 +280,7 @@ void load_history(void)
 		stanza[--read] = '\0';
 		if (read > 0) {
 			recode_NUL_to_LF(stanza, read);
-			update_history(history, stanza);
+			update_history(history, stanza, IGNORE_DUPLICATES);
 		} else if (history == &search_history)
 			history = &replace_history;
 		else

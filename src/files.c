@@ -1242,7 +1242,7 @@ void do_insertfile(bool execute)
 				if (*answer != '\0') {
 					execute_command(answer);
 #ifdef ENABLE_HISTORIES
-					update_history(&execute_history, answer);
+					update_history(&execute_history, answer, PRUNE_DUPLICATE);
 #endif
 				}
 

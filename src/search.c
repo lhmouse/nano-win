@@ -118,7 +118,7 @@ void search_init(bool replacing, bool retain_answer)
 			if (*answer != '\0') {
 				last_search = mallocstrcpy(last_search, answer);
 #ifdef ENABLE_HISTORIES
-				update_history(&search_history, answer);
+				update_history(&search_history, answer, PRUNE_DUPLICATE);
 #endif
 			}
 
@@ -706,7 +706,7 @@ void ask_for_and_do_replacements(void)
 #ifdef ENABLE_HISTORIES
 	/* When not "", add the replace string to the replace history list. */
 	if (response == 0)
-		update_history(&replace_history, answer);
+		update_history(&replace_history, answer, PRUNE_DUPLICATE);
 #endif
 
 	/* When cancelled, or when a function was run, get out. */

@@ -122,6 +122,9 @@
 #define ANNOTATE  TRUE
 #define NONOTES  FALSE
 
+#define PRUNE_DUPLICATE  TRUE
+#define IGNORE_DUPLICATES  FALSE
+
 #ifdef ENABLE_UTF8
 /* In UTF-8 a valid character is at most four bytes long. */
 #define MAXCHARLEN  4

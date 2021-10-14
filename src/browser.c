@@ -355,7 +355,7 @@ void search_filename(bool forwards)
 	if (*answer != '\0') {
 		last_search = mallocstrcpy(last_search, answer);
 #ifdef ENABLE_HISTORIES
-		update_history(&search_history, answer);
+		update_history(&search_history, answer, PRUNE_DUPLICATE);
 #endif
 	}
 
