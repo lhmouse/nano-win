@@ -7,7 +7,7 @@ syntax po "\.pot?$"
 comment "#"
 
 # Comments.
-color green "^#.*$"
+color green "^#.*"
 color yellow "Copyright|\(C\)"
 # Header fields.
 color brightred "^"X-Bugs:.*"$"

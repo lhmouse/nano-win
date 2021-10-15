@@ -9,10 +9,10 @@ magic "Texinfo source"
 comment "@c "
 
 # Command arguments, trailing and enclosed.
-color cyan "^@[a-z]+[[:space:]]+.*$"
+color cyan "^@[a-z]+[[:space:]]+.*"
 color brightmagenta "@[a-zA-Z]+\{[^}]*\}"
 # Commands themselves.
-color yellow "@[a-zA-Z]+\{?" "\}"
+color yellow "@[a-zA-Z]+\{?|\}"
 
 # Menu items.
 color brightred "^\*[[:space:]]+.*::.*"
