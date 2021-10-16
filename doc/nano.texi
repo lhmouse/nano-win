@@ -1,10 +1,15 @@
-\input texinfo  @c -*-texinfo-*-
+\input texinfo
+
 @c %**start of header
 @setfilename nano.info
 @settitle nano
 @c %**end of header
 
 @documentencoding UTF-8
+
+@documentdescription
+The complete manual for the GNU nano text editor.
+@end documentdescription
 
 @smallbook
 @set EDITION 0.6
