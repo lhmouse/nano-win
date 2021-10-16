@@ -21,9 +21,9 @@ The complete manual for the GNU nano text editor.
 * nano: (nano).                 Small and friendly text editor.
 @end direntry
 
-@c tex
-@c \overfullrule=0pt
-@c end tex
+@comment Prevent the black square at the end of an overlong line.
+@finalout
+
 
 @titlepage
 @title GNU @command{nano}
@@ -1891,7 +1891,7 @@ Exclude support for syntax coloring.  This also eliminates the @option{-Y}
 command-line option, which allows choosing a specific syntax.
 
 @item --disable-comment
-Exclude the single-keystroke comment/uncomment function (@kbd{M-3}).
+Exclude the single-keystroke comment/uncomment function (@w{@kbd{M-3}}).
 
 @item --disable-extra
 Exclude the Easter egg: a crawl of major contributors.
