@@ -26,30 +26,29 @@ The complete manual for the GNU nano text editor.
 
 
 @titlepage
+
 @title GNU @command{nano}
 @subtitle a small and friendly text editor
 @subtitle version 5.9
 
 @author Chris Allegretta
+
 @page
 
 This manual documents the GNU @command{nano} editor.
 @sp 1
-This manual is part of the GNU @command{nano} distribution.@*
+The contents of this manual are part of the GNU @command{nano} distribution.
 
-@sp 4
+@sp 5
 Copyright @copyright{} 1999-2009, 2014-2021 Free Software Foundation, Inc.
-
 @sp 1
 This document is dual-licensed.  You may distribute and/or modify it
 under the terms of either of the following licenses:
-
 @sp 1
 * The GNU General Public License, as published by the Free Software
   Foundation, version 3 or (at your option) any later version.  You
   should have received a copy of the GNU General Public License along
   with this program.  If not, see @url{https://www.gnu.org/licenses/}.
-
 @sp 1
 * The GNU Free Documentation License, as published by the Free Software
   Foundation, version 1.2 or (at your option) any later version, with no
@@ -57,15 +56,15 @@ under the terms of either of the following licenses:
   You should have received a copy of the GNU Free Documentation License
   along with this program.  If not, see @url{https://www.gnu.org/licenses/}.
 
+@sp 5
+You may contact the original author by e-mail: @email{chrisa@@asty.org}
 @sp 1
-You may contact the original author by
-e-mail: @email{chrisa@@asty.org}@*
+For suggesting improvements: @email{nano-devel@@gnu.org}
 
-For suggesting improvements: @email{nano-devel@@gnu.org}@*
 @end titlepage
 
-@ifnottex
 
+@ifnottex
 
 @node Top
 @top
@@ -1806,8 +1805,9 @@ ask any more), or Cancel (stop with replacing).
 
 @item Search and Replace History
 When the option @option{-H} or @option{--historylog} is given (or set in
-the a nanorc file), text entered as search or replace strings is stored.
-These strings can be accessed with the up/down arrow keys, or you can
+a nanorc file), text entered as search or replace strings is stored.
+These strings can be accessed with the up/down arrow keys at their
+respective prompts, or you can
 type the first few characters and then use @kbd{Tab} to cycle through the
 matching strings.  A retrieved string can subsequently be edited.
 
