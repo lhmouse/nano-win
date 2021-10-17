@@ -1990,6 +1990,8 @@ as nano's settings file, instead of the default @code{.nanorc}.
 <hr>
 @end html
 
+@iftex
 @contents
+@end iftex
 
 @bye
