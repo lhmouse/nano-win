@@ -15,7 +15,7 @@ color purple start="^@direntry" end="^@end direntry"
 color cyan "^@[a-z]+[[:space:]]+.*"
 color lightmagenta "@([a-z]+|,|H|U)\{([^}]|@\}|@[a-z]+\{[^}]*\})*\}"
 # Commands themselves.
-color yellow "@([a-z]+\{?|[,HU]\{|(AA|AE|DH|L|OE?|(La)?TeX|TH)\{)|\}"
+color yellow "^@[a-z]+([[:space:]]|$)|@([a-z]+|,|H|U|AA|AE|DH|L|OE?|(La)?TeX|TH)\{|\}"
 color pink "@[!"'&*./:=?@\^`{}~-]"
 
 # Special separator for headings and footings.
