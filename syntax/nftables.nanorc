@@ -27,7 +27,7 @@ color ,green "[[:space:]]+$"
 
 # Strings and others
 color yellow ""(\\.|[^"])*"" "'(\\.|[^'])*'"
-color green "[{}():;|`$<>!=&\\]" "(\]|\[)"
+color green "[][{}():;|`$<>!=&\]"
 
 # Basic variable names
 color brightred "(\$|@)[[:alpha:]_-][[:alnum:]_.-]*"

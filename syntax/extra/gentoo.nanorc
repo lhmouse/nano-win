@@ -11,7 +11,7 @@ color brightgreen "\<default(_pkg_nofetch|_src_(unpack|prepare|configure|compile
 ## Bash-related syntax:
 color green "\<(break|case|continue|do|done|elif|else|esac|exit|fi|for|function|if|in|read|return|select|shift|then|time|until|while)\>"
 color green "\<(declare|eval|exec|export|let|local)\>"
-color green "[{}():;|`$<>!=&\\]" "(\]|\[)"
+color green "[][{}():;|`$<>!=&\]"
 color green "-[defhnrsuwxzL]\>"
 color green "-(eq|ne|gt|lt|ge|le)\>"
 ## Variables... official portage ones in red, all others in bright red:

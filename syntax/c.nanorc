@@ -33,7 +33,7 @@ color cyan "__attribute__[[:blank:]]*\(\([^)]*\)\)" "__(aligned|asm|builtin|hidd
 color brightyellow ""([^"]|\\")*"" "#[[:blank:]]*include[[:blank:]]*<[^>]+>"
 
 # Preprocessor directives.
-color brightcyan start="^[[:blank:]]*#[[:blank:]]*(if(n?def)?|elif|warning|error|pragma)\>" end="(\`|[^\\])$"
+color brightcyan start="^[[:blank:]]*#[[:blank:]]*(if(n?def)?|elif|warning|error|pragma)\>" end="(\`|[^\])$"
 color brightcyan "^[[:blank:]]*#[[:blank:]]*((define|else|endif|include(_next)?|line|undef)\>|$)"
 
 # Comments.
