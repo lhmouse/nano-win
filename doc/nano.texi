@@ -2,7 +2,7 @@
 
 @c %**start of header
 @setfilename nano.info
-@settitle nano
+@settitle The GNU nano text editor
 @c %**end of header
 
 @documentencoding UTF-8
@@ -64,12 +64,19 @@ For suggesting improvements: @email{nano-devel@@gnu.org}
 @end titlepage
 
 
+@macro blankline
+@iftex
+@sp 1
+@end iftex
+@end macro
+
+
 @ifnottex
 
 @node Top
 @top
 
-This manual documents the GNU @command{nano} editor, version 5.9.
+This manual documents GNU @command{nano}, version 5.9.
 
 @menu
 * Introduction::
@@ -109,25 +116,24 @@ If you want the old, Pico behavior back, you can use the
 following options: @option{--breaklonglines},
 @option{--jumpyscrolling}, and @option{--emptyline}
 (or @option{-bje}).
-@sp 1
+
+@blankline
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
-@sp 1
+
+@blankline
 For background information see @url{https://nano-editor.org/}.
+
 
 @node Invoking
 @chapter Invoking
 
 The usual way to invoke @command{nano} is:
 
-@iftex
-@sp 1
-@end iftex
+@blankline
 @example
 @code{nano [FILE]}
 @end example
-@iftex
-@sp 1
-@end iftex
+@blankline
 
 But it is also possible to specify one or more options (see the next
 section), and to edit several files in a row.  Additionally, the cursor
@@ -144,15 +150,11 @@ of those letters: @code{C} and/or @code{R}.  When the string contains spaces,
 it needs to be enclosed in quotes.
 A more complete command synopsis thus is:
 
-@iftex
-@sp 1
-@end iftex
+@blankline
 @example
 @code{nano [OPTION]@dots{} [[+LINE[,COLUMN]|+[crCR](/|?)STRING] FILE]@dots{}}
 @end example
-@iftex
-@sp 1
-@end iftex
+@blankline
 
 Normally, however, you set your preferred options in a @file{nanorc}
 file (@pxref{Nanorc Files}).  And when using @code{set positionlog}
@@ -1864,9 +1866,7 @@ Or see the list at the end of the main internal help text (@kbd{^G}) instead.
 Building @command{nano} from source is fairly straightforward if you are
 familiar with compiling programs with autoconf support:
 
-@iftex
-@sp 1
-@end iftex
+@blankline
 @example
   tar xvzf nano-x.y.z.tar.gz
   cd nano-x.y.z
@@ -1874,9 +1874,7 @@ familiar with compiling programs with autoconf support:
   make
   make install
 @end example
-@iftex
-@sp 1
-@end iftex
+@blankline
 
 The possible options to @code{./configure} are:
 
