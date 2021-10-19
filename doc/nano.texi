@@ -184,9 +184,9 @@ a command straight into a buffer, and then edit it.
 @node Screen Layout
 @section Screen Layout
 
-The default screen of nano consists of five areas.  From top to bottom
-these are: the title bar, a blank line, the edit window, the status bar,
-and two help lines.
+The default screen of @command{nano} consists of four areas.
+From top to bottom these are: the title bar, the edit window,
+the status bar, and two help lines.
 
 The title bar consists of
 three sections: left, center and right.  The section on the left
@@ -202,8 +202,7 @@ that are asked of the user will be asked on the status bar, and any user
 input (search strings, filenames, etc.) will be input on the status bar.
 
 The two help lines at the bottom of the screen show some of the most
-essential functions of the editor.  These two lines are called the
-Shortcut List.
+essential functions of the editor.
 
 @node Entering Text
 @section Entering Text
@@ -303,7 +302,7 @@ the replacement string cannot contain a newline (LF).
 
 When mouse support has been configured and enabled, a single mouse click
 places the cursor at the indicated position.  Clicking a second time in
-the same position toggles the mark.  Clicking in the shortcut list
+the same position toggles the mark.  Clicking in the two help lines
 executes the selected shortcut.  To be able to select text with the
 left button, or paste text with the middle button, hold down the
 Shift key during those actions.
@@ -338,10 +337,10 @@ not by default distinguish modified from unmodified arrow keys.
 @node The Help Viewer
 @chapter The Help Viewer
 
-The built-in help system in @command{nano} is available by pressing @kbd{^G}.
+The built-in help in @command{nano} is available by pressing @kbd{^G}.
 It is fairly self-explanatory.  It documents the various parts of the
 editor and the available keystrokes.  Navigation is via the @kbd{^Y} (Page Up)
-and @kbd{^V} (Page Down) keys.  @kbd{^X} exits from the help system.
+and @kbd{^V} (Page Down) keys.  @kbd{^X} exits from the help viewer.
 
 
 @node The File Browser
@@ -658,7 +657,7 @@ This is the default.  (This option is the opposite of @option{-b}
 
 @item -x
 @itemx --nohelp
-Expert Mode: don't show the Shortcut List at the bottom of the screen.
+Expert Mode: don't show the two help lines at the bottom of the screen.
 This affects the location of the status bar as well, as in Expert Mode it
 is located at the very bottom of the editor.
 
