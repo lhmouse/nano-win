@@ -316,7 +316,7 @@ Specify the syntax to be used for highlighting.
 
 @item -Z
 @itemx --zap
-Let an unmodified @key{Backspace} or @key{Delete} erase the marked region
+Let an unmodified @kbd{Backspace} or @kbd{Delete} erase the marked region
 (instead of a single character, and without affecting the cutbuffer).
 
 @item -a
@@ -338,9 +338,9 @@ Note that this overrides option @option{-U} (@option{--quickblank}).
 
 @item -d
 @itemx --rebinddelete
-Interpret the Delete and Backspace keys differently so that both Backspace
-and Delete work properly.  You should only use this option when on your
-system either Backspace acts like Delete or Delete acts like Backspace.
+Interpret the @kbd{Delete} and @kbd{Backspace} keys differently so that
+both work properly.  You should only use this option when on your system
+either @kbd{Backspace} acts like Delete or @kbd{Delete} acts like Backspace.
 
 @item -e
 @itemx --emptyline
@@ -470,7 +470,8 @@ disabled to display the help-system navigation keys.
 
 @item -y
 @itemx --afterends
-Make Ctrl+Right and Ctrl+Delete stop at word ends instead of beginnings.
+Make @kbd{Ctrl+Right} and @kbd{Ctrl+Delete} stop at word ends
+instead of beginnings.
 
 @item -z
 @itemx --suspendable
@@ -501,7 +502,7 @@ the number of lines in the buffer is displayed after the filename.
 This number is cleared upon the next keystroke, or replaced with an
 [i/n] counter when multiple buffers are open.
 The line plus column numbers and the character code are displayed only when
-@code{--constantshow} is used, and can be toggled on and off with @key{M-C}.
+@code{--constantshow} is used, and can be toggled on and off with @kbd{M-C}.
 The state flags are displayed only when @code{--stateflags} is used.
 
 @item -!
@@ -804,7 +805,8 @@ The supported settings in a nanorc file are:
 @table @code
 
 @item set afterends
-Make Ctrl+Right and Ctrl+Delete stop at word ends instead of beginnings.
+Make @kbd{Ctrl+Right} and @kbd{Ctrl+Delete} stop at word ends
+instead of beginnings.
 
 @item set allow_insecure_backup
 When backing up files, allow the backup to succeed even if its
@@ -954,7 +956,7 @@ the number of lines in the buffer is displayed after the filename.
 This number is cleared upon the next keystroke, or replaced with an
 [i/n] counter when multiple buffers are open.
 The line plus column numbers and the character code are displayed only when
-@code{set constantshow} is used, and can be toggled on and off with @key{M-C}.
+@code{set constantshow} is used, and can be toggled on and off with @kbd{M-C}.
 The state flags are displayed only when @code{set stateflags} is used.
 
 @item set minicolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
@@ -1030,9 +1032,9 @@ properly, please report a bug.  Using this option disables @command{nano}'s
 mouse support.
 
 @item set rebinddelete
-Interpret the Delete and Backspace keys differently so that both Backspace
-and Delete work properly.  You should only use this option when on your
-system either Backspace acts like Delete or Delete acts like Backspace.
+Interpret the @kbd{Delete} and @kbd{Backspace} keys differently so that
+both work properly.  You should only use this option when on your system
+either @kbd{Backspace} acts like Delete or @kbd{Delete} acts like Backspace.
 
 @item set regexp
 Do regular-expression searches by default.
@@ -1134,7 +1136,7 @@ should be considered as parts of words.  When using this option, you
 probably want to unset @code{wordbounds}.
 
 @item set zap
-Let an unmodified @key{Backspace} or @key{Delete} erase the marked region
+Let an unmodified @kbd{Backspace} or @kbd{Delete} erase the marked region
 (instead of a single character, and without affecting the cutbuffer).
 
 @end table
@@ -1395,17 +1397,17 @@ current cursor position.
 
 @item zap
 Throws away the current line (or the marked region).
-(This function is bound by default to <Meta+Delete>.)
+(This function is bound by default to @kbd{Alt+Delete}.)
 
 @item chopwordleft
 Deletes from the cursor position to the beginning of the preceding word.
-(This function is bound by default to <Shift+Ctrl+Delete>.  If your terminal
-produces @code{^H} for <Ctrl+Backspace>, you can make <Ctrl+Backspace> delete
+(This function is bound by default to @kbd{Shift+Ctrl+Delete}.  If your terminal
+produces @code{^H} for @kbd{Ctrl+Backspace}, you can make @kbd{Ctrl+Backspace} delete
 the word to the left of the cursor by rebinding @kbd{^H} to this function.)
 
 @item chopwordright
 Deletes from the cursor position to the beginning of the next word.
-(This function is bound by default to <Ctrl+Delete>.)
+(This function is bound by default to @kbd{Ctrl+Delete}.)
 
 @item cutrestoffile
 Cuts all text from the cursor position till the end of the buffer.
@@ -1477,14 +1479,14 @@ Goes one line down (in the editor or browser).
 @item scrollup
 Scrolls the viewport up one row (meaning that the text slides down)
 while keeping the cursor in the same text position, if possible.
-(This function is bound by default to <Alt+Up>.
-If <Alt+Up> does nothing on your Linux console, see the FAQ:
+(This function is bound by default to @kbd{Alt+Up}.
+If @kbd{Alt+Up} does nothing on your Linux console, see the FAQ:
 @url{https://nano-editor.org/dist/latest/faq.html#4.1}.)
 
 @item scrolldown
 Scrolls the viewport down one row (meaning that the text slides up)
 while keeping the cursor in the same text position, if possible.
-(This function is bound by default to <Alt+Down>.)
+(This function is bound by default to @kbd{Alt+Down}.)
 
 @item center
 Scrolls the line with the cursor to the middle of the screen.
