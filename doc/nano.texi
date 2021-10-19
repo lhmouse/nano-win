@@ -713,52 +713,53 @@ browser exits.
 @node Feature Toggles
 @chapter Feature Toggles
 
-Toggles allow you to change on-the-fly certain aspects of the editor
-which would normally be specified via command-line options.  They are
-invoked via Meta-key sequences (@pxref{Commands} for more info).
-The following global toggles are available:
+Toggles allow you to change certain aspects of the editor while you are
+editing, aspects that you would normally specify via command-line options
+or nanorc options.  Each toggle can be flicked via a Meta-key combination
+--- the @kbd{Meta} key is normally the @kbd{Alt} key (@pxref{Commands}
+for more details).  The following global toggles are available:
 
 @table @code
 
 @item Constant Cursor Position Display
-@kbd{Meta-C} toggles the @option{-c} (@option{--constantshow}) command-line option.
+@kbd{M-C} toggles the @option{-c} (@option{--constantshow}) command-line option.
 
 @item Smart Home Key
-@kbd{Meta-H} toggles the @option{-A} (@option{--smarthome}) command-line option.
+@kbd{M-H} toggles the @option{-A} (@option{--smarthome}) command-line option.
 
 @item Auto Indent
-@kbd{Meta-I} toggles the @option{-i} (@option{--autoindent}) command-line option.
+@kbd{M-I} toggles the @option{-i} (@option{--autoindent}) command-line option.
 
 @item Cut From Cursor To End-of-Line
-@kbd{Meta-K} toggles the @option{-k} (@option{--cutfromcursor}) command-line option.
+@kbd{M-K} toggles the @option{-k} (@option{--cutfromcursor}) command-line option.
 
 @item Long-Line Wrapping
-@kbd{Meta-L} toggles the @option{-b} (@option{--breaklonglines}) command-line option.
+@kbd{M-L} toggles the @option{-b} (@option{--breaklonglines}) command-line option.
 
 @item Mouse Support
-@kbd{Meta-M} toggles the @option{-m} (@option{--mouse}) command-line option.
+@kbd{M-M} toggles the @option{-m} (@option{--mouse}) command-line option.
 
 @item Line Numbers
-@kbd{Meta-N} toggles the @option{-l} (@option{--linenumbers}) command-line option.
+@kbd{M-N} toggles the @option{-l} (@option{--linenumbers}) command-line option.
 
 @item Tabs To Spaces
-@kbd{Meta-O} toggles the @option{-E} (@option{--tabstospaces}) command-line option.
+@kbd{M-O} toggles the @option{-E} (@option{--tabstospaces}) command-line option.
 
 @item Whitespace Display
-@kbd{Meta-P} toggles the displaying of whitespace (@pxref{Whitespace}).
+@kbd{M-P} toggles the displaying of whitespace (@pxref{Whitespace}).
 
 @item Soft Wrapping
-@kbd{Meta-S} toggles the @option{-S} (@option{--softwrap}) command-line option.
+@kbd{M-S} toggles the @option{-S} (@option{--softwrap}) command-line option.
 
 @item Expert/No Help
-@kbd{Meta-X} toggles the @option{-x} (@option{--nohelp}) command-line option.
+@kbd{M-X} toggles the @option{-x} (@option{--nohelp}) command-line option.
 
 @item Color Syntax Highlighting
-@kbd{Meta-Y} toggles color syntax highlighting (if your nanorc defines syntaxes
---- @pxref{Syntax Highlighting}).
+@kbd{M-Y} toggles color syntax highlighting, when your nanorc defines syntaxes
+(@pxref{Syntax Highlighting}).
 
 @item Suspension
-@kbd{Meta-Z} toggles the @option{-z} (@option{--suspendable}) command-line option.
+@kbd{M-Z} toggles the @option{-z} (@option{--suspendable}) command-line option.
 
 @end table
 
