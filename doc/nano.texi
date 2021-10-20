@@ -88,7 +88,7 @@ This manual documents GNU @command{nano}, version 5.9.
 * Feature Toggles::
 * Nanorc Files::
 * Pico Compatibility::
-* Building and Configure Options::
+* Building and its Options::
 @end menu
 
 @end ifnottex
@@ -1862,16 +1862,16 @@ Or see the list at the end of the main internal help text (@kbd{^G}) instead.
 @end table
 
 
-@node Building and Configure Options
-@chapter Building and Configure Options
+@node Building and its Options
+@chapter Building and its Options
 
-Building @command{nano} from source is fairly straightforward if you are
+Building @command{nano} from source is straightforward if you are
 familiar with compiling programs with autoconf support:
 
 @blankline
 @example
-  tar xvzf nano-x.y.z.tar.gz
-  cd nano-x.y.z
+  tar -xf nano-x.y.tar.gz
+  cd nano-x.y
   ./configure
   make
   make install
@@ -1883,7 +1883,7 @@ The possible options to @code{./configure} are:
 @table @code
 
 @item --disable-browser
-Exclude the mini file browser that can be called with @kbd{^T} when
+Exclude the file browser that can be called with @kbd{^T} when
 wanting to read or write a file.
 
 @item --disable-color
@@ -1903,22 +1903,23 @@ things about using the editor.
 
 @item --disable-histories
 Exclude the code for handling the history files: the search and
-replace strings that were used, and the cursor position at which each
-file was closed.  This also eliminates the @option{-H} and @option{-P}
-command-line options, which switch on the logging of search/replace
-strings and cursor positions.
+replace strings that were used, the commands that were executed,
+and the cursor position at which each file was closed.
+This also eliminates the @option{-H} and @option{-P} command-line
+options, which switch on the storing of search/replace strings,
+executed commands, and cursor positions.
 
 @item --disable-justify
-Exclude the justify functions (@kbd{^J} and @kbd{M-J}).
+Exclude the text-justification functions (@kbd{^J} and @kbd{M-J}).
 
 @item --disable-libmagic
-Exclude the code for using the library of magic-number tests (for determining
-the file type and thus which syntax to use for coloring --- often the regexes
-for filename and header line will be enough).
+Exclude the code for using the library of magic-number tests (for
+determining the file type and thus which syntax to use for coloring ---
+in most cases the regexes for filename and header line will be enough).
 
 @item --disable-linenumbers
-Exclude the line-numbering function (@kbd{M-N}).  This also eliminates the
-@option{-l} command-line option, which turns line numbering on.
+Exclude the line-numbering function (@kbd{M-N}).  This also eliminates
+the @option{-l} command-line option, which turns line numbering on.
 
 @item --disable-mouse
 Exclude all mouse functionality.  This also eliminates the @option{-m}
@@ -1926,8 +1927,8 @@ command-line option, which enables the mouse functionality.
 
 @item --disable-multibuffer
 Exclude support for opening multiple files at a time and switching
-between them on the fly.  This also eliminates the @option{-F} command-line
-option, which causes a file to be read into a separate buffer by default.
+between them.  This also eliminates the @option{-F} command-line option,
+which causes a file to be read into a separate buffer by default.
 
 @item --disable-nanorc
 Exclude support for reading the nanorc files at startup.  With such
@@ -1938,7 +1939,7 @@ Disabling this also eliminates the @option{-I} command-line option,
 which inhibits the reading of nanorc files.
 
 @item --disable-operatingdir
-Exclude the code for setting the operating directory.  This also eliminates
+Exclude the code for setting an operating directory.  This also eliminates
 the @option{-o} command-line option, which sets the operating directory.
 
 @item --disable-speller
@@ -1946,7 +1947,8 @@ Exclude the code for spell checking.  This also eliminates the @option{-s}
 command-line option, which allows specifying an alternate spell checker.
 
 @item --disable-tabcomp
-Exclude tab completion (when nano asks for a filename or a search string).
+Exclude tab completion (when nano asks for a filename or search string
+or replace string or command to execute).
 
 @item --disable-wordcomp
 Exclude word completion (@kbd{^]}).
@@ -1958,13 +1960,13 @@ long-line wrapping on and off, respectively.
 
 @item --enable-tiny
 This option implies all of the above.  It also disables some other
-internals of the editor, like the marking code, the cut-to-end-of-line
-code, and the function toggles.  By using the enabling
-counterpart of the above options together with @option{--enable-tiny},
+internals of the editor, like the function toggles, the marking code,
+and the cut-to-end-of-line code.  By using the enabling counterpart
+of the above options together with @option{--enable-tiny},
 specific features can be switched back on --- but a few cannot.
 
 @item --enable-debug
-Include some code for runtime debugging output.  This can get pretty messy, so
+Include some code for runtime debugging output.  This can get messy, so
 chances are you only want this feature when you're working on the nano source.
 
 @item --disable-nls
@@ -1972,11 +1974,11 @@ Exclude Native Language support.  This will disable the use of any
 available GNU @command{nano} translations.
 
 @item --enable-utf8
-Include support for reading and writing Unicode files.
-This requires a wide version of the curses library.
+Include support for handling and displaying Unicode files.
+This requires a "wide" version of the curses library.
 
 @item --disable-utf8
-Exclude support for reading and writing Unicode files.  Normally the
+Exclude support for handling and displaying Unicode files.  Normally the
 configure script auto-detects whether to enable UTF-8 support or not.
 You can use this or the previous option to override that detection.
 
