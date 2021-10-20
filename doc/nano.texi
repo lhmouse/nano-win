@@ -393,7 +393,7 @@ The uniquely numbered files are stored in the specified directory.
 For the interface, use bold instead of reverse video.  This will be overridden
 by setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
 @code{functioncolor}, @code{numbercolor}, and/or @code{selectedcolor} in your
-nanorc file.  @xref{@code{set functioncolor}} for details.
+nanorc file.  @xref{@code{set keycolor}} for details.
 
 @item -E
 @itemx --tabstospaces
@@ -766,27 +766,27 @@ for more details).  The following global toggles are available:
 @node Nanorc Files
 @chapter Nanorc Files
 
-The nanorc files contain the default settings for @command{nano}.  During
-startup, if @option{--rcfile} is not given, @command{nano} will read two files:
-first the system-wide settings, from @file{/etc/nanorc} (the exact path
-might be different on your system), and then the user-specific settings,
-either from @file{~/.nanorc} or from @file{$XDG_CONFIG_HOME/nano/nanorc}
-or from @file{.config/nano/nanorc}, whichever exists first.
-If @option{--rcfile} is given, @command{nano} will read just the
-specified settings file.
+Nanorc files can be used to configure @command{nano} to your liking
+without using command-line options.  During startup @command{nano} will
+normally read two files: first the system-wide file, @file{/etc/nanorc}
+(the exact path may be different on your system), and then the user-specific
+file, either @file{~/.nanorc} or @file{$XDG_CONFIG_HOME/nano/nanorc} or
+@file{.config/nano/nanorc}, whichever exists first.
+However, if @option{--rcfile} is given, @command{nano} will skip the
+above files and will read just the specified settings file.
 
-A nanorc file accepts a series of "set" and "unset" commands, which can
-be used to configure @command{nano} on startup without using command-line
-options.  Additionally, there are some commands to define syntax highlighting
-and to rebind keys --- @pxref{Syntax Highlighting} and @ref{Rebinding Keys}.
-@command{nano} will read one command per line.
-All commands and keywords should be written in lowercase.
+A nanorc file can contain @command{set} and @command{unset} commands for
+various options (@pxref{Settings}).  It can also contain commands that
+define syntax highlighting (@pxref{Syntax Highlighting}) and commands
+that rebind keys (@ref{Rebinding Keys}).  Each command should be on a
+separate line, and all commands should be written in lowercase.
 
-Options in nanorc files take precedence over @command{nano}'s defaults, and
-command-line options override nanorc settings.  Also, options that do not
-take an argument are unset by default.  So using the @code{unset} command
-is only needed when wanting to override a setting of the system's nanorc
-file in your own nanorc.  Options that take an argument cannot be unset.
+Options that do not take an argument are unset by default.  So using
+the @code{unset} command is only needed when wanting to override a
+setting from the system's nanorc file in your own nanorc.  Options that
+take an argument cannot be unset, but can be assigned the empty string.
+
+Any command-line option overrides its nanorc setting, of course.
 
 Quotes inside the @var{characters} parameters below should not be escaped.
 The last double quote on the line will be seen as the closing quote.
@@ -868,7 +868,7 @@ Do not use the line below the title bar, leaving it entirely blank.
 @item set errorcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the status bar when an error message is displayed.
 The default value is @t{bold,white,red}.
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set fill @var{number}
 Set the target width for justifying and automatic hard-wrapping at this
@@ -877,9 +877,30 @@ at the width of the screen minus @var{number} columns, allowing the wrap
 point to vary along with the width of the screen if the screen is resized.
 The default value is @t{-8}.
 
-@anchor{@code{set functioncolor}}
 @item set functioncolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the concise function descriptions
+in the two help lines at the bottom of the screen.
+@xref{@code{set keycolor}} for valid color names.
+
+@item set guidestripe @var{number}
+Draw a vertical stripe at the given column, to help judge the width of the
+text.  (The color of the stripe can be changed with @code{set stripecolor}.)
+
+@item set historylog
+Save the last hundred search strings and replacement strings and
+executed commands, so they can be easily reused in later sessions.
+
+@item set indicator
+Display a "scrollbar" on the righthand side of the edit window.
+It shows the position of the viewport in the buffer
+and how much of the buffer is covered by the viewport.
+
+@item set jumpyscrolling
+Scroll the buffer contents per half-screen instead of per line.
+
+@anchor{@code{set keycolor}}
+@item set keycolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
+Use this color combination for the shortcut key combos
 in the two help lines at the bottom of the screen.
 Valid names for the foreground and background colors are:
 @code{red}, @code{green}, @code{blue},
@@ -900,27 +921,6 @@ Either @var{fgcolor} or ,@var{bgcolor} may be left out,
 and the pair may be preceded by @code{bold} and/or @code{italic}
 (separated by commas) to get a bold and/or slanting typeface,
 if your terminal can do those.
-
-@item set guidestripe @var{number}
-Draw a vertical stripe at the given column, to help judge the width of the
-text.  (The color of the stripe can be changed with @code{set stripecolor}.)
-
-@item set historylog
-Save the last hundred search strings and replacement strings and
-executed commands, so they can be easily reused in later sessions.
-
-@item set indicator
-Display a "scrollbar" on the righthand side of the edit window.
-It shows the position of the viewport in the buffer
-and how much of the buffer is covered by the viewport.
-
-@item set jumpyscrolling
-Scroll the buffer contents per half-screen instead of per line.
-
-@item set keycolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
-Use this color combination for the shortcut key combos
-in the two help lines at the bottom of the screen.
-@xref{@code{set functioncolor}} for valid color names.
 
 @item set linenumbers
 Display line numbers to the left of the text area.
@@ -962,7 +962,7 @@ The state flags are displayed only when @code{set stateflags} is used.
 @item set minicolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the minibar.
 (When this option is not specified, the colors of the title bar are used.)
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set mouse
 Enable mouse support, so that mouse clicks can be used to place the
@@ -987,7 +987,7 @@ When needed, use @code{unset breaklonglines} instead.
 
 @item set numbercolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for line numbers.
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set operatingdir "@var{directory}"
 @command{nano} will only read and write files inside "directory" and its
@@ -1005,7 +1005,7 @@ Preserve the XON and XOFF keys (@kbd{^Q} and @kbd{^S}).
 @item set promptcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the prompt bar.
 (When this option is not specified, the colors of the title bar are used.)
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set punct "@var{characters}"
 Set the characters treated as closing punctuation when justifying
@@ -1048,11 +1048,11 @@ Save a changed buffer automatically on exit (@kbd{^X}); don't prompt.
 Use this color combination for the indicator alias "scrollbar".
 (On terminal emulators that link to a libvte older than version 0.55,
 using a background color here does not work correctly.)
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set selectedcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for selected text.
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set showcursor
 Put the cursor on the highlighted item in the file browser, and show
@@ -1078,7 +1078,7 @@ Use the given program to do spell checking and correcting.
 @item set spotlightcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for highlighting a search match.
 The default value is @t{black,lightyellow}.
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set stateflags
 Use the top-right corner of the screen for showing some state flags:
@@ -1090,11 +1090,11 @@ filename in the center of the title bar.
 
 @item set statuscolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the status bar.
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set stripecolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the vertical guiding stripe.
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set suspendable
 Allow @command{nano} to be suspended (with @kbd{^Z} by default).
@@ -1109,7 +1109,7 @@ that a tab at that position would take up.
 
 @item set titlecolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the title bar.
-@xref{@code{set functioncolor}} for valid color names.
+@xref{@code{set keycolor}} for valid color names.
 
 @item set trimblanks
 Remove trailing whitespace from wrapped lines when automatic
