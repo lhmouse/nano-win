@@ -1212,9 +1212,9 @@ void update_undo(undo_type action)
 
 #ifdef ENABLE_WRAPPING
 /* When the current line is overlong, hard-wrap it at the furthest possible
- * whitespace character, and (if possible) prepend the remainder of the line
- * to the next line.  Return TRUE if wrapping occurred, and FALSE otherwise. */
-bool do_wrap(void)
+ * whitespace character, and prepend the excess part to an "overflow" line
+ * (when it already exists, otherwise create one). */
+void do_wrap(void)
 {
 	linestruct *line = openfile->current;
 		/* The line to be wrapped, if needed and possible. */
@@ -1243,7 +1243,7 @@ bool do_wrap(void)
 
 	/* If no wrapping point was found before end-of-line, we don't wrap. */
 	if (wrap_loc < 0 || lead_len + wrap_loc == line_len)
-		return FALSE;
+		return;
 
 	/* Adjust the wrap location to its position in the full line,
 	 * and step forward to the character just after the blank. */
@@ -1251,7 +1251,7 @@ bool do_wrap(void)
 
 	/* When now at end-of-line, no need to wrap. */
 	if (line->data[wrap_loc] == '\0')
-		return FALSE;
+		return;
 
 #ifndef NANO_TINY
 	add_undo(SPLIT_BEGIN, NULL);
@@ -1360,7 +1360,7 @@ bool do_wrap(void)
 	add_undo(SPLIT_END, NULL);
 #endif
 
-	return TRUE;
+	refresh_needed = TRUE;
 }
 #endif /* ENABLE_WRAPPING */
 

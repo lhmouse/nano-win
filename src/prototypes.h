@@ -493,7 +493,7 @@ void update_multiline_undo(ssize_t lineno, char *indentation);
 void update_undo(undo_type action);
 #endif /* !NANO_TINY */
 #ifdef ENABLE_WRAPPING
-bool do_wrap(void);
+void do_wrap(void);
 #endif
 #if defined(ENABLE_HELP) || defined(ENABLED_WRAPORJUSTIFY)
 ssize_t break_line(const char *textstart, ssize_t goal, bool snap_at_nl);

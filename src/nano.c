@@ -1465,9 +1465,8 @@ void inject(char *burst, size_t count)
 #endif
 
 #ifdef ENABLE_WRAPPING
-	/* Wrap the line when needed, and if so, schedule a refresh. */
-	if (ISSET(BREAK_LONG_LINES) && do_wrap())
-		refresh_needed = TRUE;
+	if (ISSET(BREAK_LONG_LINES))
+		do_wrap();
 #endif
 
 #ifndef NANO_TINY
