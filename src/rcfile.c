@@ -319,7 +319,7 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "findbracket"))
 		s->func = do_find_bracket;
 	else if (!strcmp(input, "wordcount"))
-		s->func = do_wordlinechar_count;
+		s->func = count_lines_words_and_characters;
 	else if (!strcmp(input, "recordmacro"))
 		s->func = record_macro;
 	else if (!strcmp(input, "runmacro"))

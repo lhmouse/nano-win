@@ -2919,9 +2919,9 @@ void do_formatter(void)
 #endif /* ENABLE_COLOR */
 
 #ifndef NANO_TINY
-/* Our own version of "wc".  Note that its character counts are in
+/* Our own version of "wc".  Note that the character count is in
  * multibyte characters instead of single-byte characters. */
-void do_wordlinechar_count(void)
+void count_lines_words_and_characters(void)
 {
 	linestruct *was_current = openfile->current;
 	size_t was_x = openfile->current_x;

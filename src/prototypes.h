@@ -516,7 +516,7 @@ void do_linter(void);
 void do_formatter(void);
 #endif
 #ifndef NANO_TINY
-void do_wordlinechar_count(void);
+void count_lines_words_and_characters(void);
 #endif
 void do_verbatim_input(void);
 void complete_a_word(void);
