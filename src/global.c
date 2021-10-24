@@ -617,7 +617,7 @@ void shortcut_init(void)
 		N_("Count the number of words, lines, and characters");
 #endif
 	const char *refresh_gist = N_("Refresh (redraw) the current screen");
-	const char *suspend_gist = N_("Suspend the editor (if suspension is enabled)");
+	const char *suspend_gist = N_("Suspend the editor (return to the shell)");
 #ifdef ENABLE_WORDCOMPLETION
 	const char *completion_gist = N_("Try and complete the current word");
 #endif
@@ -1379,7 +1379,6 @@ void shortcut_init(void)
 #ifdef ENABLE_MOUSE
 	add_to_sclist(MMAIN, "M-M", 0, do_toggle_void, USE_MOUSE);
 #endif
-	add_to_sclist(MMAIN, "M-Z", 0, do_toggle_void, SUSPENDABLE);
 #endif /* !NANO_TINY */
 
 	add_to_sclist(((MMOST & ~MMAIN) | MYESNO), "^C", 0, do_cancel, 0);
@@ -1523,8 +1522,6 @@ const char *flagtostr(int flag)
 			return N_("Conversion of typed tabs to spaces");
 		case USE_MOUSE:
 			return N_("Mouse support");
-		case SUSPENDABLE:
-			return N_("Suspension");
 		case LINE_NUMBERS:
 			return N_("Line numbering");
 		default:

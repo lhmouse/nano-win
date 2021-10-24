@@ -91,7 +91,7 @@ static const rcoption rcopts[] = {
 	{"speller", 0},
 #endif
 	{"suspend", SUSPENDABLE},  /* Deprecated; remove in 2022. */
-	{"suspendable", SUSPENDABLE},
+	{"suspendable", SUSPENDABLE},  /* Obsolete; remove in 2022. */
 	{"tempfile", SAVE_ON_EXIT},  /* Deprecated; remove in 2022. */
 #ifndef NANO_TINY
 	{"afterends", AFTER_ENDS},
@@ -482,9 +482,6 @@ keystruct *strtosc(const char *input)
 		else if (!strcmp(input, "mouse"))
 			s->toggle = USE_MOUSE;
 #endif
-		else if (!strcmp(input, "suspendable") ||
-		         !strcmp(input, "suspendenable"))  /* Deprecated; remove in 2022. */
-			s->toggle = SUSPENDABLE;
 		else
 #endif /* !NANO_TINY */
 		{

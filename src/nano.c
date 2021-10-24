@@ -639,10 +639,6 @@ void usage(void)
 	print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
 #ifndef NANO_TINY
 	print_opt("-y", "--afterends", N_("Make Ctrl+Right stop at word ends"));
-#endif
-	if (!ISSET(RESTRICTED))
-		print_opt("-z", "--suspendable", N_("Enable suspension"));
-#ifndef NANO_TINY
 	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
 	print_opt("-_", "--minibar", N_("Show a feedback bar at the bottom"));
 #endif
@@ -952,14 +948,13 @@ void do_suspend(int signal)
 #endif
 }
 
-/* Put nano to sleep (if suspension is enabled). */
+/* Put nano to sleep. */
 void do_suspend_void(void)
 {
-	if (!ISSET(SUSPENDABLE)) {
-		statusline(AHEM, _("Suspension is not enabled"));
-		beep();
-	} else
-		do_suspend(0);
+	if (in_restricted_mode())
+		return;
+
+	do_suspend(0);
 
 	ran_a_tool = TRUE;
 }
@@ -1059,9 +1054,6 @@ void regenerate_screen(void)
 /* Handle the global toggle specified in flag. */
 void do_toggle(int flag)
 {
-	if (flag == SUSPENDABLE && in_restricted_mode())
-		return;
-
 	TOGGLE(flag);
 	focusing = FALSE;
 
@@ -1104,7 +1096,7 @@ void do_toggle(int flag)
 	else if (!ISSET(MINIBAR) || !ISSET(STATEFLAGS) || flag == SMART_HOME ||
 						flag == NO_SYNTAX || flag == WHITESPACE_DISPLAY ||
 						flag == CUT_FROM_CURSOR || flag == TABS_TO_SPACES ||
-						flag == USE_MOUSE || flag == SUSPENDABLE) {
+						flag == USE_MOUSE) {
 		bool enabled = ISSET(flag);
 
 		if (flag == NO_HELP || flag == NO_SYNTAX)
@@ -1726,7 +1718,7 @@ int main(int argc, char **argv)
 		{"nowrap", 0, NULL, 'w'},
 #endif
 		{"nohelp", 0, NULL, 'x'},
-		{"suspendable", 0, NULL, 'z'},
+		{"suspendable", 0, NULL, 'z'},  /* Obsolete; remove in 2022. */
 #ifndef NANO_TINY
 		{"smarthome", 0, NULL, 'A'},
 		{"backup", 0, NULL, 'B'},
@@ -2033,7 +2025,6 @@ int main(int argc, char **argv)
 				break;
 #endif
 			case 'z':
-				SET(SUSPENDABLE);
 				break;
 #ifndef NANO_TINY
 			case '%':
@@ -2177,11 +2168,10 @@ int main(int argc, char **argv)
 	if (ISSET(BOLD_TEXT))
 		hilite_attribute = A_BOLD;
 
-	/* When in restricted mode, disable backups, suspending, and history files,
-	 * since they allow writing to files not specified on the command line. */
+	/* When in restricted mode, disable backups and history files, since they
+	 * would allow writing to files not specified on the command line. */
 	if (ISSET(RESTRICTED)) {
 		UNSET(MAKE_BACKUP);
-		UNSET(SUSPENDABLE);
 #ifdef ENABLE_NANORC
 		UNSET(HISTORYLOG);
 		UNSET(POSITIONLOG);
