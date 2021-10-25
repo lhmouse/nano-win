@@ -1,6 +1,6 @@
 ## Syntax highlighting for groff.
 
-syntax groff "(/tmac\.[^/]+$|\.(m[ems]|rof|tmac)$)"
+syntax groff "\.(m[ems]|rof|tmac)$|/tmac\.[^/]+$"
 comment ".\""
 
 # The argument of .ds or .nr
