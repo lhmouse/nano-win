@@ -265,10 +265,10 @@ void to_next_block(void)
 	edit_redraw(was_current, CENTERING);
 }
 
-/* Move to the previous word.  If allow_punct is TRUE, treat punctuation
- * as part of a word. */
-void do_prev_word(bool allow_punct)
+/* Move to the previous word. */
+void do_prev_word(void)
 {
+	bool punctuation_as_letters = ISSET(WORD_BOUNDS);
 	bool seen_a_word = FALSE, step_forward = FALSE;
 
 	/* Move backward until we pass over the start of a word. */
@@ -286,7 +286,7 @@ void do_prev_word(bool allow_punct)
 												openfile->current_x);
 
 		if (is_word_char(openfile->current->data + openfile->current_x,
-								allow_punct)) {
+								punctuation_as_letters)) {
 			seen_a_word = TRUE;
 			/* If at the head of a line now, this surely is a word start. */
 			if (openfile->current_x == 0)
@@ -309,12 +309,12 @@ void do_prev_word(bool allow_punct)
 }
 
 /* Move to the next word.  If after_ends is TRUE, stop at the ends of words
- * instead of their beginnings.  If allow_punct is TRUE, treat punctuation as
- * part of a word.  Return TRUE if we started on a word, and FALSE otherwise. */
-bool do_next_word(bool after_ends, bool allow_punct)
+ * instead of at their beginnings.  Return TRUE if we started on a word. */
+bool do_next_word(bool after_ends)
 {
+	bool punctuation_as_letters = ISSET(WORD_BOUNDS);
 	bool started_on_word = is_word_char(openfile->current->data +
-								openfile->current_x, allow_punct);
+								openfile->current_x, punctuation_as_letters);
 	bool seen_space = !started_on_word;
 #ifndef NANO_TINY
 	bool seen_word = started_on_word;
@@ -341,7 +341,7 @@ bool do_next_word(bool after_ends, bool allow_punct)
 			/* If this is a word character, continue; else it's a separator,
 			 * and if we've already seen a word, then it's a word end. */
 			if (is_word_char(openfile->current->data + openfile->current_x,
-								allow_punct))
+								punctuation_as_letters))
 				seen_word = TRUE;
 #ifdef ENABLE_UTF8
 			else if (is_zerowidth(openfile->current->data + openfile->current_x))
@@ -360,7 +360,7 @@ bool do_next_word(bool after_ends, bool allow_punct)
 			/* If this is not a word character, then it's a separator; else
 			 * if we've already seen a separator, then it's a word start. */
 			if (!is_word_char(openfile->current->data + openfile->current_x,
-								allow_punct))
+								punctuation_as_letters))
 				seen_space = TRUE;
 			else if (seen_space)
 				break;
@@ -370,25 +370,23 @@ bool do_next_word(bool after_ends, bool allow_punct)
 	return started_on_word;
 }
 
-/* Move to the previous word in the file, treating punctuation as part of a
- * word if the WORD_BOUNDS flag is set, and update the screen afterwards. */
+/* Move to the previous word in the file, and update the screen afterwards. */
 void to_prev_word(void)
 {
 	linestruct *was_current = openfile->current;
 
-	do_prev_word(ISSET(WORD_BOUNDS));
+	do_prev_word();
 
 	edit_redraw(was_current, FLOWING);
 }
 
 /* Move to the next word in the file.  If the AFTER_ENDS flag is set, stop
- * at word ends instead of beginnings.  If the WORD_BOUNDS flag is set, treat
- * punctuation as part of a word.  Update the screen afterwards. */
+ * at word ends instead of beginnings.  Update the screen afterwards. */
 void to_next_word(void)
 {
 	linestruct *was_current = openfile->current;
 
-	do_next_word(ISSET(AFTER_ENDS), ISSET(WORD_BOUNDS));
+	do_next_word(ISSET(AFTER_ENDS));
 
 	edit_redraw(was_current, FLOWING);
 }

@@ -360,8 +360,8 @@ void to_para_end(void);
 #endif
 void to_prev_block(void);
 void to_next_block(void);
-void do_prev_word(bool allow_punct);
-bool do_next_word(bool after_ends, bool allow_punct);
+void do_prev_word(void);
+bool do_next_word(bool after_ends);
 void to_prev_word(void);
 void to_next_word(void);
 void do_home(void);

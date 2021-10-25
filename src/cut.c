@@ -185,7 +185,7 @@ void chop_word(bool forward)
 	 * on the edge of the original line, then put the cursor on that
 	 * edge instead, so that lines will not be joined unexpectedly. */
 	if (!forward) {
-		do_prev_word(ISSET(WORD_BOUNDS));
+		do_prev_word();
 		if (openfile->current != is_current) {
 			if (is_current_x > 0) {
 				openfile->current = is_current;
@@ -194,7 +194,7 @@ void chop_word(bool forward)
 				openfile->current_x = strlen(openfile->current->data);
 		}
 	} else {
-		do_next_word(ISSET(AFTER_ENDS), ISSET(WORD_BOUNDS));
+		do_next_word(ISSET(AFTER_ENDS));
 		if (openfile->current != is_current &&
 							is_current->data[is_current_x] != '\0') {
 			openfile->current = is_current;
