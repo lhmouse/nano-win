@@ -1,10 +1,7 @@
 ## Syntax highlighting for (Postgres) SQL scripts.
 
-syntax sql "\.sql[2345s~]?$"
+syntax sql "\.sql$"
 comment "-- "
-
-# Functions.
-color white "\<[a-z_]*\("
 
 # Types.
 color green "\<(int2|smallint|int4|int|integer|int8|bigint|decimal|numeric|real|double precision|(small|big)?serial)\>"
@@ -33,37 +30,16 @@ color blue "\<(PARSER|PREPARED?|PRIVILEGES|REASSIGN|REFRESH|RELEASE|RESET|REVOKE
 color blue "\<(SAVEPOINT|SCHEMA|SEARCH|SECURITY|SELECT|SEQUENCE|SERVER|SESSION|SET|SHOW|SPACE|START|SYSTEM)\>"
 color blue "\<(TABLE|TEXT|TO|TRANSACTION|TYPE|UPDATE|USER|VACUUM|VALUES|VIEW|WHERE|WITH|WRAPPER)\>"
 
-# Strings.
-color brightyellow "<[^=       ]*>" ""(\.|[^"])*""
-
 # Trailing whitespace.
 color ,green "[[:space:]]+$"
 
-# Regular expressions.
-color brightmagenta "/([^/]|(\\/))*/[iomx]*" "%r\{([^}]|(\\}))*\}[iomx]*"
-
-# Shell command expansion, between `backticks` or like %x{this}.
-color brightblue "`[^`]*`" "%x\{[^}]*\}"
-
-# Strings, double-quoted.
-color green ""([^"]|(\\"))*"" "%[QW]?(![^!]*!|\$[^$]*\$|\^[^^]*\^)"
-color green "%[QW]?(\([^)]*\)|<[^>]*>|\[[^]]*\]|\{[^}]*\})"
-
-# Expression substitution for inside double-quoted strings, "like #{this}".
-color brightgreen "#\{[^}]*\}"
-
-# Strings, single-quoted.
-color green "'([^']|(\\'))*'" "%[qw](![^!]*!|\$[^$]*\$|\^[^^]*\^)"
-color green "%[qw](\([^)]*\)|<[^>]*>|\[[^]]*\]|\{[^}]*\})"
+# Strings, double-quoted and single-quoted.
+color green ""([^"]|\\")*"|'([^']|\\')*'"
 
 # Comments.
-color red "##?([^{].*|$)"
-color red "--([^{].*|$)"
+color red "--.*"
 color brightblue "//.*"
 color brightblue start="/\*" end="\*/"
-
-# PostgreSQL markings.
-color red "--"
 
 # PostgreSQL default schemas.
 color brightred "\<(pg_catalog|public)\>"
