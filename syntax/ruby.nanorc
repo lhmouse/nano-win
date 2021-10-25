@@ -30,8 +30,9 @@ color brightgreen "#\{[^}]*\}"
 color green "'([^']|\\')*'" "%[qw](\{[^}]*\}|\([^)]*\)|<[^>]*>|\[[^]]*\]|\$[^$]*\$|\^[^^]*\^|![^!]*!)"
 
 # Comments.
-color cyan "#([^{].*|$)"
+color cyan "#([^{#].*|$)"
 color brightcyan "##([^{].*|$)"
+color cyan start="^=begin\>" end="^=end\>"
 
 # Some common markers.
 color brightcyan "XXX|TODO|FIXME|\?\?\?"
