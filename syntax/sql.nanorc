@@ -12,13 +12,6 @@ color green "\<(point|line|lseg|path|box|polygon|circle)\>"
 color green "\<(cidr|inet|macaddr)\>"
 color green "\<(daterange|int4range|int8range|numrange|tsrange|tstzrange)\>"
 
-# Structure.
-color brightyellow "\<(CASE|CLASS|DEFAULT|DO|ELSE|ELSEIF|FOR|FOREACH|FUNCTION|IF|IS NULL)\>"
-color brightyellow "\<(NEW|PRIVATE|PUBLIC|RETURN|RETURNS|SETOF|SWITCH|THEN|WHEN|WHILE)>"
-
-# Control flow.
-color magenta "\<(EXCEPTION|NOTICE|RAISE|RETURN)\>"
-
 # SQL keywords.
 color blue "\<(ABORT|AGGREGATE|ALTER|ANALYZE|AND|AS|AUTHORIZATION|BEGIN|CAST|CHECKPOINT|CLASS|CLOSE)\>"
 color blue "\<(CLUSTER|COLLATION|COMMENT|COMMIT|CONFIGURATION|CONSTRAINTS|CONVERSION|COPY|CREATE)\>"
@@ -29,6 +22,11 @@ color blue "\<(MAPPING FOR|MATERIALIZED|MOVE|NOTIFY|OBJECT|OPERATOR|OPTIONS|OWNE
 color blue "\<(PARSER|PREPARED?|PRIVILEGES|REASSIGN|REFRESH|RELEASE|RESET|REVOKE|ROLE|ROLLBACK|RULE)\>"
 color blue "\<(SAVEPOINT|SCHEMA|SEARCH|SECURITY|SELECT|SEQUENCE|SERVER|SESSION|SET|SHOW|SPACE|START|SYSTEM)\>"
 color blue "\<(TABLE|TEXT|TO|TRANSACTION|TYPE|UPDATE|USER|VACUUM|VALUES|VIEW|WHERE|WITH|WRAPPER)\>"
+
+# Flow control.
+color brightyellow "\<(CASE|WHEN|IF|THEN|ELSE|ELSE?IF|LOOP|CONTINUE|EXIT)\>"
+color brightyellow "\<(FOR|FOREACH|IN|WHILE|END (CASE|IF|LOOP))\>"
+color magenta "\<(RAISE|EXCEPTION|NOTICE|RETURN)\>"
 
 # Trailing whitespace.
 color ,green "[[:space:]]+$"
