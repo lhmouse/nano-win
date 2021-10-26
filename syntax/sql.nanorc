@@ -4,13 +4,13 @@ syntax sql "\.sql$"
 comment "-- "
 
 # Types.
-color green "\<(int2|smallint|int4|int|integer|int8|bigint|decimal|numeric|real|double precision|(small|big)?serial)\>"
+color green "\<(integer|int[248]|(big|small)?(int|serial)|decimal|numeric|real|double precision)\>"
 color green "\<(bit( varying)?|boolean|bytea|enum|money|tsvector|uuid)\>"
 color green "\<(char|varchar|character( varying)?|text)\>"
-color green "\<(date|interval|time(stamp)?( with time zone| without time zone)?)\>"
-color green "\<(point|line|lseg|path|box|polygon|circle)\>"
-color green "\<(cidr|inet|macaddr)\>"
-color green "\<(daterange|int4range|int8range|numrange|tsrange|tstzrange)\>"
+color green "\<(date|interval|time(stamp)?( with(out)? time zone)?)\>"
+color green "\<(box|circle|line|lseg|path|point|polygon)\>"
+color green "\<(cidr|inet|macaddr8?)\>"
+color green "\<(date|int[48]|num|ts|tstz)range\>"
 
 # SQL keywords.
 color blue "\<(ABORT|AGGREGATE|ALTER|ANALYZE|AND|AS|AUTHORIZATION|BEGIN|CAST|CHECKPOINT|CLASS|CLOSE)\>"
