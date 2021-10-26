@@ -12,7 +12,7 @@ color brightred "^[[:blank:]]*[.0-9A-Za-z_]*:"
 color brightcyan "^[[:blank:]]*#[[:blank:]]*(define|undef|include|ifn?def|endif|elif|else|if|warning|error)"
 
 # Strings.
-color brightyellow "<[^= 	]*>" ""(\\.|[^"])*""
+color brightyellow "<[^= 	]*>|"(\\.|[^"\])*""
 
 # Comments.
 color brightblue "//.*"

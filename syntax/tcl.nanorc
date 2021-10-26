@@ -17,7 +17,7 @@ color green "\<(alarm|auto_load_pkg|bsearch|catclose|catgets|catopen|ccollate|cc
 # Syntax:
 color brightblue "\<proc[[:blank:]]|\{|\}"
 color green "\(|\)|\;|`|\\|\$|<|>|!|=|&|\|"
-color brightyellow ""(\\.|[^"])*"|'(\\.|[^'])*'"
+color brightyellow ""(\\.|[^"\])*"|'(\\.|[^'\])*'"
 color brightred "\$\{?[0-9A-Za-z_!@#$*?-]+\}?"
 
 # Trailing whitespace:
