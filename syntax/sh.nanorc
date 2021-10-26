@@ -33,7 +33,7 @@ color brightred "\$\{[#!]?([-@*#?$!]|[0-9]+|[[:alpha:]_][[:alnum:]_]*)(\[([[:bla
 color cyan "(^|[[:blank:]])#.*"
 
 # Strings.
-color brightyellow ""(\\.|[^"])*"" "'(\\.|[^'])*'"
+color brightyellow ""(\\.|[^"])*"|'(\\.|[^'])*'"
 
 # Trailing whitespace.
 color ,green "[[:space:]]+$"

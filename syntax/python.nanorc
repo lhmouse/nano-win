@@ -24,8 +24,7 @@ color brightcyan "\<(exec|print)([[:blank:]]|$)"
 color brightmagenta "\<(False|None|True)\>"
 
 # Mono-quoted strings.
-color brightgreen "'([^'\]|\\.)*'|'''"
-color brightgreen ""([^"\]|\\.)*"|""""
+color brightgreen "'([^'\]|\\.)*'|"([^"\]|\\.)*"|'''|""""
 color normal "'''|""""
 # Comments.
 color brightred "(^|[[:blank:]])#.*"
