@@ -54,7 +54,7 @@ color brightmagenta "\(|\)|\[|\]|\{|\}"
 color brightcyan "^#!.*"
 
 # Strings
-color red ""(\\.|[^"\])*"|'(\\.|[^'\])*'"
+color red ""([^"\]|\\.)*"|'([^'\]|\\.)*'"
 
 # Simple comments and multiline comments
 color green "--.*"

@@ -34,8 +34,8 @@ color red "\<[0-9]+i\>"
 
 # Strings and characters; slightly fuzzy.
 color red "\<(true|false|nil|iota|_)\>"
-color red ""(\\.|[^"\])*"|'(\\.|[^'\])+'"
-color red start=""(\\.|[^"\])*\\[[:blank:]]*$" end="^(\\.|[^"\])*""
+color red ""([^"\]|\\.)*"|'([^'\]|\\.)+'"
+color red start=""([^"\]|\\.)*\\[[:blank:]]*$" end="^([^"\]|\\.)*""
 
 # Comments.
 color brightblue "//.*"

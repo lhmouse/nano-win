@@ -41,7 +41,7 @@ color blue "\<(awk|cat|cd|chmod|chown|cp|echo|env|find|e?grep|ln|make|mkdir|mv|p
 ## Comments (doesn't work that well):
 color yellow "(^|[[:space:]])#.*"
 ## Strings (doesn't work that well):
-color brightyellow ""(\\.|[^"\])*"|'(\\.|[^'\])*'"
+color brightyellow ""([^"\]|\\.)*"|'([^'\]|\\.)*'"
 ## Trailing space is bad!
 color ,green "[[:space:]]+$"
 ## Mixed whitespace is also bad.
