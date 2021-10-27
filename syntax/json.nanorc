@@ -14,7 +14,7 @@ color brightmagenta "".+""
 # Hex numbers (used as value).
 color green ":[[:blank:]]*"#[0-9abcdefABCDEF]+""
 # Escapes.
-color green "\\\\" "\\"" "\\[bfnrt]" "\\u[0-9abcdefABCDEF]{4})"
+color green "\\["\/bfnrt]" "\\u[0-9abcdefABCDEF]{4}"
 # Special words.
 color green "\<(true|false|null)\>"
 

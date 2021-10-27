@@ -11,8 +11,7 @@ color brightcyan "\<define(-macro|-module|-public|-syntax)?\>"
 # Quoted symbols
 color brightyellow "'\<(\w|-)+\>"
 # Chars
-color brightmagenta "#\\."
-color brightmagenta "#\\\w+\>"
+color brightmagenta "#\\(.|\w+)"
 # Booleans
 color brightred "(#t|#f)\>"
 # Keywords

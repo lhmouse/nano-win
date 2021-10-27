@@ -4,7 +4,7 @@ syntax m "\.m$"
 magic "Objective-C source"
 comment "//"
 
-# Stuffs,
+# Stuffs.
 color brightwhite "\<[A-Z_][0-9A-Z_]+\>"
 color green "\<(float|double|BOOL|bool|char|int|short|long|id|sizeof|enum|void|static|const|struct|union|typedef|extern|(un)?signed|inline)\>"
 color green "\<[[:alpha:]_][[:alnum:]_]*_t\>"
@@ -24,7 +24,7 @@ color magenta "[[:alnum:]]*:"
 color white "\[[^][:blank:]]*\]"
 
 # Strings.
-color brightblack "'([^'\]|(\\["'abfnrtv\]))'" "'\\(([0-3]?[0-7]{1,2}))'" "'\\x[0-9A-Fa-f]{1,2}'"
+color brightblack "'([^'\]|\\(["'\abfnrtv]|x[0-9A-Fa-f]{1,2}|[0-3]?[0-7]{1,2}))'"
 color brightblack "<[^= 	]*>|"([^"\]|\\.)*""
 color brightblue "@"([^"\]|\\.)*""
 

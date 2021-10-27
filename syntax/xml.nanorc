@@ -6,10 +6,10 @@ magic "(XML|SGML) (sub)?document"
 comment "<!--|-->"
 
 # The entire content of the tag:
-color green  start="<" end=">"
+color green start="<" end=">"
 
 # The start and the end of the tag:
-color cyan   "<[^> ]+" ">"
+color cyan "<[^> ]+" ">"
 
 # The strings inside the tag:
 color magenta ""[^"]*""
@@ -19,4 +19,4 @@ color yellow start="<!DOCTYPE" end="[/]?>"
 color yellow start="<!--" end="-->"
 
 # Escapes:
-color red    "&[^;]*;"
+color red "&[^;]*;"
