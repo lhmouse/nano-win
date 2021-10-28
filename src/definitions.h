@@ -357,7 +357,8 @@ enum {
 	BOOKSTYLE,
 	STATEFLAGS,
 	USE_MAGIC,
-	MINIBAR
+	MINIBAR,
+	ZERO
 };
 
 /* Structure types. */

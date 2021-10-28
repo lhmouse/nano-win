@@ -1355,6 +1355,7 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
 	/* Group of "Appearance" toggles. */
+	add_to_sclist(MMAIN, "M-Z", 0, do_toggle, ZERO);
 	add_to_sclist((MMOST|MBROWSER|MYESNO) & ~MFINDINHELP, "M-X", 0, do_toggle, NO_HELP);
 	add_to_sclist(MMAIN, "M-C", 0, do_toggle, CONSTANT_SHOW);
 	add_to_sclist(MMAIN, "M-S", 0, do_toggle, SOFTWRAP);
@@ -1524,6 +1525,8 @@ const char *flagtostr(int flag)
 			return N_("Mouse support");
 		case LINE_NUMBERS:
 			return N_("Line numbering");
+		case ZERO:
+			return N_("Hidden interface");
 		default:
 			die("Bad toggle -- please report a bug\n");
 			return "";

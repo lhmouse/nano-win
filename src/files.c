@@ -819,7 +819,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 						"Read %zu lines (Converted from DOS format)",
 						num_lines), num_lines);
 #endif
-	else
+	else if (!ISSET(ZERO))
 		statusline(HUSH, P_("Read %zu line", "Read %zu lines",
 						num_lines), num_lines);
 
@@ -898,7 +898,7 @@ int open_file(const char *filename, bool new_one, FILE **f)
 			statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
 			close(fd);
 			fd = -1;
-		} else
+		} else if (!ISSET(ZERO))
 			statusbar(_("Reading..."));
 	}
 
@@ -2025,7 +2025,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 	}
 
 #ifndef NANO_TINY
-	if (ISSET(MINIBAR) && LINES > 1 && annotate)
+	if (ISSET(MINIBAR) && !ISSET(ZERO) && LINES > 1 && annotate)
 		report_size = TRUE;
 	else
 #endif

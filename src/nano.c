@@ -414,26 +414,26 @@ void window_init(void)
 
 	/* If the terminal is very flat, don't set up a title bar. */
 	if (LINES < 3) {
-		editwinrows = 1;
+		editwinrows = (ISSET(ZERO) ? LINES : 1);
 		/* Set up two subwindows.  If the terminal is just one line,
 		 * edit window and status-bar window will cover each other. */
-		edit = newwin(1, COLS, 0, 0);
+		edit = newwin(editwinrows, COLS, 0, 0);
 		bottomwin = newwin(1, COLS, LINES - 1, 0);
 	} else {
 		int toprows = ((ISSET(EMPTY_LINE) && LINES > 5) ? 2 : 1);
 		int bottomrows = ((ISSET(NO_HELP) || LINES < 5) ? 1 : 3);
 
 #ifndef NANO_TINY
-		if (ISSET(MINIBAR))
+		if (ISSET(MINIBAR) || ISSET(ZERO))
 			toprows = 0;
 #endif
-		editwinrows = LINES - toprows - bottomrows;
+		editwinrows = LINES - toprows - bottomrows + (ISSET(ZERO) ? 1 : 0);
 
 		/* Set up the normal three subwindows. */
 		if (toprows > 0)
 			topwin = newwin(toprows, COLS, 0, 0);
 		edit = newwin(editwinrows, COLS, toprows, 0);
-		bottomwin = newwin(bottomrows, COLS, toprows + editwinrows, 0);
+		bottomwin = newwin(bottomrows, COLS, LINES - bottomrows, 0);
 	}
 
 	/* In case the terminal shrunk, make sure the status line is clear. */
@@ -653,6 +653,7 @@ void usage(void)
 	print_opt("-y", "--afterends", N_("Make Ctrl+Right stop at word ends"));
 	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
 	print_opt("-_", "--minibar", N_("Show a feedback bar at the bottom"));
+	print_opt("-0", "--zero", N_("Hide all bars, use whole terminal"));
 #endif
 #ifdef HAVE_LIBMAGIC
 	print_opt("-!", "--magic", N_("Also try magic to determine syntax"));
@@ -1071,6 +1072,7 @@ void toggle_this(int flag)
 
 	switch (flag) {
 		case NO_HELP:
+		case ZERO:
 			window_init();
 			draw_all_subwindows();
 			break;
@@ -1096,7 +1098,10 @@ void toggle_this(int flag)
 #endif
 	}
 
-	if (ISSET(STATEFLAGS) && (flag == AUTOINDENT ||
+	if (flag == ZERO)
+		return;
+
+	if (ISSET(STATEFLAGS) && !ISSET(ZERO) && (flag == AUTOINDENT ||
 							flag == BREAK_LONG_LINES || flag == SOFTWRAP)) {
 		if (ISSET(MINIBAR))
 			return;
@@ -1104,12 +1109,16 @@ void toggle_this(int flag)
 			titlebar(NULL);
 	}
 
-	if (ISSET(MINIBAR) && (flag == NO_HELP || flag == LINE_NUMBERS))
+	if ((ISSET(MINIBAR) || ISSET(ZERO)) && (flag == NO_HELP || flag == LINE_NUMBERS))
 		return;
 
-	if (flag == CONSTANT_SHOW)
-		wipe_statusbar();
-	else {
+	if (flag == CONSTANT_SHOW) {
+		if (ISSET(ZERO)) {
+			statusline(AHEM, _("Not possible in barless mode"));
+			TOGGLE(flag);
+		} else if (!ISSET(MINIBAR))
+			wipe_statusbar();
+	} else {
 		bool enabled = ISSET(flag);
 
 		if (flag == NO_HELP || flag == NO_SYNTAX)
@@ -1760,6 +1769,7 @@ int main(int argc, char **argv)
 		{"afterends", 0, NULL, 'y'},
 		{"stateflags", 0, NULL, '%'},
 		{"minibar", 0, NULL, '_'},
+		{"zero", 0, NULL, '0'},
 #endif
 #ifdef HAVE_LIBMAGIC
 		{"magic", 0, NULL, '!'},
@@ -1803,7 +1813,7 @@ int main(int argc, char **argv)
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
 
-	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
+	while ((optchr = getopt_long(argc, argv, "0ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
 				"abcdef:ghijklmno:pqr:s:tuvwxyz$%_!", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -2045,6 +2055,9 @@ int main(int argc, char **argv)
 				break;
 			case '_':
 				SET(MINIBAR);
+				break;
+			case '0':
+				SET(ZERO);
 				break;
 #endif
 #ifdef HAVE_LIBMAGIC
@@ -2514,24 +2527,29 @@ int main(int argc, char **argv)
 			bottombars(MMAIN);
 
 #ifndef NANO_TINY
-		if (ISSET(MINIBAR) && LINES > 1 && lastmessage < REMARK)
+		if (ISSET(MINIBAR) && !ISSET(ZERO) && LINES > 1 && lastmessage < REMARK)
 			minibar();
 		else
 #endif
 		/* Update the displayed current cursor position only when there
 		 * is no message and no keys are waiting in the input buffer. */
 		if (ISSET(CONSTANT_SHOW) && lastmessage == VACUUM && LINES > 1 &&
-										get_key_buffer_len() == 0)
+								!ISSET(ZERO) && get_key_buffer_len() == 0)
 			report_cursor_position();
 
 		as_an_at = TRUE;
 
-		/* Refresh just the cursor position or the entire edit window. */
-		if (!refresh_needed) {
-			place_the_cursor();
-			wnoutrefresh(edit);
-		} else if (LINES > 1 || lastmessage == VACUUM)
+		if (refresh_needed && (LINES > 1 || lastmessage == VACUUM))
 			edit_refresh();
+
+		/* When there are no bars, redraw a relevant status message. */
+		if (ISSET(ZERO) && lastmessage > HUSH) {
+			redrawwin(bottomwin);
+			wnoutrefresh(bottomwin);
+		}
+
+		place_the_cursor();
+		wnoutrefresh(edit);
 
 		errno = 0;
 		focusing = TRUE;

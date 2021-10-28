@@ -192,6 +192,9 @@ void read_keys_from(WINDOW *win)
 	if (reveal_cursor && !hide_cursor && (LINES > 1 || lastmessage <= HUSH))
 		curs_set(1);
 
+	if (ISSET(ZERO) && openfile->current_y == editwinrows - 1 && lastmessage > HUSH)
+		curs_set(0);
+
 #ifndef NANO_TINY
 	if (currmenu == MMAIN && (spotlighted || ((ISSET(MINIBAR) || LINES == 1) &&
 						lastmessage > HUSH &&
@@ -224,7 +227,7 @@ void read_keys_from(WINDOW *win)
 					wnoutrefresh(edit);
 					curs_set(1);
 				}
-				if (ISSET(MINIBAR) && LINES > 1)
+				if (ISSET(MINIBAR) && !ISSET(ZERO) && LINES > 1)
 					minibar();
 				as_an_at = TRUE;
 				place_the_cursor();
@@ -1706,7 +1709,7 @@ void check_statusblank(void)
 		wipe_statusbar();
 
 	/* If the subwindows overlap, make sure to show the edit window now. */
-	if (LINES == 1)
+	if (currmenu == MMAIN && (ISSET(ZERO) || LINES == 1))
 		edit_refresh();
 }
 
@@ -3328,6 +3331,8 @@ bool current_is_above_screen(void)
 		return (openfile->current->lineno < openfile->edittop->lineno);
 }
 
+#define SHIM  (ISSET(ZERO) && (currmenu == MREPLACEWITH || currmenu == MYESNO) ? 1 : 0)
+
 /* Return TRUE if current[current_x] is beyond the viewport. */
 bool current_is_below_screen(void)
 {
@@ -3338,14 +3343,14 @@ bool current_is_below_screen(void)
 
 		/* If current[current_x] is more than a screen's worth of lines after
 		 * edittop at column firstcolumn, it's below the screen. */
-		return (go_forward_chunks(editwinrows - 1, &line, &leftedge) == 0 &&
+		return (go_forward_chunks(editwinrows - 1 - SHIM, &line, &leftedge) == 0 &&
 						(line->lineno < openfile->current->lineno ||
 						(line->lineno == openfile->current->lineno &&
 						leftedge < leftedge_for(xplustabs(), openfile->current))));
 	} else
 #endif
 		return (openfile->current->lineno >=
-						openfile->edittop->lineno + editwinrows);
+						openfile->edittop->lineno + editwinrows - SHIM);
 }
 
 /* Return TRUE if current[current_x] is outside the viewport. */

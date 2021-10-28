@@ -122,6 +122,7 @@ static const rcoption rcopts[] = {
 	{"wordbounds", WORD_BOUNDS},
 	{"wordchars", 0},
 	{"zap", LET_THEM_ZAP},
+	{"zero", ZERO},
 #endif
 #ifdef ENABLE_COLOR
 	{"titlecolor", 0},
@@ -451,6 +452,8 @@ keystruct *strtosc(const char *input)
 		s->func = do_toggle;
 		if (!strcmp(input, "nohelp"))
 			s->toggle = NO_HELP;
+		else if (!strcmp(input, "zero"))
+			s->toggle = ZERO;
 		else if (!strcmp(input, "constantshow"))
 			s->toggle = CONSTANT_SHOW;
 		else if (!strcmp(input, "softwrap"))
