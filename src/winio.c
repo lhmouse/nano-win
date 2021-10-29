@@ -250,8 +250,10 @@ void read_keys_from(WINDOW *win)
 
 #ifndef NANO_TINY
 	/* Cancel the highlighting of a search match, if there still is one. */
-	refresh_needed |= spotlighted;
-	spotlighted = FALSE;
+	if (currmenu == MMAIN) {
+		refresh_needed |= spotlighted;
+		spotlighted = FALSE;
+	}
 
 	/* If we got a SIGWINCH, get out as the win argument is no longer valid. */
 	if (input == KEY_WINCH)
