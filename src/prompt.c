@@ -771,6 +771,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			titlebar(NULL);
 			focusing = FALSE;
 			edit_refresh();
+			focusing = TRUE;
 		}
 #endif
 		else
