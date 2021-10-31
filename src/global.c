@@ -1366,7 +1366,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-Y", 0, do_toggle_void, NO_SYNTAX);
 #endif
 
-	/* Group of "Editing-behavior" toggles. */
+	/* Group of "Behavior" toggles. */
 	add_to_sclist(MMAIN, "M-H", 0, do_toggle_void, SMART_HOME);
 	add_to_sclist(MMAIN, "M-I", 0, do_toggle_void, AUTOINDENT);
 	add_to_sclist(MMAIN, "M-K", 0, do_toggle_void, CUT_FROM_CURSOR);
@@ -1374,8 +1374,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-L", 0, do_toggle_void, BREAK_LONG_LINES);
 #endif
 	add_to_sclist(MMAIN, "M-O", 0, do_toggle_void, TABS_TO_SPACES);
-
-	/* Group of "Peripheral-feature" toggles. */
 #ifdef ENABLE_MOUSE
 	add_to_sclist(MMAIN, "M-M", 0, do_toggle_void, USE_MOUSE);
 #endif

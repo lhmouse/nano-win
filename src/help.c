@@ -304,7 +304,8 @@ void help_init(void)
 				if (s->toggle && s->ordinal == counter) {
 					ptr += sprintf(ptr, "%s\t\t %s %s\n", (s->menus & MMAIN ? s->keystr : ""),
 								_(flagtostr(s->toggle)), _("enable/disable"));
-					if (s->toggle == NO_SYNTAX || s->toggle == TABS_TO_SPACES)
+					/* Add a blank like between two groups. */
+					if (s->toggle == NO_SYNTAX)
 						ptr += sprintf(ptr, "\n");
 					break;
 				}
