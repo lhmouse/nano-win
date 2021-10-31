@@ -167,10 +167,6 @@
 ## M = mark, L = hard-wrapping long lines, R = recording, S = soft-wrapping.
 # set stateflags
 
-## Allow nano to be suspended (with ^Z by default).
-# set suspendable
-## (The old form of this option, 'set suspend', is deprecated.)
-
 ## Use this tab size instead of the default; it must be greater than 0.
 # set tabsize 8
 

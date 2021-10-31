@@ -671,8 +671,7 @@ instead of beginnings.
 
 @item -z
 @itemx --suspendable
-Enable the ability to suspend @command{nano} using the system's suspend
-keystroke (usually @kbd{^Z}).
+Obsolete option.  Ignored.  Suspension is enabled by default.
 
 @item -%
 @itemx --stateflags
@@ -756,9 +755,6 @@ for more details).  The following global toggles are available:
 @item Color Syntax Highlighting
 @kbd{M-Y} toggles color syntax highlighting, when your nanorc defines syntaxes
 (@pxref{Syntax Highlighting}).
-
-@item Suspension
-@kbd{M-Z} toggles the @option{-z} (@option{--suspendable}) command-line option.
 
 @end table
 
@@ -1097,7 +1093,7 @@ Use this color combination for the vertical guiding stripe.
 @xref{@code{set keycolor}} for valid color names.
 
 @item set suspendable
-Allow @command{nano} to be suspended (with @kbd{^Z} by default).
+Obsolete option.  Ignored.  Suspension is enabled by default.
 
 @item set tabsize @var{number}
 Use a tab size of @var{number} columns.  The value of @var{number} must be
@@ -1584,8 +1580,8 @@ Redoes the last undone action (i.e., it undoes an undo).
 Refreshes the screen.
 
 @item suspend
-Suspends the editor (if the suspending function is enabled, see the
-@code{suspendable} toggle item below).
+Suspends the editor and returns control to the shell
+(until you tell the process to resume execution with @kbd{fg}).
 
 @item casesens
 Toggles whether searching/replacing ignores or respects the case of
@@ -1699,11 +1695,6 @@ Toggles whether typed tabs will be converted to spaces.
 
 @item mouse
 Toggles mouse support.
-
-@item suspendable
-Toggles whether the suspend keystroke (@kbd{^Z} by default)
-will actually suspend the editor.
-(The old name of this function, 'suspendenable', is deprecated.)
 
 @end table
 
