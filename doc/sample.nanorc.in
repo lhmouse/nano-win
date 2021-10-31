@@ -278,8 +278,8 @@
 ## For quickly uppercasing or lowercasing the word under the cursor.
 ## (These effectively do a Ctrl+Right followed by a Shift+Ctrl+Left,
 ## and then pipe the selected text through a sed command.)
-#bind Sh-M-U "Oc[1;6D|sed 's/.*/\U&/'" main
-#bind Sh-M-L "Oc[1;6D|sed 's/.*/\L&/'" main
+# bind Sh-M-U "Oc[1;6D|sed 's/.*/\U&/'" main
+# bind Sh-M-L "Oc[1;6D|sed 's/.*/\L&/'" main
 
 ## If you would like nano to have keybindings that are more "usual",
 ## such as ^O for Open, ^F for Find, ^H for Help, and ^Q for Quit,

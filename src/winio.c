@@ -842,10 +842,6 @@ int parse_escape_sequence(int starter)
 		keycode = convert_SS3_sequence(key_buffer, key_buffer_len, &consumed);
 	else if (starter == '[')
 		keycode = convert_CSI_sequence(key_buffer, key_buffer_len, &consumed);
-#ifndef NANO_TINY
-	else
-		die("Bad sequence starter -- please report a bug\n");
-#endif
 
 	/* Remove the consumed sequence bytes from the keystroke buffer. */
 	key_buffer_len -= consumed;
