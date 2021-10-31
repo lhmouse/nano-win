@@ -261,8 +261,19 @@
 ## <Ctrl+Backspace> delete the word to the left of the cursor with:
 # bind ^H chopwordleft main
 
+## For a more mnemonic Comment keystroke (overriding Cut-from-cursor):
+# bind M-K comment main
+
 ## If you want ^L to just refresh the screen and not center the cursor:
 # bind ^L refresh main
+
+## When you sometimes type M-J instead of M-K, or M-T instead of M-R:
+# unbind M-J main
+# unbind M-T main
+## (Those functions are still accessible through ^T^J and ^T^V.)
+
+## If you sometimes hit ^Z by accident (you can still suspend with ^T^Z):
+# unbind ^Z main
 
 ## For quickly uppercasing or lowercasing the word under the cursor.
 ## (These effectively do a Ctrl+Right followed by a Shift+Ctrl+Left,
