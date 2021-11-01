@@ -1084,19 +1084,20 @@ void do_toggle(int flag)
 #endif
 	}
 
-	if (!ISSET(MINIBAR) && ISSET(STATEFLAGS))
-		if (flag == AUTOINDENT || flag == BREAK_LONG_LINES || flag == SOFTWRAP)
+	if (ISSET(STATEFLAGS) && (flag == AUTOINDENT ||
+							flag == BREAK_LONG_LINES ||	flag == SOFTWRAP)) {
+		if (ISSET(MINIBAR))
+			return;
+		else
 			titlebar(NULL);
+	}
 
 	if (ISSET(MINIBAR) && (flag == NO_HELP || flag == LINE_NUMBERS))
 		return;
 
 	if (flag == CONSTANT_SHOW)
 		wipe_statusbar();
-	else if (!ISSET(MINIBAR) || !ISSET(STATEFLAGS) || flag == SMART_HOME ||
-						flag == NO_SYNTAX || flag == WHITESPACE_DISPLAY ||
-						flag == CUT_FROM_CURSOR || flag == TABS_TO_SPACES ||
-						flag == USE_MOUSE) {
+	else {
 		bool enabled = ISSET(flag);
 
 		if (flag == NO_HELP || flag == NO_SYNTAX)
