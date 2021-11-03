@@ -20,13 +20,13 @@ color brightgreen "^[[:blank:]]*(syntax[[:blank:]]+[^[:space:]]+|(formatter|lint
 color green "^[[:blank:]]*((un)?(bind|set)|include|syntax|header|magic|comment|formatter|linter|tabgives|extendsyntax)\>"
 
 # Strings
-color brightmagenta "([[:blank:]]|(start|end)=)".+"([[:blank:]]|$)"
+color brightmagenta "[[:blank:]](start=)?".+""
 
 # Control codes
 color bold,pink "[[:cntrl:]]"
 
 # Color commands
-color magenta "^[[:blank:]]*i?color\>" "\<(start|end)="
+color magenta "^[[:blank:]]*i?color\>|[[:blank:]](start=|end=)"
 
 # Comments
 color brightblue "(^|[[:blank:]]+)#.*"
