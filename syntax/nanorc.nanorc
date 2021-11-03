@@ -22,11 +22,11 @@ color green "^[[:blank:]]*((un)?(bind|set)|include|syntax|header|magic|comment|f
 # Strings
 color brightmagenta "[[:blank:]](start=)?".+""
 
-# Control codes
-color bold,pink "[[:cntrl:]]"
-
 # Color commands
 color magenta "^[[:blank:]]*i?color\>|[[:blank:]](start=|end=)"
+
+# Control codes
+color bold,pink "[[:cntrl:]]"
 
 # Comments
 color brightblue "(^|[[:blank:]]+)#.*"
