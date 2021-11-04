@@ -339,7 +339,9 @@ Use this color combination for the vertical guiding stripe.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set suspendable
-Obsolete option.  Ignored.  Suspension is enabled by default.
+Obsolete option; ignored.  Suspension is enabled by default,
+reachable via \fB^T^Z\fR.  (If you want a plain \fB^Z\fR to
+suspend nano, add \fBbind ^Z suspend main\fR to your nanorc.)
 .TP
 .B set tabsize \fInumber\fR
 Use a tab size of \fInumber\fR columns.  The value of \fInumber\fP must be

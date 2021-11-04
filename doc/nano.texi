@@ -671,7 +671,9 @@ instead of beginnings.
 
 @item -z
 @itemx --suspendable
-Obsolete option.  Ignored.  Suspension is enabled by default.
+Obsolete option; ignored.  Suspension is enabled by default,
+reachable via @kbd{^T^Z}.  (If you want a plain @kbd{^Z} to
+suspend nano, add @code{bind ^Z suspend main} to your nanorc.)
 
 @item -%
 @itemx --stateflags
@@ -1093,7 +1095,9 @@ Use this color combination for the vertical guiding stripe.
 @xref{@code{set keycolor}} for valid color names.
 
 @item set suspendable
-Obsolete option.  Ignored.  Suspension is enabled by default.
+Obsolete option; ignored.  Suspension is enabled by default,
+reachable via @kbd{^T^Z}.  (If you want a plain @kbd{^Z} to
+suspend nano, add @code{bind ^Z suspend main} to your nanorc.)
 
 @item set tabsize @var{number}
 Use a tab size of @var{number} columns.  The value of @var{number} must be

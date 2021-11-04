@@ -252,6 +252,9 @@
 ## === Key bindings ===
 ## For all details, see 'man nanorc', section REBINDING KEYS.
 
+## If you want to suspend nano with one keystroke (instead of with ^T^Z):
+# bind ^Z suspend main
+
 ## The <Ctrl+Delete> keystroke deletes the word to the right of the cursor.
 ## On some terminals the <Ctrl+Backspace> keystroke produces ^H, which is
 ## the ASCII character for backspace, so it is bound by default to the
@@ -271,9 +274,6 @@
 # unbind M-J main
 # unbind M-T main
 ## (Those functions are still accessible through ^T^J and ^T^V.)
-
-## If you sometimes hit ^Z by accident (you can still suspend with ^T^Z):
-# unbind ^Z main
 
 ## For quickly uppercasing or lowercasing the word under the cursor.
 ## (These effectively do a Ctrl+Right followed by a Shift+Ctrl+Left,
