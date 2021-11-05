@@ -212,15 +212,17 @@ bool in_restricted_mode(void)
 		return FALSE;
 }
 
+#ifndef NANO_TINY
 /* Say how the user can achieve suspension (when they typed ^Z). */
 void suggest_ctrlT_ctrlZ(void)
 {
 #ifdef ENABLE_NANORC
 	if (first_sc_for(MMAIN, do_execute) && first_sc_for(MMAIN, do_execute)->keycode == 0x14 &&
-			first_sc_for(MEXECUTE, do_suspend_void) && first_sc_for(MEXECUTE, do_suspend_void)->keycode == 0x1A)
+			first_sc_for(MEXECUTE, suspend_nano) && first_sc_for(MEXECUTE, suspend_nano)->keycode == 0x1A)
 #endif
 		statusline(AHEM, _("To suspend, type ^T^Z"));
 }
+#endif
 
 /* Make sure the cursor is visible, then exit from curses mode, disable
  * bracketed-paste mode, and restore the original terminal settings. */
@@ -958,8 +960,8 @@ void do_suspend(int signal)
 #endif
 }
 
-/* Put nano to sleep. */
-void do_suspend_void(void)
+/* When permitted, put nano to sleep. */
+void suspend_nano(void)
 {
 	if (in_restricted_mode())
 		return;

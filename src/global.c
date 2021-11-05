@@ -981,7 +981,7 @@ void shortcut_init(void)
 		N_("Refresh"), WITHORSANS(refresh_gist), TOGETHER, VIEW);
 #endif
 
-	add_to_funcs(do_suspend_void, MMAIN,
+	add_to_funcs(suspend_nano, MMAIN,
 		N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
 
 #ifndef NANO_TINY
@@ -1105,7 +1105,7 @@ void shortcut_init(void)
 		add_to_funcs(cut_till_eof, MEXECUTE,
 			N_("Cut Till End"), WITHORSANS(cuttilleof_gist), BLANKAFTER, NOVIEW);
 
-		add_to_funcs(do_suspend_void, MEXECUTE,
+		add_to_funcs(suspend_nano, MEXECUTE,
 			N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
 	}
 #endif /* !NANO_TINY */
@@ -1334,7 +1334,7 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	add_to_sclist(MMAIN, "M-T", 0, cut_till_eof, 0);
 	add_to_sclist(MEXECUTE, "^V", 0, cut_till_eof, 0);
-	add_to_sclist(MEXECUTE, "^Z", 0, do_suspend_void, 0);
+	add_to_sclist(MEXECUTE, "^Z", 0, suspend_nano, 0);
 	add_to_sclist(MMAIN, "^Z", 0, suggest_ctrlT_ctrlZ, 0);
 	add_to_sclist(MMAIN, "M-D", 0, count_lines_words_and_characters, 0);
 #else
@@ -1483,7 +1483,7 @@ void shortcut_init(void)
 #endif
 #if defined(KEY_CANCEL) && defined(KEY_SUSPEND) && defined(KEY_SIC)
 	add_to_sclist((MMOST & ~MMAIN) | MYESNO, "", KEY_CANCEL, do_cancel, 0);
-	add_to_sclist(MMAIN|MEXECUTE, "", KEY_SUSPEND, do_suspend_void, 0);
+	add_to_sclist(MMAIN|MEXECUTE, "", KEY_SUSPEND, suspend_nano, 0);
 	add_to_sclist(MMAIN, "", KEY_SIC, do_insertfile_void, 0);
 #endif
 #ifndef NANO_TINY

@@ -386,7 +386,9 @@ void free_lines(linestruct *src);
 void renumber_from(linestruct *line);
 void print_view_warning(void);
 bool in_restricted_mode(void);
+#ifndef NANO_TINY
 void suggest_ctrlT_ctrlZ(void);
+#endif
 void finish(void);
 void close_and_go(void);
 void do_exit(void);
@@ -402,6 +404,7 @@ void handle_hupterm(int signal);
 void handle_crash(int signal);
 #endif
 void do_suspend(int signal);
+void suspend_nano(void);
 void do_continue(int signal);
 #if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
 void block_sigwinch(bool blockit);
@@ -622,7 +625,6 @@ void spotlight(size_t from_col, size_t to_col);
 #ifndef NANO_TINY
 void spotlight_softwrapped(size_t from_col, size_t to_col);
 #endif
-void do_suspend_void(void);
 #ifdef ENABLE_EXTRA
 void do_credits(void);
 #endif

@@ -396,7 +396,7 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "refresh"))
 		s->func = full_refresh;
 	else if (!strcmp(input, "suspend"))
-		s->func = do_suspend_void;
+		s->func = suspend_nano;
 	else if (!strcmp(input, "casesens"))
 		s->func = case_sens_void;
 	else if (!strcmp(input, "regexp"))
