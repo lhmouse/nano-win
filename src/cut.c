@@ -728,9 +728,11 @@ void paste_text(void)
 	update_undo(PASTE);
 #endif
 
+#ifdef ENABLE_WRAPPING
 	/* When still on the same line and doing hard-wrapping, limit the width. */
 	if (openfile->current == was_current && ISSET(BREAK_LONG_LINES))
 		do_wrap();
+#endif
 
 	/* If we pasted less than a screenful, don't center the cursor. */
 	if (less_than_a_screenful(was_lineno, was_leftedge))
