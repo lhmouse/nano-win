@@ -1335,6 +1335,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-T", 0, cut_till_eof, 0);
 	add_to_sclist(MEXECUTE, "^V", 0, cut_till_eof, 0);
 	add_to_sclist(MEXECUTE, "^Z", 0, do_suspend_void, 0);
+	add_to_sclist(MMAIN, "^Z", 0, suggest_ctrlT_ctrlZ, 0);
 	add_to_sclist(MMAIN, "M-D", 0, count_lines_words_and_characters, 0);
 #else
 	add_to_sclist(MMAIN, "M-H", 0, do_help, 0);

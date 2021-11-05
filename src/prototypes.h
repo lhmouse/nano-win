@@ -386,6 +386,7 @@ void free_lines(linestruct *src);
 void renumber_from(linestruct *line);
 void print_view_warning(void);
 bool in_restricted_mode(void);
+void suggest_ctrlT_ctrlZ(void);
 void finish(void);
 void close_and_go(void);
 void do_exit(void);

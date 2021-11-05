@@ -212,6 +212,16 @@ bool in_restricted_mode(void)
 		return FALSE;
 }
 
+/* Say how the user can achieve suspension (when they typed ^Z). */
+void suggest_ctrlT_ctrlZ(void)
+{
+#ifdef ENABLE_NANORC
+	if (first_sc_for(MMAIN, do_execute) && first_sc_for(MMAIN, do_execute)->keycode == 0x14 &&
+			first_sc_for(MEXECUTE, do_suspend_void) && first_sc_for(MEXECUTE, do_suspend_void)->keycode == 0x1A)
+#endif
+		statusline(AHEM, _("To suspend, type ^T^Z"));
+}
+
 /* Make sure the cursor is visible, then exit from curses mode, disable
  * bracketed-paste mode, and restore the original terminal settings. */
 void restore_terminal(void)
