@@ -218,15 +218,16 @@ funcstruct *exitfunc;
 
 linestruct *search_history = NULL;
 		/* The current item in the list of strings that were searched for. */
-linestruct *execute_history = NULL;
-		/* The current item in the list of commands that were run with ^R ^X. */
 linestruct *replace_history = NULL;
 		/* The current item in the list of replace strings. */
+linestruct *execute_history = NULL;
+		/* The current item in the list of commands that were run with ^T. */
+
 #ifdef ENABLE_HISTORIES
 linestruct *searchtop = NULL;
 		/* The oldest item in the list of search strings. */
 linestruct *searchbot = NULL;
-		/* The newest item in the list of search strings. */
+		/* The empty item at the end of the list of search strings. */
 
 linestruct *replacetop = NULL;
 linestruct *replacebot = NULL;
