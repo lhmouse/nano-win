@@ -1465,8 +1465,7 @@ bool begpar(const linestruct *const line, int depth)
 {
 	size_t quot_len, indent_len, prev_dent_len;
 
-	/* If this is the very first line of the buffer, it counts as a BOP
-	 * even when it contains no text. */
+	/* The very first line counts as a BOP, even when it contains no text. */
 	if (line->prev == NULL)
 		return TRUE;
 

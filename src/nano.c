@@ -1097,7 +1097,7 @@ void do_toggle(int flag)
 	}
 
 	if (ISSET(STATEFLAGS) && (flag == AUTOINDENT ||
-							flag == BREAK_LONG_LINES ||	flag == SOFTWRAP)) {
+							flag == BREAK_LONG_LINES || flag == SOFTWRAP)) {
 		if (ISSET(MINIBAR))
 			return;
 		else

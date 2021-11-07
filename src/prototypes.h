@@ -412,7 +412,6 @@ void block_sigwinch(bool blockit);
 #ifndef NANO_TINY
 void handle_sigwinch(int signal);
 void regenerate_screen(void);
-void do_toggle(int flag);
 #endif
 void disable_kb_interrupt(void);
 void enable_kb_interrupt(void);
