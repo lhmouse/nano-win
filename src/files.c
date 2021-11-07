@@ -1107,8 +1107,9 @@ bool execute_command(const char *command)
 }
 #endif /* NANO_TINY */
 
-/* Insert a file into the current buffer, or into a new buffer when
- * the MULTIBUFFER flag is set. */
+/* Insert a file into the current buffer (or into a new buffer).  But when
+ * execute is TRUE, run a command in the shell and insert its output into
+ * the buffer, or just run one of the tools listed in the help lines. */
 void do_insertfile(bool execute)
 {
 	int response;
@@ -1158,15 +1159,9 @@ void do_insertfile(bool execute)
 
 		present_path = mallocstrcpy(present_path, "./");
 
-		response = do_prompt(
-#ifndef NANO_TINY
-							execute ? MEXECUTE :
-#endif
-							MINSERTFILE, given,
-#ifndef NANO_TINY
-							execute ? &execute_history :
-#endif
-							NULL, edit_refresh, msg,
+		response = do_prompt(execute ? MEXECUTE : MINSERTFILE, given,
+							execute ? &execute_history : NULL,
+							edit_refresh, msg,
 #ifdef ENABLE_OPERATINGDIR
 							operating_dir != NULL ? operating_dir :
 #endif
