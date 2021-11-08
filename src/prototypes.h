@@ -282,7 +282,7 @@ void close_buffer(void);
 void read_file(FILE *f, int fd, const char *filename, bool undoable);
 int open_file(const char *filename, bool new_one, FILE **f);
 char *get_next_filename(const char *name, const char *suffix);
-void do_insertfile_void(void);
+void do_insertfile(void);
 #ifndef NANO_TINY
 void do_execute(void);
 #endif

@@ -728,7 +728,7 @@ void shortcut_init(void)
 	 * otherwise, show Insert anyway, to keep the help items paired. */
 	if (!ISSET(RESTRICTED))
 #endif
-		add_to_funcs(do_insertfile_void, MMAIN,
+		add_to_funcs(do_insertfile, MMAIN,
 				N_("Read File"), WITHORSANS(readfile_gist), BLANKAFTER,
 				/* We allow inserting files in view mode if multibuffer mode
 				 * is available, so that the user can view multiple files. */
@@ -1172,8 +1172,8 @@ void shortcut_init(void)
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
 	add_to_sclist(MMAIN, "^O", 0, do_writeout, 0);
-	add_to_sclist(MMAIN, "^R", 0, do_insertfile_void, 0);
-	add_to_sclist(MMAIN, "Ins", KEY_IC, do_insertfile_void, 0);
+	add_to_sclist(MMAIN, "^R", 0, do_insertfile, 0);
+	add_to_sclist(MMAIN, "Ins", KEY_IC, do_insertfile, 0);
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "^Q", 0, do_search_backward, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "^W", 0, do_search_forward, 0);
@@ -1472,7 +1472,7 @@ void shortcut_init(void)
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "F4", KEY_F(4), do_justify, 0);
 #endif
-	add_to_sclist(MMAIN, "F5", KEY_F(5), do_insertfile_void, 0);
+	add_to_sclist(MMAIN, "F5", KEY_F(5), do_insertfile, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "F6", KEY_F(6), do_search_forward, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "F7", KEY_F(7), do_page_up, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "F8", KEY_F(8), do_page_down, 0);
@@ -1485,7 +1485,7 @@ void shortcut_init(void)
 #if defined(KEY_CANCEL) && defined(KEY_SUSPEND) && defined(KEY_SIC)
 	add_to_sclist((MMOST & ~MMAIN) | MYESNO, "", KEY_CANCEL, do_cancel, 0);
 	add_to_sclist(MMAIN|MEXECUTE, "", KEY_SUSPEND, suspend_nano, 0);
-	add_to_sclist(MMAIN, "", KEY_SIC, do_insertfile_void, 0);
+	add_to_sclist(MMAIN, "", KEY_SIC, do_insertfile, 0);
 #endif
 #ifndef NANO_TINY
 	/* Catch and ignore bracketed paste marker keys. */

@@ -1110,7 +1110,7 @@ bool execute_command(const char *command)
 /* Insert a file into the current buffer (or into a new buffer).  But when
  * execute is TRUE, run a command in the shell and insert its output into
  * the buffer, or just run one of the tools listed in the help lines. */
-void do_insertfile(bool execute)
+void insert_a_file_or(bool execute)
 {
 	int response;
 	const char *msg;
@@ -1301,10 +1301,10 @@ void do_insertfile(bool execute)
 }
 
 /* If the current mode of operation allows it, go insert a file. */
-void do_insertfile_void(void)
+void do_insertfile(void)
 {
 	if (!in_restricted_mode())
-		do_insertfile(FALSE);
+		insert_a_file_or(FALSE);
 }
 
 #ifndef NANO_TINY
@@ -1312,7 +1312,7 @@ void do_insertfile_void(void)
 void do_execute(void)
 {
 	if (!in_restricted_mode())
-		do_insertfile(TRUE);
+		insert_a_file_or(TRUE);
 }
 #endif
 

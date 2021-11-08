@@ -246,7 +246,7 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "savefile"))
 		s->func = do_savefile;
 	else if (!strcmp(input, "insert"))
-		s->func = do_insertfile_void;
+		s->func = do_insertfile;
 	else if (!strcmp(input, "whereis"))
 		s->func = do_search_forward;
 	else if (!strcmp(input, "wherewas"))
