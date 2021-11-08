@@ -448,7 +448,7 @@ keystruct *strtosc(const char *input)
 #endif
 	else {
 #ifndef NANO_TINY
-		s->func = do_toggle_void;
+		s->func = do_toggle;
 		if (!strcmp(input, "nohelp"))
 			s->toggle = NO_HELP;
 		else if (!strcmp(input, "constantshow"))
@@ -823,9 +823,9 @@ void parse_binding(char *ptr, bool dobind)
 	if (is_universal(newsc->func))
 		menu &= MMOST|MBROWSER;
 #ifndef NANO_TINY
-	else if (newsc->func == do_toggle_void && newsc->toggle == NO_HELP)
+	else if (newsc->func == do_toggle && newsc->toggle == NO_HELP)
 		menu &= (MMOST|MBROWSER|MYESNO) & ~MFINDINHELP;
-	else if (newsc->func == do_toggle_void)
+	else if (newsc->func == do_toggle)
 		menu &= MMAIN;
 #endif
 	else if (newsc->func == full_refresh)
@@ -863,9 +863,9 @@ void parse_binding(char *ptr, bool dobind)
 
 #ifndef NANO_TINY
 	/* If this is a toggle, find and copy its sequence number. */
-	if (newsc->func == do_toggle_void) {
+	if (newsc->func == do_toggle) {
 		for (keystruct *s = sclist; s != NULL; s = s->next)
-			if (s->func == do_toggle_void && s->toggle == newsc->toggle)
+			if (s->func == do_toggle && s->toggle == newsc->toggle)
 				newsc->ordinal = s->ordinal;
 	} else
 		newsc->ordinal = 0;

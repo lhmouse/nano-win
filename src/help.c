@@ -234,7 +234,7 @@ void help_init(void)
 		size_t onoff_len = strlen(_("enable/disable"));
 
 		for (s = sclist; s != NULL; s = s->next)
-			if (s->func == do_toggle_void)
+			if (s->func == do_toggle)
 				allocsize += strlen(_(flagtostr(s->toggle))) + onoff_len + 9;
 	}
 #endif

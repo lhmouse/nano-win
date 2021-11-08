@@ -534,7 +534,7 @@ char *browse(char *path)
 			kbinput = KEY_WINCH;
 #endif
 #ifndef NANO_TINY
-		} else if (func == do_toggle_void) {
+		} else if (func == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			kbinput = KEY_WINCH;

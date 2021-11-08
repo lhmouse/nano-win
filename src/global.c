@@ -298,7 +298,7 @@ void goto_dir(void)  {;}
 #endif
 #ifndef NANO_TINY
 void do_nothing(void)  {;}
-void do_toggle_void(void)  {;}
+void do_toggle(void)  {;}
 void dos_format(void)  {;}
 void mac_format(void)  {;}
 void append_it(void)  {;}
@@ -1355,29 +1355,29 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
 	/* Group of "Appearance" toggles. */
-	add_to_sclist((MMOST|MBROWSER|MYESNO) & ~MFINDINHELP, "M-X", 0, do_toggle_void, NO_HELP);
-	add_to_sclist(MMAIN, "M-C", 0, do_toggle_void, CONSTANT_SHOW);
-	add_to_sclist(MMAIN, "M-S", 0, do_toggle_void, SOFTWRAP);
-	add_to_sclist(MMAIN, "M-$", 0, do_toggle_void, SOFTWRAP);  /* Legacy keystroke. */
+	add_to_sclist((MMOST|MBROWSER|MYESNO) & ~MFINDINHELP, "M-X", 0, do_toggle, NO_HELP);
+	add_to_sclist(MMAIN, "M-C", 0, do_toggle, CONSTANT_SHOW);
+	add_to_sclist(MMAIN, "M-S", 0, do_toggle, SOFTWRAP);
+	add_to_sclist(MMAIN, "M-$", 0, do_toggle, SOFTWRAP);  /* Legacy keystroke. */
 #ifdef ENABLE_LINENUMBERS
-	add_to_sclist(MMAIN, "M-N", 0, do_toggle_void, LINE_NUMBERS);
-	add_to_sclist(MMAIN, "M-#", 0, do_toggle_void, LINE_NUMBERS);  /* Legacy keystroke. */
+	add_to_sclist(MMAIN, "M-N", 0, do_toggle, LINE_NUMBERS);
+	add_to_sclist(MMAIN, "M-#", 0, do_toggle, LINE_NUMBERS);  /* Legacy keystroke. */
 #endif
-	add_to_sclist(MMAIN, "M-P", 0, do_toggle_void, WHITESPACE_DISPLAY);
+	add_to_sclist(MMAIN, "M-P", 0, do_toggle, WHITESPACE_DISPLAY);
 #ifdef ENABLE_COLOR
-	add_to_sclist(MMAIN, "M-Y", 0, do_toggle_void, NO_SYNTAX);
+	add_to_sclist(MMAIN, "M-Y", 0, do_toggle, NO_SYNTAX);
 #endif
 
 	/* Group of "Behavior" toggles. */
-	add_to_sclist(MMAIN, "M-H", 0, do_toggle_void, SMART_HOME);
-	add_to_sclist(MMAIN, "M-I", 0, do_toggle_void, AUTOINDENT);
-	add_to_sclist(MMAIN, "M-K", 0, do_toggle_void, CUT_FROM_CURSOR);
+	add_to_sclist(MMAIN, "M-H", 0, do_toggle, SMART_HOME);
+	add_to_sclist(MMAIN, "M-I", 0, do_toggle, AUTOINDENT);
+	add_to_sclist(MMAIN, "M-K", 0, do_toggle, CUT_FROM_CURSOR);
 #ifdef ENABLE_WRAPPING
-	add_to_sclist(MMAIN, "M-L", 0, do_toggle_void, BREAK_LONG_LINES);
+	add_to_sclist(MMAIN, "M-L", 0, do_toggle, BREAK_LONG_LINES);
 #endif
-	add_to_sclist(MMAIN, "M-O", 0, do_toggle_void, TABS_TO_SPACES);
+	add_to_sclist(MMAIN, "M-O", 0, do_toggle, TABS_TO_SPACES);
 #ifdef ENABLE_MOUSE
-	add_to_sclist(MMAIN, "M-M", 0, do_toggle_void, USE_MOUSE);
+	add_to_sclist(MMAIN, "M-M", 0, do_toggle, USE_MOUSE);
 #endif
 #endif /* !NANO_TINY */
 

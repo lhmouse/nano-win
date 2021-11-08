@@ -1063,8 +1063,8 @@ void regenerate_screen(void)
 	}
 }
 
-/* Handle the global toggle specified in flag. */
-void do_toggle(int flag)
+/* Invert the given global flag and adjust things for its new value. */
+void toggle_this(int flag)
 {
 	TOGGLE(flag);
 	focusing = FALSE;
@@ -1603,8 +1603,8 @@ void process_a_keystroke(void)
 	}
 #endif
 #ifndef NANO_TINY
-	if (shortcut->func == do_toggle_void) {
-		do_toggle(shortcut->toggle);
+	if (shortcut->func == do_toggle) {
+		toggle_this(shortcut->toggle);
 		if (shortcut->toggle == CUT_FROM_CURSOR)
 			keep_cutbuffer = FALSE;
 		return;

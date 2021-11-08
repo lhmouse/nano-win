@@ -644,7 +644,7 @@ void goto_dir(void);
 #endif
 #ifndef NANO_TINY
 void do_nothing(void);
-void do_toggle_void(void);
+void do_toggle(void);
 void dos_format(void);
 void mac_format(void);
 void append_it(void);

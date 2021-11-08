@@ -537,7 +537,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #ifndef NANO_TINY
 		else if (func == do_nothing)
 			finished = FALSE;
-		else if (func == do_toggle_void) {
+		else if (func == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			focusing = FALSE;
@@ -765,7 +765,7 @@ int do_yesno_prompt(bool all, const char *msg)
 		else if (func_from_key(&kbinput) == full_refresh)
 			full_refresh();
 #ifndef NANO_TINY
-		else if (func_from_key(&kbinput) == do_toggle_void) {
+		else if (func_from_key(&kbinput) == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			titlebar(NULL);
