@@ -1957,7 +1957,8 @@ long-line wrapping on and off, respectively.
 
 @item --enable-tiny
 This option implies all of the above.  It also disables some other
-internals of the editor, like the function toggles, the marking code,
+internals of the editor, like the function toggles, the marking of text,
+the undo/redo code, line anchors, the recording and playback of a macro,
 and the cut-to-end-of-line code.  By using the enabling counterpart
 of the above options together with @option{--enable-tiny},
 specific features can be switched back on --- but a few cannot.
