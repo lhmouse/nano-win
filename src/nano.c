@@ -315,7 +315,7 @@ void do_exit(void)
 	}
 
 	/* When not saving, or the save succeeds, close the buffer. */
-	if (choice == 0 || (choice == 1 && do_writeout(TRUE, TRUE) > 0))
+	if (choice == 0 || (choice == 1 && write_it_out(TRUE, TRUE) > 0))
 		close_and_go();
 	else if (choice != 1)
 		statusbar(_("Cancelled"));

@@ -720,7 +720,7 @@ void shortcut_init(void)
 	add_to_funcs(flip_goto, MGOTOLINE, "Go To Text", "x", 0, VIEW);
 #endif
 
-	add_to_funcs(do_writeout_void, MMAIN,
+	add_to_funcs(do_writeout, MMAIN,
 		N_("Write Out"), WITHORSANS(writeout_gist), TOGETHER, NOVIEW);
 
 #ifdef ENABLE_JUSTIFY
@@ -1171,7 +1171,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "^X", 0, do_exit, 0);
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
-	add_to_sclist(MMAIN, "^O", 0, do_writeout_void, 0);
+	add_to_sclist(MMAIN, "^O", 0, do_writeout, 0);
 	add_to_sclist(MMAIN, "^R", 0, do_insertfile_void, 0);
 	add_to_sclist(MMAIN, "Ins", KEY_IC, do_insertfile_void, 0);
 	if (!ISSET(PRESERVE))
@@ -1468,7 +1468,7 @@ void shortcut_init(void)
 #endif
 	add_to_sclist(MMOST & ~MFINDINHELP, "F1", KEY_F(1), do_help, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "F2", KEY_F(2), do_exit, 0);
-	add_to_sclist(MMAIN, "F3", KEY_F(3), do_writeout_void, 0);
+	add_to_sclist(MMAIN, "F3", KEY_F(3), do_writeout, 0);
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "F4", KEY_F(4), do_justify, 0);
 #endif

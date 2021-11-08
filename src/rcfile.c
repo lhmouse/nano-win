@@ -242,7 +242,7 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "discardbuffer"))
 		s->func = discard_buffer;
 	else if (!strcmp(input, "writeout"))
-		s->func = do_writeout_void;
+		s->func = do_writeout;
 	else if (!strcmp(input, "savefile"))
 		s->func = do_savefile;
 	else if (!strcmp(input, "insert"))

@@ -2084,13 +2084,12 @@ bool write_region_to_file(const char *name, FILE *stream, bool normal,
 }
 #endif /* !NANO_TINY */
 
-/* Write the current buffer to disk.  If the mark is on, write the current
- * marked selection to disk.  If exiting is TRUE, write the entire buffer
- * to disk regardless of whether the mark is on.  Do not ask for a name
- * when withprompt is FALSE nor when the SAVE_ON_EXIT flag is set and the
- * buffer already has a name.  Return 0 on error, 1 on success, and 2 when
+/* Write the current buffer (or marked region) to disk.  If exiting is TRUE,
+ * write the entire buffer regardless of whether the mark is on.  Do not ask
+ * for a name when withprompt is FALSE (nor when doing save-on-exit and the
+ * buffer already has a name).  Return 0 on error, 1 on success, and 2 when
  * the buffer is to be discarded. */
-int do_writeout(bool exiting, bool withprompt)
+int write_it_out(bool exiting, bool withprompt)
 {
 	char *given;
 		/* The filename we offer, or what the user typed so far. */
@@ -2329,17 +2328,17 @@ int do_writeout(bool exiting, bool withprompt)
 }
 
 /* Write the current buffer to disk, or discard it. */
-void do_writeout_void(void)
+void do_writeout(void)
 {
 	/* If the user chose to discard the buffer, close it. */
-	if (do_writeout(FALSE, TRUE) == 2)
+	if (write_it_out(FALSE, TRUE) == 2)
 		close_and_go();
 }
 
 /* If it has a name, write the current buffer to disk without prompting. */
 void do_savefile(void)
 {
-	if (do_writeout(FALSE, FALSE) == 2)
+	if (write_it_out(FALSE, FALSE) == 2)
 		close_and_go();
 }
 

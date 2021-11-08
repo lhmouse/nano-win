@@ -2563,7 +2563,7 @@ void do_linter(void)
 		if (choice == -1) {
 			statusbar(_("Cancelled"));
 			return;
-		} else if (choice == 1 && (do_writeout(FALSE, FALSE) != 1))
+		} else if (choice == 1 && (write_it_out(FALSE, FALSE) != 1))
 			return;
 	}
 
