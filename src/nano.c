@@ -1113,7 +1113,7 @@ void toggle_this(int flag)
 		return;
 
 	if (flag == CONSTANT_SHOW) {
-		if (ISSET(ZERO)) {
+		if (ISSET(ZERO) || LINES == 1) {
 			statusline(AHEM, _("Not possible in barless mode"));
 			TOGGLE(flag);
 		} else if (!ISSET(MINIBAR))
