@@ -218,7 +218,7 @@ void suggest_ctrlT_ctrlZ(void)
 {
 #ifdef ENABLE_NANORC
 	if (first_sc_for(MMAIN, do_execute) && first_sc_for(MMAIN, do_execute)->keycode == 0x14 &&
-			first_sc_for(MEXECUTE, suspend_nano) && first_sc_for(MEXECUTE, suspend_nano)->keycode == 0x1A)
+			first_sc_for(MEXECUTE, do_suspend) && first_sc_for(MEXECUTE, do_suspend)->keycode == 0x1A)
 #endif
 		statusline(AHEM, _("To suspend, type ^T^Z"));
 }
@@ -902,11 +902,11 @@ void signal_init(void)
 	 * If we don't do this, other stuff interrupts them! */
 	sigfillset(&deed.sa_mask);
 #ifdef SIGTSTP
-	deed.sa_handler = do_suspend;
+	deed.sa_handler = suspend_nano;
 	sigaction(SIGTSTP, &deed, NULL);
 #endif
 #ifdef SIGCONT
-	deed.sa_handler = do_continue;
+	deed.sa_handler = continue_nano;
 	sigaction(SIGCONT, &deed, NULL);
 #endif
 
@@ -938,7 +938,7 @@ void handle_crash(int signal)
 #endif
 
 /* Handler for SIGTSTP (suspend). */
-void do_suspend(int signal)
+void suspend_nano(int signal)
 {
 #ifdef ENABLE_MOUSE
 	disable_mouse_support();
@@ -961,18 +961,18 @@ void do_suspend(int signal)
 }
 
 /* When permitted, put nano to sleep. */
-void suspend_nano(void)
+void do_suspend(void)
 {
 	if (in_restricted_mode())
 		return;
 
-	do_suspend(0);
+	suspend_nano(0);
 
 	ran_a_tool = TRUE;
 }
 
 /* Handler for SIGCONT (continue after suspend). */
-void do_continue(int signal)
+void continue_nano(int signal)
 {
 #ifdef ENABLE_MOUSE
 	if (ISSET(USE_MOUSE))

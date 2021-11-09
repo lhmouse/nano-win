@@ -403,9 +403,9 @@ void handle_hupterm(int signal);
 #ifndef DEBUG
 void handle_crash(int signal);
 #endif
-void do_suspend(int signal);
-void suspend_nano(void);
-void do_continue(int signal);
+void suspend_nano(int signal);
+void do_suspend(void);
+void continue_nano(int signal);
 #if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
 void block_sigwinch(bool blockit);
 #endif
