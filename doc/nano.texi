@@ -702,6 +702,13 @@ The line plus column numbers and the character code are displayed only when
 @code{--constantshow} is used, and can be toggled on and off with @kbd{M-C}.
 The state flags are displayed only when @code{--stateflags} is used.
 
+@item -0
+@itemx --zero
+Hide the minibar (or the title bar plus status bar) and use all rows
+of the terminal for showing the text of the buffer.  Only significant
+messages appear on the status bar, and disappear upon the next keystroke.
+This "hidden interface" mode can be toggled with @kbd{M-Z}.
+
 @item -!
 @itemx --magic
 When neither the file's name nor its first line give a clue,
@@ -1138,6 +1145,12 @@ probably want to unset @code{wordbounds}.
 @item set zap
 Let an unmodified @kbd{Backspace} or @kbd{Delete} erase the marked region
 (instead of a single character, and without affecting the cutbuffer).
+
+@item set zero
+Hide the minibar (or the title bar plus status bar) and use all rows
+of the terminal for showing the text of the buffer.  Only significant
+messages appear on the status bar, and disappear upon the next keystroke.
+This "hidden interface" mode can be toggled with @kbd{M-Z}.
 
 @end table
 

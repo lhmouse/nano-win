@@ -197,6 +197,9 @@
 ## of a single character, and without affecting the cutbuffer).
 # set zap
 
+## Hide the bars and use the whole terminal for editable text.
+# set zero
+
 
 ## Paint the interface elements of nano.  These are examples; there are
 ## no colors by default, except for errorcolor and spotlightcolor.
