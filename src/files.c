@@ -1270,7 +1270,7 @@ void insert_a_file_or(bool execute)
 					if (!execute)
 #endif
 					if (has_old_position(answer, &priorline, &priorcol))
-						do_gotolinecolumn(priorline, priorcol, FALSE, FALSE);
+						goto_line_and_column(priorline, priorcol, FALSE, FALSE);
 				}
 #endif
 				/* Update title bar and color info for this new buffer. */

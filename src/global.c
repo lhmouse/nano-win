@@ -786,7 +786,7 @@ void shortcut_init(void)
 #if defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 	/* Conditionally placing this one here or further on, to keep the
 	 * help items nicely paired in most conditions. */
-	add_to_funcs(do_gotolinecolumn_void, MMAIN,
+	add_to_funcs(do_gotolinecolumn, MMAIN,
 		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -933,7 +933,7 @@ void shortcut_init(void)
 #endif
 
 #if !defined(NANO_TINY) && !defined(ENABLE_JUSTIFY)
-	add_to_funcs(do_gotolinecolumn_void, MMAIN,
+	add_to_funcs(do_gotolinecolumn, MMAIN,
 		N_("Go To Line"), WITHORSANS(gotoline_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -1199,9 +1199,9 @@ void shortcut_init(void)
 	add_to_sclist(MEXECUTE, "^O", 0, do_formatter, 0);
 #endif
 	add_to_sclist(MMAIN, "^C", 0, report_cursor_position, 0);
-	add_to_sclist(MMAIN, SLASH_OR_DASH, 0, do_gotolinecolumn_void, 0);
-	add_to_sclist(MMAIN, "M-G", 0, do_gotolinecolumn_void, 0);
-	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn_void, 0);
+	add_to_sclist(MMAIN, SLASH_OR_DASH, 0, do_gotolinecolumn, 0);
+	add_to_sclist(MMAIN, "M-G", 0, do_gotolinecolumn, 0);
+	add_to_sclist(MMAIN, "^_", 0, do_gotolinecolumn, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "^Y", 0, do_page_up, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "PgUp", KEY_PPAGE, do_page_up, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "^V", 0, do_page_down, 0);

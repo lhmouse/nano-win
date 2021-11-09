@@ -152,7 +152,7 @@ void search_init(bool replacing, bool retain_answer)
 			} else
 				replacing = !replacing;
 		} else if (func == flip_goto) {
-			do_gotolinecolumn(openfile->current->lineno,
+			goto_line_and_column(openfile->current->lineno,
 								openfile->placewewant + 1, TRUE, TRUE);
 			break;
 		} else
@@ -747,8 +747,8 @@ void goto_line_posx(ssize_t line, size_t pos_x)
 /* Go to the specified line and column, or ask for them if interactive
  * is TRUE.  In the latter case also update the screen afterwards.
  * Note that both the line and column number should be one-based. */
-void do_gotolinecolumn(ssize_t line, ssize_t column, bool retain_answer,
-		bool interactive)
+void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
+							bool interactive)
 {
 	if (interactive) {
 		/* Ask for the line and column. */
@@ -844,9 +844,9 @@ void do_gotolinecolumn(ssize_t line, ssize_t column, bool retain_answer,
 }
 
 /* Go to the specified line and column, asking for them beforehand. */
-void do_gotolinecolumn_void(void)
+void do_gotolinecolumn(void)
 {
-	do_gotolinecolumn(openfile->current->lineno,
+	goto_line_and_column(openfile->current->lineno,
 						openfile->placewewant + 1, FALSE, TRUE);
 }
 

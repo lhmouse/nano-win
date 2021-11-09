@@ -288,7 +288,7 @@ keystruct *strtosc(const char *input)
 	         !strcmp(input, "curpos"))  /* Deprecated; remove in 2022. */
 		s->func = report_cursor_position;
 	else if (!strcmp(input, "gotoline"))
-		s->func = do_gotolinecolumn_void;
+		s->func = do_gotolinecolumn;
 #ifdef ENABLE_JUSTIFY
 	else if (!strcmp(input, "justify"))
 		s->func = do_justify;

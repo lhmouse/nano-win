@@ -2434,7 +2434,7 @@ int main(int argc, char **argv)
 
 		/* If a position was given on the command line, go there. */
 		if (givenline != 0 || givencol != 0)
-			do_gotolinecolumn(givenline, givencol, FALSE, FALSE);
+			goto_line_and_column(givenline, givencol, FALSE, FALSE);
 #ifndef NANO_TINY
 		else if (searchstring != NULL) {
 			if (ISSET(USE_REGEXP))
@@ -2457,7 +2457,7 @@ int main(int argc, char **argv)
 			ssize_t savedline, savedcol;
 			/* If edited before, restore the last cursor position. */
 			if (has_old_position(argv[optind - 1], &savedline, &savedcol))
-				do_gotolinecolumn(savedline, savedcol, FALSE, FALSE);
+				goto_line_and_column(savedline, savedcol, FALSE, FALSE);
 		}
 #endif
 	}

@@ -464,9 +464,9 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 void do_replace(void);
 void ask_for_and_do_replacements(void);
 void goto_line_posx(ssize_t line, size_t pos_x);
-void do_gotolinecolumn(ssize_t line, ssize_t column, bool retain_answer,
+void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		bool interactive);
-void do_gotolinecolumn_void(void);
+void do_gotolinecolumn(void);
 #ifndef NANO_TINY
 void do_find_bracket(void);
 void put_or_lift_anchor(void);
