@@ -1254,8 +1254,9 @@ void confirm_margin(void)
 #ifndef NANO_TINY
 		/* Ensure a proper starting column for the first screen row. */
 		ensure_firstcolumn_is_aligned();
-		focusing = keep_focus;
 #endif
+		focusing = keep_focus;
+
 		/* The margin has changed -- schedule a full refresh. */
 		refresh_needed = TRUE;
 	}
