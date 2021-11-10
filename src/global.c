@@ -519,6 +519,14 @@ functionptrtype interpret(int *keycode)
 }
 #endif /* ENABLE_BROWSER || ENABLE_HELP */
 
+#if defined(NANO_TINY) && defined(ENABLE_LINENUMBERS)
+/* Allow toggling line numbers (when enabled) also in the tiny version. */
+void toggle_numbers(void)
+{
+	TOGGLE(LINE_NUMBERS);
+}
+#endif
+
 /* These two tags are used elsewhere too, so they are global. */
 /* TRANSLATORS: Try to keep the next two strings at most 10 characters. */
 const char *exit_tag = N_("Exit");
@@ -1216,9 +1224,13 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "M-W", 0, do_findnext, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "M-Q", 0, do_findprevious, 0);
 #ifdef NANO_TINY
+#ifdef ENABLE_LINENUMBERS
+	add_to_sclist(MMAIN, "M-N", 0, toggle_numbers, 0);
+#else
 	add_to_sclist(MMAIN, "M-B", 0, to_prev_word, 0);
-	add_to_sclist(MMAIN, "M-D", 0, to_prev_word, 0);
 	add_to_sclist(MMAIN, "M-N", 0, to_next_word, 0);
+#endif
+	add_to_sclist(MMAIN, "M-D", 0, to_prev_word, 0);
 	add_to_sclist(MMAIN, "M-F", 0, to_next_word, 0);
 #else
 	add_to_sclist(MMAIN, "M-]", 0, do_find_bracket, 0);
