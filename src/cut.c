@@ -694,9 +694,11 @@ void copy_text(void)
 /* Copy text from the cutbuffer into the current buffer. */
 void paste_text(void)
 {
-#ifndef NANO_TINY
+#if defined(ENABLE_WRAPPING) || !defined(NANO_TINY)
 	/* Remember where the paste started. */
 	linestruct *was_current = openfile->current;
+#endif
+#ifndef NANO_TINY
 	bool had_anchor = was_current->has_anchor;
 #endif
 	ssize_t was_lineno = openfile->current->lineno;
