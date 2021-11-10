@@ -2476,6 +2476,9 @@ int main(int argc, char **argv)
 #endif
 	}
 
+	/* After handling the files on the command line, allow inserting files. */
+	UNSET(NOREAD_MODE);
+
 	/* If no filenames were given, or all of them were invalid things like
 	 * directories, then open a blank buffer and allow editing.  Otherwise,
 	 * switch from the last opened file to the next, that is: the first. */
