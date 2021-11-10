@@ -1196,9 +1196,13 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^J", '\n', do_justify, 0);
 #endif
 #ifdef ENABLE_SPELLER
+#ifndef NANO_TINY
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MEXECUTE, "^S", 0, do_spell, 0);
 	add_to_sclist(MEXECUTE, "^T", 0, do_spell, 0);
+#else
+	add_to_sclist(MMAIN, "^T", 0, do_spell, 0);
+#endif
 #endif
 #ifdef ENABLE_COLOR
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
