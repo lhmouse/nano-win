@@ -423,10 +423,8 @@ void show_help(void)
 	UNSET(USE_REGEXP);
 
 	UNSET(WHITESPACE_DISPLAY);
-	UNSET(NOREAD_MODE);
 
 #ifdef ENABLE_LINENUMBERS
-	UNSET(LINE_NUMBERS);
 	editwincols = COLS - thebar;
 	margin = 0;
 #endif
