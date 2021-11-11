@@ -1691,20 +1691,16 @@ void blank_bottombars(void)
 	}
 }
 
-/* Check if the number of keystrokes needed to blank the status bar has
- * been pressed.  If so, blank the status bar, unless constant cursor
- * position display is on and we are in the editing screen. */
+/* When some number of keystrokes has been reached, wipe the status bar. */
 void check_statusblank(void)
 {
 	if (statusblank == 0)
 		return;
 
-	statusblank--;
-
-	if (statusblank == 0)
+	if (--statusblank == 0)
 		wipe_statusbar();
 
-	/* If the subwindows overlap, make sure to show the edit window now. */
+	/* When windows overlap, make sure to show the edit window now. */
 	if (currmenu == MMAIN && (ISSET(ZERO) || LINES == 1))
 		edit_refresh();
 }
