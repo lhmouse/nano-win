@@ -430,7 +430,7 @@ char *browse(char *path)
 
 	if (path == NULL || dir == NULL) {
 		statusline(ALERT, _("Cannot open directory: %s"), strerror(errno));
-		/* If we don't have a file list yet, there is nothing to show. */
+		/* If we don't have a file list, there is nothing to show. */
 		if (filelist == NULL) {
 			lastmessage = VACUUM;
 			free(present_name);
@@ -486,25 +486,21 @@ char *browse(char *path)
 		if (kbinput == KEY_MOUSE) {
 			int mouse_x, mouse_y;
 
-			/* We can click on the edit window to select a filename. */
+			/* When the user clicked in the file list, select a filename. */
 			if (get_mouseinput(&mouse_y, &mouse_x, TRUE) == 0 &&
 						wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
-				/* longest is the width of each column.  There
-				 * are two spaces between each column. */
 				selected = selected - selected % (editwinrows * width) +
 								(mouse_y * width) + (mouse_x / (longest + 2));
 
-				/* If they clicked beyond the end of a row,
-				 * select the last filename in that row. */
+				/* When beyond end-of-row, select the preceding filename. */
 				if (mouse_x > width * (longest + 2))
 					selected--;
 
-				/* If we're beyond the list, select the last filename. */
+				/* When beyond end-of-list, select the last filename. */
 				if (selected > list_length - 1)
 					selected = list_length - 1;
 
-				/* If we selected the same filename as last time, fake a
-				 * press of the Enter key so that the file is read in. */
+				/* When a filename is clicked a second time, choose it. */
 				if (old_selected == selected)
 					kbinput = KEY_ENTER;
 			}
@@ -524,16 +520,14 @@ char *browse(char *path)
 		if (func == full_refresh) {
 			full_refresh();
 #ifndef NANO_TINY
-			/* Simulate a window resize to force a directory reread. */
+			/* Simulate a terminal resize to force a directory reread. */
 			kbinput = KEY_WINCH;
 #endif
 		} else if (func == do_help) {
 			do_help();
 #ifndef NANO_TINY
-			/* The window dimensions might have changed, so act as if. */
+			/* The terminal dimensions might have changed, so act as if. */
 			kbinput = KEY_WINCH;
-#endif
-#ifndef NANO_TINY
 		} else if (func == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
@@ -615,8 +609,8 @@ char *browse(char *path)
 
 #ifdef ENABLE_OPERATINGDIR
 			if (outside_of_confinement(path, FALSE)) {
-				/* TRANSLATORS: This refers to the confining effect of the
-				 * option --operatingdir, not of --restricted. */
+				/* TRANSLATORS: This refers to the confining effect of
+				 * the option --operatingdir, not of --restricted. */
 				statusline(ALERT, _("Can't go outside of %s"), operating_dir);
 				path = mallocstrcpy(path, present_path);
 				continue;
@@ -679,7 +673,7 @@ char *browse(char *path)
 #endif
 #ifndef NANO_TINY
 		} else if (kbinput == KEY_WINCH) {
-			;  /* Nothing to do. */
+			;  /* Gets handled below. */
 #endif
 		} else if (func == do_exit) {
 			break;
@@ -687,11 +681,10 @@ char *browse(char *path)
 			unbound_key(kbinput);
 
 #ifndef NANO_TINY
-		/* If the window resized, refresh the file list. */
+		/* If the terminal resized (or might have), refresh the file list. */
 		if (kbinput == KEY_WINCH) {
 			/* Remember the selected file, to be able to reselect it. */
 			present_name = copy_of(filelist[selected]);
-			/* Reread the contents of the current directory. */
 			goto read_directory_contents;
 		}
 #endif
