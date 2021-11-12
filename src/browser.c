@@ -32,7 +32,7 @@ static char **filelist = NULL;
 		/* The list of files to display in the file browser. */
 static size_t list_length = 0;
 		/* The number of files in the list. */
-static size_t width = 0;
+static size_t piles = 0;
 		/* The number of files that we can display per screen row. */
 static size_t longest = 0;
 		/* The number of columns in the longest filename in the list. */
@@ -42,7 +42,7 @@ static size_t selected = 0;
 /* Set filelist to the list of files contained in the directory path,
  * set list_length to the number of files in that list, set longest to
  * the width in columns of the longest filename in that list (between 15
- * and COLS), and set width to the number of files that we can display
+ * and COLS), and set piles to the number of files that we can display
  * per screen row.  And sort the list too. */
 void read_the_list(const char *path, DIR *dir)
 {
@@ -103,7 +103,7 @@ void read_the_list(const char *path, DIR *dir)
 	/* Calculate how many files fit on a line -- feigning room for two
 	 * spaces beyond the right edge, and adding two spaces of padding
 	 * between columns. */
-	width = (COLS + 2) / (longest + 2);
+	piles = (COLS + 2) / (longest + 2);
 }
 
 /* Look for needle.  If we find it, set selected to its location.
@@ -143,7 +143,7 @@ void browser_refresh(void)
 	titlebar(present_path);
 	blank_edit();
 
-	for (size_t index = selected - selected % (editwinrows * width);
+	for (size_t index = selected - selected % (editwinrows * piles);
 					index < list_length && row < editwinrows; index++) {
 		const char *thename = tail(filelist[index]);
 				/* The filename we display, minus the path. */
@@ -443,7 +443,7 @@ char *browse(char *path)
 	}
 
 	if (dir != NULL) {
-		/* Get the file list, and set longest and width in the process. */
+		/* Get the file list, and set longest and piles in the process. */
 		read_the_list(path, dir);
 		closedir(dir);
 		dir = NULL;
@@ -489,11 +489,11 @@ char *browse(char *path)
 			/* When the user clicked in the file list, select a filename. */
 			if (get_mouseinput(&mouse_y, &mouse_x, TRUE) == 0 &&
 						wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
-				selected = selected - selected % (editwinrows * width) +
-								(mouse_y * width) + (mouse_x / (longest + 2));
+				selected = selected - selected % (editwinrows * piles) +
+								(mouse_y * piles) + (mouse_x / (longest + 2));
 
 				/* When beyond end-of-row, select the preceding filename. */
-				if (mouse_x > width * (longest + 2))
+				if (mouse_x > piles * (longest + 2))
 					selected--;
 
 				/* When beyond end-of-list, select the last filename. */
@@ -548,43 +548,42 @@ char *browse(char *path)
 			if (selected < list_length - 1)
 				selected++;
 		} else if (func == to_prev_word) {
-			selected -= (selected % width);
+			selected -= (selected % piles);
 		} else if (func == to_next_word) {
-			selected += width - 1 - (selected % width);
+			selected += piles - 1 - (selected % piles);
 			if (selected >= list_length)
 				selected = list_length - 1;
 		} else if (func == do_up) {
-			if (selected >= width)
-				selected -= width;
+			if (selected >= piles)
+				selected -= piles;
 		} else if (func == do_down) {
-			if (selected + width <= list_length - 1)
-				selected += width;
+			if (selected + piles <= list_length - 1)
+				selected += piles;
 		} else if (func == to_prev_block) {
-			selected = ((selected / (editwinrows * width)) *
-								editwinrows * width) + selected % width;
+			selected = ((selected / (editwinrows * piles)) * editwinrows * piles) +
+								 selected % piles;
 		} else if (func == to_next_block) {
-			selected = ((selected / (editwinrows * width)) *
-								editwinrows * width) + selected % width +
-								editwinrows * width - width;
+			selected = ((selected / (editwinrows * piles)) * editwinrows * piles) +
+								selected % piles + editwinrows * piles - piles;
 			if (selected >= list_length)
-				selected = (list_length / width) * width + selected % width;
+				selected = (list_length / piles) * piles + selected % piles;
 			if (selected >= list_length)
-				selected -= width;
+				selected -= piles;
 		} else if (func == do_page_up) {
-			if (selected < width)
+			if (selected < piles)
 				selected = 0;
-			else if (selected < editwinrows * width)
-				selected = selected % width;
+			else if (selected < editwinrows * piles)
+				selected = selected % piles;
 			else
-				selected -= editwinrows * width;
+				selected -= editwinrows * piles;
 		} else if (func == do_page_down) {
-			if (selected + width >= list_length - 1)
+			if (selected + piles >= list_length - 1)
 				selected = list_length - 1;
-			else if (selected + editwinrows * width >= list_length)
-				selected = (selected + editwinrows * width - list_length) %
-								width + list_length - width;
+			else if (selected + editwinrows * piles >= list_length)
+				selected = (selected + editwinrows * piles - list_length) % piles +
+								list_length - piles;
 			else
-				selected += editwinrows * width;
+				selected += editwinrows * piles;
 		} else if (func == to_first_file) {
 			selected = 0;
 		} else if (func == to_last_file) {
