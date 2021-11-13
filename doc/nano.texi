@@ -761,9 +761,12 @@ for more details).  The following global toggles are available:
 @item Expert/No Help
 @kbd{M-X} toggles the @option{-x} (@option{--nohelp}) command-line option.
 
-@item Color Syntax Highlighting
-@kbd{M-Y} toggles color syntax highlighting, when your nanorc defines syntaxes
+@item Syntax Coloring
+@kbd{M-Y} toggles syntax coloring, when your nanorc defines syntaxes
 (@pxref{Syntax Highlighting}).
+
+@item Hidden Interface
+@kbd{M-Z} toggles the @option{-0} (@option{--zero}) command-line option.
 
 @end table
 
