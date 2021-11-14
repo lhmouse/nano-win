@@ -2626,6 +2626,7 @@ char *input_tab(char *morsel, size_t *place, void (*refresh_func)(void), bool *l
 
 	/* If there is more than one possible completion, show a sorted list. */
 	if (num_matches > 1) {
+		int lastrow = editwinrows - 1 - (ISSET(ZERO) && LINES > 1 ? 1 : 0);
 		size_t longest_name = 0;
 		size_t nrows, ncols;
 		int row;
@@ -2651,7 +2652,7 @@ char *input_tab(char *morsel, size_t *place, void (*refresh_func)(void), bool *l
 		ncols = (COLS + 1) / (longest_name + 2);
 		nrows = (num_matches + ncols - 1) / ncols;
 
-		row = (nrows < editwinrows - 1) ? editwinrows - nrows - 1 : 0;
+		row = (nrows < lastrow) ? lastrow - nrows : 0;
 
 		/* Blank the edit window and hide the cursor. */
 		blank_edit();
@@ -2663,7 +2664,7 @@ char *input_tab(char *morsel, size_t *place, void (*refresh_func)(void), bool *l
 
 			wmove(edit, row, (longest_name + 2) * (match % ncols));
 
-			if (row == editwinrows - 1 && (match + 1) % ncols == 0 &&
+			if (row == lastrow && (match + 1) % ncols == 0 &&
 											match + 1 < num_matches) {
 				waddstr(edit, _("(more)"));
 				break;
