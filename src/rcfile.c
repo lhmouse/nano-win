@@ -990,6 +990,19 @@ void parse_includes(char *ptr)
 	free(expanded);
 }
 
+/* Return the index of the color that is closest to the given RGB levels,
+ * assuming that the terminal uses the 6x6x6 color cube of xterm-256color. */
+short closest_index_color(short r, short g, short b)
+{
+	if (COLORS != 256)
+		return THE_DEFAULT;
+
+	/* Translation table, from 16 intended levels to 6 available levels. */
+	static const short level[] = { 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
+
+	return (36 * level[r] + 6 * level[g] + level[b] + 16);
+}
+
 #define COLORCOUNT  20
 
 const char hues[COLORCOUNT][8] = { "red", "green", "blue",
@@ -1022,6 +1035,18 @@ short color_to_short(const char *colorname, bool *vivid, bool *thick)
 	} else {
 		*vivid = FALSE;
 		*thick = FALSE;
+	}
+
+	if (colorname[0] == '#' && strlen(colorname) == 4) {
+		unsigned short r, g, b;
+
+		if (*vivid) {
+			jot_error(N_("Color '%s' takes no prefix"), colorname);
+			return BAD_COLOR;
+		}
+
+		if (sscanf(colorname, "#%1hX%1hX%1hX", &r, &g, &b) == 3)
+			return closest_index_color(r, g, b);
 	}
 
 	for (int index = 0; index < COLORCOUNT; index++)
