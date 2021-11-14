@@ -2545,9 +2545,15 @@ int main(int argc, char **argv)
 
 		if (refresh_needed && (LINES > 1 || lastmessage == VACUUM))
 			edit_refresh();
+		else
+			place_the_cursor();
 
 		/* When there are no bars, redraw a relevant status message. */
 		if (ISSET(ZERO) && lastmessage > HUSH) {
+			if (openfile->current_y == editwinrows - 1 && LINES > 1) {
+				edit_scroll(FORWARD);
+				edit_refresh();
+			}
 			redrawwin(bottomwin);
 			wnoutrefresh(bottomwin);
 		}
