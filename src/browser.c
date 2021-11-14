@@ -107,7 +107,7 @@ void read_the_list(const char *path, DIR *dir)
 	 * between columns. */
 	piles = (COLS + 2) / (longest + 2);
 
-	usable_rows = editwinrows;
+	usable_rows = editwinrows - (ISSET(ZERO) && LINES > 1 ? 1 : 0);
 }
 
 /* Look for needle.  If we find it, set selected to its location.
