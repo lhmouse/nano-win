@@ -221,6 +221,8 @@ void read_keys_from(WINDOW *win)
 
 			if (input == ERR) {
 				if (spotlighted || LINES == 1) {
+					if (ISSET(ZERO) && lastmessage > VACUUM)
+						wredrawln(edit, editwinrows - 1 , 1);
 					lastmessage = VACUUM;
 					spotlighted = FALSE;
 					update_line(openfile->current, openfile->current_x);
