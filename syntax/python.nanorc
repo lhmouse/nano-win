@@ -32,6 +32,10 @@ color brightred "(^|[[:blank:]])#.*"
 color brightgreen start="'''([^'),]|$)" end="(^|[^(\])'''"
 color brightgreen start=""""([^"),]|$)" end="(^|[^(\])""""
 
+# Backslash escapes.
+color peach "\\($|[\'"abfnrtv]|[0-3]?[0-7]?[0-7]|x[[:xdigit:]]{2})"
+color peach "\\(N\{[[:alpha:]]+\}|u[[:xdigit:]]{4}|U[[:xdigit:]]{8})"
+
 # Reminders.
 color brightwhite,yellow "\<(FIXME|TODO|XXX)\>"
 
