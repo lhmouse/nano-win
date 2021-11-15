@@ -24,7 +24,7 @@ color magenta "[[:alnum:]]*:"
 color white "\[[^][:blank:]]*\]"
 
 # Strings.
-color brightblack "'([^'\]|\\(["'\abfnrtv]|x[0-9A-Fa-f]{1,2}|[0-3]?[0-7]{1,2}))'"
+color brightblack "'([^'\]|\\(["'\abfnrtv]|x[[:xdigit:]]{1,2}|[0-3]?[0-7]{1,2}))'"
 color brightblack "<[^= 	]*>|"([^"\]|\\.)*""
 color brightblue "@"([^"\]|\\.)*""
 
