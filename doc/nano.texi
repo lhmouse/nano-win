@@ -704,7 +704,7 @@ The state flags are displayed only when @code{--stateflags} is used.
 
 @item -0
 @itemx --zero
-Hide the minibar (or the title bar plus status bar) and use all rows
+Hide the title bar (or minibar) and use all rows
 of the terminal for showing the text of the buffer.  Only significant
 messages appear on the status bar, and disappear upon the next keystroke.
 This "hidden interface" mode can be toggled with @kbd{M-Z}.
@@ -1150,7 +1150,7 @@ Let an unmodified @kbd{Backspace} or @kbd{Delete} erase the marked region
 (instead of a single character, and without affecting the cutbuffer).
 
 @item set zero
-Hide the minibar (or the title bar plus status bar) and use all rows
+Hide the title bar (or minibar) and use all rows
 of the terminal for showing the text of the buffer.  Only significant
 messages appear on the status bar, and disappear upon the next keystroke.
 This "hidden interface" mode can be toggled with @kbd{M-Z}.
