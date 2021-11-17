@@ -1067,6 +1067,8 @@ void regenerate_screen(void)
 /* Invert the given global flag and adjust things for its new value. */
 void toggle_this(int flag)
 {
+	bool enabled = !ISSET(flag);
+
 	TOGGLE(flag);
 	focusing = FALSE;
 
@@ -1126,12 +1128,10 @@ void toggle_this(int flag)
 	if ((ISSET(MINIBAR) || ISSET(ZERO)) && (flag == NO_HELP || flag == LINE_NUMBERS))
 		return;
 
-		bool enabled = ISSET(flag);
+	if (flag == NO_HELP || flag == NO_SYNTAX)
+		enabled = !enabled;
 
-		if (flag == NO_HELP || flag == NO_SYNTAX)
-			enabled = !enabled;
-
-		statusline(REMARK, "%s %s", _(flagtostr(flag)),
+	statusline(REMARK, "%s %s", _(flagtostr(flag)),
 									enabled ? _("enabled") : _("disabled"));
 }
 #endif /* !NANO_TINY */
