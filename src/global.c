@@ -1512,7 +1512,7 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
 /* Return the textual description that corresponds to the given flag. */
-const char *flagtostr(int flag)
+const char *epithet_of_flag(int flag)
 {
 	switch (flag) {
 		case NO_HELP:

@@ -323,7 +323,7 @@ functionptrtype interpret(int *keycode);
 #endif
 int keycode_from_string(const char *keystring);
 void shortcut_init(void);
-const char *flagtostr(int flag);
+const char *epithet_of_flag(int flag);
 
 /* Some functions in help.c. */
 #ifdef ENABLE_HELP

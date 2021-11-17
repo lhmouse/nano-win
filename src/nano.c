@@ -1077,6 +1077,8 @@ void toggle_this(int flag)
 		case ZERO:
 			window_init();
 			draw_all_subwindows();
+			if (flag == ZERO)
+				return;
 			break;
 		case CONSTANT_SHOW:
 			if (ISSET(ZERO) || LINES == 1) {
@@ -1114,9 +1116,6 @@ void toggle_this(int flag)
 #endif
 	}
 
-	if (flag == ZERO)
-		return;
-
 	if (ISSET(STATEFLAGS) && !ISSET(ZERO) && (flag == AUTOINDENT ||
 							flag == BREAK_LONG_LINES || flag == SOFTWRAP)) {
 		if (ISSET(MINIBAR))
@@ -1131,7 +1130,7 @@ void toggle_this(int flag)
 	if (flag == NO_HELP || flag == NO_SYNTAX)
 		enabled = !enabled;
 
-	statusline(REMARK, "%s %s", _(flagtostr(flag)),
+	statusline(REMARK, "%s %s", _(epithet_of_flag(flag)),
 									enabled ? _("enabled") : _("disabled"));
 }
 #endif /* !NANO_TINY */

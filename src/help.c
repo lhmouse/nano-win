@@ -235,7 +235,7 @@ void help_init(void)
 
 		for (s = sclist; s != NULL; s = s->next)
 			if (s->func == do_toggle)
-				allocsize += strlen(_(flagtostr(s->toggle))) + onoff_len + 9;
+				allocsize += strlen(_(epithet_of_flag(s->toggle))) + onoff_len + 9;
 	}
 #endif
 
@@ -303,7 +303,7 @@ void help_init(void)
 			for (s = sclist; s != NULL; s = s->next)
 				if (s->toggle && s->ordinal == counter) {
 					ptr += sprintf(ptr, "%s\t\t %s %s\n", (s->menus & MMAIN ? s->keystr : ""),
-								_(flagtostr(s->toggle)), _("enable/disable"));
+								_(epithet_of_flag(s->toggle)), _("enable/disable"));
 					/* Add a blank like between two groups. */
 					if (s->toggle == NO_SYNTAX)
 						ptr += sprintf(ptr, "\n");
