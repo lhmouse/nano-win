@@ -1086,6 +1086,13 @@ void toggle_this(int flag)
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
 			break;
+		case TABS_TO_SPACES:
+			if (openfile->syntax && openfile->syntax->tab) {
+				statusline(AHEM, _("Current syntax determines Tab"));
+				TOGGLE(flag);
+				return;
+			}
+			break;
 		case WHITESPACE_DISPLAY:
 			titlebar(NULL);
 			refresh_needed = TRUE;
