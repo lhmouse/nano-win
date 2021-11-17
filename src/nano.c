@@ -420,8 +420,8 @@ void window_init(void)
 		edit = newwin(editwinrows, COLS, 0, 0);
 		bottomwin = newwin(1, COLS, LINES - 1, 0);
 	} else {
-		int toprows = ((ISSET(EMPTY_LINE) && LINES > 5) ? 2 : 1);
-		int bottomrows = ((ISSET(NO_HELP) || LINES < 5) ? 1 : 3);
+		int toprows = ((ISSET(EMPTY_LINE) && LINES > 6) ? 2 : 1);
+		int bottomrows = ((ISSET(NO_HELP) || LINES < 6) ? 1 : 3);
 
 #ifndef NANO_TINY
 		if (ISSET(MINIBAR) || ISSET(ZERO))

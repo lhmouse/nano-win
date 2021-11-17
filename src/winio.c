@@ -2391,7 +2391,7 @@ void bottombars(int menu)
 	/* Set the global variable to the given menu. */
 	currmenu = menu;
 
-	if (ISSET(NO_HELP) || LINES < 5)
+	if (ISSET(NO_HELP) || LINES < 6)
 		return;
 
 	/* Determine how many shortcuts must be shown. */
