@@ -411,7 +411,7 @@ void show_help(void)
 	memcpy(stash, flags, sizeof(flags));
 
 	/* Ensure that the help screen's shortcut list can be displayed. */
-	if ((ISSET(NO_HELP) || ISSET(ZERO)) && LINES > 4) {
+	if (ISSET(NO_HELP) || ISSET(ZERO)) {
 		UNSET(NO_HELP);
 		UNSET(ZERO);
 		window_init();
