@@ -550,13 +550,12 @@ void show_help(void)
 
 	curs_set(0);
 
-	if (ISSET(NO_HELP) || ISSET(ZERO)) {
-		currmenu = oldmenu;
+	if (ISSET(NO_HELP) || ISSET(ZERO))
 		window_init();
-	} else {
+	else
 		blank_statusbar();
-		bottombars(oldmenu);
-	}
+
+	bottombars(oldmenu);
 
 #ifdef ENABLE_BROWSER
 	if (oldmenu & (MBROWSER|MWHEREISFILE|MGOTODIR))
