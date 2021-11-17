@@ -1515,14 +1515,18 @@ void shortcut_init(void)
 const char *epithet_of_flag(int flag)
 {
 	switch (flag) {
-		case NO_HELP:
+		case ZERO:
 			/* TRANSLATORS: The next thirteen strings are toggle descriptions;
 			 * they are best kept shorter than 40 characters, but may be longer. */
+			return N_("Hidden interface");
+		case NO_HELP:
 			return N_("Help mode");
 		case CONSTANT_SHOW:
 			return N_("Constant cursor position display");
 		case SOFTWRAP:
 			return N_("Soft wrapping of overlong lines");
+		case LINE_NUMBERS:
+			return N_("Line numbering");
 		case WHITESPACE_DISPLAY:
 			return N_("Whitespace display");
 		case NO_SYNTAX:
@@ -1539,13 +1543,8 @@ const char *epithet_of_flag(int flag)
 			return N_("Conversion of typed tabs to spaces");
 		case USE_MOUSE:
 			return N_("Mouse support");
-		case LINE_NUMBERS:
-			return N_("Line numbering");
-		case ZERO:
-			return N_("Hidden interface");
 		default:
-			die("Bad toggle -- please report a bug\n");
-			return "";
+			return "Ehm...";
 	}
 }
 #endif /* !NANO_TINY */
