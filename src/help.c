@@ -325,7 +325,7 @@ void wrap_help_text_into_buffer(void)
 	make_new_buffer();
 
 	/* Ensure there is a blank line at the top of the text, for esthetics. */
-	if (ISSET(MINIBAR) || !ISSET(EMPTY_LINE)) {
+	if ((ISSET(MINIBAR) || !ISSET(EMPTY_LINE)) && LINES > 6) {
 		openfile->current->data = mallocstrcpy(openfile->current->data, " ");
 		openfile->current->next = make_new_node(openfile->current);
 		openfile->current = openfile->current->next;
