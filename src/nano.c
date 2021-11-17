@@ -1076,6 +1076,13 @@ void toggle_this(int flag)
 			window_init();
 			draw_all_subwindows();
 			break;
+		case CONSTANT_SHOW:
+			if (ISSET(ZERO) || LINES == 1) {
+				statusline(AHEM, _("Not possible in barless mode"));
+				TOGGLE(flag);
+			} else if (!ISSET(MINIBAR))
+				wipe_statusbar();
+			return;
 #ifdef ENABLE_MOUSE
 		case USE_MOUSE:
 			mouse_init();
@@ -1119,13 +1126,6 @@ void toggle_this(int flag)
 	if ((ISSET(MINIBAR) || ISSET(ZERO)) && (flag == NO_HELP || flag == LINE_NUMBERS))
 		return;
 
-	if (flag == CONSTANT_SHOW) {
-		if (ISSET(ZERO) || LINES == 1) {
-			statusline(AHEM, _("Not possible in barless mode"));
-			TOGGLE(flag);
-		} else if (!ISSET(MINIBAR))
-			wipe_statusbar();
-	} else {
 		bool enabled = ISSET(flag);
 
 		if (flag == NO_HELP || flag == NO_SYNTAX)
@@ -1133,7 +1133,6 @@ void toggle_this(int flag)
 
 		statusline(REMARK, "%s %s", _(flagtostr(flag)),
 									enabled ? _("enabled") : _("disabled"));
-	}
 }
 #endif /* !NANO_TINY */
 
