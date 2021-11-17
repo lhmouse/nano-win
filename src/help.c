@@ -411,8 +411,9 @@ void show_help(void)
 	memcpy(stash, flags, sizeof(flags));
 
 	/* Ensure that the help screen's shortcut list can be displayed. */
-	if (ISSET(NO_HELP) && LINES > 4) {
+	if ((ISSET(NO_HELP) || ISSET(ZERO)) && LINES > 4) {
 		UNSET(NO_HELP);
+		UNSET(ZERO);
 		window_init();
 	} else
 		blank_statusbar();
@@ -549,7 +550,7 @@ void show_help(void)
 
 	curs_set(0);
 
-	if (ISSET(NO_HELP)) {
+	if (ISSET(NO_HELP) || ISSET(ZERO)) {
 		currmenu = oldmenu;
 		window_init();
 	} else {
