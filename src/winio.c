@@ -3465,7 +3465,7 @@ void adjust_viewport(update_type manner)
 	else if (manner == CENTERING)
 		goal = editwinrows / 2;
 	else if (!current_is_above_screen())
-		goal = editwinrows - 1;
+		goal = editwinrows - 1 - SHIM;
 
 	openfile->edittop = openfile->current;
 #ifndef NANO_TINY
