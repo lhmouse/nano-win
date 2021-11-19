@@ -819,9 +819,11 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 						"Read %zu lines (Converted from DOS format)",
 						num_lines), num_lines);
 #endif
-	else if (!ISSET(ZERO))
-		statusline(HUSH, P_("Read %zu line", "Read %zu lines",
+	else if ((!ISSET(MINIBAR) && !ISSET(ZERO)) || we_are_running)
+		statusline(REMARK, P_("Read %zu line", "Read %zu lines",
 						num_lines), num_lines);
+
+	report_size = TRUE;
 
 	/* If we inserted less than a screenful, don't center the cursor. */
 	if (undoable && less_than_a_screenful(was_lineno, was_leftedge))
@@ -898,7 +900,7 @@ int open_file(const char *filename, bool new_one, FILE **f)
 			statusline(ALERT, _("Error reading %s: %s"), filename, strerror(errno));
 			close(fd);
 			fd = -1;
-		} else if (!ISSET(ZERO))
+		} else if (!ISSET(ZERO) || we_are_running)
 			statusbar(_("Reading..."));
 	}
 
