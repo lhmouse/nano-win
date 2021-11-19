@@ -2553,7 +2553,8 @@ int main(int argc, char **argv)
 		else
 			place_the_cursor();
 
-		/* When there are no bars, redraw a relevant status message. */
+		/* In barless mode, either redraw a relevant status message,
+		 * or overwrite a minor, redundant one. */
 		if (ISSET(ZERO) && lastmessage > HUSH) {
 			if (openfile->current_y == editwinrows - 1 && LINES > 1) {
 				edit_scroll(FORWARD);
@@ -2561,7 +2562,8 @@ int main(int argc, char **argv)
 			}
 			redrawwin(bottomwin);
 			wnoutrefresh(bottomwin);
-		}
+		} else if (ISSET(ZERO) && lastmessage > VACUUM)
+			wredrawln(edit, editwinrows - 1, 1);
 
 		place_the_cursor();
 		wnoutrefresh(edit);
