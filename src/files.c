@@ -819,7 +819,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 						"Read %zu lines (Converted from DOS format)",
 						num_lines), num_lines);
 #endif
-	else if ((!ISSET(MINIBAR) && !ISSET(ZERO)) || we_are_running)
+	else if ((!ISSET(MINIBAR) && !ISSET(ZERO)) || (we_are_running && undoable))
 		statusline(REMARK, P_("Read %zu line", "Read %zu lines",
 						num_lines), num_lines);
 
