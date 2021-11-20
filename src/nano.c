@@ -2553,6 +2553,7 @@ int main(int argc, char **argv)
 		else
 			place_the_cursor();
 
+#ifndef NANO_TINY
 		/* In barless mode, either redraw a relevant status message,
 		 * or overwrite a minor, redundant one. */
 		if (ISSET(ZERO) && lastmessage > HUSH) {
@@ -2562,11 +2563,10 @@ int main(int argc, char **argv)
 			}
 			redrawwin(bottomwin);
 			wnoutrefresh(bottomwin);
+			wnoutrefresh(edit);
 		} else if (ISSET(ZERO) && lastmessage > VACUUM)
 			wredrawln(edit, editwinrows - 1, 1);
-
-		place_the_cursor();
-		wnoutrefresh(edit);
+#endif
 
 		errno = 0;
 		focusing = TRUE;
