@@ -1703,8 +1703,7 @@ void check_statusblank(void)
 		wipe_statusbar();
 
 	/* When windows overlap, make sure to show the edit window now. */
-	if (currmenu == MMAIN && (ISSET(ZERO) || LINES == 1))
-	{
+	if (currmenu == MMAIN && (ISSET(ZERO) || LINES == 1)) {
 		wredrawln(edit, editwinrows - 1, 1);
 		wnoutrefresh(edit);
 	}

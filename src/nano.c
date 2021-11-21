@@ -2561,7 +2561,7 @@ int main(int argc, char **argv)
 				edit_scroll(FORWARD);
 				wnoutrefresh(edit);
 			}
-			redrawwin(bottomwin);
+			wredrawln(bottomwin, 0 ,1);
 			wnoutrefresh(bottomwin);
 			place_the_cursor();
 		} else if (ISSET(ZERO) && lastmessage > VACUUM)
