@@ -925,6 +925,11 @@ other valid (but unprefixable) color names are:
 @code{lagoon}, @code{mint}, @code{lime},
 @code{peach}, @code{orange}, @code{latte}, and @code{normal}
 --- where @code{normal} means the default foreground or background color.
+On such emulators, the color may also be specified as a three-digit hexadecimal
+number prefixed with @code{#}, with the digits representing the amounts of red,
+green, and blue, respectively.  This tells @command{nano} to select from the
+available palette the color that approximates the given values.
+
 Either @var{fgcolor} or ,@var{bgcolor} may be left out,
 and the pair may be preceded by @code{bold} and/or @code{italic}
 (separated by commas) to get a bold and/or slanting typeface,
@@ -1262,6 +1267,11 @@ other valid (but unprefixable) color names are:
 @code{lagoon}, @code{mint}, @code{lime},
 @code{peach}, @code{orange}, @code{latte}, and @code{normal}
 --- where @code{normal} means the default foreground or background color.
+On such emulators, the color may also be specified as a three-digit hexadecimal
+number prefixed with @code{#}, with the digits representing the amounts of red,
+green, and blue, respectively.  This tells @command{nano} to select from the
+available palette the color that approximates the given values.
+
 The color pair may be preceded by @code{bold} and/or @code{italic}
 (separated by commas) to get a bold and/or slanting typeface,
 if your terminal can do those.

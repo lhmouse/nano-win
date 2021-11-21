@@ -365,6 +365,11 @@ other valid (but unprefixable) color names are:
 .BR pink ", " purple ", " mauve ", " lagoon ", " mint ", "
 .BR lime ", " peach ", " orange ", " latte ", and " normal
 -- where \fBnormal\fR means the default foreground or background color.
+On such emulators, the color may also be specified as a three-digit hexadecimal
+number prefixed with \fB#\fR, with the digits representing the amounts of red,
+green, and blue, respectively.  This tells \fBnano\fR to select from the
+available palette the color that approximates the given values.
+
 Either "\fIfgcolor\fR" or "\fB,\fIbgcolor\fR" may be left out,
 and the pair may be preceded by \fBbold\fR and/or \fBitalic\fR
 (separated by commas) to get a bold and/or slanting typeface,
@@ -498,6 +503,11 @@ other valid (but unprefixable) color names are:
 .BR pink ", " purple ", " mauve ", " lagoon ", " mint ", "
 .BR lime ", " peach ", " orange ", " latte ", and " normal
 -- where \fBnormal\fR means the default foreground or background color.
+On such emulators, the color may also be specified as a three-digit hexadecimal
+number prefixed with \fB#\fR, with the digits representing the amounts of red,
+green, and blue, respectively.  This tells \fBnano\fR to select from the
+available palette the color that approximates the given values.
+
 The color pair may be preceded by \fBbold\fR and/or \fBitalic\fR
 (separated by commas) to get a bold and/or slanting typeface,
 if your terminal can do those.
