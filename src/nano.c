@@ -1116,17 +1116,16 @@ void toggle_this(int flag)
 #endif
 	}
 
-	if (ISSET(STATEFLAGS) && !ISSET(ZERO) && (flag == AUTOINDENT ||
-							flag == BREAK_LONG_LINES || flag == SOFTWRAP)) {
-		if (ISSET(MINIBAR))
+	if (flag == AUTOINDENT || flag == BREAK_LONG_LINES || flag == SOFTWRAP) {
+		if (ISSET(MINIBAR) && !ISSET(ZERO) && ISSET(STATEFLAGS))
 			return;
-		else
+		if (ISSET(STATEFLAGS))
 			titlebar(NULL);
 	}
 
-	if ((ISSET(MINIBAR) || ISSET(ZERO)) && (flag == NO_HELP || flag == LINE_NUMBERS ||
-											flag == WHITESPACE_DISPLAY))
-		return;
+	if (flag == NO_HELP || flag == LINE_NUMBERS || flag == WHITESPACE_DISPLAY)
+		if (ISSET(MINIBAR) || ISSET(ZERO))
+			return;
 
 	if (flag == NO_HELP || flag == NO_SYNTAX)
 		enabled = !enabled;
