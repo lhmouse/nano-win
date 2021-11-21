@@ -2559,11 +2559,11 @@ int main(int argc, char **argv)
 		if (ISSET(ZERO) && lastmessage > HUSH) {
 			if (openfile->current_y == editwinrows - 1 && LINES > 1) {
 				edit_scroll(FORWARD);
-				edit_refresh();
+				wnoutrefresh(edit);
 			}
 			redrawwin(bottomwin);
 			wnoutrefresh(bottomwin);
-			wnoutrefresh(edit);
+			place_the_cursor();
 		} else if (ISSET(ZERO) && lastmessage > VACUUM)
 			wredrawln(edit, editwinrows - 1, 1);
 #endif

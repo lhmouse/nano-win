@@ -1704,7 +1704,10 @@ void check_statusblank(void)
 
 	/* When windows overlap, make sure to show the edit window now. */
 	if (currmenu == MMAIN && (ISSET(ZERO) || LINES == 1))
-		edit_refresh();
+	{
+		wredrawln(edit, editwinrows - 1, 1);
+		wnoutrefresh(edit);
+	}
 }
 
 /* Ensure that the status bar will be wiped upon the next keystroke. */
