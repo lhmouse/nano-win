@@ -1124,7 +1124,8 @@ void toggle_this(int flag)
 			titlebar(NULL);
 	}
 
-	if ((ISSET(MINIBAR) || ISSET(ZERO)) && (flag == NO_HELP || flag == LINE_NUMBERS))
+	if ((ISSET(MINIBAR) || ISSET(ZERO)) && (flag == NO_HELP || flag == LINE_NUMBERS ||
+											flag == WHITESPACE_DISPLAY))
 		return;
 
 	if (flag == NO_HELP || flag == NO_SYNTAX)
