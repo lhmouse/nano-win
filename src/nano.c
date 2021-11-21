@@ -1073,36 +1073,25 @@ void toggle_this(int flag)
 	focusing = FALSE;
 
 	switch (flag) {
-		case NO_HELP:
 		case ZERO:
 			window_init();
 			draw_all_subwindows();
-			if (flag == ZERO)
-				return;
+			return;
+		case NO_HELP:
+			window_init();
+			draw_all_subwindows();
 			break;
 		case CONSTANT_SHOW:
 			if (ISSET(ZERO) || LINES == 1) {
-				statusline(AHEM, _("Not possible in barless mode"));
+				statusline(AHEM, _("Not possible"));
 				TOGGLE(flag);
 			} else if (!ISSET(MINIBAR))
 				wipe_statusbar();
 			return;
-#ifdef ENABLE_MOUSE
-		case USE_MOUSE:
-			mouse_init();
-			break;
-#endif
 		case SOFTWRAP:
 			if (!ISSET(SOFTWRAP))
 				openfile->firstcolumn = 0;
 			refresh_needed = TRUE;
-			break;
-		case TABS_TO_SPACES:
-			if (openfile->syntax && openfile->syntax->tab) {
-				statusline(AHEM, _("Current syntax determines Tab"));
-				TOGGLE(flag);
-				return;
-			}
 			break;
 		case WHITESPACE_DISPLAY:
 			titlebar(NULL);
@@ -1112,6 +1101,18 @@ void toggle_this(int flag)
 		case NO_SYNTAX:
 			precalc_multicolorinfo();
 			refresh_needed = TRUE;
+			break;
+#endif
+		case TABS_TO_SPACES:
+			if (openfile->syntax && openfile->syntax->tab) {
+				statusline(AHEM, _("Current syntax determines Tab"));
+				TOGGLE(flag);
+				return;
+			}
+			break;
+#ifdef ENABLE_MOUSE
+		case USE_MOUSE:
+			mouse_init();
 			break;
 #endif
 	}
