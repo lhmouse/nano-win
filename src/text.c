@@ -2717,7 +2717,7 @@ void do_linter(void)
 		return;
 	}
 
-	if (helpless && LINES > 4) {
+	if (helpless && LINES > 5) {
 		UNSET(NO_HELP);
 		window_init();
 	}

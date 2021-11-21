@@ -1687,7 +1687,7 @@ void wipe_statusbar(void)
 /* Blank out the two help lines (when they are present). */
 void blank_bottombars(void)
 {
-	if (!ISSET(NO_HELP) && LINES > 4) {
+	if (!ISSET(NO_HELP) && LINES > 5) {
 		blank_row(bottomwin, 1);
 		blank_row(bottomwin, 2);
 	}
