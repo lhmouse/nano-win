@@ -192,9 +192,6 @@ void read_keys_from(WINDOW *win)
 	if (reveal_cursor && !hide_cursor && (LINES > 1 || lastmessage <= HUSH))
 		curs_set(1);
 
-	if (ISSET(ZERO) && openfile->current_y == editwinrows - 1 && lastmessage > HUSH)
-		curs_set(0);
-
 #ifndef NANO_TINY
 	if (currmenu == MMAIN && (spotlighted || ((ISSET(MINIBAR) || LINES == 1) &&
 						lastmessage > HUSH &&
