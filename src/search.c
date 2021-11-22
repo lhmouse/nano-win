@@ -327,7 +327,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		spotlighted = TRUE;
 		light_from_col = xplustabs();
 		light_to_col = wideness(line->data, found_x + found_len);
-		edit_refresh();
+		refresh_needed = TRUE;
 	}
 #endif
 
@@ -722,7 +722,7 @@ void ask_for_and_do_replacements(void)
 	openfile->current = beginline;
 	openfile->current_x = begin_x;
 
-	edit_refresh();
+	refresh_needed = TRUE;
 
 	if (numreplaced >= 0)
 		statusline(REMARK, P_("Replaced %zd occurrence",
