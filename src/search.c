@@ -327,8 +327,6 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		spotlighted = TRUE;
 		light_from_col = xplustabs();
 		light_to_col = wideness(line->data, found_x + found_len);
-		if (!ISSET(SHOW_CURSOR))
-			hide_cursor = TRUE;
 		edit_refresh();
 	}
 #endif

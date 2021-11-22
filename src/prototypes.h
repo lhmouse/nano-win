@@ -53,7 +53,6 @@ extern message_type lastmessage;
 extern linestruct *pletion_line;
 
 extern bool also_the_last;
-extern bool hide_cursor;
 
 extern char *answer;
 
