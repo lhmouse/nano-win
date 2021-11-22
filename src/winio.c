@@ -193,7 +193,7 @@ void read_keys_from(WINDOW *win)
 		curs_set(1);
 
 #ifndef NANO_TINY
-	if (currmenu == MMAIN && (spotlighted || ((ISSET(MINIBAR) || LINES == 1) &&
+	if (currmenu == MMAIN && (spotlighted || ((ISSET(MINIBAR) || ISSET(ZERO) || LINES == 1) &&
 						lastmessage > HUSH &&
 						lastmessage != INFO && lastmessage < ALERT))) {
 		timed = TRUE;
@@ -217,7 +217,7 @@ void read_keys_from(WINDOW *win)
 			raw();
 
 			if (input == ERR) {
-				if (spotlighted || LINES == 1) {
+				if (spotlighted || ISSET(ZERO) || LINES == 1) {
 					if (ISSET(ZERO) && lastmessage > VACUUM)
 						wredrawln(edit, editwinrows - 1 , 1);
 					lastmessage = VACUUM;
