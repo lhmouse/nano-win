@@ -193,9 +193,9 @@ void read_keys_from(WINDOW *win)
 		curs_set(1);
 
 #ifndef NANO_TINY
-	if (currmenu == MMAIN && (spotlighted || ((ISSET(MINIBAR) || ISSET(ZERO) || LINES == 1) &&
-						lastmessage > HUSH &&
-						lastmessage != INFO && lastmessage < ALERT))) {
+	if (currmenu == MMAIN && (((ISSET(MINIBAR) || ISSET(ZERO) || LINES == 1) &&
+						lastmessage > HUSH && lastmessage < ALERT &&
+						lastmessage != INFO) || spotlighted)) {
 		timed = TRUE;
 		halfdelay(ISSET(QUICK_BLANK) ? 8 : 15);
 		disable_kb_interrupt();
