@@ -1078,6 +1078,11 @@ void toggle_this(int flag)
 			draw_all_subwindows();
 			return;
 		case NO_HELP:
+			if (LINES < 6) {
+				statusline(AHEM, _("Too tiny"));
+				TOGGLE(flag);
+				return;
+			}
 			window_init();
 			draw_all_subwindows();
 			break;
