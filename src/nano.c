@@ -1130,7 +1130,7 @@ void toggle_this(int flag)
 	}
 
 	if (flag == NO_HELP || flag == LINE_NUMBERS || flag == WHITESPACE_DISPLAY)
-		if (ISSET(MINIBAR) || ISSET(ZERO))
+		if (ISSET(MINIBAR) || ISSET(ZERO) || LINES == 1)
 			return;
 
 	if (flag == NO_HELP || flag == NO_SYNTAX)
