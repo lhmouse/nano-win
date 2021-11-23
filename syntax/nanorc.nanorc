@@ -29,7 +29,7 @@ color magenta "^[[:blank:]]*i?color\>|[[:blank:]](start=|end=)"
 color bold,pink "[[:cntrl:]]"
 
 # Comments
-color brightblue "(^|[[:blank:]]+)#.*"
+color brightblue "^[[:blank:]]*#.*|[[:blank:]]#[[:blank:]].*"
 color cyan "^[[:blank:]]*##.*"
 
 # Trailing whitespace
