@@ -185,7 +185,7 @@ void read_keys_from(WINDOW *win)
 	/* Before reading the first keycode, display any pending screen updates. */
 	doupdate();
 
-	if (reveal_cursor && (!spotlighted || ISSET(SHOW_CURSOR || currmenu == MSPELL)) &&
+	if (reveal_cursor && (!spotlighted || ISSET(SHOW_CURSOR) || currmenu == MSPELL) &&
 						(LINES > 1 || lastmessage <= HUSH))
 		curs_set(1);
 
