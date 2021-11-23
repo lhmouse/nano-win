@@ -2548,7 +2548,7 @@ int main(int argc, char **argv)
 
 		as_an_at = TRUE;
 
-		if (refresh_needed && (LINES > 1 || lastmessage == VACUUM))
+		if ((refresh_needed && LINES > 1) || (LINES == 1 && lastmessage <= HUSH))
 			edit_refresh();
 		else
 			place_the_cursor();

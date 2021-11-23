@@ -182,10 +182,6 @@ void read_keys_from(WINDOW *win)
 	bool timed = FALSE;
 #endif
 
-	/* On a one-row terminal, overwrite an unimportant message. */
-	if (LINES == 1 && currmenu == MMAIN && lastmessage == HUSH)
-		edit_refresh();
-
 	/* Before reading the first keycode, display any pending screen updates. */
 	doupdate();
 
