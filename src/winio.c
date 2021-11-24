@@ -2243,11 +2243,7 @@ void statusline(message_type importance, const char *msg, ...)
 	char *compound, *message;
 	static size_t start_col = 0;
 	bool bracketed;
-#ifndef NANO_TINY
-	bool old_whitespace = ISSET(WHITESPACE_DISPLAY);
-
-	UNSET(WHITESPACE_DISPLAY);
-#endif
+	bool showed_whitespace = ISSET(WHITESPACE_DISPLAY);
 
 	/* Ignore a message with an importance that is lower than the last one. */
 	if (importance < lastmessage && lastmessage > NOTICE)
@@ -2306,6 +2302,8 @@ void statusline(message_type importance, const char *msg, ...)
 
 	blank_statusbar();
 
+	UNSET(WHITESPACE_DISPLAY);
+
 	message = display_string(compound, 0, COLS, FALSE, FALSE);
 	free(compound);
 
@@ -2331,10 +2329,8 @@ void statusline(message_type importance, const char *msg, ...)
 	wrefresh(bottomwin);
 	free(message);
 
-#ifndef NANO_TINY
-	if (old_whitespace)
+	if (showed_whitespace)
 		SET(WHITESPACE_DISPLAY);
-#endif
 
 	/* When requested, wipe the status bar after just one keystroke. */
 	statusblank = (ISSET(QUICK_BLANK) ? 1 : 20);
