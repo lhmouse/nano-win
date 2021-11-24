@@ -1673,8 +1673,13 @@ void blank_statusbar(void)
 /* Wipe the status bar clean and include this in the next screen update. */
 void wipe_statusbar(void)
 {
+#ifndef NANO_TINY
+	if (ISSET(ZERO))
+		wredrawln(edit, editwinrows - 1, 1);
+
 	if (ISSET(ZERO) || ISSET(MINIBAR) || LINES == 1)
 		return;
+#endif
 
 	blank_row(bottomwin, 0);
 	wnoutrefresh(bottomwin);
