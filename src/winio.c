@@ -1676,12 +1676,13 @@ void blank_statusbar(void)
 /* Wipe the status bar clean and include this in the next screen update. */
 void wipe_statusbar(void)
 {
+	lastmessage = VACUUM;
+
 	if (ISSET(ZERO) || ISSET(MINIBAR) || LINES == 1)
 		return;
 
 	blank_row(bottomwin, 0);
 	wnoutrefresh(bottomwin);
-	lastmessage = VACUUM;
 }
 
 /* Blank out the two help lines (when they are present). */
