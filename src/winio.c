@@ -1492,6 +1492,9 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	/* Turn bracketed-paste mode back on. */
 	printf("\x1B[?2004h");
 	fflush(stdout);
+
+	if (ISSET(ZERO) && currmenu == MMAIN)
+		wredrawln(edit, editwinrows - 1, 1);
 #endif
 
 	/* Turn flow control characters back on if necessary and turn the
@@ -1673,13 +1676,8 @@ void blank_statusbar(void)
 /* Wipe the status bar clean and include this in the next screen update. */
 void wipe_statusbar(void)
 {
-#ifndef NANO_TINY
-	if (ISSET(ZERO))
-		wredrawln(edit, editwinrows - 1, 1);
-
 	if (ISSET(ZERO) || ISSET(MINIBAR) || LINES == 1)
 		return;
-#endif
 
 	blank_row(bottomwin, 0);
 	wnoutrefresh(bottomwin);
