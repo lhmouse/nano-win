@@ -2238,12 +2238,12 @@ void minibar(void)
  * is higher than that of a message that is already there. */
 void statusline(message_type importance, const char *msg, ...)
 {
-	va_list ap;
-	int colorpair;
-	char *compound, *message;
-	static size_t start_col = 0;
-	bool bracketed;
 	bool showed_whitespace = ISSET(WHITESPACE_DISPLAY);
+	static size_t start_col = 0;
+	char *compound, *message;
+	bool bracketed;
+	int colorpair;
+	va_list ap;
 
 	/* Ignore a message with an importance that is lower than the last one. */
 	if (importance < lastmessage && lastmessage > NOTICE)
@@ -2305,7 +2305,9 @@ void statusline(message_type importance, const char *msg, ...)
 	UNSET(WHITESPACE_DISPLAY);
 
 	message = display_string(compound, 0, COLS, FALSE, FALSE);
-	free(compound);
+
+	if (showed_whitespace)
+		SET(WHITESPACE_DISPLAY);
 
 	start_col = (COLS - breadth(message)) / 2;
 	bracketed = (start_col > 1);
@@ -2327,10 +2329,9 @@ void statusline(message_type importance, const char *msg, ...)
 
 	/* Push the message to the screen straightaway. */
 	wrefresh(bottomwin);
-	free(message);
 
-	if (showed_whitespace)
-		SET(WHITESPACE_DISPLAY);
+	free(compound);
+	free(message);
 
 	/* When requested, wipe the status bar after just one keystroke. */
 	statusblank = (ISSET(QUICK_BLANK) ? 1 : 20);
