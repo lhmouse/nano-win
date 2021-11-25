@@ -2219,6 +2219,10 @@ int main(int argc, char **argv)
 	if (ISSET(RAW_SEQUENCES))
 		UNSET(USE_MOUSE);
 
+	/* When suppressing title bar or minibar, suppress also the help lines. */
+	if (ISSET(ZERO))
+		SET(NO_HELP);
+
 #ifdef ENABLE_HISTORIES
 	/* Initialize the pointers for the Search/Replace/Execute histories. */
 	history_init();
