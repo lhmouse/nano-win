@@ -187,7 +187,7 @@
   It allows running a syntax-specific command on the contents of
   the buffer.
 • ^T will try to run 'hunspell' before 'spell', because it checks
-  spellling for the locale's language and understands UTF-8.
+  spelling for the locale's language and understands UTF-8.
 • Multiple errors or warnings on startup will no longer slow nano
   down but will be indicated on the status bar with trailing dots.
 
