@@ -437,7 +437,7 @@ void window_init(void)
 	}
 
 	/* In case the terminal shrunk, make sure the status line is clear. */
-	wipe_statusbar();
+	wnoutrefresh(bottomwin);
 
 	/* When not disabled, turn escape-sequence translation on. */
 	if (!ISSET(RAW_SEQUENCES)) {
