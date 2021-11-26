@@ -403,10 +403,12 @@ Let an unmodified Backspace or Delete erase the marked region
 (instead of a single character, and without affecting the cutbuffer).
 .TP
 .B set zero
-Hide the title bar (or minibar) and use all rows
-of the terminal for showing the text of the buffer.  Only significant
-messages appear on the status bar, and disappear upon the next keystroke.
-This "hidden interface" mode can be toggled with \fBM-Z\fR.
+Hide all elements of the interface (title bar, status bar, and help lines)
+and use all rows of the terminal for showing the contents of the buffer.
+The status bar appears only where there is a significant message,
+and disappears after 1.5 seconds or upon the next keystroke.
+With \fBM-Z\fR the title bar plus status bar can be toggled.
+With \fBM-X\fR the help lines.
 
 .SH SYNTAX HIGHLIGHTING
 Coloring the different syntactic elements of a file

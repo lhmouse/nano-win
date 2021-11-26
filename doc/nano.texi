@@ -704,10 +704,12 @@ The state flags are displayed only when @code{--stateflags} is used.
 
 @item -0
 @itemx --zero
-Hide the title bar (or minibar) and use all rows
-of the terminal for showing the text of the buffer.  Only significant
-messages appear on the status bar, and disappear upon the next keystroke.
-This "hidden interface" mode can be toggled with @kbd{M-Z}.
+Hide all elements of the interface (title bar, status bar, and help lines)
+and use all rows of the terminal for showing the contents of the buffer.
+The status bar appears only where there is a significant message,
+and disappears after 1.5 seconds or upon the next keystroke.
+With @kbd{M-Z} the title bar plus status bar can be toggled.
+With @kbd{M-X} the help lines.
 
 @item -!
 @itemx --magic
@@ -766,7 +768,10 @@ for more details).  The following global toggles are available:
 (@pxref{Syntax Highlighting}).
 
 @item Hidden Interface
-@kbd{M-Z} toggles the @option{-0} (@option{--zero}) command-line option.
+@kbd{M-Z} toggles the @option{-0} (@option{--zero}) command-line option,
+but without the @option{-x} (@option{--nohelp}) part.  That is: it toggles
+just the title bar plus status bar (or the combined minibar plus status bar),
+not the help lines.  The latter are toggled with @kbd{M-X}.
 
 @end table
 
@@ -1155,10 +1160,12 @@ Let an unmodified @kbd{Backspace} or @kbd{Delete} erase the marked region
 (instead of a single character, and without affecting the cutbuffer).
 
 @item set zero
-Hide the title bar (or minibar) and use all rows
-of the terminal for showing the text of the buffer.  Only significant
-messages appear on the status bar, and disappear upon the next keystroke.
-This "hidden interface" mode can be toggled with @kbd{M-Z}.
+Hide all elements of the interface (title bar, status bar, and help lines)
+and use all rows of the terminal for showing the contents of the buffer.
+The status bar appears only where there is a significant message,
+and disappears after 1.5 seconds or upon the next keystroke.
+With @kbd{M-Z} the title bar plus status bar can be toggled.
+With @kbd{M-X} the help lines.
 
 @end table
 
