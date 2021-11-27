@@ -1244,7 +1244,8 @@ int parse_kbinput(WINDOW *win)
 		case KEY_SCANCEL:
 			return KEY_CANCEL;
 		case KEY_SSUSPEND:
-			return KEY_SUSPEND;
+		case KEY_SUSPEND:
+			return 0x1A;    /* The ASCII code for Ctrl+Z. */
 		case KEY_BTAB:
 			return SHIFT_TAB;
 
