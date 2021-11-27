@@ -518,7 +518,7 @@ functionptrtype interpret(int *keycode)
 #endif /* ENABLE_BROWSER || ENABLE_HELP */
 
 #if defined(NANO_TINY) && defined(ENABLE_LINENUMBERS)
-/* Allow toggling line numbers (when enabled) also in the tiny version. */
+/* Allow toggling line numbers also in the tiny version. */
 void toggle_numbers(void)
 {
 	TOGGLE(LINE_NUMBERS);
@@ -1497,11 +1497,9 @@ void shortcut_init(void)
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", KEY_F(12), do_spell, 0);
 #endif
-#if defined(KEY_CANCEL) && defined(KEY_SIC)
+#ifndef NANO_TINY
 	add_to_sclist((MMOST & ~MMAIN) | MYESNO, "", KEY_CANCEL, do_cancel, 0);
 	add_to_sclist(MMAIN, "", KEY_SIC, do_insertfile, 0);
-#endif
-#ifndef NANO_TINY
 	/* Catch and ignore bracketed paste marker keys. */
 	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "", BRACKETED_PASTE_MARKER, do_nothing, 0);
 #endif
