@@ -706,7 +706,7 @@ The state flags are displayed only when @code{--stateflags} is used.
 @itemx --zero
 Hide all elements of the interface (title bar, status bar, and help lines)
 and use all rows of the terminal for showing the contents of the buffer.
-The status bar appears only where there is a significant message,
+The status bar appears only when there is a significant message,
 and disappears after 1.5 seconds or upon the next keystroke.
 With @kbd{M-Z} the title bar plus status bar can be toggled.
 With @kbd{M-X} the help lines.
@@ -1162,7 +1162,7 @@ Let an unmodified @kbd{Backspace} or @kbd{Delete} erase the marked region
 @item set zero
 Hide all elements of the interface (title bar, status bar, and help lines)
 and use all rows of the terminal for showing the contents of the buffer.
-The status bar appears only where there is a significant message,
+The status bar appears only when there is a significant message,
 and disappears after 1.5 seconds or upon the next keystroke.
 With @kbd{M-Z} the title bar plus status bar can be toggled.
 With @kbd{M-X} the help lines.

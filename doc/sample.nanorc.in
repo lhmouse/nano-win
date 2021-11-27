@@ -197,7 +197,7 @@
 ## of a single character, and without affecting the cutbuffer).
 # set zap
 
-## Hide the bars and use the whole terminal for editable text.
+## Hide the bars plus help lines and use the whole terminal as edit area.
 # set zero
 
 
