@@ -1283,6 +1283,11 @@ void unbound_key(int code)
 		/* TRANSLATORS: This refers to a sequence of escape codes
 		 * (from the keyboard) that nano does not recognize. */
 		statusline(AHEM, _("Unknown sequence"));
+#ifndef NANO_TINY
+		/* TRANSLATORS: This refers to an unbound function key. */
+	else if (code > KEY_F0 && code < KEY_F0 + 25)
+		statusline(AHEM, _("Unbound key: F%i"), code - KEY_F0);
+#endif
 	else if (code > 0x7F)
 		statusline(AHEM, _("Unbound key"));
 	else if (meta_key) {
