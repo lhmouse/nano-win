@@ -1263,7 +1263,9 @@ int parse_kbinput(WINDOW *win)
 #ifdef KEY_RESIZE  /* SunOS 5.7-5.9 doesn't know KEY_RESIZE. */
 		case KEY_RESIZE:
 #endif
-		case KEY_FLUSH:
+#ifndef NANO_TINY
+		case KEY_FRESH:
+#endif
 			return ERR;    /* Ignore this keystroke. */
 	}
 

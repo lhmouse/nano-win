@@ -1503,6 +1503,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "", KEY_SIC, do_insertfile, 0);
 	/* Catch and ignore bracketed paste marker keys. */
 	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "", BRACKETED_PASTE_MARKER, do_nothing, 0);
+#else
+	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "", KEY_FRESH, full_refresh, 0);
 #endif
 }
 

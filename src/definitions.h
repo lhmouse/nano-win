@@ -218,7 +218,7 @@
 #define FOREIGN_SEQUENCE  0x4FC
 
 /* A special keycode for plugging into the input stream after a suspension. */
-#define KEY_FLUSH  KEY_F0
+#define KEY_FRESH  0x4FE
 
 #ifndef NANO_TINY
 /* A special keycode for when we get a SIGWINCH (a window resize). */

@@ -991,7 +991,7 @@ void continue_nano(int signal)
 #endif
 
 	/* Insert a fake keystroke, to neutralize a key-eating issue. */
-	ungetch(KEY_FLUSH);
+	ungetch(KEY_FRESH);
 }
 
 #if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
