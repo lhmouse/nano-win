@@ -1107,7 +1107,8 @@ int parse_kbinput(WINDOW *win)
 	} else if (keycode == shiftaltdown) {
 		shift_held = TRUE;
 		return KEY_NPAGE;
-	}
+	} else if ((KEY_F0 + 24) < keycode && keycode < (KEY_F0 + 64))
+		return FOREIGN_SEQUENCE;
 #endif
 
 #ifdef __linux__
