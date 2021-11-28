@@ -897,16 +897,16 @@ void signal_init(void)
 	/* Trap SIGWINCH because we want to handle window resizes. */
 	deed.sa_handler = handle_sigwinch;
 	sigaction(SIGWINCH, &deed, NULL);
-#endif
 
-	/* In the suspend and continue handlers, block all other signals.
-	 * If we don't do this, other stuff interrupts them! */
-	sigfillset(&deed.sa_mask);
 #ifdef SIGTSTP
+	/* Prevent the suspend handler from getting interrupted. */
+	sigfillset(&deed.sa_mask);
 	deed.sa_handler = suspend_nano;
 	sigaction(SIGTSTP, &deed, NULL);
 #endif
+#endif /* !NANO_TINY */
 #ifdef SIGCONT
+	sigfillset(&deed.sa_mask);
 	deed.sa_handler = continue_nano;
 	sigaction(SIGCONT, &deed, NULL);
 #endif
@@ -938,6 +938,7 @@ void handle_crash(int signal)
 }
 #endif
 
+#ifndef NANO_TINY
 /* Handler for SIGTSTP (suspend). */
 void suspend_nano(int signal)
 {
@@ -971,6 +972,7 @@ void do_suspend(void)
 
 	ran_a_tool = TRUE;
 }
+#endif /* !NANO_TINY */
 
 /* Handler for SIGCONT (continue after suspend). */
 void continue_nano(int signal)

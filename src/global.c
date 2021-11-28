@@ -622,9 +622,9 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	const char *wordcount_gist =
 		N_("Count the number of words, lines, and characters");
+	const char *suspend_gist = N_("Suspend the editor (return to the shell)");
 #endif
 	const char *refresh_gist = N_("Refresh (redraw) the current screen");
-	const char *suspend_gist = N_("Suspend the editor (return to the shell)");
 #ifdef ENABLE_WORDCOMPLETION
 	const char *completion_gist = N_("Try and complete the current word");
 #endif
@@ -983,13 +983,14 @@ void shortcut_init(void)
 	add_to_funcs(do_verbatim_input, MMAIN,
 		N_("Verbatim"), WITHORSANS(verbatim_gist), BLANKAFTER, NOVIEW);
 
+#ifndef NANO_TINY
+	add_to_funcs(do_suspend, MMAIN,
+		N_("Suspend"), WITHORSANS(suspend_gist), TOGETHER, VIEW);
+#endif
 #ifdef ENABLE_HELP
 	add_to_funcs(full_refresh, MMAIN,
-		N_("Refresh"), WITHORSANS(refresh_gist), TOGETHER, VIEW);
+		N_("Refresh"), WITHORSANS(refresh_gist), BLANKAFTER, VIEW);
 #endif
-
-	add_to_funcs(do_suspend, MMAIN,
-		N_("Suspend"), WITHORSANS(suspend_gist), BLANKAFTER, VIEW);
 
 #ifndef NANO_TINY
 	add_to_funcs(do_indent, MMAIN,
