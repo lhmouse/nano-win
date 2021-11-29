@@ -258,7 +258,10 @@ specfified closing punctuation, optionally followed by closing brackets
 .TP
 .B set quickblank
 Make status-bar messages disappear after 1 keystroke instead of after 20.
-Note that options \fBconstantshow\fR and \fBminibar\fR override this.
+Note that option \fBconstantshow\fR overrides this.
+When option \fBminibar\fR or \fBzero\fR is in effect,
+\fBquickblank\fR makes a message disappear after
+0.8 seconds instead of after the default 1.5 seconds.
 .TP
 .BI "set quotestr """ regex """
 Set the regular expression for matching the quoting part of a line.

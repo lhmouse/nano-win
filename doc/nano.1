@@ -192,8 +192,11 @@ Set the size (width) of a tab to \fInumber\fP columns.  The value of
 .TP
 .BR \-U ", " \-\-quickblank
 Make status-bar messages disappear after 1 keystroke instead of after 20.
-Note that options \fB\-c\fR (\fB\-\-constantshow\fR)
-and \fB\-_\fR (\fB\-\-minibar\fR) override this.
+Note that option \fB\-c\fR (\fB\-\-constantshow\fR) overrides this.
+When option \fB\-\-minibar\fR or \fB\-\-zero\fR is in effect,
+\fB\-\-quickblank\fR makes a message disappear after
+0.8 seconds instead of after the default 1.5 seconds.
+.
 .TP
 .BR \-V ", " \-\-version
 Show the current version number and exit.
