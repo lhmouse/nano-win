@@ -95,13 +95,13 @@ Mailing Lists
 
     There are three nano-related mailing-lists.
 
-    + info-nano@gnu.org is a very low traffic list used to announce
+    * <info-nano@gnu.org> is a very low traffic list used to announce
       new nano versions or other important info about the project.
 
-    + help-nano@gnu.org is for those seeking to get help without
+    * <help-nano@gnu.org> is for those seeking to get help without
       wanting to hear about the technical details of its development.
 
-    + nano-devel@gnu.org is the list used by the people that make nano
+    * <nano-devel@gnu.org> is the list used by the people that make nano
       and a general development discussion list, with moderate traffic.
 
     To subscribe, send email to <name>-request@gnu.org with a subject
