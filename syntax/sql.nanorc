@@ -5,7 +5,7 @@ comment "-- "
 
 # Types.
 color green "\<(integer|int[248]|(big|small)?(int|serial)|decimal|numeric|real|double precision)\>"
-color green "\<(bit( varying)?|boolean|bytea|enum|money|tsvector|uuid)\>"
+color green "\<(bit( varying)?|boolean|bytea|enum|money|tsquery|tsvector|uuid|xml)\>"
 color green "\<(char|varchar|character( varying)?|text)\>"
 color green "\<(date|interval|time(stamp)?( with(out)? time zone)?)\>"
 color green "\<(box|circle|line|lseg|path|point|polygon)\>"
