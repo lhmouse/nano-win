@@ -28,11 +28,15 @@ color brightyellow "\<(CASE|WHEN|IF|THEN|ELSE|ELSE?IF|LOOP|CONTINUE|EXIT)\>"
 color brightyellow "\<(FOR|FOREACH|IN|WHILE|END (CASE|IF|LOOP))\>"
 color magenta "\<(RAISE|EXCEPTION|NOTICE|RETURN)\>"
 
+# Quoted identifiers.  (First scare-color all, then uncolor what is valid.)
+color ,red ""[^"]+""
+color normal ""[[:alpha:]_][[:alnum:]_$]*""
+
+# Strings.
+color green "'([^']|\\')*'"
+
 # Trailing whitespace.
 color ,green "[[:space:]]+$"
-
-# Strings, double-quoted and single-quoted.
-color green ""([^"]|\\")*"|'([^']|\\')*'"
 
 # Comments.
 color red "--.*"
