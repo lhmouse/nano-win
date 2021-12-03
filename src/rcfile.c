@@ -992,15 +992,15 @@ void parse_includes(char *ptr)
 
 /* Return the index of the color that is closest to the given RGB levels,
  * assuming that the terminal uses the 6x6x6 color cube of xterm-256color. */
-short closest_index_color(short r, short g, short b)
+short closest_index_color(short red, short green, short blue)
 {
-	if (COLORS != 256)
-		return THE_DEFAULT;
-
 	/* Translation table, from 16 intended levels to 6 available levels. */
 	static const short level[] = { 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
 
-	return (36 * level[r] + 6 * level[g] + level[b] + 16);
+	if (COLORS == 256)
+		return (36 * level[red] + 6 * level[green] + level[blue] + 16);
+	else
+		return THE_DEFAULT;
 }
 
 #define COLORCOUNT  20
