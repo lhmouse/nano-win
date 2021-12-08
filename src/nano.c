@@ -1110,6 +1110,7 @@ void toggle_this(int flag)
 			refresh_needed = TRUE;
 			break;
 #endif
+#ifdef ENABLE_NANORC
 		case TABS_TO_SPACES:
 			if (openfile->syntax && openfile->syntax->tab) {
 				statusline(AHEM, _("Current syntax determines Tab"));
@@ -1117,6 +1118,7 @@ void toggle_this(int flag)
 				return;
 			}
 			break;
+#endif
 #ifdef ENABLE_MOUSE
 		case USE_MOUSE:
 			mouse_init();
