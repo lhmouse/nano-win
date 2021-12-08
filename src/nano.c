@@ -1109,8 +1109,6 @@ void toggle_this(int flag)
 			precalc_multicolorinfo();
 			refresh_needed = TRUE;
 			break;
-#endif
-#if defined(ENABLE_NANORC) && defined(ENABLE_COLOR)
 		case TABS_TO_SPACES:
 			if (openfile->syntax && openfile->syntax->tab) {
 				statusline(AHEM, _("Current syntax determines Tab"));
