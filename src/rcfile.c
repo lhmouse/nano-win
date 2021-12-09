@@ -1005,7 +1005,7 @@ short closest_index_color(short red, short green, short blue)
 		return THE_DEFAULT;
 }
 
-#define COLORCOUNT  20
+#define COLORCOUNT  34
 
 const char hues[COLORCOUNT][8] = { "red", "green", "blue",
 								   "yellow", "cyan", "magenta",
@@ -1013,12 +1013,19 @@ const char hues[COLORCOUNT][8] = { "red", "green", "blue",
 								   "pink", "purple", "mauve",
 								   "lagoon", "mint", "lime",
 								   "peach", "orange", "latte",
+								   "rosy", "beet", "plum",
+								   "sea", "sky", "slate",
+								   "teal", "sage", "brown",
+								   "ocher", "sand", "tawny",
+								   "brick", "crimson",
 								   "grey", "gray" };
 
 short indices[COLORCOUNT] = { COLOR_RED, COLOR_GREEN, COLOR_BLUE,
 							  COLOR_YELLOW, COLOR_CYAN, COLOR_MAGENTA,
 							  COLOR_WHITE, COLOR_BLACK, THE_DEFAULT,
 							  204, 163, 134, 38, 48, 148, 215, 208, 137,
+							  175, 127, 98, 32, 111, 66, 35, 107, 100,
+							  142, 186, 136, 166, 161,
 							  COLOR_BLACK + 8, COLOR_BLACK + 8 };
 
 /* Return the short value corresponding to the given color name, and set
