@@ -930,7 +930,11 @@ On terminal emulators that can do at least 256 colors,
 other valid (but unprefixable) color names are:
 @code{pink}, @code{purple}, @code{mauve},
 @code{lagoon}, @code{mint}, @code{lime},
-@code{peach}, @code{orange}, @code{latte}, and @code{normal}
+@code{peach}, @code{orange}, @code{latte},
+@code{rosy}, @code{beet}, @code{plum}, @code{sea},
+@code{sky}, @code{slate}, @code{teal}, @code{sage},
+@code{brown}, @code{ocher}, @code{sand}, @code{tawny},
+@code{brick}, @code{crimson}, and @code{normal}
 --- where @code{normal} means the default foreground or background color.
 On such emulators, the color may also be specified as a three-digit hexadecimal
 number prefixed with @code{#}, with the digits representing the amounts of red,
@@ -1277,7 +1281,11 @@ On terminal emulators that can do at least 256 colors,
 other valid (but unprefixable) color names are:
 @code{pink}, @code{purple}, @code{mauve},
 @code{lagoon}, @code{mint}, @code{lime},
-@code{peach}, @code{orange}, @code{latte}, and @code{normal}
+@code{peach}, @code{orange}, @code{latte},
+@code{rosy}, @code{beet}, @code{plum}, @code{sea},
+@code{sky}, @code{slate}, @code{teal}, @code{sage},
+@code{brown}, @code{ocher}, @code{sand}, @code{tawny},
+@code{brick}, @code{crimson}, and @code{normal}
 --- where @code{normal} means the default foreground or background color.
 On such emulators, the color may also be specified as a three-digit hexadecimal
 number prefixed with @code{#}, with the digits representing the amounts of red,
