@@ -4,9 +4,6 @@
 syntax default
 comment "#"
 
-# Comments.
-color cyan "^[[:blank:]]*#.*"
-
 # Spaces in front of tabs.
 color ,red " +	+"
 
@@ -25,6 +22,9 @@ color lightblue "\<https?://\S+\.\S+[^[:space:],.)]"
 
 # Bracketed captions in certain config files.
 color brightgreen "^\[[^][]+\]$"
+
+# Comments.
+color cyan "^[[:blank:]]*#.*"
 
 # Control codes.
 color orange "[[:cntrl:]]"
