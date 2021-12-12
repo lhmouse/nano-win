@@ -41,7 +41,6 @@ pkgdata_DATA =	asm.nanorc \
 
 nobase_pkgdata_DATA = \
 		extra/ada.nanorc \
-		extra/debian.nanorc \
 		extra/fortran.nanorc \
 		extra/haskell.nanorc \
 		extra/povray.nanorc \
