@@ -43,7 +43,6 @@ nobase_pkgdata_DATA = \
 		extra/ada.nanorc \
 		extra/debian.nanorc \
 		extra/fortran.nanorc \
-		extra/gentoo.nanorc \
 		extra/haskell.nanorc \
 		extra/povray.nanorc \
 		extra/spec.nanorc
