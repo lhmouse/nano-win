@@ -271,10 +271,12 @@ This makes it possible to rejustify blocks of quoted text when composing
 email, and to rewrap blocks of line comments when writing source code.
 .TP
 .B set rawsequences
-Interpret escape sequences directly (instead of asking \fBncurses\fR to
-translate them).  If you need this option to get your keyboard to work
-properly, please report a bug.  Using this option disables \fBnano\fR's
-mouse support.
+Interpret escape sequences directly, instead of asking \fBncurses\fR
+to translate them.  (If you need this option to get some keys to work
+properly, it means that the terminfo terminal description that is used
+does not fully match the actual behavior of your terminal.  This can
+happen when you ssh into a BSD machine, for example.)
+Using this option disables \fBnano\fR's mouse support.
 .TP
 .B set rebinddelete
 Interpret the Delete and Backspace keys differently so that both Backspace
