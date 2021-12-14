@@ -1,3 +1,26 @@
+2021.12.15 - GNU nano 6.0 "Humor heeft ook zijn leuke kanten"
+• Option --zero hides the title bar, status bar and help lines, and
+  uses all rows of the terminal as editing area.  The title bar and
+  status bar can be toggled with M-Z.
+• Colors can now be specified also as three-digit hexadecimal numbers,
+  in the format #rgb.  This picks from the 216 index colors (that most
+  terminals know) the color that is nearest to the given values.
+• For users who dislike numbers, there are fourteen new color names:
+  rosy, beet, plum, sea, sky, slate, teal, sage, brown, ocher, sand,
+  tawny, brick, and crimson.
+• Suspension is enabled by default, invokable with ^T^Z.  The options
+  -z, --suspendable, and 'set suspendable' are obsolete and ignored.
+  (In case you want to be able to suspend nano with a single keystroke,
+  you can put 'bind ^Z suspend main' in your nanorc.)
+• When automatic hard-wrapping is in effect, pasting just a few words
+  (without a line break) will now hard-wrap the line when needed.
+• Toggling Append or Prepend clears the current filename.
+• The word count as shown by M-D is now affected by option --wordbounds;
+  with it, nano counts words as 'wc' does; without it (the new default),
+  words are counted in a more human way: seeing punctuation as space.
+• The YAML syntax file is now actually included in the tarball.
+
+
 2021.10.06 - GNU nano 5.9 "El manicomio ha decidido: mañana sol!"
 • The extension of a filename is added to the name of a corresponding
   temporary file, so that spell checking a C file, for example, will
