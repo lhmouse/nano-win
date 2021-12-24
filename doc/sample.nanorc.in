@@ -58,6 +58,10 @@
 ## will be the terminal's width minus this number.
 # set fill -8
 
+## Draw a vertical stripe at the given column, to help judge text width.
+## (This option does not have a default value.)
+# set guidestripe 75
+
 ## Remember the used search/replace strings for the next session.
 # set historylog
 
@@ -175,6 +179,9 @@
 
 ## Snip whitespace at the end of lines when justifying or hard-wrapping.
 # set trimblanks
+
+## Save files by default in Unix format (also when they were DOS or Mac).
+# set unix
 
 ## The two single-column characters used to display the first characters
 ## of tabs and spaces.  187 in ISO 8859-1 (0000BB in Unicode) and 183 in
