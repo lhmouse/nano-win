@@ -602,7 +602,7 @@ void shortcut_init(void)
 	const char *nextfile_gist = N_("Switch to the next file buffer");
 #endif
 	const char *verbatim_gist = N_("Insert the next keystroke verbatim");
-	const char *tab_gist = N_("Insert a tab at the cursor position");
+	const char *tab_gist = N_("Insert a tab at the cursor position (or indent marked lines)");
 	const char *enter_gist = N_("Insert a newline at the cursor position");
 	const char *delete_gist = N_("Delete the character under the cursor");
 	const char *backspace_gist =
@@ -1243,7 +1243,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-6", 0, copy_text, 0);
 	add_to_sclist(MMAIN, "M-^", 0, copy_text, 0);
 	add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
-	add_to_sclist(MMAIN, "Tab", INDENT_KEY, do_indent, 0);
+	add_to_sclist(MMAIN, "", INDENT_KEY, do_indent, 0);
 	add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
 	add_to_sclist(MMAIN, "Sh-Tab", SHIFT_TAB, do_unindent, 0);
 	add_to_sclist(MMAIN, "M-:", 0, record_macro, 0);
