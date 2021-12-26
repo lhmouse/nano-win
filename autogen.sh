@@ -41,9 +41,14 @@ if [ "${gnulib_hash}" != "${curr_hash}" ]; then
 fi
 cd .. >/dev/null || exit 1
 
+autopoint --force
+
 rm -rf lib
 ./gnulib/gnulib-tool \
 	--import \
 	${modules}
 
-autoreconf -f -i -s
+aclocal -I m4
+autoconf
+autoheader
+automake --add-missing
