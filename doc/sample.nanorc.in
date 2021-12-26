@@ -321,8 +321,6 @@
 #bind ^T gotodir browser
 #bind ^T cutrestoffile execute
 #bind ^L linter execute
-#bind M-U undo main
-#bind M-R redo main
 #bind ^Z undo main
 #bind ^Y redo main
 #set multibuffer
