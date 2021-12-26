@@ -294,10 +294,14 @@
 ## If you would like nano to have keybindings that are more "usual",
 ## such as ^O for Open, ^F for Find, ^H for Help, and ^Q for Quit,
 ## then uncomment these:
+#bind ^X cut main
+#bind ^C copy main
+#bind ^V paste all
 #bind ^Q exit all
 #bind ^S savefile main
 #bind ^W writeout main
 #bind ^O insert main
+#set multibuffer
 #bind ^H help all
 #bind ^H exit help
 #bind ^F whereis all
@@ -305,22 +309,18 @@
 #bind ^B wherewas all
 #bind ^D findprevious all
 #bind ^R replace main
-#bind ^X cut main
-#bind ^C copy main
-#bind ^V paste all
-#bind ^P location main
-#bind ^E execute main
-#bind ^A mark main
+#bind ^Z undo main
+#bind ^Y redo main
 #unbind ^K main
 #unbind ^U all
 #unbind ^N main
 #unbind ^Y all
 #unbind M-J main
 #unbind M-T main
+#bind ^A mark main
+#bind ^P location main
 #bind ^T gotoline main
 #bind ^T gotodir browser
 #bind ^T cutrestoffile execute
 #bind ^L linter execute
-#bind ^Z undo main
-#bind ^Y redo main
-#set multibuffer
+#bind ^E execute main
