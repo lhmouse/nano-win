@@ -36,19 +36,26 @@ fi
 cd gnulib >/dev/null || exit 1
 curr_hash=$(git log -1 --format=%H)
 if [ "${gnulib_hash}" != "${curr_hash}" ]; then
+	echo "Pulling..."
 	git pull
-	git checkout -f ${gnulib_hash}
+	git checkout --force ${gnulib_hash}
 fi
 cd .. >/dev/null || exit 1
 
+echo "Autopoint..."
 autopoint --force
 
 rm -rf lib
-./gnulib/gnulib-tool \
-	--import \
-	${modules}
+echo "Gnulib-tool..."
+./gnulib/gnulib-tool --import ${modules}
+echo
 
+echo "Aclocal..."
 aclocal -I m4
+echo "Autoconf..."
 autoconf
+echo "Autoheader..."
 autoheader
+echo "Automake..."
 automake --add-missing
+echo "Done."
