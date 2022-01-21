@@ -2306,6 +2306,8 @@ int write_it_out(bool exiting, bool withprompt)
 						return 2;
 					else
 						return 0;
+				} else if (choice < 0 && exiting) {
+					continue;
 				} else if (choice != 1) {
 					free(given);
 					return 1;
