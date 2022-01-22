@@ -2299,16 +2299,16 @@ int write_it_out(bool exiting, bool withprompt)
 				 * overwrite the file right here when requested. */
 				if (ISSET(SAVE_ON_EXIT) && withprompt) {
 					free(given);
-					if (choice == 1)
+					if (choice == 1)  /* Yes */
 						return write_file(openfile->filename, NULL,
 											NORMAL, OVERWRITE, NONOTES);
-					else if (choice == 0)
+					else if (choice == 0)  /* No -- discard buffer */
 						return 2;
 					else
 						return 0;
-				} else if (choice < 0 && exiting) {
+				} else if (choice < 0 && exiting) {  /* Cancel of ^X */
 					continue;
-				} else if (choice != 1) {
+				} else if (choice < 1) {  /* No or Cancel */
 					free(given);
 					return 1;
 				}
