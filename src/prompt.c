@@ -290,7 +290,7 @@ int do_statusbar_input(bool *finished)
 	/* If we got a shortcut, or if there aren't any other keystrokes waiting,
 	 * it's time to insert all characters in the input buffer (if not empty)
 	 * into the answer, and then clear the input buffer. */
-	if ((shortcut || get_key_buffer_len() == 0) && puddle != NULL) {
+	if ((shortcut || waiting_keycodes() == 0) && puddle != NULL) {
 		puddle[depth] = '\0';
 
 		inject_into_answer(puddle, depth);
@@ -717,7 +717,7 @@ int ask_user(bool withall, const char *question)
 		if (using_utf8() && 0xC0 <= kbinput && kbinput <= 0xF7) {
 			int extras = (kbinput / 16) % 4 + (kbinput <= 0xCF ? 1 : 0);
 
-			while (extras <= get_key_buffer_len() && extras-- > 0)
+			while (extras <= waiting_keycodes() && extras-- > 0)
 				letter[index++] = (unsigned char)get_kbinput(bottomwin, !withall);
 		}
 #endif

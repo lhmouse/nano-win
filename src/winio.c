@@ -295,7 +295,7 @@ void read_keys_from(WINDOW *win)
 }
 
 /* Return the number of key codes waiting in the keystroke buffer. */
-size_t get_key_buffer_len(void)
+size_t waiting_keycodes(void)
 {
 	return waiting_codes;
 }

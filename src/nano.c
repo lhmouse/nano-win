@@ -1583,7 +1583,7 @@ void process_a_keystroke(void)
 
 	/* If we have a command, or if there aren't any other key codes waiting,
 	 * it's time to insert the gathered bytes into the edit buffer. */
-	if ((shortcut || get_key_buffer_len() == 0) && puddle != NULL) {
+	if ((shortcut || waiting_keycodes() == 0) && puddle != NULL) {
 		puddle[depth] = '\0';
 
 		inject(puddle, depth);
@@ -2545,7 +2545,7 @@ int main(int argc, char **argv)
 		confirm_margin();
 #endif
 #ifdef __linux__
-		if (on_a_vt && get_key_buffer_len() == 0)
+		if (on_a_vt && waiting_keycodes() == 0)
 			mute_modifiers = FALSE;
 #endif
 		if (currmenu != MMAIN)
@@ -2559,7 +2559,7 @@ int main(int argc, char **argv)
 		/* Update the displayed current cursor position only when there
 		 * is no message and no keys are waiting in the input buffer. */
 		if (ISSET(CONSTANT_SHOW) && lastmessage == VACUUM && LINES > 1 &&
-								!ISSET(ZERO) && get_key_buffer_len() == 0)
+								!ISSET(ZERO) && waiting_keycodes() == 0)
 			report_cursor_position();
 
 		as_an_at = TRUE;
