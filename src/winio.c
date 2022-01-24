@@ -44,6 +44,8 @@
 
 static int *key_buffer = NULL;
 		/* A buffer for the keystrokes that haven't been handled yet. */
+static int *nextcodes = NULL;
+		/* A pointer pointing at the next keycode in the keystroke buffer. */
 static size_t waiting_codes = 0;
 		/* The number of key codes waiting in the keystroke buffer. */
 static int digit_count = 0;
@@ -126,6 +128,7 @@ void run_macro(void)
 		key_buffer[i] = macro_buffer[i];
 
 	waiting_codes = macro_length;
+	nextcodes = key_buffer;
 	mute_modifiers = TRUE;
 }
 #endif /* !NANO_TINY */
@@ -244,6 +247,7 @@ void read_keys_from(WINDOW *win)
 
 	/* Initiate the keystroke buffer, and save the keycode in it. */
 	key_buffer = nrealloc(key_buffer, sizeof(int));
+	nextcodes = key_buffer;
 	key_buffer[0] = input;
 	waiting_codes = 1;
 
@@ -281,6 +285,7 @@ void read_keys_from(WINDOW *win)
 		/* Extend the keystroke buffer, and save the keycode at its end. */
 		key_buffer = nrealloc(key_buffer, ++waiting_codes * sizeof(int));
 		key_buffer[waiting_codes - 1] = input;
+		nextcodes = key_buffer;
 	}
 
 	/* Restore blocking-input mode. */
@@ -307,15 +312,17 @@ void put_back(int keycode)
 	if (waiting_codes + 1 < waiting_codes)
 		return;
 
-	/* Extend the keystroke buffer to make room for the extra keycode. */
-	key_buffer = nrealloc(key_buffer, ++waiting_codes * sizeof(int));
+	/* If there is no room at the head of the keystroke buffer, make room. */
+	if (nextcodes == key_buffer) {
+		key_buffer = nrealloc(key_buffer, (waiting_codes + 1) * sizeof(int));
+		if (waiting_codes)
+			memmove(key_buffer + 1, key_buffer, waiting_codes * sizeof(int));
+		nextcodes = key_buffer;
+	} else
+		nextcodes--;
 
-	/* If the keystroke buffer wasn't empty before, move all the
-	 * existing content one step further away. */
-	if (waiting_codes > 1)
-		memmove(key_buffer + 1, key_buffer, (waiting_codes - 1) * sizeof(int));
-
-	*key_buffer = keycode;
+	*nextcodes = keycode;
+	waiting_codes++;
 }
 
 #ifdef ENABLE_NANORC
@@ -334,22 +341,14 @@ void implant(const char *string)
  * code, or ERR if the keystroke buffer is still empty. */
 int get_input(WINDOW *win)
 {
-	int input;
-
 	if (waiting_codes == 0 && win != NULL)
 		read_keys_from(win);
 
-	if (waiting_codes == 0)
+	if (waiting_codes > 0) {
+		waiting_codes--;
+		return *(nextcodes++);
+	} else
 		return ERR;
-
-	/* Take the first code from the head of the keystroke buffer. */
-	input = key_buffer[0];
-
-	/* If the buffer contains more codes, move them to the front. */
-	if (--waiting_codes > 0)
-		memmove(key_buffer, key_buffer + 1, waiting_codes * sizeof(int));
-
-	return input;
 }
 
 /* Return the arrow-key code that corresponds to the given letter.
@@ -838,13 +837,13 @@ int parse_escape_sequence(int starter)
 	int keycode = 0;
 
 	if (starter == 'O')
-		keycode = convert_SS3_sequence(key_buffer, waiting_codes, &consumed);
+		keycode = convert_SS3_sequence(nextcodes, waiting_codes, &consumed);
 	else if (starter == '[')
-		keycode = convert_CSI_sequence(key_buffer, waiting_codes, &consumed);
+		keycode = convert_CSI_sequence(nextcodes, waiting_codes, &consumed);
 
-	/* Remove the consumed sequence bytes from the keystroke buffer. */
+	/* Skip the consumed sequence elements. */
 	waiting_codes -= consumed;
-	memmove(key_buffer, key_buffer + consumed, waiting_codes * sizeof(int));
+	nextcodes += consumed;
 
 	return keycode;
 }
@@ -962,14 +961,14 @@ int parse_kbinput(WINDOW *win)
 #endif
 #ifdef ENABLE_UTF8
 			else if (0xC0 <= keycode && keycode <= 0xFF && using_utf8()) {
-				while (waiting_codes && 0x80 <= *key_buffer && *key_buffer <= 0xBF)
+				while (waiting_codes && 0x80 <= nextcodes[0] && nextcodes[0] <= 0xBF)
 					get_input(NULL);
 				return FOREIGN_SEQUENCE;
 			}
 #endif
 			else if (keycode < 0x20 && !last_escape_was_alone)
 				meta_key = TRUE;
-		} else if (waiting_codes == 0 || *key_buffer == ESC_CODE ||
+		} else if (waiting_codes == 0 || nextcodes[0] == ESC_CODE ||
 								(keycode != 'O' && keycode != '[')) {
 			if (!shifted_metas)
 				keycode = tolower(keycode);
@@ -979,8 +978,8 @@ int parse_kbinput(WINDOW *win)
 	} else {
 		escapes = 0;
 		if (keycode == '[' && waiting_codes &&
-						(('A' <= *key_buffer && *key_buffer <= 'D') ||
-						('a' <= *key_buffer && *key_buffer <= 'd'))) {
+						(('A' <= nextcodes[0] && nextcodes[0] <= 'D') ||
+						('a' <= nextcodes[0] && nextcodes[0] <= 'd'))) {
 			/* An iTerm2/Eterm/rxvt double-escape sequence: Esc Esc [ X
 			 * for Option+arrow, or Esc Esc [ x for Shift+Alt+arrow. */
 			switch (get_input(NULL)) {
@@ -995,7 +994,7 @@ int parse_kbinput(WINDOW *win)
 				case 'd': shift_held = TRUE; return KEY_END;
 #endif
 			}
-		} else if (waiting_codes && *key_buffer != ESC_CODE &&
+		} else if (waiting_codes && nextcodes[0] != ESC_CODE &&
 								(keycode == '[' || keycode == 'O')) {
 			keycode = parse_escape_sequence(keycode);
 			meta_key = TRUE;
@@ -1419,12 +1418,12 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		if (unicode == INVALID_DIGIT) {
 			if (keycode == ESC_CODE) {
 				get_input(NULL);
-				while (waiting_codes && 0x1F < *key_buffer && *key_buffer < 0x40)
+				while (waiting_codes && 0x1F < nextcodes[0] && nextcodes[0] < 0x40)
 					get_input(NULL);
-				if (waiting_codes && 0x3F < *key_buffer && *key_buffer < 0x7F)
+				if (waiting_codes && 0x3F < nextcodes[0] && nextcodes[0] < 0x7F)
 					get_input(NULL);
 			} else if (0xC0 <= keycode && keycode <= 0xFF)
-				while (waiting_codes && 0x7F < *key_buffer && *key_buffer < 0xC0)
+				while (waiting_codes && 0x7F < nextcodes[0] && nextcodes[0] < 0xC0)
 					get_input(NULL);
 		}
 
