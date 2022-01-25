@@ -108,6 +108,11 @@
 #define BACKWARD  FALSE
 #define FORWARD  TRUE
 
+#define YES      1
+#define NO       0
+#define ALL      2
+#define CANCEL  -1
+
 #define BLIND  FALSE
 #define VISIBLE  TRUE
 

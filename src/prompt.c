@@ -635,12 +635,15 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 	return retval;
 }
 
+#define UNDECIDED  -2
+
 /* Ask a simple Yes/No (and optionally All) question, specified in msg,
  * on the status bar.  Return 1 for Yes, 0 for No, 2 for All (if all is
  * TRUE when passed in), and -1 for Cancel. */
 int do_yesno_prompt(bool all, const char *msg)
 {
-	int choice = -2, width = 16;
+	int choice = UNDECIDED;
+	int width = 16;
 	/* TRANSLATORS: For the next three strings, specify the starting letters
 	 * of the translations for "Yes"/"No"/"All".  The first letter of each of
 	 * these strings MUST be a single-byte letter; others may be multi-byte. */
@@ -648,7 +651,7 @@ int do_yesno_prompt(bool all, const char *msg)
 	const char *nostr = _("Nn");
 	const char *allstr = _("Aa");
 
-	while (choice == -2) {
+	while (choice == UNDECIDED) {
 #ifdef ENABLE_NLS
 		char letter[MAXCHARLEN + 1];
 		int index = 0;
@@ -723,27 +726,27 @@ int do_yesno_prompt(bool all, const char *msg)
 
 		/* See if the typed letter is in the Yes, No, or All strings. */
 		if (strstr(yesstr, letter) != NULL)
-			choice = 1;
+			choice = YES;
 		else if (strstr(nostr, letter) != NULL)
-			choice = 0;
+			choice = NO;
 		else if (all && strstr(allstr, letter) != NULL)
-			choice = 2;
+			choice = ALL;
 		else
 #endif /* ENABLE_NLS */
 		if (strchr("Yy", kbinput) != NULL)
-			choice = 1;
+			choice = YES;
 		else if (strchr("Nn", kbinput) != NULL)
-			choice = 0;
+			choice = NO;
 		else if (all && strchr("Aa", kbinput) != NULL)
-			choice = 2;
+			choice = ALL;
 		else if (func_from_key(&kbinput) == do_cancel)
-			choice = -1;
+			choice = CANCEL;
 		/* Interpret ^N and ^Q as "No", to allow exiting in anger. */
 		else if (kbinput == '\x0E' || kbinput == '\x11')
-			choice = 0;
+			choice = NO;
 		/* And interpret ^Y as "Yes". */
 		else if (kbinput == '\x19')
-			choice = 1;
+			choice = YES;
 #ifdef ENABLE_MOUSE
 		else if (kbinput == KEY_MOUSE) {
 			int mouse_x, mouse_y;
@@ -757,8 +760,8 @@ int do_yesno_prompt(bool all, const char *msg)
 				/* x == 0 means Yes or No, y == 0 means Yes or All. */
 				choice = -2 * x * y + x - y + 1;
 
-				if (choice == 2 && !all)
-					choice = -2;
+				if (choice == ALL && !all)
+					choice = UNDECIDED;
 			}
 		}
 #endif

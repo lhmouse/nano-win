@@ -2560,10 +2560,10 @@ void do_linter(void)
 	if (openfile->modified) {
 		int choice = do_yesno_prompt(FALSE, _("Save modified buffer before linting?"));
 
-		if (choice == -1) {
+		if (choice == CANCEL) {
 			statusbar(_("Cancelled"));
 			return;
-		} else if (choice == 1 && (write_it_out(FALSE, FALSE) != 1))
+		} else if (choice == YES && (write_it_out(FALSE, FALSE) != 1))
 			return;
 	}
 
@@ -2756,10 +2756,10 @@ void do_linter(void)
 				currmenu = MLINTER;
 				free(msg);
 
-				if (choice == -1) {
+				if (choice == CANCEL) {
 					statusbar(_("Cancelled"));
 					break;
-				} else if (choice == 1) {
+				} else if (choice == YES) {
 					open_buffer(curlint->filename, TRUE);
 				} else {
 #endif

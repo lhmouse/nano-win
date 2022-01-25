@@ -304,9 +304,9 @@ void do_exit(void)
 	/* When unmodified, simply close.  Else, when doing automatic saving
 	 * and the file has a name, simply save.  Otherwise, ask the user. */
 	if (!openfile->modified)
-		choice = 0;
+		choice = NO;
 	else if (ISSET(SAVE_ON_EXIT) && openfile->filename[0] != '\0')
-		choice = 1;
+		choice = YES;
 	else {
 		if (ISSET(SAVE_ON_EXIT))
 			warn_and_briefly_pause(_("No file name"));
@@ -315,9 +315,9 @@ void do_exit(void)
 	}
 
 	/* When not saving, or the save succeeds, close the buffer. */
-	if (choice == 0 || (choice == 1 && write_it_out(TRUE, TRUE) > 0))
+	if (choice == NO || (choice == YES && write_it_out(TRUE, TRUE) > 0))
 		close_and_go();
-	else if (choice != 1)
+	else if (choice != YES)
 		statusbar(_("Cancelled"));
 }
 

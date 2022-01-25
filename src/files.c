@@ -307,10 +307,10 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 		free(promptstr);
 
 		/* When the user cancelled while we're still starting up, quit. */
-		if (choice < 0 && !we_are_running)
+		if (choice == CANCEL && !we_are_running)
 			finish();
 
-		if (choice < 1) {
+		if (choice != YES) {
 			free(lockfilename);
 			wipe_statusbar();
 			return SKIPTHISFILE;
@@ -1733,7 +1733,7 @@ bool make_backup_of(char *realname)
 	 * save of the file itself, its contents may be lost. */
 	/* TRANSLATORS: Try to keep this message at most 76 characters. */
 	if (errno != ENOSPC && do_yesno_prompt(FALSE, _("Cannot make backup; "
-								"continue and save actual file? ")) == 1)
+							"continue and save actual file? ")) == YES)
 		return TRUE;
 
 	/* TRANSLATORS: The %s is the reason of failure. */
@@ -2115,7 +2115,7 @@ int write_it_out(bool exiting, bool withprompt)
 		functionptrtype func;
 		const char *msg;
 		int response = 0;
-		int choice = 0;
+		int choice = NO;
 #ifndef NANO_TINY
 		const char *formatstr = (openfile->fmt == DOS_FILE) ? _(" [DOS Format]") :
 						(openfile->fmt == MAC_FILE) ? _(" [Mac Format]") : "";
@@ -2257,7 +2257,7 @@ int write_it_out(bool exiting, bool withprompt)
 #endif
 					{
 						if (do_yesno_prompt(FALSE, _("Save file under "
-												"DIFFERENT NAME? ")) < 1)
+												"DIFFERENT NAME? ")) != YES)
 							continue;
 						maychange = TRUE;
 					}
@@ -2275,7 +2275,7 @@ int write_it_out(bool exiting, bool withprompt)
 					free(message);
 					free(name);
 
-					if (choice < 1)
+					if (choice != YES)
 						continue;
 				}
 			}
@@ -2299,16 +2299,16 @@ int write_it_out(bool exiting, bool withprompt)
 				 * overwrite the file right here when requested. */
 				if (ISSET(SAVE_ON_EXIT) && withprompt) {
 					free(given);
-					if (choice == 1)  /* Yes */
+					if (choice == YES)
 						return write_file(openfile->filename, NULL,
 											NORMAL, OVERWRITE, NONOTES);
-					else if (choice == 0)  /* No -- discard buffer */
+					else if (choice == NO)  /* Discard buffer */
 						return 2;
 					else
 						return 0;
-				} else if (choice < 0 && exiting) {  /* Cancel of ^X */
+				} else if (choice == CANCEL && exiting) {
 					continue;
-				} else if (choice < 1) {  /* No or Cancel */
+				} else if (choice != YES) {
 					free(given);
 					return 1;
 				}
