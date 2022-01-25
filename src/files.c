@@ -303,7 +303,7 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 		free(postedname);
 		free(pidstring);
 
-		choice = do_yesno_prompt(FALSE, promptstr);
+		choice = ask_user(YESORNO, promptstr);
 		free(promptstr);
 
 		/* When the user cancelled while we're still starting up, quit. */
@@ -1732,7 +1732,7 @@ bool make_backup_of(char *realname)
 	 * ask the user what to do, because if something goes wrong during the
 	 * save of the file itself, its contents may be lost. */
 	/* TRANSLATORS: Try to keep this message at most 76 characters. */
-	if (errno != ENOSPC && do_yesno_prompt(FALSE, _("Cannot make backup; "
+	if (errno != ENOSPC && ask_user(YESORNO, _("Cannot make backup; "
 							"continue and save actual file? ")) == YES)
 		return TRUE;
 
@@ -2256,7 +2256,7 @@ int write_it_out(bool exiting, bool withprompt)
 					if (exiting || !openfile->mark)
 #endif
 					{
-						if (do_yesno_prompt(FALSE, _("Save file under "
+						if (ask_user(YESORNO, _("Save file under "
 												"DIFFERENT NAME? ")) != YES)
 							continue;
 						maychange = TRUE;
@@ -2270,7 +2270,7 @@ int write_it_out(bool exiting, bool withprompt)
 
 					sprintf(message, question, name);
 
-					choice = do_yesno_prompt(FALSE, message);
+					choice = ask_user(YESORNO, message);
 
 					free(message);
 					free(name);
@@ -2291,7 +2291,7 @@ int write_it_out(bool exiting, bool withprompt)
 				warn_and_briefly_pause(_("File on disk has changed"));
 
 				/* TRANSLATORS: Try to keep this at most 76 characters. */
-				choice = do_yesno_prompt(FALSE, _("File was modified "
+				choice = ask_user(YESORNO, _("File was modified "
 								"since you opened it; continue saving? "));
 				wipe_statusbar();
 

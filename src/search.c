@@ -589,7 +589,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			edit_refresh();
 
 			/* TRANSLATORS: This is a prompt. */
-			choice = do_yesno_prompt(TRUE, _("Replace this instance?"));
+			choice = ask_user(YESORALLORNO, _("Replace this instance?"));
 
 			spotlighted = FALSE;
 

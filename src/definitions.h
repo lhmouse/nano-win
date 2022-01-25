@@ -108,9 +108,12 @@
 #define BACKWARD  FALSE
 #define FORWARD  TRUE
 
+#define YESORNO  FALSE
+#define YESORALLORNO  TRUE
+
 #define YES      1
-#define NO       0
 #define ALL      2
+#define NO       0
 #define CANCEL  -1
 
 #define BLIND  FALSE

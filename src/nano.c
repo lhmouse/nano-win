@@ -311,7 +311,7 @@ void do_exit(void)
 		if (ISSET(SAVE_ON_EXIT))
 			warn_and_briefly_pause(_("No file name"));
 
-		choice = do_yesno_prompt(FALSE, _("Save modified buffer? "));
+		choice = ask_user(YESORNO, _("Save modified buffer? "));
 	}
 
 	/* When not saving, or the save succeeds, close the buffer. */

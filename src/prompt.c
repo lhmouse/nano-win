@@ -637,10 +637,9 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 
 #define UNDECIDED  -2
 
-/* Ask a simple Yes/No (and optionally All) question, specified in msg,
- * on the status bar.  Return 1 for Yes, 0 for No, 2 for All (if all is
- * TRUE when passed in), and -1 for Cancel. */
-int do_yesno_prompt(bool all, const char *msg)
+/* Ask a simple Yes/No (and optionally All) question on the status bar
+ * and return the choice -- either YES or NO or ALL or CANCEL. */
+int ask_user(bool withall, const char *question)
 {
 	int choice = UNDECIDED;
 	int width = 16;
@@ -679,7 +678,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			wmove(bottomwin, 2, 0);
 			post_one_key(shortstr, _("No"), width);
 
-			if (all) {
+			if (withall) {
 				shortstr[1] = allstr[0];
 				wmove(bottomwin, 1, width);
 				post_one_key(shortstr, _("All"), width);
@@ -692,14 +691,14 @@ int do_yesno_prompt(bool all, const char *msg)
 		/* Color the prompt bar over its full width and display the question. */
 		wattron(bottomwin, interface_color_pair[PROMPT_BAR]);
 		mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
-		mvwaddnstr(bottomwin, 0, 0, msg, actual_x(msg, COLS - 1));
+		mvwaddnstr(bottomwin, 0, 0, question, actual_x(question, COLS - 1));
 		wattroff(bottomwin, interface_color_pair[PROMPT_BAR]);
 		wnoutrefresh(bottomwin);
 
 		currmenu = MYESNO;
 
 		/* When not replacing, show the cursor while waiting for a key. */
-		kbinput = get_kbinput(bottomwin, !all);
+		kbinput = get_kbinput(bottomwin, !withall);
 
 #ifndef NANO_TINY
 		if (kbinput == KEY_WINCH)
@@ -719,7 +718,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			int extras = (kbinput / 16) % 4 + (kbinput <= 0xCF ? 1 : 0);
 
 			while (extras <= get_key_buffer_len() && extras-- > 0)
-				letter[index++] = (unsigned char)get_kbinput(bottomwin, !all);
+				letter[index++] = (unsigned char)get_kbinput(bottomwin, !withall);
 		}
 #endif
 		letter[index] = '\0';
@@ -729,7 +728,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			choice = YES;
 		else if (strstr(nostr, letter) != NULL)
 			choice = NO;
-		else if (all && strstr(allstr, letter) != NULL)
+		else if (withall && strstr(allstr, letter) != NULL)
 			choice = ALL;
 		else
 #endif /* ENABLE_NLS */
@@ -737,7 +736,7 @@ int do_yesno_prompt(bool all, const char *msg)
 			choice = YES;
 		else if (strchr("Nn", kbinput) != NULL)
 			choice = NO;
-		else if (all && strchr("Aa", kbinput) != NULL)
+		else if (withall && strchr("Aa", kbinput) != NULL)
 			choice = ALL;
 		else if (func_from_key(&kbinput) == do_cancel)
 			choice = CANCEL;
@@ -760,7 +759,7 @@ int do_yesno_prompt(bool all, const char *msg)
 				/* x == 0 means Yes or No, y == 0 means Yes or All. */
 				choice = -2 * x * y + x - y + 1;
 
-				if (choice == ALL && !all)
+				if (choice == ALL && !withall)
 					choice = UNDECIDED;
 			}
 		}
