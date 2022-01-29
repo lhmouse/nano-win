@@ -341,6 +341,9 @@ void implant(const char *string)
  * code, or ERR if the keystroke buffer is still empty. */
 int get_input(WINDOW *win)
 {
+	if (waiting_codes)
+		spotlighted = FALSE;
+
 	if (waiting_codes == 0 && win != NULL)
 		read_keys_from(win);
 
