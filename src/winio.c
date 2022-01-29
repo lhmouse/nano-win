@@ -175,8 +175,8 @@ void run_macro(void)
  * - F10 on FreeBSD console == PageUp on Mach console; the former is
  *   omitted.  (Same as above.) */
 
-/* Read in a sequence of keystrokes from the given window and save them
- * in the keystroke buffer. */
+/* Read in at least one keystroke from the given window
+ * and save it (or them) in the keystroke buffer. */
 void read_keys_from(WINDOW *win)
 {
 	int input = ERR;
@@ -336,16 +336,14 @@ void implant(const char *string)
 }
 #endif
 
-/* Try to read one code from the keystroke buffer.  If the buffer is empty and
- * win isn't NULL, try to get more codes from the keyboard.  Return the first
- * code, or ERR if the keystroke buffer is still empty. */
-int get_input(WINDOW *win)
+/* Return one code from the keystroke buffer.  If the buffer is empty
+ * but pane is given, first read more codes from the keyboard. */
+int get_input(WINDOW *pane)
 {
 	if (waiting_codes)
 		spotlighted = FALSE;
-
-	if (waiting_codes == 0 && win != NULL)
-		read_keys_from(win);
+	else if (pane)
+		read_keys_from(pane);
 
 	if (waiting_codes > 0) {
 		waiting_codes--;
