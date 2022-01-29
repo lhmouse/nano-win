@@ -157,10 +157,10 @@ void do_statusbar_backspace(void)
 	}
 }
 
-/* Zap some or all text from the answer. */
+/* Zap the part of the answer after the cursor, or the whole answer. */
 void do_statusbar_cut_text(void)
 {
-	if (!ISSET(CUT_FROM_CURSOR))
+	if (answer[typing_x] == '\0')
 		typing_x = 0;
 
 	answer[typing_x] = '\0';
