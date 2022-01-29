@@ -805,7 +805,7 @@ void shortcut_init(void)
 
 	add_to_funcs(do_mark, MMAIN,
 		N_("Set Mark"), WITHORSANS(mark_gist), TOGETHER, VIEW);
-	add_to_funcs(copy_text, MMAIN,
+	add_to_funcs(copy_text, MMOST,
 		N_("Copy"), WITHORSANS(copy_gist), BLANKAFTER, VIEW);
 #endif
 
@@ -1240,8 +1240,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^6", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^^", 0, do_mark, 0);
-	add_to_sclist(MMAIN, "M-6", 0, copy_text, 0);
-	add_to_sclist(MMAIN, "M-^", 0, copy_text, 0);
+	add_to_sclist(MMOST, "M-6", 0, copy_text, 0);
+	add_to_sclist(MMOST, "M-^", 0, copy_text, 0);
 	add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
 	add_to_sclist(MMAIN, "", INDENT_KEY, do_indent, 0);
 	add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);

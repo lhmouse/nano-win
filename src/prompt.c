@@ -166,6 +166,17 @@ void do_statusbar_cut_text(void)
 	answer[typing_x] = '\0';
 }
 
+/* Copy the current answer (if any) into the cutbuffer. */
+void copy_the_answer(void)
+{
+	if (*answer) {
+		free_lines(cutbuffer);
+		cutbuffer = make_new_node(NULL);
+		cutbuffer->data = copy_of(answer);
+		typing_x = 0;
+	}
+}
+
 /* Paste the first line of the cutbuffer into the current answer. */
 void paste_into_answer(void)
 {
@@ -344,6 +355,8 @@ int do_statusbar_input(bool *finished)
 			do_statusbar_delete();
 		else if (shortcut->func == do_backspace)
 			do_statusbar_backspace();
+		else if (shortcut->func == copy_text)
+			copy_the_answer();
 		else if (shortcut->func == paste_text) {
 			if (cutbuffer != NULL)
 				paste_into_answer();
