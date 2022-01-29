@@ -177,7 +177,7 @@ void run_macro(void)
 
 /* Read in at least one keystroke from the given window
  * and save it (or them) in the keystroke buffer. */
-void read_keys_from(WINDOW *win)
+void read_keys_from(WINDOW *frame)
 {
 	int input = ERR;
 	size_t errcount = 0;
@@ -204,7 +204,7 @@ void read_keys_from(WINDOW *win)
 
 	/* Read in the first keycode, waiting for it to arrive. */
 	while (input == ERR) {
-		input = wgetch(win);
+		input = wgetch(frame);
 
 #ifndef NANO_TINY
 		if (the_window_resized) {
@@ -258,13 +258,13 @@ void read_keys_from(WINDOW *win)
 		spotlighted = FALSE;
 	}
 
-	/* If we got a SIGWINCH, get out as the win argument is no longer valid. */
+	/* If we got a SIGWINCH, get out as the frame argument is no longer valid. */
 	if (input == KEY_WINCH)
 		return;
 #endif
 
 	/* Read in any remaining key codes using non-blocking input. */
-	nodelay(win, TRUE);
+	nodelay(frame, TRUE);
 
 	/* After an ESC, when ncurses does not translate escape sequences,
 	 * give the keyboard some time to bring the next code to ncurses. */
@@ -276,7 +276,7 @@ void read_keys_from(WINDOW *win)
 		if (recording)
 			add_to_macrobuffer(input);
 #endif
-		input = wgetch(win);
+		input = wgetch(frame);
 
 		/* If there aren't any more characters, stop reading. */
 		if (input == ERR)
@@ -289,7 +289,7 @@ void read_keys_from(WINDOW *win)
 	}
 
 	/* Restore blocking-input mode. */
-	nodelay(win, FALSE);
+	nodelay(frame, FALSE);
 
 #ifdef DEBUG
 	fprintf(stderr, "\nSequence of hex codes:");
@@ -337,13 +337,13 @@ void implant(const char *string)
 #endif
 
 /* Return one code from the keystroke buffer.  If the buffer is empty
- * but pane is given, first read more codes from the keyboard. */
-int get_input(WINDOW *pane)
+ * but frame is given, first read more codes from the keyboard. */
+int get_input(WINDOW *frame)
 {
 	if (waiting_codes)
 		spotlighted = FALSE;
-	else if (pane)
-		read_keys_from(pane);
+	else if (frame)
+		read_keys_from(frame);
 
 	if (waiting_codes > 0) {
 		waiting_codes--;
@@ -916,7 +916,7 @@ int convert_to_control(int kbinput)
  * Insert, Delete, Home, End, PageUp, PageDown, Enter, and Backspace (many of
  * them also when modified with Shift, Ctrl, Alt, Shift+Ctrl, or Shift+Alt),
  * the function keys (F1-F12), and the numeric keypad with NumLock off. */
-int parse_kbinput(WINDOW *win)
+int parse_kbinput(WINDOW *frame)
 {
 	static bool first_escape_was_alone = FALSE;
 	static bool last_escape_was_alone = FALSE;
@@ -927,7 +927,7 @@ int parse_kbinput(WINDOW *win)
 	shift_held = FALSE;
 
 	/* Get one code from the input stream. */
-	keycode = get_input(win);
+	keycode = get_input(frame);
 
 	/* For an Esc, remember whether the last two arrived by themselves.
 	 * Then increment the counter, rolling around on three escapes. */
@@ -1271,7 +1271,7 @@ int parse_kbinput(WINDOW *win)
 }
 
 /* Read in a single keystroke, ignoring any that are invalid. */
-int get_kbinput(WINDOW *win, bool showcursor)
+int get_kbinput(WINDOW *frame, bool showcursor)
 {
 	int kbinput = ERR;
 
@@ -1279,10 +1279,10 @@ int get_kbinput(WINDOW *win, bool showcursor)
 
 	/* Extract one keystroke from the input stream. */
 	while (kbinput == ERR)
-		kbinput = parse_kbinput(win);
+		kbinput = parse_kbinput(frame);
 
 	/* If we read from the edit window, blank the status bar if needed. */
-	if (win == edit)
+	if (frame == edit)
 		check_statusblank();
 
 	return kbinput;
@@ -1371,14 +1371,14 @@ long assemble_unicode(int symbol)
  * or convert a series of six digits into a Unicode codepoint.  Return
  * in count either 1 (for a control character or the first byte of a
  * multibyte sequence), or 2 (for an iTerm/Eterm/rxvt double Escape). */
-int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
+int *parse_verbatim_kbinput(WINDOW *frame, size_t *count)
 {
 	int keycode, *yield;
 
 	reveal_cursor = TRUE;
 
 	/* Read in the first code. */
-	keycode = get_input(win);
+	keycode = get_input(frame);
 
 #ifndef NANO_TINY
 	/* When the window was resized, abort and return nothing. */
@@ -1401,7 +1401,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 		reveal_cursor = FALSE;
 
 		while (unicode == PROCEED) {
-			keycode = get_input(win);
+			keycode = get_input(frame);
 			unicode = assemble_unicode(keycode);
 		}
 
@@ -1453,7 +1453,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 
 /* Read in one control code, one character byte, or the leading escapes of
  * an escape sequence, and return the resulting number of bytes in count. */
-char *get_verbatim_kbinput(WINDOW *win, size_t *count)
+char *get_verbatim_kbinput(WINDOW *frame, size_t *count)
 {
 	char *bytes = nmalloc(MAXCHARLEN + 2);
 	int *input;
@@ -1464,7 +1464,7 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	if (ISSET(PRESERVE))
 		disable_flow_control();
 	if (!ISSET(RAW_SEQUENCES))
-		keypad(win, FALSE);
+		keypad(frame, FALSE);
 
 #ifndef NANO_TINY
 	/* Turn bracketed-paste mode off. */
@@ -1475,7 +1475,7 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 	linger_after_escape = TRUE;
 
 	/* Read in a single byte or two escapes. */
-	input = parse_verbatim_kbinput(win, count);
+	input = parse_verbatim_kbinput(frame, count);
 
 	/* If the byte is invalid in the current mode, discard it;
 	 * if it is an incomplete Unicode sequence, stuff it back. */
@@ -1504,7 +1504,7 @@ char *get_verbatim_kbinput(WINDOW *win, size_t *count)
 		enable_flow_control();
 
 	/* Use the global window pointers, because a resize may have freed
-	 * the data that the win parameter points to. */
+	 * the data that the frame parameter points to. */
 	if (!ISSET(RAW_SEQUENCES)) {
 		keypad(edit, TRUE);
 		keypad(bottomwin, TRUE);
