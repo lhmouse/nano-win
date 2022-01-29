@@ -929,9 +929,6 @@ int parse_kbinput(WINDOW *win)
 	/* Get one code from the input stream. */
 	keycode = get_input(win);
 
-	if (keycode == ERR)
-		return ERR;
-
 	/* For an Esc, remember whether the last two arrived by themselves.
 	 * Then increment the counter, rolling around on three escapes. */
 	if (keycode == ESC_CODE) {
@@ -1417,7 +1414,7 @@ int *parse_verbatim_kbinput(WINDOW *win, size_t *count)
 #endif
 		/* For an invalid digit, discard its possible continuation bytes. */
 		if (unicode == INVALID_DIGIT) {
-			if (keycode == ESC_CODE) {
+			if (keycode == ESC_CODE && waiting_codes) {
 				get_input(NULL);
 				while (waiting_codes && 0x1F < nextcodes[0] && nextcodes[0] < 0x40)
 					get_input(NULL);
