@@ -805,7 +805,7 @@ void shortcut_init(void)
 
 	add_to_funcs(do_mark, MMAIN,
 		N_("Set Mark"), WITHORSANS(mark_gist), TOGETHER, VIEW);
-	add_to_funcs(copy_text, MMOST,
+	add_to_funcs(copy_text, MMAIN,
 		N_("Copy"), WITHORSANS(copy_gist), BLANKAFTER, VIEW);
 #endif
 
