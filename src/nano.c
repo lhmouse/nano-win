@@ -1022,37 +1022,18 @@ void handle_sigwinch(int signal)
 /* Reinitialize and redraw the screen completely. */
 void regenerate_screen(void)
 {
-	const char *tty = ttyname(0);
-	int fd, result = 0;
-	struct winsize win;
-
 	/* Reset the trigger. */
 	the_window_resized = FALSE;
 
-	if (tty == NULL)
-		return;
-	fd = open(tty, O_RDWR);
-	if (fd == -1)
-		return;
-	result = ioctl(fd, TIOCGWINSZ, &win);
-	close(fd);
-	if (result == -1)
-		return;
+	/* Leave and immediately reenter curses mode, so that ncurses notices
+	 * the new screen dimensions and sets LINES and COLS accordingly. */
+	endwin();
+	refresh();
 
-	/* We could check whether COLS or LINES changed, and return otherwise,
-	 * but it seems curses does not always update these global variables. */
-#ifdef REDEFINING_MACROS_OK
-	COLS = win.ws_col;
-	LINES = win.ws_row;
-#endif
 	thebar = (ISSET(INDICATOR) && LINES > 5 && COLS > 9) ? 1 : 0;
 	bardata = nrealloc(bardata, LINES * sizeof(int));
 
 	editwincols = COLS - margin - thebar;
-
-	/* Do as the website suggests: leave and immediately reenter curses mode. */
-	endwin();
-	doupdate();
 
 	/* Put the terminal in the desired state again, and
 	 * recreate the subwindows with their (new) sizes. */
