@@ -30,7 +30,7 @@ pushd "ncurses"
   --without-ada --without-cxx-binding --disable-db-install --without-manpages  \
   --without-pthread --without-debug --enable-widec --disable-database  \
   --disable-rpath --enable-termcap --disable-home-terminfo --enable-sp-funcs  \
-  --enable-term-driver --enable-static --disable-shared
+  --enable-term-driver --enable-static --disable-shared --without-tests
 make -j"${_nproc}"
 make install
 popd
