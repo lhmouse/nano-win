@@ -835,7 +835,7 @@ void shortcut_init(void)
 
 #ifdef ENABLE_BROWSER
 	add_to_funcs(goto_dir, MBROWSER,
-		/* TRANSLATORS: Try to keep the next seven strings at most 10 characters. */
+		/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
 		N_("Go To Dir"), WITHORSANS(gotodir_gist), TOGETHER, VIEW);
 #ifdef ENABLE_HELP
 	add_to_funcs(full_refresh, MBROWSER,
@@ -1021,7 +1021,7 @@ void shortcut_init(void)
 		N_("Down to anchor"), WITHORSANS(nextanchor_gist), BLANKAFTER, VIEW);
 
 	add_to_funcs(zap_text, MMAIN,
-		/* TRANSLATORS: This *deletes* a line or marked region. */
+		/* TRANSLATORS: This refers to deleting a line or marked region. */
 		N_("Zap"), WITHORSANS(zap_gist), BLANKAFTER, NOVIEW);
 
 	if (!ISSET(RESTRICTED)) {
