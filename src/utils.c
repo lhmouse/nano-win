@@ -282,28 +282,26 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 		return mbstrcasestr(start, needle);
 }
 
-/* This is a wrapper for the malloc() function that properly handles
- * things when we run out of memory. */
+/* Allocate the given amount of memory and return a pointer to it. */
 void *nmalloc(size_t howmuch)
 {
-	void *r = malloc(howmuch);
+	void *section = malloc(howmuch);
 
-	if (r == NULL)
+	if (section == NULL)
 		die(_("Nano is out of memory!\n"));
 
-	return r;
+	return section;
 }
 
-/* This is a wrapper for the realloc() function that properly handles
- * things when we run out of memory. */
-void *nrealloc(void *ptr, size_t howmuch)
+/* Reallocate the given section of memory to have the given size. */
+void *nrealloc(void *section, size_t howmuch)
 {
-	void *r = realloc(ptr, howmuch);
+	section = realloc(section, howmuch);
 
-	if (r == NULL)
+	if (section == NULL)
 		die(_("Nano is out of memory!\n"));
 
-	return r;
+	return section;
 }
 
 /* Return an appropriately reallocated dest string holding a copy of src.
