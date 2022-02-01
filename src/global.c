@@ -621,7 +621,7 @@ void shortcut_init(void)
 #endif
 #ifndef NANO_TINY
 	const char *wordcount_gist =
-		N_("Count the number of words, lines, and characters");
+		N_("Count the number of lines, words, and characters");
 	const char *suspend_gist = N_("Suspend the editor (return to the shell)");
 #endif
 	const char *refresh_gist = N_("Refresh (redraw) the current screen");
