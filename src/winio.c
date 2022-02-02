@@ -1,7 +1,7 @@
 /**************************************************************************
  *   winio.c  --  This file is part of GNU nano.                          *
  *                                                                        *
- *   Copyright (C) 1999-2011, 2013-2021 Free Software Foundation, Inc.    *
+ *   Copyright (C) 1999-2011, 2013-2022 Free Software Foundation, Inc.    *
  *   Copyright (C) 2014-2021 Benno Schulenberg                            *
  *                                                                        *
  *   GNU nano is free software: you can redistribute it and/or modify     *
@@ -3668,7 +3668,7 @@ void do_credits(void)
 		"",
 		"",
 		"",
-		"(C) 2021",
+		"(C) 2022",
 		"Free Software Foundation, Inc.",
 		"",
 		"",
