@@ -1187,8 +1187,10 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
 	add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
 	add_to_sclist(MMOST, "^K", 0, cut_text, 0);
+#ifdef NANO_TINY
+	add_to_sclist(MMAIN, "^U", 0, paste_text, 0);
+#else
 	add_to_sclist(MMOST, "^U", 0, paste_text, 0);
-#ifndef NANO_TINY
 	add_to_sclist(MMAIN, "^T", 0, do_execute, 0);
 #endif
 #ifdef ENABLE_JUSTIFY

@@ -166,6 +166,7 @@ void lop_the_answer(void)
 	answer[typing_x] = '\0';
 }
 
+#ifndef NANO_TINY
 /* Copy the current answer (if any) into the cutbuffer. */
 void copy_the_answer(void)
 {
@@ -193,6 +194,7 @@ void paste_into_answer(void)
 	answer = fusion;
 	typing_x += pastelen;
 }
+#endif
 
 #ifdef ENABLE_MOUSE
 /* Handle a mouse click on the status-bar prompt or the shortcut list. */
@@ -355,12 +357,15 @@ int do_statusbar_input(bool *finished)
 			do_statusbar_backspace();
 		else if (shortcut->func == cut_text)
 			lop_the_answer();
+#ifndef NANO_TINY
 		else if (shortcut->func == copy_text)
 			copy_the_answer();
 		else if (shortcut->func == paste_text) {
 			if (cutbuffer != NULL)
 				paste_into_answer();
-		} else {
+		}
+#endif
+		else {
 			/* Handle any other shortcut in the current menu, setting finished
 			 * to TRUE to indicate that we're done after running or trying to
 			 * run its associated function. */
