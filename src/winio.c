@@ -1535,18 +1535,18 @@ char *get_verbatim_kbinput(WINDOW *frame, size_t *count)
  * been handled by putting back keystrokes, or 2 if it's been ignored. */
 int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 {
-	bool in_editwin, in_bottomwin;
+	bool in_middle, in_footer;
 	MEVENT event;
 
 	/* First, get the actual mouse event. */
 	if (getmouse(&event) == ERR)
 		return -1;
 
-	in_editwin = wenclose(midwin, event.y, event.x);
-	in_bottomwin = wenclose(footwin, event.y, event.x);
+	in_middle = wenclose(midwin, event.y, event.x);
+	in_footer = wenclose(footwin, event.y, event.x);
 
-	/* Save the screen coordinates where the mouse event took place. */
-	*mouse_x = event.x - (in_editwin ? margin : 0);
+	/* Copy (and possibly adjust) the coordinates of the mouse event. */
+	*mouse_x = event.x - (in_middle ? margin : 0);
 	*mouse_y = event.y;
 
 	/* Handle releases/clicks of the first mouse button. */
@@ -1556,7 +1556,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 		 * first mouse button was released on/clicked inside it, we need
 		 * to figure out which shortcut was released on/clicked and put
 		 * back the equivalent keystroke(s) for it. */
-		if (allow_shortcuts && !ISSET(NO_HELP) && in_bottomwin) {
+		if (allow_shortcuts && !ISSET(NO_HELP) && in_footer) {
 			int width;
 				/* The width of each shortcut item, except the last two. */
 			int index;
@@ -1619,17 +1619,14 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			return 0;
 	}
 #if NCURSES_MOUSE_VERSION >= 2
-	/* Handle presses of the fourth mouse button (upward rolls of the
-	 * mouse wheel) and presses of the fifth mouse button (downward
-	 * rolls of the mouse wheel) . */
+	/* Handle "presses" of the fourth and fifth mouse buttons
+	 * (upward and downward rolls of the mouse wheel) . */
 	else if (event.bstate & (BUTTON4_PRESSED | BUTTON5_PRESSED)) {
-		bool in_edit = wenclose(midwin, *mouse_y, *mouse_x);
-
-		if (in_bottomwin)
+		if (in_footer)
 			/* Shift the coordinates to be relative to the bottom window. */
 			wmouse_trafo(footwin, mouse_y, mouse_x, FALSE);
 
-		if (in_edit || (in_bottomwin && *mouse_y == 0)) {
+		if (in_middle || (in_footer && *mouse_y == 0)) {
 			int keycode = (event.bstate & BUTTON4_PRESSED) ? KEY_UP : KEY_DOWN;
 
 			/* One roll of the mouse wheel should move three lines. */
@@ -1638,7 +1635,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 
 			return 1;
 		} else
-			/* Ignore presses of the fourth and fifth mouse buttons
+			/* Ignore "presses" of the fourth and fifth mouse buttons
 			 * that aren't on the edit window or the status bar. */
 			return 2;
 	}
