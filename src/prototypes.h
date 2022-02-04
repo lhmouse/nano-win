@@ -572,7 +572,7 @@ size_t waiting_keycodes(void);
 #ifdef ENABLE_NANORC
 void implant(const char *string);
 #endif
-int parse_kbinput(WINDOW *win);
+int get_input(WINDOW *win);
 int get_kbinput(WINDOW *win, bool showcursor);
 char *get_verbatim_kbinput(WINDOW *win, size_t *count);
 #ifdef ENABLE_MOUSE

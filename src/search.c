@@ -289,7 +289,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 					statusbar(_("Cancelled"));
 					/* Clear out the key buffer (in case a macro is running). */
 					while (input != ERR)
-						input = parse_kbinput(NULL);
+						input = get_input(NULL);
 					nodelay(edit, FALSE);
 					return -2;
 				}
