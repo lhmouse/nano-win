@@ -121,9 +121,9 @@ WINDOW *topwin = NULL;
 WINDOW *midwin = NULL;
 		/* The middle portion of the screen: the edit window, showing the
 		 * contents of the current buffer, the file we are editing. */
-WINDOW *bottomwin = NULL;
-		/* The bottom portion of the screen, where we display statusbar
-		 * messages, the status-bar prompt, and a list of shortcuts. */
+WINDOW *footwin = NULL;
+		/* The bottom portion of the screen, where status-bar messages,
+		 * the status-bar prompt, and a list of shortcuts are shown. */
 int editwinrows = 0;
 		/* How many rows does the edit window take up? */
 int editwincols = -1;

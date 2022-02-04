@@ -204,7 +204,7 @@ int do_statusbar_mouse(void)
 	int retval = get_mouseinput(&click_row, &click_col, TRUE);
 
 	/* We can click on the status-bar window text to move the cursor. */
-	if (retval == 0 && wmouse_trafo(bottomwin, &click_row, &click_col, FALSE)) {
+	if (retval == 0 && wmouse_trafo(footwin, &click_row, &click_col, FALSE)) {
 		size_t start_col = breadth(prompt) + 2;
 
 		/* Move to where the click occurred. */
@@ -240,7 +240,7 @@ void do_statusbar_verbatim_input(void)
 	size_t count = 1;
 	char *bytes;
 
-	bytes = get_verbatim_kbinput(bottomwin, &count);
+	bytes = get_verbatim_kbinput(footwin, &count);
 
 	if (0 < count && count < 999)
 		inject_into_answer(bytes, count);
@@ -266,7 +266,7 @@ int do_statusbar_input(bool *finished)
 	*finished = FALSE;
 
 	/* Read in a character. */
-	input = get_kbinput(bottomwin, VISIBLE);
+	input = get_kbinput(footwin, VISIBLE);
 
 #ifndef NANO_TINY
 	if (input == KEY_WINCH)
@@ -278,7 +278,7 @@ int do_statusbar_input(bool *finished)
 	 * shortcut character. */
 	if (input == KEY_MOUSE) {
 		if (do_statusbar_mouse() == 1)
-			input = get_kbinput(bottomwin, BLIND);
+			input = get_kbinput(footwin, BLIND);
 		else
 			return ERR;
 	}
@@ -410,33 +410,33 @@ void draw_the_promptbar(void)
 	end_page = get_statusbar_page_start(base, base + breadth(answer) - 1);
 
 	/* Color the prompt bar over its full width. */
-	wattron(bottomwin, interface_color_pair[PROMPT_BAR]);
-	mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
+	wattron(footwin, interface_color_pair[PROMPT_BAR]);
+	mvwprintw(footwin, 0, 0, "%*s", COLS, " ");
 
-	mvwaddstr(bottomwin, 0, 0, prompt);
-	waddch(bottomwin, ':');
-	waddch(bottomwin, (the_page == 0) ? ' ' : '<');
+	mvwaddstr(footwin, 0, 0, prompt);
+	waddch(footwin, ':');
+	waddch(footwin, (the_page == 0) ? ' ' : '<');
 
 	expanded = display_string(answer, the_page, COLS - base, FALSE, TRUE);
-	waddstr(bottomwin, expanded);
+	waddstr(footwin, expanded);
 	free(expanded);
 
 	if (the_page < end_page && base + breadth(answer) - the_page > COLS)
-		mvwaddch(bottomwin, 0, COLS - 1, '>');
+		mvwaddch(footwin, 0, COLS - 1, '>');
 
-	wattroff(bottomwin, interface_color_pair[PROMPT_BAR]);
+	wattroff(footwin, interface_color_pair[PROMPT_BAR]);
 
 #if defined(NCURSES_VERSION_PATCH) && (NCURSES_VERSION_PATCH < 20210220)
 	/* Work around a cursor-misplacement bug -- https://sv.gnu.org/bugs/?59808. */
 	if (ISSET(NO_HELP)) {
-		wmove(bottomwin, 0, 0);
-		wrefresh(bottomwin);
+		wmove(footwin, 0, 0);
+		wrefresh(footwin);
 	}
 #endif
 
 	/* Place the cursor at the right spot. */
-	wmove(bottomwin, 0, column - the_page);
-	wnoutrefresh(bottomwin);
+	wmove(footwin, 0, column - the_page);
+	wnoutrefresh(footwin);
 }
 
 #ifndef NANO_TINY
@@ -689,34 +689,34 @@ int ask_user(bool withall, const char *question)
 
 			/* Now show the ones for "Yes", "No", "Cancel" and maybe "All". */
 			sprintf(shortstr, " %c", yesstr[0]);
-			wmove(bottomwin, 1, 0);
+			wmove(footwin, 1, 0);
 			post_one_key(shortstr, _("Yes"), width);
 
 			shortstr[1] = nostr[0];
-			wmove(bottomwin, 2, 0);
+			wmove(footwin, 2, 0);
 			post_one_key(shortstr, _("No"), width);
 
 			if (withall) {
 				shortstr[1] = allstr[0];
-				wmove(bottomwin, 1, width);
+				wmove(footwin, 1, width);
 				post_one_key(shortstr, _("All"), width);
 			}
 
-			wmove(bottomwin, 2, width);
+			wmove(footwin, 2, width);
 			post_one_key(cancelshortcut->keystr, _("Cancel"), width);
 		}
 
 		/* Color the prompt bar over its full width and display the question. */
-		wattron(bottomwin, interface_color_pair[PROMPT_BAR]);
-		mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
-		mvwaddnstr(bottomwin, 0, 0, question, actual_x(question, COLS - 1));
-		wattroff(bottomwin, interface_color_pair[PROMPT_BAR]);
-		wnoutrefresh(bottomwin);
+		wattron(footwin, interface_color_pair[PROMPT_BAR]);
+		mvwprintw(footwin, 0, 0, "%*s", COLS, " ");
+		mvwaddnstr(footwin, 0, 0, question, actual_x(question, COLS - 1));
+		wattroff(footwin, interface_color_pair[PROMPT_BAR]);
+		wnoutrefresh(footwin);
 
 		currmenu = MYESNO;
 
 		/* When not replacing, show the cursor while waiting for a key. */
-		kbinput = get_kbinput(bottomwin, !withall);
+		kbinput = get_kbinput(footwin, !withall);
 
 #ifndef NANO_TINY
 		if (kbinput == KEY_WINCH)
@@ -724,7 +724,7 @@ int ask_user(bool withall, const char *question)
 
 		/* Accept the first character of an external paste. */
 		if (bracketed_paste && kbinput == BRACKETED_PASTE_MARKER)
-			kbinput = get_kbinput(bottomwin, BLIND);
+			kbinput = get_kbinput(footwin, BLIND);
 #endif
 
 #ifdef ENABLE_NLS
@@ -736,7 +736,7 @@ int ask_user(bool withall, const char *question)
 			int extras = (kbinput / 16) % 4 + (kbinput <= 0xCF ? 1 : 0);
 
 			while (extras <= waiting_keycodes() && extras-- > 0)
-				letter[index++] = (unsigned char)get_kbinput(bottomwin, !withall);
+				letter[index++] = (unsigned char)get_kbinput(footwin, !withall);
 		}
 #endif
 		letter[index] = '\0';
@@ -769,7 +769,7 @@ int ask_user(bool withall, const char *question)
 			int mouse_x, mouse_y;
 			/* We can click on the Yes/No/All shortcuts to select an answer. */
 			if (get_mouseinput(&mouse_y, &mouse_x, FALSE) == 0 &&
-						wmouse_trafo(bottomwin, &mouse_y, &mouse_x, FALSE) &&
+						wmouse_trafo(footwin, &mouse_y, &mouse_x, FALSE) &&
 						mouse_x < (width * 2) && mouse_y > 0) {
 				int x = mouse_x / width;
 				int y = mouse_y - 1;
@@ -800,7 +800,7 @@ int ask_user(bool withall, const char *question)
 #ifndef NANO_TINY
 		/* Ignore the rest of an external paste. */
 		while (bracketed_paste)
-			kbinput = get_kbinput(bottomwin, BLIND);
+			kbinput = get_kbinput(footwin, BLIND);
 #endif
 	}
 

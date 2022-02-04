@@ -1507,7 +1507,7 @@ char *get_verbatim_kbinput(WINDOW *frame, size_t *count)
 	 * the data that the frame parameter points to. */
 	if (!ISSET(RAW_SEQUENCES)) {
 		keypad(midwin, TRUE);
-		keypad(bottomwin, TRUE);
+		keypad(footwin, TRUE);
 	}
 
 	if (*count < 999) {
@@ -1543,7 +1543,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 		return -1;
 
 	in_editwin = wenclose(midwin, event.y, event.x);
-	in_bottomwin = wenclose(bottomwin, event.y, event.x);
+	in_bottomwin = wenclose(footwin, event.y, event.x);
 
 	/* Save the screen coordinates where the mouse event took place. */
 	*mouse_x = event.x - (in_editwin ? margin : 0);
@@ -1564,8 +1564,8 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 			size_t number;
 				/* The number of shortcut items that get displayed. */
 
-			/* Translate the coordinates to become relative to bottomwin. */
-			wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
+			/* Shift the coordinates to be relative to the bottom window. */
+			wmouse_trafo(footwin, mouse_y, mouse_x, FALSE);
 
 			/* Clicks on the status bar are handled elsewhere, so
 			 * restore the untranslated mouse-event coordinates. */
@@ -1615,7 +1615,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 
 			return 1;
 		} else
-			/* Clicks outside of bottomwin are handled elsewhere. */
+			/* Clicks outside of the bottom window are handled elsewhere. */
 			return 0;
 	}
 #if NCURSES_MOUSE_VERSION >= 2
@@ -1626,8 +1626,8 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 		bool in_edit = wenclose(midwin, *mouse_y, *mouse_x);
 
 		if (in_bottomwin)
-			/* Translate the coordinates to become relative to bottomwin. */
-			wmouse_trafo(bottomwin, mouse_y, mouse_x, FALSE);
+			/* Shift the coordinates to be relative to the bottom window. */
+			wmouse_trafo(footwin, mouse_y, mouse_x, FALSE);
 
 		if (in_edit || (in_bottomwin && *mouse_y == 0)) {
 			int keycode = (event.bstate & BUTTON4_PRESSED) ? KEY_UP : KEY_DOWN;
@@ -1671,7 +1671,7 @@ void blank_edit(void)
 /* Blank the first line of the bottom portion of the screen. */
 void blank_statusbar(void)
 {
-	blank_row(bottomwin, 0);
+	blank_row(footwin, 0);
 }
 
 /* Wipe the status bar clean and include this in the next screen update. */
@@ -1682,16 +1682,16 @@ void wipe_statusbar(void)
 	if (ISSET(ZERO) || ISSET(MINIBAR) || LINES == 1)
 		return;
 
-	blank_row(bottomwin, 0);
-	wnoutrefresh(bottomwin);
+	blank_row(footwin, 0);
+	wnoutrefresh(footwin);
 }
 
 /* Blank out the two help lines (when they are present). */
 void blank_bottombars(void)
 {
 	if (!ISSET(NO_HELP) && LINES > 5) {
-		blank_row(bottomwin, 1);
-		blank_row(bottomwin, 2);
+		blank_row(footwin, 1);
+		blank_row(footwin, 2);
 	}
 }
 
@@ -2117,8 +2117,8 @@ void minibar(void)
 #endif
 
 	/* Draw a colored bar over the full width of the screen. */
-	wattron(bottomwin, interface_color_pair[MINI_INFOBAR]);
-	mvwprintw(bottomwin, 0, 0, "%*s", COLS, " ");
+	wattron(footwin, interface_color_pair[MINI_INFOBAR]);
+	mvwprintw(footwin, 0, 0, "%*s", COLS, " ");
 
 	if (openfile->filename[0] != '\0') {
 		as_an_at = FALSE;
@@ -2140,13 +2140,13 @@ void minibar(void)
 		if (namewidth > COLS - 2) {
 			char *shortname = display_string(thename, namewidth - COLS + 5,
 												COLS - 5, FALSE, FALSE);
-			mvwaddstr(bottomwin, 0, 0, "...");
-			waddstr(bottomwin, shortname);
+			mvwaddstr(footwin, 0, 0, "...");
+			waddstr(footwin, shortname);
 			free(shortname);
 		} else
-			mvwaddstr(bottomwin, 0, padding, thename);
+			mvwaddstr(footwin, 0, padding, thename);
 
-		waddstr(bottomwin, openfile->modified ? " *" : "  ");
+		waddstr(footwin, openfile->modified ? " *" : "  ");
 	}
 
 	/* Right after reading or writing a file, display its number of lines;
@@ -2158,7 +2158,7 @@ void minibar(void)
 		sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
 		tallywidth = breadth(number_of_lines);
 		if (namewidth + tallywidth + 11 < COLS)
-			waddstr(bottomwin, number_of_lines);
+			waddstr(footwin, number_of_lines);
 		else
 			tallywidth = 0;
 		report_size = FALSE;
@@ -2168,13 +2168,13 @@ void minibar(void)
 		ranking = nmalloc(24);
 		sprintf(ranking, " [%i/%i]", buffer_number(openfile), buffer_number(startfile->prev));
 		if (namewidth + placewidth + breadth(ranking) + 32 < COLS)
-			waddstr(bottomwin, ranking);
+			waddstr(footwin, ranking);
 	}
 #endif
 
 	/* Display the line/column position of the cursor. */
 	if (ISSET(CONSTANT_SHOW) && namewidth + tallywidth + placewidth + 32 < COLS)
-		mvwaddstr(bottomwin, 0, COLS - 27 - placewidth, location);
+		mvwaddstr(footwin, 0, COLS - 27 - placewidth, location);
 
 	/* Display the hexadecimal code of the character under the cursor,
 	 * plus the codes of up to two succeeding zero-width characters. */
@@ -2198,7 +2198,7 @@ void minibar(void)
 		else
 			sprintf(hexadecimal, "  0x%02X", (unsigned char)*this_position);
 
-		mvwaddstr(bottomwin, 0, COLS - 23, hexadecimal);
+		mvwaddstr(footwin, 0, COLS - 23, hexadecimal);
 
 #ifdef ENABLE_UTF8
 		successor = this_position + char_length(this_position);
@@ -2206,13 +2206,13 @@ void minibar(void)
 		if (*this_position && *successor && is_zerowidth(successor) &&
 								mbtowide(&widecode, successor) > 0) {
 			sprintf(hexadecimal, "|%04X", (int)widecode);
-			waddstr(bottomwin, hexadecimal);
+			waddstr(footwin, hexadecimal);
 
 			successor += char_length(successor);
 
 			if (is_zerowidth(successor) && mbtowide(&widecode, successor) > 0) {
 				sprintf(hexadecimal, "|%04X", (int)widecode);
-				waddstr(bottomwin, hexadecimal);
+				waddstr(footwin, hexadecimal);
 			}
 		} else
 			successor = NULL;
@@ -2221,18 +2221,18 @@ void minibar(void)
 
 	/* Display the state of three flags, and the state of macro and mark. */
 	if (ISSET(STATEFLAGS) && !successor && namewidth + tallywidth + 14 + 2 * padding < COLS) {
-		wmove(bottomwin, 0, COLS - 11 - padding);
-		show_states_at(bottomwin);
+		wmove(footwin, 0, COLS - 11 - padding);
+		show_states_at(footwin);
 	}
 
 	/* Display how many percent the current line is into the file. */
 	if (namewidth + 6 < COLS) {
 		sprintf(location, "%3zi%%", 100 * openfile->current->lineno / openfile->filebot->lineno);
-		mvwaddstr(bottomwin, 0, COLS - 4 - padding, location);
+		mvwaddstr(footwin, 0, COLS - 4 - padding, location);
 	}
 
-	wattroff(bottomwin, interface_color_pair[MINI_INFOBAR]);
-	wrefresh(bottomwin);
+	wattroff(footwin, interface_color_pair[MINI_INFOBAR]);
+	wrefresh(footwin);
 
 	free(number_of_lines);
 	free(hexadecimal);
@@ -2284,11 +2284,11 @@ void statusline(message_type importance, const char *msg, ...)
 	/* If there are multiple alert messages, add trailing dots to the first. */
 	if (lastmessage == ALERT) {
 		if (start_col > 4) {
-			wmove(bottomwin, 0, COLS + 2 - start_col);
-			wattron(bottomwin, interface_color_pair[ERROR_MESSAGE]);
-			waddstr(bottomwin, "...");
-			wattroff(bottomwin, interface_color_pair[ERROR_MESSAGE]);
-			wnoutrefresh(bottomwin);
+			wmove(footwin, 0, COLS + 2 - start_col);
+			wattron(footwin, interface_color_pair[ERROR_MESSAGE]);
+			waddstr(footwin, "...");
+			wattroff(footwin, interface_color_pair[ERROR_MESSAGE]);
+			wnoutrefresh(footwin);
 			start_col = 0;
 			napms(100);
 			beep();
@@ -2320,23 +2320,23 @@ void statusline(message_type importance, const char *msg, ...)
 	start_col = (COLS - breadth(message)) / 2;
 	bracketed = (start_col > 1);
 
-	wmove(bottomwin, 0, (bracketed ? start_col - 2 : start_col));
-	wattron(bottomwin, colorpair);
+	wmove(footwin, 0, (bracketed ? start_col - 2 : start_col));
+	wattron(footwin, colorpair);
 	if (bracketed)
-		waddstr(bottomwin, "[ ");
-	waddstr(bottomwin, message);
+		waddstr(footwin, "[ ");
+	waddstr(footwin, message);
 	if (bracketed)
-		waddstr(bottomwin, " ]");
-	wattroff(bottomwin, colorpair);
+		waddstr(footwin, " ]");
+	wattroff(footwin, colorpair);
 
 #ifdef USING_OLDER_LIBVTE
 	/* Defeat a VTE/Konsole bug, where the cursor can go off-limits. */
 	if (ISSET(CONSTANT_SHOW) && ISSET(NO_HELP))
-		wmove(bottomwin, 0, 0);
+		wmove(footwin, 0, 0);
 #endif
 
 	/* Push the message to the screen straightaway. */
-	wrefresh(bottomwin);
+	wrefresh(footwin);
 
 	free(compound);
 	free(message);
@@ -2366,19 +2366,19 @@ void warn_and_briefly_pause(const char *msg)
  * Key plus tag may occupy at most width columns. */
 void post_one_key(const char *keystroke, const char *tag, int width)
 {
-	wattron(bottomwin, interface_color_pair[KEY_COMBO]);
-	waddnstr(bottomwin, keystroke, actual_x(keystroke, width));
-	wattroff(bottomwin, interface_color_pair[KEY_COMBO]);
+	wattron(footwin, interface_color_pair[KEY_COMBO]);
+	waddnstr(footwin, keystroke, actual_x(keystroke, width));
+	wattroff(footwin, interface_color_pair[KEY_COMBO]);
 
 	/* If the remaining space is too small, skip the description. */
 	width -= breadth(keystroke);
 	if (width < 2)
 		return;
 
-	waddch(bottomwin, ' ');
-	wattron(bottomwin, interface_color_pair[FUNCTION_TAG]);
-	waddnstr(bottomwin, tag, actual_x(tag, width - 1));
-	wattroff(bottomwin, interface_color_pair[FUNCTION_TAG]);
+	waddch(footwin, ' ');
+	wattron(footwin, interface_color_pair[FUNCTION_TAG]);
+	waddnstr(footwin, tag, actual_x(tag, width - 1));
+	wattroff(footwin, interface_color_pair[FUNCTION_TAG]);
 }
 
 /* Display the shortcut list corresponding to menu on the last two rows
@@ -2420,7 +2420,7 @@ void bottombars(int menu)
 		if (s == NULL)
 			continue;
 
-		wmove(bottomwin, 1 + index % 2, (index / 2) * itemwidth);
+		wmove(footwin, 1 + index % 2, (index / 2) * itemwidth);
 
 		/* When the number is uneven, the penultimate item can be double wide. */
 		if ((number % 2) == 1 && (index + 2 == number))
@@ -2435,7 +2435,7 @@ void bottombars(int menu)
 		index++;
 	}
 
-	wrefresh(bottomwin);
+	wrefresh(footwin);
 }
 
 /* Redetermine current_y from the position of current relative to edittop,
@@ -3704,7 +3704,7 @@ void do_credits(void)
 
 	wrefresh(topwin);
 	wrefresh(midwin);
-	wrefresh(bottomwin);
+	wrefresh(footwin);
 	napms(700);
 
 	for (crpos = 0; crpos < CREDIT_LEN + editwinrows / 2; crpos++) {

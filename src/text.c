@@ -2820,7 +2820,7 @@ void do_linter(void)
 		place_the_cursor();
 		wnoutrefresh(midwin);
 
-		kbinput = get_kbinput(bottomwin, VISIBLE);
+		kbinput = get_kbinput(footwin, VISIBLE);
 
 #ifndef NANO_TINY
 		if (kbinput == KEY_WINCH)
