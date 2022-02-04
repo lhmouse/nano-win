@@ -2818,7 +2818,7 @@ void do_linter(void)
 
 		/* Place the cursor to indicate the affected line. */
 		place_the_cursor();
-		wnoutrefresh(edit);
+		wnoutrefresh(midwin);
 
 		kbinput = get_kbinput(bottomwin, VISIBLE);
 
@@ -2987,7 +2987,7 @@ void do_verbatim_input(void)
 	place_the_cursor();
 
 	/* Read in the first one or two bytes of the next keystroke. */
-	bytes = get_verbatim_kbinput(edit, &count);
+	bytes = get_verbatim_kbinput(midwin, &count);
 
 	/* When something valid was obtained, unsuppress cursor-position display,
 	 * insert the bytes into the edit buffer, and blank the status bar. */

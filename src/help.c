@@ -463,7 +463,7 @@ void show_help(void)
 		focusing = TRUE;
 
 		/* Show the cursor when we searched and found something. */
-		kbinput = get_kbinput(edit, didfind == 1 || ISSET(SHOW_CURSOR));
+		kbinput = get_kbinput(midwin, didfind == 1 || ISSET(SHOW_CURSOR));
 
 		didfind = 0;
 

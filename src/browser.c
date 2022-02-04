@@ -170,16 +170,16 @@ void browser_refresh(void)
 		/* If this is the selected item, draw its highlighted bar upfront, and
 		 * remember its location to be able to place the cursor on it. */
 		if (index == selected) {
-			wattron(edit, interface_color_pair[SELECTED_TEXT]);
-			mvwprintw(edit, row, col, "%*s", longest, " ");
+			wattron(midwin, interface_color_pair[SELECTED_TEXT]);
+			mvwprintw(midwin, row, col, "%*s", longest, " ");
 			the_row = row;
 			the_column = col;
 		}
 
 		/* If the name is too long, we display something like "...ename". */
 		if (dots)
-			mvwaddstr(edit, row, col, "...");
-		mvwaddstr(edit, row, dots ? col + 3 : col, disp);
+			mvwaddstr(midwin, row, col, "...");
+		mvwaddstr(midwin, row, dots ? col + 3 : col, disp);
 
 		col += longest;
 
@@ -235,11 +235,11 @@ void browser_refresh(void)
 			infolen = infomaxlen;
 		}
 
-		mvwaddstr(edit, row, col - infolen, info);
+		mvwaddstr(midwin, row, col - infolen, info);
 
 		/* If this is the selected item, finish its highlighting. */
 		if (index == selected)
-			wattroff(edit, interface_color_pair[SELECTED_TEXT]);
+			wattroff(midwin, interface_color_pair[SELECTED_TEXT]);
 
 		free(disp);
 		free(info);
@@ -256,11 +256,11 @@ void browser_refresh(void)
 
 	/* If requested, put the cursor on the selected item and switch it on. */
 	if (ISSET(SHOW_CURSOR)) {
-		wmove(edit, the_row, the_column);
+		wmove(midwin, the_row, the_column);
 		curs_set(1);
 	}
 
-	wnoutrefresh(edit);
+	wnoutrefresh(midwin);
 }
 
 /* Look for the given needle in the list of files.  If forwards is TRUE,
@@ -484,7 +484,7 @@ char *browse(char *path)
 
 		old_selected = selected;
 
-		kbinput = get_kbinput(edit, ISSET(SHOW_CURSOR));
+		kbinput = get_kbinput(midwin, ISSET(SHOW_CURSOR));
 
 #ifdef ENABLE_MOUSE
 		if (kbinput == KEY_MOUSE) {
@@ -492,7 +492,7 @@ char *browse(char *path)
 
 			/* When the user clicked in the file list, select a filename. */
 			if (get_mouseinput(&mouse_y, &mouse_x, TRUE) == 0 &&
-						wmouse_trafo(edit, &mouse_y, &mouse_x, FALSE)) {
+						wmouse_trafo(midwin, &mouse_y, &mouse_x, FALSE)) {
 				selected = selected - selected % (usable_rows * piles) +
 								(mouse_y * piles) + (mouse_x / (longest + 2));
 

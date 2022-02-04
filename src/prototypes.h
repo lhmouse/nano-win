@@ -87,7 +87,7 @@ extern size_t wrap_at;
 #endif
 
 extern WINDOW *topwin;
-extern WINDOW *edit;
+extern WINDOW *midwin;
 extern WINDOW *bottomwin;
 extern int editwinrows;
 extern int editwincols;

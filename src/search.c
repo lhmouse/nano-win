@@ -186,7 +186,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		/* The time we last looked at the keyboard. */
 
 	/* Set non-blocking input so that we can just peek for a Cancel. */
-	nodelay(edit, TRUE);
+	nodelay(midwin, TRUE);
 
 	if (begin == NULL)
 		came_full_circle = FALSE;
@@ -226,14 +226,14 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 #ifndef NANO_TINY
 		if (the_window_resized) {
 			regenerate_screen();
-			nodelay(edit, TRUE);
+			nodelay(midwin, TRUE);
 			statusbar(_("Searching..."));
 			feedback = 1;
 		}
 #endif
 		/* If we're back at the beginning, then there is no needle. */
 		if (came_full_circle) {
-			nodelay(edit, FALSE);
+			nodelay(midwin, FALSE);
 			return 0;
 		}
 
@@ -244,7 +244,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		 * but stop when spell-checking or replacing in a region. */
 		if (line == NULL) {
 			if (whole_word_only || modus == INREGION) {
-				nodelay(edit, FALSE);
+				nodelay(midwin, FALSE);
 				return 0;
 			}
 
@@ -268,7 +268,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 
 		/* Glance at the keyboard once every second, to check for a Cancel. */
 		if (time(NULL) - lastkbcheck > 0) {
-			int input = wgetch(edit);
+			int input = wgetch(midwin);
 
 			lastkbcheck = time(NULL);
 
@@ -276,7 +276,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 			while (input != ERR) {
 				if (input == ESC_CODE) {
 					napms(20);
-					input = wgetch(edit);
+					input = wgetch(midwin);
 					meta_key = TRUE;
 				} else
 					meta_key = FALSE;
@@ -290,11 +290,11 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 					/* Clear out the key buffer (in case a macro is running). */
 					while (input != ERR)
 						input = get_input(NULL);
-					nodelay(edit, FALSE);
+					nodelay(midwin, FALSE);
 					return -2;
 				}
 
-				input = wgetch(edit);
+				input = wgetch(midwin);
 			}
 
 			if (++feedback > 0)
@@ -306,7 +306,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 
 	found_x = found - line->data;
 
-	nodelay(edit, FALSE);
+	nodelay(midwin, FALSE);
 
 	/* Ensure that the found occurrence is not beyond the starting x. */
 	if (came_full_circle && ((!ISSET(BACKWARDS_SEARCH) && (found_x > begin_x ||

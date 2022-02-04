@@ -118,7 +118,7 @@ size_t wrap_at = 0;
 WINDOW *topwin = NULL;
 		/* The top portion of the screen, showing the version number of nano,
 		 * the name of the file, and whether the buffer was modified. */
-WINDOW *edit = NULL;
+WINDOW *midwin = NULL;
 		/* The middle portion of the screen: the edit window, showing the
 		 * contents of the current buffer, the file we are editing. */
 WINDOW *bottomwin = NULL;

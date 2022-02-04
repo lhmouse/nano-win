@@ -2666,23 +2666,23 @@ char *input_tab(char *morsel, size_t *place, void (*refresh_func)(void), bool *l
 		for (match = 0; match < num_matches; match++) {
 			char *disp;
 
-			wmove(edit, row, (longest_name + 2) * (match % ncols));
+			wmove(midwin, row, (longest_name + 2) * (match % ncols));
 
 			if (row == lastrow && (match + 1) % ncols == 0 &&
 											match + 1 < num_matches) {
-				waddstr(edit, _("(more)"));
+				waddstr(midwin, _("(more)"));
 				break;
 			}
 
 			disp = display_string(matches[match], 0, longest_name, FALSE, FALSE);
-			waddstr(edit, disp);
+			waddstr(midwin, disp);
 			free(disp);
 
 			if ((match + 1) % ncols == 0)
 				row++;
 		}
 
-		wnoutrefresh(edit);
+		wnoutrefresh(midwin);
 		*listed = TRUE;
 	}
 

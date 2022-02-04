@@ -249,7 +249,7 @@ void finish(void)
 	/* Deallocate the two or three subwindows. */
 	if (topwin != NULL)
 		delwin(topwin);
-	delwin(edit);
+	delwin(midwin);
 	delwin(bottomwin);
 #endif
 	/* Switch the cursor on, exit from curses, and restore terminal settings. */
@@ -403,10 +403,10 @@ void die(const char *msg, ...)
 void window_init(void)
 {
 	/* When resizing, first delete the existing windows. */
-	if (edit != NULL) {
+	if (midwin != NULL) {
 		if (topwin != NULL)
 			delwin(topwin);
-		delwin(edit);
+		delwin(midwin);
 		delwin(bottomwin);
 	}
 
@@ -417,7 +417,7 @@ void window_init(void)
 		editwinrows = (ISSET(ZERO) ? LINES : 1);
 		/* Set up two subwindows.  If the terminal is just one line,
 		 * edit window and status-bar window will cover each other. */
-		edit = newwin(editwinrows, COLS, 0, 0);
+		midwin = newwin(editwinrows, COLS, 0, 0);
 		bottomwin = newwin(1, COLS, LINES - 1, 0);
 	} else {
 		int toprows = ((ISSET(EMPTY_LINE) && LINES > 6) ? 2 : 1);
@@ -432,7 +432,7 @@ void window_init(void)
 		/* Set up the normal three subwindows. */
 		if (toprows > 0)
 			topwin = newwin(toprows, COLS, 0, 0);
-		edit = newwin(editwinrows, COLS, toprows, 0);
+		midwin = newwin(editwinrows, COLS, toprows, 0);
 		bottomwin = newwin(bottomrows, COLS, LINES - bottomrows, 0);
 	}
 
@@ -441,7 +441,7 @@ void window_init(void)
 
 	/* When not disabled, turn escape-sequence translation on. */
 	if (!ISSET(RAW_SEQUENCES)) {
-		keypad(edit, TRUE);
+		keypad(midwin, TRUE);
 		keypad(bottomwin, TRUE);
 	}
 
@@ -1306,7 +1306,7 @@ int do_mouse(void)
 		return retval;
 
 	/* If the click was in the edit window, put the cursor in that spot. */
-	if (wmouse_trafo(edit, &click_row, &click_col, FALSE)) {
+	if (wmouse_trafo(midwin, &click_row, &click_col, FALSE)) {
 		linestruct *current_save = openfile->current;
 		ssize_t row_count = click_row - openfile->current_y;
 		size_t leftedge;
@@ -1389,7 +1389,7 @@ void suck_up_input_and_paste_it(void)
 	cutbuffer = line;
 
 	while (bracketed_paste) {
-		int input = get_kbinput(edit, BLIND);
+		int input = get_kbinput(midwin, BLIND);
 
 		if (input == '\r' || input == '\n') {
 			line->next = make_new_node(line);
@@ -1521,7 +1521,7 @@ void process_a_keystroke(void)
 	const keystruct *shortcut;
 
 	/* Read in a keystroke, and show the cursor while waiting. */
-	input = get_kbinput(edit, VISIBLE);
+	input = get_kbinput(midwin, VISIBLE);
 
 	lastmessage = VACUUM;
 
@@ -1534,7 +1534,7 @@ void process_a_keystroke(void)
 		/* If the user clicked on a shortcut, read in the key code that it was
 		 * converted into.  Else the click has been handled or was invalid. */
 		if (do_mouse() == 1)
-			input = get_kbinput(edit, BLIND);
+			input = get_kbinput(midwin, BLIND);
 		else
 			return;
 	}
@@ -2556,13 +2556,13 @@ int main(int argc, char **argv)
 		if (ISSET(ZERO) && lastmessage > HUSH) {
 			if (openfile->current_y == editwinrows - 1 && LINES > 1) {
 				edit_scroll(FORWARD);
-				wnoutrefresh(edit);
+				wnoutrefresh(midwin);
 			}
 			wredrawln(bottomwin, 0 ,1);
 			wnoutrefresh(bottomwin);
 			place_the_cursor();
 		} else if (ISSET(ZERO) && lastmessage > VACUUM)
-			wredrawln(edit, editwinrows - 1, 1);
+			wredrawln(midwin, editwinrows - 1, 1);
 #endif
 
 		errno = 0;
