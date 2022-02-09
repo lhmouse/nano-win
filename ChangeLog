@@ -1,3 +1,46 @@
+Changes between v6.0 and v6.1:
+------------------------------
+
+Benno Schulenberg (37):
+      build: fix compilation when configured with --enable-tiny
+      build: prevent autopoint from overwriting a newer M4 file from gnulib
+      bump version numbers and add a news item for the 6.1 release
+      copyright: update the last year for significantly changed files
+      copyright: update the years for the FSF
+      docs: mention bindable function 'zero', for toggling the interface bars
+      docs: mention 'set guidestripe' and 'set unix' in the sample nanorc
+      docs: remove obsolete Ctrl+Z from the cheatsheet; mention Alt+X instead
+      files: let ^C cancel the exiting when the file on disk was changed
+      gnulib: update to its current upstream state
+      help: make the description of <Tab> more accurate
+      help: update the description of M-D, to match the actual order of counts
+      input: instead of moving waiting keycodes, just increment a pointer
+      input: suppress any spotlighting when there are more keycodes waiting
+      menus: don't show M-6 in the help lines of any prompt
+      prompt: allow the user to copy the answer to the cutbuffer (with M-6)
+      prompt: let ^K erase text after cursor (if any), otherwise whole answer
+      tweaks: add some feedback to the autogen.sh script, to ease the wait
+      tweaks: add some small, clarifying comments
+      tweaks: adjust a translator hint, to fit the order in the POT file
+      tweaks: drop foreign M-U and M-R from among the sample CUA bindings
+      tweaks: remove a redundant check -- add a different one for symmetry
+      tweaks: remove two redundant checks
+      tweaks: rename a function and its two parameters, for clarity
+      tweaks: rename a function and reshuffle its call
+      tweaks: rename a function, to not contain the name of a variable
+      tweaks: rename another variable, to better fit in with its sisters
+      tweaks: rename a variable and a parameter, to be more descriptive
+      tweaks: rename a variable, away from an abbreviation
+      tweaks: rename a variable, for clarity and contrast
+      tweaks: rename a variable, to make it clearer it refers to a window
+      tweaks: rename two variables, and elide a near-enough duplicate
+      tweaks: reshuffle some sample bindings, to group them differently
+      tweaks: reword two comments, and rename a variable (away from an abbrev)
+      tweaks: stop asking the terminal for its new size -- let ncurses do it
+      tweaks: use some symbolic names instead of unclear numeric values
+      tweaks: when discarding keycodes, don't bother parsing them
+
+
 Changes between v5.9 and v6.0:
 ------------------------------
 

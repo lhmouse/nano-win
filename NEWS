@@ -1,3 +1,11 @@
+2022.02.09 - GNU nano 6.1 "Rețelele de socializare sunt ca un frigider"
+• The behavior of ^K at a prompt has been enhanced: when there is some
+  text after the cursor, just this text is erased.  In the most common
+  situation, when the cursor is at the end of the answer, the behavior
+  is as before: the whole answer is erased.
+• At a prompt, M-6 copies the current answer into the cutbuffer.
+• Large external pastes into nano are handled more quickly.
+
 2021.12.15 - GNU nano 6.0 "Humor heeft ook zijn leuke kanten"
 • Option --zero hides the title bar, status bar and help lines, and
   uses all rows of the terminal as editing area.  The title bar and
