@@ -9,23 +9,23 @@
 # bp: 2019-04-13 nano po datoteka je značajno preuređena, u nadi da se
 # poboljša upotrebljivost editora.
 #
-# Božidar Putanec <bozidarp@yahoo.com>, 2016-2018, 2019, 2020, 2021.
+# Božidar Putanec <bozidarp@yahoo.com>, 2016-2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU nano-6.0-pre1\n"
+"Project-Id-Version: GNU nano-6.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2021-12-15 12:25+0100\n"
-"PO-Revision-Date: 2021-12-04 12:59-0800\n"
+"POT-Creation-Date: 2022-02-09 11:50+0100\n"
+"PO-Revision-Date: 2022-02-03 10:59-0800\n"
 "Last-Translator: Božidar Putanec <bozidarp@yahoo.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #: src/browser.c:194 src/browser.c:201
@@ -238,7 +238,7 @@ msgstr[0] "%s -- %zu redak (%s)"
 msgstr[1] "%s -- %zu retka (%s)"
 msgstr[2] "%s -- %zu redaka (%s)"
 
-#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2012
+#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2005
 msgid "New Buffer"
 msgstr "Novi međuspremnik"
 
@@ -489,7 +489,7 @@ msgid "File Name to Write"
 msgstr "Spremi u datoteku (ime)"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2217 src/nano.c:1084
+#: src/files.c:2217 src/nano.c:1065
 msgid "Too tiny"
 msgstr "Premali"
 
@@ -518,7 +518,7 @@ msgstr "Datoteka na disku je izmijenjena"
 msgid "File was modified since you opened it; continue saving? "
 msgstr "Datoteka se promijenila nakon otvaranja; ipak ju spremiti? "
 
-#: src/files.c:2671
+#: src/files.c:2673
 msgid "(more)"
 msgstr "(više)"
 
@@ -709,8 +709,8 @@ msgid "Insert the next keystroke verbatim"
 msgstr "doslovno unese sljedeću sekvenciju tipki"
 
 #: src/global.c:605
-msgid "Insert a tab at the cursor position"
-msgstr "unese tab(ulator) na poziciji kursora"
+msgid "Insert a tab at the cursor position (or indent marked lines)"
+msgstr "unese tab(ulator) na poziciji kursora (ili uvuče označene retke)"
 
 #: src/global.c:606
 msgid "Insert a newline at the cursor position"
@@ -746,8 +746,8 @@ msgid "Justify the entire file"
 msgstr "poravna sav tekst"
 
 #: src/global.c:624
-msgid "Count the number of words, lines, and characters"
-msgstr "izbroji broj riječi, redova i znakova"
+msgid "Count the number of lines, words, and characters"
+msgstr "nabroji broj redaka, riječi, i znakova"
 
 #: src/global.c:625
 msgid "Suspend the editor (return to the shell)"
@@ -940,7 +940,7 @@ msgstr "pokrene program za oblikovanje međuspremnika (format, itd.)"
 msgid "Help"
 msgstr "Pomoć"
 
-#: src/global.c:708 src/prompt.c:686
+#: src/global.c:708 src/prompt.c:706
 msgid "Cancel"
 msgstr "Odustajem"
 
@@ -1049,7 +1049,7 @@ msgid "Newer"
 msgstr "Noviji"
 
 # Direktorij je dosta, jer je jasno iz konteksta a ima i pomoćni tekst
-#. TRANSLATORS: Try to keep the next seven strings at most 10 characters.
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
 #: src/global.c:839
 msgid "Go To Dir"
 msgstr "U direktorij"
@@ -1229,7 +1229,7 @@ msgstr "Prethodno sidro"
 msgid "Down to anchor"
 msgstr "Sljedeće sidro"
 
-#. TRANSLATORS: This *deletes* a line or marked region.
+#. TRANSLATORS: This refers to deleting a line or marked region.
 #: src/global.c:1025
 msgid "Zap"
 msgstr "Odbacivanje"
@@ -1338,57 +1338,57 @@ msgstr "Novija poruka lintera"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1519
+#: src/global.c:1521
 msgid "Hidden interface"
 msgstr "Sučelje (skrije ili pokaže)"
 
-#: src/global.c:1521
+#: src/global.c:1523
 msgid "Help mode"
 msgstr "Pomoć u zadnja dva retka prozora"
 
-#: src/global.c:1523
+#: src/global.c:1525
 msgid "Constant cursor position display"
 msgstr "Stalno prikazana pozicija kursora"
 
-#: src/global.c:1525
+#: src/global.c:1527
 msgid "Soft wrapping of overlong lines"
 msgstr "Meko prelamanje predugih redova"
 
-#: src/global.c:1527
+#: src/global.c:1529
 msgid "Line numbering"
 msgstr "Numeracija redaka"
 
-#: src/global.c:1529
+#: src/global.c:1531
 msgid "Whitespace display"
 msgstr "Prikazivanje bjelina"
 
-#: src/global.c:1531
+#: src/global.c:1533
 msgid "Color syntax highlighting"
 msgstr "Sintaksa istaknuta bojama"
 
 # pometna Home tipka: prvi skok na prvi znak, zatim na poziciju 1
-#: src/global.c:1533
+#: src/global.c:1535
 msgid "Smart home key"
 msgstr "Pametna Home tipka"
 
-#: src/global.c:1535
+#: src/global.c:1537
 msgid "Auto indent"
 msgstr "Automatsko uvlačenje"
 
-#: src/global.c:1537
+#: src/global.c:1539
 msgid "Cut to end"
 msgstr "Izrezivanje do kraja retka"
 
-#: src/global.c:1539
+#: src/global.c:1541
 msgid "Hard wrapping of overlong lines"
 msgstr "Tvrdo prelamanje predugih redova"
 
 # Tab znak pretvara u razmake
-#: src/global.c:1541
+#: src/global.c:1543
 msgid "Conversion of typed tabs to spaces"
 msgstr "Pretvaranje tabulacija u razmake"
 
-#: src/global.c:1543
+#: src/global.c:1545
 msgid "Mouse support"
 msgstr "Podrška za miša"
 
@@ -1744,7 +1744,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "-- uključi/isključi"
 
-#: src/help.c:579 src/nano.c:1609
+#: src/help.c:579 src/nano.c:1590
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2208,137 +2208,137 @@ msgstr "Uh!  Nano se srušio!  Kȏd: %d.  Prijavite taj bug.\n"
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Rabite „fg“ za povratak u nano.\n"
 
-#: src/nano.c:1093
+#: src/nano.c:1074
 msgid "Not possible"
 msgstr "Nije moguće"
 
-#: src/nano.c:1114
+#: src/nano.c:1095
 msgid "Current syntax determines Tab"
 msgstr "Trenutna sintaksa određuje značenje za Tab"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "enabled"
 msgstr " * UKLJUČENO *"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "disabled"
 msgstr " * ISKLJUČENO *"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1285
+#: src/nano.c:1266
 msgid "Unknown sequence"
 msgstr "Nepoznata sekvencija tipki"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1289
+#: src/nano.c:1270
 #, c-format
 msgid "Unbound key: F%i"
 msgstr "Nepovezani prečac: F%i"
 
-#: src/nano.c:1292
+#: src/nano.c:1273
 msgid "Unbound key"
 msgstr "Tipka ne radi u ovom kontekstu"
 
-#: src/nano.c:1296
+#: src/nano.c:1277
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "Nemoguća kombinacija: M-^%c"
 
-#: src/nano.c:1301
+#: src/nano.c:1282
 #, c-format
 msgid "Unbound key: Sh-M-%c"
 msgstr "Nepovezana kombinacija: Sh-M-%c"
 
-#: src/nano.c:1304
+#: src/nano.c:1285
 #, c-format
 msgid "Unbound key: M-%c"
 msgstr "Prečac M-%c: ne radi u ovom kontekstu"
 
-#: src/nano.c:1306
+#: src/nano.c:1287
 msgid "Unbindable key: ^["
 msgstr "Kombinacija ^[ nije moguća"
 
-#: src/nano.c:1308
+#: src/nano.c:1289
 #, c-format
 msgid "Unbound key: ^%c"
 msgstr "Prečac ^%c: ne radi u ovom kontekstu"
 
-#: src/nano.c:1311
+#: src/nano.c:1292
 #, c-format
 msgid "Unbound key: %c"
 msgstr "Prečac %c: nije radi u ovom kontekstu"
 
-#: src/nano.c:1879 src/rcfile.c:1658
+#: src/nano.c:1860 src/rcfile.c:1658
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Stupac „%s“ nije valjan i nije ga moguće istaknuti"
 
-#: src/nano.c:1926 src/rcfile.c:1663
+#: src/nano.c:1907 src/rcfile.c:1663
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Zatražena širina tabulatora „%s“ nije valjana"
 
-#: src/nano.c:2030 src/rcfile.c:1608
+#: src/nano.c:2011 src/rcfile.c:1608
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Zatražena veličina ispune „%s“ nije valjana"
 
-#: src/nano.c:2087
+#: src/nano.c:2068
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Rabite „%s -h“ za popis svih dostupnih opcija.\n"
 
-#: src/nano.c:2280
+#: src/nano.c:2261
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Loši regularni izraz (regex) „%s“: %s\n"
 
-#: src/nano.c:2435
+#: src/nano.c:2416
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Nevaljani način pretraživanja „%c“"
 
-#: src/nano.c:2446
+#: src/nano.c:2427
 msgid "Empty search string"
 msgstr "Nema teksta za pretraživanje"
 
-#: src/nano.c:2455 src/search.c:776
+#: src/nano.c:2436 src/search.c:776
 msgid "Invalid line or column number"
 msgstr "Nevaljani broj retka ili stupca"
 
-#: src/nano.c:2520
+#: src/nano.c:2501
 msgid "Can open just one file\n"
 msgstr "Može se otvoriti samo jedna datoteka\n"
 
-#: src/nano.c:2538
+#: src/nano.c:2519
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Dobro došli u nano. Za osnovne upute za uporabu pritisnite Ctrl+G."
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:647
+#: src/prompt.c:667
 msgid "Yy"
 msgstr "Dd"
 
-#: src/prompt.c:648
+#: src/prompt.c:668
 msgid "Nn"
 msgstr "Nn"
 
-#: src/prompt.c:649
+#: src/prompt.c:669
 msgid "Aa"
 msgstr "Ss"
 
-#: src/prompt.c:673
+#: src/prompt.c:693
 msgid "Yes"
 msgstr "Da"
 
-#: src/prompt.c:677
+#: src/prompt.c:697
 msgid "No"
 msgstr "Ne"
 
-#: src/prompt.c:682
+#: src/prompt.c:702
 msgid "All"
 msgstr "Sve"
 
@@ -2915,63 +2915,63 @@ msgstr "Nema više mogućnosti za dopunjavanje"
 msgid "No matches"
 msgstr "Nema ništa za dopuniti"
 
-#: src/utils.c:295 src/utils.c:310
+#: src/utils.c:291 src/utils.c:302
 msgid "Nano is out of memory!\n"
 msgstr "Nano nema dovoljno memorije!\n"
 
-#: src/winio.c:98
+#: src/winio.c:100
 msgid "Recording a macro..."
 msgstr "Snimamo makro..."
 
-#: src/winio.c:101
+#: src/winio.c:103
 msgid "Stopped recording"
 msgstr "Snimanje je zaustavljeno"
 
-#: src/winio.c:113
+#: src/winio.c:115
 msgid "Cannot run macro while recording"
 msgstr "Nije moguće pokrenuti makro u tijeku snimanja"
 
-#: src/winio.c:119
+#: src/winio.c:121
 msgid "Macro is empty"
 msgstr "Makro je prazan"
 
-#: src/winio.c:240
+#: src/winio.c:243
 msgid "Too many errors from stdin\n"
 msgstr "Previše grešaka na standardnom ulazu\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1363
+#: src/winio.c:1359
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Unos Unicode znaka: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:1990
+#: src/winio.c:1983
 msgid "Linting --"
 msgstr "Lintanje --"
 
-#: src/winio.c:1996
+#: src/winio.c:1989
 msgid "DIR:"
 msgstr "Direktorij:"
 
-#: src/winio.c:2017
+#: src/winio.c:2010
 msgid "View"
 msgstr "Čitanje"
 
-#: src/winio.c:2023 src/winio.c:2027
+#: src/winio.c:2016 src/winio.c:2020
 msgid "Modified"
 msgstr "Izmijenjen"
 
-#: src/winio.c:2025
+#: src/winio.c:2018
 msgid "Restricted"
 msgstr "Ograničeni način"
 
-#: src/winio.c:2131
+#: src/winio.c:2124
 msgid "(nameless)"
 msgstr "(bezimena)"
 
-#: src/winio.c:2162
+#: src/winio.c:2155
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
@@ -2979,45 +2979,45 @@ msgstr[0] " (%zu redak)"
 msgstr[1] " (%zu retka)"
 msgstr[2] " (%zu redaka)"
 
-#: src/winio.c:3531
+#: src/winio.c:3524
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "redak %*zd/%zd (%2d%%), stupac %2zu/%2zu (%3d%%), znak %*zu/%zu (%2d%%)"
 
-#: src/winio.c:3685
+#: src/winio.c:3678
 msgid "The nano text editor"
 msgstr "Uređivač teksta nano"
 
-#: src/winio.c:3686
+#: src/winio.c:3679
 msgid "version"
 msgstr "inačica"
 
-#: src/winio.c:3687
+#: src/winio.c:3680
 msgid "Brought to you by:"
 msgstr "Daju vam na upotrebu:"
 
-#: src/winio.c:3688
+#: src/winio.c:3681
 msgid "Special thanks to:"
 msgstr "Posebna zahvala:"
 
-#: src/winio.c:3689
+#: src/winio.c:3682
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: src/winio.c:3690
+#: src/winio.c:3683
 msgid "the many translators and the TP"
 msgstr "svim prevoditeljima i TP-u"
 
-#: src/winio.c:3691
+#: src/winio.c:3684
 msgid "For ncurses:"
 msgstr "Za ncurses:"
 
-#: src/winio.c:3692
+#: src/winio.c:3685
 msgid "and anyone else we forgot..."
 msgstr "i svima ostalima koje smo zaboravili..."
 
-#: src/winio.c:3693
+#: src/winio.c:3686
 msgid "Thank you for using nano!"
 msgstr "Hvala vam što koristite nano!"
 

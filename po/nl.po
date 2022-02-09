@@ -1,20 +1,19 @@
 # Dutch translations for GNU nano.
-# Copyright (C) 2021 Free Software Foundation, Inc.
+# Copyright (C) 2022 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
 #
-# Unseat the (probably homosexual) Hungarian dictator!
+# "bien sabía él que la iba a echar de menos"
 #
-# Benno Schulenberg <benno@vertaalt.nl>, 2005, 2006, 2007, 2008, 2010, 2011, 2013.
-# Benno Schulenberg <benno@vertaalt.nl>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
-# Erwin Poeze <erwin.poeze@gmail.com>, 2009.
-# Reinout van Schouwen <reinout@cs.vu.nl>, 2005.
 # Guus Sliepen <guus@sliepen.eu.org>, 2003.
+# Reinout van Schouwen <reinout@cs.vu.nl>, 2005.
+# Erwin Poeze <erwin.poeze@gmail.com>, 2009.
+# Benno Schulenberg <benno@vertaalt.nl>, 2005-2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano-6.0-pre1\n"
+"Project-Id-Version: nano-6.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2021-12-15 12:25+0100\n"
-"PO-Revision-Date: 2021-12-05 12:24+0100\n"
+"POT-Creation-Date: 2022-02-09 11:50+0100\n"
+"PO-Revision-Date: 2022-02-06 16:21+0100\n"
 "Last-Translator: Benno Schulenberg <vertaling@coevern.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -226,7 +225,7 @@ msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu regel (%s)"
 msgstr[1] "%s -- %zu regels (%s)"
 
-#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2012
+#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2005
 msgid "New Buffer"
 msgstr "Nieuwe buffer"
 
@@ -472,7 +471,7 @@ msgid "File Name to Write"
 msgstr "Opslaan in bestand"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2217 src/nano.c:1084
+#: src/files.c:2217 src/nano.c:1065
 msgid "Too tiny"
 msgstr "Te klein"
 
@@ -499,7 +498,7 @@ msgstr "Bestand op schijf is gewijzigd"
 msgid "File was modified since you opened it; continue saving? "
 msgstr "Bestand is gewijzigd na opening; doorgaan met opslaan? "
 
-#: src/files.c:2671
+#: src/files.c:2673
 msgid "(more)"
 msgstr "(meer)"
 
@@ -690,8 +689,9 @@ msgid "Insert the next keystroke verbatim"
 msgstr "eerstvolgende toetsaanslag verbatim invoegen"
 
 #: src/global.c:605
-msgid "Insert a tab at the cursor position"
-msgstr "een tab invoegen op de cursorpositie"
+msgid "Insert a tab at the cursor position (or indent marked lines)"
+msgstr ""
+"een tab invoegen op de cursorpositie (of gemarkeerde regels laten inspringen)"
 
 #: src/global.c:606
 msgid "Insert a newline at the cursor position"
@@ -726,8 +726,8 @@ msgid "Justify the entire file"
 msgstr "het gehele bestand uitvullen"
 
 #: src/global.c:624
-msgid "Count the number of words, lines, and characters"
-msgstr "aantal woorden, regels en tekens in het bestand tellen"
+msgid "Count the number of lines, words, and characters"
+msgstr "het aantal regels, woorden en tekens tellen"
 
 #: src/global.c:625
 msgid "Suspend the editor (return to the shell)"
@@ -914,7 +914,7 @@ msgstr "een programma aanroepen dat de buffer bewerkt/opmaakt"
 msgid "Help"
 msgstr "Hulp"
 
-#: src/global.c:708 src/prompt.c:686
+#: src/global.c:708 src/prompt.c:706
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -1018,7 +1018,7 @@ msgstr "Eerdere"
 msgid "Newer"
 msgstr "Latere"
 
-#. TRANSLATORS: Try to keep the next seven strings at most 10 characters.
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
 #: src/global.c:839
 msgid "Go To Dir"
 msgstr "Naar map"
@@ -1193,7 +1193,7 @@ msgstr "Vorig anker"
 msgid "Down to anchor"
 msgstr "Volgend anker"
 
-#. TRANSLATORS: This *deletes* a line or marked region.
+#. TRANSLATORS: This refers to deleting a line or marked region.
 #: src/global.c:1025
 msgid "Zap"
 msgstr "Weggooien"
@@ -1298,55 +1298,55 @@ msgstr "Volgend Lintbericht"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1519
+#: src/global.c:1521
 msgid "Hidden interface"
 msgstr "Verborgen interface"
 
-#: src/global.c:1521
+#: src/global.c:1523
 msgid "Help mode"
 msgstr "Hulpregels"
 
-#: src/global.c:1523
+#: src/global.c:1525
 msgid "Constant cursor position display"
 msgstr "Voortdurende cursorpositieweergave"
 
-#: src/global.c:1525
+#: src/global.c:1527
 msgid "Soft wrapping of overlong lines"
 msgstr "Zachte terugloop van te lange regels"
 
-#: src/global.c:1527
+#: src/global.c:1529
 msgid "Line numbering"
 msgstr "Regelnummers"
 
-#: src/global.c:1529
+#: src/global.c:1531
 msgid "Whitespace display"
 msgstr "Weergave van witruimte"
 
-#: src/global.c:1531
+#: src/global.c:1533
 msgid "Color syntax highlighting"
 msgstr "Syntaxaanduiding met kleuren"
 
-#: src/global.c:1533
+#: src/global.c:1535
 msgid "Smart home key"
 msgstr "Slimme Home-toets"
 
-#: src/global.c:1535
+#: src/global.c:1537
 msgid "Auto indent"
 msgstr "Automatisch inspringen"
 
-#: src/global.c:1537
+#: src/global.c:1539
 msgid "Cut to end"
 msgstr "Knippen vanaf cursor tot regeleinde"
 
-#: src/global.c:1539
+#: src/global.c:1541
 msgid "Hard wrapping of overlong lines"
 msgstr "Afbreking van lange regels"
 
-#: src/global.c:1541
+#: src/global.c:1543
 msgid "Conversion of typed tabs to spaces"
 msgstr "Omzetting van getypte tabs naar spaties"
 
-#: src/global.c:1543
+#: src/global.c:1545
 msgid "Mouse support"
 msgstr "Muisondersteuning"
 
@@ -1695,7 +1695,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "aan-/uitzetten"
 
-#: src/help.c:579 src/nano.c:1609
+#: src/help.c:579 src/nano.c:1590
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2152,138 +2152,138 @@ msgstr "Sorry! Nano is gecrasht!  Code: %d.  Deze fout graag rapporteren.\n"
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Gebruik 'fg' om terug te keren naar nano.\n"
 
-#: src/nano.c:1093
+#: src/nano.c:1074
 msgid "Not possible"
 msgstr "Niet mogelijk"
 
-#: src/nano.c:1114
+#: src/nano.c:1095
 msgid "Current syntax determines Tab"
 msgstr "Huidige syntax bepaalt Tab"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "enabled"
 msgstr " (aangezet)"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "disabled"
 msgstr "is uitgezet"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1285
+#: src/nano.c:1266
 msgid "Unknown sequence"
 msgstr "Onbekende toetscode"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1289
+#: src/nano.c:1270
 #, c-format
 msgid "Unbound key: F%i"
 msgstr "Ongebonden toets: F%i"
 
-#: src/nano.c:1292
+#: src/nano.c:1273
 msgid "Unbound key"
 msgstr "Ongebonden toets"
 
-#: src/nano.c:1296
+#: src/nano.c:1277
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "Onbindbare toets: M-^%c"
 
-#: src/nano.c:1301
+#: src/nano.c:1282
 #, c-format
 msgid "Unbound key: Sh-M-%c"
 msgstr "Ongebonden toets: Sh-M-%c"
 
-#: src/nano.c:1304
+#: src/nano.c:1285
 #, c-format
 msgid "Unbound key: M-%c"
 msgstr "Ongebonden toets: M-%c"
 
-#: src/nano.c:1306
+#: src/nano.c:1287
 msgid "Unbindable key: ^["
 msgstr "Onbindbare toets: ^["
 
-#: src/nano.c:1308
+#: src/nano.c:1289
 #, c-format
 msgid "Unbound key: ^%c"
 msgstr "Ongebonden toets: ^%c"
 
-#: src/nano.c:1311
+#: src/nano.c:1292
 #, c-format
 msgid "Unbound key: %c"
 msgstr "Ongebonden toets: %c"
 
-#: src/nano.c:1879 src/rcfile.c:1658
+#: src/nano.c:1860 src/rcfile.c:1658
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Gidskolom '%s' is ongeldig"
 
-#: src/nano.c:1926 src/rcfile.c:1663
+#: src/nano.c:1907 src/rcfile.c:1663
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Gevraagde tabgrootte '%s' is ongeldig"
 
-#: src/nano.c:2030 src/rcfile.c:1608
+#: src/nano.c:2011 src/rcfile.c:1608
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Gevraagde uitvulbreedte '%s' is ongeldig"
 
-#: src/nano.c:2087
+#: src/nano.c:2068
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Typ '%s -h' voor een lijst van beschikbare opties.\n"
 
-#: src/nano.c:2280
+#: src/nano.c:2261
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Onjuiste reguliere expressie '%s': %s\n"
 
-#: src/nano.c:2435
+#: src/nano.c:2416
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Ongeldige zoekmodus '%c'"
 
-#: src/nano.c:2446
+#: src/nano.c:2427
 msgid "Empty search string"
 msgstr "Lege zoektekst"
 
-#: src/nano.c:2455 src/search.c:776
+#: src/nano.c:2436 src/search.c:776
 msgid "Invalid line or column number"
 msgstr "Ongeldig regel- of kolomnummer"
 
-#: src/nano.c:2520
+#: src/nano.c:2501
 msgid "Can open just one file\n"
 msgstr "Kan slechts één bestand openen\n"
 
-#: src/nano.c:2538
+#: src/nano.c:2519
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Welkom bij nano.  Voor basishulp, typ Ctrl+G."
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:647
+#: src/prompt.c:667
 msgid "Yy"
 msgstr "Jj"
 
-#: src/prompt.c:648
+#: src/prompt.c:668
 msgid "Nn"
 msgstr "Nn"
 
 # Accepteert ook de "O" van "Overal":
-#: src/prompt.c:649
+#: src/prompt.c:669
 msgid "Aa"
 msgstr "AaOo"
 
-#: src/prompt.c:673
+#: src/prompt.c:693
 msgid "Yes"
 msgstr "Ja"
 
-#: src/prompt.c:677
+#: src/prompt.c:697
 msgid "No"
 msgstr "Nee"
 
-#: src/prompt.c:682
+#: src/prompt.c:702
 msgid "All"
 msgstr "Alle"
 
@@ -2846,108 +2846,108 @@ msgstr "Geen verdere mogelijkheden"
 msgid "No matches"
 msgstr "Geen overeenkomsten"
 
-#: src/utils.c:295 src/utils.c:310
+#: src/utils.c:291 src/utils.c:302
 msgid "Nano is out of memory!\n"
 msgstr "Onvoldoende geheugen beschikbaar voor nano!\n"
 
-#: src/winio.c:98
+#: src/winio.c:100
 msgid "Recording a macro..."
 msgstr "Opname van macro..."
 
-#: src/winio.c:101
+#: src/winio.c:103
 msgid "Stopped recording"
 msgstr "Opname is gestopt"
 
-#: src/winio.c:113
+#: src/winio.c:115
 msgid "Cannot run macro while recording"
 msgstr "Kan macro niet afspelen tijdens opname"
 
-#: src/winio.c:119
+#: src/winio.c:121
 msgid "Macro is empty"
 msgstr "Macro is leeg"
 
-#: src/winio.c:240
+#: src/winio.c:243
 msgid "Too many errors from stdin\n"
 msgstr "Te veel fouten vanaf standaardinvoer\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1363
+#: src/winio.c:1359
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Invoer van Unicode: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:1990
+#: src/winio.c:1983
 msgid "Linting --"
 msgstr "Linten --"
 
-#: src/winio.c:1996
+#: src/winio.c:1989
 msgid "DIR:"
 msgstr "Map:"
 
-#: src/winio.c:2017
+#: src/winio.c:2010
 msgid "View"
 msgstr "Kijken"
 
-#: src/winio.c:2023 src/winio.c:2027
+#: src/winio.c:2016 src/winio.c:2020
 msgid "Modified"
 msgstr "Gewijzigd"
 
-#: src/winio.c:2025
+#: src/winio.c:2018
 msgid "Restricted"
 msgstr "Beperkt"
 
-#: src/winio.c:2131
+#: src/winio.c:2124
 msgid "(nameless)"
 msgstr "(naamloos)"
 
-#: src/winio.c:2162
+#: src/winio.c:2155
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] " (%zu regel)"
 msgstr[1] " (%zu regels)"
 
-#: src/winio.c:3531
+#: src/winio.c:3524
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "regel %*zd/%zd (%2d%%),  kolom %2zu/%2zu (%3d%%),  teken %*zu/%zu (%2d%%)"
 
-#: src/winio.c:3685
+#: src/winio.c:3678
 msgid "The nano text editor"
 msgstr "De nano-teksteditor"
 
-#: src/winio.c:3686
+#: src/winio.c:3679
 msgid "version"
 msgstr "versie"
 
-#: src/winio.c:3687
+#: src/winio.c:3680
 msgid "Brought to you by:"
 msgstr "U bezorgd door:"
 
-#: src/winio.c:3688
+#: src/winio.c:3681
 msgid "Special thanks to:"
 msgstr "Met speciale dank aan:"
 
-#: src/winio.c:3689
+#: src/winio.c:3682
 msgid "The Free Software Foundation"
 msgstr "de Free Software Foundation"
 
-#: src/winio.c:3690
+#: src/winio.c:3683
 msgid "the many translators and the TP"
 msgstr "de vele vertalers en de TP"
 
-#: src/winio.c:3691
+#: src/winio.c:3684
 msgid "For ncurses:"
 msgstr "Voor ncurses:"
 
-#: src/winio.c:3692
+#: src/winio.c:3685
 msgid "and anyone else we forgot..."
 msgstr "en iedereen die we vergeten zijn..."
 
-#: src/winio.c:3693
+#: src/winio.c:3686
 msgid "Thank you for using nano!"
 msgstr "Dank u voor het gebruiken van nano!"
 

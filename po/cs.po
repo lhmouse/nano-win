@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 5.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2021-12-15 12:25+0100\n"
+"POT-Creation-Date: 2022-02-09 11:50+0100\n"
 "PO-Revision-Date: 2020-07-30 22:58+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -224,7 +224,7 @@ msgstr[0] "%s -- %zu řádek (%s)"
 msgstr[1] "%s -- %zu řádky (%s)"
 msgstr[2] "%s -- %zu řádků (%s)"
 
-#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2012
+#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2005
 msgid "New Buffer"
 msgstr "Nová vyrovnávací paměť"
 
@@ -475,7 +475,7 @@ msgid "File Name to Write"
 msgstr "Název souboru k zapsání"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2217 src/nano.c:1084
+#: src/files.c:2217 src/nano.c:1065
 msgid "Too tiny"
 msgstr "Příliš malé"
 
@@ -502,7 +502,7 @@ msgstr "Soubor na disku byl změněn"
 msgid "File was modified since you opened it; continue saving? "
 msgstr "Soubor byl změněn poté, co jste jej otevřeli; pokračovat v ukládání? "
 
-#: src/files.c:2671
+#: src/files.c:2673
 msgid "(more)"
 msgstr "(více)"
 
@@ -694,8 +694,8 @@ msgid "Insert the next keystroke verbatim"
 msgstr "Vložit další znak přímo (tak jaký je)"
 
 #: src/global.c:605
-msgid "Insert a tab at the cursor position"
-msgstr "Vložit zarážku v poloze ukazatele"
+msgid "Insert a tab at the cursor position (or indent marked lines)"
+msgstr ""
 
 #: src/global.c:606
 msgid "Insert a newline at the cursor position"
@@ -730,8 +730,8 @@ msgid "Justify the entire file"
 msgstr "Zarovnat celý soubor"
 
 #: src/global.c:624
-msgid "Count the number of words, lines, and characters"
-msgstr "Spočítat počet slov, řádků a znaků"
+msgid "Count the number of lines, words, and characters"
+msgstr ""
 
 #: src/global.c:625
 msgid "Suspend the editor (return to the shell)"
@@ -921,7 +921,7 @@ msgstr ""
 msgid "Help"
 msgstr "Nápověda"
 
-#: src/global.c:708 src/prompt.c:686
+#: src/global.c:708 src/prompt.c:706
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -1025,7 +1025,7 @@ msgstr "Starší"
 msgid "Newer"
 msgstr "Novější"
 
-#. TRANSLATORS: Try to keep the next seven strings at most 10 characters.
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
 #: src/global.c:839
 msgid "Go To Dir"
 msgstr "JítDoAdr"
@@ -1200,7 +1200,7 @@ msgstr "Na odkaz výše"
 msgid "Down to anchor"
 msgstr "Na odkaz níže"
 
-#. TRANSLATORS: This *deletes* a line or marked region.
+#. TRANSLATORS: This refers to deleting a line or marked region.
 #: src/global.c:1025
 msgid "Zap"
 msgstr "Zap"
@@ -1305,55 +1305,55 @@ msgstr "Další zpráva statistického rozboru"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1519
+#: src/global.c:1521
 msgid "Hidden interface"
 msgstr ""
 
-#: src/global.c:1521
+#: src/global.c:1523
 msgid "Help mode"
 msgstr "Režim s nápovědou"
 
-#: src/global.c:1523
+#: src/global.c:1525
 msgid "Constant cursor position display"
 msgstr "Ukazovat stálou polohu ukazatele"
 
-#: src/global.c:1525
+#: src/global.c:1527
 msgid "Soft wrapping of overlong lines"
 msgstr "Plynulé zalamování dlouhých řádků"
 
-#: src/global.c:1527
+#: src/global.c:1529
 msgid "Line numbering"
 msgstr "Číslování řádků"
 
-#: src/global.c:1529
+#: src/global.c:1531
 msgid "Whitespace display"
 msgstr "Zobrazování bílých znaků"
 
-#: src/global.c:1531
+#: src/global.c:1533
 msgid "Color syntax highlighting"
 msgstr "Barevné zvýrazňování syntaxe"
 
-#: src/global.c:1533
+#: src/global.c:1535
 msgid "Smart home key"
 msgstr "Chytrá klávesa pro začátek dokumentu"
 
-#: src/global.c:1535
+#: src/global.c:1537
 msgid "Auto indent"
 msgstr "Automaticky odsadit"
 
-#: src/global.c:1537
+#: src/global.c:1539
 msgid "Cut to end"
 msgstr "Vyjmout po konec"
 
-#: src/global.c:1539
+#: src/global.c:1541
 msgid "Hard wrapping of overlong lines"
 msgstr "Tvrdé zalamování dlouhých řádků"
 
-#: src/global.c:1541
+#: src/global.c:1543
 msgid "Conversion of typed tabs to spaces"
 msgstr "Převod zadaných zarážek na mezery"
 
-#: src/global.c:1543
+#: src/global.c:1545
 msgid "Mouse support"
 msgstr "Podpora pro myš"
 
@@ -1703,7 +1703,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "zapnout/vypnout"
 
-#: src/help.c:579 src/nano.c:1609
+#: src/help.c:579 src/nano.c:1590
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr ""
 
@@ -2157,137 +2157,137 @@ msgstr "Promiňte! Nano spadlo!  Kód: %d.  Nahlaste, prosím, chybu.\n"
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Použijte \"fg\" pro návrat do nano.\n"
 
-#: src/nano.c:1093
+#: src/nano.c:1074
 msgid "Not possible"
 msgstr ""
 
-#: src/nano.c:1114
+#: src/nano.c:1095
 msgid "Current syntax determines Tab"
 msgstr ""
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "enabled"
 msgstr "povoleno"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "disabled"
 msgstr "zakázáno"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1285
+#: src/nano.c:1266
 msgid "Unknown sequence"
 msgstr "Neznámá sekvence"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1289
+#: src/nano.c:1270
 #, c-format
 msgid "Unbound key: F%i"
 msgstr ""
 
-#: src/nano.c:1292
+#: src/nano.c:1273
 msgid "Unbound key"
 msgstr "Rozvázat klávesu"
 
-#: src/nano.c:1296
+#: src/nano.c:1277
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "Nespojitelná klávesa: M-^%c"
 
-#: src/nano.c:1301
+#: src/nano.c:1282
 #, c-format
 msgid "Unbound key: Sh-M-%c"
 msgstr "Rozvázat klávesu: Sh-M-%c"
 
-#: src/nano.c:1304
+#: src/nano.c:1285
 #, c-format
 msgid "Unbound key: M-%c"
 msgstr "Rozvázat klávesu: M-%c"
 
-#: src/nano.c:1306
+#: src/nano.c:1287
 msgid "Unbindable key: ^["
 msgstr "Nespojitelná klávesa: ^["
 
-#: src/nano.c:1308
+#: src/nano.c:1289
 #, c-format
 msgid "Unbound key: ^%c"
 msgstr "Rozvázat klávesu: ^%c"
 
-#: src/nano.c:1311
+#: src/nano.c:1292
 #, c-format
 msgid "Unbound key: %c"
 msgstr "Rozvázat klávesu: %c"
 
-#: src/nano.c:1879 src/rcfile.c:1658
+#: src/nano.c:1860 src/rcfile.c:1658
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Vodicí sloupec \"%s\" je neplatný"
 
-#: src/nano.c:1926 src/rcfile.c:1663
+#: src/nano.c:1907 src/rcfile.c:1663
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Požadovaná velikost zarážky \"%s\" je neplatná"
 
-#: src/nano.c:2030 src/rcfile.c:1608
+#: src/nano.c:2011 src/rcfile.c:1608
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Požadovaná velikost výplně \"%s\" je neplatná"
 
-#: src/nano.c:2087
+#: src/nano.c:2068
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Napište '%s -h' pro seznam dostupných voleb.\n"
 
-#: src/nano.c:2280
+#: src/nano.c:2261
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Špatné uvození regulárního výrazu \"%s\": %s\n"
 
-#: src/nano.c:2435
+#: src/nano.c:2416
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Neplatný vyhledávací modifikátor '%c'"
 
-#: src/nano.c:2446
+#: src/nano.c:2427
 msgid "Empty search string"
 msgstr "Prázdný vyhledávací řetězec"
 
-#: src/nano.c:2455 src/search.c:776
+#: src/nano.c:2436 src/search.c:776
 msgid "Invalid line or column number"
 msgstr "Neplatné číslo řádku nebo, číslo sloupce"
 
-#: src/nano.c:2520
+#: src/nano.c:2501
 msgid "Can open just one file\n"
 msgstr ""
 
-#: src/nano.c:2538
+#: src/nano.c:2519
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Vítejte v nano.  Pro vyvolání základní nápovědy zmáčkněte Ctrl+G."
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:647
+#: src/prompt.c:667
 msgid "Yy"
 msgstr "Aa"
 
-#: src/prompt.c:648
+#: src/prompt.c:668
 msgid "Nn"
 msgstr "Nn"
 
-#: src/prompt.c:649
+#: src/prompt.c:669
 msgid "Aa"
 msgstr "Vv"
 
-#: src/prompt.c:673
+#: src/prompt.c:693
 msgid "Yes"
 msgstr "Ano"
 
-#: src/prompt.c:677
+#: src/prompt.c:697
 msgid "No"
 msgstr "Ne"
 
-#: src/prompt.c:682
+#: src/prompt.c:702
 msgid "All"
 msgstr "Vše"
 
@@ -2861,63 +2861,63 @@ msgstr "Žádné další shody"
 msgid "No matches"
 msgstr "Žádné shody"
 
-#: src/utils.c:295 src/utils.c:310
+#: src/utils.c:291 src/utils.c:302
 msgid "Nano is out of memory!\n"
 msgstr "Nano už nemá paměť!\n"
 
-#: src/winio.c:98
+#: src/winio.c:100
 msgid "Recording a macro..."
 msgstr "Nahrává se makro..."
 
-#: src/winio.c:101
+#: src/winio.c:103
 msgid "Stopped recording"
 msgstr "Nahrávání zastaveno"
 
-#: src/winio.c:113
+#: src/winio.c:115
 msgid "Cannot run macro while recording"
 msgstr "Během nahrávání nelze spustit makro"
 
-#: src/winio.c:119
+#: src/winio.c:121
 msgid "Macro is empty"
 msgstr "Makro je prázdné"
 
-#: src/winio.c:240
+#: src/winio.c:243
 msgid "Too many errors from stdin\n"
 msgstr "Příliš mnoho chyb z stdin\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1363
+#: src/winio.c:1359
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Vstup Unicode: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:1990
+#: src/winio.c:1983
 msgid "Linting --"
 msgstr "Statický rozbor --"
 
-#: src/winio.c:1996
+#: src/winio.c:1989
 msgid "DIR:"
 msgstr "Adresář:"
 
-#: src/winio.c:2017
+#: src/winio.c:2010
 msgid "View"
 msgstr "Pohled"
 
-#: src/winio.c:2023 src/winio.c:2027
+#: src/winio.c:2016 src/winio.c:2020
 msgid "Modified"
 msgstr "Změněno"
 
-#: src/winio.c:2025
+#: src/winio.c:2018
 msgid "Restricted"
 msgstr "Nepřístupno"
 
-#: src/winio.c:2131
+#: src/winio.c:2124
 msgid "(nameless)"
 msgstr ""
 
-#: src/winio.c:2162
+#: src/winio.c:2155
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
@@ -2925,44 +2925,44 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/winio.c:3531
+#: src/winio.c:3524
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 
-#: src/winio.c:3685
+#: src/winio.c:3678
 msgid "The nano text editor"
 msgstr "Textový editor nano"
 
-#: src/winio.c:3686
+#: src/winio.c:3679
 msgid "version"
 msgstr "verze"
 
-#: src/winio.c:3687
+#: src/winio.c:3680
 msgid "Brought to you by:"
 msgstr "Vyvíjeno:"
 
-#: src/winio.c:3688
+#: src/winio.c:3681
 msgid "Special thanks to:"
 msgstr "Zvláštní poděkování:"
 
-#: src/winio.c:3689
+#: src/winio.c:3682
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: src/winio.c:3690
+#: src/winio.c:3683
 msgid "the many translators and the TP"
 msgstr "překladatelům a TP"
 
-#: src/winio.c:3691
+#: src/winio.c:3684
 msgid "For ncurses:"
 msgstr "Pro ncurses:"
 
-#: src/winio.c:3692
+#: src/winio.c:3685
 msgid "and anyone else we forgot..."
 msgstr "a všem nejmenovaným osobám, na které se zapomnělo..."
 
-#: src/winio.c:3693
+#: src/winio.c:3686
 msgid "Thank you for using nano!"
 msgstr "Děkujeme vám za to, že používáte nano!"
 

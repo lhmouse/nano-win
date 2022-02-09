@@ -6,19 +6,19 @@
 # Yi-Jyun Pan <pan93412@gmail.com>, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU nano 5.9-pre1\n"
+"Project-Id-Version: GNU nano 6.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2021-12-15 12:25+0100\n"
-"PO-Revision-Date: 2021-09-22 22:04+0800\n"
+"POT-Creation-Date: 2022-02-09 11:50+0100\n"
+"PO-Revision-Date: 2022-02-04 03:39+0000\n"
 "Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@lists.linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Weblate 4.8.1\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #: src/browser.c:194 src/browser.c:201
@@ -221,7 +221,7 @@ msgid "%s -- %zu line (%s)"
 msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- 第 %zu 列 (%s)"
 
-#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2012
+#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2005
 msgid "New Buffer"
 msgstr "新緩衝區"
 
@@ -462,7 +462,7 @@ msgid "File Name to Write"
 msgstr "要寫入的檔案名稱"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2217 src/nano.c:1084
+#: src/files.c:2217 src/nano.c:1065
 msgid "Too tiny"
 msgstr "螢幕過小"
 
@@ -489,7 +489,7 @@ msgstr "磁碟上的檔案已變更"
 msgid "File was modified since you opened it; continue saving? "
 msgstr "檔案在您開啟後被修改過；是否繼續儲存？ "
 
-#: src/files.c:2671
+#: src/files.c:2673
 msgid "(more)"
 msgstr "(更多)"
 
@@ -677,8 +677,8 @@ msgid "Insert the next keystroke verbatim"
 msgstr "插入下個按鍵的原形"
 
 #: src/global.c:605
-msgid "Insert a tab at the cursor position"
-msgstr "在游標位置插入定位字元 (Tab)"
+msgid "Insert a tab at the cursor position (or indent marked lines)"
+msgstr "在游標位置插入定位 (Tab) 字元（或者是縮排標記列）"
 
 #: src/global.c:606
 msgid "Insert a newline at the cursor position"
@@ -713,12 +713,12 @@ msgid "Justify the entire file"
 msgstr "對齊整個檔案"
 
 #: src/global.c:624
-msgid "Count the number of words, lines, and characters"
-msgstr "計算字數、列數與字元數"
+msgid "Count the number of lines, words, and characters"
+msgstr "計算列數、單字數與字元數"
 
 #: src/global.c:625
 msgid "Suspend the editor (return to the shell)"
-msgstr ""
+msgstr "暫停編輯器（回到 shell）"
 
 #: src/global.c:627
 msgid "Refresh (redraw) the current screen"
@@ -901,7 +901,7 @@ msgstr "呼叫應用程式來格式化、排列及操縱緩衝區"
 msgid "Help"
 msgstr "說明"
 
-#: src/global.c:708 src/prompt.c:686
+#: src/global.c:708 src/prompt.c:706
 msgid "Cancel"
 msgstr "取消"
 
@@ -1005,7 +1005,7 @@ msgstr "較舊"
 msgid "Newer"
 msgstr "較新"
 
-#. TRANSLATORS: Try to keep the next seven strings at most 10 characters.
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
 #: src/global.c:839
 msgid "Go To Dir"
 msgstr "前往目錄"
@@ -1180,7 +1180,7 @@ msgstr "前往上個錨點"
 msgid "Down to anchor"
 msgstr "前往下個錨點"
 
-#. TRANSLATORS: This *deletes* a line or marked region.
+#. TRANSLATORS: This refers to deleting a line or marked region.
 #: src/global.c:1025
 msgid "Zap"
 msgstr "Zap"
@@ -1285,55 +1285,55 @@ msgstr "下一則 Linter 訊息"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1519
-msgid "Hidden interface"
-msgstr ""
-
 #: src/global.c:1521
+msgid "Hidden interface"
+msgstr "隱藏介面"
+
+#: src/global.c:1523
 msgid "Help mode"
 msgstr "說明模式"
 
-#: src/global.c:1523
+#: src/global.c:1525
 msgid "Constant cursor position display"
 msgstr "持續顯示游標位置"
 
-#: src/global.c:1525
+#: src/global.c:1527
 msgid "Soft wrapping of overlong lines"
 msgstr "虛擬換過長列"
 
-#: src/global.c:1527
+#: src/global.c:1529
 msgid "Line numbering"
 msgstr "標示列碼"
 
-#: src/global.c:1529
+#: src/global.c:1531
 msgid "Whitespace display"
 msgstr "顯示空格"
 
-#: src/global.c:1531
+#: src/global.c:1533
 msgid "Color syntax highlighting"
 msgstr "語法色彩標示"
 
-#: src/global.c:1533
+#: src/global.c:1535
 msgid "Smart home key"
 msgstr "智慧型 HOME 按鍵"
 
-#: src/global.c:1535
+#: src/global.c:1537
 msgid "Auto indent"
 msgstr "自動縮排"
 
-#: src/global.c:1537
+#: src/global.c:1539
 msgid "Cut to end"
 msgstr "剪至列尾"
 
-#: src/global.c:1539
+#: src/global.c:1541
 msgid "Hard wrapping of overlong lines"
 msgstr "實際換過長列"
 
-#: src/global.c:1541
+#: src/global.c:1543
 msgid "Conversion of typed tabs to spaces"
 msgstr "已將輸入的 Tab 轉換成空白"
 
-#: src/global.c:1543
+#: src/global.c:1545
 msgid "Mouse support"
 msgstr "滑鼠支援"
 
@@ -1659,7 +1659,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "啟用/停用"
 
-#: src/help.c:579 src/nano.c:1609
+#: src/help.c:579 src/nano.c:1590
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -1696,7 +1696,7 @@ msgstr "這功能已在受限模式中停用"
 
 #: src/nano.c:223
 msgid "To suspend, type ^T^Z"
-msgstr ""
+msgstr "若要暫停，請敲 ^T^Z"
 
 #: src/nano.c:312
 msgid "No file name"
@@ -2064,7 +2064,7 @@ msgstr "在底部顯示回饋列"
 
 #: src/nano.c:656
 msgid "Hide all bars, use whole terminal"
-msgstr ""
+msgstr "隱藏所有資訊列，完全使用終端空間"
 
 #: src/nano.c:659
 msgid "Also try magic to determine syntax"
@@ -2113,137 +2113,137 @@ msgstr "抱歉，Nano 當掉了！錯誤代碼：%d。請回報此臭蟲。\n"
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "請使用「fg」回到 nano。\n"
 
-#: src/nano.c:1093
+#: src/nano.c:1074
 msgid "Not possible"
-msgstr ""
+msgstr "不可能"
 
-#: src/nano.c:1114
+#: src/nano.c:1095
 msgid "Current syntax determines Tab"
-msgstr ""
+msgstr "目前的語法判定為 Tab"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "enabled"
 msgstr "啟用"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "disabled"
 msgstr "停用"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1285
+#: src/nano.c:1266
 msgid "Unknown sequence"
 msgstr "序列未知"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1289
+#: src/nano.c:1270
 #, c-format
 msgid "Unbound key: F%i"
-msgstr ""
+msgstr "按鍵未綁定：F%i"
 
-#: src/nano.c:1292
+#: src/nano.c:1273
 msgid "Unbound key"
 msgstr "按鍵未綁定"
 
-#: src/nano.c:1296
+#: src/nano.c:1277
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "按鍵未綁定：M-^%c"
 
-#: src/nano.c:1301
+#: src/nano.c:1282
 #, c-format
 msgid "Unbound key: Sh-M-%c"
 msgstr "按鍵未綁定：Sh-M-%c"
 
-#: src/nano.c:1304
+#: src/nano.c:1285
 #, c-format
 msgid "Unbound key: M-%c"
 msgstr "按鍵未綁定：M-%c"
 
-#: src/nano.c:1306
+#: src/nano.c:1287
 msgid "Unbindable key: ^["
 msgstr "無法綁定按鍵：^["
 
-#: src/nano.c:1308
+#: src/nano.c:1289
 #, c-format
 msgid "Unbound key: ^%c"
 msgstr "按鍵未指定：^%c"
 
-#: src/nano.c:1311
+#: src/nano.c:1292
 #, c-format
 msgid "Unbound key: %c"
 msgstr "按鍵未綁定：%c"
 
-#: src/nano.c:1879 src/rcfile.c:1658
+#: src/nano.c:1860 src/rcfile.c:1658
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "指引欄「%s」無效"
 
-#: src/nano.c:1926 src/rcfile.c:1663
+#: src/nano.c:1907 src/rcfile.c:1663
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "所請求的 Tab 寬度「%s」無效"
 
-#: src/nano.c:2030 src/rcfile.c:1608
+#: src/nano.c:2011 src/rcfile.c:1608
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "所請求的填充長度「%s」無效"
 
-#: src/nano.c:2087
+#: src/nano.c:2068
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "輸入「%s -h」顯示可用的選項列表。\n"
 
-#: src/nano.c:2280
+#: src/nano.c:2261
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "引號中的正規表示式「%s」無效：%s\n"
 
-#: src/nano.c:2435
+#: src/nano.c:2416
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "搜尋修飾符「%c」無效"
 
-#: src/nano.c:2446
+#: src/nano.c:2427
 msgid "Empty search string"
 msgstr "搜尋字串為空"
 
-#: src/nano.c:2455 src/search.c:776
+#: src/nano.c:2436 src/search.c:776
 msgid "Invalid line or column number"
 msgstr "列碼或欄碼無效"
 
-#: src/nano.c:2520
+#: src/nano.c:2501
 msgid "Can open just one file\n"
 msgstr "只能開啟一個檔案\n"
 
-#: src/nano.c:2538
+#: src/nano.c:2519
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "歡迎使用 nano。請按 Ctrl+G 取得基本使用說明。"
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:647
+#: src/prompt.c:667
 msgid "Yy"
 msgstr "Yy"
 
-#: src/prompt.c:648
+#: src/prompt.c:668
 msgid "Nn"
 msgstr "Nn"
 
-#: src/prompt.c:649
+#: src/prompt.c:669
 msgid "Aa"
 msgstr "Aa"
 
-#: src/prompt.c:673
+#: src/prompt.c:693
 msgid "Yes"
 msgstr "是"
 
-#: src/prompt.c:677
+#: src/prompt.c:697
 msgid "No"
 msgstr "否"
 
-#: src/prompt.c:682
+#: src/prompt.c:702
 msgid "All"
 msgstr "全部"
 
@@ -2801,108 +2801,108 @@ msgstr "未找到其他符合項目"
 msgid "No matches"
 msgstr "未找到符合項目"
 
-#: src/utils.c:295 src/utils.c:310
+#: src/utils.c:291 src/utils.c:302
 msgid "Nano is out of memory!\n"
 msgstr "Nano 已用盡記憶體！\n"
 
-#: src/winio.c:98
+#: src/winio.c:100
 msgid "Recording a macro..."
 msgstr "正在錄製巨集…"
 
-#: src/winio.c:101
+#: src/winio.c:103
 msgid "Stopped recording"
 msgstr "停止錄製"
 
-#: src/winio.c:113
+#: src/winio.c:115
 msgid "Cannot run macro while recording"
 msgstr "無法在錄製時執行巨集"
 
-#: src/winio.c:119
+#: src/winio.c:121
 msgid "Macro is empty"
 msgstr "巨集為空"
 
-#: src/winio.c:240
+#: src/winio.c:243
 msgid "Too many errors from stdin\n"
 msgstr "過多來自標準輸入的錯誤\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1363
+#: src/winio.c:1359
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "萬國碼 Unicode 輸入：%s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:1990
+#: src/winio.c:1983
 msgid "Linting --"
 msgstr "Lint 中 --"
 
-#: src/winio.c:1996
+#: src/winio.c:1989
 msgid "DIR:"
 msgstr "目錄："
 
-#: src/winio.c:2017
+#: src/winio.c:2010
 msgid "View"
 msgstr "檢視"
 
-#: src/winio.c:2023 src/winio.c:2027
+#: src/winio.c:2016 src/winio.c:2020
 msgid "Modified"
 msgstr "已變更"
 
-#: src/winio.c:2025
+#: src/winio.c:2018
 msgid "Restricted"
 msgstr "受限模式"
 
-#: src/winio.c:2131
+#: src/winio.c:2124
 msgid "(nameless)"
 msgstr "（未命名）"
 
-#: src/winio.c:2162
+#: src/winio.c:2155
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] " (%zu 列)"
 
-#: src/winio.c:3531
+#: src/winio.c:3524
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "第 %*zd/%zd 橫列 (%2d%%)，第 %2zu/%2zu 直行 (%3d%%)，第 %*zu/%zu 個字元 (%2d"
 "%%)"
 
-#: src/winio.c:3685
+#: src/winio.c:3678
 msgid "The nano text editor"
 msgstr "nano 文字編輯器"
 
-#: src/winio.c:3686
+#: src/winio.c:3679
 msgid "version"
 msgstr "版本"
 
-#: src/winio.c:3687
+#: src/winio.c:3680
 msgid "Brought to you by:"
 msgstr "來自於："
 
-#: src/winio.c:3688
+#: src/winio.c:3681
 msgid "Special thanks to:"
 msgstr "特別感謝："
 
-#: src/winio.c:3689
+#: src/winio.c:3682
 msgid "The Free Software Foundation"
 msgstr "自由軟體基金會"
 
-#: src/winio.c:3690
+#: src/winio.c:3683
 msgid "the many translators and the TP"
 msgstr "許多的翻譯者與 TP"
 
-#: src/winio.c:3691
+#: src/winio.c:3684
 msgid "For ncurses:"
 msgstr "ncurses 部分："
 
-#: src/winio.c:3692
+#: src/winio.c:3685
 msgid "and anyone else we forgot..."
 msgstr "以及其他我們不記得的人…"
 
-#: src/winio.c:3693
+#: src/winio.c:3686
 msgid "Thank you for using nano!"
 msgstr "謝謝您使用 nano﹗"
 

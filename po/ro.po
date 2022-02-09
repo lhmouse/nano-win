@@ -1,6 +1,8 @@
 # Translation of the nano editor to Romanian.
-# Copyright (C) 2021 Free Software Foundation, Inc.
+# Copyright (C) 2022 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
+#
+# "su propio cuerpo iba a renegar de la cordura"
 #
 # Laurențiu Buzdugan <lbuz@rolix.org>, 2003-2005.
 # Mihai Cristescu <mihai.cristescu@gmail.com>, 2015-2021.
@@ -8,10 +10,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nano-6.0-pre1\n"
+"Project-Id-Version: nano-6.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2021-12-15 12:25+0100\n"
-"PO-Revision-Date: 2021-12-15 11:40+0100\n"
+"POT-Creation-Date: 2022-02-09 11:50+0100\n"
+"PO-Revision-Date: 2022-02-06 17:21+0100\n"
 "Last-Translator: Benno Schulenberg <vertaling@coevern.nl>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -163,9 +165,7 @@ msgstr "Fișierul de blocare greșit este ignorat: %s"
 #: src/files.c:295
 #, c-format
 msgid "File %s is being edited by %s (with %s, PID %s); open anyway?"
-msgstr ""
-"Fișierul %s este în curs de editare de către %s (cu %s, PID %s); Se continuă "
-"deschiderea?"
+msgstr "Fișierul %s deja se editează (%s, %s, PID %s); totuși deschide?"
 
 #. TRANSLATORS: Keep the next ten messages at most 76 characters.
 #: src/files.c:353
@@ -227,7 +227,7 @@ msgstr[0] "%s — %zu linie (%s)"
 msgstr[1] "%s — %zu linii (%s)"
 msgstr[2] "%s — %zu de linii (%s)"
 
-#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2012
+#: src/files.c:530 src/files.c:536 src/global.c:1057 src/winio.c:2005
 msgid "New Buffer"
 msgstr "Spațiu nou"
 
@@ -480,7 +480,7 @@ msgid "File Name to Write"
 msgstr "Numele fișierului pentru scriere"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2217 src/nano.c:1084
+#: src/files.c:2217 src/nano.c:1065
 msgid "Too tiny"
 msgstr "Prea mic"
 
@@ -506,9 +506,9 @@ msgstr "Fișierul de pe disc s-a schimbat"
 #: src/files.c:2294
 msgid "File was modified since you opened it; continue saving? "
 msgstr ""
-"Fișierul a fost modificat de când a fost deschis, se continuă salvarea? "
+"Fișierul a fost modificat de când a fost deschis; se continuă salvarea? "
 
-#: src/files.c:2671
+#: src/files.c:2673
 msgid "(more)"
 msgstr "(mai mult)"
 
@@ -705,8 +705,9 @@ msgid "Insert the next keystroke verbatim"
 msgstr "Inserează următoarea apăsare de tastă verbatim"
 
 #: src/global.c:605
-msgid "Insert a tab at the cursor position"
-msgstr "Inserează un tab la poziția cursorului"
+msgid "Insert a tab at the cursor position (or indent marked lines)"
+msgstr ""
+"Inserează un tab la poziția cursorului (sau indentează liniile marcate)"
 
 #: src/global.c:606
 msgid "Insert a newline at the cursor position"
@@ -741,8 +742,8 @@ msgid "Justify the entire file"
 msgstr "Aliniază întregul fișier"
 
 #: src/global.c:624
-msgid "Count the number of words, lines, and characters"
-msgstr "Contorizează numărul cuvintelor, liniilor și caracterelor"
+msgid "Count the number of lines, words, and characters"
+msgstr "Contorizează numărul liniilor, cuvintelor și caracterelor"
 
 #: src/global.c:625
 msgid "Suspend the editor (return to the shell)"
@@ -930,7 +931,7 @@ msgstr ""
 msgid "Help"
 msgstr "Ajutor"
 
-#: src/global.c:708 src/prompt.c:686
+#: src/global.c:708 src/prompt.c:706
 msgid "Cancel"
 msgstr "Renunță"
 
@@ -1034,7 +1035,7 @@ msgstr "Mai vechi"
 msgid "Newer"
 msgstr "Mai noi"
 
-#. TRANSLATORS: Try to keep the next seven strings at most 10 characters.
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
 #: src/global.c:839
 msgid "Go To Dir"
 msgstr "La director"
@@ -1209,7 +1210,7 @@ msgstr "Sus până la ancoră"
 msgid "Down to anchor"
 msgstr "Jos până la ancoră"
 
-#. TRANSLATORS: This *deletes* a line or marked region.
+#. TRANSLATORS: This refers to deleting a line or marked region.
 #: src/global.c:1025
 msgid "Zap"
 msgstr "Zap"
@@ -1314,55 +1315,55 @@ msgstr "Mesajul următor"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1519
+#: src/global.c:1521
 msgid "Hidden interface"
 msgstr "Interfață ascunsă"
 
-#: src/global.c:1521
+#: src/global.c:1523
 msgid "Help mode"
 msgstr "Bara de ajutor"
 
-#: src/global.c:1523
+#: src/global.c:1525
 msgid "Constant cursor position display"
 msgstr "Afișare continuă poziție cursor"
 
-#: src/global.c:1525
+#: src/global.c:1527
 msgid "Soft wrapping of overlong lines"
 msgstr "Despărțire temporară a liniilor lungi"
 
-#: src/global.c:1527
+#: src/global.c:1529
 msgid "Line numbering"
 msgstr "Numerotare linii"
 
-#: src/global.c:1529
+#: src/global.c:1531
 msgid "Whitespace display"
 msgstr "Afișare spațiu-alb"
 
-#: src/global.c:1531
+#: src/global.c:1533
 msgid "Color syntax highlighting"
 msgstr "Evidențiere sintaxă color"
 
-#: src/global.c:1533
+#: src/global.c:1535
 msgid "Smart home key"
 msgstr "Tastă acasă inteligentă"
 
-#: src/global.c:1535
+#: src/global.c:1537
 msgid "Auto indent"
 msgstr "Auto indentare"
 
-#: src/global.c:1537
+#: src/global.c:1539
 msgid "Cut to end"
 msgstr "Decupare până la sfârșit"
 
-#: src/global.c:1539
+#: src/global.c:1541
 msgid "Hard wrapping of overlong lines"
 msgstr "Despărțire permanentă a liniilor lungi"
 
-#: src/global.c:1541
+#: src/global.c:1543
 msgid "Conversion of typed tabs to spaces"
 msgstr "Conversie a tab-urilor introduse în spații"
 
-#: src/global.c:1543
+#: src/global.c:1545
 msgid "Mouse support"
 msgstr "Funcționalitate maus"
 
@@ -1718,7 +1719,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "activare/dezactivare"
 
-#: src/help.c:579 src/nano.c:1609
+#: src/help.c:579 src/nano.c:1590
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -1869,11 +1870,11 @@ msgstr "Folosește fișiere de blocare în stilul vim"
 
 #: src/nano.c:535
 msgid "Save & reload old search/replace strings"
-msgstr "Salvează și reîncarcă vechii șiruri de căutare/înlocuire"
+msgstr "Salvează și reîncarcă șirurile vechi de căutare/înlocuire"
 
 #: src/nano.c:538
 msgid "Don't look at nanorc files"
-msgstr "Nu te uita la fișierele nanorc"
+msgstr "Ignoră fișierele nanorc"
 
 #: src/nano.c:541
 msgid "-J <number>"
@@ -2177,137 +2178,137 @@ msgstr ""
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Folosiți „fg” pentru a reveni la nano.\n"
 
-#: src/nano.c:1093
+#: src/nano.c:1074
 msgid "Not possible"
 msgstr "Imposibil"
 
-#: src/nano.c:1114
+#: src/nano.c:1095
 msgid "Current syntax determines Tab"
 msgstr "Sintaxa actuală determină Tab"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "enabled"
 msgstr "activată"
 
-#: src/nano.c:1142
+#: src/nano.c:1123
 msgid "disabled"
 msgstr "dezactivată"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1285
+#: src/nano.c:1266
 msgid "Unknown sequence"
 msgstr "Secvență necunoscută"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1289
+#: src/nano.c:1270
 #, c-format
 msgid "Unbound key: F%i"
 msgstr "Tastă nealocată: F%i"
 
-#: src/nano.c:1292
+#: src/nano.c:1273
 msgid "Unbound key"
 msgstr "Tastă nealocată"
 
-#: src/nano.c:1296
+#: src/nano.c:1277
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "Tastă nealocabilă: M-^%c"
 
-#: src/nano.c:1301
+#: src/nano.c:1282
 #, c-format
 msgid "Unbound key: Sh-M-%c"
 msgstr "Tastă nealocată: Sh-M-%c"
 
-#: src/nano.c:1304
+#: src/nano.c:1285
 #, c-format
 msgid "Unbound key: M-%c"
 msgstr "Tastă nealocată: M-%c"
 
-#: src/nano.c:1306
+#: src/nano.c:1287
 msgid "Unbindable key: ^["
 msgstr "Tastă nealocabilă: ^["
 
-#: src/nano.c:1308
+#: src/nano.c:1289
 #, c-format
 msgid "Unbound key: ^%c"
 msgstr "Tastă nealocată: ^%c"
 
-#: src/nano.c:1311
+#: src/nano.c:1292
 #, c-format
 msgid "Unbound key: %c"
 msgstr "Tastă nealocată: %c"
 
-#: src/nano.c:1879 src/rcfile.c:1658
+#: src/nano.c:1860 src/rcfile.c:1658
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Coloana de ghidare „%s” este nevalidă"
 
-#: src/nano.c:1926 src/rcfile.c:1663
+#: src/nano.c:1907 src/rcfile.c:1663
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Mărimea tab solicitată „%s” este nevalidă"
 
-#: src/nano.c:2030 src/rcfile.c:1608
+#: src/nano.c:2011 src/rcfile.c:1608
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Mărimea de umplere solicitată „%s” este nevalidă"
 
-#: src/nano.c:2087
+#: src/nano.c:2068
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Tastați „%s -h” pentru o listă de opțiuni disponibile.\n"
 
-#: src/nano.c:2280
+#: src/nano.c:2261
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Citare regex greșită „%s”: %s\n"
 
-#: src/nano.c:2435
+#: src/nano.c:2416
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Modificator de căutare nevalid „%c”"
 
-#: src/nano.c:2446
+#: src/nano.c:2427
 msgid "Empty search string"
 msgstr "Șir de căutare gol"
 
-#: src/nano.c:2455 src/search.c:776
+#: src/nano.c:2436 src/search.c:776
 msgid "Invalid line or column number"
 msgstr "Număr de linie sau coloană nevalid"
 
-#: src/nano.c:2520
+#: src/nano.c:2501
 msgid "Can open just one file\n"
 msgstr "Se poate deschide doar un fișier\n"
 
-#: src/nano.c:2538
+#: src/nano.c:2519
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Bine ați venit la Nano. Pentru ajutor de bază, tastați CTRL+G."
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:647
+#: src/prompt.c:667
 msgid "Yy"
 msgstr "Dd"
 
-#: src/prompt.c:648
+#: src/prompt.c:668
 msgid "Nn"
 msgstr "Nn"
 
-#: src/prompt.c:649
+#: src/prompt.c:669
 msgid "Aa"
 msgstr "Tt"
 
-#: src/prompt.c:673
+#: src/prompt.c:693
 msgid "Yes"
 msgstr "Da"
 
-#: src/prompt.c:677
+#: src/prompt.c:697
 msgid "No"
 msgstr "Nu"
 
-#: src/prompt.c:682
+#: src/prompt.c:702
 msgid "All"
 msgstr "Toate"
 
@@ -2879,63 +2880,63 @@ msgstr "Nu mai sunt potriviri"
 msgid "No matches"
 msgstr "Nu sunt potriviri"
 
-#: src/utils.c:295 src/utils.c:310
+#: src/utils.c:291 src/utils.c:302
 msgid "Nano is out of memory!\n"
 msgstr "Nano nu mai are memorie!\n"
 
-#: src/winio.c:98
+#: src/winio.c:100
 msgid "Recording a macro..."
 msgstr "Se înregistrează un macro..."
 
-#: src/winio.c:101
+#: src/winio.c:103
 msgid "Stopped recording"
 msgstr "Înregistrare oprită"
 
-#: src/winio.c:113
+#: src/winio.c:115
 msgid "Cannot run macro while recording"
 msgstr "Nu se poate rula macro în timpul înregistrării"
 
-#: src/winio.c:119
+#: src/winio.c:121
 msgid "Macro is empty"
 msgstr "Macro este gol"
 
-#: src/winio.c:240
+#: src/winio.c:243
 msgid "Too many errors from stdin\n"
 msgstr "Prea multe erori de la stdin\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1363
+#: src/winio.c:1359
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Intrare Unicode: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:1990
+#: src/winio.c:1983
 msgid "Linting --"
 msgstr "Lintare —"
 
-#: src/winio.c:1996
+#: src/winio.c:1989
 msgid "DIR:"
 msgstr "DIR:"
 
-#: src/winio.c:2017
+#: src/winio.c:2010
 msgid "View"
 msgstr "Vedere"
 
-#: src/winio.c:2023 src/winio.c:2027
+#: src/winio.c:2016 src/winio.c:2020
 msgid "Modified"
 msgstr "Modificat"
 
-#: src/winio.c:2025
+#: src/winio.c:2018
 msgid "Restricted"
 msgstr "Restricționat"
 
-#: src/winio.c:2131
+#: src/winio.c:2124
 msgid "(nameless)"
 msgstr "(fără nume)"
 
-#: src/winio.c:2162
+#: src/winio.c:2155
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
@@ -2943,45 +2944,45 @@ msgstr[0] " (%zu linie)"
 msgstr[1] " (%zu linii)"
 msgstr[2] " (%zu de linii)"
 
-#: src/winio.c:3531
+#: src/winio.c:3524
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "linie %*zd/%zd (%2d%%), coloană %2zu/%2zu (%3d%%), caracter %*zu/%zu (%2d%%)"
 
-#: src/winio.c:3685
+#: src/winio.c:3678
 msgid "The nano text editor"
 msgstr "Editorul de texte nano"
 
-#: src/winio.c:3686
+#: src/winio.c:3679
 msgid "version"
 msgstr "versiune"
 
-#: src/winio.c:3687
+#: src/winio.c:3680
 msgid "Brought to you by:"
 msgstr "Prezentat de:"
 
-#: src/winio.c:3688
+#: src/winio.c:3681
 msgid "Special thanks to:"
 msgstr "Mulțumiri speciale pentru:"
 
-#: src/winio.c:3689
+#: src/winio.c:3682
 msgid "The Free Software Foundation"
 msgstr "Fundația Free Software"
 
-#: src/winio.c:3690
+#: src/winio.c:3683
 msgid "the many translators and the TP"
 msgstr "traducătorilor cei mulți și pentru TP"
 
-#: src/winio.c:3691
+#: src/winio.c:3684
 msgid "For ncurses:"
 msgstr "Pentru ncurses:"
 
-#: src/winio.c:3692
+#: src/winio.c:3685
 msgid "and anyone else we forgot..."
 msgstr "și oricine altcineva a fost uitat..."
 
-#: src/winio.c:3693
+#: src/winio.c:3686
 msgid "Thank you for using nano!"
 msgstr "Mulțumim că folosiți nano!"
 
