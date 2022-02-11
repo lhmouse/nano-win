@@ -1676,7 +1676,7 @@ void wipe_statusbar(void)
 {
 	lastmessage = VACUUM;
 
-	if (ISSET(ZERO) || ISSET(MINIBAR) || LINES == 1)
+	if ((ISSET(ZERO) || ISSET(MINIBAR) || LINES == 1) && currmenu == MMAIN)
 		return;
 
 	blank_row(footwin, 0);
