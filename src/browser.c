@@ -34,18 +34,17 @@ static size_t list_length = 0;
 		/* The number of files in the list. */
 static size_t usable_rows = 0;
 		/* The number of screen rows we can use to display the list. */
-static size_t piles = 0;
+static int piles = 0;
 		/* The number of files that we can display per screen row. */
-static int longest = 0;
-		/* The number of columns in the longest filename in the list. */
+static int gauge = 0;
+		/* The width of a 'pile' -- the widest filename plus ten. */
 static size_t selected = 0;
 		/* The currently selected filename in the list; zero-based. */
 
-/* Set filelist to the list of files contained in the directory path,
- * set list_length to the number of files in that list, set longest to
- * the width in columns of the longest filename in that list (between 15
- * and COLS), and set piles to the number of files that we can display
- * per screen row.  And sort the list too. */
+/* Fill 'filelist' with the names of the files in the given directory, set
+ * 'list_length' to the number of names in that list, set 'gauge' to the
+ * width of the widest filename plus ten, and set 'piles' to the number of
+ * files that can be displayed per screen row.  And sort the list too. */
 void read_the_list(const char *path, DIR *dir)
 {
 	size_t path_len = strlen(path), index = 0;
@@ -63,14 +62,14 @@ void read_the_list(const char *path, DIR *dir)
 	}
 
 	/* Reserve ten columns for blanks plus file size. */
-	longest = widest + 10;
+	gauge = widest + 10;
 
 	/* If needed, make room for ".. (parent dir)". */
-	if (longest < 15)
-		longest = 15;
+	if (gauge < 15)
+		gauge = 15;
 	/* Make sure we're not wider than the window. */
-	if (longest > COLS)
-		longest = COLS;
+	if (gauge > COLS)
+		gauge = COLS;
 
 	rewinddir(dir);
 
@@ -103,7 +102,7 @@ void read_the_list(const char *path, DIR *dir)
 	/* Calculate how many files fit on a line -- feigning room for two
 	 * spaces beyond the right edge, and adding two spaces of padding
 	 * between columns. */
-	piles = (COLS + 2) / (longest + 2);
+	piles = (COLS + 2) / (gauge + 2);
 
 	usable_rows = editwinrows - (ISSET(ZERO) && LINES > 1 ? 1 : 0);
 }
@@ -156,11 +155,11 @@ void browser_refresh(void)
 		size_t infomaxlen = 7;
 				/* The maximum length of the file information in columns:
 				 * normally seven, but will be twelve for "(parent dir)". */
-		bool dots = (COLS >= 15 && namelen >= longest - infomaxlen);
+		bool dots = (COLS >= 15 && namelen >= gauge - infomaxlen);
 				/* Whether to put an ellipsis before the filename?  We don't
 				 * waste space on dots when there are fewer than 15 columns. */
 		char *disp = display_string(thename, dots ?
-				namelen + infomaxlen + 4 - longest : 0, longest, FALSE, FALSE);
+				namelen + infomaxlen + 4 - gauge : 0, gauge, FALSE, FALSE);
 				/* The filename (or a fragment of it) in displayable format.
 				 * When a fragment, account for dots plus one space padding. */
 		struct stat state;
@@ -169,7 +168,7 @@ void browser_refresh(void)
 		 * remember its location to be able to place the cursor on it. */
 		if (index == selected) {
 			wattron(midwin, interface_color_pair[SELECTED_TEXT]);
-			mvwprintw(midwin, row, col, "%*s", longest, " ");
+			mvwprintw(midwin, row, col, "%*s", gauge, " ");
 			the_row = row;
 			the_column = col;
 		}
@@ -179,7 +178,7 @@ void browser_refresh(void)
 			mvwaddstr(midwin, row, col, "...");
 		mvwaddstr(midwin, row, dots ? col + 3 : col, disp);
 
-		col += longest;
+		col += gauge;
 
 		/* Show information about the file: "--" for symlinks (except when
 		 * they point to a directory) and for files that have disappeared,
@@ -246,7 +245,7 @@ void browser_refresh(void)
 		col += 2;
 
 		/* If the next item will not fit on this row, move to next row. */
-		if (col > COLS - longest) {
+		if (col > COLS - gauge) {
 			row++;
 			col = 0;
 		}
@@ -445,7 +444,7 @@ char *browse(char *path)
 	}
 
 	if (dir != NULL) {
-		/* Get the file list, and set longest and piles in the process. */
+		/* Get the file list, and set gauge and piles in the process. */
 		read_the_list(path, dir);
 		closedir(dir);
 		dir = NULL;
@@ -492,10 +491,10 @@ char *browse(char *path)
 			if (get_mouseinput(&mouse_y, &mouse_x, TRUE) == 0 &&
 						wmouse_trafo(midwin, &mouse_y, &mouse_x, FALSE)) {
 				selected = selected - selected % (usable_rows * piles) +
-								(mouse_y * piles) + (mouse_x / (longest + 2));
+								(mouse_y * piles) + (mouse_x / (gauge + 2));
 
 				/* When beyond end-of-row, select the preceding filename. */
-				if (mouse_x > piles * (longest + 2))
+				if (mouse_x > piles * (gauge + 2))
 					selected--;
 
 				/* When beyond end-of-list, select the last filename. */
