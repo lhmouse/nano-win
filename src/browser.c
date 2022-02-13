@@ -53,12 +53,12 @@ void read_the_list(const char *path, DIR *dir)
 
 	longest = 0;
 
-	/* Find the length of the longest filename in the current folder. */
+	/* Find the width of the widest filename in the current folder. */
 	while ((entry = readdir(dir)) != NULL) {
-		size_t name_len = breadth(entry->d_name);
+		size_t span = breadth(entry->d_name);
 
-		if (name_len > longest)
-			longest = name_len;
+		if (span > longest)
+			longest = span;
 
 		index++;
 	}
