@@ -49,13 +49,13 @@ static size_t selected = 0;
 void read_the_list(const char *path, DIR *dir)
 {
 	size_t path_len = strlen(path), index = 0;
-	const struct dirent *nextdir;
+	const struct dirent *entry;
 
 	longest = 0;
 
 	/* Find the length of the longest filename in the current folder. */
-	while ((nextdir = readdir(dir)) != NULL) {
-		size_t name_len = breadth(nextdir->d_name);
+	while ((entry = readdir(dir)) != NULL) {
+		size_t name_len = breadth(entry->d_name);
 
 		if (name_len > longest)
 			longest = name_len;
@@ -83,13 +83,13 @@ void read_the_list(const char *path, DIR *dir)
 
 	filelist = nmalloc(list_length * sizeof(char *));
 
-	while ((nextdir = readdir(dir)) != NULL && index < list_length) {
-		/* Don't show the "." entry. */
-		if (strcmp(nextdir->d_name, ".") == 0)
+	while ((entry = readdir(dir)) != NULL && index < list_length) {
+		/* Don't show the useless dot item. */
+		if (strcmp(entry->d_name, ".") == 0)
 			continue;
 
-		filelist[index] = nmalloc(path_len + strlen(nextdir->d_name) + 1);
-		sprintf(filelist[index], "%s%s", path, nextdir->d_name);
+		filelist[index] = nmalloc(path_len + strlen(entry->d_name) + 1);
+		sprintf(filelist[index], "%s%s", path, entry->d_name);
 
 		index++;
 	}
@@ -247,7 +247,7 @@ void browser_refresh(void)
 		/* Add some space between the columns. */
 		col += 2;
 
-		/* If the next entry will not fit on this row, move to next row. */
+		/* If the next item will not fit on this row, move to next row. */
 		if (col > COLS - longest) {
 			row++;
 			col = 0;
