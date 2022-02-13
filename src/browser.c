@@ -50,22 +50,20 @@ void read_the_list(const char *path, DIR *dir)
 {
 	size_t path_len = strlen(path), index = 0;
 	const struct dirent *entry;
-
-	longest = 0;
+	size_t widest = 0;
 
 	/* Find the width of the widest filename in the current folder. */
 	while ((entry = readdir(dir)) != NULL) {
 		size_t span = breadth(entry->d_name);
 
-		if (span > longest)
-			longest = span;
+		if (span > widest)
+			widest = span;
 
 		index++;
 	}
 
-	/* Put 10 characters' worth of blank space between columns of filenames
-	 * in the list whenever possible, as Pico does. */
-	longest += 10;
+	/* Reserve ten columns for blanks plus file size. */
+	longest = widest + 10;
 
 	/* If needed, make room for ".. (parent dir)". */
 	if (longest < 15)
