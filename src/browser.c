@@ -36,7 +36,7 @@ static size_t usable_rows = 0;
 		/* The number of screen rows we can use to display the list. */
 static size_t piles = 0;
 		/* The number of files that we can display per screen row. */
-static size_t longest = 0;
+static int longest = 0;
 		/* The number of columns in the longest filename in the list. */
 static size_t selected = 0;
 		/* The currently selected filename in the list; zero-based. */
