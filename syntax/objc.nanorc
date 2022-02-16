@@ -15,7 +15,7 @@ color brightgreen "\<(goto|continue|break|return)\>"
 color brightgreen "@(encode|end|implementation|interface)|selector)\>"
 
 # GCC builtins.
-color cyan "__attribute__[[:blank:]]*\(\([^)]*\)\)" "__(aligned|asm|builtin|hidden|inline|packed|restrict|section|typeof|weak)__"
+color cyan "__attribute__[[:blank:]]*\(\([^)]*\)\)|__(aligned|asm|builtin|hidden|inline|packed|restrict|section|typeof|weak)__"
 
 # Selector/method.
 color brightmagenta "(^|[[:blank:]])\[.*[[:blank:]].*\]"

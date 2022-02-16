@@ -23,11 +23,11 @@ color brightmagenta "(/([^/]|\\/)*/|%r\{([^}]|\\\})*\})[iomx]*"
 color brightblue "`[^`]*`|%x\{[^}]*\}"
 
 # Strings, double-quoted.
-color green ""([^"]|\\")*"" "%[QW]?(\{[^}]*\}|\([^)]*\)|<[^>]*>|\[[^]]*\]|\$[^$]*\$|\^[^^]*\^|![^!]*!)"
+color green ""([^"]|\\")*"|%[QW]?(\{[^}]*\}|\([^)]*\)|<[^>]*>|\[[^]]*\]|\$[^$]*\$|\^[^^]*\^|![^!]*!)"
 # Expression substitution for inside double-quoted strings, "like #{this}".
 color brightgreen "#\{[^}]*\}"
 # Strings, single-quoted.
-color green "'([^']|\\')*'" "%[qw](\{[^}]*\}|\([^)]*\)|<[^>]*>|\[[^]]*\]|\$[^$]*\$|\^[^^]*\^|![^!]*!)"
+color green "'([^']|\\')*'|%[qw](\{[^}]*\}|\([^)]*\)|<[^>]*>|\[[^]]*\]|\$[^$]*\$|\^[^^]*\^|![^!]*!)"
 
 # Comments.
 color cyan "#([^{#].*|$)"

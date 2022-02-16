@@ -8,8 +8,8 @@ comment "<!--|-->"
 # The entire content of the tag:
 color green start="<" end=">"
 
-# The start and the end of the tag:
-color cyan "<[^> ]+" ">"
+# The angled brackets and the name of the tag:
+color cyan "<[^> ]+|>"
 
 # The strings inside the tag:
 color magenta ""[^"]*""

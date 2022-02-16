@@ -22,9 +22,8 @@ color green "\<(true|false|null)\>"
 color brightblue ""[^"]+"[[:blank:]]*:"
 
 # Brackets, braces, and separators.
-color brightblue "\[" "\]"
-color brightred "\{" "\}"
-color brightred "," ":"
+color brightblue "[][]"
+color brightred "[{},:]"
 
 # Comments.
 color cyan "(^|[[:blank:]]+)(//|#).*"
