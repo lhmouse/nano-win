@@ -2655,24 +2655,23 @@ void do_linter(void)
 				if ((filename = strtok(onelint, ":")) != NULL) {
 					if ((linestr = strtok(NULL, ":")) != NULL) {
 						if ((maybecol = strtok(NULL, " ")) != NULL) {
-							ssize_t tmplineno = 0, tmpcolno = 0;
-							char *tmplinecol;
+							ssize_t linenumber, colnumber;
 
-							tmplineno = strtol(linestr, NULL, 10);
-							if (tmplineno <= 0) {
+							linenumber = strtol(linestr, NULL, 10);
+							if (linenumber <= 0) {
 								pointer++;
 								free(message);
 								continue;
 							}
 
-							tmpcolno = strtol(maybecol, NULL, 10);
+							colnumber = strtol(maybecol, NULL, 10);
 							/* Check if the middle field is in comma format. */
-							if (tmpcolno <= 0) {
+							if (colnumber <= 0) {
 								strtok(linestr, ",");
-								if ((tmplinecol = strtok(NULL, ",")) != NULL)
-									tmpcolno = strtol(tmplinecol, NULL, 10);
+								if ((maybecol = strtok(NULL, ",")) != NULL)
+									colnumber = strtol(maybecol, NULL, 10);
 								else
-									tmpcolno = 1;
+									colnumber = 1;
 							}
 
 							/* Nice.  We have a lint message we can use. */
@@ -2684,8 +2683,8 @@ void do_linter(void)
 							if (curlint->prev != NULL)
 								curlint->prev->next = curlint;
 							curlint->msg = copy_of(strstr(message, " ") + 1);
-							curlint->lineno = tmplineno;
-							curlint->colno = tmpcolno;
+							curlint->lineno = linenumber;
+							curlint->colno = colnumber;
 							curlint->filename = copy_of(filename);
 
 							if (lints == NULL)
