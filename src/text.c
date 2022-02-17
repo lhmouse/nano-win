@@ -2647,16 +2647,16 @@ void do_linter(void)
 		if ((*pointer == '\r') || (*pointer == '\n')) {
 			*pointer = '\0';
 			if (onelint != pointer) {
-				char *filename = NULL, *linestr = NULL, *maybecol = NULL;
+				char *filename, *linestring, *colstring;
 				char *complaint = copy_of(onelint);
 
 				/* The recognized format is "filename:line:column: message",
 				 * where ":column" may be absent or be ",column" instead. */
-				if ((filename = strtok(onelint, ":")) != NULL) {
-					if ((linestr = strtok(NULL, ":")) != NULL) {
-						if ((maybecol = strtok(NULL, " ")) != NULL) {
-							ssize_t linenumber = strtol(linestr, NULL, 10);
-							ssize_t colnumber = strtol(maybecol, NULL, 10);
+				if ((filename = strtok(onelint, ":")) && strstr(complaint, " ")) {
+					if ((linestring = strtok(NULL, ":"))) {
+						if ((colstring = strtok(NULL, " "))) {
+							ssize_t linenumber = strtol(linestring, NULL, 10);
+							ssize_t colnumber = strtol(colstring, NULL, 10);
 
 							if (linenumber <= 0) {
 								free(complaint);
@@ -2665,11 +2665,10 @@ void do_linter(void)
 							}
 
 							if (colnumber <= 0) {
-								strtok(linestr, ",");
-								if ((maybecol = strtok(NULL, ",")) != NULL)
-									colnumber = strtol(maybecol, NULL, 10);
-								else
-									colnumber = 1;
+								colnumber = 1;
+								strtok(linestring, ",");
+								if ((colstring = strtok(NULL, ",")))
+									colnumber = strtol(colstring, NULL, 10);
 							}
 
 							parsesuccess = TRUE;
