@@ -1,3 +1,23 @@
+Changes between v6.1 and v6.2:
+------------------------------
+
+Benno Schulenberg (14):
+      bump version numbers and add a news item for the 6.2 release
+      display: suppress the bottom-bar wiping only when the user is editing
+      linter: adjust the parsing to accommodate for a modern 'pyflakes'
+      syntaxes: fold a couple of regexes together, and improve a few comments
+      tweaks: change the type of a variable, to avoid a compiler warning
+      tweaks: consistently backslash-escape the dash in M-letter keystrokes
+      tweaks: rename a misnamed variable
+      tweaks: rename a variable, reshuffle five lines, and snip two comments
+      tweaks: rename a variable, to be more correct, and adjust two comments
+      tweaks: rename a variable, to be more fitting
+      tweaks: rename two more variables, and drop unneeded initializations
+      tweaks: rename two variables (to get rid of a prefix), and elide a third
+      tweaks: store a result, to avoid calling a function twice
+      tweaks: use an intermediate variable, to avoid using one for two purposes
+
+
 Changes between v6.0 and v6.1:
 ------------------------------
 

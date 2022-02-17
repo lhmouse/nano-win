@@ -1,3 +1,7 @@
+2022.02.18 - GNU nano 6.2 "Kamperfoelie"
+• The file browser clears the prompt bar also when using --minibar.
+• Linting now works also with a newer 'pyflakes'.
+
 2022.02.09 - GNU nano 6.1 "Rețelele de socializare sunt ca un frigider"
 • The behavior of ^K at a prompt has been enhanced: when there is some
   text after the cursor, just this text is erased.  In the most common
