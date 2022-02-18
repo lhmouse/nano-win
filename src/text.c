@@ -2649,10 +2649,11 @@ void do_linter(void)
 			if (onelint != pointer) {
 				char *filename, *linestring, *colstring;
 				char *complaint = copy_of(onelint);
+				char *spacer = strstr(complaint, " ");
 
 				/* The recognized format is "filename:line:column: message",
 				 * where ":column" may be absent or be ",column" instead. */
-				if ((filename = strtok(onelint, ":")) && strstr(complaint, " ")) {
+				if ((filename = strtok(onelint, ":")) && spacer) {
 					if ((linestring = strtok(NULL, ":"))) {
 						if ((colstring = strtok(NULL, " "))) {
 							ssize_t linenumber = strtol(linestring, NULL, 10);
@@ -2681,7 +2682,7 @@ void do_linter(void)
 							curlint->filename = copy_of(filename);
 							curlint->lineno = linenumber;
 							curlint->colno = colnumber;
-							curlint->msg = copy_of(strstr(complaint, " ") + 1);
+							curlint->msg = copy_of(spacer + 1);
 
 							if (lints == NULL)
 								lints = curlint;
