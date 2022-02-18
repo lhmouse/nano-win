@@ -5,10 +5,10 @@
 # Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2015, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 6.0-pre1\n"
+"Project-Id-Version: nano 6.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-02-09 11:50+0100\n"
-"PO-Revision-Date: 2022-01-09 16:01+0800\n"
+"POT-Creation-Date: 2022-02-18 10:55+0100\n"
+"PO-Revision-Date: 2022-02-13 00:24+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
 "Language: ms\n"
@@ -20,78 +20,78 @@ msgstr ""
 "X-Generator: Poedit 3.0.1\n"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
-#: src/browser.c:194 src/browser.c:201
+#: src/browser.c:191 src/browser.c:198
 msgid "(dir)"
 msgstr "(dir)"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
-#: src/browser.c:198
+#: src/browser.c:195
 msgid "(parent dir)"
 msgstr "(dir induk)"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #. * If necessary, you can leave out the parentheses.
-#: src/browser.c:228
+#: src/browser.c:225
 msgid "(huge)"
 msgstr ""
 
-#: src/browser.c:291 src/browser.c:296 src/search.c:254
+#: src/browser.c:288 src/browser.c:293 src/search.c:254
 msgid "Search Wrapped"
 msgstr "Pancarian diulangi dari awal"
 
-#: src/browser.c:307 src/search.c:430
+#: src/browser.c:304 src/search.c:430
 msgid "This is the only occurrence"
 msgstr "Hanya inilah sahaja yang dijumpai"
 
 #. TRANSLATORS: This is the main search prompt.
-#: src/browser.c:346 src/search.c:97
+#: src/browser.c:343 src/search.c:97
 msgid "Search"
 msgstr "Cari"
 
 #. TRANSLATORS: A modifier of the Search prompt.
-#: src/browser.c:348 src/search.c:101
+#: src/browser.c:345 src/search.c:101
 msgid " [Backwards]"
 msgstr " [Undur]"
 
-#: src/browser.c:354 src/browser.c:600 src/files.c:1175 src/files.c:2157
+#: src/browser.c:351 src/browser.c:597 src/files.c:1175 src/files.c:2157
 #: src/nano.c:321 src/search.c:111 src/search.c:289 src/search.c:712
-#: src/search.c:759 src/text.c:2564 src/text.c:2760
+#: src/search.c:759 src/text.c:2564 src/text.c:2755
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
-#: src/browser.c:381 src/search.c:365
+#: src/browser.c:378 src/search.c:365
 msgid "No current search pattern"
 msgstr "Tiada corak carian semasa"
 
-#: src/browser.c:436
+#: src/browser.c:433
 #, c-format
 msgid "Cannot open directory: %s"
 msgstr ""
 
 #. TRANSLATORS: This is a prompt.
-#: src/browser.c:599
+#: src/browser.c:596
 msgid "Go To Directory"
 msgstr "Pergi Ke Direktori"
 
 #. TRANSLATORS: This refers to the confining effect of
 #. * the option --operatingdir, not of --restricted.
-#: src/browser.c:617 src/browser.c:648
+#: src/browser.c:614 src/browser.c:645
 #, c-format
 msgid "Can't go outside of %s"
 msgstr ""
 
-#: src/browser.c:639
+#: src/browser.c:636
 msgid "Can't move up a directory"
 msgstr "Tidak dapat pindah naik direktori"
 
-#: src/browser.c:654 src/files.c:894 src/files.c:900 src/files.c:1813
+#: src/browser.c:651 src/files.c:894 src/files.c:900 src/files.c:1813
 #: src/files.c:1828 src/history.c:263 src/history.c:291 src/history.c:361
 #: src/history.c:421 src/rcfile.c:919 src/rcfile.c:1692
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Ralat membaca %s: %s"
 
-#: src/browser.c:726
+#: src/browser.c:723
 msgid "The working directory has disappeared"
 msgstr ""
 
@@ -399,7 +399,7 @@ msgid "Error writing %s: %s"
 msgstr "Ralat menulis %s: %s"
 
 #: src/files.c:1820 src/files.c:1832 src/text.c:2489 src/text.c:2507
-#: src/text.c:2908
+#: src/text.c:2903
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Ralat menulis fail sementara: %s"
@@ -938,15 +938,15 @@ msgstr ""
 #. TRANSLATORS: This refers to searching the preceding occurrence.
 #: src/global.c:766 src/global.c:850 src/global.c:870
 msgid "Previous"
-msgstr ""
+msgstr "Terdahulu"
 
 #: src/global.c:768 src/global.c:852 src/global.c:872
 msgid "Next"
-msgstr ""
+msgstr "Seterusnya"
 
 #: src/global.c:772
 msgid "Cut"
-msgstr ""
+msgstr "Potong"
 
 #: src/global.c:775
 msgid "Paste"
@@ -1163,7 +1163,7 @@ msgstr "Lengkap"
 
 #: src/global.c:1012
 msgid "Record"
-msgstr ""
+msgstr "Rakam"
 
 #: src/global.c:1014
 msgid "Run Macro"
@@ -1171,7 +1171,7 @@ msgstr ""
 
 #: src/global.c:1017
 msgid "Anchor"
-msgstr ""
+msgstr "Penambat"
 
 #: src/global.c:1019
 msgid "Up to anchor"
@@ -1188,7 +1188,7 @@ msgstr ""
 
 #: src/global.c:1030 src/global.c:1065
 msgid "Spell Check"
-msgstr ""
+msgstr "Semak Ejaan"
 
 #: src/global.c:1034 src/global.c:1069
 msgid "Linter"
@@ -1200,11 +1200,11 @@ msgstr ""
 
 #: src/global.c:1048
 msgid "Center"
-msgstr ""
+msgstr "Tengah"
 
 #: src/global.c:1051
 msgid "Save"
-msgstr ""
+msgstr "Simpan"
 
 #: src/global.c:1061
 msgid "Pipe Text"
@@ -1744,7 +1744,7 @@ msgstr "Pilihan panjang"
 
 #: src/nano.c:510
 msgid "Meaning"
-msgstr ""
+msgstr "Maksud"
 
 #. TRANSLATORS: The next forty or so strings are option descriptions
 #. * for the --help output.  Try to keep them at most 40 characters.
@@ -2359,7 +2359,7 @@ msgstr "\"start=\" memerlukan padanan \"end=\""
 #: src/rcfile.c:1243 src/rcfile.c:1491
 #, c-format
 msgid "A '%s' command requires a preceding 'syntax' command"
-msgstr ""
+msgstr "Perintah '%s' memerlukan perintah 'syntax' sebelumnya"
 
 #: src/rcfile.c:1249
 #, c-format
@@ -2515,7 +2515,7 @@ msgstr "Ini adalah satu-satunya sauh"
 
 #: src/search.c:1000
 msgid "There are no anchors"
-msgstr ""
+msgstr "Tiada sauh"
 
 #: src/text.c:54
 msgid "Mark Set"
@@ -2541,7 +2541,7 @@ msgstr "Tiada apa yang perlu dinyahbuat"
 #. * that are undone or redone.  They are all nouns, not verbs.
 #: src/text.c:522 src/text.c:582 src/text.c:698 src/text.c:758
 msgid "addition"
-msgstr ""
+msgstr "tambahan"
 
 #: src/text.c:530 src/text.c:710
 msgid "line break"
@@ -2570,7 +2570,7 @@ msgstr "potong"
 
 #: src/text.c:602 src/text.c:771
 msgid "paste"
-msgstr ""
+msgstr "tampal"
 
 #: src/text.c:609 src/text.c:775
 msgid "insertion"
@@ -2590,7 +2590,7 @@ msgstr "komen"
 
 #: src/text.c:651 src/text.c:811
 msgid "uncomment"
-msgstr ""
+msgstr "nyahkomen"
 
 #: src/text.c:659
 #, c-format
@@ -2609,7 +2609,7 @@ msgstr "Ulangbuat %s"
 #. TRANSLATORS: This one goes with Undid/Redid messages.
 #: src/text.c:1750 src/text.c:1966
 msgid "justification"
-msgstr ""
+msgstr "sama birai"
 
 #: src/text.c:1761 src/text.c:2081
 msgid "Selection is empty"
@@ -2631,7 +2631,7 @@ msgstr "Perenggan jajaran penuh"
 msgid "Buffer is empty"
 msgstr "Penimbal kosong"
 
-#: src/text.c:2122 src/text.c:2710
+#: src/text.c:2122 src/text.c:2705
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "Ralat melaksanakan '%s'"
@@ -2709,77 +2709,77 @@ msgstr "Simpan penimbal diubahsuai sebelum pengesanan ralat?"
 msgid "Invoking linter..."
 msgstr "Menghidupkan pembersih..."
 
-#: src/text.c:2715
+#: src/text.c:2710
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr ""
 
-#: src/text.c:2753
+#: src/text.c:2748
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 
-#: src/text.c:2792
+#: src/text.c:2787
 msgid "No messages for this file"
 msgstr "Tiada mesej untuk fail ini"
 
-#: src/text.c:2842
+#: src/text.c:2837
 msgid "At first message"
 msgstr "Pada mesej pertama"
 
-#: src/text.c:2852
+#: src/text.c:2847
 msgid "At last message"
 msgstr "Pada mesej terakhir"
 
-#: src/text.c:2894
+#: src/text.c:2889
 msgid "No formatter is defined for this type of file"
 msgstr "Tiada penstruktur ditakrifkan untuk fail jenis ini"
 
-#: src/text.c:2971
+#: src/text.c:2966
 #, c-format
 msgid "%s%zd %s,  %zu %s,  %zu %s"
-msgstr ""
+msgstr "%s%zd %s,  %zu %s,  %zu %s"
 
-#: src/text.c:2972
+#: src/text.c:2967
 msgid "In Selection:  "
 msgstr "Dalam Pilihan:  "
 
-#: src/text.c:2973
+#: src/text.c:2968
 msgid "line"
 msgid_plural "lines"
 msgstr[0] "baris"
 
-#: src/text.c:2974
+#: src/text.c:2969
 msgid "word"
 msgid_plural "words"
 msgstr[0] "perkataan"
 
-#: src/text.c:2975
+#: src/text.c:2970
 msgid "character"
 msgid_plural "characters"
 msgstr[0] "aksara"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2986
+#: src/text.c:2981
 msgid "Verbatim Input"
 msgstr "Masukan Verbatim"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3004
+#: src/text.c:2999
 msgid "Invalid code"
 msgstr "Kod tidak sah"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3080
+#: src/text.c:3075
 msgid "No word fragment"
 msgstr "Tiada pecahan perkataan"
 
-#: src/text.c:3173
+#: src/text.c:3168
 msgid "No further matches"
 msgstr "Tiada padanan selanjutnya"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3176
+#: src/text.c:3171
 msgid "No matches"
 msgstr "Tiada padanan"
 

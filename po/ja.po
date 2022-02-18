@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the nano package.
 #
 # Yasuaki Taniguchi <yasuakit@gmail.com>, 2011.
-# Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>, 2016, 2017, 2018, 2019, 2020, 2021.
+# Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 6.0-pre1\n"
+"Project-Id-Version: nano 6.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-02-09 11:50+0100\n"
-"PO-Revision-Date: 2021-12-08 16:44+0900\n"
+"POT-Creation-Date: 2022-02-18 10:55+0100\n"
+"PO-Revision-Date: 2022-02-12 00:04+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
 "Language: ja\n"
@@ -23,78 +23,78 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
-#: src/browser.c:194 src/browser.c:201
+#: src/browser.c:191 src/browser.c:198
 msgid "(dir)"
 msgstr "(dir)"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
-#: src/browser.c:198
+#: src/browser.c:195
 msgid "(parent dir)"
 msgstr "(上位 dir)"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #. * If necessary, you can leave out the parentheses.
-#: src/browser.c:228
+#: src/browser.c:225
 msgid "(huge)"
 msgstr "(1TB以上)"
 
-#: src/browser.c:291 src/browser.c:296 src/search.c:254
+#: src/browser.c:288 src/browser.c:293 src/search.c:254
 msgid "Search Wrapped"
 msgstr "先頭から検索します"
 
-#: src/browser.c:307 src/search.c:430
+#: src/browser.c:304 src/search.c:430
 msgid "This is the only occurrence"
 msgstr "他に見つかりません"
 
 #. TRANSLATORS: This is the main search prompt.
-#: src/browser.c:346 src/search.c:97
+#: src/browser.c:343 src/search.c:97
 msgid "Search"
 msgstr "検索"
 
 #. TRANSLATORS: A modifier of the Search prompt.
-#: src/browser.c:348 src/search.c:101
+#: src/browser.c:345 src/search.c:101
 msgid " [Backwards]"
 msgstr " [戻る]"
 
-#: src/browser.c:354 src/browser.c:600 src/files.c:1175 src/files.c:2157
+#: src/browser.c:351 src/browser.c:597 src/files.c:1175 src/files.c:2157
 #: src/nano.c:321 src/search.c:111 src/search.c:289 src/search.c:712
-#: src/search.c:759 src/text.c:2564 src/text.c:2760
+#: src/search.c:759 src/text.c:2564 src/text.c:2755
 msgid "Cancelled"
 msgstr "取り消しました"
 
-#: src/browser.c:381 src/search.c:365
+#: src/browser.c:378 src/search.c:365
 msgid "No current search pattern"
 msgstr "検索語が指定されていません"
 
-#: src/browser.c:436
+#: src/browser.c:433
 #, c-format
 msgid "Cannot open directory: %s"
 msgstr "ディレクトリを開けません: %s"
 
 #. TRANSLATORS: This is a prompt.
-#: src/browser.c:599
+#: src/browser.c:596
 msgid "Go To Directory"
 msgstr "ディレクトリへ移動"
 
 #. TRANSLATORS: This refers to the confining effect of
 #. * the option --operatingdir, not of --restricted.
-#: src/browser.c:617 src/browser.c:648
+#: src/browser.c:614 src/browser.c:645
 #, c-format
 msgid "Can't go outside of %s"
 msgstr "%s の外部へ移動できません"
 
-#: src/browser.c:639
+#: src/browser.c:636
 msgid "Can't move up a directory"
 msgstr "上位のディレクトリへ移動できません"
 
-#: src/browser.c:654 src/files.c:894 src/files.c:900 src/files.c:1813
+#: src/browser.c:651 src/files.c:894 src/files.c:900 src/files.c:1813
 #: src/files.c:1828 src/history.c:263 src/history.c:291 src/history.c:361
 #: src/history.c:421 src/rcfile.c:919 src/rcfile.c:1692
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "%s: %s の読み込みに失敗しました"
 
-#: src/browser.c:726
+#: src/browser.c:723
 msgid "The working directory has disappeared"
 msgstr "作業ディレクトリがなくなりました"
 
@@ -403,7 +403,7 @@ msgid "Error writing %s: %s"
 msgstr "%s の書き込みエラー: %s"
 
 #: src/files.c:1820 src/files.c:1832 src/text.c:2489 src/text.c:2507
-#: src/text.c:2908
+#: src/text.c:2903
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "テンポラリファイルの書き込みエラー: %s"
@@ -682,7 +682,7 @@ msgstr "後に続く特殊キーをそのまま入力"
 
 #: src/global.c:605
 msgid "Insert a tab at the cursor position (or indent marked lines)"
-msgstr ""
+msgstr "カーソル位置にタブ文字を挿入（またはマークした行をインデント）"
 
 #: src/global.c:606
 msgid "Insert a newline at the cursor position"
@@ -718,7 +718,7 @@ msgstr "ファイル全体を均等割付"
 
 #: src/global.c:624
 msgid "Count the number of lines, words, and characters"
-msgstr ""
+msgstr "行数、単語数、文字数を表示"
 
 #: src/global.c:625
 msgid "Suspend the editor (return to the shell)"
@@ -2671,7 +2671,7 @@ msgstr "段落を均等割付しました"
 msgid "Buffer is empty"
 msgstr "バッファは空です"
 
-#: src/text.c:2122 src/text.c:2710
+#: src/text.c:2122 src/text.c:2705
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "'%s' の呼び出しに失敗"
@@ -2749,79 +2749,79 @@ msgstr "構文チェックの前に変更されたバッファを保存します
 msgid "Invoking linter..."
 msgstr "構文チェッカを起動中です..."
 
-#: src/text.c:2715
+#: src/text.c:2710
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "解析可能な行がコマンドの出力から得られませんでした: %s"
 
-#: src/text.c:2753
+#: src/text.c:2748
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "このメッセージは開いていないファイル \"%s\" についてのものです、新しいバッ"
 "ファで開きますか?"
 
-#: src/text.c:2792
+#: src/text.c:2787
 msgid "No messages for this file"
 msgstr "このファイルに対するメッセージはありません"
 
-#: src/text.c:2842
+#: src/text.c:2837
 msgid "At first message"
 msgstr "最初のメッセージへ"
 
-#: src/text.c:2852
+#: src/text.c:2847
 msgid "At last message"
 msgstr "最後のメッセージへ"
 
-#: src/text.c:2894
+#: src/text.c:2889
 msgid "No formatter is defined for this type of file"
 msgstr "この種類のファイルには、整形プログラムが定義されていません"
 
-#: src/text.c:2971
+#: src/text.c:2966
 #, c-format
 msgid "%s%zd %s,  %zu %s,  %zu %s"
 msgstr "%s%zd %s,  %zu %s,  %zu %s"
 
-#: src/text.c:2972
+#: src/text.c:2967
 msgid "In Selection:  "
 msgstr "選択範囲内:  "
 
-#: src/text.c:2973
+#: src/text.c:2968
 msgid "line"
 msgid_plural "lines"
 msgstr[0] "行"
 
-#: src/text.c:2974
+#: src/text.c:2969
 msgid "word"
 msgid_plural "words"
 msgstr[0] "単語"
 
-#: src/text.c:2975
+#: src/text.c:2970
 msgid "character"
 msgid_plural "characters"
 msgstr[0] "文字"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2986
+#: src/text.c:2981
 msgid "Verbatim Input"
 msgstr "特殊キー入力"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3004
+#: src/text.c:2999
 msgid "Invalid code"
 msgstr "無効なコード"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3080
+#: src/text.c:3075
 msgid "No word fragment"
 msgstr "書きかけの単語がありません"
 
-#: src/text.c:3173
+#: src/text.c:3168
 msgid "No further matches"
 msgstr "これ以上の一致はありません"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3176
+#: src/text.c:3171
 msgid "No matches"
 msgstr "一致するものがありません"
 

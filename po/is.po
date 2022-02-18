@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU nano 5.5-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-02-09 11:50+0100\n"
+"POT-Creation-Date: 2022-02-18 10:55+0100\n"
 "PO-Revision-Date: 2021-03-02 18:53+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
@@ -20,78 +20,78 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
-#: src/browser.c:194 src/browser.c:201
+#: src/browser.c:191 src/browser.c:198
 msgid "(dir)"
 msgstr "(mappa)"
 
 #. TRANSLATORS: Try to keep this at most 12 characters.
-#: src/browser.c:198
+#: src/browser.c:195
 msgid "(parent dir)"
 msgstr "(yfirmappa)"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #. * If necessary, you can leave out the parentheses.
-#: src/browser.c:228
+#: src/browser.c:225
 msgid "(huge)"
 msgstr "risastór"
 
-#: src/browser.c:291 src/browser.c:296 src/search.c:254
+#: src/browser.c:288 src/browser.c:293 src/search.c:254
 msgid "Search Wrapped"
 msgstr "Leit hoppaði"
 
-#: src/browser.c:307 src/search.c:430
+#: src/browser.c:304 src/search.c:430
 msgid "This is the only occurrence"
 msgstr "Þetta er eina tilfellið"
 
 #. TRANSLATORS: This is the main search prompt.
-#: src/browser.c:346 src/search.c:97
+#: src/browser.c:343 src/search.c:97
 msgid "Search"
 msgstr "Leita"
 
 #. TRANSLATORS: A modifier of the Search prompt.
-#: src/browser.c:348 src/search.c:101
+#: src/browser.c:345 src/search.c:101
 msgid " [Backwards]"
 msgstr " [Afturábak]"
 
-#: src/browser.c:354 src/browser.c:600 src/files.c:1175 src/files.c:2157
+#: src/browser.c:351 src/browser.c:597 src/files.c:1175 src/files.c:2157
 #: src/nano.c:321 src/search.c:111 src/search.c:289 src/search.c:712
-#: src/search.c:759 src/text.c:2564 src/text.c:2760
+#: src/search.c:759 src/text.c:2564 src/text.c:2755
 msgid "Cancelled"
 msgstr "Hætt við"
 
-#: src/browser.c:381 src/search.c:365
+#: src/browser.c:378 src/search.c:365
 msgid "No current search pattern"
 msgstr "Ekkert núverandi leitarmynstur"
 
-#: src/browser.c:436
+#: src/browser.c:433
 #, c-format
 msgid "Cannot open directory: %s"
 msgstr "Get ekki opnað möppu: %s"
 
 #. TRANSLATORS: This is a prompt.
-#: src/browser.c:599
+#: src/browser.c:596
 msgid "Go To Directory"
 msgstr "Fara í möppu"
 
 #. TRANSLATORS: This refers to the confining effect of
 #. * the option --operatingdir, not of --restricted.
-#: src/browser.c:617 src/browser.c:648
+#: src/browser.c:614 src/browser.c:645
 #, c-format
 msgid "Can't go outside of %s"
 msgstr "Get ekki farið út fyrir %s"
 
-#: src/browser.c:639
+#: src/browser.c:636
 msgid "Can't move up a directory"
 msgstr "Get ekki fært upp um möppu"
 
-#: src/browser.c:654 src/files.c:894 src/files.c:900 src/files.c:1813
+#: src/browser.c:651 src/files.c:894 src/files.c:900 src/files.c:1813
 #: src/files.c:1828 src/history.c:263 src/history.c:291 src/history.c:361
 #: src/history.c:421 src/rcfile.c:919 src/rcfile.c:1692
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Villa við lestur %s. %s"
 
-#: src/browser.c:726
+#: src/browser.c:723
 msgid "The working directory has disappeared"
 msgstr "Vinnumappan er horfin"
 
@@ -404,7 +404,7 @@ msgid "Error writing %s: %s"
 msgstr "Villa við að skrifa %s: %s"
 
 #: src/files.c:1820 src/files.c:1832 src/text.c:2489 src/text.c:2507
-#: src/text.c:2908
+#: src/text.c:2903
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Villa við að skrifa tímabundna skrá: %s"
@@ -2593,7 +2593,7 @@ msgstr ""
 msgid "Buffer is empty"
 msgstr ""
 
-#: src/text.c:2122 src/text.c:2710
+#: src/text.c:2122 src/text.c:2705
 #, c-format
 msgid "Error invoking '%s'"
 msgstr ""
@@ -2671,80 +2671,80 @@ msgstr ""
 msgid "Invoking linter..."
 msgstr ""
 
-#: src/text.c:2715
+#: src/text.c:2710
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr ""
 
-#: src/text.c:2753
+#: src/text.c:2748
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 
-#: src/text.c:2792
+#: src/text.c:2787
 msgid "No messages for this file"
 msgstr ""
 
-#: src/text.c:2842
+#: src/text.c:2837
 msgid "At first message"
 msgstr ""
 
-#: src/text.c:2852
+#: src/text.c:2847
 msgid "At last message"
 msgstr ""
 
-#: src/text.c:2894
+#: src/text.c:2889
 msgid "No formatter is defined for this type of file"
 msgstr ""
 
-#: src/text.c:2971
+#: src/text.c:2966
 #, c-format
 msgid "%s%zd %s,  %zu %s,  %zu %s"
 msgstr ""
 
-#: src/text.c:2972
+#: src/text.c:2967
 msgid "In Selection:  "
 msgstr "Valið:  "
 
-#: src/text.c:2973
+#: src/text.c:2968
 msgid "line"
 msgid_plural "lines"
 msgstr[0] "lína"
 msgstr[1] "línur"
 
-#: src/text.c:2974
+#: src/text.c:2969
 msgid "word"
 msgid_plural "words"
 msgstr[0] "Orð"
 msgstr[1] "orð"
 
-#: src/text.c:2975
+#: src/text.c:2970
 msgid "character"
 msgid_plural "characters"
 msgstr[0] "stafur"
 msgstr[1] "stafir"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:2986
+#: src/text.c:2981
 msgid "Verbatim Input"
 msgstr "Orðrétt inntak"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3004
+#: src/text.c:2999
 msgid "Invalid code"
 msgstr "Ógildur kóði"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3080
+#: src/text.c:3075
 msgid "No word fragment"
 msgstr ""
 
-#: src/text.c:3173
+#: src/text.c:3168
 msgid "No further matches"
 msgstr ""
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3176
+#: src/text.c:3171
 msgid "No matches"
 msgstr "Engar samsvaranir"
 
