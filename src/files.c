@@ -33,6 +33,10 @@
 
 #define RW_FOR_ALL  (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
 
+#ifndef HAVE_FSYNC
+# define fsync(...)  0
+#endif
+
 /* Add an item to the circular list of openfile structs. */
 void make_new_buffer(void)
 {
@@ -143,7 +147,7 @@ const char *locking_suffix = ".swp";
  * existing version of that file.  Return TRUE on success; FALSE otherwise. */
 bool write_lockfile(const char *lockfilename, const char *filename, bool modified)
 {
-#ifdef HAVE_PWD_H
+#if defined(HAVE_PWD_H) && defined(HAVE_GETEUID)
 	pid_t mypid = getpid();
 	uid_t myuid = geteuid();
 	struct passwd *mypwuid = getpwuid(myuid);
@@ -411,7 +415,7 @@ bool open_buffer(const char *filename, bool new_one)
 			free(realname);
 			return FALSE;
 		}
-#else
+#elif defined(HAVE_GETEUID)
 		if (new_one && !(fileinfo.st_mode & (S_IWUSR|S_IWGRP|S_IWOTH)) &&
 						geteuid() == ROOT_UID)
 			statusline(ALERT, _("%s is meant to be read-only"), realname);
@@ -675,9 +679,13 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	block_sigwinch(TRUE);
 #endif
 
+#ifdef HAVE_FLOCKFILE
 	/* Lock the file before starting to read it, to avoid the overhead
 	 * of locking it for each single byte that we read from it. */
 	flockfile(f);
+#else
+# define getc_unlocked  getc
+#endif
 
 	control_C_was_pressed = FALSE;
 
@@ -741,8 +749,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	errornumber = errno;
 
+#ifdef HAVE_FUNLOCKFILE
 	/* We are done with the file, unlock it. */
 	funlockfile(f);
+#endif
 
 #ifndef NANO_TINY
 	block_sigwinch(FALSE);
@@ -950,7 +960,9 @@ static pid_t pid_of_command = -1;
 /* Send an unconditional kill signal to the running external command. */
 void cancel_the_command(int signal)
 {
+#ifdef SIGKILL
 	kill(pid_of_command, SIGKILL);
+#endif
 }
 
 /* Send the text that starts at the given line to file descriptor fd. */
@@ -973,6 +985,7 @@ void send_data(const linestruct *line, int fd)
 /* Execute the given command in a shell.  Return TRUE on success. */
 bool execute_command(const char *command)
 {
+#if defined(HAVE_FORK) && defined(HAVE_PIPE) && defined(HAVE_WAIT)
 	int from_fd[2], to_fd[2];
 		/* The pipes through which text will be written and read. */
 	struct sigaction oldaction, newaction = {{0}};
@@ -1106,6 +1119,9 @@ bool execute_command(const char *command)
 	terminal_init();
 
 	return TRUE;
+#else
+	return FALSE;
+#endif
 }
 #endif /* NANO_TINY */
 
@@ -1653,6 +1669,7 @@ bool make_backup_of(char *realname)
 	if (backup_file == NULL)
 		goto problem;
 
+#ifdef HAVE_FCHOWN
 	/* Try to change owner and group to those of the original file;
 	 * ignore permission errors, as a normal user cannot change the owner. */
 	if (fchown(descriptor, openfile->statinfo->st_uid,
@@ -1660,7 +1677,8 @@ bool make_backup_of(char *realname)
 		fclose(backup_file);
 		goto problem;
 	}
-
+#endif
+#ifdef HAVE_FCHMOD
 	/* Set the backup's permissions to those of the original file.
 	 * It is not a security issue if this fails, as we have created
 	 * the file with just read and write permission for the owner. */
@@ -1668,6 +1686,7 @@ bool make_backup_of(char *realname)
 		fclose(backup_file);
 		goto problem;
 	}
+#endif
 
 	original = fopen(realname, "rb");
 

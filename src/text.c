@@ -2061,6 +2061,7 @@ bool replace_buffer(const char *filename, undo_type action, const char *operatio
 /* Execute the given program, with the given temp file as last argument. */
 void treat(char *tempfile_name, char *theprogram, bool spelling)
 {
+#if defined(HAVE_FORK) && defined(HAVE_WAIT)
 	ssize_t was_lineno = openfile->current->lineno;
 	size_t was_pww = openfile->placewewant;
 	size_t was_x = openfile->current_x;
@@ -2183,6 +2184,7 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 		statusline(REMARK, _("Finished checking spelling"));
 	else
 		statusline(REMARK, _("Buffer has been processed"));
+#endif
 }
 #endif /* ENABLE_SPELLER || ENABLE_COLOR */
 
@@ -2295,6 +2297,7 @@ bool fix_spello(const char *word)
  * correction. */
 void do_int_speller(const char *tempfile_name)
 {
+#if defined(HAVE_FORK) && defined(HAVE_WAITPID)
 	char *misspellings, *pointer, *oneword;
 	long pipesize;
 	size_t buffersize, bytesread, totalread;
@@ -2468,6 +2471,7 @@ void do_int_speller(const char *tempfile_name)
 		statusline(ALERT, _("Error invoking \"spell\""));
 	else
 		statusline(REMARK, _("Finished checking spelling"));
+#endif
 }
 
 /* Spell check the current file.  If an alternate spell checker is
@@ -2533,6 +2537,7 @@ void do_spell(void)
 /* Run a linting program on the current buffer. */
 void do_linter(void)
 {
+#if defined(HAVE_FORK) && defined(HAVE_WAITPID)
 	char *lintings, *pointer, *onelint;
 	long pipesize;
 	size_t buffersize, bytesread, totalread;
@@ -2872,6 +2877,7 @@ void do_linter(void)
 	lastmessage = VACUUM;
 	currmenu = MMOST;
 	titlebar(NULL);
+#endif
 }
 
 /* Run a manipulation program on the contents of the buffer. */

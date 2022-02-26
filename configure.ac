@@ -353,6 +353,9 @@ if test "x$enable_utf8" != xno; then
 	AC_CHECK_FUNCS(iswalpha iswalnum iswpunct mbstowcs wctomb)
 fi
 
+AC_CHECK_FUNCS_ONCE(chmod chown fchmod fchown flockfile funlockfile
+                    fork fsync geteuid pipe wait waitpid)
+
 dnl Checks for available flags.
 
 AX_CHECK_COMPILE_FLAG([-Wall], [CFLAGS="$CFLAGS -Wall"], [], [])

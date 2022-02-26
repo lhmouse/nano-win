@@ -26,7 +26,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <getopt.h>
-#if defined(__linux__) || !defined(NANO_TINY)
+#ifdef __linux__
 #include <sys/ioctl.h>
 #endif
 #ifdef ENABLE_UTF8
@@ -339,7 +339,7 @@ void emergency_save(const char *filename)
 		fprintf(stderr, _("\nToo many .save files\n"));
 	else if (write_file(targetname, NULL, SPECIAL, OVERWRITE, NONOTES)) {
 		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
-#ifndef NANO_TINY
+#if !defined(NANO_TINY) && defined(HAVE_CHMOD) && defined(HAVE_CHOWN)
 		/* Try to chmod/chown the saved file to the values of the original file,
 		 * but ignore any failure as we are in a hurry to get out. */
 		if (openfile->statinfo) {
@@ -894,10 +894,11 @@ void signal_init(void)
 	sigaction(SIGTERM, &deed, NULL);
 
 #ifndef NANO_TINY
+#ifdef SIGWINCH
 	/* Trap SIGWINCH because we want to handle window resizes. */
 	deed.sa_handler = handle_sigwinch;
 	sigaction(SIGWINCH, &deed, NULL);
-
+#endif
 #ifdef SIGTSTP
 	/* Prevent the suspend handler from getting interrupted. */
 	sigfillset(&deed.sa_mask);
@@ -998,11 +999,13 @@ void continue_nano(int signal)
 /* Block or unblock the SIGWINCH signal, depending on the blockit parameter. */
 void block_sigwinch(bool blockit)
 {
+#ifdef SIGWINCH
 	sigset_t winch;
 
 	sigemptyset(&winch);
 	sigaddset(&winch, SIGWINCH);
 	sigprocmask(blockit ? SIG_BLOCK : SIG_UNBLOCK, &winch, NULL);
+#endif
 
 #ifndef NANO_TINY
 	if (the_window_resized)
@@ -1786,10 +1789,12 @@ int main(int argc, char **argv)
 	/* Back up the terminal settings so that they can be restored. */
 	tcgetattr(STDIN_FILENO, &original_state);
 
+#if defined(F_GETFL) && defined(F_SETFL)
 	/* Get the state of standard input and ensure it uses blocking mode. */
 	stdin_flags = fcntl(STDIN_FILENO, F_GETFL, 0);
 	if (stdin_flags != -1)
 		fcntl(STDIN_FILENO, F_SETFL, stdin_flags & ~O_NONBLOCK);
+#endif
 
 #ifdef ENABLE_UTF8
 	/* If setting the locale is successful and it uses UTF-8, we will
@@ -2072,7 +2077,7 @@ int main(int argc, char **argv)
 
 	/* Curses needs TERM; if it is unset, try falling back to a VT220. */
 	if (getenv("TERM") == NULL)
-		setenv("TERM", "vt220", 0);
+		putenv("TERM=vt220");
 
 	/* Enter into curses mode.  Abort if this fails. */
 	if (initscr() == NULL)
