@@ -1993,6 +1993,13 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 
   cleanup_and_exit:
+		if (errno == ENOSPC && normal) {
+			napms(3200); lastmessage = VACUUM;
+			statusline(ALERT, _("File on disk has been truncated!"));
+			napms(3200); lastmessage = VACUUM;
+			statusline(ALERT, _("Maybe ^T^Z, make room on disk, resume, then ^S^X"));
+			stat_with_alloc(realname, &openfile->statinfo);
+		}
 		free(tempname);
 		free(realname);
 		return FALSE;
