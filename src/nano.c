@@ -2087,6 +2087,9 @@ int main(int argc, char **argv)
 	/* If the terminal can do colors, tell ncurses to switch them on. */
 	if (has_colors())
 		start_color();
+
+	/* When requested, suppress the default spotlight and error colors. */
+	rescind_colors = (getenv("NO_COLOR") != NULL);
 #endif
 
 	/* Set up the function and shortcut lists.  This needs to be done

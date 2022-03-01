@@ -141,6 +141,7 @@ extern char *alt_speller;
 extern syntaxtype *syntaxes;
 extern char *syntaxstr;
 extern bool have_palette;
+extern bool rescind_colors;
 #endif
 
 extern bool refresh_needed;

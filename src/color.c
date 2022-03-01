@@ -53,6 +53,7 @@ void set_interface_colorpairs(void)
 			}
 			init_pair(index + 1, combo->fg, combo->bg);
 			interface_color_pair[index] = COLOR_PAIR(index + 1) | combo->attributes;
+			rescind_colors = FALSE;
 		} else {
 			if (index == FUNCTION_TAG || index == SCROLL_BAR)
 				interface_color_pair[index] = A_NORMAL;
@@ -71,6 +72,11 @@ void set_interface_colorpairs(void)
 		}
 
 		free(color_combo[index]);
+	}
+
+	if (rescind_colors) {
+		interface_color_pair[SPOTLIGHTED] = A_REVERSE;
+		interface_color_pair[ERROR_MESSAGE] = A_REVERSE;
 	}
 }
 

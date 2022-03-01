@@ -201,6 +201,8 @@ char *syntaxstr = NULL;
 		/* The color syntax name specified on the command line. */
 bool have_palette = FALSE;
 		/* Whether the colors for the current syntax have been initialized. */
+bool rescind_colors = FALSE;
+		/* Becomes TRUE when NO_COLOR is set in the environment. */
 #endif
 
 int currmenu = MMOST;
