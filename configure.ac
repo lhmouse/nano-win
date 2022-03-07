@@ -514,21 +514,6 @@ int main(void)
   *** Can't check need for _XOPEN_SOURCE_EXTENDED when cross-compiling.]))
 fi
 
-AC_MSG_CHECKING([whether LINES and COLS can be redefined])
-AC_RUN_IFELSE([AC_LANG_SOURCE([[
-#include <curses.h>
-int main(void)
-{
-	LINES = 80;
-	COLS = 25;
-	return 0;
-}]])],
-AC_DEFINE(REDEFINING_MACROS_OK, 1, [Define this if you know your curses library allows LINES and COLS to be redefined to deal with a resizing bug.])
-AC_MSG_RESULT(yes),
-AC_MSG_RESULT(no),
-AC_MSG_WARN([
-  *** Can't check for macro redefinability when cross-compiling.]))
-
 AS_IF([test "x$enable_libmagic" != "xno"], [
 	AC_CHECK_HEADERS([magic.h])
 	AC_CHECK_LIB(magic, magic_open)
