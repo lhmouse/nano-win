@@ -20,6 +20,7 @@ AC_INIT([GNU nano], [6.2], [nano-devel@gnu.org], [nano])
 AC_CONFIG_SRCDIR([src/nano.c])
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE([1.14])
+AM_MAINTAINER_MODE([enable])
 AC_CONFIG_HEADERS([config.h])
 
 dnl Make sure the ONCE macros are available.
