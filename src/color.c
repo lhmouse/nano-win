@@ -262,7 +262,9 @@ void check_the_multis(linestruct *line)
 			if (!astart)
 				continue;
 		} else if (line->multidata[ink->id] & (WHOLELINE|WOULDBE)) {
-			if (!astart && !anend)
+			/* Ensure that a detected start match is not actually an end match. */
+			if (!anend && (!astart || regexec(ink->end, line->data, 1,
+												&endmatch, 0) != 0))
 				continue;
 		} else if (line->multidata[ink->id] == JUSTONTHIS) {
 			if (astart && anend && regexec(ink->start, line->data + startmatch.rm_eo +
