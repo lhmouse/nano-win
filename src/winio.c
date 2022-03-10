@@ -2543,8 +2543,6 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				/* The match positions of a single-line regex. */
 			const linestruct *start_line = line->prev;
 				/* The first line before line that matches 'start'. */
-			linestruct *end_line = line;
-				/* The line that matches 'end'. */
 			regmatch_t startmatch, endmatch;
 				/* The match positions of the start and end regexes. */
 
@@ -2602,8 +2600,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			 * it tells us about the situation so far, and thus what to do here. */
 			if (row > 0 && start_line != NULL && start_line->multidata != NULL) {
 				if (start_line->multidata[varnish->id] == WHOLELINE ||
-						start_line->multidata[varnish->id] == STARTSHERE ||
-						start_line->multidata[varnish->id] == WOULDBE)
+						start_line->multidata[varnish->id] == STARTSHERE)
 					goto seek_an_end;
 				if (start_line->multidata[varnish->id] == NOTHING ||
 						start_line->multidata[varnish->id] == ENDSHERE ||
@@ -2660,31 +2657,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			}
 
   seek_an_end:
-			/* We've already checked that there is no end between the start
-			 * and the current line.  But is there an end after the start
-			 * at all?  Because we don't paint unterminated starts. */
-			if (row == 0) {
-				while (end_line != NULL && regexec(varnish->end, end_line->data,
-											1, &endmatch, 0) == REG_NOMATCH)
-					end_line = end_line->next;
-			} else if (regexec(varnish->end, line->data, 1, &endmatch, 0) != 0)
-				end_line = line->next;
-
-			/* If there is no end, there is nothing to paint. */
-			if (end_line == NULL) {
-				line->multidata[varnish->id] = WOULDBE;
-				continue;
-			}
-
-			/* If it was already determined that there is no end... */
-			if (end_line != line && line->prev == start_line && line->prev->multidata &&
-								line->prev->multidata[varnish->id] == WOULDBE) {
-				line->multidata[varnish->id] = WOULDBE;
-				continue;
-			}
-
-			/* If the end is on a later line, paint whole line, and be done. */
-			if (end_line != line) {
+			/* If there is no end on this line, paint whole line, and be done. */
+			if (regexec(varnish->end, line->data, 1, &endmatch, 0) == REG_NOMATCH) {
 				wattron(midwin, varnish->attributes);
 				mvwaddnstr(midwin, row, margin, converted, -1);
 				wattroff(midwin, varnish->attributes);
@@ -2746,33 +2720,12 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 					continue;
 				}
 
-				/* There is no end on this line.  But maybe on later lines? */
-				end_line = line->next;
-
-				while (end_line && regexec(varnish->end, end_line->data,
-											0, NULL, 0) == REG_NOMATCH)
-					end_line = end_line->next;
-
-				/* If there is no end, we're done with this regex. */
-				if (end_line == NULL) {
-					line->multidata[varnish->id] = WOULDBE;
-					break;
-				}
-
 				/* Paint the rest of the line, and we're done. */
 				wattron(midwin, varnish->attributes);
 				mvwaddnstr(midwin, row, margin + start_col, thetext, -1);
 				wattroff(midwin, varnish->attributes);
 
 				line->multidata[varnish->id] = STARTSHERE;
-
-				if (end_line->multidata == NULL) {
-					end_line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
-					for (short item = 0; item < openfile->syntax->nmultis; item++)
-						end_line->multidata[item] = 0;
-				}
-				end_line->multidata[varnish->id] = ENDSHERE;
-
 				break;
 			}
 		}

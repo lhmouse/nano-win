@@ -261,7 +261,7 @@ void check_the_multis(linestruct *line)
 		if (line->multidata[ink->id] == NOTHING) {
 			if (!astart)
 				continue;
-		} else if (line->multidata[ink->id] & (WHOLELINE|WOULDBE)) {
+		} else if (line->multidata[ink->id] == WHOLELINE) {
 			/* Ensure that a detected start match is not actually an end match. */
 			if (!anend && (!astart || regexec(ink->end, line->data, 1,
 												&endmatch, 0) != 0))
@@ -350,20 +350,16 @@ void precalc_multicolorinfo(void)
 											1, &endmatch, 0) != 0)
 					tailline = tailline->next;
 
-				/* When there is no end match, mark relevant lines as such. */
-				if (tailline == NULL) {
-					for (; line->next != NULL; line = line->next)
-						line->multidata[ink->id] = WOULDBE;
-					line->multidata[ink->id] = WOULDBE;
-					break;
-				}
-
-				/* We found it, we found it, la lala lala.  Mark the lines. */
 				line->multidata[ink->id] = STARTSHERE;
 
 				// Note that this also advances the line in the main loop.
 				for (line = line->next; line != tailline; line = line->next)
 					line->multidata[ink->id] = WHOLELINE;
+
+				if (tailline == NULL) {
+					line = openfile->filebot;
+					break;
+				}
 
 				tailline->multidata[ink->id] = ENDSHERE;
 

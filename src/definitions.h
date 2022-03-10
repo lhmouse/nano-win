@@ -170,8 +170,6 @@
 		/* The start regex matches on an earlier line, the end regex on this one. */
 #define JUSTONTHIS   (1<<5)
 		/* Both the start and end regexes match within this line. */
-#define WOULDBE      (1<<6)
-		/* An unpaired start match is on or before this line. */
 #endif
 
 /* Basic control codes. */
