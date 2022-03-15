@@ -2596,9 +2596,9 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			/* Assume nothing gets painted until proven otherwise below. */
 			line->multidata[varnish->id] = NOTHING;
 
-			/* Apart from the first row, check the multidata of the preceding line:
+			/* Check the multidata of the preceding line:
 			 * it tells us about the situation so far, and thus what to do here. */
-			if (row > 0 && start_line != NULL && start_line->multidata != NULL) {
+			if (start_line != NULL && start_line->multidata != NULL) {
 				if (start_line->multidata[varnish->id] == WHOLELINE ||
 						start_line->multidata[varnish->id] == STARTSHERE)
 					goto seek_an_end;
@@ -2606,55 +2606,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 						start_line->multidata[varnish->id] == ENDSHERE ||
 						start_line->multidata[varnish->id] == JUSTONTHIS)
 					goto step_two;
-			}
-
-			/* The preceding line has no precalculated multidata.
-			 * So, do some backtracking to find out what to paint. */
-
-			/* First step: see if there is a line before current that
-			 * matches 'start' and is not complemented by an 'end'. */
-			while (start_line != NULL && regexec(varnish->start,
-						start_line->data, 1, &startmatch, 0) == REG_NOMATCH) {
-				/* There is no start on this line; but if there is an end,
-				 * there is no need to look for starts on earlier lines. */
-				if (regexec(varnish->end, start_line->data, 0, NULL, 0) == 0)
-					goto step_two;
-				start_line = start_line->prev;
-			}
-
-			/* If no start was found, skip to the next step. */
-			if (start_line == NULL)
+			} else
 				goto step_two;
-
-			/* If the start has been qualified as an end earlier, believe it. */
-			if (start_line->multidata != NULL &&
-						(start_line->multidata[varnish->id] == ENDSHERE ||
-						start_line->multidata[varnish->id] == JUSTONTHIS))
-				goto step_two;
-
-			/* Maybe there is an end on that same line?  If yes, maybe
-			 * there is another start after it?  And so on, until EOL. */
-			while (TRUE) {
-				/* Begin searching for an end after the start match. */
-				index += startmatch.rm_eo;
-				/* If there is no end after this last start, good. */
-				if (regexec(varnish->end, start_line->data + index, 1, &endmatch,
-								(index == 0) ? 0 : REG_NOTBOL) == REG_NOMATCH)
-					break;
-				/* Begin searching for a new start after the end match. */
-				index += endmatch.rm_eo;
-				/* If both start and end match are mere anchors, advance. */
-				if (startmatch.rm_so == startmatch.rm_eo &&
-								endmatch.rm_so == endmatch.rm_eo) {
-					if (start_line->data[index] == '\0')
-						goto step_two;
-					index = step_right(start_line->data, index);
-				}
-				/* If there is no later start on this line, next step. */
-				if (regexec(varnish->start, start_line->data + index,
-								1, &startmatch, REG_NOTBOL) == REG_NOMATCH)
-					goto step_two;
-			}
 
   seek_an_end:
 			/* If there is no end on this line, paint whole line, and be done. */
@@ -3356,6 +3309,12 @@ void edit_refresh(void)
 	/* When needed and useful, initialize the colors for the current syntax. */
 	if (openfile->syntax && !have_palette && !ISSET(NO_SYNTAX) && has_colors())
 		prepare_palette();
+
+	if (recook) {
+		precalc_multicolorinfo();
+		perturbed = FALSE;
+		recook = FALSE;
+	}
 #endif
 
 	/* If the current line is out of view, get it back on screen. */

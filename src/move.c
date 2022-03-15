@@ -44,6 +44,9 @@ void to_last_line(void)
 	openfile->current_y = editwinrows - 1;
 
 	refresh_needed = TRUE;
+#ifdef ENABLE_COLOR
+	recook |= perturbed;
+#endif
 	focusing = FALSE;
 }
 
@@ -222,6 +225,9 @@ void to_para_end(void)
 		openfile->current_x = strlen(openfile->current->data);
 
 	edit_redraw(was_current, CENTERING);
+#ifdef ENABLE_COLOR
+	recook |= perturbed;
+#endif
 }
 #endif /* ENABLE_JUSTIFY */
 
@@ -263,6 +269,9 @@ void to_next_block(void)
 
 	openfile->current_x = 0;
 	edit_redraw(was_current, CENTERING);
+#ifdef ENABLE_COLOR
+	recook |= perturbed;
+#endif
 }
 
 /* Move to the previous word. */

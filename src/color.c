@@ -280,6 +280,7 @@ void check_the_multis(linestruct *line)
 
 		/* There is a mismatch, so something changed: repaint. */
 		refresh_needed = TRUE;
+		perturbed = TRUE;
 		return;
 	}
 }

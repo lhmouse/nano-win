@@ -665,6 +665,13 @@ void do_undo(void)
 
 	openfile->totsize = u->wassize;
 
+#ifdef ENABLE_COLOR
+	if (u->type <= REPLACE)
+		check_the_multis(openfile->current);
+	else if (u->type == INSERT)
+		perturbed = TRUE;
+#endif
+
 	/* When at the point where the buffer was last saved, unset "Modified". */
 	if (openfile->current_undo == openfile->last_saved) {
 		openfile->modified = FALSE;
@@ -824,6 +831,13 @@ void do_redo(void)
 	openfile->placewewant = xplustabs();
 
 	openfile->totsize = u->newsize;
+
+#ifdef ENABLE_COLOR
+	if (u->type <= REPLACE)
+		check_the_multis(openfile->current);
+	else if (u->type == INSERT)
+		recook = TRUE;
+#endif
 
 	/* When at the point where the buffer was last saved, unset "Modified". */
 	if (openfile->current_undo == openfile->last_saved) {

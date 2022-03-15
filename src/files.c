@@ -836,12 +836,14 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	report_size = TRUE;
 
 	/* If we inserted less than a screenful, don't center the cursor. */
-	if (undoable && less_than_a_screenful(was_lineno, was_leftedge))
+	if (undoable && less_than_a_screenful(was_lineno, was_leftedge)) {
 		focusing = FALSE;
+		perturbed = TRUE;
 #ifdef ENABLE_COLOR
-	else if (undoable)
-		precalc_multicolorinfo();
+	} else if (undoable) {
+		recook = TRUE;
 #endif
+	}
 
 #ifndef NANO_TINY
 	if (undoable)

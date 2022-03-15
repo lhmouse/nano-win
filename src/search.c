@@ -65,6 +65,9 @@ void tidy_up_after_search(void)
 	if (openfile->mark)
 		refresh_needed = TRUE;
 #endif
+#ifdef ENABLE_COLOR
+	recook |= perturbed;
+#endif
 }
 
 /* Prepare the prompt and ask the user what to search for.  Keep looping
@@ -657,6 +660,10 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			free(openfile->current->data);
 			openfile->current->data = altered;
 
+#ifdef ENABLE_COLOR
+			check_the_multis(openfile->current);
+			refresh_needed = FALSE;
+#endif
 			set_modified();
 			as_an_at = TRUE;
 			numreplaced++;
@@ -789,6 +796,11 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		line = openfile->filebot->lineno + line + 1;
 	if (line < 1)
 		line = 1;
+
+#ifdef ENABLE_COLOR
+	if (line > openfile->edittop->lineno + editwinrows - 1 || ISSET(SOFTWRAP))
+		recook |= perturbed;
+#endif
 
 	/* Iterate to the requested line. */
 	for (openfile->current = openfile->filetop; line > 1 &&
@@ -994,6 +1006,10 @@ void go_to_and_confirm(linestruct *line)
 		openfile->current_x = 0;
 		edit_redraw(was_current, CENTERING);
 		statusbar(_("Jumped to anchor"));
+#ifdef ENABLE_COLOR
+		if (line->lineno > was_current->lineno)
+			recook |= perturbed;
+#endif
 	} else if (openfile->current->has_anchor)
 		statusline(REMARK, _("This is the only anchor"));
 	else

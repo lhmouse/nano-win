@@ -142,6 +142,8 @@ extern syntaxtype *syntaxes;
 extern char *syntaxstr;
 extern bool have_palette;
 extern bool rescind_colors;
+extern bool perturbed;
+extern bool recook;
 #endif
 
 extern bool refresh_needed;

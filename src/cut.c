@@ -435,9 +435,19 @@ void ingraft_buffer(linestruct *topline)
 /* Meld a copy of the given buffer into the current file buffer. */
 void copy_from_buffer(linestruct *somebuffer)
 {
+#ifdef ENABLE_COLOR
+	size_t threshold = openfile->edittop->lineno + editwinrows - 1;
+#endif
 	linestruct *the_copy = copy_buffer(somebuffer);
 
 	ingraft_buffer(the_copy);
+
+#ifdef ENABLE_COLOR
+	if (openfile->current->lineno > threshold || ISSET(SOFTWRAP))
+		recook = TRUE;
+	else
+		perturbed = TRUE;
+#endif
 }
 
 #ifndef NANO_TINY
@@ -509,6 +519,9 @@ void do_snip(bool marked, bool until_eof, bool append)
 
 	set_modified();
 	refresh_needed = TRUE;
+#ifdef ENABLE_COLOR
+	perturbed = TRUE;
+#endif
 }
 
 /* Move text from the current buffer into the cutbuffer. */
