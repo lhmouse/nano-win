@@ -2596,20 +2596,14 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			/* Assume nothing gets painted until proven otherwise below. */
 			line->multidata[varnish->id] = NOTHING;
 
-			/* Check the multidata of the preceding line:
-			 * it tells us about the situation so far, and thus what to do here. */
-			if (start_line != NULL && start_line->multidata != NULL) {
-				if (start_line->multidata[varnish->id] == WHOLELINE ||
-						start_line->multidata[varnish->id] == STARTSHERE)
-					goto seek_an_end;
-				if (start_line->multidata[varnish->id] == NOTHING ||
-						start_line->multidata[varnish->id] == ENDSHERE ||
-						start_line->multidata[varnish->id] == JUSTONTHIS)
-					goto step_two;
-			} else
-				goto step_two;
+			if (start_line && !start_line->multidata)
+				statusline(ALERT, "Missing multidata -- please report a bug");
+			else
 
-  seek_an_end:
+			/* If there is an unterminated start match before the current line,
+			 * we need to look for an end match first. */
+			if (start_line && (start_line->multidata[varnish->id] == WHOLELINE ||
+								start_line->multidata[varnish->id] == STARTSHERE)) {
 			/* If there is no end on this line, paint whole line, and be done. */
 			if (regexec(varnish->end, line->data, 1, &endmatch, 0) == REG_NOMATCH) {
 				wattron(midwin, varnish->attributes);
@@ -2627,9 +2621,10 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 				mvwaddnstr(midwin, row, margin, converted, paintlen);
 				wattroff(midwin, varnish->attributes);
 			}
-			line->multidata[varnish->id] = ENDSHERE;
 
-  step_two:
+			line->multidata[varnish->id] = ENDSHERE;
+			}
+
 			/* Second step: look for starts on this line, but begin
 			 * looking only after an end match, if there is one. */
 			index = (paintlen == 0) ? 0 : endmatch.rm_eo;
