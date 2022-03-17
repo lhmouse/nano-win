@@ -2604,25 +2604,25 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			 * we need to look for an end match first. */
 			if (start_line && (start_line->multidata[varnish->id] == WHOLELINE ||
 								start_line->multidata[varnish->id] == STARTSHERE)) {
-			/* If there is no end on this line, paint whole line, and be done. */
-			if (regexec(varnish->end, line->data, 1, &endmatch, 0) == REG_NOMATCH) {
-				wattron(midwin, varnish->attributes);
-				mvwaddnstr(midwin, row, margin, converted, -1);
-				wattroff(midwin, varnish->attributes);
-				line->multidata[varnish->id] = WHOLELINE;
-				continue;
-			}
+				/* If there is no end on this line, paint whole line, and be done. */
+				if (regexec(varnish->end, line->data, 1, &endmatch, 0) == REG_NOMATCH) {
+					wattron(midwin, varnish->attributes);
+					mvwaddnstr(midwin, row, margin, converted, -1);
+					wattroff(midwin, varnish->attributes);
+					line->multidata[varnish->id] = WHOLELINE;
+					continue;
+				}
 
-			/* Only if it is visible, paint the part to be coloured. */
-			if (endmatch.rm_eo > from_x) {
-				paintlen = actual_x(converted, wideness(line->data,
-												endmatch.rm_eo) - from_col);
-				wattron(midwin, varnish->attributes);
-				mvwaddnstr(midwin, row, margin, converted, paintlen);
-				wattroff(midwin, varnish->attributes);
-			}
+				/* Only if it is visible, paint the part to be coloured. */
+				if (endmatch.rm_eo > from_x) {
+					paintlen = actual_x(converted, wideness(line->data,
+													endmatch.rm_eo) - from_col);
+					wattron(midwin, varnish->attributes);
+					mvwaddnstr(midwin, row, margin, converted, paintlen);
+					wattroff(midwin, varnish->attributes);
+				}
 
-			line->multidata[varnish->id] = ENDSHERE;
+				line->multidata[varnish->id] = ENDSHERE;
 			}
 
 			/* Second step: look for starts on this line, but begin
