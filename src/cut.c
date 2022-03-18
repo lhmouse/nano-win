@@ -495,7 +495,7 @@ void do_snip(bool marked, bool until_eof, bool append)
 		/* When not at the end of a line, move the rest of this line into
 		 * the cutbuffer.  Otherwise, when not at the end of the buffer,
 		 * move just the "line separator" into the cutbuffer. */
-		if (openfile->current_x < strlen(openfile->current->data))
+		if (line->data[openfile->current_x] != '\0')
 			extract_segment(line, openfile->current_x, line, strlen(line->data));
 		else if (openfile->current != openfile->filebot) {
 			extract_segment(line, openfile->current_x, line->next, 0);
