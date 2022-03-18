@@ -739,6 +739,12 @@ void ask_for_and_do_replacements(void)
 /* Go to the specified line and x position. */
 void goto_line_posx(ssize_t line, size_t pos_x)
 {
+#ifdef ENABLE_COLOR
+	if (line > openfile->edittop->lineno + editwinrows ||
+				(ISSET(SOFTWRAP) && line > openfile->current->lineno))
+		recook |= perturbed;
+#endif
+
 	for (openfile->current = openfile->filetop; line > 1 &&
 				openfile->current != openfile->filebot; line--)
 		openfile->current = openfile->current->next;
@@ -798,7 +804,8 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		line = 1;
 
 #ifdef ENABLE_COLOR
-	if (line > openfile->edittop->lineno + editwinrows - 1 || ISSET(SOFTWRAP))
+	if (line > openfile->edittop->lineno + editwinrows ||
+				(ISSET(SOFTWRAP) && line > openfile->current->lineno))
 		recook |= perturbed;
 #endif
 
@@ -1004,12 +1011,13 @@ void go_to_and_confirm(linestruct *line)
 	if (line != openfile->current) {
 		openfile->current = line;
 		openfile->current_x = 0;
-		edit_redraw(was_current, CENTERING);
-		statusbar(_("Jumped to anchor"));
 #ifdef ENABLE_COLOR
-		if (line->lineno > was_current->lineno)
+		if (line->lineno > openfile->edittop->lineno + editwinrows ||
+					(ISSET(SOFTWRAP) && line->lineno > was_current->lineno))
 			recook |= perturbed;
 #endif
+		edit_redraw(was_current, CENTERING);
+		statusbar(_("Jumped to anchor"));
 	} else if (openfile->current->has_anchor)
 		statusline(REMARK, _("This is the only anchor"));
 	else
