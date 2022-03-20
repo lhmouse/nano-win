@@ -47,9 +47,10 @@ static size_t selected = 0;
  * files that can be displayed per screen row.  And sort the list too. */
 void read_the_list(const char *path, DIR *dir)
 {
-	size_t path_len = strlen(path), index = 0;
+	size_t path_len = strlen(path);
 	const struct dirent *entry;
 	size_t widest = 0;
+	size_t index = 0;
 
 	/* Find the width of the widest filename in the current folder. */
 	while ((entry = readdir(dir)) != NULL) {
@@ -91,9 +92,8 @@ void read_the_list(const char *path, DIR *dir)
 		index++;
 	}
 
-	/* Maybe the number of files in the directory decreased between the
-	 * first time we scanned and the second time.  index is the actual
-	 * length of the file list, so record it. */
+	/* Maybe the number of files in the directory decreased between
+	 * the first time we scanned and the second time. */
 	list_length = index;
 
 	/* Sort the list of names. */
@@ -107,28 +107,23 @@ void read_the_list(const char *path, DIR *dir)
 	usable_rows = editwinrows - (ISSET(ZERO) && LINES > 1 ? 1 : 0);
 }
 
-/* Look for needle.  If we find it, set selected to its location.
- * Note that needle must be an exact match for a file in the list. */
-void browser_select_dirname(const char *needle)
+/* Reselect the given file or directory name, if it still exists. */
+void reselect(const char *name)
 {
 	size_t looking_at = 0;
 
-	for (; looking_at < list_length; looking_at++) {
-		if (strcmp(filelist[looking_at], needle) == 0) {
-			selected = looking_at;
-			break;
-		}
-	}
+	while (looking_at < list_length && strcmp(filelist[looking_at], name) != 0)
+		looking_at++;
 
-	/* If the sought name isn't found, move the highlight so that the
-	 * changed selection will be noticed. */
-	if (looking_at == list_length) {
+	/* If the sought name was found, select it; otherwise, just move
+	 * the highlight so that the changed selection will be noticed,
+	 * but make sure to stay within the current available range. */
+	if (looking_at < list_length)
+		selected = looking_at;
+	else if (selected > list_length)
+		selected = list_length - 1;
+	else
 		--selected;
-
-		/* Make sure we stay within the available range. */
-		if (selected >= list_length)
-			selected = list_length - 1;
-	}
 }
 
 /* Display at most a screenful of filenames from the gleaned filelist. */
@@ -450,13 +445,12 @@ char *browse(char *path)
 		dir = NULL;
 	}
 
-	/* If given, reselect the present_name and then discard it. */
+	/* If something was selected before, reselect it;
+	 * otherwise, just select the first item (..). */
 	if (present_name != NULL) {
-		browser_select_dirname(present_name);
-
+		reselect(present_name);
 		free(present_name);
 		present_name = NULL;
-	/* Otherwise, select the first file or directory in the list. */
 	} else
 		selected = 0;
 
