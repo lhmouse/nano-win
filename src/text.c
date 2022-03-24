@@ -1761,6 +1761,8 @@ void justify_text(bool whole_buffer)
 		/* The leading part for lines after the first one. */
 	size_t secondary_len = 0;
 		/* The length of that later lead. */
+	ssize_t was_the_linenumber = openfile->current->lineno;
+		/* The line to return to after a full justification. */
 
 	/* TRANSLATORS: This one goes with Undid/Redid messages. */
 	add_undo(COUPLE_BEGIN, N_("justification"));
@@ -1977,7 +1979,8 @@ void justify_text(bool whole_buffer)
 		openfile->current_x = openfile->mark_x;
 		openfile->mark = bottom;
 		openfile->mark_x = bottom_x;
-	}
+	} else if (whole_buffer && !openfile->mark)
+		goto_line_posx(was_the_linenumber, 0);
 
 	add_undo(COUPLE_END, N_("justification"));
 
