@@ -2528,6 +2528,7 @@ void do_spell(void)
 
 	if (!okay) {
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
+		unlink(temp_name);
 		free(temp_name);
 		return;
 	}
@@ -2924,13 +2925,10 @@ void do_formatter(void)
 	if (temp_name != NULL)
 		okay = write_file(temp_name, stream, TEMPORARY, OVERWRITE, NONOTES);
 
-	if (!okay) {
+	if (!okay)
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
-		free(temp_name);
-		return;
-	}
-
-	treat(temp_name, openfile->syntax->formatter, FALSE);
+	else
+		treat(temp_name, openfile->syntax->formatter, FALSE);
 
 	unlink(temp_name);
 	free(temp_name);
