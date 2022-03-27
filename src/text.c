@@ -2516,9 +2516,6 @@ void do_spell(void)
 	/* Save the settings of the global flags. */
 	memcpy(stash, flags, sizeof(flags));
 
-	/* Don't add an extra newline when writing out the (selected) text. */
-	SET(NO_NEWLINES);
-
 #ifndef NANO_TINY
 	if (openfile->mark)
 		okay = write_region_to_file(temp_name, stream, TEMPORARY, OVERWRITE);

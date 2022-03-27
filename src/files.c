@@ -2085,7 +2085,7 @@ bool write_region_to_file(const char *name, FILE *stream, bool normal,
 	get_region(&topline, &top_x, &botline, &bot_x);
 
 	/* When needed, prepare a magic end line for the region. */
-	if (bot_x > 0 && !ISSET(NO_NEWLINES)) {
+	if (normal && bot_x > 0 && !ISSET(NO_NEWLINES)) {
 		stopper = make_new_node(botline);
 		stopper->data = copy_of("");
 	} else
