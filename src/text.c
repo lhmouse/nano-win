@@ -2322,6 +2322,7 @@ void do_int_speller(const char *tempfile_name)
 	int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
 	pid_t pid_spell, pid_sort, pid_uniq;
 	int spell_status, sort_status, uniq_status;
+	unsigned stash[sizeof(flags) / sizeof(flags[0])];
 
 	/* Create all three pipes up front. */
 	if (pipe(spell_fd) == -1 || pipe(sort_fd) == -1 || pipe(uniq_fd) == -1) {
@@ -2446,6 +2447,9 @@ void do_int_speller(const char *tempfile_name)
 	terminal_init();
 	doupdate();
 
+	/* Save the settings of the global flags. */
+	memcpy(stash, flags, sizeof(flags));
+
 	/* Do any replacements case-sensitively, forward, and without regexes. */
 	SET(CASE_SENSITIVE);
 	UNSET(BACKWARDS_SEARCH);
@@ -2476,6 +2480,9 @@ void do_int_speller(const char *tempfile_name)
 	free(misspellings);
 	refresh_needed = TRUE;
 
+	/* Restore the settings of the global flags. */
+	memcpy(flags, stash, sizeof(flags));
+
 	/* Process the end of the three processes. */
 	waitpid(pid_spell, &spell_status, 0);
 	waitpid(pid_sort, &sort_status, 0);
@@ -2498,7 +2505,6 @@ void do_spell(void)
 {
 	FILE *stream;
 	char *temp_name;
-	unsigned stash[sizeof(flags) / sizeof(flags[0])];
 	bool okay;
 
 	ran_a_tool = TRUE;
@@ -2512,9 +2518,6 @@ void do_spell(void)
 		statusline(ALERT, _("Error writing temp file: %s"), strerror(errno));
 		return;
 	}
-
-	/* Save the settings of the global flags. */
-	memcpy(stash, flags, sizeof(flags));
 
 #ifndef NANO_TINY
 	if (openfile->mark)
@@ -2539,9 +2542,6 @@ void do_spell(void)
 
 	unlink(temp_name);
 	free(temp_name);
-
-	/* Restore the settings of the global flags. */
-	memcpy(flags, stash, sizeof(flags));
 
 	/* Ensure the help lines will be redrawn and a selection is retained. */
 	currmenu = MMOST;
