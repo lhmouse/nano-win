@@ -992,6 +992,7 @@ bool execute_command(const char *command)
 		/* The pipes through which text will be written and read. */
 	struct sigaction oldaction, newaction = {{0}};
 		/* Original and temporary handlers for SIGINT. */
+	ssize_t was_lineno = (openfile->mark ? 0 : openfile->current->lineno);
 	const bool should_pipe = (command[0] == '|');
 	FILE *stream;
 
@@ -1105,8 +1106,11 @@ bool execute_command(const char *command)
 	else
 		read_file(stream, 0, "pipe", TRUE);
 
-	if (should_pipe && !ISSET(MULTIBUFFER))
+	if (should_pipe && !ISSET(MULTIBUFFER)) {
+		if (was_lineno)
+			goto_line_posx(was_lineno, 0);
 		add_undo(COUPLE_END, N_("filtering"));
+	}
 
 	/* Wait for the external command (and possibly data sender) to terminate. */
 	wait(NULL);
