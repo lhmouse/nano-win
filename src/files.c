@@ -1070,7 +1070,8 @@ bool execute_command(const char *command)
 			}
 			add_undo(CUT, NULL);
 			do_snip(openfile->mark != NULL, openfile->mark == NULL, FALSE);
-			openfile->filetop->has_anchor = FALSE;
+			if (openfile->filetop->next == NULL)
+				openfile->filetop->has_anchor = FALSE;
 			update_undo(CUT);
 		}
 
