@@ -1345,106 +1345,36 @@ void do_execute(void)
  * absolute path (plus filename) when the path exists, and NULL when not. */
 char *get_full_path(const char *origpath)
 {
-	char *allocation, *here, *target, *last_slash;
-	char *just_filename = NULL;
-	int attempts = 0;
+	char *untilded, *target, *slash;
 	struct stat fileinfo;
-	bool path_only;
 
 	if (origpath == NULL)
 		return NULL;
 
-	allocation = nmalloc(PATH_MAX + 1);
-	here = getcwd(allocation, PATH_MAX + 1);
+	untilded = real_dir_from_tilde(origpath);
+	target = realpath(untilded, NULL);
+	slash = strrchr(untilded, '/');
 
-	/* If getting the current directory failed, go up one level and try again,
-	 * until we find an existing directory, and use that as the current one. */
-	while (here == NULL && attempts < 20) {
-		IGNORE_CALL_RESULT(chdir(".."));
-		here = getcwd(allocation, PATH_MAX + 1);
-		attempts++;
-	}
+	/* If realpath() returned NULL, try without the last component,
+	 * as this can be a file that does not exist yet. */
+	if (!target && slash && slash[1]) {
+		*slash = '\0';
+		target = realpath(untilded, NULL);
 
-	/* If we found a directory, make sure its path ends in a slash. */
-	if (here != NULL) {
-		if (strcmp(here, "/") != 0) {
-			here = nrealloc(here, strlen(here) + 2);
-			strcat(here, "/");
-		}
-	} else {
-		here = copy_of("");
-		free(allocation);
-	}
-
-	target = real_dir_from_tilde(origpath);
-
-	/* Determine whether the target path refers to a directory.  If statting
-	 * target fails, however, assume that it refers to a new, unsaved buffer. */
-	path_only = (stat(target, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
-
-	/* If the target is a directory, make sure its path ends in a slash. */
-	if (path_only) {
-		size_t length = strlen(target);
-
-		if (target[length - 1] != '/') {
-			target = nrealloc(target, length + 2);
-			strcat(target, "/");
+		/* Upon success, re-add the last component of the original path. */
+		if (target) {
+			target = nrealloc(target, strlen(target) + strlen(slash + 1) + 1);
+			strcat(target, slash + 1);
 		}
 	}
 
-	last_slash = strrchr(target, '/');
-
-	/* If the target path does not contain a slash, then it is a bare filename
-	 * and must therefore be located in the working directory. */
-	if (last_slash == NULL) {
-		just_filename = target;
-		target = here;
-	} else {
-		/* If target contains a filename, separate the two. */
-		if (!path_only) {
-			just_filename = copy_of(last_slash + 1);
-			*(last_slash + 1) = '\0';
-		}
-
-		/* If we can't change to the target directory, give up.  Otherwise,
-		 * get the canonical path to this target directory. */
-		if (chdir(target) == -1) {
-			free(target);
-			target = NULL;
-		} else {
-			free(target);
-
-			allocation = nmalloc(PATH_MAX + 1);
-			target = getcwd(allocation, PATH_MAX + 1);
-
-			/* If we got a result, make sure it ends in a slash.
-			 * Otherwise, ensure that we return NULL. */
-			if (target != NULL) {
-				if (strcmp(target, "/") != 0) {
-					target = nrealloc(target, strlen(target) + 2);
-					strcat(target, "/");
-				}
-			} else {
-				path_only = TRUE;
-				free(allocation);
-			}
-
-			/* Finally, go back to where we were before.  We don't check
-			 * for an error, since we can't do anything if we get one. */
-			IGNORE_CALL_RESULT(chdir(here));
-		}
-
-		free(here);
+	/* Ensure that a directory path ends with a slash. */
+	if (target && stat(target, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode)) {
+		target = nrealloc(target, strlen(target) + 2);
+		strcat(target, "/");
 	}
 
-	/* If we were given more than a bare path, concatenate the target path
-	 * with the filename portion to get the full, absolute file path. */
-	if (!path_only && target != NULL) {
-		target = nrealloc(target, strlen(target) + strlen(just_filename) + 1);
-		strcat(target, just_filename);
-	}
-
-	free(just_filename);
+	free(untilded);
 
 	return target;
 }
