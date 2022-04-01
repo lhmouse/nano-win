@@ -2475,6 +2475,9 @@ void place_the_cursor(void)
 	openfile->current_y = row;
 }
 
+/* The number of bytes after which to stop painting, to avoid major slowdowns. */
+#define PAINT_LIMIT  2000
+
 /* Draw the given text on the given row of the edit window.  line is the
  * line to be drawn, and converted is the actual string to be written with
  * tabs and control characters replaced by strings of regular characters.
@@ -2548,7 +2551,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 
 			/* First case: varnish is a single-line expression. */
 			if (varnish->end == NULL) {
-				while (index < till_x) {
+				while (index < PAINT_LIMIT && index < till_x) {
 					/* If there is no match, go on to the next line. */
 					if (regexec(varnish->start, &line->data[index], 1,
 								&match, (index == 0) ? 0 : REG_NOTBOL) != 0)
@@ -2629,8 +2632,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 			 * looking only after an end match, if there is one. */
 			index = (paintlen == 0) ? 0 : endmatch.rm_eo;
 
-			while (regexec(varnish->start, line->data + index, 1, &startmatch,
-										(index == 0) ? 0 : REG_NOTBOL) == 0) {
+			while (index < PAINT_LIMIT && regexec(varnish->start, line->data + index,
+								1, &startmatch, (index == 0) ? 0 : REG_NOTBOL) == 0) {
 				/* Make the match relative to the beginning of the line. */
 				startmatch.rm_so += index;
 				startmatch.rm_eo += index;
