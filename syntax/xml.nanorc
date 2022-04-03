@@ -9,13 +9,16 @@ comment "<!--|-->"
 color green start="<" end=">"
 
 # The angled brackets and the name of the tag:
-color cyan "<[^> ]+|>"
+color cyan "<[^> ]+|/?>"
 
 # The strings inside the tag:
 color magenta ""[^"]*""
 
+# Prolog stuff:
+color #888 "<\?.+\?>|<!DOCTYPE[^>]+>|\]>"
+color #888 start="<!DOCTYPE[^>]*$" end="^[^<]*>"
+
 # Comments:
-color yellow start="<!DOCTYPE" end="[/]?>"
 color yellow start="<!--" end="-->"
 
 # Escapes:
