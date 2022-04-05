@@ -709,14 +709,10 @@ char *browse_in(const char *inpath)
 		path = free_and_assign(path, strip_last_component(path));
 
 		if (stat(path, &fileinfo) == -1 || !S_ISDIR(fileinfo.st_mode)) {
-			char *currentdir = nmalloc(PATH_MAX + 1);
-
-			path = free_and_assign(path, getcwd(currentdir, PATH_MAX + 1));
+			path = free_and_assign(path, realpath(".", NULL));
 
 			if (path == NULL) {
-				statusline(MILD, _("The working directory has disappeared"));
-				free(currentdir);
-				beep();
+				statusline(ALERT, _("The working directory has disappeared"));
 				napms(1200);
 				return NULL;
 			}

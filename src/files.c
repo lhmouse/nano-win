@@ -358,8 +358,7 @@ bool has_valid_path(const char *filename)
 			statusline(ALERT, _("The working directory has disappeared"));
 
 		free(currentdir);
-	} else
-	if (stat(parentdir, &parentinfo) == -1) {
+	} else if (stat(parentdir, &parentinfo) == -1) {
 		if (errno == ENOENT)
 			/* TRANSLATORS: Keep the next ten messages at most 76 characters. */
 			statusline(ALERT, _("Directory '%s' does not exist"), parentdir);
