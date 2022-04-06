@@ -350,14 +350,17 @@ bool has_valid_path(const char *filename)
 	char *parentdir = dirname(namecopy);
 	struct stat parentinfo;
 	bool validity = FALSE;
+	bool gone = FALSE;
 
 	if (strcmp(parentdir, ".") == 0) {
 		char *currentdir = realpath(".", NULL);
 
-		if (currentdir == NULL)
-			statusline(ALERT, _("The working directory has disappeared"));
-
+		gone = (currentdir == NULL && errno == ENOENT);
 		free(currentdir);
+	}
+
+	if (gone) {
+		statusline(ALERT, _("The working directory has disappeared"));
 	} else if (stat(parentdir, &parentinfo) == -1) {
 		if (errno == ENOENT)
 			/* TRANSLATORS: Keep the next ten messages at most 76 characters. */
