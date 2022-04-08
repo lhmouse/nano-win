@@ -848,8 +848,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	/* If we inserted less than a screenful, don't center the cursor. */
 	if (undoable && less_than_a_screenful(was_lineno, was_leftedge)) {
 		focusing = FALSE;
-		perturbed = TRUE;
 #ifdef ENABLE_COLOR
+		perturbed = TRUE;
 	} else if (undoable) {
 		recook = TRUE;
 #endif
