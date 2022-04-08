@@ -359,9 +359,9 @@ bool has_valid_path(const char *filename)
 		free(currentdir);
 	}
 
-	if (gone) {
+	if (gone)
 		statusline(ALERT, _("The working directory has disappeared"));
-	} else if (stat(parentdir, &parentinfo) == -1) {
+	else if (stat(parentdir, &parentinfo) == -1) {
 		if (errno == ENOENT)
 			/* TRANSLATORS: Keep the next ten messages at most 76 characters. */
 			statusline(ALERT, _("Directory '%s' does not exist"), parentdir);
@@ -1943,8 +1943,12 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 #ifndef NANO_TINY
 		if (errno == ENOSPC && normal) {
 			napms(3200); lastmessage = VACUUM;
+			/* TRANSLATORS: This warns for data loss when the disk is full. */
 			statusline(ALERT, _("File on disk has been truncated!"));
 			napms(3200); lastmessage = VACUUM;
+			/* TRANSLATORS: This is a suggestion to the user,
+			 * where "resume" means resuming from suspension.
+			 * Try to keep this at most 76 characters. */
 			statusline(ALERT, _("Maybe ^T^Z, make room on disk, resume, then ^S^X"));
 			stat_with_alloc(realname, &openfile->statinfo);
 		}
