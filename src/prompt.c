@@ -229,7 +229,7 @@ void inject_into_answer(char *burst, size_t count)
 	answer = nrealloc(answer, strlen(answer) + count + 1);
 	memmove(answer + typing_x + count, answer + typing_x,
 								strlen(answer) - typing_x + 1);
-	strncpy(answer + typing_x, burst , count);
+	strncpy(answer + typing_x, burst, count);
 
 	typing_x += count;
 }

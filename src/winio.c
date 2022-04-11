@@ -219,7 +219,7 @@ void read_keys_from(WINDOW *frame)
 			if (input == ERR) {
 				if (spotlighted || ISSET(ZERO) || LINES == 1) {
 					if (ISSET(ZERO) && lastmessage > VACUUM)
-						wredrawln(midwin, editwinrows - 1 , 1);
+						wredrawln(midwin, editwinrows - 1, 1);
 					lastmessage = VACUUM;
 					spotlighted = FALSE;
 					update_line(openfile->current, openfile->current_x);
