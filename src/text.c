@@ -2997,6 +2997,13 @@ void do_verbatim_input(void)
 	size_t count = 1;
 	char *bytes;
 
+#ifndef NANO_TINY
+	/* When barless and with cursor on bottom row, make room for the feedback. */
+	if (ISSET(ZERO) && openfile->current_y == editwinrows - 1 && LINES > 1) {
+		edit_scroll(FORWARD);
+		edit_refresh();
+	}
+#endif
 	/* TRANSLATORS: Shown when the next keystroke will be inserted verbatim. */
 	statusline(INFO, _("Verbatim Input"));
 	place_the_cursor();
