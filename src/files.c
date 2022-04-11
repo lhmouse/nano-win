@@ -1034,6 +1034,7 @@ bool execute_command(const char *command)
 		if (should_pipe) {
 			if (dup2(to_fd[0], STDIN_FILENO) < 0)
 				exit(5);
+			close(from_fd[1]);
 			close(to_fd[1]);
 		}
 
