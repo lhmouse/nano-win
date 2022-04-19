@@ -8,19 +8,18 @@ building this needs a bit more care than the official tarballs.
 Prerequisites
 -------------
 
-To successfully compile GNU nano from git, you'll need the following
-packages:
+To successfully compile GNU nano from git, you'll need the following:
 
-- autoconf    (version >= 2.69)
-- automake    (version >= 1.14)
-- autopoint   (version >= 0.18.3)
-- gcc         (version >= 5.0)
-- gettext     (version >= 0.18.3)
-- git         (version >= 2.7.4)
-- groff       (version >= 1.12)
-- make        (any version)
-- pkg-config  (version >= 0.22)
-- texinfo     (version >= 4.0)
+    autoconf    (version >= 2.69)
+    automake    (version >= 1.14)
+    autopoint   (version >= 0.18.3)
+    gcc         (version >= 5.0)
+    gettext     (version >= 0.18.3)
+    git         (version >= 2.7.4)
+    groff       (version >= 1.12)
+    make        (any version)
+    pkg-config  (version >= 0.22)
+    texinfo     (version >= 4.0)
 
 You will also need to have the header files for ncurses installed,
 from libncurses-dev on Debian, ncurses-devel on Fedora, or similar.
@@ -29,14 +28,14 @@ These should all be available in your distro's package manager or
 software center, or otherwise on any GNU mirror.
 
 
-Download the source
--------------------
+Clone the source
+----------------
 
 To obtain the current nano development branch (called 'master'), use the
 following command.  It will create in your current working directory a
 subdirectory called 'nano' containing a copy of all of the files:
 
-    $ git clone git://git.savannah.gnu.org/nano.git nano
+    $ git clone git://git.savannah.gnu.org/nano.git
 
 
 Generate the configure script
@@ -83,6 +82,7 @@ Problems?
 
 Please submit any bugs you find in the code in git via the bug tracker
 on Savannah (https://savannah.gnu.org/bugs/?group=nano).
+
 
 Contributing something
 ----------------------
