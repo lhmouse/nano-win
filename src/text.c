@@ -2050,11 +2050,19 @@ bool replace_buffer(const char *filename, undo_type action, const char *operatio
 	if (descriptor < 0)
 		return FALSE;
 
+#ifndef NANO_TINY
+	add_undo(COUPLE_BEGIN, operation);
+#endif
+
+	/* When nothing is marked, start at the top of the buffer. */
+	if (!openfile->mark) {
+		openfile->current = openfile->filetop;
+		openfile->current_x = 0;
+	}
+
 	cutbuffer = NULL;
 
 #ifndef NANO_TINY
-	add_undo(COUPLE_BEGIN, operation);
-
 	/* Cut either the marked region or the whole buffer. */
 	add_undo(action, NULL);
 	do_snip(openfile->mark != NULL, openfile->mark == NULL, FALSE);
@@ -2174,14 +2182,9 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 		openfile->mark = line_from_number(was_mark_lineno);
 	} else
 #endif
-	{
-		openfile->current = openfile->filetop;
-		openfile->current_x = 0;
-
 		replaced = replace_buffer(tempfile_name, CUT_TO_EOF,
 					/* TRANSLATORS: The next two go with Undid/Redid messages. */
 					(spelling ? N_("spelling correction") : N_("formatting")));
-	}
 
 	/* Go back to the old position. */
 	goto_line_posx(was_lineno, was_x);
