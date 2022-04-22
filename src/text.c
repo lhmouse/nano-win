@@ -2054,8 +2054,8 @@ bool replace_buffer(const char *filename, undo_type action, const char *operatio
 	add_undo(COUPLE_BEGIN, operation);
 #endif
 
-	/* When nothing is marked, start at the top of the buffer. */
-	if (!openfile->mark) {
+	/* When replacing the whole buffer, start cutting at the top. */
+	if (action == CUT_TO_EOF) {
 		openfile->current = openfile->filetop;
 		openfile->current_x = 0;
 	}
