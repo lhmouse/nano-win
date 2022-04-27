@@ -1,3 +1,53 @@
+Changes between v6.2 and v6.3:
+------------------------------
+
+Benno Schulenberg (41):
+      build: add the --disable-maintainer-mode option to ./configure
+      build: fix compilation for --enable-{tiny,nanorc,color}
+      build: fix compilation when configured with --disable-color
+      build: remove an obsolete check -- the dependent code was deleted
+      bump version numbers and add a news item for the 6.3 release
+      display: suppress spotlight yellow and error red when NO_COLOR is set
+      docs: add an example binding for copying text to the system clipboard
+      execute: clear an anchor only when the whole buffer gets filtered
+      execute: don't crash when an empty buffer is piped through a command
+      execute: stay on the same line number when filtering the whole buffer
+      feedback: show extra warning when writing failed due to "No space left"
+      files: do not change to a higher directory when the working one is gone
+      files: show a warning when the working directory is gone (when used)
+      files: when the working directory exists, still check its accessibility
+      filtering: close all output descriptors, so that 'xsel' will terminate
+      formatting: change cursor position only after saving it in the undo item
+      gnulib: pull in the workaround for a build problem on NetBSD
+      gnulib: update to its current upstream state
+      justify: stay at the same line number when doing a full justification
+      painting: colorize text also after an unterminated start match
+      painting: look for another start match only after the actual end match
+      painting: recalculate the multidata when making large strides or changes
+      painting: stop coloring an extremely long line after 2000 bytes
+      painting: tighten the check for a lacking end match on a colored line
+      syntax: xml: colorize /> properly, and colorize prolog tags differently
+      syntax: xml: colorize user-defined entities differently
+      tweaks: avoid a function call when two plain assignments will do
+      tweaks: change the indentation of a list, to match other indentations
+      tweaks: don't leave an orphaned temporary file behind when writing fails
+      tweaks: elide an unneeded call of strlen()
+      tweaks: exclude the extra truncation warning from the tiny version
+      tweaks: make the triggering of the recalculation of multidata less eager
+      tweaks: move the saving and restoring of flags to where it is needed
+      tweaks: normalize the indentation after the previous change
+      tweaks: prevent the adding of an unwanted newline in a different way
+      tweaks: remove redundant braces, and add two translator hints
+      tweaks: remove some stray spaces before a comma
+      tweaks: simplify a bit of code, eliding two labels and three gotos
+      tweaks: simplify a fragment of code, and fold two lines together
+      tweaks: trim a few comments, rename a function, and reshuffle some code
+      verbatim: with --zero, keep cursor in viewport when it was on bottom row
+
+Mike Frysinger (1):
+      general: fix building for Windows
+
+
 Changes between v6.1 and v6.2:
 ------------------------------
 

@@ -1,3 +1,16 @@
+2022.04.28 - GNU nano 6.3 "Wat zullen we drinken? Wat een dorst!"
+• For multiline regexes, text is now colored as soon a start match
+  is found, also when there is no end match at all.
+• The colorizing of any line is stopped after two thousand bytes,
+  to avoid frustrating delays.
+• When environment variable NO_COLOR is set, the two default colors
+  (yellow for the spotlight, red for error messages) are suppressed
+  when no interface colors are specified in a nanorc file.
+• Full justification and piping the whole buffer through a command
+  now keep the cursor at the same line number.
+• Utility 'xsel' can be used to copy a marked region to the system's
+  clipboard.  See doc/sample.nanorc for an example.
+
 2022.02.18 - GNU nano 6.2 "Kamperfoelie"
 • The file browser clears the prompt bar also when using --minibar.
 • Linting now works also with a newer 'pyflakes'.
