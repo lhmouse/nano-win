@@ -1,8 +1,8 @@
-diff --git a/ncurses-6.2.orig/ncurses/win32con/win_driver.c b/ncurses-6.2/ncurses/win32con/win_driver.c
-index 280aa6dc..e79ff7f4 100644
---- a/ncurses-6.2.orig/ncurses/win32con/win_driver.c
-+++ b/ncurses-6.2/ncurses/win32con/win_driver.c
-@@ -625,25 +625,9 @@ wcon_CanHandle(TERMINAL_CONTROL_BLOCK * TCB,
+diff --git a/ncurses-6.3.orig/ncurses/win32con/win_driver.c b/ncurses-6.3/ncurses/win32con/win_driver.c
+index ad9e629a1..909e2efba 100644
+--- a/ncurses-6.3.orig/ncurses/win32con/win_driver.c
++++ b/ncurses-6.3/ncurses/win32con/win_driver.c
+@@ -623,25 +623,9 @@ wcon_CanHandle(TERMINAL_CONTROL_BLOCK * TCB,
  
      TCB->magic = WINMAGIC;
  
