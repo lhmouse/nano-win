@@ -1725,7 +1725,7 @@ void do_rcfiles(void)
 		parse_one_nanorc();
 
 	if (custom_nanorc == NULL) {
-		const char *xdgconfdir = getenv("XDG_CONFIG_HOME");
+		const char *xdgconfdir = getenv("APPDATA");
 
 		get_homedir();
 
