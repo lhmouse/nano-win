@@ -18,7 +18,7 @@ color latte "\<[12][0-9]{3}\.(0[1-9]|1[012])\.(0[1-9]|[12][0-9]|3[01])\>"
 color magenta "<[[:alnum:].%_+-]+@[[:alnum:].-]+\.[[:alpha:]]{2,}>"
 
 # URLs.
-color lightblue "\<https?://\S+\.\S+[^[:space:],.)]"
+color lightblue "\<https?://\S+\.\S+[^])>[:space:],.]"
 
 # Bracketed captions in certain config files.
 color brightgreen "^\[[^][]+\]$"
