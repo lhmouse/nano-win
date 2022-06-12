@@ -670,8 +670,7 @@ void version(void)
 	printf(_(" GNU nano, version %s\n"), VERSION);
 #endif
 #ifndef NANO_TINY
-	printf(" (C) 1999-2011, 2013-2022 Free Software Foundation, Inc.\n");
-	printf(_(" (C) 2014-%s the contributors to nano\n"), "2022");
+	printf(_(" (C) %s the Free Software Foundation and various contributors\n"), "2022");
 #endif
 	printf(_(" Compiled options:"));
 
