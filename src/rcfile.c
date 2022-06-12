@@ -90,9 +90,6 @@ static const rcoption rcopts[] = {
 #ifdef ENABLE_SPELLER
 	{"speller", 0},
 #endif
-	{"suspend", SUSPENDABLE},  /* Deprecated; remove in 2022. */
-	{"suspendable", SUSPENDABLE},  /* Obsolete; remove in 2022. */
-	{"tempfile", SAVE_ON_EXIT},  /* Deprecated; remove in 2022. */
 #ifndef NANO_TINY
 	{"afterends", AFTER_ENDS},
 	{"allow_insecure_backup", INSECURE_BACKUP},
@@ -157,15 +154,15 @@ static colortype *lastcolor = NULL;
 		/* The end of the color list for the current syntax. */
 #endif
 
-#define NUMBER_OF_MENUS  17  /* Remove the deprecated 'extcmd' in 2022. */
+#define NUMBER_OF_MENUS  16
 char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
 									"yesno", "gotoline", "writeout", "insert",
-									"execute", "extcmd", "help", "spell", "linter",
+									"execute", "help", "spell", "linter",
 									"browser", "whereisfile", "gotodir",
 									"all" };
 int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
 									MYESNO, MGOTOLINE, MWRITEFILE, MINSERTFILE,
-									MEXECUTE, MEXECUTE, MHELP, MSPELL, MLINTER,
+									MEXECUTE, MHELP, MSPELL, MLINTER,
 									MBROWSER, MWHEREISFILE, MGOTODIR,
 									MMOST|MBROWSER|MHELP|MYESNO };
 #endif /* ENABLE_NANORC */
@@ -285,8 +282,7 @@ keystruct *strtosc(const char *input)
 	else if (!strcmp(input, "formatter"))
 		s->func = do_formatter;
 #endif
-	else if (!strcmp(input, "location") ||
-	         !strcmp(input, "curpos"))  /* Deprecated; remove in 2022. */
+	else if (!strcmp(input, "location"))
 		s->func = report_cursor_position;
 	else if (!strcmp(input, "gotoline"))
 		s->func = do_gotolinecolumn;
