@@ -146,7 +146,6 @@
 
 ## Save a changed buffer automatically on exit; don't prompt.
 # set saveonexit
-## (The old form of this option, 'set tempfile', is deprecated.)
 
 ## Put the cursor on the highlighted item in the file browser, and
 ## show the cursor in the help viewer; useful for people who use a

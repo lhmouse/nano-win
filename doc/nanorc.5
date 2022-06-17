@@ -289,7 +289,6 @@ Regular expressions in \fBnano\fR are of the extended type (ERE).
 .TP
 .B set saveonexit
 Save a changed buffer automatically on exit (\fB^X\fR); don't prompt.
-(The old form of this option, \fBset tempfile\fR, is deprecated.)
 .TP
 .B set scrollercolor \fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the indicator alias "scrollbar".
@@ -335,18 +334,13 @@ and \fBS\fR when soft-wrapping.
 When the buffer is modified, a star (\fB*\fR) is shown after the
 filename in the center of the title bar.
 .TP
-.B set  statuscolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
+.B set statuscolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the status bar.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set stripecolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the vertical guiding stripe.
 See \fBset titlecolor\fR for more details.
-.TP
-.B set suspendable
-Obsolete option; ignored.  Suspension is enabled by default,
-reachable via \fB^T^Z\fR.  (If you want a plain \fB^Z\fR to
-suspend nano, add \fBbind ^Z suspend main\fR to your nanorc.)
 .TP
 .B set tabsize \fInumber\fR
 Use a tab size of \fInumber\fR columns.  The value of \fInumber\fP must be
@@ -417,6 +411,12 @@ The status bar appears only when there is a significant message,
 and disappears after 1.5 seconds or upon the next keystroke.
 With \fBM\-Z\fR the title bar plus status bar can be toggled.
 With \fBM\-X\fR the help lines.
+
+.SH NOTES
+Option \fBset suspendable\fR has been removed.
+Suspension is enabled by default, reachable via \fB^T^Z\fR.
+(If you want a plain \fB^Z\fR to suspend nano,
+add \fBbind ^Z suspend main\fR to your nanorc.)
 
 .SH SYNTAX HIGHLIGHTING
 Coloring the different syntactic elements of a file
@@ -687,7 +687,6 @@ Or, when it is set, unsets the mark.
 .B location
 Reports the current position of the cursor in the buffer:
 the line, column, and character positions.
-(The old name of this function, 'curpos', is deprecated.)
 .TP
 .B wordcount
 Counts and reports on the status bar the number of lines, words,
@@ -1017,7 +1016,6 @@ The 'go to directory' menu in the file browser.
 The menu for inserting the output from an external command,
 or for filtering the buffer (or the marked region) through
 an external command, or for executing one of several tools.
-(The old form of this menu name, 'extcmd', is deprecated.)
 .TP
 .B spell
 The menu of the integrated spell checker where the user can edit a misspelled word.

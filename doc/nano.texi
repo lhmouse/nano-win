@@ -636,7 +636,6 @@ to be installed.
 Save a changed buffer without prompting (when exiting with @kbd{^X}).
 This can be handy when @command{nano} is used as the composer of an
 email program.
-(The old form of the long option, @code{--tempfile}, is deprecated.)
 
 @item -u
 @item --unix
@@ -672,12 +671,6 @@ disabled to display the help-system navigation keys.
 @itemx --afterends
 Make @kbd{Ctrl+Right} and @kbd{Ctrl+Delete} stop at word ends
 instead of beginnings.
-
-@item -z
-@itemx --suspendable
-Obsolete option; ignored.  Suspension is enabled by default,
-reachable via @kbd{^T^Z}.  (If you want a plain @kbd{^Z} to
-suspend nano, add @code{bind ^Z suspend main} to your nanorc.)
 
 @item -%
 @itemx --stateflags
@@ -721,6 +714,11 @@ When neither the file's name nor its first line give a clue,
 try using libmagic to determine the applicable syntax.
 
 @end table
+
+Option @code{-z} (@code{--suspendable}) has been removed.
+Suspension is enabled by default, reachable via @kbd{^T^Z}.
+(If you want a plain @kbd{^Z} to suspend nano, add
+@code{bind ^Z suspend main} to your nanorc.)
 
 
 @node Feature Toggles
@@ -1073,7 +1071,6 @@ Regular expressions in @command{nano} are of the extended type (ERE).
 
 @item set saveonexit
 Save a changed buffer automatically on exit (@kbd{^X}); don't prompt.
-(The old form of this option, @code{set tempfile}, is deprecated.)
 
 @item set scrollercolor @var{fgcolor},@var{bgcolor}
 Use this color combination for the indicator alias "scrollbar".
@@ -1126,11 +1123,6 @@ Use this color combination for the status bar.
 @item set stripecolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the vertical guiding stripe.
 @xref{@code{set keycolor}} for valid color names.
-
-@item set suspendable
-Obsolete option; ignored.  Suspension is enabled by default,
-reachable via @kbd{^T^Z}.  (If you want a plain @kbd{^Z} to
-suspend nano, add @code{bind ^Z suspend main} to your nanorc.)
 
 @item set tabsize @var{number}
 Use a tab size of @var{number} columns.  The value of @var{number} must be
@@ -1471,7 +1463,6 @@ Or, when it is set, unsets the mark.
 @item location
 Reports the current position of the cursor in the buffer:
 the line, column, and character positions.
-(The old name of this function, 'curpos', is deprecated.)
 
 @item wordcount
 Counts and reports on the status bar the number of lines, words,
@@ -1803,7 +1794,6 @@ The 'go to directory' menu in the file browser.
 The menu for inserting the output from an external command,
 or for filtering the buffer (or the marked region) through
 an external command, or for executing one of several tools.
-(The old form of this menu name, 'extcmd', is deprecated.)
 
 @item spell
 The menu of the integrated spell checker where the user can edit a misspelled word.
