@@ -1379,8 +1379,9 @@ char *get_full_path(const char *origpath)
 		}
 	}
 
-	/* Ensure that a directory path ends with a slash. */
-	if (target && stat(target, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode)) {
+	/* Ensure that a non-apex directory path ends with a slash. */
+	if (target && target[1] && stat(target, &fileinfo) == 0 &&
+								S_ISDIR(fileinfo.st_mode)) {
 		target = nrealloc(target, strlen(target) + 2);
 		strcat(target, "/");
 	}
