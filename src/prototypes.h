@@ -607,8 +607,8 @@ int go_forward_chunks(int nrows, linestruct **line, size_t *leftedge);
 bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge);
 void edit_scroll(bool direction);
 #ifndef NANO_TINY
-size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
-								bool *end_of_line);
+size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
+								bool *kickoff, bool *end_of_line);
 size_t get_chunk_and_edge(size_t column, linestruct *line, size_t *leftedge);
 size_t chunk_for(size_t column, linestruct *line);
 size_t leftedge_for(size_t column, linestruct *line);

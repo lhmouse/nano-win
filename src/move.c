@@ -472,10 +472,11 @@ void do_end(void)
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
+		bool kickoff = TRUE;
 		bool last_chunk = FALSE;
 		size_t leftedge = leftedge_for(was_column, openfile->current);
 		size_t rightedge = get_softwrap_breakpoint(openfile->current->data,
-												leftedge, &last_chunk);
+											leftedge, &kickoff, &last_chunk);
 		size_t rightedge_x;
 
 		/* If we're on the last chunk, we're already at the end of the line.

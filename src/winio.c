@@ -2825,6 +2825,8 @@ int update_softwrapped_line(linestruct *line)
 		/* The end column of the current chunk. */
 	char *converted;
 		/* The data of the chunk with tabs and control characters expanded. */
+	bool kickoff = TRUE;
+		/* This tells the softwrapping routine to start at beginning-of-line. */
 	bool end_of_line = FALSE;
 		/* Becomes TRUE when the last chunk of the line has been reached. */
 
@@ -2849,7 +2851,7 @@ int update_softwrapped_line(linestruct *line)
 	starting_row = row;
 
 	while (!end_of_line && row < editwinrows) {
-		to_col = get_softwrap_breakpoint(line->data, from_col, &end_of_line);
+		to_col = get_softwrap_breakpoint(line->data, from_col, &kickoff, &end_of_line);
 
 		sequel_column = (end_of_line) ? 0 : to_col;
 
@@ -2930,13 +2932,14 @@ int go_forward_chunks(int nrows, linestruct **line, size_t *leftedge)
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
 		size_t current_leftedge = *leftedge;
+		bool kickoff = TRUE;
 
 		/* Advance through the requested number of chunks. */
 		for (i = nrows; i > 0; i--) {
 			bool end_of_line = FALSE;
 
 			current_leftedge = get_softwrap_breakpoint((*line)->data,
-										current_leftedge, &end_of_line);
+									current_leftedge, &kickoff, &end_of_line);
 
 			if (!end_of_line)
 				continue;
@@ -2946,6 +2949,7 @@ int go_forward_chunks(int nrows, linestruct **line, size_t *leftedge)
 
 			*line = (*line)->next;
 			current_leftedge = 0;
+			kickoff = TRUE;
 		}
 
 		/* Only change leftedge when we actually could move. */
@@ -3071,19 +3075,28 @@ void edit_scroll(bool direction)
  * return it.  This will always be editwincols or less after leftedge.  Set
  * end_of_line to TRUE if we reach the end of the line while searching the
  * text.  Assume leftedge is the leftmost column of a softwrapped chunk. */
-size_t get_softwrap_breakpoint(const char *text, size_t leftedge,
-								bool *end_of_line)
+size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
+								bool *kickoff, bool *end_of_line)
 {
+	static const char *text;
+		/* Pointer at the current character in this line's data. */
+	static size_t column;
+		/* Column position that corresponds to the above pointer. */
 	size_t goal_column = leftedge + editwincols;
 		/* The place at or before which text must be broken. */
 	size_t breaking_col = goal_column;
 		/* The column where text can be broken, when there's no better. */
-	size_t column = 0;
-		/* Current column position in text. */
 	size_t last_blank_col = 0;
 		/* The column position of the last seen whitespace character. */
 	const char *farthest_blank = NULL;
 		/* A pointer to the last seen whitespace character in text. */
+
+	/* Initialize the static variables when it's another line. */
+	if (*kickoff) {
+		text = linedata;
+		column = 0;
+		*kickoff = FALSE;
+	}
 
 	/* First find the place in text where the current chunk starts. */
 	while (*text != '\0' && column < leftedge)
@@ -3132,9 +3145,10 @@ size_t get_chunk_and_edge(size_t column, linestruct *line, size_t *leftedge)
 {
 	size_t current_chunk = 0, start_col = 0, end_col;
 	bool end_of_line = FALSE;
+	bool kickoff = TRUE;
 
 	while (TRUE) {
-		end_col = get_softwrap_breakpoint(line->data, start_col, &end_of_line);
+		end_col = get_softwrap_breakpoint(line->data, start_col, &kickoff, &end_of_line);
 
 		/* We reached the end of the line and/or found column, so get out. */
 		if (end_of_line || (start_col <= column && column < end_col)) {
@@ -3196,9 +3210,10 @@ size_t actual_last_column(size_t leftedge, size_t column)
 {
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
+		bool kickoff = TRUE;
 		bool last_chunk = FALSE;
 		size_t end_col = get_softwrap_breakpoint(openfile->current->data,
-										leftedge, &last_chunk) - leftedge;
+										leftedge, &kickoff, &last_chunk) - leftedge;
 
 		/* If we're not on the last chunk, we're one column past the end of
 		 * the row.  Shifting back one column might put us in the middle of
@@ -3476,6 +3491,7 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 	size_t leftedge = leftedge_for(from_col, openfile->current);
 	size_t break_col;
 	bool end_of_line = FALSE;
+	bool kickoff = TRUE;
 	char *word;
 
 	place_the_cursor();
@@ -3483,7 +3499,7 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 
 	while (row < editwinrows) {
 		break_col = get_softwrap_breakpoint(openfile->current->data,
-												leftedge, &end_of_line);
+											leftedge, &kickoff, &end_of_line);
 
 		/* If the highlighting ends on this chunk, we can stop after it. */
 		if (break_col >= to_col) {
