@@ -2120,8 +2120,11 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 		timestamp_nsec = (long)fileinfo.st_mtim.tv_nsec;
 	}
 
-	/* Exit from curses mode to give the program control of the terminal. */
-	endwin();
+	/* The spell checker needs the screen, so exit from curses mode. */
+	if (spelling)
+		endwin();
+	else
+		statusbar(_("Invoking formatter..."));
 
 	construct_argument_list(&arguments, theprogram, tempfile_name);
 
@@ -2141,9 +2144,13 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 
 	errornumber = errno;
 
-	/* Restore the terminal state and reenter curses mode. */
-	terminal_init();
-	doupdate();
+	/* After spell checking, restore terminal state and reenter curses mode;
+	 * after formatting, make sure that any formatter output is wiped. */
+	if (spelling) {
+		terminal_init();
+		doupdate();
+	} else
+		full_refresh();
 
 	if (thepid < 0) {
 		statusline(ALERT, _("Could not fork: %s"), strerror(errornumber));
