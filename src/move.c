@@ -410,12 +410,12 @@ void do_home(void)
 	bool moved_off_chunk = TRUE;
 #ifndef NANO_TINY
 	bool moved = FALSE;
-	size_t leftedge = 0, leftedge_x = 0;
+	size_t leftedge = 0;
+	size_t left_x = 0;
 
 	if (ISSET(SOFTWRAP)) {
 		leftedge = leftedge_for(was_column, openfile->current);
-		leftedge_x = proper_x(openfile->current, &leftedge, FALSE, leftedge,
-								NULL);
+		left_x = proper_x(openfile->current, &leftedge, FALSE, leftedge, NULL);
 	}
 
 	if (ISSET(SMART_HOME)) {
@@ -428,7 +428,7 @@ void do_home(void)
 			if (openfile->current_x == indent_x) {
 				openfile->current_x = 0;
 				moved = TRUE;
-			} else if (!ISSET(SOFTWRAP) || leftedge_x <= indent_x) {
+			} else if (left_x <= indent_x) {
 				openfile->current_x = indent_x;
 				moved = TRUE;
 			}
@@ -438,10 +438,10 @@ void do_home(void)
 	if (!moved && ISSET(SOFTWRAP)) {
 		/* If already at the left edge of the screen, move fully home.
 		 * Otherwise, move to the left edge. */
-		if (openfile->current_x == leftedge_x)
+		if (openfile->current_x == left_x)
 			openfile->current_x = 0;
 		else {
-			openfile->current_x = leftedge_x;
+			openfile->current_x = left_x;
 			openfile->placewewant = leftedge;
 			moved_off_chunk = FALSE;
 		}
@@ -477,7 +477,7 @@ void do_end(void)
 		size_t leftedge = leftedge_for(was_column, openfile->current);
 		size_t rightedge = get_softwrap_breakpoint(openfile->current->data,
 											leftedge, &kickoff, &last_chunk);
-		size_t rightedge_x;
+		size_t right_x;
 
 		/* If we're on the last chunk, we're already at the end of the line.
 		 * Otherwise, we're one column past the end of the line.  Shifting
@@ -486,14 +486,14 @@ void do_end(void)
 		if (!last_chunk)
 			rightedge--;
 
-		rightedge_x = actual_x(openfile->current->data, rightedge);
+		right_x = actual_x(openfile->current->data, rightedge);
 
 		/* If already at the right edge of the screen, move fully to
 		 * the end of the line.  Otherwise, move to the right edge. */
-		if (openfile->current_x == rightedge_x)
+		if (openfile->current_x == right_x)
 			openfile->current_x = line_len;
 		else {
-			openfile->current_x = rightedge_x;
+			openfile->current_x = right_x;
 			openfile->placewewant = rightedge;
 			moved_off_chunk = FALSE;
 		}

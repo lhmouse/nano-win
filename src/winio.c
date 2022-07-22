@@ -3071,10 +3071,11 @@ void edit_scroll(bool direction)
 }
 
 #ifndef NANO_TINY
-/* Get the column number after leftedge where we can break the given text, and
- * return it.  This will always be editwincols or less after leftedge.  Set
- * end_of_line to TRUE if we reach the end of the line while searching the
- * text.  Assume leftedge is the leftmost column of a softwrapped chunk. */
+/* Get the column number after leftedge where we can break the given linedata,
+ * and return it.  (This will always be at most editwincols after leftedge.)
+ * When kickoff is TRUE, start at the beginning of the linedata; otherwise,
+ * continue from where the previous call left off.  Set end_of_line to TRUE
+ * when end-of-line is reached while searching for a possible breakpoint. */
 size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
 								bool *kickoff, bool *end_of_line)
 {
@@ -3138,27 +3139,29 @@ size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
 	return (editwincols > 1) ? breaking_col : column - 1;
 }
 
-/* Get the row of the softwrapped chunk of the given line that column is on,
- * relative to the first row (zero-based), and return it.  If leftedge isn't
- * NULL, return the leftmost column of the chunk in it. */
+/* Return the row number of the softwrapped chunk in the given line that the
+ * given column is on, relative to the first row (zero-based).  If leftedge
+ * isn't NULL, return in it the leftmost column of the chunk. */
 size_t get_chunk_and_edge(size_t column, linestruct *line, size_t *leftedge)
 {
-	size_t current_chunk = 0, start_col = 0, end_col;
+	size_t current_chunk = 0;
 	bool end_of_line = FALSE;
 	bool kickoff = TRUE;
+	size_t start_col = 0;
+	size_t end_col;
 
 	while (TRUE) {
 		end_col = get_softwrap_breakpoint(line->data, start_col, &kickoff, &end_of_line);
 
-		/* We reached the end of the line and/or found column, so get out. */
+		/* When the column is in range or we reached end-of-line, we're done. */
 		if (end_of_line || (start_col <= column && column < end_col)) {
 			if (leftedge != NULL)
 				*leftedge = start_col;
 			return current_chunk;
 		}
 
-		current_chunk++;
 		start_col = end_col;
+		current_chunk++;
 	}
 }
 
