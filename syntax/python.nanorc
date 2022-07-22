@@ -5,6 +5,7 @@ header "^#!.*python"
 magic "Python script"
 comment "#"
 
+# Alternative linter: pylint --exit-zero
 linter pyflakes
 
 # Function definitions.
