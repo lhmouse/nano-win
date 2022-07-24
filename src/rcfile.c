@@ -897,7 +897,7 @@ bool is_good_file(char *file)
 
 #ifdef ENABLE_COLOR
 /* Partially parse the syntaxes in the given file, or (when syntax
- * is not NULL) fully parse one specific syntax from the file . */
+ * is not NULL) fully parse one specific syntax from the file. */
 void parse_one_include(char *file, syntaxtype *syntax)
 {
 	char *was_nanorc = nanorc;

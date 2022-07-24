@@ -317,10 +317,10 @@ void help_init(void)
 /* Hard-wrap the concatenated help text, and write it into a new buffer. */
 void wrap_help_text_into_buffer(void)
 {
-	size_t sum = 0;
 	/* Avoid overtight and overwide paragraphs in the introductory text. */
 	size_t wrapping_point = ((COLS < 40) ? 40 : (COLS > 74) ? 74 : COLS) - thebar;
 	const char *ptr = start_of_body;
+	size_t sum = 0;
 
 	make_new_buffer();
 

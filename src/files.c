@@ -574,13 +574,14 @@ void redecorate_after_switch(void)
 	/* Prevent a possible Shift selection from getting cancelled. */
 	shift_held = TRUE;
 
+	/* If the switched-to buffer gave an error during opening, show the message
+	 * once; otherwise, indicate on the status bar which file we switched to. */
 	if (openfile->errormessage) {
 		statusline(ALERT, openfile->errormessage);
 		free(openfile->errormessage);
 		openfile->errormessage = NULL;
 	} else
-	/* Indicate on the status bar where we switched to. */
-	mention_name_and_linecount();
+		mention_name_and_linecount();
 }
 
 /* Switch to the previous entry in the circular list of buffers. */

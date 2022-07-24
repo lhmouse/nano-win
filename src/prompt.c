@@ -41,6 +41,33 @@ void do_statusbar_end(void)
 }
 
 #ifndef NANO_TINY
+/* Move to the previous word in the answer. */
+void do_statusbar_prev_word(void)
+{
+	bool seen_a_word = FALSE, step_forward = FALSE;
+
+	/* Move backward until we pass over the start of a word. */
+	while (typing_x != 0) {
+		typing_x = step_left(answer, typing_x);
+
+		if (is_word_char(answer + typing_x, FALSE))
+			seen_a_word = TRUE;
+#ifdef ENABLE_UTF8
+		else if (is_zerowidth(answer + typing_x))
+			; /* skip */
+#endif
+		else if (seen_a_word) {
+			/* This is space now: we've overshot the start of the word. */
+			step_forward = TRUE;
+			break;
+		}
+	}
+
+	if (step_forward)
+		/* Move one character forward again to sit on the start of the word. */
+		typing_x = step_right(answer, typing_x);
+}
+
 /* Move to the next word in the answer. */
 void do_statusbar_next_word(void)
 {
@@ -78,33 +105,6 @@ void do_statusbar_next_word(void)
 		}
 	}
 }
-
-/* Move to the previous word in the answer. */
-void do_statusbar_prev_word(void)
-{
-	bool seen_a_word = FALSE, step_forward = FALSE;
-
-	/* Move backward until we pass over the start of a word. */
-	while (typing_x != 0) {
-		typing_x = step_left(answer, typing_x);
-
-		if (is_word_char(answer + typing_x, FALSE))
-			seen_a_word = TRUE;
-#ifdef ENABLE_UTF8
-		else if (is_zerowidth(answer + typing_x))
-			; /* skip */
-#endif
-		else if (seen_a_word) {
-			/* This is space now: we've overshot the start of the word. */
-			step_forward = TRUE;
-			break;
-		}
-	}
-
-	if (step_forward)
-		/* Move one character forward again to sit on the start of the word. */
-		typing_x = step_right(answer, typing_x);
-}
 #endif /* !NANO_TINY */
 
 /* Move left one character in the answer. */
@@ -131,6 +131,17 @@ void do_statusbar_right(void)
 	}
 }
 
+/* Backspace over one character in the answer. */
+void do_statusbar_backspace(void)
+{
+	if (typing_x > 0) {
+		size_t was_x = typing_x;
+
+		typing_x = step_left(answer, typing_x);
+		memmove(answer + typing_x, answer + was_x, strlen(answer) - was_x + 1);
+	}
+}
+
 /* Delete one character in the answer. */
 void do_statusbar_delete(void)
 {
@@ -143,17 +154,6 @@ void do_statusbar_delete(void)
 		if (is_zerowidth(answer + typing_x))
 			do_statusbar_delete();
 #endif
-	}
-}
-
-/* Backspace over one character in the answer. */
-void do_statusbar_backspace(void)
-{
-	if (typing_x > 0) {
-		size_t was_x = typing_x;
-
-		typing_x = step_left(answer, typing_x);
-		memmove(answer + typing_x, answer + was_x, strlen(answer) - was_x + 1);
 	}
 }
 
@@ -595,10 +595,10 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 int do_prompt(int menu, const char *provided, linestruct **history_list,
 				void (*refresh_func)(void), const char *msg, ...)
 {
-	va_list ap;
-	int retval;
 	functionptrtype func = NULL;
 	bool listed = FALSE;
+	va_list ap;
+	int retval;
 	/* Save a possible current status-bar x position and prompt. */
 	size_t was_typing_x = typing_x;
 	char *saved_prompt = prompt;

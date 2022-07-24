@@ -130,9 +130,9 @@ bool parse_num(const char *string, ssize_t *result)
  * *line and *column.  Return FALSE on error, and TRUE otherwise. */
 bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 {
-	bool retval;
-	char *firstpart;
 	const char *comma;
+	char *firstpart;
+	bool retval;
 
 	while (*str == ' ')
 		str++;

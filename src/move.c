@@ -98,8 +98,8 @@ size_t proper_x(linestruct *line, size_t *leftedge, bool forward,
  * the middle of a tab that crosses a row boundary. */
 void set_proper_index_and_pww(size_t *leftedge, size_t target, bool forward)
 {
-	bool shifted = FALSE;
 	size_t was_edge = *leftedge;
+	bool shifted = FALSE;
 
 	openfile->current_x = proper_x(openfile->current, leftedge, forward,
 						actual_last_column(*leftedge, target), &shifted);

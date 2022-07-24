@@ -117,8 +117,8 @@ void indent_a_line(linestruct *line, char *indentation)
  * depending on whether --tabstospaces is in effect. */
 void do_indent(void)
 {
-	char *indentation;
 	linestruct *top, *bot, *line;
+	char *indentation;
 
 	/* Use either all the marked lines or just the current line. */
 	get_range(&top, &bot);
@@ -502,10 +502,11 @@ void redo_cut(undostruct *u)
 void do_undo(void)
 {
 	undostruct *u = openfile->current_undo;
-	linestruct *line = NULL, *intruder;
-	linestruct *oldcutbuffer;
-	char *data, *undidmsg = NULL;
+	linestruct *oldcutbuffer, *intruder;
+	linestruct *line = NULL;
 	size_t original_x, regain_from_x;
+	char *undidmsg = NULL;
+	char *data;
 
 	if (u == NULL) {
 		statusline(AHEM, _("Nothing to undo"));
@@ -684,10 +685,12 @@ void do_undo(void)
 /* Redo the last thing(s) we undid. */
 void do_redo(void)
 {
-	linestruct *line = NULL, *intruder;
-	char *data, *redidmsg = NULL;
-	bool suppress_modification = FALSE;
 	undostruct *u = openfile->undotop;
+	bool suppress_modification = FALSE;
+	linestruct *line = NULL;
+	linestruct *intruder;
+	char *redidmsg = NULL;
+	char *data;
 
 	if (u == NULL || u == openfile->current_undo) {
 		statusline(AHEM, _("Nothing to redo"));

@@ -358,9 +358,9 @@ void emergency_save(const char *filename)
  * that were modified. */
 void die(const char *msg, ...)
 {
-	va_list ap;
 	openfilestruct *firstone = openfile;
 	static int stabs = 0;
+	va_list ap;
 
 	/* When dying for a second time, just give up. */
 	if (++stabs > 1)

@@ -446,8 +446,8 @@ void go_looking(void)
  * text in the passed string only when create is TRUE. */
 int replace_regexp(char *string, bool create)
 {
-	const char *c = answer;
 	size_t replacement_size = 0;
+	const char *c = answer;
 
 	/* Iterate through the replacement text to handle subexpression
 	 * replacement using \1, \2, \3, etc. */
@@ -525,11 +525,11 @@ char *replace_line(const char *needle)
 ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 		const linestruct *real_current, size_t *real_current_x)
 {
+	bool skipone = ISSET(BACKWARDS_SEARCH);
+	bool replaceall = FALSE;
+	int modus = REPLACING;
 	ssize_t numreplaced = -1;
 	size_t match_len;
-	bool replaceall = FALSE;
-	bool skipone = ISSET(BACKWARDS_SEARCH);
-	int modus = REPLACING;
 #ifndef NANO_TINY
 	linestruct *was_mark = openfile->mark;
 	linestruct *top, *bot;

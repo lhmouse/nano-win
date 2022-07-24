@@ -720,8 +720,8 @@ char *browse_in(const char *inpath)
 	}
 
 #ifdef ENABLE_OPERATINGDIR
-	/* If the resulting path isn't in the operating directory, use
-	 * the operating directory instead. */
+	/* If the resulting path isn't in the operating directory,
+	 * use the operating directory instead. */
 	if (outside_of_confinement(path, FALSE))
 		path = mallocstrcpy(path, operating_dir);
 #endif

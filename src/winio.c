@@ -1620,7 +1620,7 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 	}
 #if NCURSES_MOUSE_VERSION >= 2
 	/* Handle "presses" of the fourth and fifth mouse buttons
-	 * (upward and downward rolls of the mouse wheel) . */
+	 * (upward and downward rolls of the mouse wheel). */
 	else if (event.bstate & (BUTTON4_PRESSED | BUTTON5_PRESSED)) {
 		if (in_footer)
 			/* Shift the coordinates to be relative to the bottom window. */
@@ -2985,8 +2985,8 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 /* Draw a scroll bar on the righthand side of the screen. */
 void draw_scrollbar(void)
 {
-	int totallines = openfile->filebot->lineno;
 	int fromline = openfile->edittop->lineno - 1;
+	int totallines = openfile->filebot->lineno;
 	int coveredlines = editwinrows;
 
 	if (ISSET(SOFTWRAP)) {
