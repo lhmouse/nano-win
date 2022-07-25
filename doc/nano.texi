@@ -1238,9 +1238,6 @@ on the system and will be silently ignored otherwise.)
 
 @item formatter @var{program} [@var{argument} @dots{}]
 Run the given @var{program} on the full contents of the current buffer.
-(The current buffer is written out to a temporary file, the program is
-run on it, and then the temporary file is read back in, replacing the
-contents of the buffer.)
 
 @item linter @var{program} [@var{argument} @dots{}]
 Use the given @var{program} to do a syntax check on the current buffer.
@@ -1479,6 +1476,9 @@ or GNU @command{spell}, or the one defined by @option{--speller} or
 
 @item formatter
 Invokes a full-buffer-processing program (if the active syntax defines one).
+(The current buffer is written out to a temporary file, the program
+is run on it, and then the temporary file is read back in, replacing
+the contents of the buffer.)
 
 @item linter
 Invokes a syntax-checking program (if the active syntax defines one).
@@ -1490,9 +1490,9 @@ and leave linting mode with @kbd{^C} or @kbd{Enter}.
 
 @item justify
 Justifies the current paragraph (or the marked region).
-A paragraph is a group of contiguous lines
-that, apart from possibly the first line, all have the same indentation.  The
-beginning of a paragraph is detected by either this lone line with a differing
+A paragraph is a group of contiguous lines that, apart from possibly
+the first line, all have the same indentation.  The beginning of a
+paragraph is detected by either this lone line with a differing
 indentation or by a preceding blank line.
 
 @item fulljustify

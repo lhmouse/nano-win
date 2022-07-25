@@ -461,9 +461,6 @@ system and will be silently ignored otherwise.)
 .TP
 .BI formatter " program " \fR[ "argument " \fR...]
 Run the given \fIprogram\fR on the full contents of the current buffer.
-(The current buffer is written out to a temporary file, the program is
-run on it, and then the temporary file is read back in, replacing the
-contents of the buffer.)
 .TP
 .BI linter " program " \fR[ "argument " \fR...]
 Use the given \fIprogram\fR to run a syntax check on the current buffer.
@@ -688,6 +685,9 @@ Invokes a spell-checking program, either the default \fBhunspell\fR(1) or GNU
 .TP
 .B formatter
 Invokes a full-buffer-processing program (if the active syntax defines one).
+(The current buffer is written out to a temporary file, the program
+is run on it, and then the temporary file is read back in, replacing
+the contents of the buffer.)
 .TP
 .B linter
 Invokes a syntax-checking program (if the active syntax defines one).
@@ -699,9 +699,9 @@ and leave linting mode with \fB^C\fR or <Enter>.
 .TP
 .B justify
 Justifies the current paragraph (or the marked region).
-A paragraph is a group of contiguous lines
-that, apart from possibly the first line, all have the same indentation.  The
-beginning of a paragraph is detected by either this lone line with a differing
+A paragraph is a group of contiguous lines that, apart from possibly
+the first line, all have the same indentation.  The beginning of a
+paragraph is detected by either this lone line with a differing
 indentation or by a preceding blank line.
 .TP
 .B fulljustify
