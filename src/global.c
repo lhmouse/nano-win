@@ -990,15 +990,6 @@ void shortcut_init(void)
 		N_("Verbatim"), WITHORSANS(verbatim_gist), BLANKAFTER, NOVIEW);
 
 #ifndef NANO_TINY
-	add_to_funcs(do_suspend, MMAIN,
-		N_("Suspend"), WITHORSANS(suspend_gist), TOGETHER, VIEW);
-#endif
-#ifdef ENABLE_HELP
-	add_to_funcs(full_refresh, MMAIN,
-		N_("Refresh"), WITHORSANS(refresh_gist), BLANKAFTER, VIEW);
-#endif
-
-#ifndef NANO_TINY
 	add_to_funcs(do_indent, MMAIN,
 		N_("Indent"), WITHORSANS(indent_gist), TOGETHER, NOVIEW);
 	add_to_funcs(do_unindent, MMAIN,
@@ -1047,12 +1038,19 @@ void shortcut_init(void)
 #ifdef NANO_TINY
 	add_to_funcs(do_search_backward, MMAIN,
 		N_("Where Was"), WITHORSANS(wherewas_gist), BLANKAFTER, VIEW);
+#else
+	add_to_funcs(do_suspend, MMAIN,
+		N_("Suspend"), WITHORSANS(suspend_gist), TOGETHER, VIEW);
 #endif
-
+#ifdef ENABLE_HELP
+	add_to_funcs(full_refresh, MMAIN,
+		N_("Refresh"), WITHORSANS(refresh_gist), TOGETHER, VIEW);
+#endif
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	add_to_funcs(do_center, MMAIN,
 		N_("Center"), WITHORSANS(center_gist), BLANKAFTER, VIEW);
 #endif
+
 	add_to_funcs(do_savefile, MMAIN,
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 
