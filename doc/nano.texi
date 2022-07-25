@@ -1482,6 +1482,11 @@ Invokes a full-buffer-processing program (if the active syntax defines one).
 
 @item linter
 Invokes a syntax-checking program (if the active syntax defines one).
+If this program produces lines of the form "filename:linenum:charnum:
+some message", then the cursor will be put at the indicated position
+in the mentioned file while showing "some message" on the status bar.
+You can move from message to message with @kbd{PgUp} and @kbd{PgDn},
+and leave linting mode with @kbd{^C} or @kbd{Enter}.
 
 @item justify
 Justifies the current paragraph (or the marked region).
