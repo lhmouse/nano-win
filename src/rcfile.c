@@ -39,6 +39,10 @@
 #define HOME_RC_NAME  RCFILE_NAME
 #endif
 
+#ifndef ELEVATED_RCFILE_NAME
+#define ELEVATED_RCFILE_NAME "elevated_" RCFILE_NAME
+#endif
+
 static const rcoption rcopts[] = {
 	{"boldtext", BOLD_TEXT},
 #ifdef ENABLE_JUSTIFY
@@ -1708,34 +1712,44 @@ bool have_nanorc(const char *path, const char *name)
  * and otherwise the system-wide rcfile followed by the user's rcfile. */
 void do_rcfiles(void)
 {
+	const char *program_data = getenv("ALLUSERSPROFILE");
+
+	char *system_root = getenv("SystemRoot");
+
+	if (!system_root)
+		system_root = getenv("windir");
+
 	if (custom_nanorc) {
 		nanorc = get_full_path(custom_nanorc);
 		if (access(nanorc, F_OK) != 0)
 			die(_("Specified rcfile does not exist\n"));
-	} else {
+	}
+	else if (IsUserAnAdmin()) {
+		if (!have_nanorc(program_data, "\\nano\\" ELEVATED_RCFILE_NAME))
+				// Previous elevated default:
+				have_nanorc(program_data, "\\" RCFILE_NAME);
+	}
+	else {
 		/* First process the system-wide nanorc, if it exists and is suitable. */
-		const char* allusers = getenv("ALLUSERSPROFILE");
-		if(!allusers)
-			allusers = "C:/Windows";
-		nanorc = free_and_assign(nanorc, measured_copy(allusers, strlen(allusers) + 8));
-		strcat(nanorc, "\\nanorc");
+		if (!have_nanorc(program_data, "\\nano\\" RCFILE_NAME))
+			// Previous global location:
+			if (!have_nanorc(system_root, "\\" RCFILE_NAME))
+				have_nanorc("C:\\Windows", "\\" RCFILE_NAME);
 	}
 
 	if (is_good_file(nanorc))
 		parse_one_nanorc();
 
-	if (custom_nanorc == NULL) {
-		const char *xdgconfdir = getenv("XDG_CONFIG_HOME");
-
+	if (!IsUserAnAdmin() && custom_nanorc == NULL) {
+		const char *appdata = getenv("APPDATA");
 		get_homedir();
 
 		/* Now try to find a nanorc file in the user's home directory or in the
 		 * XDG configuration directories, and process the first one found. */
 		if (have_nanorc(homedir, "/" HOME_RC_NAME) ||
-					have_nanorc(xdgconfdir, "/nano/" RCFILE_NAME) ||
-					have_nanorc(homedir, "/.config/nano/" RCFILE_NAME))
+					have_nanorc(appdata, "\\nano\\" RCFILE_NAME))
 			parse_one_nanorc();
-		else if (homedir == NULL && xdgconfdir == NULL)
+		else if (homedir == NULL && appdata == NULL)
 			jot_error(N_("I can't find my home directory!  Wah!"));
 	}
 
