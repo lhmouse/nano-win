@@ -27,19 +27,12 @@
 #endif
 #include <string.h>
 #include <unistd.h>
-#include <shlobj.h>
 
-/* Return the user's home directory.  We use $HOME, and if that fails,
- * we fall back on the home directory of the effective user ID. */
+/* Return the user's home directory. */
 void get_homedir(void)
 {
 	if (homedir == NULL) {
 		const char *homenv = getenv("USERPROFILE");
-
-		/* When HOME isn't set, or when we're root, get the home directory
-		 * from the password file instead. */
-		if (homenv == NULL || IsUserAnAdmin())
-			homenv = getenv("ALLUSERSPROFILE");
 
 		/* Only set homedir if some home directory could be determined,
 		 * otherwise keep homedir NULL. */
