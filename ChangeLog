@@ -1,3 +1,36 @@
+Changes between v6.3 and v6.4:
+------------------------------
+
+Benno Schulenberg (24):
+      bump version numbers and add a news item for the 6.4 release
+      display: remember text and column positions when softwrapping a line
+      docs: concisely describe how the linter behaves
+      docs: remove the two notices about the changed defaults
+      docs: rename README.GIT to README.hacking, so it's clearer what is meant
+      docs: stop mentioning the obsoleted keywords that were removed
+      files: designate the root directory with a simple "/", not with "//"
+      formatter: instead of leaving curses, use full_refresh() to wipe messages
+      gnulib: update to its current upstream state
+      help: reshuffle two shortcuts so that more help-line items are paired
+      options: stop accepting -z, as --suspendable has been dropped too
+      rcfile: remove five obsolete or deprecated keywords
+      syntax: default: do not colorize a square or angle bracket after a URL
+      syntax: perl: add missing keywords, and reduce the length of some lines
+      syntax: python: mention an alternative linter in a comment
+      tweaks: add a missing word to a news item
+      tweaks: add a translator hint
+      tweaks: improve a comment, and reshuffle two functions plus some lines
+      tweaks: put each regex on separate line, to better show many keywords
+      tweaks: rename a variable, to not be the same as a function name
+      tweaks: rename two variables, to not contain the name of another
+      tweaks: reshuffle a description and rewrap another
+      tweaks: reshuffle a few lines, to group things better
+      version: condense the copyright message, to not dominate the output
+
+LIU Hao (1):
+      build: ignore errors from `git describe`
+
+
 Changes between v6.2 and v6.3:
 ------------------------------
 
