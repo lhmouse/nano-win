@@ -1816,7 +1816,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 
 	while ((optchr = getopt_long(argc, argv, "0ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxyz$%_!", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxy$%_!", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -2048,10 +2048,6 @@ int main(int argc, char **argv)
 			case 'y':
 				SET(AFTER_ENDS);
 				break;
-#endif
-			case 'z':
-				break;
-#ifndef NANO_TINY
 			case '%':
 				SET(STATEFLAGS);
 				break;
