@@ -2401,13 +2401,13 @@ int diralphasort(const void *va, const void *vb)
 /* Return TRUE when the given path is a directory. */
 bool is_dir(const char *path)
 {
-	char *realpath = real_dir_from_tilde(path);
+	char *thepath = real_dir_from_tilde(path);
 	struct stat fileinfo;
 	bool retval;
 
-	retval = (stat(realpath, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
+	retval = (stat(thepath, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
 
-	free(realpath);
+	free(thepath);
 
 	return retval;
 }
