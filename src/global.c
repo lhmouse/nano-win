@@ -1277,7 +1277,7 @@ void shortcut_init(void)
 		add_to_sclist(MMOST|MBROWSER|MHELP, "\xE2\x96\xb8", KEY_RIGHT, do_right, 0);
 		add_to_sclist(MSOME, "^\xE2\x97\x82", CONTROL_LEFT, to_prev_word, 0);
 		add_to_sclist(MSOME, "^\xE2\x96\xb8", CONTROL_RIGHT, to_next_word, 0);
-#if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
+#if defined(ENABLE_MULTIBUFFER) && !defined(NANO_TINY)
 		if (!on_a_vt) {
 			add_to_sclist(MMAIN, "M-\xE2\x97\x82", ALT_LEFT, switch_to_prev_buffer, 0);
 			add_to_sclist(MMAIN, "M-\xE2\x96\xb8", ALT_RIGHT, switch_to_next_buffer, 0);
@@ -1290,7 +1290,7 @@ void shortcut_init(void)
 		add_to_sclist(MMOST|MBROWSER|MHELP, "Right", KEY_RIGHT, do_right, 0);
 		add_to_sclist(MSOME, "^Left", CONTROL_LEFT, to_prev_word, 0);
 		add_to_sclist(MSOME, "^Right", CONTROL_RIGHT, to_next_word, 0);
-#ifdef ENABLE_MULTIBUFFER
+#if defined(ENABLE_MULTIBUFFER) && !defined(NANO_TINY)
 		if (!on_a_vt) {
 			add_to_sclist(MMAIN, "M-Left", ALT_LEFT, switch_to_prev_buffer, 0);
 			add_to_sclist(MMAIN, "M-Right", ALT_RIGHT, switch_to_next_buffer, 0);
@@ -1346,10 +1346,10 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP, "M-=", 0, do_scroll_down, 0);
 #endif
 #ifdef ENABLE_MULTIBUFFER
-	add_to_sclist(MMAIN, "M-<", 0, switch_to_prev_buffer, 0);
 	add_to_sclist(MMAIN, "M-,", 0, switch_to_prev_buffer, 0);
-	add_to_sclist(MMAIN, "M->", 0, switch_to_next_buffer, 0);
+	add_to_sclist(MMAIN, "M-<", 0, switch_to_prev_buffer, 0);
 	add_to_sclist(MMAIN, "M-.", 0, switch_to_next_buffer, 0);
+	add_to_sclist(MMAIN, "M->", 0, switch_to_next_buffer, 0);
 #endif
 	add_to_sclist(MMOST, "M-V", 0, do_verbatim_input, 0);
 #ifndef NANO_TINY
