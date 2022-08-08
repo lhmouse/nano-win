@@ -2267,7 +2267,7 @@ void statusline(message_type importance, const char *msg, ...)
 		return;
 	}
 
-#if !defined(NANO_TINY) && defined(ENABLE_MULTIBUFFER)
+#if defined(ENABLE_MULTIBUFFER) && !defined(NANO_TINY)
 	if (!we_are_running && importance == ALERT && openfile && !openfile->fmt &&
 						!openfile->errormessage && openfile->next != openfile)
 		openfile->errormessage = copy_of(compound);
