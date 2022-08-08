@@ -3061,12 +3061,14 @@ char *copy_completion(char *text)
 	return word;
 }
 
-/* Look at the fragment the user has typed, then search the current buffer for
+/* Look at the fragment the user has typed, then search all buffers for
  * the first word that starts with this fragment, and tentatively complete the
  * fragment.  If the user types 'Complete' again, search and paste the next
  * possible completion. */
 void complete_a_word(void)
 {
+	static openfilestruct *scouring = NULL;
+		/* The buffer that is being searched for possible completions. */
 	char *shard, *completion = NULL;
 	size_t start_of_shard, shard_length = 0;
 	size_t i = 0, j = 0;
@@ -3089,6 +3091,7 @@ void complete_a_word(void)
 		openfile->last_action = OTHER;
 
 		/* Initialize the starting point for searching. */
+		scouring = openfile;
 		pletion_line = openfile->filetop;
 		pletion_x = 0;
 
@@ -3200,9 +3203,17 @@ void complete_a_word(void)
 
 		pletion_line = pletion_line->next;
 		pletion_x = 0;
+
+#ifdef ENABLE_MULTIBUFFER
+		/* When at end of buffer and there is another, search that one. */
+		if (pletion_line == NULL && scouring->next != openfile) {
+			scouring = scouring->next;
+			pletion_line = scouring->filetop;
+		}
+#endif
 	}
 
-	/* The search has reached the end of the file. */
+	/* The search has gone through all buffers. */
 	if (list_of_completions != NULL) {
 		edit_refresh();
 		statusline(AHEM, _("No further matches"));
