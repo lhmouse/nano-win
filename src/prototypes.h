@@ -181,6 +181,9 @@ extern char *startup_problem;
 #endif
 #ifdef ENABLE_NANORC
 extern char *custom_nanorc;
+
+extern char *commandname;
+extern keystruct *planted_shortcut;
 #endif
 
 extern bool spotlighted;
@@ -440,6 +443,7 @@ void display_rcfile_errors(void);
 void jot_error(const char *msg, ...);
 #endif
 #ifdef ENABLE_NANORC
+keystruct *strtosc(const char *input);
 #ifdef ENABLE_COLOR
 void parse_one_include(char *file, syntaxtype *syntax);
 void grab_and_store(const char *kind, char *ptr, regexlisttype **storage);

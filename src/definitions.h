@@ -214,6 +214,18 @@
 #define SHIFT_DELETE    0x45D
 #define SHIFT_TAB       0x45F
 
+/* A special keycode for when a string bind has been partially implanted. */
+#define MORE_PLANTS       0x4EA
+
+/* A special keycode for when a string bind has an unpaired opening brace. */
+#define MISSING_BRACE     0x4EB
+
+/* A special keycode for when a function in a string bind needs execution. */
+#define PLANTED_COMMAND   0x4EC
+
+/* A special keycode for when a function name in a string bind is invalid. */
+#define NO_SUCH_FUNCTION  0x4EF
+
 /* A special keycode for when <Tab> is pressed while the mark is on. */
 #define INDENT_KEY  0x4F1
 

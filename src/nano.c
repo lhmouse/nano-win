@@ -1269,6 +1269,10 @@ void unbound_key(int code)
 		/* TRANSLATORS: This refers to a sequence of escape codes
 		 * (from the keyboard) that nano does not recognize. */
 		statusline(AHEM, _("Unknown sequence"));
+	else if (code == MISSING_BRACE)
+		statusline(AHEM, _("Missing }"));
+	else if (code == NO_SUCH_FUNCTION)
+		statusline(AHEM, _("No such function: %s"), commandname);
 #ifndef NANO_TINY
 	else if (code > KEY_F0 && code < KEY_F0 + 25)
 		/* TRANSLATORS: This refers to an unbound function key. */

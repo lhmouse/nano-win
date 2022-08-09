@@ -64,6 +64,8 @@ static bool has_more = FALSE;
 		/* Whether the current line has more text after the displayed part. */
 static bool is_shorter = TRUE;
 		/* Whether a row's text is narrower than the screen's width. */
+static const char *plants_pointer = NULL;
+		/* Points into the expansion string for the current implantation. */
 #ifndef NANO_TINY
 static size_t sequel_column = 0;
 		/* The starting column of the next chunk when softwrapping. */
@@ -326,13 +328,59 @@ void put_back(int keycode)
 }
 
 #ifdef ENABLE_NANORC
-/* Insert the given string into the keyboard buffer. */
+/* Set up the given expansion string to be ingested by the keyboard routines. */
 void implant(const char *string)
 {
-	for (int i = strlen(string); i > 0; i--)
-		put_back((unsigned char)string[i - 1]);
+	plants_pointer = string;
+	put_back(MORE_PLANTS);
 
 	mute_modifiers = TRUE;
+}
+
+/* Continue processing an expansion string.  Returns either an error code,
+ * a plain keycode, or a placeholder for a command shortcut. */
+int get_code_from_plantation(void)
+{
+	if (*plants_pointer == '{') {
+		char *closing = strchr(plants_pointer + 1, '}');
+
+		if (!closing)
+			return MISSING_BRACE;
+
+		if (plants_pointer[1] == '{' && plants_pointer[2] == '}') {
+			plants_pointer += 3;
+			if (*plants_pointer != '\0')
+				put_back(MORE_PLANTS);
+			return '{';
+		}
+
+		free(commandname);
+		free(planted_shortcut);
+
+		commandname = measured_copy(plants_pointer + 1, closing - plants_pointer - 1);
+		planted_shortcut = strtosc(commandname);
+
+		if (planted_shortcut) {
+			plants_pointer = closing + 1;
+			if (*plants_pointer != '\0')
+				put_back(MORE_PLANTS);
+			return PLANTED_COMMAND;
+		} else
+			return NO_SUCH_FUNCTION;
+	} else {
+		char *opening = strchr(plants_pointer, '{');
+		int length = (opening ? opening - plants_pointer : strlen(plants_pointer));
+
+		if (opening)
+			put_back(MORE_PLANTS);
+
+		for (int index = length - 1; index >= 0; index--)
+			put_back((unsigned char)plants_pointer[index]);
+
+		plants_pointer += length;
+
+		return ERR;
+	}
 }
 #endif
 
@@ -347,7 +395,11 @@ int get_input(WINDOW *frame)
 
 	if (waiting_codes > 0) {
 		waiting_codes--;
-		return *(nextcodes++);
+		if (*nextcodes == MORE_PLANTS) {
+			nextcodes++;
+			return get_code_from_plantation();
+		} else
+			return *(nextcodes++);
 	} else
 		return ERR;
 }
@@ -940,7 +992,8 @@ int parse_kbinput(WINDOW *frame)
 		} else if (++escapes > 2)
 			escapes = (last_escape_was_alone ? 0 : 1);
 		return ERR;
-	}
+	} else if (keycode == ERR)
+		return ERR;
 
 	if (escapes == 0) {
 		/* Most key codes in byte range cannot be special keys. */

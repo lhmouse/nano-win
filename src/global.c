@@ -266,6 +266,9 @@ char *startup_problem = NULL;
 #endif
 #ifdef ENABLE_NANORC
 char *custom_nanorc = NULL;
+
+char *commandname = NULL;
+keystruct *planted_shortcut = NULL;
 #endif
 
 bool spotlighted = FALSE;
@@ -459,6 +462,10 @@ const keystruct *get_shortcut(int *keycode)
 	/* During a paste at a prompt, ignore all command keycodes. */
 	if (bracketed_paste && *keycode != BRACKETED_PASTE_MARKER)
 		return NULL;
+#endif
+#ifdef ENABLE_NANORC
+	if (*keycode == PLANTED_COMMAND)
+		return planted_shortcut;
 #endif
 
 	for (keystruct *sc = sclist; sc != NULL; sc = sc->next) {
