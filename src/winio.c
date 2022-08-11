@@ -64,8 +64,10 @@ static bool has_more = FALSE;
 		/* Whether the current line has more text after the displayed part. */
 static bool is_shorter = TRUE;
 		/* Whether a row's text is narrower than the screen's width. */
+#ifdef ENABLE_NANORC
 static const char *plants_pointer = NULL;
 		/* Points into the expansion string for the current implantation. */
+#endif
 #ifndef NANO_TINY
 static size_t sequel_column = 0;
 		/* The starting column of the next chunk when softwrapping. */
@@ -395,10 +397,12 @@ int get_input(WINDOW *frame)
 
 	if (waiting_codes > 0) {
 		waiting_codes--;
+#ifdef ENABLE_NANORC
 		if (*nextcodes == MORE_PLANTS) {
 			nextcodes++;
 			return get_code_from_plantation();
 		} else
+#endif
 			return *(nextcodes++);
 	} else
 		return ERR;
