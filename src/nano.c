@@ -2521,6 +2521,11 @@ int main(int argc, char **argv)
 		statusbar(_("Welcome to nano.  For basic help, type Ctrl+G."));
 #endif
 
+#ifdef ENABLE_LINENUMBERS
+	/* Set the margin to an impossible value to force re-evaluation. */
+	margin = 12345;
+#endif
+
 	we_are_running = TRUE;
 
 	while (TRUE) {
