@@ -1336,9 +1336,9 @@ Rebinds @code{key} to @code{function} in the context of @code{menu}
 @item bind key "string" menu
 Makes @code{key} produce @code{string} in the context of @code{menu}
 (or in all menus where the key exists when @code{all} is used).
-The @code{string} can consist of text or commands or a mix of them.
-(To enter a command into the @code{string}, precede its keystroke
-with @kbd{M-V}.)
+Besides literal text, the  @code{string} may contain function names
+between braces.  These functions will be invoked when the key is typed.
+To include a literal opening brace, use @code{@{@{@}}.
 
 @item unbind key menu
 Unbinds @code{key} from @code{menu}

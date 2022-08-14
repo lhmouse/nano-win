@@ -551,9 +551,9 @@ Rebinds the given \fIkey\fP to the given \fIfunction\fP in the given \fImenu\fP
 .BI bind " key " """" string """" " menu"
 Makes the given \fIkey\fR produce the given \fIstring\fR in the given
 \fImenu\fR (or in all menus where the key exists when \fBall\fR is used).
-The \fIstring\fR can consist of text or commands or a mix of them.
-(To enter a command into the \fIstring\fR, precede its keystroke
-with \fBM\-V\fR.)
+Besides literal text, the \fIstring\fR may contain function names
+between braces.  These functions will be invoked when the key is typed.
+To include a literal opening brace, use \fB{{}\fR.
 .TP
 .BI unbind " key menu"
 Unbinds the given \fIkey\fP from the given \fImenu\fP (or from all
