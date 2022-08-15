@@ -1522,6 +1522,7 @@ void process_a_keystroke(void)
 #endif
 	static bool give_a_hint = TRUE;
 	const keystruct *shortcut;
+	functionptrtype function;
 
 	/* Read in a keystroke, and show the cursor while waiting. */
 	input = get_kbinput(midwin, VISIBLE);
@@ -1545,9 +1546,10 @@ void process_a_keystroke(void)
 
 	/* Check for a shortcut in the main list. */
 	shortcut = get_shortcut(&input);
+	function = (shortcut ? shortcut->func : NULL);
 
 	/* If not a command, discard anything that is not a normal character byte. */
-	if (shortcut == NULL) {
+	if (!function) {
 		if (input < 0x20 || input > 0xFF || meta_key)
 			unbound_key(input);
 		else if (ISSET(VIEW_MODE))
@@ -1567,7 +1569,7 @@ void process_a_keystroke(void)
 
 	/* If we have a command, or if there aren't any other key codes waiting,
 	 * it's time to insert the gathered bytes into the edit buffer. */
-	if ((shortcut || waiting_keycodes() == 0) && puddle != NULL) {
+	if ((function || waiting_keycodes() == 0) && puddle != NULL) {
 		puddle[depth] = '\0';
 
 		inject(puddle, depth);
@@ -1577,7 +1579,7 @@ void process_a_keystroke(void)
 		depth = 0;
 	}
 
-	if (shortcut == NULL) {
+	if (!function) {
 		pletion_line = NULL;
 		keep_cutbuffer = FALSE;
 		return;
@@ -1596,25 +1598,25 @@ void process_a_keystroke(void)
 		give_a_hint = FALSE;
 
 	/* When not cutting or copying text, drop the cutbuffer the next time. */
-	if (shortcut->func != cut_text) {
+	if (function != cut_text) {
 #ifndef NANO_TINY
-		if (shortcut->func != copy_text && shortcut->func != zap_text)
+		if (function != copy_text && function != zap_text)
 #endif
 			keep_cutbuffer = FALSE;
 	}
 
 #ifdef ENABLE_WORDCOMPLETION
-	if (shortcut->func != complete_a_word)
+	if (function != complete_a_word)
 		pletion_line = NULL;
 #endif
 #ifdef ENABLE_NANORC
-	if (shortcut->func == (functionptrtype)implant) {
+	if (function == (functionptrtype)implant) {
 		implant(shortcut->expansion);
 		return;
 	}
 #endif
 #ifndef NANO_TINY
-	if (shortcut->func == do_toggle) {
+	if (function == do_toggle) {
 		toggle_this(shortcut->toggle);
 		if (shortcut->toggle == CUT_FROM_CURSOR)
 			keep_cutbuffer = FALSE;
@@ -1633,7 +1635,7 @@ void process_a_keystroke(void)
 #endif
 
 	/* Execute the function of the shortcut. */
-	shortcut->func();
+	function();
 
 #ifndef NANO_TINY
 	/* When the marked region changes without Shift being held,
@@ -1643,7 +1645,7 @@ void process_a_keystroke(void)
 		if (!shift_held && openfile->softmark &&
 							(openfile->current != was_current ||
 							openfile->current_x != was_x ||
-							wanted_to_move(shortcut->func))) {
+							wanted_to_move(function))) {
 			openfile->mark = NULL;
 			refresh_needed = TRUE;
 		} else if (openfile->current != was_current)
@@ -1654,8 +1656,7 @@ void process_a_keystroke(void)
 	if (!refresh_needed && !okay_for_view(shortcut))
 		check_the_multis(openfile->current);
 #endif
-	if (!refresh_needed && (shortcut->func == do_delete ||
-							shortcut->func == do_backspace))
+	if (!refresh_needed && (function == do_delete || function == do_backspace))
 		update_line(openfile->current, openfile->current_x);
 
 #ifndef NANO_TINY

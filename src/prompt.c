@@ -262,6 +262,7 @@ int do_statusbar_input(bool *finished)
 	static size_t depth = 0;
 		/* The length of the input buffer. */
 	const keystruct *shortcut;
+	functionptrtype function;
 
 	*finished = FALSE;
 
@@ -286,11 +287,12 @@ int do_statusbar_input(bool *finished)
 
 	/* Check for a shortcut in the current list. */
 	shortcut = get_shortcut(&input);
+	function = (shortcut ? shortcut->func : NULL);
 
 	/* If not a command, discard anything that is not a normal character byte.
 	 * Apart from that, only accept input when not in restricted mode, or when
 	 * not at the "Write File" prompt, or when there is no filename yet. */
-	if (shortcut == NULL) {
+	if (!function) {
 		if (input < 0x20 || input > 0xFF || meta_key)
 			beep();
 		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
@@ -303,7 +305,7 @@ int do_statusbar_input(bool *finished)
 	/* If we got a shortcut, or if there aren't any other keystrokes waiting,
 	 * it's time to insert all characters in the input buffer (if not empty)
 	 * into the answer, and then clear the input buffer. */
-	if ((shortcut || waiting_keycodes() == 0) && puddle != NULL) {
+	if ((function || waiting_keycodes() == 0) && puddle != NULL) {
 		puddle[depth] = '\0';
 
 		inject_into_answer(puddle, depth);
@@ -314,60 +316,59 @@ int do_statusbar_input(bool *finished)
 	}
 
 	if (shortcut) {
-		if (shortcut->func == do_tab || shortcut->func == do_enter)
+		if (function == do_tab || function == do_enter)
 			;
 #ifdef ENABLE_HISTORIES
-		else if (shortcut->func == get_older_item ||
-					shortcut->func == get_newer_item)
+		else if (function == get_older_item || function == get_newer_item)
 			;
 #endif
-		else if (shortcut->func == do_left)
+		else if (function == do_left)
 			do_statusbar_left();
-		else if (shortcut->func == do_right)
+		else if (function == do_right)
 			do_statusbar_right();
 #ifndef NANO_TINY
-		else if (shortcut->func == to_prev_word)
+		else if (function == to_prev_word)
 			do_statusbar_prev_word();
-		else if (shortcut->func == to_next_word)
+		else if (function == to_next_word)
 			do_statusbar_next_word();
 #endif
-		else if (shortcut->func == do_home)
+		else if (function == do_home)
 			do_statusbar_home();
-		else if (shortcut->func == do_end)
+		else if (function == do_end)
 			do_statusbar_end();
 		/* When in restricted mode at the "Write File" prompt and the
 		 * filename isn't blank, disallow any input and deletion. */
 		else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
 								openfile->filename[0] != '\0' &&
-								(shortcut->func == do_verbatim_input ||
-								shortcut->func == do_delete ||
-								shortcut->func == do_backspace ||
-								shortcut->func == cut_text ||
-								shortcut->func == paste_text))
+								(function == do_verbatim_input ||
+								function == do_delete ||
+								function == do_backspace ||
+								function == cut_text ||
+								function == paste_text))
 			;
 #ifdef ENABLE_NANORC
-		else if (shortcut->func == (functionptrtype)implant)
+		else if (function == (functionptrtype)implant)
 			implant(shortcut->expansion);
 #endif
-		else if (shortcut->func == do_verbatim_input)
+		else if (function == do_verbatim_input)
 			do_statusbar_verbatim_input();
-		else if (shortcut->func == do_delete)
+		else if (function == do_delete)
 			do_statusbar_delete();
-		else if (shortcut->func == do_backspace)
+		else if (function == do_backspace)
 			do_statusbar_backspace();
-		else if (shortcut->func == cut_text)
+		else if (function == cut_text)
 			lop_the_answer();
 #ifndef NANO_TINY
-		else if (shortcut->func == copy_text)
+		else if (function == copy_text)
 			copy_the_answer();
-		else if (shortcut->func == paste_text) {
+		else if (function == paste_text) {
 			if (cutbuffer != NULL)
 				paste_into_answer();
 		}
 #endif
 		else {
 			/* Handle some other shortcut, and indicate that we're done. */
-			shortcut->func();
+			function();
 			*finished = TRUE;
 		}
 	}
