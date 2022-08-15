@@ -1055,8 +1055,8 @@ void shortcut_init(void)
 		N_("Save"), WITHORSANS(savefile_gist), BLANKAFTER, NOVIEW);
 
 #ifdef ENABLE_MULTIBUFFER
-	/* Multiple buffers are only available when not in restricted mode. */
-	if (!ISSET(RESTRICTED))
+	/* Include the new-buffer toggle only when it can actually be used. */
+	if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE))
 		add_to_funcs(flip_newbuffer, MINSERTFILE|MEXECUTE,
 			N_("New Buffer"), WITHORSANS(newbuffer_gist), TOGETHER, NOVIEW);
 #endif
@@ -1459,8 +1459,7 @@ void shortcut_init(void)
 	add_to_sclist(MINSERTFILE, "M-N", 0, flip_convert, 0);
 #endif
 #ifdef ENABLE_MULTIBUFFER
-	/* Only when not in restricted mode, allow multiple buffers. */
-	if (!ISSET(RESTRICTED)) {
+	if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE)) {
 		add_to_sclist(MINSERTFILE|MEXECUTE, "M-F", 0, flip_newbuffer, 0);
 #ifndef NANO_TINY
 		add_to_sclist(MEXECUTE, "M-\\", 0, flip_pipe, 0);
