@@ -1368,16 +1368,30 @@ bool wanted_to_move(void (*func)(void))
 			func == to_first_line || func == to_last_line;
 }
 
-/* Return TRUE when the given shortcut is admissible in view mode. */
-bool okay_for_view(const keystruct *shortcut)
+/* Return TRUE when the given function makes a change -- no good for view mode. */
+bool changes_something(const void *f)
 {
-	funcstruct *item = allfuncs;
-
-	/* Search the function of the given shortcut in the list of functions. */
-	while (item != NULL && item->func != shortcut->func)
-		item = item->next;
-
-	return (item == NULL || item->viewok);
+	return (f == do_savefile || f == do_writeout || f == do_enter ||
+			f == do_tab || f == do_delete || f == do_backspace ||
+			f == cut_text || f == paste_text || f == do_replace ||
+#ifndef NANO_TINY
+			f == chop_previous_word || f == chop_next_word ||
+			f == zap_text || f == cut_till_eof || f == do_execute ||
+			f == do_indent || f == do_unindent || f == do_comment ||
+#endif
+#ifdef ENABLE_JUSTIFY
+			f == do_justify || f == do_full_justify ||
+#endif
+#ifdef ENABLE_SPELLER
+			f == do_spell ||
+#endif
+#ifdef ENABLE_COLOR
+			f == do_linter || f == do_formatter ||
+#endif
+#ifdef ENABLE_WORDCOMPLETION
+			f == complete_a_word ||
+#endif
+			f == do_verbatim_input);
 }
 
 #ifndef NANO_TINY
@@ -1585,7 +1599,7 @@ void process_a_keystroke(void)
 		return;
 	}
 
-	if (ISSET(VIEW_MODE) && !okay_for_view(shortcut)) {
+	if (ISSET(VIEW_MODE) && changes_something(function)) {
 		print_view_warning();
 		return;
 	}
@@ -1653,7 +1667,7 @@ void process_a_keystroke(void)
 	}
 #endif
 #ifdef ENABLE_COLOR
-	if (!refresh_needed && !okay_for_view(shortcut))
+	if (!refresh_needed && changes_something(function))
 		check_the_multis(openfile->current);
 #endif
 	if (!refresh_needed && (function == do_delete || function == do_backspace))

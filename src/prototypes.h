@@ -523,7 +523,9 @@ void do_formatter(void);
 void count_lines_words_and_characters(void);
 #endif
 void do_verbatim_input(void);
+#ifdef ENABLE_WORDCOMPLETION
 void complete_a_word(void);
+#endif
 
 /* All functions in utils.c. */
 void get_homedir(void);
