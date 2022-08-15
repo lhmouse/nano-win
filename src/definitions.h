@@ -636,8 +636,6 @@ typedef struct funcstruct {
 		/* Whether there should be a blank line after the help text
 		 * for this function. */
 #endif
-	bool viewok;
-		/* Is this function allowed when in view mode? */
 	int menus;
 		/* In what menus this function applies. */
 	struct funcstruct *next;
