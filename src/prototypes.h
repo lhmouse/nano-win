@@ -424,7 +424,6 @@ void terminal_init(void);
 void confirm_margin(void);
 #endif
 void unbound_key(int code);
-bool okay_for_view(const keystruct *shortcut);
 void inject(char *burst, size_t count);
 
 /* Most functions in prompt.c. */
