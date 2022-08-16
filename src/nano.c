@@ -1666,12 +1666,14 @@ void process_a_keystroke(void)
 			also_the_last = FALSE;
 	}
 #endif
+
+	if (!refresh_needed && (function == do_delete || function == do_backspace)) {
 #ifdef ENABLE_COLOR
-	if (!refresh_needed && changes_something(function))
 		check_the_multis(openfile->current);
+		if (!refresh_needed)
 #endif
-	if (!refresh_needed && (function == do_delete || function == do_backspace))
-		update_line(openfile->current, openfile->current_x);
+			update_line(openfile->current, openfile->current_x);
+	}
 
 #ifndef NANO_TINY
 	if (bracketed_paste)
