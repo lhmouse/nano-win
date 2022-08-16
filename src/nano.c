@@ -1386,7 +1386,7 @@ bool changes_something(const void *f)
 			f == do_spell ||
 #endif
 #ifdef ENABLE_COLOR
-			f == do_linter || f == do_formatter ||
+			f == do_formatter ||
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 			f == complete_a_word ||
