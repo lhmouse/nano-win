@@ -1665,17 +1665,7 @@ void process_a_keystroke(void)
 		} else if (openfile->current != was_current)
 			also_the_last = FALSE;
 	}
-#endif
 
-	if (!refresh_needed && (function == do_delete || function == do_backspace)) {
-#ifdef ENABLE_COLOR
-		check_the_multis(openfile->current);
-		if (!refresh_needed)
-#endif
-			update_line(openfile->current, openfile->current_x);
-	}
-
-#ifndef NANO_TINY
 	if (bracketed_paste)
 		suck_up_input_and_paste_it();
 

@@ -97,6 +97,13 @@ void do_deletion(undo_type action)
 		/* We're at the end-of-file: nothing to do. */
 		return;
 
+#ifdef ENABLE_COLOR
+	if (!refresh_needed)
+		check_the_multis(openfile->current);
+#endif
+	if (!refresh_needed)
+		update_line(openfile->current, openfile->current_x);
+
 	/* Adjust the file size, and remember it for a possible redo. */
 	openfile->totsize--;
 #ifndef NANO_TINY
