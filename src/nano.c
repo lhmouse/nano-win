@@ -651,12 +651,14 @@ void usage(void)
 	print_opt("-x", "--nohelp", N_("Don't show the two help lines"));
 #ifndef NANO_TINY
 	print_opt("-y", "--afterends", N_("Make Ctrl+Right stop at word ends"));
-	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
-	print_opt("-_", "--minibar", N_("Show a feedback bar at the bottom"));
-	print_opt("-0", "--zero", N_("Hide all bars, use whole terminal"));
 #endif
 #ifdef HAVE_LIBMAGIC
 	print_opt("-!", "--magic", N_("Also try magic to determine syntax"));
+#endif
+#ifndef NANO_TINY
+	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
+	print_opt("-_", "--minibar", N_("Show a feedback bar at the bottom"));
+	print_opt("-0", "--zero", N_("Hide all bars, use whole terminal"));
 #endif
 }
 
@@ -1820,8 +1822,8 @@ int main(int argc, char **argv)
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
 
-	while ((optchr = getopt_long(argc, argv, "0ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxy$%_!", long_options, NULL)) != -1) {
+	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RS$T:UVWX:Y:Z"
+				"abcdef:ghijklmno:pqr:s:tuvwxy!%_0", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -2053,6 +2055,13 @@ int main(int argc, char **argv)
 			case 'y':
 				SET(AFTER_ENDS);
 				break;
+#endif
+#ifdef HAVE_LIBMAGIC
+			case '!':
+				SET(USE_MAGIC);
+				break;
+#endif
+#ifndef NANO_TINY
 			case '%':
 				SET(STATEFLAGS);
 				break;
@@ -2061,11 +2070,6 @@ int main(int argc, char **argv)
 				break;
 			case '0':
 				SET(ZERO);
-				break;
-#endif
-#ifdef HAVE_LIBMAGIC
-			case '!':
-				SET(USE_MAGIC);
 				break;
 #endif
 			default:
