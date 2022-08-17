@@ -995,16 +995,16 @@ void shortcut_init(void)
 	add_to_funcs(run_macro, MMAIN,
 			N_("Run Macro"), WHENHELP(runmacro_gist), BLANKAFTER);
 
+	add_to_funcs(zap_text, MMAIN,
+			/* TRANSLATORS: This refers to deleting a line or marked region. */
+			N_("Zap"), WHENHELP(zap_gist), BLANKAFTER);
+
 	add_to_funcs(put_or_lift_anchor, MMAIN,
 			N_("Anchor"), WHENHELP(anchor_gist), TOGETHER);
 	add_to_funcs(to_prev_anchor, MMAIN,
 			N_("Up to anchor"), WHENHELP(prevanchor_gist), TOGETHER);
 	add_to_funcs(to_next_anchor, MMAIN,
 			N_("Down to anchor"), WHENHELP(nextanchor_gist), BLANKAFTER);
-
-	add_to_funcs(zap_text, MMAIN,
-			/* TRANSLATORS: This refers to deleting a line or marked region. */
-			N_("Zap"), WHENHELP(zap_gist), BLANKAFTER);
 
 	if (!ISSET(RESTRICTED)) {
 #ifdef ENABLE_SPELLER
