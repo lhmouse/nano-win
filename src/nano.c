@@ -1356,7 +1356,7 @@ int do_mouse(void)
 /* Return TRUE when the given function is a cursor-moving command. */
 bool wanted_to_move(void (*func)(void))
 {
-	return func == do_left || func == do_right ||
+	return (func == do_left || func == do_right ||
 			func == do_up || func == do_down ||
 			func == do_home || func == do_end ||
 			func == to_prev_word || func == to_next_word ||
@@ -1365,7 +1365,7 @@ bool wanted_to_move(void (*func)(void))
 #endif
 			func == to_prev_block || func == to_next_block ||
 			func == do_page_up || func == do_page_down ||
-			func == to_first_line || func == to_last_line;
+			func == to_first_line || func == to_last_line);
 }
 
 /* Return TRUE when the given function makes a change -- no good for view mode. */
@@ -1653,18 +1653,16 @@ void process_a_keystroke(void)
 
 #ifndef NANO_TINY
 	/* When the marked region changes without Shift being held,
-	 * discard a soft mark.  And when the marked region covers a
-	 * different set of lines, reset  the "last line too" flag. */
-	if (openfile->mark) {
-		if (!shift_held && openfile->softmark &&
-							(openfile->current != was_current ||
-							openfile->current_x != was_x ||
-							wanted_to_move(function))) {
-			openfile->mark = NULL;
-			refresh_needed = TRUE;
-		} else if (openfile->current != was_current)
-			also_the_last = FALSE;
-	}
+	 * discard a soft mark.  And when the set of lines changes,
+	 * reset the "last line too" flag. */
+	if (openfile->mark && openfile->softmark && !shift_held &&
+						(openfile->current != was_current ||
+						openfile->current_x != was_x ||
+						wanted_to_move(function))) {
+		openfile->mark = NULL;
+		refresh_needed = TRUE;
+	} else if (openfile->current != was_current)
+		also_the_last = FALSE;
 
 	if (bracketed_paste)
 		suck_up_input_and_paste_it();
