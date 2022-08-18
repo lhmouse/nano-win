@@ -367,9 +367,12 @@ int do_statusbar_input(bool *finished)
 		}
 #endif
 		else {
-			/* Handle some other shortcut, and indicate that we're done. */
-			function();
-			*finished = TRUE;
+			/* Handle any other permissible shortcut, and stamp as done. */
+			if (!ISSET(VIEW_MODE) || !changes_something(function)) {
+				function();
+				*finished = TRUE;
+			} else
+				beep();
 		}
 	}
 
