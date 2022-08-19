@@ -311,14 +311,10 @@ int do_statusbar_input(void)
 		depth = 0;
 	}
 
-	if (shortcut) {
-		if (function == do_tab || function == do_enter)
-			return input;
-#ifdef ENABLE_HISTORIES
-		else if (function == get_older_item || function == get_newer_item)
-			return input;
-#endif
-		else if (function == do_left)
+	if (!function)
+		return input;
+
+		if (function == do_left)
 			do_statusbar_left();
 		else if (function == do_right)
 			do_statusbar_right();
@@ -365,9 +361,6 @@ int do_statusbar_input(void)
 #endif
 		/* Don't handle the handled functions again. */
 		return ERR;
-	}
-
-	return input;
 }
 
 /* Return the column number of the first character of the answer that is
@@ -452,8 +445,6 @@ void add_or_remove_pipe_symbol_from_answer(void)
 functionptrtype acquire_an_answer(int *actual, bool *listed,
 					linestruct **history_list, void (*refresh_func)(void))
 {
-	int kbinput = ERR;
-	functionptrtype func;
 #ifdef ENABLE_HISTORIES
 	char *stored_string = NULL;
 		/* Whatever the answer was before the user foraged into history. */
@@ -463,7 +454,9 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	size_t fragment_length = 0;
 		/* The length of the fragment that the user tries to tab complete. */
 #endif
-#endif /* ENABLE_HISTORIES */
+#endif
+	functionptrtype func;
+	int kbinput = ERR;
 
 	if (typing_x > strlen(answer))
 		typing_x = strlen(answer);
@@ -483,7 +476,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #endif
 			return NULL;
 		}
-#endif /* !NANO_TINY */
+#endif
 
 		func = func_from_key(&kbinput);
 
@@ -508,7 +501,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			if ((currmenu & (MINSERTFILE|MWRITEFILE|MGOTODIR)) && !ISSET(RESTRICTED))
 				answer = input_tab(answer, &typing_x, refresh_func, listed);
 		} else
-#endif /* ENABLE_TABCOMP */
+#endif
 #ifdef ENABLE_HISTORIES
 		if (func == get_older_item && history_list != NULL) {
 			/* If this is the first step into history, start at the bottom. */
@@ -540,19 +533,17 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			}
 		} else
 #endif /* ENABLE_HISTORIES */
-		/* If we ran a function that should not exit from the prompt... */
 		if (func == do_help || func == full_refresh)
 			func();
 #ifndef NANO_TINY
-		else if (func == do_nothing)
-			;
 		else if (func == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			focusing = FALSE;
 			refresh_func();
 			bottombars(currmenu);
-		}
+		} else if (func == do_nothing)
+			;
 #endif
 		else if (func) {
 			/* When it's a permissible shortcut, run it and done. */
