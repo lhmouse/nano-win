@@ -250,10 +250,8 @@ void do_statusbar_verbatim_input(void)
 	free(bytes);
 }
 
-/* Read in a keystroke, interpret it if it is a shortcut or toggle, and
- * return it.  Set finished to TRUE if we're done after running
- * or trying to run a function associated with a shortcut key. */
-int do_statusbar_input(bool *finished)
+/* Read in a keystroke, handle some shortcuts, and return the keycode. */
+int do_statusbar_input(void)
 {
 	int input;
 		/* The character we read in. */
@@ -263,8 +261,6 @@ int do_statusbar_input(bool *finished)
 		/* The length of the input buffer. */
 	const keystruct *shortcut;
 	functionptrtype function;
-
-	*finished = FALSE;
 
 	/* Read in a character. */
 	input = get_kbinput(footwin, VISIBLE);
@@ -317,10 +313,10 @@ int do_statusbar_input(bool *finished)
 
 	if (shortcut) {
 		if (function == do_tab || function == do_enter)
-			;
+			return input;
 #ifdef ENABLE_HISTORIES
 		else if (function == get_older_item || function == get_newer_item)
-			;
+			return input;
 #endif
 		else if (function == do_left)
 			do_statusbar_left();
@@ -364,16 +360,11 @@ int do_statusbar_input(bool *finished)
 		else if (function == paste_text) {
 			if (cutbuffer != NULL)
 				paste_into_answer();
-		}
+		} else
+			return input;
 #endif
-		else {
-			/* Handle any other permissible shortcut, and stamp as done. */
-			if (!ISSET(VIEW_MODE) || !changes_something(function)) {
-				function();
-				*finished = TRUE;
-			} else
-				beep();
-		}
+		/* Don't handle the handled functions again. */
+		return ERR;
 	}
 
 	return input;
@@ -462,7 +453,6 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 					linestruct **history_list, void (*refresh_func)(void))
 {
 	int kbinput = ERR;
-	bool finished;
 	functionptrtype func;
 #ifdef ENABLE_HISTORIES
 	char *stored_string = NULL;
@@ -481,7 +471,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	while (TRUE) {
 		draw_the_promptbar();
 
-		kbinput = do_statusbar_input(&finished);
+		kbinput = do_statusbar_input();
 
 #ifndef NANO_TINY
 		/* If the window size changed, go reformat the prompt string. */
@@ -552,24 +542,26 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #endif /* ENABLE_HISTORIES */
 		/* If we ran a function that should not exit from the prompt... */
 		if (func == do_help || func == full_refresh)
-			finished = FALSE;
+			func();
 #ifndef NANO_TINY
 		else if (func == do_nothing)
-			finished = FALSE;
+			;
 		else if (func == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			focusing = FALSE;
 			refresh_func();
 			bottombars(currmenu);
-			finished = FALSE;
 		}
 #endif
-
-		/* If we have a shortcut with an associated function, break out if
-		 * we're finished after running or trying to run the function. */
-		if (finished)
-			break;
+		else if (func) {
+			/* When it's a permissible shortcut, run it and done. */
+			if (!ISSET(VIEW_MODE) || !changes_something(func)) {
+				func();
+				break;
+			} else
+				beep();
+		}
 
 #if defined(ENABLE_HISTORIES) && defined(ENABLE_TABCOMP)
 		previous_was_tab = (func == do_tab);
