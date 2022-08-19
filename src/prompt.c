@@ -314,53 +314,52 @@ int do_statusbar_input(void)
 	if (!function)
 		return input;
 
-		if (function == do_left)
-			do_statusbar_left();
-		else if (function == do_right)
-			do_statusbar_right();
+	if (function == do_left)
+		do_statusbar_left();
+	else if (function == do_right)
+		do_statusbar_right();
 #ifndef NANO_TINY
-		else if (function == to_prev_word)
-			do_statusbar_prev_word();
-		else if (function == to_next_word)
-			do_statusbar_next_word();
+	else if (function == to_prev_word)
+		do_statusbar_prev_word();
+	else if (function == to_next_word)
+		do_statusbar_next_word();
 #endif
-		else if (function == do_home)
-			do_statusbar_home();
-		else if (function == do_end)
-			do_statusbar_end();
-		/* When in restricted mode at the "Write File" prompt and the
-		 * filename isn't blank, disallow any input and deletion. */
-		else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
-								openfile->filename[0] != '\0' &&
-								(function == do_verbatim_input ||
-								function == do_delete ||
-								function == do_backspace ||
-								function == cut_text ||
-								function == paste_text))
-			;
+	else if (function == do_home)
+		do_statusbar_home();
+	else if (function == do_end)
+		do_statusbar_end();
+	/* When in restricted mode at the "Write File" prompt and the
+	 * filename isn't blank, disallow any input and deletion. */
+	else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
+							openfile->filename[0] != '\0' &&
+							(function == do_verbatim_input ||
+							function == do_delete || function == do_backspace ||
+							function == cut_text || function == paste_text))
+		;
 #ifdef ENABLE_NANORC
-		else if (function == (functionptrtype)implant)
-			implant(shortcut->expansion);
+	else if (function == (functionptrtype)implant)
+		implant(shortcut->expansion);
 #endif
-		else if (function == do_verbatim_input)
-			do_statusbar_verbatim_input();
-		else if (function == do_delete)
-			do_statusbar_delete();
-		else if (function == do_backspace)
-			do_statusbar_backspace();
-		else if (function == cut_text)
-			lop_the_answer();
+	else if (function == do_verbatim_input)
+		do_statusbar_verbatim_input();
+	else if (function == do_delete)
+		do_statusbar_delete();
+	else if (function == do_backspace)
+		do_statusbar_backspace();
+	else if (function == cut_text)
+		lop_the_answer();
 #ifndef NANO_TINY
-		else if (function == copy_text)
-			copy_the_answer();
-		else if (function == paste_text) {
-			if (cutbuffer != NULL)
-				paste_into_answer();
-		} else
-			return input;
+	else if (function == copy_text)
+		copy_the_answer();
+	else if (function == paste_text) {
+		if (cutbuffer != NULL)
+			paste_into_answer();
+	} else
+		return input;
 #endif
-		/* Don't handle the handled functions again. */
-		return ERR;
+
+	/* Don't handle any handled function again. */
+	return ERR;
 }
 
 /* Return the column number of the first character of the answer that is
