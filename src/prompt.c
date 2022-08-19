@@ -250,40 +250,14 @@ void do_statusbar_verbatim_input(void)
 	free(bytes);
 }
 
-/* Read in a keystroke, handle some shortcuts, and return the keycode. */
-int do_statusbar_input(void)
+/* Add the given input to the input buffer when it's a normal byte,
+ * and inject the gathered bytes into the answer when ready. */
+void absorb_character(int input, functionptrtype function)
 {
-	int input;
-		/* The character we read in. */
 	static char *puddle = NULL;
 		/* The input buffer. */
 	static size_t depth = 0;
 		/* The length of the input buffer. */
-	const keystruct *shortcut;
-	functionptrtype function;
-
-	/* Read in a character. */
-	input = get_kbinput(footwin, VISIBLE);
-
-#ifndef NANO_TINY
-	if (input == KEY_WINCH)
-		return KEY_WINCH;
-#endif
-
-#ifdef ENABLE_MOUSE
-	/* If we got a mouse click and it was on a shortcut, read in the
-	 * shortcut character. */
-	if (input == KEY_MOUSE) {
-		if (do_statusbar_mouse() == 1)
-			input = get_kbinput(footwin, BLIND);
-		else
-			return ERR;
-	}
-#endif
-
-	/* Check for a shortcut in the current list. */
-	shortcut = get_shortcut(&input);
-	function = (shortcut ? shortcut->func : NULL);
 
 	/* If not a command, discard anything that is not a normal character byte.
 	 * Apart from that, only accept input when not in restricted mode, or when
@@ -310,10 +284,11 @@ int do_statusbar_input(void)
 		puddle = NULL;
 		depth = 0;
 	}
+}
 
-	if (!function)
-		return input;
-
+/* Handle any editing shortcut, and return TRUE when handled. */
+bool handle_editing(functionptrtype function)
+{
 	if (function == do_left)
 		do_statusbar_left();
 	else if (function == do_right)
@@ -336,10 +311,6 @@ int do_statusbar_input(void)
 							function == do_delete || function == do_backspace ||
 							function == cut_text || function == paste_text))
 		;
-#ifdef ENABLE_NANORC
-	else if (function == (functionptrtype)implant)
-		implant(shortcut->expansion);
-#endif
 	else if (function == do_verbatim_input)
 		do_statusbar_verbatim_input();
 	else if (function == do_delete)
@@ -355,11 +326,11 @@ int do_statusbar_input(void)
 		if (cutbuffer != NULL)
 			paste_into_answer();
 	} else
-		return input;
+		return FALSE;
 #endif
 
 	/* Don't handle any handled function again. */
-	return ERR;
+	return TRUE;
 }
 
 /* Return the column number of the first character of the answer that is
@@ -454,8 +425,9 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		/* The length of the fragment that the user tries to tab complete. */
 #endif
 #endif
+	const keystruct *shortcut;
 	functionptrtype func;
-	int kbinput = ERR;
+	int input;
 
 	if (typing_x > strlen(answer))
 		typing_x = strlen(answer);
@@ -463,11 +435,12 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	while (TRUE) {
 		draw_the_promptbar();
 
-		kbinput = do_statusbar_input();
+		/* Read in one keystroke. */
+		input = get_kbinput(footwin, VISIBLE);
 
 #ifndef NANO_TINY
 		/* If the window size changed, go reformat the prompt string. */
-		if (kbinput == KEY_WINCH) {
+		if (input == KEY_WINCH) {
 			refresh_func();
 			*actual = KEY_WINCH;
 #ifdef ENABLE_HISTORIES
@@ -476,11 +449,23 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			return NULL;
 		}
 #endif
+#ifdef ENABLE_MOUSE
+		/* For a click on a shortcut, read in the resulting keycode. */
+		if (input == KEY_MOUSE && do_statusbar_mouse() == 1)
+			input = get_kbinput(footwin, BLIND);
+		if (input == KEY_MOUSE)
+			continue;
+#endif
 
-		func = func_from_key(&kbinput);
+		/* Check for a shortcut in the current list. */
+		shortcut = get_shortcut(&input);
+		func = (shortcut ? shortcut->func : NULL);
 
 		if (func == do_cancel || func == do_enter)
 			break;
+
+		/* When it's a normal character, add it to the answer. */
+		absorb_character(input, func);
 
 #ifdef ENABLE_TABCOMP
 		if (func == do_tab) {
@@ -544,7 +529,11 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		} else if (func == do_nothing)
 			;
 #endif
-		else if (func) {
+#ifdef ENABLE_NANORC
+		else if (func == (functionptrtype)implant)
+			implant(shortcut->expansion);
+#endif
+		else if (func && !handle_editing(func)) {
 			/* When it's a permissible shortcut, run it and done. */
 			if (!ISSET(VIEW_MODE) || !changes_something(func)) {
 				func();
@@ -566,7 +555,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 	}
 #endif
 
-	*actual = kbinput;
+	*actual = input;
 
 	return func;
 }
