@@ -505,7 +505,9 @@ char *browse(char *path)
 		}
 #endif /* ENABLE_MOUSE */
 #ifndef NANO_TINY
-		if (bracketed_paste || kbinput == BRACKETED_PASTE_MARKER) {
+		while (bracketed_paste)
+			kbinput = get_kbinput(midwin, BLIND);
+		if (kbinput == BRACKETED_PASTE_MARKER) {
 			beep();
 			continue;
 		}
