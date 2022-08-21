@@ -732,6 +732,18 @@ int ask_user(bool withall, const char *question)
 			choice = ALL;
 		else if (func_from_key(kbinput) == do_cancel)
 			choice = CANCEL;
+		else if (func_from_key(kbinput) == full_refresh)
+			full_refresh();
+#ifndef NANO_TINY
+		else if (func_from_key(kbinput) == do_toggle) {
+			TOGGLE(NO_HELP);
+			window_init();
+			titlebar(NULL);
+			focusing = FALSE;
+			edit_refresh();
+			focusing = TRUE;
+		}
+#endif
 		/* Interpret ^N and ^Q as "No", to allow exiting in anger. */
 		else if (kbinput == '\x0E' || kbinput == '\x11')
 			choice = NO;
@@ -754,18 +766,6 @@ int ask_user(bool withall, const char *question)
 				if (choice == ALL && !withall)
 					choice = UNDECIDED;
 			}
-		}
-#endif
-		else if (func_from_key(kbinput) == full_refresh)
-			full_refresh();
-#ifndef NANO_TINY
-		else if (func_from_key(kbinput) == do_toggle) {
-			TOGGLE(NO_HELP);
-			window_init();
-			titlebar(NULL);
-			focusing = FALSE;
-			edit_refresh();
-			focusing = TRUE;
 		}
 #endif
 		else
