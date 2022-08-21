@@ -639,6 +639,7 @@ int ask_user(bool withall, const char *question)
 	const char *yesstr = _("Yy");
 	const char *nostr = _("Nn");
 	const char *allstr = _("Aa");
+	functionptrtype function;
 
 	while (choice == UNDECIDED) {
 #ifdef ENABLE_NLS
@@ -730,12 +731,18 @@ int ask_user(bool withall, const char *question)
 			choice = NO;
 		else if (withall && strchr("Aa", kbinput) != NULL)
 			choice = ALL;
-		else if (func_from_key(kbinput) == do_cancel)
+
+		if (choice != UNDECIDED)
+			break;
+
+		function = func_from_key(kbinput);
+
+		if (function == do_cancel)
 			choice = CANCEL;
-		else if (func_from_key(kbinput) == full_refresh)
+		else if (function == full_refresh)
 			full_refresh();
 #ifndef NANO_TINY
-		else if (func_from_key(kbinput) == do_toggle) {
+		else if (function == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			titlebar(NULL);
