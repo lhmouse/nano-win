@@ -694,9 +694,11 @@ int ask_user(bool withall, const char *question)
 		if (kbinput == KEY_WINCH)
 			continue;
 
-		/* Accept the first character of an external paste. */
-		if (bracketed_paste && kbinput == BRACKETED_PASTE_MARKER)
+		/* Accept first character of an external paste and ignore the rest. */
+		if (bracketed_paste)
 			kbinput = get_kbinput(footwin, BLIND);
+		while (bracketed_paste)
+			get_kbinput(footwin, BLIND);
 #endif
 
 #ifdef ENABLE_NLS
@@ -768,12 +770,6 @@ int ask_user(bool withall, const char *question)
 #endif
 		else
 			beep();
-
-#ifndef NANO_TINY
-		/* Ignore the rest of an external paste. */
-		while (bracketed_paste)
-			kbinput = get_kbinput(footwin, BLIND);
-#endif
 	}
 
 	return choice;
