@@ -514,16 +514,11 @@ char *browse(char *path)
 #endif
 		function = interpret(kbinput);
 
-		if (function == full_refresh) {
-			full_refresh();
+		if (function == full_refresh || function == do_help) {
+			function();
 #ifndef NANO_TINY
-			/* Simulate a terminal resize to force a directory reread. */
-			kbinput = KEY_WINCH;
-#endif
-		} else if (function == do_help) {
-			do_help();
-#ifndef NANO_TINY
-			/* The terminal dimensions might have changed, so act as if. */
+			/* Simulate a terminal resize to force a directory reread,
+			 * or because the terminal dimensions might have changed. */
 			kbinput = KEY_WINCH;
 		} else if (function == do_toggle && get_shortcut(kbinput)->toggle == NO_HELP) {
 			TOGGLE(NO_HELP);
