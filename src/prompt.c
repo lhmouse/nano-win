@@ -520,7 +520,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		if (function == do_help || function == full_refresh)
 			function();
 #ifndef NANO_TINY
-		else if (function == do_toggle) {
+		else if (function == do_toggle && shortcut->toggle == NO_HELP) {
 			TOGGLE(NO_HELP);
 			window_init();
 			focusing = FALSE;
@@ -639,6 +639,7 @@ int ask_user(bool withall, const char *question)
 	const char *yesstr = _("Yy");
 	const char *nostr = _("Nn");
 	const char *allstr = _("Aa");
+	const keystruct *shortcut;
 	functionptrtype function;
 
 	while (choice == UNDECIDED) {
@@ -735,14 +736,15 @@ int ask_user(bool withall, const char *question)
 		if (choice != UNDECIDED)
 			break;
 
-		function = func_from_key(kbinput);
+		shortcut = get_shortcut(kbinput);
+		function = (shortcut ? shortcut->func : NULL);
 
 		if (function == do_cancel)
 			choice = CANCEL;
 		else if (function == full_refresh)
 			full_refresh();
 #ifndef NANO_TINY
-		else if (function == do_toggle) {
+		else if (function == do_toggle && shortcut->toggle == NO_HELP) {
 			TOGGLE(NO_HELP);
 			window_init();
 			titlebar(NULL);

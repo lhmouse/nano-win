@@ -523,7 +523,7 @@ char *browse(char *path)
 #ifndef NANO_TINY
 			/* The terminal dimensions might have changed, so act as if. */
 			kbinput = KEY_WINCH;
-		} else if (function == do_toggle) {
+		} else if (function == do_toggle && get_shortcut(kbinput)->toggle == NO_HELP) {
 			TOGGLE(NO_HELP);
 			window_init();
 			kbinput = KEY_WINCH;
