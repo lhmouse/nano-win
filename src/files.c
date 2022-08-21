@@ -1213,7 +1213,7 @@ void insert_a_file_or(bool execute)
 			ssize_t was_current_lineno = openfile->current->lineno;
 			size_t was_current_x = openfile->current_x;
 #if !defined(NANO_TINY) || defined(ENABLE_BROWSER) || defined(ENABLE_MULTIBUFFER)
-			functionptrtype func = func_from_key(&response);
+			functionptrtype function = func_from_key(&response);
 #endif
 			given = mallocstrcpy(given, answer);
 
@@ -1221,7 +1221,7 @@ void insert_a_file_or(bool execute)
 				break;
 
 #ifdef ENABLE_MULTIBUFFER
-			if (func == flip_newbuffer) {
+			if (function == flip_newbuffer) {
 				/* Allow toggling only when not in view mode. */
 				if (!ISSET(VIEW_MODE))
 					TOGGLE(MULTIBUFFER);
@@ -1231,22 +1231,22 @@ void insert_a_file_or(bool execute)
 			}
 #endif
 #ifndef NANO_TINY
-			if (func == flip_convert) {
+			if (function == flip_convert) {
 				TOGGLE(NO_CONVERT);
 				continue;
 			}
-			if (func == flip_execute) {
+			if (function == flip_execute) {
 				execute = !execute;
 				continue;
 			}
-			if (func == flip_pipe) {
+			if (function == flip_pipe) {
 				add_or_remove_pipe_symbol_from_answer();
 				given = mallocstrcpy(given, answer);
 				continue;
 			}
 #endif
 #ifdef ENABLE_BROWSER
-			if (func == to_files) {
+			if (function == to_files) {
 				char *chosen = browse_in(answer);
 
 				/* If no file was chosen, go back to the prompt. */
@@ -2094,7 +2094,7 @@ int write_it_out(bool exiting, bool withprompt)
 #endif
 
 	while (TRUE) {
-		functionptrtype func;
+		functionptrtype function;
 		const char *msg;
 		int response = 0;
 		int choice = NO;
@@ -2141,10 +2141,10 @@ int write_it_out(bool exiting, bool withprompt)
 			return 0;
 		}
 
-		func = func_from_key(&response);
+		function = func_from_key(&response);
 
 		/* Upon request, abandon the buffer. */
-		if (func == discard_buffer) {
+		if (function == discard_buffer) {
 			free(given);
 			return 2;
 		}
@@ -2152,7 +2152,7 @@ int write_it_out(bool exiting, bool withprompt)
 		given = mallocstrcpy(given, answer);
 
 #ifdef ENABLE_BROWSER
-		if (func == to_files) {
+		if (function == to_files) {
 			char *chosen = browse_in(answer);
 
 			if (chosen == NULL)
@@ -2163,17 +2163,17 @@ int write_it_out(bool exiting, bool withprompt)
 		} else
 #endif
 #ifndef NANO_TINY
-		if (func == dos_format) {
+		if (function == dos_format) {
 			openfile->fmt = (openfile->fmt == DOS_FILE) ? NIX_FILE : DOS_FILE;
 			continue;
-		} else if (func == mac_format) {
+		} else if (function == mac_format) {
 			openfile->fmt = (openfile->fmt == MAC_FILE) ? NIX_FILE : MAC_FILE;
 			continue;
-		} else if (func == back_it_up) {
+		} else if (function == back_it_up) {
 			TOGGLE(MAKE_BACKUP);
 			continue;
-		} else if (func == prepend_it || func == append_it) {
-			if (func == prepend_it)
+		} else if (function == prepend_it || function == append_it) {
+			if (function == prepend_it)
 				method = (method == PREPEND) ? OVERWRITE : PREPEND;
 			else
 				method = (method == APPEND) ? OVERWRITE : APPEND;
@@ -2182,7 +2182,7 @@ int write_it_out(bool exiting, bool withprompt)
 			continue;
 		} else
 #endif
-		if (func == do_help)
+		if (function == do_help)
 			continue;
 
 #ifdef ENABLE_EXTRA

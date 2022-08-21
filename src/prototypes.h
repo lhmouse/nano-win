@@ -319,7 +319,7 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 #endif
 
 /* Some functions in global.c. */
-const keystruct *first_sc_for(int menu, void (*func)(void));
+const keystruct *first_sc_for(int menu, void (*function)(void));
 size_t shown_entries_for(int menu);
 const keystruct *get_shortcut(int *keycode);
 functionptrtype func_from_key(int *keycode);

@@ -2761,7 +2761,7 @@ void do_linter(void)
 
 	while (TRUE) {
 		int kbinput;
-		functionptrtype func;
+		functionptrtype function;
 		struct stat lintfileinfo;
 
 		if (stat(curlint->filename, &lintfileinfo) != -1 &&
@@ -2856,16 +2856,16 @@ void do_linter(void)
 		if (kbinput == KEY_WINCH)
 			continue;
 #endif
-		func = func_from_key(&kbinput);
+		function = func_from_key(&kbinput);
 		tmplint = curlint;
 
-		if (func == do_cancel || func == do_enter) {
+		if (function == do_cancel || function == do_enter) {
 			wipe_statusbar();
 			break;
-		} else if (func == do_help) {
+		} else if (function == do_help) {
 			tmplint = NULL;
 			do_help();
-		} else if (func == do_page_up || func == to_prev_block) {
+		} else if (function == do_page_up || function == to_prev_block) {
 			if (curlint->prev != NULL)
 				curlint = curlint->prev;
 			else if (last_wait != time(NULL)) {
@@ -2875,7 +2875,7 @@ void do_linter(void)
 				last_wait = time(NULL);
 				statusline(NOTICE, curlint->msg);
 			}
-		} else if (func == do_page_down || func == to_next_block) {
+		} else if (function == do_page_down || function == to_next_block) {
 			if (curlint->next != NULL)
 				curlint = curlint->next;
 			else if (last_wait != time(NULL)) {

@@ -426,7 +426,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #endif
 #endif
 	const keystruct *shortcut;
-	functionptrtype func;
+	functionptrtype function;
 	int input;
 
 	if (typing_x > strlen(answer))
@@ -459,16 +459,16 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 
 		/* Check for a shortcut in the current list. */
 		shortcut = get_shortcut(&input);
-		func = (shortcut ? shortcut->func : NULL);
+		function = (shortcut ? shortcut->func : NULL);
 
-		if (func == do_cancel || func == do_enter)
+		if (function == do_cancel || function == do_enter)
 			break;
 
 		/* When it's a normal character, add it to the answer. */
-		absorb_character(input, func);
+		absorb_character(input, function);
 
 #ifdef ENABLE_TABCOMP
-		if (func == do_tab) {
+		if (function == do_tab) {
 #ifdef ENABLE_HISTORIES
 			if (history_list != NULL) {
 				if (!previous_was_tab)
@@ -487,7 +487,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		} else
 #endif
 #ifdef ENABLE_HISTORIES
-		if (func == get_older_item && history_list != NULL) {
+		if (function == get_older_item && history_list != NULL) {
 			/* If this is the first step into history, start at the bottom. */
 			if (stored_string == NULL)
 				reset_history_pointer_for(*history_list);
@@ -502,7 +502,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 				answer = mallocstrcpy(answer, (*history_list)->data);
 				typing_x = strlen(answer);
 			}
-		} else if (func == get_newer_item && history_list != NULL) {
+		} else if (function == get_newer_item && history_list != NULL) {
 			/* If there is a newer item, move to it and copy its string. */
 			if ((*history_list)->next != NULL) {
 				*history_list = (*history_list)->next;
@@ -517,33 +517,33 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 			}
 		} else
 #endif /* ENABLE_HISTORIES */
-		if (func == do_help || func == full_refresh)
-			func();
+		if (function == do_help || function == full_refresh)
+			function();
 #ifndef NANO_TINY
-		else if (func == do_toggle) {
+		else if (function == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			focusing = FALSE;
 			refresh_func();
 			bottombars(currmenu);
-		} else if (func == do_nothing)
+		} else if (function == do_nothing)
 			;
 #endif
 #ifdef ENABLE_NANORC
-		else if (func == (functionptrtype)implant)
+		else if (function == (functionptrtype)implant)
 			implant(shortcut->expansion);
 #endif
-		else if (func && !handle_editing(func)) {
+		else if (function && !handle_editing(function)) {
 			/* When it's a permissible shortcut, run it and done. */
-			if (!ISSET(VIEW_MODE) || !changes_something(func)) {
-				func();
+			if (!ISSET(VIEW_MODE) || !changes_something(function)) {
+				function();
 				break;
 			} else
 				beep();
 		}
 
 #if defined(ENABLE_HISTORIES) && defined(ENABLE_TABCOMP)
-		previous_was_tab = (func == do_tab);
+		previous_was_tab = (function == do_tab);
 #endif
 	}
 
@@ -557,7 +557,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 
 	*actual = input;
 
-	return func;
+	return function;
 }
 
 /* Ask a question on the status bar.  Return 0 when text was entered,
@@ -567,7 +567,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 int do_prompt(int menu, const char *provided, linestruct **history_list,
 				void (*refresh_func)(void), const char *msg, ...)
 {
-	functionptrtype func = NULL;
+	functionptrtype function = NULL;
 	bool listed = FALSE;
 	va_list ap;
 	int retval;
@@ -592,7 +592,7 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 
 	lastmessage = VACUUM;
 
-	func = acquire_an_answer(&retval, &listed, history_list, refresh_func);
+	function = acquire_an_answer(&retval, &listed, history_list, refresh_func);
 	free(prompt);
 	prompt = saved_prompt;
 
@@ -603,14 +603,14 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 
 	/* If we're done with this prompt, restore the x position to what
 	 * it was at a possible previous prompt. */
-	if (func == do_cancel || func == do_enter)
+	if (function == do_cancel || function == do_enter)
 		typing_x = was_typing_x;
 
 	/* If we left the prompt via Cancel or Enter, set the return value
 	 * properly. */
-	if (func == do_cancel)
+	if (function == do_cancel)
 		retval = -1;
-	else if (func == do_enter)
+	else if (function == do_enter)
 		retval = (*answer == '\0') ? -2 : 0;
 
 	if (lastmessage == VACUUM)

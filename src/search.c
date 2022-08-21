@@ -91,7 +91,7 @@ void search_init(bool replacing, bool retain_answer)
 		thedefault = copy_of("");
 
 	while (TRUE) {
-		functionptrtype func;
+		functionptrtype function;
 		/* Ask the user what to search for (or replace). */
 		int response = do_prompt(
 					inhelp ? MFINDINHELP : (replacing ? MREPLACE : MWHEREIS),
@@ -138,23 +138,23 @@ void search_init(bool replacing, bool retain_answer)
 
 		retain_answer = TRUE;
 
-		func = func_from_key(&response);
+		function = func_from_key(&response);
 
 		/* If we're here, one of the five toggles was pressed, or
 		 * a shortcut was executed. */
-		if (func == case_sens_void)
+		if (function == case_sens_void)
 			TOGGLE(CASE_SENSITIVE);
-		else if (func == backwards_void)
+		else if (function == backwards_void)
 			TOGGLE(BACKWARDS_SEARCH);
-		else if (func == regexp_void)
+		else if (function == regexp_void)
 			TOGGLE(USE_REGEXP);
-		else if (func == flip_replace) {
+		else if (function == flip_replace) {
 			if (ISSET(VIEW_MODE)) {
 				print_view_warning();
 				napms(600);
 			} else
 				replacing = !replacing;
-		} else if (func == flip_goto) {
+		} else if (function == flip_goto) {
 			goto_line_and_column(openfile->current->lineno,
 								openfile->placewewant + 1, TRUE, TRUE);
 			break;

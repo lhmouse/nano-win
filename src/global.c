@@ -317,7 +317,7 @@ void discard_buffer(void)  {;}
 void do_cancel(void)  {;}
 
 /* Add a function to the linked list of functions. */
-void add_to_funcs(void (*func)(void), int menus, const char *desc,
+void add_to_funcs(void (*function)(void), int menus, const char *desc,
 					const char *help, bool blank_after)
 {
 	funcstruct *f = nmalloc(sizeof(funcstruct));
@@ -329,7 +329,7 @@ void add_to_funcs(void (*func)(void), int menus, const char *desc,
 	tailfunc = f;
 
 	f->next = NULL;
-	f->func = func;
+	f->func = function;
 	f->menus = menus;
 	f->desc = desc;
 #ifdef ENABLE_HELP
@@ -385,7 +385,7 @@ int keycode_from_string(const char *keystring)
 
 /* Add a key combo to the linked list of shortcuts. */
 void add_to_sclist(int menus, const char *scstring, const int keycode,
-						void (*func)(void), int toggle)
+						void (*function)(void), int toggle)
 {
 	static keystruct *tailsc;
 #ifndef NANO_TINY
@@ -402,7 +402,7 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 
 	/* Fill in the data. */
 	sc->menus = menus;
-	sc->func = func;
+	sc->func = function;
 #ifndef NANO_TINY
 	sc->toggle = toggle;
 	/* When not the same toggle as the previous one, increment the ID. */
@@ -416,11 +416,11 @@ void add_to_sclist(int menus, const char *scstring, const int keycode,
 }
 
 /* Return the first shortcut in the list of shortcuts that
- * matches the given func in the given menu. */
-const keystruct *first_sc_for(int menu, void (*func)(void))
+ * matches the given function in the given menu. */
+const keystruct *first_sc_for(int menu, void (*function)(void))
 {
 	for (keystruct *sc = sclist; sc != NULL; sc = sc->next)
-		if ((sc->menus & menu) && sc->func == func && sc->keystr[0])
+		if ((sc->menus & menu) && sc->func == function && sc->keystr[0])
 			return sc;
 
 	return NULL;

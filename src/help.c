@@ -389,7 +389,7 @@ void wrap_help_text_into_buffer(void)
 void show_help(void)
 {
 	int kbinput = ERR;
-	functionptrtype func;
+	functionptrtype function;
 		/* The function of the key the user typed in. */
 	int oldmenu = currmenu;
 		/* The menu we were called from. */
@@ -475,28 +475,28 @@ void show_help(void)
 			continue;
 		}
 #endif
-		func = interpret(&kbinput);
+		function = interpret(&kbinput);
 
-		if (func == full_refresh) {
+		if (function == full_refresh) {
 			full_refresh();
-		} else if (ISSET(SHOW_CURSOR) && (func == do_left || func == do_right ||
-											func == do_up || func == do_down)) {
-			func();
-		} else if (func == do_up || func == do_scroll_up) {
+		} else if (ISSET(SHOW_CURSOR) && (function == do_left || function == do_right ||
+											function == do_up || function == do_down)) {
+			function();
+		} else if (function == do_up || function == do_scroll_up) {
 			do_scroll_up();
-		} else if (func == do_down || func == do_scroll_down) {
+		} else if (function == do_down || function == do_scroll_down) {
 			if (openfile->edittop->lineno + editwinrows - 1 < openfile->filebot->lineno)
 				do_scroll_down();
-		} else if (func == do_page_up || func == do_page_down ||
-					func == to_first_line || func == to_last_line) {
-			func();
-		} else if (func == do_search_backward || func == do_search_forward ||
-					func == do_findprevious || func == do_findnext) {
-			func();
+		} else if (function == do_page_up || function == do_page_down ||
+					function == to_first_line || function == to_last_line) {
+			function();
+		} else if (function == do_search_backward || function == do_search_forward ||
+					function == do_findprevious || function == do_findnext) {
+			function();
 			bottombars(MHELP);
 #ifdef ENABLE_NANORC
-		} else if (func == (functionptrtype)implant) {
-			implant(first_sc_for(MHELP, func)->expansion);
+		} else if (function == (functionptrtype)implant) {
+			implant(first_sc_for(MHELP, function)->expansion);
 #endif
 #ifdef ENABLE_MOUSE
 		} else if (kbinput == KEY_MOUSE) {
@@ -507,7 +507,7 @@ void show_help(void)
 		} else if (kbinput == KEY_WINCH) {
 			;  /* Nothing to do. */
 #endif
-		} else if (func == do_exit) {
+		} else if (function == do_exit) {
 			break;
 		} else
 			unbound_key(kbinput);

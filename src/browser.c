@@ -461,7 +461,7 @@ char *browse(char *path)
 	titlebar(path);
 
 	while (TRUE) {
-		functionptrtype func;
+		functionptrtype function;
 		int kbinput;
 
 		lastmessage = VACUUM;
@@ -510,68 +510,68 @@ char *browse(char *path)
 			continue;
 		}
 #endif
-		func = interpret(&kbinput);
+		function = interpret(&kbinput);
 
-		if (func == full_refresh) {
+		if (function == full_refresh) {
 			full_refresh();
 #ifndef NANO_TINY
 			/* Simulate a terminal resize to force a directory reread. */
 			kbinput = KEY_WINCH;
 #endif
-		} else if (func == do_help) {
+		} else if (function == do_help) {
 			do_help();
 #ifndef NANO_TINY
 			/* The terminal dimensions might have changed, so act as if. */
 			kbinput = KEY_WINCH;
-		} else if (func == do_toggle) {
+		} else if (function == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			kbinput = KEY_WINCH;
 #endif
-		} else if (func == do_search_backward) {
+		} else if (function == do_search_backward) {
 			search_filename(BACKWARD);
-		} else if (func == do_search_forward) {
+		} else if (function == do_search_forward) {
 			search_filename(FORWARD);
-		} else if (func == do_findprevious) {
+		} else if (function == do_findprevious) {
 			research_filename(BACKWARD);
-		} else if (func == do_findnext) {
+		} else if (function == do_findnext) {
 			research_filename(FORWARD);
-		} else if (func == do_left) {
+		} else if (function == do_left) {
 			if (selected > 0)
 				selected--;
-		} else if (func == do_right) {
+		} else if (function == do_right) {
 			if (selected < list_length - 1)
 				selected++;
-		} else if (func == to_prev_word) {
+		} else if (function == to_prev_word) {
 			selected -= (selected % piles);
-		} else if (func == to_next_word) {
+		} else if (function == to_next_word) {
 			selected += piles - 1 - (selected % piles);
 			if (selected >= list_length)
 				selected = list_length - 1;
-		} else if (func == do_up) {
+		} else if (function == do_up) {
 			if (selected >= piles)
 				selected -= piles;
-		} else if (func == do_down) {
+		} else if (function == do_down) {
 			if (selected + piles <= list_length - 1)
 				selected += piles;
-		} else if (func == to_prev_block) {
+		} else if (function == to_prev_block) {
 			selected = ((selected / (usable_rows * piles)) * usable_rows * piles) +
 								 selected % piles;
-		} else if (func == to_next_block) {
+		} else if (function == to_next_block) {
 			selected = ((selected / (usable_rows * piles)) * usable_rows * piles) +
 								selected % piles + usable_rows * piles - piles;
 			if (selected >= list_length)
 				selected = (list_length / piles) * piles + selected % piles;
 			if (selected >= list_length)
 				selected -= piles;
-		} else if (func == do_page_up) {
+		} else if (function == do_page_up) {
 			if (selected < piles)
 				selected = 0;
 			else if (selected < usable_rows * piles)
 				selected = selected % piles;
 			else
 				selected -= usable_rows * piles;
-		} else if (func == do_page_down) {
+		} else if (function == do_page_down) {
 			if (selected + piles >= list_length - 1)
 				selected = list_length - 1;
 			else if (selected + usable_rows * piles >= list_length)
@@ -579,11 +579,11 @@ char *browse(char *path)
 								list_length - piles;
 			else
 				selected += usable_rows * piles;
-		} else if (func == to_first_file) {
+		} else if (function == to_first_file) {
 			selected = 0;
-		} else if (func == to_last_file) {
+		} else if (function == to_last_file) {
 			selected = list_length - 1;
-		} else if (func == goto_dir) {
+		} else if (function == goto_dir) {
 			/* Ask for the directory to go to. */
 			if (do_prompt(MGOTODIR, "", NULL,
 							/* TRANSLATORS: This is a prompt. */
@@ -622,7 +622,7 @@ char *browse(char *path)
 
 			/* Try opening and reading the specified directory. */
 			goto read_directory_contents;
-		} else if (func == do_enter) {
+		} else if (function == do_enter) {
 			struct stat st;
 
 			/* It isn't possible to move up from the root directory. */
@@ -662,14 +662,14 @@ char *browse(char *path)
 			path = mallocstrcpy(path, filelist[selected]);
 			goto read_directory_contents;
 #ifdef ENABLE_NANORC
-		} else if (func == (functionptrtype)implant) {
-			implant(first_sc_for(MBROWSER, func)->expansion);
+		} else if (function == (functionptrtype)implant) {
+			implant(first_sc_for(MBROWSER, function)->expansion);
 #endif
 #ifndef NANO_TINY
 		} else if (kbinput == KEY_WINCH) {
 			;  /* Gets handled below. */
 #endif
-		} else if (func == do_exit) {
+		} else if (function == do_exit) {
 			break;
 		} else
 			unbound_key(kbinput);
