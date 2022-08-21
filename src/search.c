@@ -138,7 +138,7 @@ void search_init(bool replacing, bool retain_answer)
 
 		retain_answer = TRUE;
 
-		function = func_from_key(&response);
+		function = func_from_key(response);
 
 		/* If we're here, one of the five toggles was pressed, or
 		 * a shortcut was executed. */
@@ -284,7 +284,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 				} else
 					meta_key = FALSE;
 
-				if (func_from_key(&input) == do_cancel) {
+				if (func_from_key(input) == do_cancel) {
 #ifndef NANO_TINY
 					if (the_window_resized)
 						regenerate_screen();
@@ -773,7 +773,7 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 			return;
 		}
 
-		if (func_from_key(&response) == flip_goto) {
+		if (func_from_key(response) == flip_goto) {
 			UNSET(BACKWARDS_SEARCH);
 			/* Switch to searching but retain what the user typed so far. */
 			search_init(FALSE, TRUE);

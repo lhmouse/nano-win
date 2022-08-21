@@ -1213,7 +1213,7 @@ void insert_a_file_or(bool execute)
 			ssize_t was_current_lineno = openfile->current->lineno;
 			size_t was_current_x = openfile->current_x;
 #if !defined(NANO_TINY) || defined(ENABLE_BROWSER) || defined(ENABLE_MULTIBUFFER)
-			functionptrtype function = func_from_key(&response);
+			functionptrtype function = func_from_key(response);
 #endif
 			given = mallocstrcpy(given, answer);
 
@@ -2141,7 +2141,7 @@ int write_it_out(bool exiting, bool withprompt)
 			return 0;
 		}
 
-		function = func_from_key(&response);
+		function = func_from_key(response);
 
 		/* Upon request, abandon the buffer. */
 		if (function == discard_buffer) {

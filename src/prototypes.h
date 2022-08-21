@@ -321,10 +321,10 @@ char *input_tab(char *buf, size_t *place, void (*refresh_func)(void), bool *list
 /* Some functions in global.c. */
 const keystruct *first_sc_for(int menu, void (*function)(void));
 size_t shown_entries_for(int menu);
-const keystruct *get_shortcut(int *keycode);
-functionptrtype func_from_key(int *keycode);
+const keystruct *get_shortcut(const int keycode);
+functionptrtype func_from_key(const int keycode);
 #if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
-functionptrtype interpret(int *keycode);
+functionptrtype interpret(const int keycode);
 #endif
 int keycode_from_string(const char *keystring);
 void shortcut_init(void);

@@ -1567,7 +1567,7 @@ void process_a_keystroke(void)
 #endif
 
 	/* Check for a shortcut in the main list. */
-	shortcut = get_shortcut(&input);
+	shortcut = get_shortcut(input);
 	function = (shortcut ? shortcut->func : NULL);
 
 	/* If not a command, discard anything that is not a normal character byte. */

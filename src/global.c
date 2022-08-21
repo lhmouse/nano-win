@@ -448,28 +448,28 @@ size_t shown_entries_for(int menu)
 }
 
 /* Return the first shortcut in the current menu that matches the given input. */
-const keystruct *get_shortcut(int *keycode)
+const keystruct *get_shortcut(const int keycode)
 {
 	/* Plain characters and upper control codes cannot be shortcuts. */
-	if (!meta_key && 0x20 <= *keycode && *keycode <= 0xFF)
+	if (!meta_key && 0x20 <= keycode && keycode <= 0xFF)
 		return NULL;
 
 	/* Lower control codes with Meta cannot be shortcuts either. */
-	if (meta_key && *keycode < 0x20)
+	if (meta_key && keycode < 0x20)
 		return NULL;
 
 #ifndef NANO_TINY
 	/* During a paste at a prompt, ignore all command keycodes. */
-	if (bracketed_paste && *keycode != BRACKETED_PASTE_MARKER)
+	if (bracketed_paste && keycode != BRACKETED_PASTE_MARKER)
 		return NULL;
 #endif
 #ifdef ENABLE_NANORC
-	if (*keycode == PLANTED_COMMAND)
+	if (keycode == PLANTED_COMMAND)
 		return planted_shortcut;
 #endif
 
 	for (keystruct *sc = sclist; sc != NULL; sc = sc->next) {
-		if ((sc->menus & currmenu) && *keycode == sc->keycode)
+		if ((sc->menus & currmenu) && keycode == sc->keycode)
 			return sc;
 	}
 
@@ -477,7 +477,7 @@ const keystruct *get_shortcut(int *keycode)
 }
 
 /* Return a pointer to the function that is bound to the given key. */
-functionptrtype func_from_key(int *keycode)
+functionptrtype func_from_key(const int keycode)
 {
 	const keystruct *sc = get_shortcut(keycode);
 
@@ -488,15 +488,15 @@ functionptrtype func_from_key(int *keycode)
 /* Return the function that is bound to the given key in the file browser or
  * the help viewer.  Accept also certain plain characters, for compatibility
  * with Pico or to mimic 'less' and similar text viewers. */
-functionptrtype interpret(int *keycode)
+functionptrtype interpret(const int keycode)
 {
 	if (!meta_key) {
-		if (*keycode == 'N')
+		if (keycode == 'N')
 			return do_findprevious;
-		if (*keycode == 'n')
+		if (keycode == 'n')
 			return do_findnext;
 
-		switch (tolower(*keycode)) {
+		switch (tolower(keycode)) {
 			case 'b':
 			case '-':
 				return do_page_up;

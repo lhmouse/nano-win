@@ -2856,7 +2856,7 @@ void do_linter(void)
 		if (kbinput == KEY_WINCH)
 			continue;
 #endif
-		function = func_from_key(&kbinput);
+		function = func_from_key(kbinput);
 		tmplint = curlint;
 
 		if (function == do_cancel || function == do_enter) {

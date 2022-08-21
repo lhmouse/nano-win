@@ -458,7 +458,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #endif
 
 		/* Check for a shortcut in the current list. */
-		shortcut = get_shortcut(&input);
+		shortcut = get_shortcut(input);
 		function = (shortcut ? shortcut->func : NULL);
 
 		if (function == do_cancel || function == do_enter)
@@ -728,7 +728,7 @@ int ask_user(bool withall, const char *question)
 			choice = NO;
 		else if (withall && strchr("Aa", kbinput) != NULL)
 			choice = ALL;
-		else if (func_from_key(&kbinput) == do_cancel)
+		else if (func_from_key(kbinput) == do_cancel)
 			choice = CANCEL;
 		/* Interpret ^N and ^Q as "No", to allow exiting in anger. */
 		else if (kbinput == '\x0E' || kbinput == '\x11')
@@ -754,10 +754,10 @@ int ask_user(bool withall, const char *question)
 			}
 		}
 #endif
-		else if (func_from_key(&kbinput) == full_refresh)
+		else if (func_from_key(kbinput) == full_refresh)
 			full_refresh();
 #ifndef NANO_TINY
-		else if (func_from_key(&kbinput) == do_toggle) {
+		else if (func_from_key(kbinput) == do_toggle) {
 			TOGGLE(NO_HELP);
 			window_init();
 			titlebar(NULL);

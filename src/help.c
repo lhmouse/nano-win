@@ -475,7 +475,7 @@ void show_help(void)
 			continue;
 		}
 #endif
-		function = interpret(&kbinput);
+		function = interpret(kbinput);
 
 		if (function == full_refresh) {
 			full_refresh();

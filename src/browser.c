@@ -510,7 +510,7 @@ char *browse(char *path)
 			continue;
 		}
 #endif
-		function = interpret(&kbinput);
+		function = interpret(kbinput);
 
 		if (function == full_refresh) {
 			full_refresh();
