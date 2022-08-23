@@ -832,11 +832,6 @@ void shortcut_init(void)
 			N_("Newer"), WHENHELP(newer_gist), BLANKAFTER);
 #endif
 
-#ifdef ENABLE_HELP
-	add_to_funcs(flip_goto, MWHEREIS,
-			N_("Go To Line"), WHENHELP(gotoline_gist), BLANKAFTER);
-#endif
-
 #ifdef ENABLE_BROWSER
 	add_to_funcs(goto_dir, MBROWSER,
 			/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
@@ -1074,6 +1069,8 @@ void shortcut_init(void)
 #endif
 
 #ifdef ENABLE_HELP
+	add_to_funcs(flip_goto, MWHEREIS,
+			N_("Go To Line"), WHENHELP(gotoline_gist), BLANKAFTER);
 	add_to_funcs(flip_goto, MGOTOLINE,
 			N_("Go To Text"), WHENHELP(whereis_gist), BLANKAFTER);
 #endif
