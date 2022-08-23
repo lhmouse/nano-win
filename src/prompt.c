@@ -325,9 +325,10 @@ bool handle_editing(functionptrtype function)
 	else if (function == paste_text) {
 		if (cutbuffer != NULL)
 			paste_into_answer();
-	} else
-		return FALSE;
+	}
 #endif
+	else
+		return FALSE;
 
 	/* Don't handle any handled function again. */
 	return TRUE;
