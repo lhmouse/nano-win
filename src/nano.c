@@ -1379,9 +1379,8 @@ bool wanted_to_move(void (*func)(void))
 /* Return TRUE when the given function makes a change -- no good for view mode. */
 bool changes_something(const void *f)
 {
-	return (f == do_savefile || f == do_writeout || f == do_enter ||
-			f == do_tab || f == do_delete || f == do_backspace ||
-			f == cut_text || f == paste_text || f == do_replace ||
+	return (f == do_savefile || f == do_writeout || f == do_enter || f == do_tab ||
+			f == do_delete || f == do_backspace || f == cut_text || f == paste_text ||
 #ifndef NANO_TINY
 			f == chop_previous_word || f == chop_next_word ||
 			f == zap_text || f == cut_till_eof || f == do_execute ||
@@ -1399,7 +1398,7 @@ bool changes_something(const void *f)
 #ifdef ENABLE_WORDCOMPLETION
 			f == complete_a_word ||
 #endif
-			f == do_verbatim_input);
+			f == do_replace || f == do_verbatim_input);
 }
 
 #ifndef NANO_TINY

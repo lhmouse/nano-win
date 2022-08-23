@@ -442,7 +442,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #ifndef NANO_TINY
 		/* If the window size changed, go reformat the prompt string. */
 		if (input == KEY_WINCH) {
-			refresh_func();
+			refresh_func();  /* Only needed when in file browser. */
 			*actual = KEY_WINCH;
 #ifdef ENABLE_HISTORIES
 			free(stored_string);
@@ -595,20 +595,18 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 
 	function = acquire_an_answer(&retval, &listed, history_list, refresh_func);
 	free(prompt);
-	prompt = saved_prompt;
 
 #ifndef NANO_TINY
 	if (retval == KEY_WINCH)
 		goto redo_theprompt;
 #endif
 
-	/* If we're done with this prompt, restore the x position to what
-	 * it was at a possible previous prompt. */
+	/* Restore a possible previous prompt and maybe the typing position. */
+	prompt = saved_prompt;
 	if (function == do_cancel || function == do_enter)
 		typing_x = was_typing_x;
 
-	/* If we left the prompt via Cancel or Enter, set the return value
-	 * properly. */
+	/* Set the proper return value for Cancel and Enter. */
 	if (function == do_cancel)
 		retval = -1;
 	else if (function == do_enter)
