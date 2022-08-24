@@ -540,6 +540,7 @@ void do_undo(void)
 		line->has_anchor |= line->next->has_anchor;
 		unlink_node(line->next);
 		renumber_from(line);
+		openfile->current = line;
 		goto_line_posx(u->head_lineno, original_x);
 		break;
 	case BACK:
@@ -746,6 +747,7 @@ void do_redo(void)
 		strcat(line->data, u->strdata);
 		unlink_node(line->next);
 		renumber_from(line);
+		openfile->current = line;
 		goto_line_posx(u->tail_lineno, u->tail_x);
 		break;
 	case REPLACE:
