@@ -737,18 +737,15 @@ void ask_for_and_do_replacements(void)
 }
 
 /* Go to the specified line and x position. */
-void goto_line_posx(ssize_t line, size_t pos_x)
+void goto_line_posx(ssize_t linenumber, size_t pos_x)
 {
 #ifdef ENABLE_COLOR
-	if (line > openfile->edittop->lineno + editwinrows ||
-				(ISSET(SOFTWRAP) && line > openfile->current->lineno))
+	if (linenumber > openfile->edittop->lineno + editwinrows ||
+				(ISSET(SOFTWRAP) && linenumber > openfile->current->lineno))
 		recook |= perturbed;
 #endif
 
-	for (openfile->current = openfile->filetop; line > 1 &&
-				openfile->current != openfile->filebot; line--)
-		openfile->current = openfile->current->next;
-
+	openfile->current = line_from_number(linenumber);
 	openfile->current_x = pos_x;
 	openfile->placewewant = xplustabs();
 
