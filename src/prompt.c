@@ -462,11 +462,11 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		shortcut = get_shortcut(input);
 		function = (shortcut ? shortcut->func : NULL);
 
-		if (function == do_cancel || function == do_enter)
-			break;
-
 		/* When it's a normal character, add it to the answer. */
 		absorb_character(input, function);
+
+		if (function == do_cancel || function == do_enter)
+			break;
 
 #ifdef ENABLE_TABCOMP
 		if (function == do_tab) {
