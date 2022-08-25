@@ -658,7 +658,7 @@ void do_undo(void)
 		break;
 	}
 
-	if (undidmsg && !pletion_line)
+	if (undidmsg && !ISSET(ZERO) && !pletion_line)
 		statusline(HUSH, _("Undid %s"), undidmsg);
 
 	openfile->current_undo = openfile->current_undo->next;
@@ -828,7 +828,7 @@ void do_redo(void)
 		break;
 	}
 
-	if (redidmsg)
+	if (redidmsg && !ISSET(ZERO))
 		statusline(HUSH, _("Redid %s"), redidmsg);
 
 	openfile->current_undo = u;
