@@ -3602,7 +3602,7 @@ void do_credits(void)
 {
 	bool with_interface = !ISSET(ZERO);
 	bool with_help = !ISSET(NO_HELP);
-	int kbinput = ERR, crpos = 0, xlpos = 0;
+	int crpos = 0, xlpos = 0;
 
 	const char *credits[CREDIT_LEN] = {
 		NULL,                /* "The nano text editor" */
@@ -3686,25 +3686,23 @@ void do_credits(void)
 
 	for (crpos = 0; crpos < CREDIT_LEN + editwinrows / 2; crpos++) {
 		if (crpos < CREDIT_LEN) {
-			const char *what;
+			const char *text = credits[crpos];
 
-			if (credits[crpos] == NULL)
-				what = _(xlcredits[xlpos++]);
-			else
-				what = credits[crpos];
+			if (!text)
+				text = _(xlcredits[xlpos++]);
 
-			mvwaddstr(midwin, editwinrows - 1, (COLS - breadth(what)) / 2, what);
+			mvwaddstr(midwin, editwinrows - 1, (COLS - breadth(text)) / 2, text);
 			wrefresh(midwin);
 		}
 
-		if ((kbinput = wgetch(midwin)) != ERR)
+		if (wgetch(midwin) != ERR)
 			break;
 
 		napms(600);
 		wscrl(midwin, 1);
 		wrefresh(midwin);
 
-		if ((kbinput = wgetch(midwin)) != ERR)
+		if (wgetch(midwin) != ERR)
 			break;
 
 		napms(600);
