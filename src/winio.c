@@ -3593,16 +3593,17 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 #endif
 
 #ifdef ENABLE_EXTRA
-#define CREDIT_LEN  54
+#define CREDIT_LEN  52
 #define XLCREDIT_LEN  9
 
 /* Fully blank the terminal screen, then slowly "crawl" the credits over it.
  * Abort the crawl upon any keystroke. */
 void do_credits(void)
 {
-	bool with_empty_line = ISSET(EMPTY_LINE);
+	bool with_interface = !ISSET(ZERO);
 	bool with_help = !ISSET(NO_HELP);
 	int kbinput = ERR, crpos = 0, xlpos = 0;
+
 	const char *credits[CREDIT_LEN] = {
 		NULL,                /* "The nano text editor" */
 		NULL,                /* "version" */
@@ -3650,10 +3651,8 @@ void do_credits(void)
 		"",
 		"",
 		"",
-		"",
 		"(C) 2022",
 		"Free Software Foundation, Inc.",
-		"",
 		"",
 		"",
 		"",
@@ -3672,8 +3671,8 @@ void do_credits(void)
 		N_("Thank you for using nano!")
 	};
 
-	if (with_empty_line || with_help) {
-		UNSET(EMPTY_LINE);
+	if (with_interface || with_help) {
+		SET(ZERO);
 		SET(NO_HELP);
 		window_init();
 	}
@@ -3681,14 +3680,9 @@ void do_credits(void)
 	nodelay(midwin, TRUE);
 	scrollok(midwin, TRUE);
 
-	blank_titlebar();
 	blank_edit();
-	blank_statusbar();
-
-	wrefresh(topwin);
 	wrefresh(midwin);
-	wrefresh(footwin);
-	napms(700);
+	napms(600);
 
 	for (crpos = 0; crpos < CREDIT_LEN + editwinrows / 2; crpos++) {
 		if (crpos < CREDIT_LEN) {
@@ -3699,31 +3693,27 @@ void do_credits(void)
 			else
 				what = credits[crpos];
 
-			mvwaddstr(midwin, editwinrows - 1 - (editwinrows % 2),
-								COLS / 2 - breadth(what) / 2 - 1, what);
+			mvwaddstr(midwin, editwinrows - 1, (COLS - breadth(what)) / 2, what);
 			wrefresh(midwin);
 		}
 
 		if ((kbinput = wgetch(midwin)) != ERR)
 			break;
 
-		napms(700);
+		napms(600);
 		wscrl(midwin, 1);
 		wrefresh(midwin);
 
 		if ((kbinput = wgetch(midwin)) != ERR)
 			break;
 
-		napms(700);
+		napms(600);
 		wscrl(midwin, 1);
 		wrefresh(midwin);
 	}
 
-	if (kbinput != ERR)
-		ungetch(kbinput);
-
-	if (with_empty_line)
-		SET(EMPTY_LINE);
+	if (with_interface)
+		UNSET(ZERO);
 	if (with_help)
 		UNSET(NO_HELP);
 	window_init();
