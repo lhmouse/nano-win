@@ -484,6 +484,7 @@ void get_range(linestruct **top, linestruct **bot)
 			also_the_last = TRUE;
 	}
 }
+#endif /* !NANO_TINY */
 
 /* Return a pointer to the line that has the given line number. */
 linestruct *line_from_number(ssize_t number)
@@ -499,7 +500,6 @@ linestruct *line_from_number(ssize_t number)
 
 	return line;
 }
-#endif /* !NANO_TINY */
 
 /* Count the number of characters from begin to end, and return it. */
 size_t number_of_characters_in(const linestruct *begin, const linestruct *end)
