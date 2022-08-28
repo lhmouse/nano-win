@@ -317,8 +317,8 @@ void discard_buffer(void)  {;}
 void do_cancel(void)  {;}
 
 /* Add a function to the linked list of functions. */
-void add_to_funcs(void (*function)(void), int menus, const char *desc,
-					const char *help, bool blank_after)
+void add_to_funcs(void (*function)(void), int menus, const char *tag,
+					const char *phrase, bool blank_after)
 {
 	funcstruct *f = nmalloc(sizeof(funcstruct));
 
@@ -331,9 +331,9 @@ void add_to_funcs(void (*function)(void), int menus, const char *desc,
 	f->next = NULL;
 	f->func = function;
 	f->menus = menus;
-	f->desc = desc;
+	f->tag = tag;
 #ifdef ENABLE_HELP
-	f->help = help;
+	f->phrase = phrase;
 	f->blank_after = blank_after;
 #endif
 }

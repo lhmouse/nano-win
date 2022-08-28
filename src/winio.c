@@ -2484,7 +2484,7 @@ void bottombars(int menu)
 		if (index + 2 >= number)
 			thiswidth += COLS % itemwidth;
 
-		post_one_key(s->keystr, _(f->desc), thiswidth);
+		post_one_key(s->keystr, _(f->tag), thiswidth);
 
 		index++;
 	}

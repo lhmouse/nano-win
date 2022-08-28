@@ -224,7 +224,7 @@ void help_init(void)
 	 * plus translated text, plus one or two \n's. */
 	for (f = allfuncs; f != NULL; f = f->next)
 		if (f->menus & currmenu)
-			allocsize += strlen(_(f->help)) + 21;
+			allocsize += strlen(_(f->phrase)) + 21;
 
 #ifndef NANO_TINY
 	/* If we're on the main list, we also count the toggle help text.
@@ -282,7 +282,7 @@ void help_init(void)
 			ptr += 10;
 
 		/* The shortcut's description. */
-		ptr += sprintf(ptr, "%s\n", _(f->help));
+		ptr += sprintf(ptr, "%s\n", _(f->phrase));
 
 		if (f->blank_after)
 			ptr += sprintf(ptr, "\n");

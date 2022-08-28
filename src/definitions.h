@@ -639,14 +639,13 @@ typedef struct keystruct {
 typedef struct funcstruct {
 	void (*func)(void);
 		/* The actual function to call. */
-	const char *desc;
-		/* The function's short description, for example "Where Is". */
+	const char *tag;
+		/* The function's help-line label, for example "Where Is". */
 #ifdef ENABLE_HELP
-	const char *help;
-		/* The help-screen text for this function. */
+	const char *phrase;
+		/* The function's description for in the help viewer. */
 	bool blank_after;
-		/* Whether there should be a blank line after the help text
-		 * for this function. */
+		/* Whether to distance this function from the next in the help viewer. */
 #endif
 	int menus;
 		/* In what menus this function applies. */

@@ -57,7 +57,7 @@ void make_new_buffer(void)
 		openfile->next = newnode;
 
 		/* There is more than one buffer: show "Close" in help lines. */
-		exitfunc->desc = close_tag;
+		exitfunc->tag = close_tag;
 		more_than_one = !inhelp || more_than_one;
 	}
 #endif
@@ -627,7 +627,7 @@ void close_buffer(void)
 
 	/* When just one buffer remains open, show "Exit" in the help lines. */
 	if (openfile && openfile == openfile->next)
-		exitfunc->desc = exit_tag;
+		exitfunc->tag = exit_tag;
 }
 #endif /* ENABLE_MULTIBUFFER */
 

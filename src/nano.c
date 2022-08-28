@@ -480,7 +480,7 @@ void mouse_init(void)
 #endif /* ENABLE_MOUSE */
 
 /* Print the usage line for the given option to the screen. */
-void print_opt(const char *shortflag, const char *longflag, const char *desc)
+void print_opt(const char *shortflag, const char *longflag, const char *description)
 {
 	int firstwidth = breadth(shortflag);
 	int secondwidth = breadth(longflag);
@@ -493,7 +493,7 @@ void print_opt(const char *shortflag, const char *longflag, const char *desc)
 	if (secondwidth < 24)
 		printf("%*s", 24 - secondwidth, " ");
 
-	printf("%s\n", _(desc));
+	printf("%s\n", _(description));
 }
 
 /* Explain how to properly use nano and its command-line options. */

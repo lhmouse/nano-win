@@ -1348,7 +1348,7 @@ static void check_vitals_mapped(void)
 			if (f->func == vitals[v] && f->menus & inmenus[v]) {
 				if (first_sc_for(inmenus[v], f->func) == NULL) {
 					jot_error(N_("No key is bound to function '%s' in menu '%s'. "
-								" Exiting.\n"), f->desc, menu_to_name(inmenus[v]));
+								" Exiting.\n"), f->tag, menu_to_name(inmenus[v]));
 					die(_("If needed, use nano with the -I option "
 								"to adjust your nanorc settings.\n"));
 				} else
