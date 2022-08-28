@@ -153,6 +153,30 @@ if test "x$enable_extra" != xno; then
 	AC_DEFINE(ENABLE_EXTRA, 1, [Define this to have an Easter egg.])
 fi
 
+AC_ARG_ENABLE(formatter,
+AS_HELP_STRING([--disable-formatter], [Disable the formatting tool]))
+if test "x$enable_tiny" = xyes; then
+	if test "x$enable_formatter" = xyes; then
+		if test "x$enable_color" != xyes; then
+			AC_MSG_ERROR([
+  ***  --enable-formatter needs both --enable-color and --enable-nanorc to work])
+		fi
+	else
+		enable_formatter=no
+	fi
+fi
+if test "x$enable_color" = xno; then
+	if test "x$enable_formatter" = xyes; then
+		AC_MSG_ERROR([
+  ***  --enable-formatter cannot work with --disable-color nor --disable-nanorc])
+	else
+		enable_formatter=no
+	fi
+fi
+if test "x$enable_formatter" != xno; then
+	AC_DEFINE(ENABLE_FORMATTER, 1, [Define this to have access to a formatter.])
+fi
+
 AC_ARG_ENABLE(help,
 AS_HELP_STRING([--disable-help], [Disable the built-in help texts]))
 if test "x$enable_tiny" = xyes; then
@@ -206,13 +230,37 @@ if test "x$enable_libmagic" = xyes; then
 	if test "x$enable_tiny" = xyes; then
 		if test "x$enable_color" != xyes; then
 			AC_MSG_ERROR([
-  ***  --enable-libmagic needs --enable-color and --enable-nanorc to work])
+  ***  --enable-libmagic needs both --enable-color and --enable-nanorc to work])
 		fi
 	fi
 	if test "x$enable_color" = xno; then
 		AC_MSG_ERROR([
   ***  --enable-libmagic cannot work with --disable-color nor --disable-nanorc])
 	fi
+fi
+
+AC_ARG_ENABLE(linter,
+AS_HELP_STRING([--disable-linter], [Disable the linting tool]))
+if test "x$enable_tiny" = xyes; then
+	if test "x$enable_linter" = xyes; then
+		if test "x$enable_color" != xyes; then
+			AC_MSG_ERROR([
+  ***  --enable-linter needs both --enable-color and --enable-nanorc to work])
+		fi
+	else
+		enable_linter=no
+	fi
+fi
+if test "x$enable_color" = xno; then
+	if test "x$enable_linter" = xyes; then
+		AC_MSG_ERROR([
+  ***  --enable-linter cannot work with --disable-color nor --disable-nanorc])
+	else
+		enable_linter=no
+	fi
+fi
+if test "x$enable_linter" != xno; then
+	AC_DEFINE(ENABLE_LINTER, 1, [Define this to have access to a linter.])
 fi
 
 AC_ARG_ENABLE(linenumbers,
@@ -272,14 +320,14 @@ if test "x$enable_operatingdir" != xno; then
 fi
 
 AC_ARG_ENABLE(speller,
-AS_HELP_STRING([--disable-speller], [Disable the spell-checker functions]))
+AS_HELP_STRING([--disable-speller], [Disable the spell-checking tool]))
 if test "x$enable_tiny" = xyes; then
 	if test "x$enable_speller" != xyes; then
 		enable_speller=no
 	fi
 fi
 if test "x$enable_speller" != xno; then
-	AC_DEFINE(ENABLE_SPELLER, 1, [Define this to have the spell-checker functions.])
+	AC_DEFINE(ENABLE_SPELLER, 1, [Define this to have access to a spell checker.])
 fi
 
 AC_ARG_ENABLE(tabcomp,

@@ -2024,7 +2024,7 @@ void do_full_justify(void)
 }
 #endif /* ENABLE_JUSTIFY */
 
-#if defined(ENABLE_SPELLER) || defined (ENABLE_COLOR)
+#if defined(ENABLE_SPELLER) || defined (ENABLE_LINTER) || defined (ENABLE_FORMATTER)
 /* Set up an argument list for executing the given command. */
 void construct_argument_list(char ***arguments, char *command, char *filename)
 {
@@ -2041,7 +2041,9 @@ void construct_argument_list(char ***arguments, char *command, char *filename)
 	(*arguments)[count - 2] = filename;
 	(*arguments)[count - 1] = NULL;
 }
+#endif
 
+#if defined(ENABLE_SPELLER) || defined (ENABLE_FORMATTER)
 /* Open the specified file, and if that succeeds, remove the text of the marked
  * region or of the entire buffer and read the file contents into its place. */
 bool replace_buffer(const char *filename, undo_type action, const char *operation)
@@ -2219,7 +2221,7 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 		statusline(REMARK, _("Buffer has been processed"));
 #endif
 }
-#endif /* ENABLE_SPELLER || ENABLE_COLOR */
+#endif /* ENABLE_SPELLER || ENABLE_FORMATTER */
 
 #ifdef ENABLE_SPELLER
 /* Let the user edit the misspelled word.  Return FALSE if the user cancels. */
@@ -2564,7 +2566,7 @@ void do_spell(void)
 }
 #endif /* ENABLE_SPELLER */
 
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 /* Run a linting program on the current buffer. */
 void do_linter(void)
 {
@@ -2910,7 +2912,9 @@ void do_linter(void)
 	titlebar(NULL);
 #endif
 }
+#endif /* ENABLE_LINTER */
 
+#ifdef ENABLE_FORMATTER
 /* Run a manipulation program on the contents of the buffer. */
 void do_formatter(void)
 {
@@ -2945,7 +2949,7 @@ void do_formatter(void)
 	unlink(temp_name);
 	free(temp_name);
 }
-#endif /* ENABLE_COLOR */
+#endif /* ENABLE_FORMATTER */
 
 #ifndef NANO_TINY
 /* Our own version of "wc".  Note that the character count is in

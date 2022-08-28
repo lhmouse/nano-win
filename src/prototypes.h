@@ -520,8 +520,10 @@ void do_full_justify(void);
 #ifdef ENABLE_SPELLER
 void do_spell(void);
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 void do_linter(void);
+#endif
+#ifdef ENABLE_FORMATTER
 void do_formatter(void);
 #endif
 #ifndef NANO_TINY

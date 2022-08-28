@@ -689,10 +689,12 @@ void shortcut_init(void)
 	const char *browserrefresh_gist = N_("Refresh the file list");
 	const char *gotodir_gist = N_("Go to directory");
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 	const char *lint_gist = N_("Invoke the linter, if available");
 	const char *prevlint_gist = N_("Go to previous linter msg");
 	const char *nextlint_gist = N_("Go to next linter msg");
+#endif
+#ifdef ENABLE_FORMATTER
 	const char *formatter_gist =
 		N_("Invoke a program to format/arrange/manipulate the buffer");
 #endif
@@ -1013,9 +1015,11 @@ void shortcut_init(void)
 		add_to_funcs(do_spell, MMAIN,
 				N_("Spell Check"), WHENHELP(spell_gist), TOGETHER);
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 		add_to_funcs(do_linter, MMAIN,
 				N_("Linter"), WHENHELP(lint_gist), TOGETHER);
+#endif
+#ifdef ENABLE_FORMATTER
 		add_to_funcs(do_formatter, MMAIN,
 				N_("Formatter"), WHENHELP(formatter_gist), BLANKAFTER);
 #endif
@@ -1055,7 +1059,7 @@ void shortcut_init(void)
 	add_to_funcs(do_spell, MEXECUTE,
 			N_("Spell Check"), WHENHELP(spell_gist), TOGETHER);
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 	add_to_funcs(do_linter, MEXECUTE,
 			N_("Linter"), WHENHELP(lint_gist), BLANKAFTER);
 #endif
@@ -1063,7 +1067,7 @@ void shortcut_init(void)
 	add_to_funcs(do_full_justify, MEXECUTE,
 			N_("Full Justify"), WHENHELP(fulljustify_gist), TOGETHER);
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_FORMATTER
 	add_to_funcs(do_formatter, MEXECUTE,
 			N_("Formatter"), WHENHELP(formatter_gist), BLANKAFTER);
 #endif
@@ -1143,7 +1147,7 @@ void shortcut_init(void)
 	add_to_funcs(discard_buffer, MWRITEFILE,
 			N_("Discard buffer"), WHENHELP(discardbuffer_gist), BLANKAFTER);
 
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 	add_to_funcs(do_page_up, MLINTER,
 			/* TRANSLATORS: The next two strings may be up to 37 characters each. */
 			N_("Previous Linter message"), WHENHELP(prevlint_gist), TOGETHER);
@@ -1197,9 +1201,11 @@ void shortcut_init(void)
 #ifdef ENABLE_JUSTIFY
 	add_to_sclist(MMAIN, "^J", '\n', do_justify, 0);
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
 	add_to_sclist(MEXECUTE, "^Y", 0, do_linter, 0);
+#endif
+#ifdef ENABLE_FORMATTER
 	add_to_sclist(MMAIN, "M-F", 0, do_formatter, 0);
 	add_to_sclist(MEXECUTE, "^O", 0, do_formatter, 0);
 #endif

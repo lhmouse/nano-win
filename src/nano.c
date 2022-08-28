@@ -688,6 +688,9 @@ void version(void)
 #ifdef ENABLE_EXTRA
 	printf(" --enable-extra");
 #endif
+#ifdef ENABLE_FORMATTER
+	printf(" --enable-formatter");
+#endif
 #ifdef ENABLE_HELP
 	printf(" --enable-help");
 #endif
@@ -702,6 +705,9 @@ void version(void)
 #endif
 #ifdef ENABLE_LINENUMBERS
 	printf(" --enable-linenumbers");
+#endif
+#ifdef ENABLE_LINTER
+	printf(" --enable-linter");
 #endif
 #ifdef ENABLE_MOUSE
 	printf(" --enable-mouse");
@@ -737,6 +743,9 @@ void version(void)
 #ifndef ENABLE_EXTRA
 	printf(" --disable-extra");
 #endif
+#ifndef ENABLE_FORMATTER
+	printf(" --disable-formatter");
+#endif
 #ifndef ENABLE_HELP
 	printf(" --disable-help");
 #endif
@@ -751,6 +760,9 @@ void version(void)
 #endif
 #ifndef ENABLE_LINENUMBERS
 	printf(" --disable-linenumbers");
+#endif
+#ifndef ENABLE_LINTER
+	printf(" --disable-linter");
 #endif
 #ifndef ENABLE_MOUSE
 	printf(" --disable-mouse");
@@ -1392,7 +1404,7 @@ bool changes_something(const void *f)
 #ifdef ENABLE_SPELLER
 			f == do_spell ||
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_FORMATTER
 			f == do_formatter ||
 #endif
 #ifdef ENABLE_WORDCOMPLETION

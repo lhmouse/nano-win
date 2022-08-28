@@ -276,9 +276,11 @@ keystruct *strtosc(const char *input)
 	         !strcmp(input, "speller"))
 		s->func = do_spell;
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 	else if (!strcmp(input, "linter"))
 		s->func = do_linter;
+#endif
+#ifdef ENABLE_FORMATTER
 	else if (!strcmp(input, "formatter"))
 		s->func = do_formatter;
 #endif
