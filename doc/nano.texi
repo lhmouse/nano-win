@@ -1941,6 +1941,9 @@ Exclude the single-keystroke comment/uncomment function (@w{@kbd{M-3}}).
 @item --disable-extra
 Exclude the Easter egg: a crawl of major contributors.
 
+@item --disable-formatter
+Exclude the code for calling a formatting tool.
+
 @item --disable-help
 Exclude the help texts (@kbd{^G}).  This makes the binary much smaller,
 but also makes it difficult for new users to learn more than very basic
@@ -1965,6 +1968,9 @@ in most cases the regexes for filename and header line will be enough).
 @item --disable-linenumbers
 Exclude the ability to show line numbers.  This also eliminates
 the @option{-l} command-line option, which turns line numbering on.
+
+@item --disable-linter
+Exclude the code for calling a linting tool.
 
 @item --disable-mouse
 Exclude all mouse functionality.  This also eliminates the @option{-m}
