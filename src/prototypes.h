@@ -469,7 +469,9 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 		const linestruct *real_current, size_t *real_current_x);
 void do_replace(void);
 void ask_for_and_do_replacements(void);
+#if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined (ENABLE_LINTER) || defined (ENABLE_FORMATTER)
 void goto_line_posx(ssize_t line, size_t pos_x);
+#endif
 void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		bool interactive);
 void do_gotolinecolumn(void);
@@ -572,7 +574,7 @@ void get_region(linestruct **top, size_t *top_x, linestruct **bot, size_t *bot_x
 void get_range(linestruct **top, linestruct **bot);
 #endif
 size_t number_of_characters_in(const linestruct *begin, const linestruct *end);
-#ifndef NANO_TINY
+#if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined (ENABLE_LINTER) || defined (ENABLE_FORMATTER)
 linestruct *line_from_number(ssize_t number);
 #endif
 

@@ -736,6 +736,7 @@ void ask_for_and_do_replacements(void)
 					"Replaced %zd occurrences", numreplaced), numreplaced);
 }
 
+#if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined (ENABLE_LINTER) || defined (ENABLE_FORMATTER)
 /* Go to the specified line and x position. */
 void goto_line_posx(ssize_t linenumber, size_t pos_x)
 {
@@ -751,6 +752,7 @@ void goto_line_posx(ssize_t linenumber, size_t pos_x)
 
 	refresh_needed = TRUE;
 }
+#endif
 
 /* Go to the specified line and column, or ask for them if interactive
  * is TRUE.  In the latter case also update the screen afterwards.
