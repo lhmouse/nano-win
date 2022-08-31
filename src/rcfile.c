@@ -787,6 +787,12 @@ void parse_binding(char *ptr, bool dobind)
 		goto free_things;
 	}
 
+	menu = name_to_menu(menuptr);
+	if (menu < 1) {
+		jot_error(N_("Cannot map name \"%s\" to a menu"), menuptr);
+		goto free_things;
+	}
+
 	if (dobind) {
 		/* If the thing to bind starts with a double quote, it is a string,
 		 * otherwise it is the name of a function. */
@@ -804,12 +810,6 @@ void parse_binding(char *ptr, bool dobind)
 			jot_error(N_("Cannot map name \"%s\" to a function"), funcptr);
 			goto free_things;
 		}
-	}
-
-	menu = name_to_menu(menuptr);
-	if (menu < 1) {
-		jot_error(N_("Cannot map name \"%s\" to a menu"), menuptr);
-		goto free_things;
 	}
 
 	/* Wipe the given shortcut from the given menu. */
