@@ -1285,7 +1285,7 @@ void unbound_key(int code)
 	else if (code == MISSING_BRACE)
 		statusline(AHEM, _("Missing }"));
 	else if (code == NO_SUCH_FUNCTION)
-		statusline(AHEM, _("No such function: %s"), commandname);
+		statusline(AHEM, _("Unknown function: %s"), commandname);
 #endif
 #ifndef NANO_TINY
 	else if (code > KEY_F0 && code < KEY_F0 + 25)

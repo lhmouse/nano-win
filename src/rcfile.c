@@ -789,7 +789,7 @@ void parse_binding(char *ptr, bool dobind)
 
 	menu = name_to_menu(menuptr);
 	if (menu < 1) {
-		jot_error(N_("Cannot map name \"%s\" to a menu"), menuptr);
+		jot_error(N_("Unknown menu: %s"), menuptr);
 		goto free_things;
 	}
 
@@ -807,7 +807,7 @@ void parse_binding(char *ptr, bool dobind)
 			newsc = strtosc(funcptr);
 
 		if (newsc == NULL) {
-			jot_error(N_("Cannot map name \"%s\" to a function"), funcptr);
+			jot_error(N_("Unknown function: %s"), funcptr);
 			goto free_things;
 		}
 	}
@@ -1532,7 +1532,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 		}
 
 		if (rcopts[i].name == NULL) {
-			jot_error(N_("Unknown option \"%s\""), option);
+			jot_error(N_("Unknown option: %s"), option);
 			continue;
 		}
 
