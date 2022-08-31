@@ -153,18 +153,6 @@ static bool seen_color_command = FALSE;
 static colortype *lastcolor = NULL;
 		/* The end of the color list for the current syntax. */
 #endif
-
-#define NUMBER_OF_MENUS  16
-char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
-									"yesno", "gotoline", "writeout", "insert",
-									"execute", "help", "spell", "linter",
-									"browser", "whereisfile", "gotodir",
-									"all" };
-int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
-									MYESNO, MGOTOLINE, MWRITEFILE, MINSERTFILE,
-									MEXECUTE, MHELP, MSPELL, MLINTER,
-									MBROWSER, MWHEREISFILE, MGOTODIR,
-									MMOST|MBROWSER|MHELP|MYESNO };
 #endif /* ENABLE_NANORC */
 
 #if defined(ENABLE_NANORC) || defined(ENABLE_HISTORIES)
@@ -495,6 +483,18 @@ keystruct *strtosc(const char *input)
 	return s;
 }
 
+#define NUMBER_OF_MENUS  16
+char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
+									"yesno", "gotoline", "writeout", "insert",
+									"execute", "help", "spell", "linter",
+									"browser", "whereisfile", "gotodir",
+									"all" };
+int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
+									MYESNO, MGOTOLINE, MWRITEFILE, MINSERTFILE,
+									MEXECUTE, MHELP, MSPELL, MLINTER,
+									MBROWSER, MWHEREISFILE, MGOTODIR,
+									MMOST|MBROWSER|MHELP|MYESNO };
+
 /* Return the symbol that corresponds to the given menu name. */
 int name_to_menu(const char *name)
 {
@@ -504,7 +504,7 @@ int name_to_menu(const char *name)
 		if (strcmp(name, menunames[index]) == 0)
 			return menusymbols[index];
 
-	return -1;
+	return 0;
 }
 
 /* Return the name that corresponds to the given menu symbol. */
@@ -788,7 +788,7 @@ void parse_binding(char *ptr, bool dobind)
 	}
 
 	menu = name_to_menu(menuptr);
-	if (menu < 1) {
+	if (menu == 0) {
 		jot_error(N_("Unknown menu: %s"), menuptr);
 		goto free_things;
 	}
