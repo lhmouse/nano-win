@@ -426,6 +426,14 @@ It also means that lookahead and lookbehind are not possible.
 A complete explanation can be found in the manual page of GNU grep:
 \fBman grep\fR.
 .sp
+Each regular expression in a \fBnanorc\fR file should be wrapped in
+double quotes (\fB""\fR).  Multiple regular expressions can follow
+each other on a line by separating them with blanks.  This means that
+a regular expression cannot contain a double quote followed by a blank.
+When you need this combination inside a regular expression,
+then either the double quote or the blank should be put
+between square brackets (\fB[]\fR).
+.sp
 For each kind of file a separate syntax can be defined
 via the following commands:
 .TP

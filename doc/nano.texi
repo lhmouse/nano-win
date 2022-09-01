@@ -1201,6 +1201,14 @@ It also means that lookahead and lookbehind are not possible.
 A complete explanation can be found in the manual of GNU grep:
 @code{info grep regular}.
 
+Each regular expression in a @file{nanorc} file should be wrapped in
+double quotes (@code{""}).  Multiple regular expressions can follow
+each other on a line by separating them with blanks.  This means that
+a regular expression cannot contain a double quote followed by a blank.
+When you need this combination inside a regular expression,
+then either the double quote or the blank should be put
+between square brackets (@code{[]}).
+
 A separate syntax can be defined for each kind of file
 via the following commands in a nanorc file:
 
