@@ -423,10 +423,9 @@ void window_init(void)
 		int toprows = ((ISSET(EMPTY_LINE) && LINES > 6) ? 2 : 1);
 		int bottomrows = ((ISSET(NO_HELP) || LINES < 6) ? 1 : 3);
 
-#ifndef NANO_TINY
 		if (ISSET(MINIBAR) || ISSET(ZERO))
 			toprows = 0;
-#endif
+
 		editwinrows = LINES - toprows - bottomrows + (ISSET(ZERO) ? 1 : 0);
 
 		/* Set up the normal three subwindows. */
@@ -1282,10 +1281,10 @@ void unbound_key(int code)
 		 * (from the keyboard) that nano does not recognize. */
 		statusline(AHEM, _("Unknown sequence"));
 #ifdef ENABLE_NANORC
-	else if (code == MISSING_BRACE)
-		statusline(AHEM, _("Missing }"));
 	else if (code == NO_SUCH_FUNCTION)
 		statusline(AHEM, _("Unknown function: %s"), commandname);
+	else if (code == MISSING_BRACE)
+		statusline(AHEM, _("Missing }"));
 #endif
 #ifndef NANO_TINY
 	else if (code > KEY_F0 && code < KEY_F0 + 25)
