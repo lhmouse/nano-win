@@ -829,9 +829,9 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		openfile->placewewant = breadth(openfile->current->data);
 #endif
 
-	/* When the position was manually given, center the target line. */
+	/* When a line number was manually given, center the target line. */
 	if (interactive) {
-		adjust_viewport(CENTERING);
+		adjust_viewport((*answer == ',') ? STATIONARY : CENTERING);
 		refresh_needed = TRUE;
 	} else {
 		int rows_from_tail;
