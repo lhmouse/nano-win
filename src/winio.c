@@ -1357,6 +1357,8 @@ long add_unicode_digit(int symbol, long factor, long *unicode)
 		*unicode += (symbol - '0') * factor;
 	else if ('a' <= tolower(symbol) && tolower(symbol) <= 'f')
 		*unicode += (tolower(symbol) - 'a' + 10) * factor;
+	else if (symbol == '\r' || symbol == ' ')
+		return (*unicode / factor) >> 4;
 	else
 		return INVALID_DIGIT;
 
@@ -1374,18 +1376,13 @@ long assemble_unicode(int symbol)
 
 	switch (++digits) {
 		case 1:
-			unicode = (symbol - '0') * 0x100000;
+			unicode = 0;
+			retval = add_unicode_digit(symbol, 0x100000, &unicode);
 			break;
 		case 2:
-			/* The second digit must be zero if the first was one, but
-			 * may be any hexadecimal value if the first was zero. */
-			if (symbol == '0' || unicode == 0)
-				retval = add_unicode_digit(symbol, 0x10000, &unicode);
-			else
-				retval = INVALID_DIGIT;
+			retval = add_unicode_digit(symbol, 0x10000, &unicode);
 			break;
 		case 3:
-			/* Later digits may be any hexadecimal value. */
 			retval = add_unicode_digit(symbol, 0x1000, &unicode);
 			break;
 		case 4:
@@ -1397,9 +1394,9 @@ long assemble_unicode(int symbol)
 		case 6:
 			retval = add_unicode_digit(symbol, 0x1, &unicode);
 			/* If also the sixth digit was a valid hexadecimal value, then
-			 * the Unicode sequence is complete, so return it. */
+			 * the Unicode sequence is complete, so return it when valid. */
 			if (retval == PROCEED)
-				retval = unicode;
+				retval = (unicode < 0x110000) ? unicode : INVALID_DIGIT;
 			break;
 	}
 
@@ -1407,9 +1404,8 @@ long assemble_unicode(int symbol)
 	if (retval == PROCEED && currmenu == MMAIN) {
 		char partial[7] = "......";
 
-		/* Construct the partial result, right-padding it with dots. */
-		snprintf(partial, digits + 1, "%06lX", unicode);
-		partial[digits] = '.';
+		/* Construct the partial result, left-padded with dots. */
+		snprintf(partial + 6 - digits, digits + 1, "%06lX", unicode);
 
 		/* TRANSLATORS: This is shown while a six-digit hexadecimal
 		 * Unicode character code (%s) is being typed in. */
@@ -1451,7 +1447,7 @@ int *parse_verbatim_kbinput(WINDOW *frame, size_t *count)
 #ifdef ENABLE_UTF8
 	/* If the first code is a valid Unicode starter digit (0 or 1),
 	 * commence Unicode input.  Otherwise, put the code back. */
-	if (using_utf8() && (keycode == '0' || keycode == '1')) {
+	if (using_utf8() && isxdigit(keycode)) {
 		long unicode = assemble_unicode(keycode);
 		char multibyte[MB_CUR_MAX];
 
