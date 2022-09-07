@@ -1348,41 +1348,32 @@ int get_kbinput(WINDOW *frame, bool showcursor)
 #ifdef ENABLE_UTF8
 #define INVALID_DIGIT  -77
 
-/* If the given symbol is a valid hexadecimal digit, multiply it by factor
- * and add the result to the given unicode, and return PROCEED to signify
- * okay.  When not a hexadecimal digit, return the symbol itself. */
-long add_unicode_digit(int symbol, long *unicode)
-{
-	if ('0' <= symbol && symbol <= '9')
-		*unicode = (*unicode << 4) + symbol - '0';
-	else if ('a' <= tolower(symbol) && tolower(symbol) <= 'f')
-		*unicode = (*unicode << 4) + tolower(symbol) - 'a' + 10;
-	else if (symbol == '\r' || symbol == ' ')
-		return *unicode;
-	else
-		return INVALID_DIGIT;
-
-	return PROCEED;
-}
-
 /* For each consecutive call, gather the given symbol into a six-digit Unicode
  * (from 000000 to 10FFFF, case-insensitive).  When it is complete, return the
- * assembled Unicode; until then, return PROCEED when the symbol is valid. */
+ * assembled Unicode; until then, return PROCEED when the symbol is valid; and
+ * return an error code for anything other than hexadecimal, Space, and Enter. */
 long assemble_unicode(int symbol)
 {
 	static long unicode = 0;
 	static int digits = 0;
-	long retval = PROCEED;
+	long outcome = PROCEED;
 
-	retval = add_unicode_digit(symbol, &unicode);
+	if ('0' <= symbol && symbol <= '9')
+		unicode = (unicode << 4) + symbol - '0';
+	else if ('a' <= (symbol | 0x20) && (symbol | 0x20) <= 'f')
+		unicode = (unicode << 4) + (symbol | 0x20) - 'a' + 10;
+	else if (symbol == '\r' || symbol == ' ')
+		outcome = unicode;
+	else
+		outcome = INVALID_DIGIT;
 
 	/* If also the sixth digit was a valid hexadecimal value, then the
 	 * Unicode sequence is complete, so return it (when it's valid). */
-	if (++digits == 6 && retval == PROCEED)
-		retval = (unicode < 0x110000) ? unicode : INVALID_DIGIT;
+	if (++digits == 6 && outcome == PROCEED)
+		outcome = (unicode < 0x110000) ? unicode : INVALID_DIGIT;
 
 	/* Show feedback only when editing, not when at a prompt. */
-	if (retval == PROCEED && currmenu == MMAIN) {
+	if (outcome == PROCEED && currmenu == MMAIN) {
 		char partial[7] = "......";
 
 		/* Construct the partial result, left-padded with dots. */
@@ -1394,12 +1385,12 @@ long assemble_unicode(int symbol)
 	}
 
 	/* If we have an end result, reset the value and the counter. */
-	if (retval != PROCEED) {
+	if (outcome != PROCEED) {
 		unicode = 0;
 		digits = 0;
 	}
 
-	return retval;
+	return outcome;
 }
 #endif /* ENABLE_UTF8 */
 
