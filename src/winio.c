@@ -1351,14 +1351,14 @@ int get_kbinput(WINDOW *frame, bool showcursor)
 /* If the given symbol is a valid hexadecimal digit, multiply it by factor
  * and add the result to the given unicode, and return PROCEED to signify
  * okay.  When not a hexadecimal digit, return the symbol itself. */
-long add_unicode_digit(int symbol, long factor, long *unicode)
+long add_unicode_digit(int symbol, long *unicode)
 {
 	if ('0' <= symbol && symbol <= '9')
-		*unicode += (symbol - '0') * factor;
+		*unicode = (*unicode << 4) + symbol - '0';
 	else if ('a' <= tolower(symbol) && tolower(symbol) <= 'f')
-		*unicode += (tolower(symbol) - 'a' + 10) * factor;
+		*unicode = (*unicode << 4) + tolower(symbol) - 'a' + 10;
 	else if (symbol == '\r' || symbol == ' ')
-		return (*unicode / factor) >> 4;
+		return *unicode;
 	else
 		return INVALID_DIGIT;
 
@@ -1374,47 +1374,30 @@ long assemble_unicode(int symbol)
 	static int digits = 0;
 	long retval = PROCEED;
 
-	switch (++digits) {
-		case 1:
-			unicode = 0;
-			retval = add_unicode_digit(symbol, 0x100000, &unicode);
-			break;
-		case 2:
-			retval = add_unicode_digit(symbol, 0x10000, &unicode);
-			break;
-		case 3:
-			retval = add_unicode_digit(symbol, 0x1000, &unicode);
-			break;
-		case 4:
-			retval = add_unicode_digit(symbol, 0x100, &unicode);
-			break;
-		case 5:
-			retval = add_unicode_digit(symbol, 0x10, &unicode);
-			break;
-		case 6:
-			retval = add_unicode_digit(symbol, 0x1, &unicode);
-			/* If also the sixth digit was a valid hexadecimal value, then
-			 * the Unicode sequence is complete, so return it when valid. */
-			if (retval == PROCEED)
-				retval = (unicode < 0x110000) ? unicode : INVALID_DIGIT;
-			break;
-	}
+	retval = add_unicode_digit(symbol, &unicode);
+
+	/* If also the sixth digit was a valid hexadecimal value, then the
+	 * Unicode sequence is complete, so return it (when it's valid). */
+	if (++digits == 6 && retval == PROCEED)
+		retval = (unicode < 0x110000) ? unicode : INVALID_DIGIT;
 
 	/* Show feedback only when editing, not when at a prompt. */
 	if (retval == PROCEED && currmenu == MMAIN) {
 		char partial[7] = "......";
 
 		/* Construct the partial result, left-padded with dots. */
-		snprintf(partial + 6 - digits, digits + 1, "%06lX", unicode);
+		sprintf(partial + 6 - digits, "%0*lX", digits, unicode);
 
 		/* TRANSLATORS: This is shown while a six-digit hexadecimal
 		 * Unicode character code (%s) is being typed in. */
 		statusline(INFO, _("Unicode Input: %s"), partial);
 	}
 
-	/* If we have an end result, reset the Unicode digit counter. */
-	if (retval != PROCEED)
+	/* If we have an end result, reset the value and the counter. */
+	if (retval != PROCEED) {
+		unicode = 0;
 		digits = 0;
+	}
 
 	return retval;
 }
