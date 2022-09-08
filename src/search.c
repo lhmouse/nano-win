@@ -222,8 +222,9 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 				continue;
 			}
 #endif
-			/* The match is valid. */
-			break;
+			/* When not on the magic line, the match is valid. */
+			if (line->next || line->data[0])
+				break;
 		}
 
 #ifndef NANO_TINY
