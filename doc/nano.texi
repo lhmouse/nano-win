@@ -1344,15 +1344,25 @@ Rebinds @code{key} to @code{function} in the context of @code{menu}
 @item bind key "string" menu
 Makes @code{key} produce @code{string} in the context of @code{menu}
 (or in all menus where the key exists when @code{all} is used).
-Besides literal text, the  @code{string} may contain function names
-between braces.  These functions will be invoked when the key is typed.
-To include a literal opening brace, use @code{@{@{@}}.
+Besides literal text and/or control codes, the  @code{string} may contain
+function names between braces.  These functions will be invoked when the
+key is typed. To include a literal opening brace, use @code{@{@{@}}.
 
 @item unbind key menu
 Unbinds @code{key} from @code{menu}
 (or from all menus where the key exists when @code{all} is used).
 
 @end table
+
+Note that @code{bind key "@{function@}" menu} is equivalent to
+@code{bind key function menu}, except that for the latter form
+@command{nano} will check the availabilty of the @code{function}
+in the given @code{menu} at startup time (and report an error if
+it does not exist there), whereas for the first form @command{nano}
+will check at execution time that the @code{function} exists but not
+whether it makes any sense in the current menu. The user has to take
+care that a function name between braces (or any sequence of them)
+is appropriate.  Strange behavior can result when it is not.
 
 @sp 1
 The format of @code{key} should be one of:
