@@ -255,13 +255,12 @@ void browser_refresh(void)
 	wnoutrefresh(midwin);
 }
 
-/* Look for the given needle in the list of files.  If forwards is TRUE,
- * search forward in the list; otherwise, search backward. */
+/* Look for the given needle in the list of files, forwards or backwards. */
 void findfile(const char *needle, bool forwards)
 {
 	size_t began_at = selected;
 
-	/* Step through each filename in the list until a match is found or
+	/* Iterate through the list of filenames, until a match is found or
 	 * we've come back to the point where we started. */
 	while (TRUE) {
 		if (forwards) {
@@ -276,15 +275,14 @@ void findfile(const char *needle, bool forwards)
 			}
 		}
 
-		/* If the needle matches, we're done.  And if we're back at the file
-		 * where we started, it is the only occurrence. */
+		/* When the needle occurs in the basename of the file, we have a match. */
 		if (mbstrcasestr(tail(filelist[selected]), needle)) {
 			if (selected == began_at)
 				statusbar(_("This is the only occurrence"));
 			return;
 		}
 
-		/* If we're back at the beginning and didn't find any match... */
+		/* When we're back at the starting point without any match... */
 		if (selected == began_at) {
 			not_found_msg(needle);
 			return;
