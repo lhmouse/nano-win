@@ -259,41 +259,37 @@ void browser_refresh(void)
  * search forward in the list; otherwise, search backward. */
 void findfile(const char *needle, bool forwards)
 {
-	size_t looking_at = selected;
-		/* The location in the file list of the filename we're looking at. */
+	size_t began_at = selected;
 
 	/* Step through each filename in the list until a match is found or
 	 * we've come back to the point where we started. */
 	while (TRUE) {
 		if (forwards) {
-			if (looking_at++ == list_length - 1) {
-				looking_at = 0;
+			if (selected++ == list_length - 1) {
+				selected = 0;
 				statusbar(_("Search Wrapped"));
 			}
 		} else {
-			if (looking_at-- == 0) {
-				looking_at = list_length - 1;
+			if (selected-- == 0) {
+				selected = list_length - 1;
 				statusbar(_("Search Wrapped"));
 			}
 		}
 
 		/* If the needle matches, we're done.  And if we're back at the file
 		 * where we started, it is the only occurrence. */
-		if (mbstrcasestr(tail(filelist[looking_at]), needle)) {
-			if (looking_at == selected)
+		if (mbstrcasestr(tail(filelist[selected]), needle)) {
+			if (selected == began_at)
 				statusbar(_("This is the only occurrence"));
-			break;
+			return;
 		}
 
 		/* If we're back at the beginning and didn't find any match... */
-		if (looking_at == selected) {
+		if (selected == began_at) {
 			not_found_msg(needle);
-			break;
+			return;
 		}
 	}
-
-	/* Select the one we've found. */
-	selected = looking_at;
 }
 
 /* Prepare the prompt and ask the user what to search for; then search for it.
