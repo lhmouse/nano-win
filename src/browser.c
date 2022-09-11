@@ -263,16 +263,6 @@ void findfile(const char *needle, bool forwards)
 		/* The location in the file list of the filename we're looking at. */
 	const char *thename;
 		/* The plain filename, without the path. */
-	unsigned stash[sizeof(flags) / sizeof(flags[0])];
-		/* A storage place for the current flag settings. */
-
-	/* Save the settings of all flags. */
-	memcpy(stash, flags, sizeof(flags));
-
-	/* Search forward, case insensitive, and without regexes. */
-	UNSET(BACKWARDS_SEARCH);
-	UNSET(CASE_SENSITIVE);
-	UNSET(USE_REGEXP);
 
 	/* Step through each filename in the list until a match is found or
 	 * we've come back to the point where we started. */
@@ -294,7 +284,7 @@ void findfile(const char *needle, bool forwards)
 
 		/* If the needle matches, we're done.  And if we're back at the file
 		 * where we started, it is the only occurrence. */
-		if (strstrwrapper(thename, needle, thename)) {
+		if (mbstrcasestr(thename, needle)) {
 			if (looking_at == selected)
 				statusbar(_("This is the only occurrence"));
 			break;
@@ -306,9 +296,6 @@ void findfile(const char *needle, bool forwards)
 			break;
 		}
 	}
-
-	/* Restore the settings of all flags. */
-	memcpy(flags, stash, sizeof(flags));
 
 	/* Select the one we've found. */
 	selected = looking_at;
