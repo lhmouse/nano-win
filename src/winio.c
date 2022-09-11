@@ -1348,10 +1348,10 @@ int get_kbinput(WINDOW *frame, bool showcursor)
 #ifdef ENABLE_UTF8
 #define INVALID_DIGIT  -77
 
-/* For each consecutive call, gather the given symbol into a six-digit Unicode
- * (from 000000 to 10FFFF, case-insensitive).  When it is complete, return the
- * assembled Unicode; until then, return PROCEED when the symbol is valid; and
- * return an error code for anything other than hexadecimal, Space, and Enter. */
+/* For each consecutive call, gather the given symbol into a Unicode code point.
+ * When it's complete (with six digits, or when Space or Enter is typed), return
+ * the assembled code.  Until then, return PROCEED when the symbol is valid, or
+ * an error code for anything other than hexadecimal, Space, and Enter. */
 long assemble_unicode(int symbol)
 {
 	static long unicode = 0;
@@ -1374,9 +1374,8 @@ long assemble_unicode(int symbol)
 
 	/* Show feedback only when editing, not when at a prompt. */
 	if (outcome == PROCEED && currmenu == MMAIN) {
-		char partial[7] = "......";
+		char partial[7] = "      ";
 
-		/* Construct the partial result, left-padded with dots. */
 		sprintf(partial + 6 - digits, "%0*lX", digits, unicode);
 
 		/* TRANSLATORS: This is shown while a six-digit hexadecimal
@@ -1404,7 +1403,6 @@ int *parse_verbatim_kbinput(WINDOW *frame, size_t *count)
 
 	reveal_cursor = TRUE;
 
-	/* Read in the first code. */
 	keycode = get_input(frame);
 
 #ifndef NANO_TINY
@@ -1419,14 +1417,14 @@ int *parse_verbatim_kbinput(WINDOW *frame, size_t *count)
 	yield = nmalloc(6 * sizeof(int));
 
 #ifdef ENABLE_UTF8
-	/* If the first code is a valid Unicode starter digit (0 or 1),
-	 * commence Unicode input.  Otherwise, put the code back. */
+	/* If the key code is a hexadecimal digit, commence Unicode input. */
 	if (using_utf8() && isxdigit(keycode)) {
 		long unicode = assemble_unicode(keycode);
 		char multibyte[MB_CUR_MAX];
 
 		reveal_cursor = FALSE;
 
+		/* Gather at most six hexadecimal digits. */
 		while (unicode == PROCEED) {
 			keycode = get_input(frame);
 			unicode = assemble_unicode(keycode);
@@ -1439,7 +1437,7 @@ int *parse_verbatim_kbinput(WINDOW *frame, size_t *count)
 			return NULL;
 		}
 #endif
-		/* For an invalid digit, discard its possible continuation bytes. */
+		/* For an invalid keystroke, discard its possible continuation bytes. */
 		if (unicode == INVALID_DIGIT) {
 			if (keycode == ESC_CODE && waiting_codes) {
 				get_input(NULL);
