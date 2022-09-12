@@ -1301,17 +1301,17 @@ void unbound_key(int code)
 #endif
 #ifdef ENABLE_NANORC
 		if (shifted_metas && 'A' <= code && code <= 'Z')
-			statusline(AHEM, _("Unbound key: Sh-M-%c"), code);
+			statusline(AHEM, _("Unbound key: %s%c"), "Sh-M-", code);
 		else
 #endif
-			statusline(AHEM, _("Unbound key: M-%c"), toupper(code));
+			statusline(AHEM, _("Unbound key: %s%c"), "M-", toupper(code));
 	} else if (code == ESC_CODE)
 		statusline(AHEM, _("Unbindable key: ^["));
 	else if (code < 0x20)
-		statusline(AHEM, _("Unbound key: ^%c"), code + 0x40);
+		statusline(AHEM, _("Unbound key: %s%c"), "^", code + 0x40);
 #if defined(ENABLE_BROWSER) || defined (ENABLE_HELP)
 	else
-		statusline(AHEM, _("Unbound key: %c"), code);
+		statusline(AHEM, _("Unbound key: %s%c"), "", code);
 #endif
 	set_blankdelay_to_one();
 }
