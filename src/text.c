@@ -3039,7 +3039,13 @@ void do_verbatim_input(void)
 		if (count < 999)
 			inject(bytes, count);
 
-		wipe_statusbar();
+#ifndef NANO_TINY
+		/* Ensure that the feedback will be overwritten, or clear it. */
+		if (ISSET(ZERO) && currmenu == MMAIN)
+			wredrawln(midwin, editwinrows - 1, 1);
+		else
+#endif
+			wipe_statusbar();
 	} else
 		/* TRANSLATORS: An invalid verbatim Unicode code was typed. */
 		statusline(AHEM, _("Invalid code"));

@@ -1518,9 +1518,6 @@ char *get_verbatim_kbinput(WINDOW *frame, size_t *count)
 	/* Turn bracketed-paste mode back on. */
 	printf("\x1B[?2004h");
 	fflush(stdout);
-
-	if (ISSET(ZERO) && currmenu == MMAIN)
-		wredrawln(midwin, editwinrows - 1, 1);
 #endif
 
 	/* Turn flow control characters back on if necessary and turn the
