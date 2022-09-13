@@ -74,6 +74,12 @@ using the arrow keys.  Holding down the Ctrl or Alt key too will increase
 the stride.
 Any cursor movement without Shift being held will cancel such a selection.
 .sp
+Any valid Unicode code point can be inserted into the buffer by typing
+\fBM\-V\fR followed by the hexadecimal digits of the code point (concluded
+with \fB<Space>\fR or \fB<Enter>\fR when it are fewer than six digits).
+A literal control code (except \fB^J\fR) can be inserted by typing
+\fBM\-V\fR followed by the pertinent keystroke.
+.sp
 The two lines at the bottom of the screen show some important commands;
 the built-in help (\fB^G\fR) lists all the available ones.
 The default key bindings can be changed via a \fInanorc\fR file -- see

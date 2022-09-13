@@ -222,13 +222,17 @@ typed the key with that value.
 
 @item
 For any possible character, pressing @kbd{M-V} (Alt+V) and then typing a
-six-digit hexadecimal number (starting with @kbd{0} or @kbd{1}) will enter the
-corresponding Unicode character into the buffer.
+series of hexadecimal digits (at most six, or concluded with @kbd{Enter} or
+@kbd{Space}) will enter the corresponding Unicode character into the buffer.
 @end itemize
 
 For example, typing @kbd{Esc Esc 2 3 4} will enter the character "ê" ---
 useful when writing about a French party.  Typing @kbd{M-V 0 0 2 2 c 4}
 will enter the symbol "⋄", a little diamond.
+
+Typing @kbd{M-V} followed by anything other than a hexadecimal digit
+will enter this keystroke verbatim into the buffer, allowing the user
+to insert literal control codes (except @code{^J}) or escape sequences.
 
 @node Commands
 @section Commands
@@ -1619,7 +1623,8 @@ Switches to editing/viewing the previous buffer when multiple buffers are open.
 Switches to editing/viewing the next buffer when multiple buffers are open.
 
 @item verbatim
-Inserts the next keystroke verbatim into the file.
+Inserts the next keystroke verbatim into the file, or begins Unicode input
+when a hexadecimal digit is typed (@pxref{Entering Text} for details).
 
 @item tab
 Inserts a tab at the current cursor location.
