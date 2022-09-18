@@ -292,6 +292,9 @@
 ## For copying a marked region to the system clipboard:
 # bind Sh-M-T "{execute}|xsel -ib{enter}{undo}" main
 
+## For snipping trailing blanks when you save a file:
+# bind ^S "{execute}| sed 's/\s\+$//' {enter}{savefile}" main
+
 ## If you would like nano to have keybindings that are more "usual",
 ## such as ^O for Open, ^F for Find, ^H for Help, and ^Q for Quit,
 ## then uncomment these:
