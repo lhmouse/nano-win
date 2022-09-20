@@ -362,19 +362,24 @@ int get_code_from_plantation(void)
 		commandname = measured_copy(plants_pointer + 1, closing - plants_pointer - 1);
 		planted_shortcut = strtosc(commandname);
 
-		if (planted_shortcut) {
-			plants_pointer = closing + 1;
-			if (*plants_pointer != '\0')
-				put_back(MORE_PLANTS);
-			return PLANTED_COMMAND;
-		} else
+		if (!planted_shortcut)
 			return NO_SUCH_FUNCTION;
+
+		plants_pointer = closing + 1;
+
+		if (*plants_pointer != '\0')
+			put_back(MORE_PLANTS);
+
+		return PLANTED_COMMAND;
 	} else {
 		char *opening = strchr(plants_pointer, '{');
-		int length = (opening ? opening - plants_pointer : strlen(plants_pointer));
+		int length;
 
-		if (opening)
+		if (opening) {
+			length = opening - plants_pointer;
 			put_back(MORE_PLANTS);
+		} else
+			length = strlen(plants_pointer);
 
 		for (int index = length - 1; index >= 0; index--)
 			put_back((unsigned char)plants_pointer[index]);
