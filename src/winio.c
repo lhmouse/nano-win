@@ -160,22 +160,17 @@ void run_macro(void)
  * We support escape sequences for ANSI, VT100, VT220, VT320, the Linux
  * console, the FreeBSD console, the Mach console, xterm, and Terminal,
  * and some for Konsole, rxvt, Eterm, and iTerm2.  Among these sequences,
- * there are several conflicts and omissions:
+ * there are some conflicts:
  *
- * - Tab on ANSI == PageUp on FreeBSD console; the former is omitted.
+ * - PageUp on FreeBSD console == Tab on ANSI; the latter is omitted.
  *   (Ctrl-I is also Tab on ANSI, which we already support.)
  * - PageDown on FreeBSD console == Center (5) on numeric keypad with
- *   NumLock off on Linux console; the latter is omitted.  (The editing
- *   keypad key is more important to have working than the numeric
- *   keypad key, because the latter has no value when NumLock is off.)
- * - F1 on FreeBSD console == the mouse key on xterm/rxvt/Eterm; the
- *   latter is omitted.  (Mouse input will only work properly if the
- *   extended keypad value KEY_MOUSE is generated on mouse events
- *   instead of the escape sequence.)
+ *   NumLock off on Linux console; the latter is useless and omitted.
+ * - F1 on FreeBSD console == the mouse sequence on xterm/rxvt/Eterm;
+ *   the latter is omitted.  (Mouse input works only when KEY_MOUSE
+ *   is generated on mouse events, not with the raw escape sequence.)
  * - F9 on FreeBSD console == PageDown on Mach console; the former is
- *   omitted.  (The editing keypad is more important to have working
- *   than the function keys, because the functions of the former are
- *   not arbitrary and the functions of the latter are.)
+ *   omitted.  (Moving the cursor is more important than a function key.)
  * - F10 on FreeBSD console == PageUp on Mach console; the former is
  *   omitted.  (Same as above.) */
 
@@ -202,6 +197,7 @@ void read_keys_from(WINDOW *frame)
 						lastmessage != INFO) || spotlighted)) {
 		timed = TRUE;
 		halfdelay(ISSET(QUICK_BLANK) ? 8 : 15);
+		/* Counteract a side effect of half-delay mode. */
 		disable_kb_interrupt();
 	}
 #endif
@@ -218,6 +214,7 @@ void read_keys_from(WINDOW *frame)
 
 		if (timed) {
 			timed = FALSE;
+			/* Leave half-delay mode. */
 			raw();
 
 			if (input == ERR) {
@@ -251,8 +248,9 @@ void read_keys_from(WINDOW *frame)
 
 	/* Initiate the keystroke buffer, and save the keycode in it. */
 	key_buffer = nrealloc(key_buffer, sizeof(int));
-	nextcodes = key_buffer;
 	key_buffer[0] = input;
+
+	nextcodes = key_buffer;
 	waiting_codes = 1;
 
 #ifndef NANO_TINY
