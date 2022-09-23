@@ -48,6 +48,10 @@ static int *nextcodes = NULL;
 		/* A pointer pointing at the next keycode in the keystroke buffer. */
 static size_t waiting_codes = 0;
 		/* The number of key codes waiting in the keystroke buffer. */
+#ifdef ENABLE_NANORC
+static const char *plants_pointer = NULL;
+		/* Points into the expansion string for the current implantation. */
+#endif
 static int digit_count = 0;
 		/* How many digits of a three-digit character code we've eaten. */
 static bool reveal_cursor = FALSE;
@@ -64,10 +68,6 @@ static bool has_more = FALSE;
 		/* Whether the current line has more text after the displayed part. */
 static bool is_shorter = TRUE;
 		/* Whether a row's text is narrower than the screen's width. */
-#ifdef ENABLE_NANORC
-static const char *plants_pointer = NULL;
-		/* Points into the expansion string for the current implantation. */
-#endif
 #ifndef NANO_TINY
 static size_t sequel_column = 0;
 		/* The starting column of the next chunk when softwrapping. */
@@ -86,7 +86,7 @@ void add_to_macrobuffer(int code)
 	macro_buffer[macro_length - 1] = code;
 }
 
-/* Remove the last key code plus any trailing Esc codes from macro buffer. */
+/* Remove the last key code plus any leading Esc codes from macro buffer. */
 void snip_last_keystroke(void)
 {
 	macro_length--;
@@ -317,8 +317,7 @@ void put_back(int keycode)
 	/* If there is no room at the head of the keystroke buffer, make room. */
 	if (nextcodes == key_buffer) {
 		key_buffer = nrealloc(key_buffer, (waiting_codes + 1) * sizeof(int));
-		if (waiting_codes)
-			memmove(key_buffer + 1, key_buffer, waiting_codes * sizeof(int));
+		memmove(key_buffer + 1, key_buffer, waiting_codes * sizeof(int));
 		nextcodes = key_buffer;
 	} else
 		nextcodes--;
