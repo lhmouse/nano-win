@@ -256,6 +256,8 @@ void absorb_character(int input, functionptrtype function)
 {
 	static char *puddle = NULL;
 		/* The input buffer. */
+	static size_t capacity = 8;
+		/* The size of the input buffer; gets doubled whenever needed. */
 	static size_t depth = 0;
 		/* The length of the input buffer. */
 
@@ -267,7 +269,14 @@ void absorb_character(int input, functionptrtype function)
 			beep();
 		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
 						openfile->filename[0] == '\0') {
-			puddle = nrealloc(puddle, depth + 2);
+			/* When the input buffer (plus room for terminating NUL) is full,
+			 * extend it; otherwise, if it does not exist yet, create it. */
+			if (depth + 1 == capacity) {
+				capacity = 2 * capacity;
+				puddle = nrealloc(puddle, capacity);
+			} else if (!puddle)
+				puddle = nmalloc(capacity);
+
 			puddle[depth++] = (char)input;
 		}
 	}
@@ -275,13 +284,9 @@ void absorb_character(int input, functionptrtype function)
 	/* If we got a shortcut, or if there aren't any other keystrokes waiting,
 	 * it's time to insert all characters in the input buffer (if not empty)
 	 * into the answer, and then clear the input buffer. */
-	if ((function || waiting_keycodes() == 0) && puddle != NULL) {
+	if (depth > 0 && (function || waiting_keycodes() == 0)) {
 		puddle[depth] = '\0';
-
 		inject_into_answer(puddle, depth);
-
-		free(puddle);
-		puddle = NULL;
 		depth = 0;
 	}
 }

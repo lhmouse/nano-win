@@ -1547,6 +1547,8 @@ void process_a_keystroke(void)
 		/* The keystroke we read in: a character or a shortcut. */
 	static char *puddle = NULL;
 		/* The input buffer for actual characters. */
+	static size_t capacity = 12;
+		/* The size of the input buffer; gets doubled whenever needed. */
 	static size_t depth = 0;
 		/* The length of the input buffer. */
 #ifndef NANO_TINY
@@ -1593,21 +1595,23 @@ void process_a_keystroke(void)
 				refresh_needed = TRUE;
 			}
 #endif
-			/* Store the byte, and leave room for a terminating zero. */
-			puddle = nrealloc(puddle, depth + 2);
+			/* When the input buffer (plus room for terminating NUL) is full,
+			 * extend it; otherwise, if it does not exist yet, create it. */
+			if (depth + 1 == capacity) {
+				capacity = 2 * capacity;
+				puddle = nrealloc(puddle, capacity);
+			} else if (!puddle)
+				puddle = nmalloc(capacity);
+
 			puddle[depth++] = (char)input;
 		}
 	}
 
 	/* If we have a command, or if there aren't any other key codes waiting,
 	 * it's time to insert the gathered bytes into the edit buffer. */
-	if ((function || waiting_keycodes() == 0) && puddle != NULL) {
+	if (depth > 0 && (function || waiting_keycodes() == 0)) {
 		puddle[depth] = '\0';
-
 		inject(puddle, depth);
-
-		free(puddle);
-		puddle = NULL;
 		depth = 0;
 	}
 
