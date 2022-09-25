@@ -581,6 +581,7 @@ linestruct *line_from_number(ssize_t number);
 /* Most functions in winio.c. */
 void record_macro(void);
 void run_macro(void);
+void reserve_space_for(size_t newsize);
 size_t waiting_keycodes(void);
 #ifdef ENABLE_NANORC
 void implant(const char *string);

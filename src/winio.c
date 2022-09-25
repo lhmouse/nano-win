@@ -46,6 +46,8 @@ static int *key_buffer = NULL;
 		/* A buffer for the keystrokes that haven't been handled yet. */
 static int *nextcodes = NULL;
 		/* A pointer pointing at the next keycode in the keystroke buffer. */
+static size_t capacity = 32;
+		/* The size of the keystroke buffer; gets doubled whenever needed. */
 static size_t waiting_codes = 0;
 		/* The number of key codes waiting in the keystroke buffer. */
 #ifdef ENABLE_NANORC
@@ -126,7 +128,8 @@ void run_macro(void)
 		return;
 	}
 
-	key_buffer = nrealloc(key_buffer, macro_length * sizeof(int));
+	if (macro_length > capacity)
+		reserve_space_for(macro_length);
 
 	for (size_t i = 0; i < macro_length; i++)
 		key_buffer[i] = macro_buffer[i];
@@ -136,6 +139,14 @@ void run_macro(void)
 	mute_modifiers = TRUE;
 }
 #endif /* !NANO_TINY */
+
+/* Allocate the requested space for the keystroke buffer. */
+void reserve_space_for(size_t newsize)
+{
+	key_buffer = nrealloc(key_buffer, newsize * sizeof(int));
+	nextcodes = key_buffer;
+	capacity = newsize;
+}
 
 /* Control character compatibility:
  *
@@ -246,8 +257,10 @@ void read_keys_from(WINDOW *frame)
 
 	curs_set(0);
 
-	/* Initiate the keystroke buffer, and save the keycode in it. */
-	key_buffer = nrealloc(key_buffer, sizeof(int));
+	/* When there is no keystroke buffer yet, allocate one. */
+	if (!key_buffer)
+		reserve_space_for(capacity);
+
 	key_buffer[0] = input;
 
 	nextcodes = key_buffer;
@@ -284,10 +297,11 @@ void read_keys_from(WINDOW *frame)
 		if (input == ERR)
 			break;
 
-		/* Extend the keystroke buffer, and save the keycode at its end. */
-		key_buffer = nrealloc(key_buffer, ++waiting_codes * sizeof(int));
-		key_buffer[waiting_codes - 1] = input;
-		nextcodes = key_buffer;
+		/* When the keystroke buffer is full, extend it. */
+		if (waiting_codes == capacity)
+			reserve_space_for(2 * capacity);
+
+		key_buffer[waiting_codes++] = input;
 	}
 
 	/* Restore blocking-input mode. */
@@ -316,9 +330,9 @@ void put_back(int keycode)
 
 	/* If there is no room at the head of the keystroke buffer, make room. */
 	if (nextcodes == key_buffer) {
-		key_buffer = nrealloc(key_buffer, (waiting_codes + 1) * sizeof(int));
+		if (waiting_codes == capacity)
+			reserve_space_for(2 * capacity);
 		memmove(key_buffer + 1, key_buffer, waiting_codes * sizeof(int));
-		nextcodes = key_buffer;
 	} else
 		nextcodes--;
 
