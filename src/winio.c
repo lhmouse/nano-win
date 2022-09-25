@@ -143,6 +143,9 @@ void run_macro(void)
 /* Allocate the requested space for the keystroke buffer. */
 void reserve_space_for(size_t newsize)
 {
+	if (newsize < capacity)
+		die(_("Too much input at once\n"));
+
 	key_buffer = nrealloc(key_buffer, newsize * sizeof(int));
 	nextcodes = key_buffer;
 	capacity = newsize;
@@ -324,10 +327,6 @@ size_t waiting_keycodes(void)
 /* Add the given keycode to the front of the keystroke buffer. */
 void put_back(int keycode)
 {
-	/* If the keystroke buffer is at maximum capacity, don't add anything. */
-	if (waiting_codes + 1 < waiting_codes)
-		return;
-
 	/* If there is no room at the head of the keystroke buffer, make room. */
 	if (nextcodes == key_buffer) {
 		if (waiting_codes == capacity)
