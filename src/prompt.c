@@ -182,16 +182,12 @@ void copy_the_answer(void)
 void paste_into_answer(void)
 {
 	size_t pastelen = strlen(cutbuffer->data);
-	char *fusion = nmalloc(strlen(answer) + pastelen + 1);
 
-	/* Concatenate: the current answer before the cursor, the first line
-	 * of the cutbuffer, plus the rest of the current answer. */
-	strncpy(fusion, answer, typing_x);
-	strncpy(fusion + typing_x, cutbuffer->data, pastelen);
-	strcpy(fusion + typing_x + pastelen, answer + typing_x);
+	answer = nrealloc(answer, strlen(answer) + pastelen + 1);
+	memmove(answer + typing_x + pastelen, answer + typing_x,
+								strlen(answer) - typing_x + 1);
+	strncpy(answer + typing_x, cutbuffer->data, pastelen);
 
-	free(answer);
-	answer = fusion;
 	typing_x += pastelen;
 }
 #endif
