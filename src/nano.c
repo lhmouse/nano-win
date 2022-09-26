@@ -1607,8 +1607,8 @@ void process_a_keystroke(void)
 		}
 	}
 
-	/* If we have a command, or if there aren't any other key codes waiting,
-	 * it's time to insert the gathered bytes into the edit buffer. */
+	/* If there are gathered bytes and we have a command or no other key codes
+	 * are waiting, it's time to insert these bytes into the edit buffer. */
 	if (depth > 0 && (function || waiting_keycodes() == 0)) {
 		puddle[depth] = '\0';
 		inject(puddle, depth);

@@ -62,9 +62,9 @@ static bool linger_after_escape = FALSE;
 		/* Whether to give ncurses some time to get the next code. */
 static int statusblank = 0;
 		/* The number of keystrokes left before we blank the status bar. */
-size_t from_x = 0;
+static size_t from_x = 0;
 		/* From where in the relevant line the current row is drawn. */
-size_t till_x = 0;
+static size_t till_x = 0;
 		/* Until where in the relevant line the current row is drawn. */
 static bool has_more = FALSE;
 		/* Whether the current line has more text after the displayed part. */

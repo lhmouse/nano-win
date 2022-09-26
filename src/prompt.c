@@ -281,9 +281,8 @@ void absorb_character(int input, functionptrtype function)
 		}
 	}
 
-	/* If we got a shortcut, or if there aren't any other keystrokes waiting,
-	 * it's time to insert all characters in the input buffer (if not empty)
-	 * into the answer, and then clear the input buffer. */
+	/* If there are gathered bytes and we have a command or no other key codes
+	 * are waiting, it's time to insert these bytes into the answer. */
 	if (depth > 0 && (function || waiting_keycodes() == 0)) {
 		puddle[depth] = '\0';
 		inject_into_answer(puddle, depth);
