@@ -988,7 +988,16 @@ void send_data(const linestruct *line, int fd)
 
 	/* Send each line, except a final empty line. */
 	while (line != NULL && (line->next != NULL || line->data[0] != '\0')) {
-		fprintf(tube, "%s%s", line->data, line->next == NULL ? "" : "\n");
+		size_t length = strlen(line->data);
+
+		recode_LF_to_NUL(line->data);
+
+		if (fwrite(line->data, sizeof(char), length, tube) < length)
+			exit(5);
+
+		if (line->next && putc('\n', tube) == EOF)
+			exit(6);
+
 		line = line->next;
 	}
 
