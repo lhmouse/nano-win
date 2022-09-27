@@ -2512,6 +2512,10 @@ int main(int argc, char **argv)
 	/* After handling the files on the command line, allow inserting files. */
 	UNSET(NOREAD_MODE);
 
+	/* Nano is a hands-on editor -- it needs a keyboard. */
+	if (!isatty(STDIN_FILENO))
+		die(_("Standard input is not a terminal\n"));
+
 	/* If no filenames were given, or all of them were invalid things like
 	 * directories, then open a blank buffer and allow editing.  Otherwise,
 	 * switch from the last opened file to the next, that is: the first. */
