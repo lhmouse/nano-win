@@ -747,7 +747,11 @@ void goto_line_posx(ssize_t linenumber, size_t pos_x)
 		recook |= perturbed;
 #endif
 
-	openfile->current = line_from_number(linenumber);
+	if (linenumber < openfile->filebot->lineno)
+		openfile->current = line_from_number(linenumber);
+	else
+		openfile->current = openfile->filebot;
+
 	openfile->current_x = pos_x;
 	openfile->placewewant = xplustabs();
 
