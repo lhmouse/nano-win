@@ -218,7 +218,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	strncpy(&lockdata[108], filename, 768);
 	lockdata[1007] = (modified) ? 0x55 : 0x00;
 
-	wroteamt = fwrite(lockdata, sizeof(char), LOCKSIZE, filestream);
+	wroteamt = fwrite(lockdata, 1, LOCKSIZE, filestream);
 
 	free(lockdata);
 
@@ -990,7 +990,7 @@ void send_data(const linestruct *line, int fd)
 	while (line != NULL && (line->next != NULL || line->data[0] != '\0')) {
 		size_t length = recode_LF_to_NUL(line->data);
 
-		if (fwrite(line->data, sizeof(char), length, tube) < length)
+		if (fwrite(line->data, 1, length, tube) < length)
 			exit(5);
 
 		if (line->next && putc('\n', tube) == EOF)
@@ -1536,12 +1536,12 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 	int (*flush_out_fnc)(FILE *) = (close_out) ? fclose : fflush;
 
 	do {
-		charsread = fread(buf, sizeof(char), BUFSIZ, inn);
+		charsread = fread(buf, 1, BUFSIZ, inn);
 		if (charsread == 0 && ferror(inn)) {
 			retval = -1;
 			break;
 		}
-		if (fwrite(buf, sizeof(char), charsread, out) < charsread) {
+		if (fwrite(buf, 1, charsread, out) < charsread) {
 			retval = 2;
 			break;
 		}
@@ -1868,7 +1868,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 		/* Decode LFs as the NULs that they are, before writing to disk. */
 		data_len = recode_LF_to_NUL(line->data);
 
-		wrote = fwrite(line->data, sizeof(char), data_len, thefile);
+		wrote = fwrite(line->data, 1, data_len, thefile);
 
 		/* Re-encode any embedded NULs as LFs. */
 		recode_NUL_to_LF(line->data, data_len);
