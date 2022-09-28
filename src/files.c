@@ -988,9 +988,7 @@ void send_data(const linestruct *line, int fd)
 
 	/* Send each line, except a final empty line. */
 	while (line != NULL && (line->next != NULL || line->data[0] != '\0')) {
-		size_t length = strlen(line->data);
-
-		recode_LF_to_NUL(line->data);
+		size_t length = recode_LF_to_NUL(line->data);
 
 		if (fwrite(line->data, sizeof(char), length, tube) < length)
 			exit(5);
@@ -1865,11 +1863,10 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 		statusbar(_("Writing..."));
 
 	while (TRUE) {
-		size_t data_len = strlen(line->data);
-		size_t wrote;
+		size_t data_len, wrote;
 
 		/* Decode LFs as the NULs that they are, before writing to disk. */
-		recode_LF_to_NUL(line->data);
+		data_len = recode_LF_to_NUL(line->data);
 
 		wrote = fwrite(line->data, sizeof(char), data_len, thefile);
 

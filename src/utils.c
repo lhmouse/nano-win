@@ -168,14 +168,19 @@ void recode_NUL_to_LF(char *string, size_t length)
 	}
 }
 
-/* In the given string, recode each embedded newline as a NUL. */
-void recode_LF_to_NUL(char *string)
+/* In the given string, recode each embedded newline as a NUL,
+ * and return the number of bytes in the string. */
+size_t recode_LF_to_NUL(char *string)
 {
+	char *beginning = string;
+
 	while (*string != '\0') {
 		if (*string == '\n')
 			*string = '\0';
 		string++;
 	}
+
+	return (string - beginning);
 }
 
 #if !defined(ENABLE_TINY) || defined(ENABLE_TABCOMP) || defined(ENABLE_BROWSER)
