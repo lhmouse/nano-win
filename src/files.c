@@ -1012,6 +1012,8 @@ void execute_command(const char *command)
 		/* Original and temporary handlers for SIGINT. */
 	ssize_t was_lineno = (openfile->mark ? 0 : openfile->current->lineno);
 	const bool should_pipe = (command[0] == '|');
+	int command_status, sender_status;
+	pid_t pid_of_sender;
 	FILE *stream;
 
 	/* Create a pipe to read the command's output from, and, if needed,
@@ -1095,10 +1097,13 @@ void execute_command(const char *command)
 		}
 
 		/* Create a separate process for piping the data to the command. */
-		if (fork() == 0) {
+		if ((pid_of_sender = fork()) == 0) {
 			send_data(whole_buffer ? openfile->filetop : cutbuffer, to_fd[1]);
 			exit(0);
 		}
+
+		if (pid_of_sender == -1)
+			statusline(ALERT, _("Could not fork: %s"), strerror(errno));
 
 		close(to_fd[0]);
 		close(to_fd[1]);
@@ -1133,9 +1138,25 @@ void execute_command(const char *command)
 	}
 
 	/* Wait for the external command (and possibly data sender) to terminate. */
-	wait(NULL);
-	if (should_pipe)
-		wait(NULL);
+	waitpid(pid_of_command, &command_status, 0);
+	if (should_pipe && pid_of_sender > 0)
+		waitpid(pid_of_sender, &sender_status, 0);
+
+	/* If the command failed, show what the shell reported. */
+	if (WIFEXITED(command_status) == 0 || WEXITSTATUS(command_status))
+		statusline(ALERT, _("Error: %s"), !WIFSIGNALED(command_status) &&
+							openfile->current->prev &&
+							strstr(openfile->current->prev->data, ": ") ?
+							strstr(openfile->current->prev->data, ": ") + 2 : "---");
+	else if (should_pipe && pid_of_sender > 0 &&
+				(WIFEXITED(sender_status) == 0 || WEXITSTATUS(sender_status)))
+		statusline(ALERT, _("Piping failed"));
+
+	/* If there was an error, undo and discard what the command did. */
+	if (lastmessage == ALERT) {
+		do_undo();
+		discard_until(openfile->current_undo);
+	}
 
 	/* Restore the original handler for SIGINT. */
 	sigaction(SIGINT, &oldaction, NULL);
