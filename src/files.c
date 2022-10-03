@@ -1002,8 +1002,8 @@ void send_data(const linestruct *line, int fd)
 	fclose(tube);
 }
 
-/* Execute the given command in a shell.  Return TRUE on success. */
-bool execute_command(const char *command)
+/* Execute the given command in a shell. */
+void execute_command(const char *command)
 {
 #if defined(HAVE_FORK) && defined(HAVE_PIPE) && defined(HAVE_WAIT)
 	int from_fd[2], to_fd[2];
@@ -1018,7 +1018,7 @@ bool execute_command(const char *command)
 	 * a pipe to feed the command's input through. */
 	if (pipe(from_fd) == -1 || (should_pipe && pipe(to_fd) == -1)) {
 		statusline(ALERT, _("Could not create pipe: %s"), strerror(errno));
-		return FALSE;
+		return;
 	}
 
 	/* Fork a child process to run the command in. */
@@ -1059,7 +1059,7 @@ bool execute_command(const char *command)
 	if (pid_of_command == -1) {
 		statusline(ALERT, _("Could not fork: %s"), strerror(errno));
 		close(from_fd[0]);
-		return FALSE;
+		return;
 	}
 
 	statusbar(_("Executing..."));
@@ -1143,10 +1143,6 @@ bool execute_command(const char *command)
 	/* Restore the terminal to its desired state, and disable
 	 * interpretation of the special control keys again. */
 	terminal_init();
-
-	return TRUE;
-#else
-	return FALSE;
 #endif
 }
 #endif /* NANO_TINY */
