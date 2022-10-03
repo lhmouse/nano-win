@@ -2461,8 +2461,8 @@ char **username_completion(const char *morsel, size_t length, size_t *num_matche
  * This code is 'as is' with no warranty.
  * This code may safely be consumed by a BSD or GPL license. */
 
-/* Try to complete the given fragment of given length to a filename. */
-char **filename_completion(const char *morsel, size_t length, size_t *num_matches)
+/* Try to complete the given fragment to an existing filename. */
+char **filename_completion(const char *morsel, size_t *num_matches)
 {
 	char *dirname = copy_of(morsel);
 	char *slash, *filename;
@@ -2555,7 +2555,7 @@ char *input_tab(char *morsel, size_t *place, void (*refresh_func)(void), bool *l
 
 	/* If there are no matches yet, try matching against filenames. */
 	if (matches == NULL)
-		matches = filename_completion(morsel, *place, &num_matches);
+		matches = filename_completion(morsel, &num_matches);
 
 	/* If possible completions were listed before but none will be listed now... */
 	if (*listed && num_matches < 2) {
