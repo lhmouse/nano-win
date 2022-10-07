@@ -969,12 +969,19 @@ char *get_next_filename(const char *name, const char *suffix)
 #ifndef NANO_TINY
 static pid_t pid_of_command = -1;
 		/* The PID of a forked process -- needed when wanting to abort it. */
+static pid_t pid_of_sender = -1;
+		/* The PID of the process that pipes data to the above process. */
+static bool should_pipe = FALSE;
+		/* Whether we are piping data to the external command. */
 
 /* Send an unconditional kill signal to the running external command. */
 void cancel_the_command(int signal)
 {
 #ifdef SIGKILL
-	kill(pid_of_command, SIGKILL);
+	if (pid_of_command > 0)
+		kill(pid_of_command, SIGKILL);
+	if (should_pipe && pid_of_sender > 0)
+		kill(pid_of_sender, SIGKILL);
 #endif
 }
 
@@ -1011,10 +1018,10 @@ void execute_command(const char *command)
 	struct sigaction oldaction, newaction = {{0}};
 		/* Original and temporary handlers for SIGINT. */
 	ssize_t was_lineno = (openfile->mark ? 0 : openfile->current->lineno);
-	const bool should_pipe = (command[0] == '|');
 	int command_status, sender_status;
-	pid_t pid_of_sender;
 	FILE *stream;
+
+	should_pipe = (command[0] == '|');
 
 	/* Create a pipe to read the command's output from, and, if needed,
 	 * a pipe to feed the command's input through. */
