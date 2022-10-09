@@ -1151,8 +1151,8 @@ void execute_command(const char *command)
 
 	/* If the command failed, show what the shell reported. */
 	if (WIFEXITED(command_status) == 0 || WEXITSTATUS(command_status))
-		statusline(ALERT, _("Error: %s"), !WIFSIGNALED(command_status) &&
-							openfile->current->prev &&
+		statusline(ALERT, WIFSIGNALED(command_status) ? _("Cancelled") :
+							_("Error: %s"), openfile->current->prev &&
 							strstr(openfile->current->prev->data, ": ") ?
 							strstr(openfile->current->prev->data, ": ") + 2 : "---");
 	else if (should_pipe && pid_of_sender > 0 &&
