@@ -2454,7 +2454,7 @@ int main(int argc, char **argv)
 					searchstring = copy_of(&argv[optind][n + 1]);
 					if (argv[optind][n] == '?')
 						SET(BACKWARDS_SEARCH);
-				} else if (n == 1)
+				} else
 					statusline(ALERT, _("Empty search string"));
 				optind++;
 			} else
