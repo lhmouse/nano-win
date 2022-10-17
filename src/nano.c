@@ -2492,6 +2492,7 @@ int main(int argc, char **argv)
 			else if (lastmessage <= REMARK)
 				wipe_statusbar();
 			openfile->placewewant = xplustabs();
+			adjust_viewport(CENTERING);
 			if (ISSET(USE_REGEXP))
 				tidy_up_after_search();
 			free(last_search);
