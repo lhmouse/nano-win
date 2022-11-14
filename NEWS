@@ -1,3 +1,15 @@
+2022.11.15 - GNU nano 7.0 "Una existencia simple bajo el sol"
+• String binds may contain bindable function names between braces.
+  For example, to move the current line down to after the next one:
+  bind ^D "{cut}{down}{paste}{up}" main.  Of course, braced function
+  names may be mixed with literal text.  If an existing string bind
+  contains a literal {, replace it with {{}.
+• Unicode codes can be entered (via M-V) without leading zeroes,
+  by finishing short codes with <Space> or <Enter>.
+• Word completion (^]) looks for candidates in all open buffers.
+• No regular expression matches the final empty line any more.
+
+
 2022.08.02 - GNU nano 6.4 "Regentag Dunkelbunt Hundertwasser"
 • The file browser does not crash when moving up to the root folder.
 • Softwrapping very long lines is done more efficiently.

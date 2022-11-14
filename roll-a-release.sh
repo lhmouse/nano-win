@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="6.4"
+VERSION="7.0"
 
 ./configure -C --enable-tiny &&  make &&  ./configure -C &&
 
@@ -20,7 +20,7 @@ gpg -a -b nano-$VERSION.tar.xz &&
 gpg --verify nano-$VERSION.tar.gz.asc &&
 gpg --verify nano-$VERSION.tar.xz.asc &&
 
-git tag -u A0ACE884 -a v$VERSION -m "the nano $VERSION release" &&
+git tag -u B8E1961F -a v$VERSION -m "the nano $VERSION release" &&
 
 make pdf &&  rm -rf doc/nano.t2p &&
 scp doc/nano.pdf bens@wh0rd.org:nano.pdf &&

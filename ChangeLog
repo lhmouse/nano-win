@@ -1,3 +1,103 @@
+Changes between v6.4 and v7.0:
+------------------------------
+
+Benno Schulenberg (94):
+      build: add options --disable-formatter and --disable-linter to configure
+      build: exclude some pieces that are not needed with --disable-nanorc
+      build: exclude two unneeded functions correctly from the tiny version
+      build: fix compilation when configured with --enable-tiny
+      bump version numbers and add a news item for the 7.0 release
+      completion: search through all open buffers for possible completions
+      docs: clarify the distinction between binding a function and "{function}"
+      docs: describe --disable-formatter and --disable-linter configure options
+      docs: explain how to include a double quote plus space in a nanorc regex
+      docs: improve the legibility of an itemized list
+      docs: mention in the man page how M-V can insert any Unicode code point
+      docs: mention that string binds may contain function names between braces
+      docs: replace control codes in the examples with {command} cartouches
+      docs: suggest a key binding for snipping trailing blanks
+      execute: show "Cancelled" instead of "Error" when the user hits ^C
+      extra: use the whole terminal for the crawl, and quicken it a bit
+      feedback: suppress undo/redo messages when option --zero is in effect
+      files: before sending data to an external command, decode LF back to NUL
+      files: improve the error handling when executing an external command
+      filtering: terminate also the sender process when the user hits ^C
+      filtering: when returning to a line number, ensure it is within range
+      gnulib: update to its current upstream state
+      goto: don't center the current line when the user specified a column only
+      help: don't show the New-Buffer toggle when in view mode
+      help: move the M-Del item up, so that M-PgUp and M-PgDn are paired
+      help: prioritize the unshifted Meta keystrokes for buffer switching
+      input: allocate a small keystroke buffer, and never free it
+      input: allocate two small character buffers too, and never free them
+      input: give up when the capacity of the keystroke buffer overflows
+      input: interpret commands of the form {functionname} inside string binds
+      memory: avoid a leak when a string bind specifies an unknown menu
+      prompt: allow rebinding also ^N, ^Q, and ^Y at the yes-no prompt
+      prompt: ingest queued characters before handling any subsequent function
+      prompt: prevent execution of inadmissible functions in view mode
+      prompt: return FALSE for non-editing functions also in the tiny version
+      prompt: toggle the help lines only for the 'nohelp' toggle
+      search: skip a match on the magic line, as it is a just convenience line
+      startup: ensure that +/string centers the match also with --linenumbers
+      startup: for +/string, center the found occurrence when possible
+      startup: quit when standard input is not a TTY (after handling arguments)
+      startup: report an empty search string also when there is a modifier
+      syntax: nanorc: colorize valid function names plus surrounding braces
+      tweaks: add parentheses for consistency, and reshuffle for conciseness
+      tweaks: allow the linter to be used in view mode, as it makes no changes
+      tweaks: attribute some of the features that were added in the last years
+      tweaks: avoid iterating over the same string twice in a row
+      tweaks: avoid sometimes calling a function three times in a row
+      tweaks: check the multiline regexes only for Delete and Backspace
+      tweaks: condense a comment, add two small ones, and reshuffle a line
+      tweaks: delete a flag that is no longer used
+      tweaks: determine in another way whether a shortcut is okay in view mode
+      tweaks: discard a bracketed paste in the browser more efficiently
+      tweaks: don't use a pointer when the value itself is all that is needed
+      tweaks: drop an unneeded check for permissibility of prompt shortcuts
+      tweaks: drop a parameter that is no longer used
+      tweaks: drop shunting of flags by calling the needed function directly
+      tweaks: elide a function that does not need to be a separate function
+      tweaks: elide an assignment by iterating with the target variable
+      tweaks: elide an intermediary variable that is no longer needed
+      tweaks: elide an unused parameter
+      tweaks: elide an unused return value
+      tweaks: elide a parameter by moving the general case one level up
+      tweaks: elide a variable, rename another, and reshuffle an assignment
+      tweaks: fold two cases together, because they basically do the same
+      tweaks: group the special keycodes for implanted strings together
+      tweaks: improve two comments, and exclude two unneeded prototypes
+      tweaks: make the crawl use the whole screen also in the tiny version
+      tweaks: make two error messages more succinct and easier to translate
+      tweaks: move the arrays of menu names and symbols to where they are used
+      tweaks: move the --magic option up, so that --zero comes last
+      tweaks: move to a given line number more efficiently
+      tweaks: move two checks plus corresponding calls to a better place
+      tweaks: normalize the indentation after the previous change
+      tweaks: reduce four variations of a message to a single common form
+      tweaks: rename a macro for clarity, and normalize some indentation
+      tweaks: rename a variable, away from an abbreviation
+      tweaks: rename two record elements and three parameters, for clarity
+      tweaks: replace sizeof(char) with 1, as that is assumed anyway
+      tweaks: reshuffle a declaration, and correct the wording of a comment
+      tweaks: reshuffle a line, to group things better
+      tweaks: reshuffle some code and drop some comments, for conciseness
+      tweaks: reshuffle some code, to not determine a shortcut twice
+      tweaks: reshuffle some lines, to be more readable instead of compact
+      tweaks: reshuffle two lines, for conciseness and in preparation
+      tweaks: reword and/or condense four comments
+      tweaks: rewrap line, improve wording, and correct typo in old news item
+      tweaks: rewrap some lines, drop a redundant call, and reshuffle a line
+      tweaks: simplify a function now that a Unicode code can be typed quicker
+      tweaks: simplify a pasting routine, modelling it after the injection one
+      tweaks: use an auxiliary variable to avoid dereferences of 'shortcut'
+      undo: make sure the current line is defined before it is referenced
+      verbatim: allow the user to finish Unicode input with <Enter> or <Space>
+      verbatim: do not overwrite the status bar when the code is invalid
+      verbatim: don't show dots during Unicode input, as they give wrong idea
+
+
 Changes between v6.3 and v6.4:
 ------------------------------
 
