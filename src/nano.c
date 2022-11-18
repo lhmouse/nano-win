@@ -1395,10 +1395,13 @@ bool changes_something(const void *f)
 #ifndef NANO_TINY
 			f == chop_previous_word || f == chop_next_word ||
 			f == zap_text || f == cut_till_eof || f == do_execute ||
-			f == do_indent || f == do_unindent || f == do_comment ||
+			f == do_indent || f == do_unindent ||
 #endif
 #ifdef ENABLE_JUSTIFY
 			f == do_justify || f == do_full_justify ||
+#endif
+#ifdef ENABLE_COMMENT
+			f == do_comment ||
 #endif
 #ifdef ENABLE_SPELLER
 			f == do_spell ||
