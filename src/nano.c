@@ -2683,6 +2683,16 @@ int main(int argc, char **argv)
 
 		as_an_at = TRUE;
 
+#if defined(ENABLE_UTF8) && !defined(NANO_TINY)
+#define byte(n)  (unsigned char)openfile->current->data[n]
+		/* Tell the user when the cursor sits on a BOM. */
+		if (openfile->current_x == 0 && byte(0) == 0xEF && byte(1) == 0xBB &&
+										byte(2) == 0xBF && using_utf8()) {
+			statusline(NOTICE, _("Byte Order Mark"));
+			set_blankdelay_to_one();
+		}
+#endif
+
 		if ((refresh_needed && LINES > 1) || (LINES == 1 && lastmessage <= HUSH))
 			edit_refresh();
 		else
