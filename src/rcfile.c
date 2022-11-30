@@ -1707,7 +1707,7 @@ void do_rcfiles(void)
 {
 	if (custom_nanorc) {
 		nanorc = get_full_path(custom_nanorc);
-		if (access(nanorc, F_OK) != 0)
+		if (nanorc == NULL || access(nanorc, F_OK) != 0)
 			die(_("Specified rcfile does not exist\n"));
 	} else
 		nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
