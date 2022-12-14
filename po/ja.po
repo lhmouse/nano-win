@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-11-15 11:41+0100\n"
+"POT-Creation-Date: 2022-12-14 11:31+0100\n"
 "PO-Revision-Date: 2022-11-09 23:59+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -1696,7 +1696,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "有効/無効"
 
-#: src/help.c:579 src/nano.c:1631
+#: src/help.c:579 src/nano.c:1634
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2210,53 +2210,53 @@ msgstr "未割り当てのキー: %s%c"
 msgid "Unbindable key: ^["
 msgstr "割り当てできないキー: ^["
 
-#: src/nano.c:1890 src/rcfile.c:1656
+#: src/nano.c:1893 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "ガイドバーを表示する列の指定として \"%s\" が正しくありません"
 
-#: src/nano.c:1937 src/rcfile.c:1661
+#: src/nano.c:1940 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "要求されたタブのサイズ \"%s\" は不正です"
 
-#: src/nano.c:2041 src/rcfile.c:1606
+#: src/nano.c:2044 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "要求されたサイズ \"%s\" は不正です"
 
-#: src/nano.c:2096
+#: src/nano.c:2099
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "'%s -h' で指定可能なオプションを表示します。\n"
 
-#: src/nano.c:2292
+#: src/nano.c:2295
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "不正なエスケープされた正規表現 \"%s\": %s\n"
 
-#: src/nano.c:2447
+#: src/nano.c:2450
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "無効な検索修飾子 '%c'"
 
-#: src/nano.c:2458
+#: src/nano.c:2461
 msgid "Empty search string"
 msgstr "空の検索文字列"
 
-#: src/nano.c:2467 src/search.c:793
+#: src/nano.c:2470 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "無効な行または列番号です"
 
-#: src/nano.c:2518
+#: src/nano.c:2521
 msgid "Standard input is not a terminal\n"
 msgstr "標準入力が端末ではありません\n"
 
-#: src/nano.c:2537
+#: src/nano.c:2540
 msgid "Can open just one file\n"
 msgstr "1つのファイルのみ開くことができます\n"
 
-#: src/nano.c:2555
+#: src/nano.c:2558
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "nano へようこそ。 Ctrl+G で簡単なヘルプが出ます。"
 

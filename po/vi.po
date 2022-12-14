@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 6.3-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-11-15 11:41+0100\n"
+"POT-Creation-Date: 2022-12-14 11:31+0100\n"
 "PO-Revision-Date: 2022-04-17 14:59+0700\n"
 "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
 "Language-Team: Vietnamese <translation-team-vi@lists.sourceforge.net>\n"
@@ -1704,7 +1704,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "bật/tắt"
 
-#: src/help.c:579 src/nano.c:1631
+#: src/help.c:579 src/nano.c:1634
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2214,53 +2214,53 @@ msgstr ""
 msgid "Unbindable key: ^["
 msgstr "Thôi ràng buộc phím: ^["
 
-#: src/nano.c:1890 src/rcfile.c:1656
+#: src/nano.c:1893 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Cột hướng dẫn “%s” không hợp lệ"
 
-#: src/nano.c:1937 src/rcfile.c:1661
+#: src/nano.c:1940 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tab “%s” không hợp lệ"
 
-#: src/nano.c:2041 src/rcfile.c:1606
+#: src/nano.c:2044 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Yêu cầu một kích thước tô đầy “%s” không hợp lệ"
 
-#: src/nano.c:2096
+#: src/nano.c:2099
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Gõ “%s -h” để biết danh sách các tùy chọn sẵn có.\n"
 
-#: src/nano.c:2292
+#: src/nano.c:2295
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Trích dẫn biểu thức chính quy sai “%s”: %s\n"
 
-#: src/nano.c:2447
+#: src/nano.c:2450
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Bổ nghĩa tìm kiếm'%c' không hợp lệ"
 
-#: src/nano.c:2458
+#: src/nano.c:2461
 msgid "Empty search string"
 msgstr "Chuỗi tìm kiếm trống rỗng"
 
-#: src/nano.c:2467 src/search.c:793
+#: src/nano.c:2470 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Sai số thứ tự dòng hoặc cột"
 
-#: src/nano.c:2518
+#: src/nano.c:2521
 msgid "Standard input is not a terminal\n"
 msgstr ""
 
-#: src/nano.c:2537
+#: src/nano.c:2540
 msgid "Can open just one file\n"
 msgstr "Chỉ có thể mở một tập tin thôi\n"
 
-#: src/nano.c:2555
+#: src/nano.c:2558
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Chào đón bạn dùng nano. Để xem trợ giúp cơ bản, hãy gõ Ctrl+G."
 

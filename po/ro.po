@@ -9,41 +9,21 @@
 # Benno Schulenberg improved consistency, with advice from Daniel Șerbănescu, 2021, 2022.
 # Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2022.
 #
-# Cronologia traducerii fișierului „nano”:
-# Traducerea inițială, făcută de LB, pentru versiunea nano 1.3.7, 2003.
-# Actualizare a codificării caracterelor, la codificarea de caractere UTF-8 (de la ISO-8859-2).
-# Actualizare a algoritmului formelor de plural (de la „două” la „trei” forma veche).
-# Actualizare a traducerii pentru versiunea 2.4.2, făcută de MC, 2015.
-# Actualizare a traducerii pentru versiunea 2.5.2, făcută de MC, 2016.
-# Actualizare a traducerii pentru versiunea 2.6.2, făcută de MC, 2016.
-# Actualizare a traducerii pentru versiunea 2.8.1, făcută de MC, 2017.
-# Actualizare a traducerii pentru versiunea 2.9.8-pre1, făcută de MC, 2018.
-# Actualizare a traducerii pentru versiunea 4.9-pre1, făcută de MC, 2020.
-# Actualizare a traducerii pentru versiunea 5.1-pre1, făcută de MC, 2020.
-# Actualizare a traducerii pentru versiunea 5.5-pre1, făcută de MC, 2021.
-# Actualizare a traducerii pentru versiunea 5.7-pre1, făcută de MC, 2021.
-# Actualizare a traducerii pentru versiunea 6.0-pre1, făcută de BS, 2021.
-# Actualizare a traducerii pentru versiunea 6.1-pre1, făcută de BS, 2022.
-# Actualizare a traducerii pentru versiunea 6.4-pre1, făcută de BS, 2022.
-# Actualizare a algoritmului formelor de plural (de la „trei” la „patru” experimental).
-# Actualizare a traducerii pentru versiunea 7.0-pre1, făcută de R-GC, 2022.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-11-15 11:41+0100\n"
-"PO-Revision-Date: 2022-11-07 18:39+0100\n"
-"Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
+"POT-Creation-Date: 2022-12-14 11:31+0100\n"
+"PO-Revision-Date: 2022-12-02 10:02+0100\n"
+"Last-Translator: Benno Schulenberg <vertaling@coevern.nl>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=((n==1) ? 0 : (n==2) ? 1 : (n==0 || (n%100 "
-"> 0 && n%100 < 20)) ? 2 : 3);\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 3.1.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
 
 #. TRANSLATORS: Try to keep this at most 7 characters.
 #: src/browser.c:186 src/browser.c:193
@@ -240,13 +220,6 @@ msgstr "„%s” este un FIFO"
 msgid "%s is meant to be read-only"
 msgstr "%s este menit să fie doar pentru citire"
 
-# R-GC, scrie:
-# acesta, este primul mesaj din fișier, ce conține
-# forma de plural; din nefericire, nu permite
-# schimbarea variabilei de la forma de singular
-# și prima formă de plural cu un șir de text;
-# TOATE, celelalte mesaje ce conțin forma de
-# plural, PERMIT această schimbare.
 #. TRANSLATORS: First %s is file name, second %s is file format.
 #: src/files.c:542
 #, c-format
@@ -254,8 +227,7 @@ msgid "%s -- %zu line (%s)"
 msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s — %zu linie (%s)"
 msgstr[1] "%s — %zu linii (%s)"
-msgstr[2] "%s — %zu linii (%s)"
-msgstr[3] "%s — %zu de linii (%s)"
+msgstr[2] "%s — %zu de linii (%s)"
 
 #: src/files.c:544 src/files.c:550 src/global.c:1052 src/winio.c:2042
 msgid "New Buffer"
@@ -273,10 +245,9 @@ msgstr "Mac"
 #, c-format
 msgid "%s -- %zu line"
 msgid_plural "%s -- %zu lines"
-msgstr[0] "%s — o linie"
+msgstr[0] "%s — %zu linie"
 msgstr[1] "%s — %zu linii"
-msgstr[2] "%s — %zu linii"
-msgstr[3] "%s — %zu de linii"
+msgstr[2] "%s — %zu de linii"
 
 #: src/files.c:558
 msgid "No more open file buffers"
@@ -296,28 +267,25 @@ msgstr "Fișierul „%s” este nu este editabil"
 #, c-format
 msgid "Read %zu line (Converted from Mac format)"
 msgid_plural "Read %zu lines (Converted from Mac format)"
-msgstr[0] "S-a citit o linie (convertită din formatul Mac)"
-msgstr[1] "S-au citit două linii (convertite din formatul Mac)"
-msgstr[2] "S-au citit %zu linii (convertite din formatul Mac)"
-msgstr[3] "S-au citit %zu de linii (convertite din formatul Mac)"
+msgstr[0] "S-a citit %zu linie (convertită din formatul Mac)"
+msgstr[1] "S-au citit %zu linii (convertite din formatul Mac)"
+msgstr[2] "S-au citit %zu de linii (convertite din formatul Mac)"
 
 #: src/files.c:839
 #, c-format
 msgid "Read %zu line (Converted from DOS format)"
 msgid_plural "Read %zu lines (Converted from DOS format)"
-msgstr[0] "S-a citit o linie (convertită din formatul DOS)"
-msgstr[1] "S-au citit două linii (convertite din formatul DOS)"
-msgstr[2] "S-au citit %zu linii (convertite din formatul DOS)"
-msgstr[3] "S-au citit %zu de linii (convertite din formatul DOS)"
+msgstr[0] "S-a citit %zu linie (convertită din formatul DOS)"
+msgstr[1] "S-au citit %zu linii (convertite din formatul DOS)"
+msgstr[2] "S-au citit %zu de linii (convertite din formatul DOS)"
 
 #: src/files.c:844
 #, c-format
 msgid "Read %zu line"
 msgid_plural "Read %zu lines"
-msgstr[0] "S-a citit o linie"
-msgstr[1] "S-au citit două linii"
-msgstr[2] "S-au citit %zu linii"
-msgstr[3] "S-au citit %zu de linii"
+msgstr[0] "S-a citit %zu linie"
+msgstr[1] "S-au citit %zu linii"
+msgstr[2] "S-au citit %zu de linii"
 
 #: src/files.c:889
 msgid "New File"
@@ -496,10 +464,9 @@ msgstr "Poate ^T^Z, faceți loc pe disc, reluați, și atunci ^S^X"
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
-msgstr[0] "S-a scris o linie"
-msgstr[1] "S-au scris două linii"
-msgstr[2] "S-au scris %zu linii"
-msgstr[3] "S-au scris %zu de linii"
+msgstr[0] "S-a scris %zu linie"
+msgstr[1] "S-au scris %zu linii"
+msgstr[2] "S-au scris %zu de linii"
 
 #: src/files.c:2132
 msgid " [DOS Format]"
@@ -1790,7 +1757,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "activare/dezactivare"
 
-#: src/help.c:579 src/nano.c:1631
+#: src/help.c:579 src/nano.c:1634
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2306,53 +2273,53 @@ msgstr "Tastă nealocată: %s%c"
 msgid "Unbindable key: ^["
 msgstr "Tastă nealocabilă: ^["
 
-#: src/nano.c:1890 src/rcfile.c:1656
+#: src/nano.c:1893 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Coloana de ghidare „%s” este nevalidă"
 
-#: src/nano.c:1937 src/rcfile.c:1661
+#: src/nano.c:1940 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Mărimea tab solicitată „%s” este nevalidă"
 
-#: src/nano.c:2041 src/rcfile.c:1606
+#: src/nano.c:2044 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Mărimea de umplere solicitată „%s” este nevalidă"
 
-#: src/nano.c:2096
+#: src/nano.c:2099
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Tastați „%s -h” pentru o listă de opțiuni disponibile.\n"
 
-#: src/nano.c:2292
+#: src/nano.c:2295
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Citare regex greșită „%s”: %s\n"
 
-#: src/nano.c:2447
+#: src/nano.c:2450
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Modificator de căutare nevalid „%c”"
 
-#: src/nano.c:2458
+#: src/nano.c:2461
 msgid "Empty search string"
 msgstr "Șir de căutare gol"
 
-#: src/nano.c:2467 src/search.c:793
+#: src/nano.c:2470 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Număr de linie sau coloană nevalid"
 
-#: src/nano.c:2518
+#: src/nano.c:2521
 msgid "Standard input is not a terminal\n"
 msgstr "Intrarea standard nu este un terminal\n"
 
-#: src/nano.c:2537
+#: src/nano.c:2540
 msgid "Can open just one file\n"
 msgstr "Se poate deschide doar un fișier\n"
 
-#: src/nano.c:2555
+#: src/nano.c:2558
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Bine ați venit la Nano. Pentru ajutor de bază, tastați CTRL+G."
 
@@ -2635,10 +2602,9 @@ msgstr "Se înlocuiește cu"
 #, c-format
 msgid "Replaced %zd occurrence"
 msgid_plural "Replaced %zd occurrences"
-msgstr[0] "S-a înlocuit o apariție"
-msgstr[1] "S-au înlocuit două apariții"
-msgstr[2] "S-au înlocuit %zd apariții"
-msgstr[3] "S-au înlocuit %zd de apariții"
+msgstr[0] "S-a înlocuit %zd apariție"
+msgstr[1] "S-au înlocuit %zd apariții"
+msgstr[2] "S-au înlocuit %zd de apariții"
 
 #. TRANSLATORS: This is a prompt.
 #: src/search.c:772
@@ -2911,24 +2877,21 @@ msgid "line"
 msgid_plural "lines"
 msgstr[0] "linie"
 msgstr[1] "linii"
-msgstr[2] "linii"
-msgstr[3] "de linii"
+msgstr[2] "de linii"
 
 #: src/text.c:3008
 msgid "word"
 msgid_plural "words"
 msgstr[0] "cuvânt"
 msgstr[1] "cuvinte"
-msgstr[2] "cuvinte"
-msgstr[3] "de cuvinte"
+msgstr[2] "de cuvinte"
 
 #: src/text.c:3009
 msgid "character"
 msgid_plural "characters"
 msgstr[0] "caracter"
 msgstr[1] "caractere"
-msgstr[2] "caractere"
-msgstr[3] "de caractere"
+msgstr[2] "de caractere"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
 #: src/text.c:3027
@@ -3018,10 +2981,9 @@ msgstr "(fără nume)"
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
-msgstr[0] " (o linie)"
-msgstr[1] " (două linii)"
-msgstr[2] " (%zu linii)"
-msgstr[3] " (%zu de linii)"
+msgstr[0] " (%zu linie)"
+msgstr[1] " (%zu linii)"
+msgstr[2] " (%zu de linii)"
 
 #: src/winio.c:3489
 #, c-format

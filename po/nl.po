@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano-7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-11-15 11:41+0100\n"
+"POT-Creation-Date: 2022-12-14 11:31+0100\n"
 "PO-Revision-Date: 2022-11-09 14:18+0100\n"
 "Last-Translator: Benno Schulenberg <vertaling@coevern.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -1717,7 +1717,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "aan-/uitzetten"
 
-#: src/help.c:579 src/nano.c:1631
+#: src/help.c:579 src/nano.c:1634
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2230,53 +2230,53 @@ msgstr "Ongebonden toets: %s%c"
 msgid "Unbindable key: ^["
 msgstr "Onbindbare toets: ^["
 
-#: src/nano.c:1890 src/rcfile.c:1656
+#: src/nano.c:1893 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Gidskolom '%s' is ongeldig"
 
-#: src/nano.c:1937 src/rcfile.c:1661
+#: src/nano.c:1940 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Gevraagde tabgrootte '%s' is ongeldig"
 
-#: src/nano.c:2041 src/rcfile.c:1606
+#: src/nano.c:2044 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Gevraagde uitvulbreedte '%s' is ongeldig"
 
-#: src/nano.c:2096
+#: src/nano.c:2099
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Typ '%s -h' voor een lijst van beschikbare opties.\n"
 
-#: src/nano.c:2292
+#: src/nano.c:2295
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Onjuiste reguliere expressie '%s': %s\n"
 
-#: src/nano.c:2447
+#: src/nano.c:2450
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Ongeldige zoekmodus '%c'"
 
-#: src/nano.c:2458
+#: src/nano.c:2461
 msgid "Empty search string"
 msgstr "Lege zoektekst"
 
-#: src/nano.c:2467 src/search.c:793
+#: src/nano.c:2470 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Ongeldig regel- of kolomnummer"
 
-#: src/nano.c:2518
+#: src/nano.c:2521
 msgid "Standard input is not a terminal\n"
 msgstr "Standaardinvoer is geen terminal\n"
 
-#: src/nano.c:2537
+#: src/nano.c:2540
 msgid "Can open just one file\n"
 msgstr "Kan slechts één bestand openen\n"
 
-#: src/nano.c:2555
+#: src/nano.c:2558
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Welkom bij nano.  Voor basishulp, typ Ctrl+G."
 

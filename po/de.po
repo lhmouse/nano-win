@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-11-15 11:41+0100\n"
+"POT-Creation-Date: 2022-12-14 11:31+0100\n"
 "PO-Revision-Date: 2022-11-07 18:45+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
@@ -1731,7 +1731,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "aktivieren/deaktivieren"
 
-#: src/help.c:579 src/nano.c:1631
+#: src/help.c:579 src/nano.c:1634
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Strg+W    M-W = Alt+W"
 
@@ -2249,53 +2249,53 @@ msgstr "Nicht zugewiesene Taste: %s%c"
 msgid "Unbindable key: ^["
 msgstr "Nicht zuweisbar: ^["
 
-#: src/nano.c:1890 src/rcfile.c:1656
+#: src/nano.c:1893 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Markierungsspalte „%s“ ist ungültig"
 
-#: src/nano.c:1937 src/rcfile.c:1661
+#: src/nano.c:1940 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Angeforderte Tabulatorbreite „%s“ ist ungültig"
 
-#: src/nano.c:2041 src/rcfile.c:1606
+#: src/nano.c:2044 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Angeforderte Füllgröße „%s“ ist ungültig"
 
-#: src/nano.c:2096
+#: src/nano.c:2099
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Benutzen Sie „%s -h“ für eine Liste verfügbarer Optionen.\n"
 
-#: src/nano.c:2292
+#: src/nano.c:2295
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Ungültiger regulärer Zitatausdruck „%s“: %s\n"
 
-#: src/nano.c:2447
+#: src/nano.c:2450
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Ungültiger Suchmodifikator „%c“"
 
-#: src/nano.c:2458
+#: src/nano.c:2461
 msgid "Empty search string"
 msgstr "Leere Suchzeichenkette"
 
-#: src/nano.c:2467 src/search.c:793
+#: src/nano.c:2470 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Ungültige Zeilen- oder Spaltennummer"
 
-#: src/nano.c:2518
+#: src/nano.c:2521
 msgid "Standard input is not a terminal\n"
 msgstr "Standardeingabe ist kein Terminal\n"
 
-#: src/nano.c:2537
+#: src/nano.c:2540
 msgid "Can open just one file\n"
 msgstr "Es kann nur eine Datei geöffnet werden\n"
 
-#: src/nano.c:2555
+#: src/nano.c:2558
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Willkommen bei Nano. Grundlegende Hilfe erhalten Sie mit Strg+G."
 

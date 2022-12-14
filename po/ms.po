@@ -5,10 +5,10 @@
 # Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2015, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 6.4-pre1\n"
+"Project-Id-Version: nano 7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-11-15 11:41+0100\n"
-"PO-Revision-Date: 2022-10-31 23:43+0800\n"
+"POT-Creation-Date: 2022-12-14 11:31+0100\n"
+"PO-Revision-Date: 2022-11-28 00:48+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
 "Language: ms\n"
@@ -1673,7 +1673,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "enable/disable"
 
-#: src/help.c:579 src/nano.c:1631
+#: src/help.c:579 src/nano.c:1634
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr ""
 
@@ -2141,11 +2141,11 @@ msgstr "Jujukan tidak diketahui"
 #: src/nano.c:1285 src/rcfile.c:810
 #, c-format
 msgid "Unknown function: %s"
-msgstr ""
+msgstr "Fungsi tidak diketahui: %s"
 
 #: src/nano.c:1287
 msgid "Missing }"
-msgstr ""
+msgstr "Hilang }"
 
 #. TRANSLATORS: This refers to an unbound function key.
 #: src/nano.c:1292
@@ -2165,59 +2165,59 @@ msgstr "Kekunci tidak boleh diikat: M-^%c"
 #: src/nano.c:1304 src/nano.c:1307 src/nano.c:1311 src/nano.c:1314
 #, c-format
 msgid "Unbound key: %s%c"
-msgstr ""
+msgstr "Kekunci tidak terikat: %s%c"
 
 #: src/nano.c:1309
 msgid "Unbindable key: ^["
 msgstr "Kekunci tidak boleh diikat: ^["
 
-#: src/nano.c:1890 src/rcfile.c:1656
+#: src/nano.c:1893 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Lajur panduan \"%s\" tidak sah"
 
-#: src/nano.c:1937 src/rcfile.c:1661
+#: src/nano.c:1940 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Saiz tab \"%s\" yang diminta tidak sah"
 
-#: src/nano.c:2041 src/rcfile.c:1606
+#: src/nano.c:2044 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Saiz isian \"%s\" yang diminta tidak sah"
 
-#: src/nano.c:2096
+#: src/nano.c:2099
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Taip '%s --help' untuk senarai pilihan yang ada.\n"
 
-#: src/nano.c:2292
+#: src/nano.c:2295
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Petikan regex \"%s\" buruk: %s\n"
 
-#: src/nano.c:2447
+#: src/nano.c:2450
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Pengubah suai carian '%c' tidak sah"
 
-#: src/nano.c:2458
+#: src/nano.c:2461
 msgid "Empty search string"
 msgstr "Rentetan carian kosong"
 
-#: src/nano.c:2467 src/search.c:793
+#: src/nano.c:2470 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Nombor baris atau lajur tidak sah"
 
-#: src/nano.c:2518
+#: src/nano.c:2521
 msgid "Standard input is not a terminal\n"
-msgstr ""
+msgstr "Masukan piawai bukan terminal\n"
 
-#: src/nano.c:2537
+#: src/nano.c:2540
 msgid "Can open just one file\n"
 msgstr "Hanya boleh membuka satu fail\n"
 
-#: src/nano.c:2555
+#: src/nano.c:2558
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr ""
 
@@ -2323,7 +2323,7 @@ msgstr ""
 #: src/rcfile.c:792
 #, c-format
 msgid "Unknown menu: %s"
-msgstr ""
+msgstr "Menu tidak diketahui: %s"
 
 #: src/rcfile.c:849
 #, c-format
@@ -2420,7 +2420,7 @@ msgstr "Pilihan hilang"
 #: src/rcfile.c:1535
 #, c-format
 msgid "Unknown option: %s"
-msgstr ""
+msgstr "Pilihan tidak diketahui: %s"
 
 #: src/rcfile.c:1550
 #, c-format
@@ -2825,7 +2825,7 @@ msgstr "Macro adalah kosong"
 
 #: src/winio.c:147
 msgid "Too much input at once\n"
-msgstr ""
+msgstr "Terlalu banyak masukan sekaligus\n"
 
 #: src/winio.c:258
 msgid "Too many errors from stdin\n"
