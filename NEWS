@@ -1,3 +1,7 @@
+2022.12.14 - GNU nano 7.1 "And the devices shall be made of wood"
+• When --autoindent and --breaklonglines are combined, pressing
+  <Enter> at a specific position no longer eats characters.
+
 2022.11.15 - GNU nano 7.0 "Una existencia simple bajo el sol"
 • String binds may contain bindable function names between braces.
   For example, to move the current line down to after the next one:

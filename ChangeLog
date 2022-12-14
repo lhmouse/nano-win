@@ -1,3 +1,17 @@
+Changes between v7.0 and v7.1:
+------------------------------
+
+Benno Schulenberg (8):
+      build: fix compilation when configured with --disable-comment
+      bump version numbers and add a news item for the 7.1 release
+      copyright: update the last year for significantly changed files
+      docs: say thanks to the Albanian translator
+      rcfile: report an error when an included file does not exist
+      text: upon Enter, eat only lefthand blanks, not any other characters
+      tweaks: avoid passing NULL to access()
+      tweaks: wrap overlong lines in the Tcl syntax, to make them manageable
+
+
 Changes between v6.4 and v7.0:
 ------------------------------
 
