@@ -1388,7 +1388,7 @@ bool wanted_to_move(void (*func)(void))
 }
 
 /* Return TRUE when the given function makes a change -- no good for view mode. */
-bool changes_something(const void *f)
+bool changes_something(functionptrtype f)
 {
 	return (f == do_savefile || f == do_writeout || f == do_enter || f == do_tab ||
 			f == do_delete || f == do_backspace || f == cut_text || f == paste_text ||

@@ -427,7 +427,7 @@ void terminal_init(void);
 void confirm_margin(void);
 #endif
 void unbound_key(int code);
-bool changes_something(const void *f);
+bool changes_something(functionptrtype f);
 void inject(char *burst, size_t count);
 
 /* Most functions in prompt.c. */
