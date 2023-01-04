@@ -1443,7 +1443,10 @@ void suck_up_input_and_paste_it(void)
 			beep();
 	}
 
-	paste_text();
+	if (ISSET(VIEW_MODE))
+		print_view_warning();
+	else
+		paste_text();
 
 	free_lines(cutbuffer);
 	cutbuffer = was_cutbuffer;
