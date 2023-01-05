@@ -798,22 +798,22 @@
              the undo implementation and the default syntax config are
              also included.  As always, Share and Enjoy!
 
-2014.05.28 - GNU nano 2.3.3 is in its right place.  This release contains
-             many many improvements to the core system, including
-             substantial improvements to the undo/redo code, UTF-8
-             handling, the configure script, and display of shortcuts
-             on very wide terminals.  New features include the
-             ability to write to named pipes (--noread), as well as
-             linter support (see the nanorc man page for details).  Also
-             included are much improved syntax highlighting code, and
-             configurations for JSON, texinfo, Go, and a default syntax
-             for catch-all highlighting.  Finally, nano now has the
-             ability to set the color of the title bar, status bar, and
-             shortcut keys (e.g. "^X") and their descriptions.  Again
-             see the nanorc page for details.  There's much more, too
-             much to include here, but please keep those reports and
-             general feedback coming!  Thank you for helping us help
-             you help us all.
+2014.05.28 - GNU nano 2.3.3 is in its right place.  This release
+             contains many many improvements to the core system,
+             including substantial improvements to the undo/redo code,
+             UTF-8 handling, the configure script, and display of
+             shortcuts on very wide terminals.  New features include
+             the ability to write to named pipes (--noread), as well
+             as linter support (see the nanorc man page for details).
+             Also included are much improved syntax highlighting code,
+             and configurations for JSON, texinfo, Go, and a default
+             syntax for catch-all highlighting.  Finally, nano now has
+             the ability to set the color of the title bar, status bar,
+             and shortcut keys (e.g. "^X") and their descriptions.
+             Again see the nanorc page for details. There's much more,
+             too much to include here, but please keep those reports
+             and general feedback coming!  Thank you for helping us
+             help you help us all.
 
 2013.03.22 - GNU nano 2.3.2 "Annoy your coworkers for fun and profit" is
              released.  This release introduces vim-style file locking
