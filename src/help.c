@@ -1,7 +1,7 @@
 /**************************************************************************
  *   help.c  --  This file is part of GNU nano.                           *
  *                                                                        *
- *   Copyright (C) 2000-2011, 2013-2022 Free Software Foundation, Inc.    *
+ *   Copyright (C) 2000-2011, 2013-2023 Free Software Foundation, Inc.    *
  *   Copyright (C) 2017 Rishabh Dave                                      *
  *   Copyright (C) 2014-2019 Benno Schulenberg                            *
  *                                                                        *
