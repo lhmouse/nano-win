@@ -3627,13 +3627,13 @@ void do_credits(void)
 		"Zeyd Ben-Halim",
 		"Eric S. Raymond",
 		NULL,                /* "and anyone else we forgot..." */
-		NULL,                /* "Thank you for using nano!" */
 		"",
+		"",
+		NULL,                /* "Thank you for using nano!" */
 		"",
 		"",
 		"(C) 2023",
 		"Free Software Foundation, Inc.",
-		"",
 		"",
 		"",
 		"https://nano-editor.org/"
