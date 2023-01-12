@@ -5,6 +5,7 @@ gnulib_url="git://git.sv.gnu.org/gnulib.git"
 gnulib_hash="0ab73798b5bc703233195c1d37f96d977fc26ad8"
 
 modules="
+	fsync
 	futimens
 	getdelim
 	getline

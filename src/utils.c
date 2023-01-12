@@ -27,24 +27,19 @@
 #endif
 #include <string.h>
 #include <unistd.h>
+#include <shlobj.h>
 
 /* Return the user's home directory.  We use $HOME, and if that fails,
  * we fall back on the home directory of the effective user ID. */
 void get_homedir(void)
 {
 	if (homedir == NULL) {
-		const char *homenv = getenv("HOME");
+		const char *homenv = getenv("USERPROFILE");
 
-#ifdef HAVE_PWD_H
 		/* When HOME isn't set, or when we're root, get the home directory
 		 * from the password file instead. */
-		if (homenv == NULL || geteuid() == ROOT_UID) {
-			const struct passwd *userage = getpwuid(geteuid());
-
-			if (userage != NULL)
-				homenv = userage->pw_dir;
-		}
-#endif
+		if (homenv == NULL || IsUserAnAdmin())
+			homenv = getenv("ALLUSERSPROFILE");
 
 		/* Only set homedir if some home directory could be determined,
 		 * otherwise keep homedir NULL. */

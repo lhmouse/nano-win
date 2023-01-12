@@ -682,7 +682,7 @@ char *browse_in(const char *inpath)
 		path = free_and_assign(path, strip_last_component(path));
 
 		if (stat(path, &fileinfo) == -1 || !S_ISDIR(fileinfo.st_mode)) {
-			path = free_and_assign(path, realpath(".", NULL));
+			path = free_and_assign(path, _fullpath(NULL, ".", 0));
 
 			if (path == NULL) {
 				statusline(ALERT, _("The working directory has disappeared"));

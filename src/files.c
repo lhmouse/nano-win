@@ -29,13 +29,12 @@
 #endif
 #include <string.h>
 #include <unistd.h>
-#include <sys/wait.h>
+#define WIN32_LEAN_AND_MEAN 1
+#include <windows.h>
+#include <shlobj.h>
+#include <shlwapi.h>
 
 #define RW_FOR_ALL  (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
-
-#ifndef HAVE_FSYNC
-# define fsync(...)  0
-#endif
 
 /* Add an item to the circular list of openfile structs. */
 void make_new_buffer(void)
@@ -149,32 +148,21 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 {
 #if defined(HAVE_PWD_H) && defined(HAVE_GETEUID)
 	pid_t mypid = getpid();
-	uid_t myuid = geteuid();
-	struct passwd *mypwuid = getpwuid(myuid);
-	char myhostname[32];
+	char myhostname[32] = "localhost";
 	int fd;
 	FILE *filestream = NULL;
 	char *lockdata;
 	size_t wroteamt;
-
-	if (mypwuid == NULL) {
-		/* TRANSLATORS: Keep the next seven messages at most 76 characters. */
-		statusline(MILD, _("Couldn't determine my identity for lock file"));
-		return FALSE;
-	}
-
-	if (gethostname(myhostname, 31) < 0 && errno != ENAMETOOLONG) {
-		statusline(MILD, _("Couldn't determine hostname: %s"), strerror(errno));
-		return FALSE;
-	} else
-		myhostname[31] = '\0';
+	DWORD usernamelen = 32;
+	char myusername[32] = "";
+	GetUserNameA(myusername, &usernamelen);
 
 	/* First make sure to remove an existing lock file. */
 	if (!delete_lockfile(lockfilename))
 		return FALSE;
 
 	/* Create the lock file -- do not accept an existing one. */
-	fd = open(lockfilename, O_WRONLY|O_CREAT|O_EXCL, RW_FOR_ALL);
+	fd = open(lockfilename, O_WRONLY|O_CREAT|O_EXCL|_O_BINARY, RW_FOR_ALL);
 
 	if (fd > 0)
 		filestream = fdopen(fd, "wb");
@@ -213,7 +201,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	lockdata[25] = (mypid / 256) % 256;
 	lockdata[26] = (mypid / (256 * 256)) % 256;
 	lockdata[27] = mypid / (256 * 256 * 256);
-	strncpy(&lockdata[28], mypwuid->pw_name, 16);
+	strncpy(&lockdata[28], myusername, 16);
 	strncpy(&lockdata[68], myhostname, 32);
 	strncpy(&lockdata[108], filename, 768);
 	lockdata[1007] = (modified) ? 0x55 : 0x00;
@@ -259,7 +247,7 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 		int lockfd, lockpid, choice;
 		ssize_t readamt;
 
-		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
+		if ((lockfd = open(lockfilename, O_RDONLY | _O_BINARY)) < 0) {
 			statusline(ALERT, _("Error opening lock file %s: %s"),
 								lockfilename, strerror(errno));
 			free(lockfilename);
@@ -353,7 +341,7 @@ bool has_valid_path(const char *filename)
 	bool gone = FALSE;
 
 	if (strcmp(parentdir, ".") == 0) {
-		char *currentdir = realpath(".", NULL);
+		char *currentdir = _fullpath(NULL, ".", 0);
 
 		gone = (currentdir == NULL && errno == ENOENT);
 		free(currentdir);
@@ -369,7 +357,7 @@ bool has_valid_path(const char *filename)
 			statusline(ALERT, _("Path '%s': %s"), parentdir, strerror(errno));
 	} else if (!S_ISDIR(parentinfo.st_mode))
 		statusline(ALERT, _("Path '%s' is not a directory"), parentdir);
-	else if (access(parentdir, X_OK) == -1)
+	else if (access(parentdir, R_OK) == -1)
 		statusline(ALERT, _("Path '%s' is not accessible"), parentdir);
 #ifndef NANO_TINY
 	else if (ISSET(LOCKING) && !ISSET(VIEW_MODE) && access(parentdir, W_OK) < 0)
@@ -427,7 +415,7 @@ bool open_buffer(const char *filename, bool new_one)
 		}
 #elif defined(HAVE_GETEUID)
 		if (new_one && !(fileinfo.st_mode & (S_IWUSR|S_IWGRP|S_IWOTH)) &&
-						geteuid() == ROOT_UID)
+						IsUserAnAdmin())
 			statusline(ALERT, _("%s is meant to be read-only"), realname);
 #endif
 	}
@@ -770,7 +758,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	/* When reading from stdin, restore the terminal and reenter curses mode. */
 	if (isendwin()) {
-		if (!isatty(STDIN_FILENO))
+		if (GetConsoleWindow() == NULL)
 			reconnect_and_store_state();
 		terminal_init();
 		doupdate();
@@ -903,7 +891,7 @@ int open_file(const char *filename, bool new_one, FILE **f)
 #endif
 
 	/* Try opening the file. */
-	fd = open(full_filename, O_RDONLY);
+	fd = open(full_filename, O_RDONLY | _O_BINARY);
 
 #ifndef NANO_TINY
 	restore_handler_for_Ctrl_C();
@@ -1395,14 +1383,14 @@ char *get_full_path(const char *origpath)
 		return NULL;
 
 	untilded = real_dir_from_tilde(origpath);
-	target = realpath(untilded, NULL);
+	target = _fullpath(NULL, untilded, 0);
 	slash = strrchr(untilded, '/');
 
 	/* If realpath() returned NULL, try without the last component,
 	 * as this can be a file that does not exist yet. */
 	if (!target && slash && slash[1]) {
 		*slash = '\0';
-		target = realpath(untilded, NULL);
+		target = _fullpath(NULL, untilded, 0);
 
 		/* Upon success, re-add the last component of the original path. */
 		if (target) {
@@ -1419,6 +1407,12 @@ char *get_full_path(const char *origpath)
 	}
 
 	free(untilded);
+
+	/* Replace backslashes with forwardslashes. */
+	if(target)
+		for(slash = target;  *slash;  ++slash)
+			if(*slash == '\\')
+				*slash = '/';
 
 	return target;
 }
@@ -1445,7 +1439,7 @@ char *check_writable_directory(const char *path)
  * file stream opened in read-write mode.  On error, return NULL. */
 char *safe_tempfile(FILE **stream)
 {
-	const char *env_dir = getenv("TMPDIR");
+	const char *env_dir = getenv("TMP");
 	char *tempdir = NULL, *tempfile_name = NULL;
 	char *extension;
 	int descriptor;
@@ -1459,7 +1453,7 @@ char *safe_tempfile(FILE **stream)
 		tempdir = check_writable_directory(P_tmpdir);
 
 	if (tempdir == NULL)
-		tempdir = copy_of("/tmp/");
+		tempdir = copy_of("C:/Windows/Temp/");
 
 	extension = strrchr(openfile->filename, '.');
 
@@ -1612,7 +1606,7 @@ bool make_backup_of(char *realname)
 		 * just use the file-name portion of the given path. */
 		if (thename) {
 			for (int i = 0; thename[i] != '\0'; i++)
-				if (thename[i] == '/')
+				if (strchr("<>:\"/\\|?*", thename[i]))
 					thename[i] = '!';
 		} else
 			thename = copy_of(tail(realname));
@@ -1641,7 +1635,7 @@ bool make_backup_of(char *realname)
 	creation_flags = O_WRONLY|O_CREAT|(ISSET(INSECURE_BACKUP) ? O_TRUNC : O_EXCL);
 
 	/* Create the backup file (or truncate the existing one). */
-	descriptor = open(backupname, creation_flags, S_IRUSR|S_IWUSR);
+	descriptor = open(backupname, creation_flags|_O_BINARY, S_IRUSR|S_IWUSR);
 
   retry:
 	if (descriptor >= 0)
@@ -1852,7 +1846,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 #endif
 
 		/* Now open the file.  Use O_EXCL for an emergency file. */
-		fd = open(realname, O_WRONLY | O_CREAT | ((method == APPEND) ?
+		fd = open(realname, O_WRONLY | O_CREAT | _O_BINARY | ((method == APPEND) ?
 					O_APPEND : (normal ? O_TRUNC : O_EXCL)), permissions);
 
 #ifndef NANO_TINY
@@ -2398,6 +2392,11 @@ char *real_dir_from_tilde(const char *path)
 
 	free(tilded);
 
+	/* Replace backslashes with forwardslashes. */
+	for(tilded = retval;  *tilded;  ++tilded)
+		if(*tilded == '\\')
+			*tilded = '/';
+
 	return retval;
 }
 
@@ -2506,7 +2505,7 @@ char **filename_completion(const char *morsel, size_t *num_matches)
 		*slash = '\0';
 		dirname = real_dir_from_tilde(dirname);
 		/* A non-absolute path is relative to the current browser directory. */
-		if (dirname[0] != '/') {
+		if (PathIsRelativeA(dirname)) {
 			dirname = nrealloc(dirname, strlen(present_path) + strlen(wasdirname) + 1);
 			sprintf(dirname, "%s%s", present_path, wasdirname);
 		}
