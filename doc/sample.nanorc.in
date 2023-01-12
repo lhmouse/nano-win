@@ -313,8 +313,6 @@
 #bind ^B wherewas all
 #bind ^D findprevious all
 #bind ^R replace main
-#bind ^Z undo main
-#bind ^Y redo main
 #unbind ^K main
 #unbind ^U all
 #unbind ^N main
@@ -328,3 +326,5 @@
 #bind ^T cutrestoffile execute
 #bind ^L linter execute
 #bind ^E execute main
+#bind ^Z undo main
+#bind ^Y redo main
