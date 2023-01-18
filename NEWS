@@ -1,3 +1,6 @@
+2023.01.18 - GNU nano 7.2 "Boer doe mij 't hekke lös!"
+• <Shift+Insert> is prevented from pasting in view mode.
+
 2022.12.14 - GNU nano 7.1 "And the devices shall be made of wood"
 • When --autoindent and --breaklonglines are combined, pressing
   <Enter> at a specific position no longer eats characters.

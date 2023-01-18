@@ -1,3 +1,20 @@
+Changes between v7.1 and v7.2:
+------------------------------
+
+Benno Schulenberg (11):
+      bindings: let ^/ toggle between the 'search' and 'gotoline' menus
+      bump version numbers and add a news item for the 7.2 release
+      copyright: update the years for the FSF
+      docs: give ^K and ^U some useful function in the alternative bindings
+      docs: put the binding of ^Y after its unbinding, for it to be effective
+      gnulib: update to its current upstream state
+      input: disallow bracketed pastes when in view mode
+      syntax: html: colorize specially the other two emphasizing tags too
+      tweaks: avoid warnings when compiling with -Wpedantic
+      tweaks: rewrap an old news item
+      tweaks: separate a special thanks from the preceding ones
+
+
 Changes between v7.0 and v7.1:
 ------------------------------
 
