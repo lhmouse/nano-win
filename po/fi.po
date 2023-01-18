@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 6.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-12-14 11:31+0100\n"
+"POT-Creation-Date: 2023-01-18 09:49+0100\n"
 "PO-Revision-Date: 2022-03-04 09:09+0200\n"
 "Last-Translator: Lauri Nurmi <lanurmi@iki.fi>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
@@ -1325,55 +1325,55 @@ msgstr ""
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1518
+#: src/global.c:1519
 msgid "Hidden interface"
 msgstr "Piilotettu käyttöliittymä"
 
-#: src/global.c:1520
+#: src/global.c:1521
 msgid "Help mode"
 msgstr "Ohjetila"
 
-#: src/global.c:1522
+#: src/global.c:1523
 msgid "Constant cursor position display"
 msgstr "Jatkuva kohdistimen sijainnin näyttö"
 
-#: src/global.c:1524
+#: src/global.c:1525
 msgid "Soft wrapping of overlong lines"
 msgstr "Ylipitkien rivien pehmeä rivitys"
 
-#: src/global.c:1526
+#: src/global.c:1527
 msgid "Line numbering"
 msgstr "Rivinumerointi"
 
-#: src/global.c:1528
+#: src/global.c:1529
 msgid "Whitespace display"
 msgstr "Tyhjemerkkien näyttö"
 
-#: src/global.c:1530
+#: src/global.c:1531
 msgid "Color syntax highlighting"
 msgstr "Värillinen syntaksin korostus"
 
-#: src/global.c:1532
+#: src/global.c:1533
 msgid "Smart home key"
 msgstr "Älykäs Home-näppäin"
 
-#: src/global.c:1534
+#: src/global.c:1535
 msgid "Auto indent"
 msgstr "Automaattinen sisennys"
 
-#: src/global.c:1536
+#: src/global.c:1537
 msgid "Cut to end"
 msgstr "Leikkaa loppuun saakka"
 
-#: src/global.c:1538
+#: src/global.c:1539
 msgid "Hard wrapping of overlong lines"
 msgstr "Ylipitkien rivien kova rivitys"
 
-#: src/global.c:1540
+#: src/global.c:1541
 msgid "Conversion of typed tabs to spaces"
 msgstr "Näppäiltyjen sarkainten muunnos välilyönneiksi"
 
-#: src/global.c:1542
+#: src/global.c:1543
 msgid "Mouse support"
 msgstr "Hiirituki"
 
@@ -1664,7 +1664,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "käytössä/pois"
 
-#: src/help.c:579 src/nano.c:1634
+#: src/help.c:579 src/nano.c:1637
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr ""
 
@@ -2173,55 +2173,55 @@ msgstr ""
 msgid "Unbindable key: ^["
 msgstr "Ei-sidottava näppäin: ^["
 
-#: src/nano.c:1893 src/rcfile.c:1656
+#: src/nano.c:1896 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr ""
 
 #  puuttuu tai liian iso tai liian pieni
-#: src/nano.c:1940 src/rcfile.c:1661
+#: src/nano.c:1943 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Pyydetty sarkaimen koko ”%s” ei kelpaa"
 
 #  puuttuu tai liian iso tai liian pieni
-#: src/nano.c:2044 src/rcfile.c:1606
+#: src/nano.c:2047 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Pyydetty täyttöpituus ”%s” ei kelpaa"
 
-#: src/nano.c:2099
+#: src/nano.c:2102
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Komento ”%s -h” näyttää käytettävissä olevat valitsimet.\n"
 
-#: src/nano.c:2295
+#: src/nano.c:2298
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr ""
 
-#: src/nano.c:2450
+#: src/nano.c:2453
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr ""
 
-#: src/nano.c:2461
+#: src/nano.c:2464
 msgid "Empty search string"
 msgstr ""
 
-#: src/nano.c:2470 src/search.c:793
+#: src/nano.c:2473 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Virheellinen rivi- tai sarakenumero"
 
-#: src/nano.c:2521
+#: src/nano.c:2524
 msgid "Standard input is not a terminal\n"
 msgstr ""
 
-#: src/nano.c:2540
+#: src/nano.c:2543
 msgid "Can open just one file\n"
 msgstr ""
 
-#: src/nano.c:2558
+#: src/nano.c:2561
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Tervetuloa nanoon. Perusohjeen näkee näppäilemällä Ctrl+G."
 

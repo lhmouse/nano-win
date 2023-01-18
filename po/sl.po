@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 2.3.2pre4\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-12-14 11:31+0100\n"
+"POT-Creation-Date: 2023-01-18 09:49+0100\n"
 "PO-Revision-Date: 2013-03-18 21:33+0100\n"
 "Last-Translator: Klemen Košir <klemen913@gmail.com>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
@@ -133,7 +133,7 @@ msgstr "Med brisanjem zaklepne datoteke %s je prišlo do napake: %s"
 #. TRANSLATORS: Keep the next seven messages at most 76 characters.
 #: src/files.c:162
 msgid "Couldn't determine my identity for lock file"
-msgstr ""
+msgstr "Istovetnosti za zaklepno datoteko ni mogoče določiti"
 
 #: src/files.c:167
 #, c-format
@@ -265,28 +265,28 @@ msgstr ""
 #, c-format
 msgid "Read %zu line (Converted from Mac format)"
 msgid_plural "Read %zu lines (Converted from Mac format)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Prebranih je %zu vrstic (pretvorjeno iz oblike Mac)"
+msgstr[1] "Prebrana je %zu vrstica (pretvorjeno iz oblike Mac)"
+msgstr[2] "Prebrani sta %zu vrstici (pretvorjeno iz oblike Mac)"
+msgstr[3] "Prebrane so %zu vrstice (pretvorjeno iz oblike Mac)"
 
 #: src/files.c:839
 #, c-format
 msgid "Read %zu line (Converted from DOS format)"
 msgid_plural "Read %zu lines (Converted from DOS format)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Prebranih je %zu vrstic (pretvorjeno iz oblike DOS)"
+msgstr[1] "Prebrana je %zu vrstica (pretvorjeno iz oblike DOS)"
+msgstr[2] "Prebrani sta %zu vrstici (pretvorjeno iz oblike DOS)"
+msgstr[3] "Prebrane so %zu vrstice (pretvorjeno iz oblike DOS)"
 
 #: src/files.c:844
 #, c-format
 msgid "Read %zu line"
 msgid_plural "Read %zu lines"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Prebranih je %zu vrstic"
+msgstr[1] "Prebrana je %zu vrstica"
+msgstr[2] "Prebrani sta %zu vrstici"
+msgstr[3] "Prebrane so %zu vrstice"
 
 #: src/files.c:889
 msgid "New File"
@@ -461,10 +461,10 @@ msgstr ""
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zapisanih je %zu vrstic"
+msgstr[1] "Zapisana je %zu vrstica"
+msgstr[2] "Zapisani sta %zu vrstici"
+msgstr[3] "Zapisane so %zu vrstice"
 
 #: src/files.c:2132
 msgid " [DOS Format]"
@@ -941,7 +941,7 @@ msgstr ""
 #. TRANSLATORS: Try to keep the next thirteen strings at most 10 characters.
 #: src/global.c:713
 msgid "Help"
-msgstr ""
+msgstr "Pomoč"
 
 #: src/global.c:717 src/prompt.c:679
 msgid "Cancel"
@@ -949,7 +949,7 @@ msgstr "Prekliči"
 
 #: src/global.c:739
 msgid "Write Out"
-msgstr ""
+msgstr "Zapiši"
 
 #: src/global.c:747
 msgid "Read File"
@@ -987,15 +987,15 @@ msgstr ""
 
 #: src/global.c:778
 msgid "Cut"
-msgstr ""
+msgstr "Izreži"
 
 #: src/global.c:781
 msgid "Paste"
-msgstr ""
+msgstr "Prilepi"
 
 #: src/global.c:786
 msgid "Execute"
-msgstr ""
+msgstr "Izvedi"
 
 #. TRANSLATORS: This refers to the position of the cursor.
 #: src/global.c:796
@@ -1021,7 +1021,7 @@ msgstr ""
 
 #: src/global.c:815
 msgid "Copy"
-msgstr ""
+msgstr "Kopiraj"
 
 #: src/global.c:819
 msgid "Case Sens"
@@ -1041,11 +1041,11 @@ msgstr "Brez. zam."
 
 #: src/global.c:832
 msgid "Older"
-msgstr ""
+msgstr "Starejši"
 
 #: src/global.c:834
 msgid "Newer"
-msgstr ""
+msgstr "Novejši"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
 #: src/global.c:840
@@ -1168,11 +1168,11 @@ msgstr ""
 
 #: src/global.c:965 src/global.c:1111
 msgid "Cut Till End"
-msgstr ""
+msgstr "Izrez do konca"
 
 #: src/global.c:970 src/global.c:1068
 msgid "Full Justify"
-msgstr ""
+msgstr "Pop. por."
 
 #: src/global.c:975
 msgid "Word Count"
@@ -1225,7 +1225,7 @@ msgstr ""
 
 #: src/global.c:1016 src/global.c:1060
 msgid "Spell Check"
-msgstr ""
+msgstr "Črkuj"
 
 #: src/global.c:1020 src/global.c:1064
 msgid "Linter"
@@ -1327,55 +1327,55 @@ msgstr ""
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1518
+#: src/global.c:1519
 msgid "Hidden interface"
 msgstr ""
 
-#: src/global.c:1520
+#: src/global.c:1521
 msgid "Help mode"
 msgstr "Način pomoči"
 
-#: src/global.c:1522
+#: src/global.c:1523
 msgid "Constant cursor position display"
 msgstr "Stalni prikaz položaja kazalke"
 
-#: src/global.c:1524
+#: src/global.c:1525
 msgid "Soft wrapping of overlong lines"
 msgstr ""
 
-#: src/global.c:1526
+#: src/global.c:1527
 msgid "Line numbering"
 msgstr ""
 
-#: src/global.c:1528
+#: src/global.c:1529
 msgid "Whitespace display"
 msgstr "Prikaz presledkov"
 
-#: src/global.c:1530
+#: src/global.c:1531
 msgid "Color syntax highlighting"
 msgstr "Barvno poudarjanje skladnje"
 
-#: src/global.c:1532
+#: src/global.c:1533
 msgid "Smart home key"
 msgstr "Pametna tipka za Domov"
 
-#: src/global.c:1534
+#: src/global.c:1535
 msgid "Auto indent"
 msgstr "Samodejno zamikanje"
 
-#: src/global.c:1536
+#: src/global.c:1537
 msgid "Cut to end"
 msgstr "Izreži do konca"
 
-#: src/global.c:1538
+#: src/global.c:1539
 msgid "Hard wrapping of overlong lines"
 msgstr ""
 
-#: src/global.c:1540
+#: src/global.c:1541
 msgid "Conversion of typed tabs to spaces"
 msgstr "Pretvarjanje tabulatorjev v presledne znake"
 
-#: src/global.c:1542
+#: src/global.c:1543
 msgid "Mouse support"
 msgstr "Podpora za miško"
 
@@ -1687,7 +1687,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "omogoči/onemogoči"
 
-#: src/help.c:579 src/nano.c:1634
+#: src/help.c:579 src/nano.c:1637
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr ""
 
@@ -2185,53 +2185,53 @@ msgstr ""
 msgid "Unbindable key: ^["
 msgstr ""
 
-#: src/nano.c:1893 src/rcfile.c:1656
+#: src/nano.c:1896 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr ""
 
-#: src/nano.c:1940 src/rcfile.c:1661
+#: src/nano.c:1943 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Zahtevana velikost tabulatorja \"%s\" je neveljavna"
 
-#: src/nano.c:2044 src/rcfile.c:1606
+#: src/nano.c:2047 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Zahtevana velikost zapolnitve \"%s\" je neveljavna"
 
-#: src/nano.c:2099
+#: src/nano.c:2102
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr ""
 
-#: src/nano.c:2295
+#: src/nano.c:2298
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr ""
 
-#: src/nano.c:2450
+#: src/nano.c:2453
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr ""
 
-#: src/nano.c:2461
+#: src/nano.c:2464
 msgid "Empty search string"
 msgstr ""
 
-#: src/nano.c:2470 src/search.c:793
+#: src/nano.c:2473 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Neveljavna številka vrstice ali stolpca"
 
-#: src/nano.c:2521
+#: src/nano.c:2524
 msgid "Standard input is not a terminal\n"
 msgstr ""
 
-#: src/nano.c:2540
+#: src/nano.c:2543
 msgid "Can open just one file\n"
 msgstr ""
 
-#: src/nano.c:2558
+#: src/nano.c:2561
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr ""
 

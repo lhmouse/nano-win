@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-12-14 11:31+0100\n"
+"POT-Creation-Date: 2023-01-18 09:49+0100\n"
 "PO-Revision-Date: 2022-11-09 23:59+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -1313,55 +1313,55 @@ msgstr "次の構文チェックメッセージ"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1518
+#: src/global.c:1519
 msgid "Hidden interface"
 msgstr "隠れたインターフェース"
 
-#: src/global.c:1520
+#: src/global.c:1521
 msgid "Help mode"
 msgstr "ヘルプ"
 
-#: src/global.c:1522
+#: src/global.c:1523
 msgid "Constant cursor position display"
 msgstr "常にカーソル位置を表示"
 
-#: src/global.c:1524
+#: src/global.c:1525
 msgid "Soft wrapping of overlong lines"
 msgstr "長い行を画面上で折り返す"
 
-#: src/global.c:1526
+#: src/global.c:1527
 msgid "Line numbering"
 msgstr "行番号"
 
-#: src/global.c:1528
+#: src/global.c:1529
 msgid "Whitespace display"
 msgstr "空白を表示"
 
-#: src/global.c:1530
+#: src/global.c:1531
 msgid "Color syntax highlighting"
 msgstr "単語の強調"
 
-#: src/global.c:1532
+#: src/global.c:1533
 msgid "Smart home key"
 msgstr "スマートホームキー"
 
-#: src/global.c:1534
+#: src/global.c:1535
 msgid "Auto indent"
 msgstr "自動インデント"
 
-#: src/global.c:1536
+#: src/global.c:1537
 msgid "Cut to end"
 msgstr "改行の前まで削除"
 
-#: src/global.c:1538
+#: src/global.c:1539
 msgid "Hard wrapping of overlong lines"
 msgstr "長い行を強制的に改行で折り返す"
 
-#: src/global.c:1540
+#: src/global.c:1541
 msgid "Conversion of typed tabs to spaces"
 msgstr "タブをスペースに変換"
 
-#: src/global.c:1542
+#: src/global.c:1543
 msgid "Mouse support"
 msgstr "マウスのサポート"
 
@@ -1696,7 +1696,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "有効/無効"
 
-#: src/help.c:579 src/nano.c:1634
+#: src/help.c:579 src/nano.c:1637
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2210,53 +2210,53 @@ msgstr "未割り当てのキー: %s%c"
 msgid "Unbindable key: ^["
 msgstr "割り当てできないキー: ^["
 
-#: src/nano.c:1893 src/rcfile.c:1656
+#: src/nano.c:1896 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "ガイドバーを表示する列の指定として \"%s\" が正しくありません"
 
-#: src/nano.c:1940 src/rcfile.c:1661
+#: src/nano.c:1943 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "要求されたタブのサイズ \"%s\" は不正です"
 
-#: src/nano.c:2044 src/rcfile.c:1606
+#: src/nano.c:2047 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "要求されたサイズ \"%s\" は不正です"
 
-#: src/nano.c:2099
+#: src/nano.c:2102
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "'%s -h' で指定可能なオプションを表示します。\n"
 
-#: src/nano.c:2295
+#: src/nano.c:2298
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "不正なエスケープされた正規表現 \"%s\": %s\n"
 
-#: src/nano.c:2450
+#: src/nano.c:2453
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "無効な検索修飾子 '%c'"
 
-#: src/nano.c:2461
+#: src/nano.c:2464
 msgid "Empty search string"
 msgstr "空の検索文字列"
 
-#: src/nano.c:2470 src/search.c:793
+#: src/nano.c:2473 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "無効な行または列番号です"
 
-#: src/nano.c:2521
+#: src/nano.c:2524
 msgid "Standard input is not a terminal\n"
 msgstr "標準入力が端末ではありません\n"
 
-#: src/nano.c:2540
+#: src/nano.c:2543
 msgid "Can open just one file\n"
 msgstr "1つのファイルのみ開くことができます\n"
 
-#: src/nano.c:2558
+#: src/nano.c:2561
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "nano へようこそ。 Ctrl+G で簡単なヘルプが出ます。"
 

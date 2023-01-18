@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-12-14 11:31+0100\n"
+"POT-Creation-Date: 2023-01-18 09:49+0100\n"
 "PO-Revision-Date: 2022-12-02 10:02+0100\n"
 "Last-Translator: Benno Schulenberg <vertaling@coevern.nl>\n"
 "Language-Team: Romanian <translation-team-ro@lists.sourceforge.net>\n"
@@ -1353,55 +1353,55 @@ msgstr "Mesajul următor"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1518
+#: src/global.c:1519
 msgid "Hidden interface"
 msgstr "Interfață ascunsă"
 
-#: src/global.c:1520
+#: src/global.c:1521
 msgid "Help mode"
 msgstr "Bara de ajutor"
 
-#: src/global.c:1522
+#: src/global.c:1523
 msgid "Constant cursor position display"
 msgstr "Afișare continuă a poziției cursorului"
 
-#: src/global.c:1524
+#: src/global.c:1525
 msgid "Soft wrapping of overlong lines"
 msgstr "Despărțire temporară a liniilor lungi"
 
-#: src/global.c:1526
+#: src/global.c:1527
 msgid "Line numbering"
 msgstr "Numerotare linii"
 
-#: src/global.c:1528
+#: src/global.c:1529
 msgid "Whitespace display"
 msgstr "Afișare spațiu-alb"
 
-#: src/global.c:1530
+#: src/global.c:1531
 msgid "Color syntax highlighting"
 msgstr "Evidențiere sintaxă color"
 
-#: src/global.c:1532
+#: src/global.c:1533
 msgid "Smart home key"
 msgstr "Tastă acasă inteligentă"
 
-#: src/global.c:1534
+#: src/global.c:1535
 msgid "Auto indent"
 msgstr "Auto indentare"
 
-#: src/global.c:1536
+#: src/global.c:1537
 msgid "Cut to end"
 msgstr "Decupare până la sfârșit"
 
-#: src/global.c:1538
+#: src/global.c:1539
 msgid "Hard wrapping of overlong lines"
 msgstr "Despărțire permanentă a liniilor lungi"
 
-#: src/global.c:1540
+#: src/global.c:1541
 msgid "Conversion of typed tabs to spaces"
 msgstr "Conversie a tab-urilor introduse în spații"
 
-#: src/global.c:1542
+#: src/global.c:1543
 msgid "Mouse support"
 msgstr "Funcționalitate maus"
 
@@ -1757,7 +1757,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "activare/dezactivare"
 
-#: src/help.c:579 src/nano.c:1634
+#: src/help.c:579 src/nano.c:1637
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2273,53 +2273,53 @@ msgstr "Tastă nealocată: %s%c"
 msgid "Unbindable key: ^["
 msgstr "Tastă nealocabilă: ^["
 
-#: src/nano.c:1893 src/rcfile.c:1656
+#: src/nano.c:1896 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Coloana de ghidare „%s” este nevalidă"
 
-#: src/nano.c:1940 src/rcfile.c:1661
+#: src/nano.c:1943 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Mărimea tab solicitată „%s” este nevalidă"
 
-#: src/nano.c:2044 src/rcfile.c:1606
+#: src/nano.c:2047 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Mărimea de umplere solicitată „%s” este nevalidă"
 
-#: src/nano.c:2099
+#: src/nano.c:2102
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Tastați „%s -h” pentru o listă de opțiuni disponibile.\n"
 
-#: src/nano.c:2295
+#: src/nano.c:2298
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Citare regex greșită „%s”: %s\n"
 
-#: src/nano.c:2450
+#: src/nano.c:2453
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Modificator de căutare nevalid „%c”"
 
-#: src/nano.c:2461
+#: src/nano.c:2464
 msgid "Empty search string"
 msgstr "Șir de căutare gol"
 
-#: src/nano.c:2470 src/search.c:793
+#: src/nano.c:2473 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Număr de linie sau coloană nevalid"
 
-#: src/nano.c:2521
+#: src/nano.c:2524
 msgid "Standard input is not a terminal\n"
 msgstr "Intrarea standard nu este un terminal\n"
 
-#: src/nano.c:2540
+#: src/nano.c:2543
 msgid "Can open just one file\n"
 msgstr "Se poate deschide doar un fișier\n"
 
-#: src/nano.c:2558
+#: src/nano.c:2561
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Bine ați venit la Nano. Pentru ajutor de bază, tastați CTRL+G."
 

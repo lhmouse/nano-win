@@ -7,10 +7,10 @@
 # Sergey Poznyakoff <gray@gnu.org>, 2010, 2015-2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 5.9-pre1\n"
+"Project-Id-Version: nano 7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-12-14 11:31+0100\n"
-"PO-Revision-Date: 2021-09-22 18:31+0300\n"
+"POT-Creation-Date: 2023-01-18 09:49+0100\n"
+"PO-Revision-Date: 2023-01-14 14:46+0200\n"
 "Last-Translator: Sergey Poznyakoff <gray@gnu.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "Language: pl\n"
@@ -327,11 +327,11 @@ msgstr "Nie można otworzyć potoku: %s"
 #: src/files.c:1155
 #, c-format
 msgid "Error: %s"
-msgstr ""
+msgstr "Błąd: %s"
 
 #: src/files.c:1160
 msgid "Piping failed"
-msgstr ""
+msgstr "Przesyłanie danych przez potok nie powiodło się"
 
 #. TRANSLATORS: The next six messages are prompts.
 #: src/files.c:1203
@@ -442,14 +442,14 @@ msgstr "Błąd odczytu pliku tymczasowego: %s"
 #. TRANSLATORS: This warns for data loss when the disk is full.
 #: src/files.c:1980
 msgid "File on disk has been truncated!"
-msgstr ""
+msgstr "Plik na dysku został ucięty!"
 
 #. TRANSLATORS: This is a suggestion to the user,
 #. * where "resume" means resuming from suspension.
 #. * Try to keep this at most 76 characters.
 #: src/files.c:1985
 msgid "Maybe ^T^Z, make room on disk, resume, then ^S^X"
-msgstr ""
+msgstr "Naciśnij ^T^Z, zwolnij miejsce na dysku, powróć, i naciśnij ^S^X"
 
 #: src/files.c:2047
 #, c-format
@@ -713,7 +713,7 @@ msgstr "Wstaw następne naciśnięcie klawisza dosłownie"
 
 #: src/global.c:612
 msgid "Insert a tab at the cursor position (or indent marked lines)"
-msgstr ""
+msgstr "Wstaw znak tabulacji na pozycji kursora (lub wcinaj zaznaczone linie)"
 
 #: src/global.c:613
 msgid "Insert a newline at the cursor position"
@@ -753,7 +753,7 @@ msgstr "Policz ilość linii, słów i znaków"
 
 #: src/global.c:632
 msgid "Suspend the editor (return to the shell)"
-msgstr ""
+msgstr "Zawieś edytor (powrót do powłoki)"
 
 #: src/global.c:634
 msgid "Refresh (redraw) the current screen"
@@ -1320,55 +1320,55 @@ msgstr "Następny komunikat sprawdzania skł."
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1518
+#: src/global.c:1519
 msgid "Hidden interface"
-msgstr ""
+msgstr "Ukryty interfejs"
 
-#: src/global.c:1520
+#: src/global.c:1521
 msgid "Help mode"
 msgstr "Tryb pomocy"
 
-#: src/global.c:1522
+#: src/global.c:1523
 msgid "Constant cursor position display"
 msgstr "Stałe położenie kursora"
 
-#: src/global.c:1524
+#: src/global.c:1525
 msgid "Soft wrapping of overlong lines"
 msgstr "Miękkie zawijanie długich linii"
 
-#: src/global.c:1526
+#: src/global.c:1527
 msgid "Line numbering"
 msgstr "Numeracja linii"
 
-#: src/global.c:1528
+#: src/global.c:1529
 msgid "Whitespace display"
 msgstr "Wyświetlanie białych znaków"
 
-#: src/global.c:1530
+#: src/global.c:1531
 msgid "Color syntax highlighting"
 msgstr "Kolorowanie składni"
 
-#: src/global.c:1532
+#: src/global.c:1533
 msgid "Smart home key"
 msgstr "Rozumny klawisz \"w początek\""
 
-#: src/global.c:1534
+#: src/global.c:1535
 msgid "Auto indent"
 msgstr "Auto wcięcia"
 
-#: src/global.c:1536
+#: src/global.c:1537
 msgid "Cut to end"
 msgstr "Wytnij do końca"
 
-#: src/global.c:1538
+#: src/global.c:1539
 msgid "Hard wrapping of overlong lines"
 msgstr "Twarde zawijanie długich linii"
 
-#: src/global.c:1540
+#: src/global.c:1541
 msgid "Conversion of typed tabs to spaces"
 msgstr "Przetworzenie tabulacji na spacji"
 
-#: src/global.c:1542
+#: src/global.c:1543
 msgid "Mouse support"
 msgstr "Obsługa myszy"
 
@@ -1716,7 +1716,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "(włącz/wyłącz)"
 
-#: src/help.c:579 src/nano.c:1634
+#: src/help.c:579 src/nano.c:1637
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -1754,7 +1754,7 @@ msgstr "Ta funkcja nie jest dostępna w trybie ograniczonym"
 
 #: src/nano.c:223
 msgid "To suspend, type ^T^Z"
-msgstr ""
+msgstr "W celu zawieszenia: ^T^Z"
 
 #: src/nano.c:312
 msgid "No file name"
@@ -2129,7 +2129,7 @@ msgstr "Wyświetl pasek opinii na dole"
 
 #: src/nano.c:660
 msgid "Hide all bars, use whole terminal"
-msgstr ""
+msgstr "Ukryj wszystkie paski, użyj całego ekranu"
 
 #: src/nano.c:671
 #, c-format
@@ -2141,6 +2141,7 @@ msgstr " GNU nano, wersja %s\n"
 #, c-format
 msgid " (C) %s the Free Software Foundation and various contributors\n"
 msgstr ""
+"(C) %s Free Software Foundation (Fundacja Wolnego Oprogramowania) i inne\n"
 
 #: src/nano.c:677
 #, c-format
@@ -2177,11 +2178,11 @@ msgstr "Aby powrócić do nano, użyj \"fg\".\n"
 
 #: src/nano.c:1090
 msgid "Not possible"
-msgstr ""
+msgstr "Niemożliwe"
 
 #: src/nano.c:1111
 msgid "Current syntax determines Tab"
-msgstr ""
+msgstr "Bieżąca składnia określa Tab"
 
 #: src/nano.c:1139
 msgid "enabled"
@@ -2200,17 +2201,17 @@ msgstr "Nieznana sekwencja"
 #: src/nano.c:1285 src/rcfile.c:810
 #, c-format
 msgid "Unknown function: %s"
-msgstr ""
+msgstr "Nieznana funkcja \"%s\""
 
 #: src/nano.c:1287
 msgid "Missing }"
-msgstr ""
+msgstr "Brak }"
 
 #. TRANSLATORS: This refers to an unbound function key.
 #: src/nano.c:1292
 #, c-format
 msgid "Unbound key: F%i"
-msgstr ""
+msgstr "Nieprzypisany klawisz: F%i"
 
 #: src/nano.c:1295
 msgid "Unbound key"
@@ -2224,59 +2225,59 @@ msgstr "Nie można przypisać klawisza: M-^%c"
 #: src/nano.c:1304 src/nano.c:1307 src/nano.c:1311 src/nano.c:1314
 #, c-format
 msgid "Unbound key: %s%c"
-msgstr ""
+msgstr "Nieprzypisany klawisz: %s%c"
 
 #: src/nano.c:1309
 msgid "Unbindable key: ^["
 msgstr "Nie można przypisać: ^["
 
-#: src/nano.c:1893 src/rcfile.c:1656
+#: src/nano.c:1896 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Niepoprawna kolumna prowadząca: %s"
 
-#: src/nano.c:1940 src/rcfile.c:1661
+#: src/nano.c:1943 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Żądana wielkość tabulacji \"%s\" nie jest poprawna"
 
-#: src/nano.c:2044 src/rcfile.c:1606
+#: src/nano.c:2047 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Żądana pozycja łamania linii \"%s\" nie jest poprawna"
 
-#: src/nano.c:2099
+#: src/nano.c:2102
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Podaj '%s -h' aby uzyskać listę dostępnych opcji.\n"
 
-#: src/nano.c:2295
+#: src/nano.c:2298
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Błędne wyrażenie regularne \"%s\": %s\n"
 
-#: src/nano.c:2450
+#: src/nano.c:2453
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Nieprawidłowy modyfikator wyszukiwania '%c'"
 
-#: src/nano.c:2461
+#: src/nano.c:2464
 msgid "Empty search string"
 msgstr "Pusty łańcuch wyszukiwania"
 
-#: src/nano.c:2470 src/search.c:793
+#: src/nano.c:2473 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Niepoprawny numer linii lub kolumny"
 
-#: src/nano.c:2521
+#: src/nano.c:2524
 msgid "Standard input is not a terminal\n"
-msgstr ""
+msgstr "Wejście standardowe nie jest terminalem\n"
 
-#: src/nano.c:2540
+#: src/nano.c:2543
 msgid "Can open just one file\n"
 msgstr "Mogę otworzyć tylko jeden plik\n"
 
-#: src/nano.c:2558
+#: src/nano.c:2561
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Witamy w nano.  W celu otrzymania pomocy, naciśnij Ctrl+G."
 
@@ -2381,7 +2382,7 @@ msgstr "Musisz podać menu (lub \"all\") w którym przypisuje się klawisz"
 #: src/rcfile.c:792
 #, c-format
 msgid "Unknown menu: %s"
-msgstr ""
+msgstr "Nieznane menu: %s"
 
 #: src/rcfile.c:849
 #, c-format
@@ -2478,7 +2479,7 @@ msgstr "Brak opcji"
 #: src/rcfile.c:1535
 #, c-format
 msgid "Unknown option: %s"
-msgstr ""
+msgstr "Nieznana opcja: %s"
 
 #: src/rcfile.c:1550
 #, c-format
@@ -2709,7 +2710,7 @@ msgstr "Bufor jest pusty"
 
 #: src/text.c:2131
 msgid "Invoking formatter..."
-msgstr ""
+msgstr "Wywołanie programu formatowania..."
 
 #: src/text.c:2164 src/text.c:2744
 #, c-format
@@ -2893,7 +2894,7 @@ msgstr "Makro jest puste"
 
 #: src/winio.c:147
 msgid "Too much input at once\n"
-msgstr ""
+msgstr "Za dużo wejścia na raz\n"
 
 #: src/winio.c:258
 msgid "Too many errors from stdin\n"

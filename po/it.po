@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 3.2-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2022-12-14 11:31+0100\n"
+"POT-Creation-Date: 2023-01-18 09:49+0100\n"
 "PO-Revision-Date: 2018-11-07 14:37+0000\n"
 "Last-Translator: Marco Colombo <m.colombo@ed.ac.uk>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -205,7 +205,7 @@ msgstr "\"%s\" è un file di device"
 #: src/files.c:424
 #, c-format
 msgid "\"%s\" is a FIFO"
-msgstr ""
+msgstr "\"%s\" è FIFO"
 
 #: src/files.c:431
 #, c-format
@@ -245,7 +245,7 @@ msgstr "Nessun altro buffer aperto"
 
 #: src/files.c:785 src/files.c:915 src/files.c:1867
 msgid "Interrupted"
-msgstr ""
+msgstr "Interrotto"
 
 #: src/files.c:831
 #, c-format
@@ -285,11 +285,11 @@ msgstr "File \"%s\" non trovato"
 
 #: src/files.c:899
 msgid "Reading from FIFO..."
-msgstr ""
+msgstr "Leggendo da FIFO..."
 
 #: src/files.c:927
 msgid "Reading..."
-msgstr ""
+msgstr "Leggendo..."
 
 #: src/files.c:1029 src/text.c:2346 src/text.c:2611
 #, c-format
@@ -304,12 +304,12 @@ msgstr ""
 
 #: src/files.c:1074
 msgid "Executing..."
-msgstr ""
+msgstr "Esecuzione..."
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
 #: src/files.c:1094 src/files.c:1144
 msgid "filtering"
-msgstr "filtra"
+msgstr "filtrazione"
 
 #: src/files.c:1137
 #, c-format
@@ -319,7 +319,7 @@ msgstr "Apertura della pipe non riuscita: %s"
 #: src/files.c:1155
 #, c-format
 msgid "Error: %s"
-msgstr ""
+msgstr "Errore: %s"
 
 #: src/files.c:1160
 msgid "Piping failed"
@@ -420,11 +420,11 @@ msgstr "Errore durante la scrittura del file temporaneo: %s"
 
 #: src/files.c:1839
 msgid "Writing to FIFO..."
-msgstr ""
+msgstr "Scrivendo FIFO..."
 
 #: src/files.c:1887
 msgid "Writing..."
-msgstr ""
+msgstr "Scrivendo..."
 
 #: src/files.c:1943 src/files.c:1951
 #, c-format
@@ -985,7 +985,7 @@ msgstr "Taglia"
 
 #: src/global.c:781
 msgid "Paste"
-msgstr ""
+msgstr "Incolla"
 
 #: src/global.c:786
 msgid "Execute"
@@ -1104,11 +1104,11 @@ msgstr "Blocco succ."
 #. TRANSLATORS: Try to keep these two strings at most 16 characters.
 #: src/global.c:919
 msgid "Begin of Paragr."
-msgstr ""
+msgstr "Inizio paragrafo"
 
 #: src/global.c:921
 msgid "End of Paragraph"
-msgstr ""
+msgstr "Fine paragrafo"
 
 #. TRANSLATORS: Try to keep the next six strings at most 12 characters.
 #: src/global.c:926 src/global.c:1126
@@ -1236,7 +1236,7 @@ msgstr "Sospendi"
 
 #: src/global.c:1042
 msgid "Center"
-msgstr ""
+msgstr "Centrare"
 
 #: src/global.c:1046
 msgid "Save"
@@ -1322,55 +1322,55 @@ msgstr ""
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1518
+#: src/global.c:1519
 msgid "Hidden interface"
 msgstr ""
 
-#: src/global.c:1520
+#: src/global.c:1521
 msgid "Help mode"
 msgstr "Barra dei comandi"
 
-#: src/global.c:1522
+#: src/global.c:1523
 msgid "Constant cursor position display"
 msgstr "Mostra sempre la posizione del cursore"
 
-#: src/global.c:1524
+#: src/global.c:1525
 msgid "Soft wrapping of overlong lines"
 msgstr "A capo automatico morbido delle righe lunghe"
 
-#: src/global.c:1526
+#: src/global.c:1527
 msgid "Line numbering"
 msgstr "Numerazione righe"
 
-#: src/global.c:1528
+#: src/global.c:1529
 msgid "Whitespace display"
 msgstr "Mostra spazi bianchi"
 
-#: src/global.c:1530
+#: src/global.c:1531
 msgid "Color syntax highlighting"
 msgstr "Sintassi colorata"
 
-#: src/global.c:1532
+#: src/global.c:1533
 msgid "Smart home key"
 msgstr "Tasto Inizio intelligente"
 
-#: src/global.c:1534
+#: src/global.c:1535
 msgid "Auto indent"
 msgstr "Indentazione automatica"
 
-#: src/global.c:1536
+#: src/global.c:1537
 msgid "Cut to end"
 msgstr "Taglia fino a fine riga"
 
-#: src/global.c:1538
+#: src/global.c:1539
 msgid "Hard wrapping of overlong lines"
 msgstr "A capo automatico delle righe lunghe"
 
-#: src/global.c:1540
+#: src/global.c:1541
 msgid "Conversion of typed tabs to spaces"
 msgstr "Conversione delle tabulazioni in spazi"
 
-#: src/global.c:1542
+#: src/global.c:1543
 msgid "Mouse support"
 msgstr "Supporto per il mouse"
 
@@ -1711,7 +1711,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "abilita/disabilita"
 
-#: src/help.c:579 src/nano.c:1634
+#: src/help.c:579 src/nano.c:1637
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr ""
 
@@ -1757,7 +1757,7 @@ msgstr "Nessun nome di file"
 
 #: src/nano.c:314
 msgid "Save modified buffer? "
-msgstr ""
+msgstr "Salvare il buffer modificato? "
 
 #: src/nano.c:339
 #, c-format
@@ -1808,15 +1808,15 @@ msgstr ""
 #. TRANSLATORS: The next three are column headers of the --help output.
 #: src/nano.c:509
 msgid "Option"
-msgstr ""
+msgstr "Opzione"
 
 #: src/nano.c:509
 msgid "Long option"
-msgstr ""
+msgstr "Opzione lunga"
 
 #: src/nano.c:509
 msgid "Meaning"
-msgstr ""
+msgstr "Significato"
 
 #. TRANSLATORS: The next forty or so strings are option descriptions
 #. * for the --help output.  Try to keep them at most 40 characters.
@@ -1868,15 +1868,15 @@ msgstr "Non considera i file nanorc"
 
 #: src/nano.c:540
 msgid "-J <number>"
-msgstr ""
+msgstr "-J <numero>"
 
 #: src/nano.c:540
 msgid "--guidestripe=<number>"
-msgstr ""
+msgstr "--guidestripe=<numero>"
 
 #: src/nano.c:541
 msgid "Show a guiding bar at this column"
-msgstr ""
+msgstr "Mostra una barra guida in questa colonna"
 
 #: src/nano.c:544
 msgid "Fix numeric keypad key confusion problem"
@@ -1927,11 +1927,11 @@ msgstr ""
 
 #: src/nano.c:574
 msgid "-T <number>"
-msgstr ""
+msgstr "-T <numero>"
 
 #: src/nano.c:574
 msgid "--tabsize=<number>"
-msgstr ""
+msgstr "--tabsize=<numero>"
 
 #: src/nano.c:575
 msgid "Make a tab this number of columns wide"
@@ -1951,11 +1951,11 @@ msgstr "Rileva più precisamente i limiti delle parole"
 
 #: src/nano.c:582
 msgid "-X <string>"
-msgstr ""
+msgstr "-X <stringa>"
 
 #: src/nano.c:582
 msgid "--wordchars=<string>"
-msgstr ""
+msgstr "--wordchars=<stringa>"
 
 #: src/nano.c:583
 msgid "Which other characters are word parts"
@@ -2063,11 +2063,11 @@ msgstr ""
 
 #: src/nano.c:634
 msgid "-r <number>"
-msgstr ""
+msgstr "-r <numero>"
 
 #: src/nano.c:634
 msgid "--fill=<number>"
-msgstr ""
+msgstr "--fill=<numero>"
 
 #: src/nano.c:635
 msgid "Set width for hard-wrap and justify"
@@ -2136,7 +2136,7 @@ msgstr " GNU nano versione %s\n"
 #: src/nano.c:675
 #, c-format
 msgid " (C) %s the Free Software Foundation and various contributors\n"
-msgstr ""
+msgstr " (C) %s la Free Software Foundation e vari contributori\n"
 
 #: src/nano.c:677
 #, c-format
@@ -2227,53 +2227,53 @@ msgstr "Chiave non collegata: %s%c"
 msgid "Unbindable key: ^["
 msgstr ""
 
-#: src/nano.c:1893 src/rcfile.c:1656
+#: src/nano.c:1896 src/rcfile.c:1656
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr ""
 
-#: src/nano.c:1940 src/rcfile.c:1661
+#: src/nano.c:1943 src/rcfile.c:1661
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Lunghezza della tabulazione \"%s\" non valida"
 
-#: src/nano.c:2044 src/rcfile.c:1606
+#: src/nano.c:2047 src/rcfile.c:1606
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Lunghezza del riempimento \"%s\" non valida"
 
-#: src/nano.c:2099
+#: src/nano.c:2102
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Usare \"%s -h\" per elencare le opzioni disponibili.\n"
 
-#: src/nano.c:2295
+#: src/nano.c:2298
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr ""
 
-#: src/nano.c:2450
+#: src/nano.c:2453
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr ""
 
-#: src/nano.c:2461
+#: src/nano.c:2464
 msgid "Empty search string"
 msgstr ""
 
-#: src/nano.c:2470 src/search.c:793
+#: src/nano.c:2473 src/search.c:793
 msgid "Invalid line or column number"
 msgstr "Numero di riga o di colonna non valido"
 
-#: src/nano.c:2521
+#: src/nano.c:2524
 msgid "Standard input is not a terminal\n"
 msgstr ""
 
-#: src/nano.c:2540
+#: src/nano.c:2543
 msgid "Can open just one file\n"
 msgstr ""
 
-#: src/nano.c:2558
+#: src/nano.c:2561
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Benvenuti a nano. Per la pagina d'aiuto, usare Ctrl+G."
 
@@ -2612,13 +2612,13 @@ msgstr "Impossibile commentare dopo la fine del file"
 
 #: src/text.c:512
 msgid "Nothing to undo"
-msgstr ""
+msgstr "Niente da annulare"
 
 #. TRANSLATORS: The next thirteen strings describe actions
 #. * that are undone or redone.  They are all nouns, not verbs.
 #: src/text.c:523 src/text.c:585 src/text.c:710 src/text.c:771
 msgid "addition"
-msgstr ""
+msgstr "aggiunta"
 
 #: src/text.c:531 src/text.c:722
 msgid "line break"
@@ -2626,7 +2626,7 @@ msgstr "interruzione riga"
 
 #: src/text.c:548 src/text.c:732
 msgid "deletion"
-msgstr ""
+msgstr "rimozione"
 
 #: src/text.c:558 src/text.c:738
 msgid "line join"
@@ -2634,7 +2634,7 @@ msgstr "unione riga"
 
 #: src/text.c:575 src/text.c:754
 msgid "replacement"
-msgstr ""
+msgstr "sostituzione"
 
 #: src/text.c:595 src/text.c:775
 msgid "erasure"
@@ -2643,66 +2643,66 @@ msgstr "cancellazione"
 #. TRANSLATORS: Remember: these are nouns, NOT verbs.
 #: src/text.c:601 src/text.c:780
 msgid "cut"
-msgstr ""
+msgstr "tagliato"
 
 #: src/text.c:605 src/text.c:784
 msgid "paste"
-msgstr ""
+msgstr "incollato"
 
 #: src/text.c:612 src/text.c:788
 msgid "insertion"
-msgstr ""
+msgstr "inserimento"
 
 #: src/text.c:641 src/text.c:811
 msgid "indent"
-msgstr "indenta"
+msgstr "indentazione"
 
 #: src/text.c:645 src/text.c:815
 msgid "unindent"
-msgstr "deindenta"
+msgstr "deindentazione"
 
 #: src/text.c:650 src/text.c:820
 msgid "comment"
-msgstr "commento"
+msgstr "commentato"
 
 #: src/text.c:654 src/text.c:824
 msgid "uncomment"
-msgstr "decommenta"
+msgstr "decommentato"
 
 #: src/text.c:662
 #, c-format
 msgid "Undid %s"
-msgstr ""
+msgstr "Annullato %s"
 
 #: src/text.c:697
 msgid "Nothing to redo"
-msgstr ""
+msgstr "Niente da rifare"
 
 #: src/text.c:832
 #, c-format
 msgid "Redid %s"
-msgstr ""
+msgstr "Rifatto %s"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
 #: src/text.c:1773 src/text.c:1990
 msgid "justification"
-msgstr ""
+msgstr "giustificazione"
 
 #: src/text.c:1784 src/text.c:2116
 msgid "Selection is empty"
-msgstr ""
+msgstr "La selezione è vuota"
 
 #: src/text.c:1994
 msgid "Justified selection"
-msgstr ""
+msgstr "Selezione giustificata"
 
 #: src/text.c:1998
 msgid "Justified file"
-msgstr ""
+msgstr "Dossier giustificato"
 
 #: src/text.c:2000
 msgid "Justified paragraph"
-msgstr ""
+msgstr "Paragrafo giustificato"
 
 #: src/text.c:2119
 msgid "Buffer is empty"
@@ -2733,7 +2733,7 @@ msgstr "correzione ortografica"
 
 #: src/text.c:2201
 msgid "formatting"
-msgstr ""
+msgstr "formattazione"
 
 #: src/text.c:2219 src/text.c:2515
 msgid "Finished checking spelling"
@@ -2829,20 +2829,20 @@ msgstr "Nella selezione:  "
 #: src/text.c:3007
 msgid "line"
 msgid_plural "lines"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "riga"
+msgstr[1] "righe"
 
 #: src/text.c:3008
 msgid "word"
 msgid_plural "words"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "parola"
+msgstr[1] "parole"
 
 #: src/text.c:3009
 msgid "character"
 msgid_plural "characters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "carattere"
+msgstr[1] "caratteri"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
 #: src/text.c:3027
@@ -2852,7 +2852,7 @@ msgstr "Input letterale"
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
 #: src/text.c:3051
 msgid "Invalid code"
-msgstr ""
+msgstr "Codice non valido"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
 #: src/text.c:3130
@@ -2926,19 +2926,20 @@ msgstr ""
 
 #: src/winio.c:2161
 msgid "(nameless)"
-msgstr ""
+msgstr "(senza nome)"
 
 #: src/winio.c:2192
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " (%zu riga)"
+msgstr[1] " (%zu righe)"
 
 #: src/winio.c:3489
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
+"riga %*zd/%zd (%2d%%), colonna %2zu/%2zu (%3d%%), carattere %*zu/%zu (%2d%%)"
 
 #: src/winio.c:3643
 msgid "The nano text editor"
