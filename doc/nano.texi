@@ -1365,7 +1365,7 @@ Unbinds @code{key} from @code{menu}
 
 Note that @code{bind key "@{function@}" menu} is equivalent to
 @code{bind key function menu}, except that for the latter form
-@command{nano} will check the availabilty of the @code{function}
+@command{nano} will check the availability of the @code{function}
 in the given @code{menu} at startup time (and report an error if
 it does not exist there), whereas for the first form @command{nano}
 will check at execution time that the @code{function} exists but not
