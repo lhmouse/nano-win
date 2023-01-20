@@ -1404,7 +1404,7 @@ void shortcut_init(void)
 	add_to_sclist(MWHEREIS|MREPLACE, "M-B", 0, backwards_void, 0);
 	add_to_sclist(MWHEREIS|MREPLACE, "^R", 0, flip_replace, 0);
 	add_to_sclist(MWHEREIS|MGOTOLINE, "^T", 0, flip_goto, 0);
-	add_to_sclist(MWHEREIS|MGOTOLINE, "^/", 0, flip_goto, 0);
+	add_to_sclist(MWHEREIS|MGOTOLINE, SLASH_OR_DASH, 0, flip_goto, 0);
 #ifdef ENABLE_HISTORIES
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^P", 0, get_older_item, 0);
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^N", 0, get_newer_item, 0);
