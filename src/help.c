@@ -50,7 +50,7 @@ void help_init(void)
 	char *ptr;
 
 	/* First, set up the initial help text for the current function. */
-	if (currmenu & (MWHEREIS|MREPLACE|MREPLACEWITH)) {
+	if (currmenu & (MWHEREIS|MREPLACE)) {
 		htx[0] = N_("Search Command Help Text\n\n "
 				"Enter the words or characters you would like to "
 				"search for, and then press Enter.  If there is a "
@@ -64,6 +64,13 @@ void help_init(void)
 				"search to replace, only matches in the selected text "
 				"will be replaced.\n\n The following function keys are "
 				"available in Search mode:\n\n");
+		htx[2] = NULL;
+	} else if (currmenu == MREPLACEWITH) {
+		htx[0] = N_("=== Replacement ===\n\n "
+				"Type the characters that should replace the characters that "
+				"you typed at the previous prompt, and press Enter.\n\n");
+		htx[1] = N_(" The following function keys "
+				"are available at this prompt:\n\n");
 		htx[2] = NULL;
 	} else if (currmenu == MGOTOLINE) {
 		htx[0] = N_("Go To Line Help Text\n\n "
