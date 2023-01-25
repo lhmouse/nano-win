@@ -383,6 +383,7 @@ int get_code_from_plantation(void)
 		return PLANTED_COMMAND;
 	} else {
 		char *opening = strchr(plants_pointer, '{');
+		char firstbyte = *plants_pointer;
 		int length;
 
 		if (opening) {
@@ -391,12 +392,12 @@ int get_code_from_plantation(void)
 		} else
 			length = strlen(plants_pointer);
 
-		for (int index = length - 1; index >= 0; index--)
+		for (int index = length - 1; index > 0; index--)
 			put_back((unsigned char)plants_pointer[index]);
 
 		plants_pointer += length;
 
-		return ERR;
+		return (firstbyte) ? firstbyte : ERR;
 	}
 }
 #endif
