@@ -133,8 +133,8 @@ void help_init(void)
 				"shown in brackets after the search prompt.  Hitting "
 				"Enter without entering any text will perform the "
 				"previous search.\n\n");
-		htx[1] = N_(" The following function keys are available in "
-				"Browser Search mode:\n\n");
+		htx[1] = N_(" The following function keys "
+				"are available at this prompt:\n\n");
 		htx[2] = NULL;
 	} else if (currmenu == MGOTODIR) {
 		htx[0] = N_("Browser Go To Directory Help Text\n\n "
@@ -174,8 +174,8 @@ void help_init(void)
 		htx[1] = N_("If you just need another blank buffer, do not enter any "
 				"command.\n\n You can also pick one of four tools, or cut a "
 				"large piece of the buffer, or put the editor to sleep.\n\n");
-		htx[2] = N_(" The following function keys are "
-				"available in Execute Command mode:\n\n");
+		htx[2] = N_(" The following function keys "
+				"are available at this prompt:\n\n");
 	} else if (currmenu == MLINTER) {
 		htx[0] = N_("=== Linter ===\n\n "
 				"In this mode, the status bar shows an error message or "
