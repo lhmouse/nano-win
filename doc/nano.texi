@@ -406,6 +406,7 @@ nanorc file.  @xref{@code{set keycolor}} for details.
 @itemx --tabstospaces
 Convert each typed tab to spaces --- to the number of spaces
 that a tab at that position would take up.
+(Note: pasted tabs are not converted.)
 
 @item -F
 @itemx --multibuffer
@@ -1140,6 +1141,7 @@ greater than 0.  The default value is @t{8}.
 @item set tabstospaces
 Convert each typed tab to spaces --- to the number of spaces
 that a tab at that position would take up.
+(Note: pasted tabs are not converted.)
 
 @item set titlecolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
 Use this color combination for the title bar.
