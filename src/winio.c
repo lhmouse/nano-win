@@ -350,7 +350,7 @@ void implant(const char *string)
 }
 
 /* Continue processing an expansion string.  Returns either an error code,
- * a plain keycode, or a placeholder for a command shortcut. */
+ * a plain character byte, or a placeholder for a command shortcut. */
 int get_code_from_plantation(void)
 {
 	if (*plants_pointer == '{') {
