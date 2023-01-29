@@ -2482,8 +2482,32 @@ int main(int argc, char **argv)
 				continue;
 		} else
 #endif
-		 if (!open_buffer(argv[optind++], TRUE))
-			continue;
+		{
+			char *filename = argv[optind++];
+			char *colon = filename + (*filename ? 1 : 0);
+
+			/* Search for a colon, to open the file on a specific line. */
+			while ((colon = strchr(colon, ':'))) {
+
+				/* If the colon is escaped, unescape it and skip it. */
+				if (*(colon - 1) == '\\') {
+					memmove(colon - 1, colon, strlen(colon) + 1);
+					continue;
+				}
+
+				/* If parsing succeeds, cut off the line suffix. */
+				if (parse_line_column(colon + 1, &givenline, &givencol)) {
+					*colon = 0;
+					break;
+				}
+
+				/* Parsing failed; skip this colon. */
+				++colon;
+			}
+
+			if (!open_buffer(filename, TRUE))
+				continue;
+		}
 
 		/* If a position was given on the command line, go there. */
 		if (givenline != 0 || givencol != 0)
