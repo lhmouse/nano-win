@@ -124,6 +124,9 @@ following options: @option{--breaklonglines},
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
 
 @blankline
+Questions about using nano you can ask at @email{help-nano@@gnu.org}.
+
+@blankline
 For background information see @url{https://nano-editor.org/}.
 
 
