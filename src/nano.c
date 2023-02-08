@@ -303,7 +303,7 @@ void do_exit(void)
 
 	/* When unmodified, simply close.  Else, when doing automatic saving
 	 * and the file has a name, simply save.  Otherwise, ask the user. */
-	if (!openfile->modified)
+	if (!openfile->modified || ISSET(VIEW_MODE))
 		choice = NO;
 	else if (ISSET(SAVE_ON_EXIT) && openfile->filename[0] != '\0')
 		choice = YES;
