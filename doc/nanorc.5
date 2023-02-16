@@ -439,9 +439,10 @@ will be added to this syntax, until a new \fBsyntax\fR
 command is encountered.
 .sp
 When \fBnano\fR is run, this syntax will be automatically
-activated if the current filename matches the extended regular
-expression \fIfileregex\fR.  Or the syntax can be explicitly
-activated by using the \fB\-Y\fR or \fB\-\-syntax\fR
+activated (for the relevant buffer) if the absolute filename
+matches the extended regular expression \fIfileregex\fR.
+Or the syntax can be explicitly activated (for all buffers)
+by using the \fB\-Y\fR or \fB\-\-syntax\fR
 command-line option followed by the \fIname\fR.
 .sp
 The syntax \fBdefault\fP is special: it takes no \fIfileregex\fR,

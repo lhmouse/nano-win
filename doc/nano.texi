@@ -1235,9 +1235,10 @@ will be added to this syntax, until a new @code{syntax}
 command is encountered.
 
 When @command{nano} is run, this syntax will be automatically
-activated if the current filename matches the extended regular
-expression @var{fileregex}.  Or the syntax can be explicitly
-activated by using the @option{-Y} or @option{--syntax}
+activated (for the relevant buffer) if the absolute filename
+matches the extended regular expression @var{fileregex}.
+Or the syntax can be explicitly activated (for all buffers)
+by using the @option{-Y} or @option{--syntax}
 command-line option followed by the @var{name}.
 
 The @code{default} syntax is special: it takes no @var{fileregex},
