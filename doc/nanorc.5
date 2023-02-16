@@ -399,12 +399,6 @@ and disappears after 1.5 seconds or upon the next keystroke.
 With \fBM\-Z\fR the title bar plus status bar can be toggled.
 With \fBM\-X\fR the help lines.
 
-.SH NOTES
-Option \fBset suspendable\fR has been removed.
-Suspension is enabled by default, reachable via \fB^T^Z\fR.
-(If you want a plain \fB^Z\fR to suspend nano,
-add \fBbind ^Z suspend main\fR to your nanorc.)
-
 .SH SYNTAX HIGHLIGHTING
 Coloring the different syntactic elements of a file
 is done via regular expressions (see the \fBcolor\fR command below).
@@ -1038,6 +1032,20 @@ A special name that encompasses all menus.
 For \fBbind\fR it means all menus where the specified \fIfunction\fR exists;
 for \fBunbind\fR it means all menus where the specified \fIkey\fR exists.
 .RE
+
+.SH EXAMPLES
+To make \fBCtrl+Z\fR suspend nano:
+.sp
+.RS
+.B bind ^Z suspend main
+.RE
+.sp
+To make \fBShift+Alt+C\fR copy the marked region to the system's clipboard:
+.sp
+.RS
+.B bind Sh-M-C """{execute}| xsel -ib {enter}{undo}""" main
+.RE
+.sp
 
 .SH FILES
 .TP
