@@ -374,7 +374,8 @@ enum {
 	STATEFLAGS,
 	USE_MAGIC,
 	MINIBAR,
-	ZERO
+	ZERO,
+	MODERN_BINDINGS
 };
 
 /* Structure types. */
