@@ -1194,15 +1194,15 @@ void shortcut_init(void)
 		add_to_sclist(MMAIN, "^X", 0, cut_text, 0);
 		add_to_sclist(MMAIN, "^V", 0, paste_text, 0);
 	} else {
-	add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help, 0);
-	add_to_sclist(MMAIN|MBROWSER|MHELP, "^X", 0, do_exit, 0);
-	if (!ISSET(PRESERVE))
-		add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
-	add_to_sclist(MMAIN, "^O", 0, do_writeout, 0);
-	add_to_sclist(MMAIN, "^R", 0, do_insertfile, 0);
-	if (!ISSET(PRESERVE))
-		add_to_sclist(MMAIN|MBROWSER|MHELP, "^Q", 0, do_search_backward, 0);
-	add_to_sclist(MMAIN|MBROWSER|MHELP, "^W", 0, do_search_forward, 0);
+		add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help, 0);
+		add_to_sclist(MMAIN|MBROWSER|MHELP, "^X", 0, do_exit, 0);
+		if (!ISSET(PRESERVE))
+			add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
+		add_to_sclist(MMAIN, "^O", 0, do_writeout, 0);
+		add_to_sclist(MMAIN, "^R", 0, do_insertfile, 0);
+		if (!ISSET(PRESERVE))
+			add_to_sclist(MMAIN|MBROWSER|MHELP, "^Q", 0, do_search_backward, 0);
+		add_to_sclist(MMAIN|MBROWSER|MHELP, "^W", 0, do_search_forward, 0);
 		add_to_sclist(MMOST, "^A", 0, do_home, 0);
 		add_to_sclist(MMOST, "^E", 0, do_end, 0);
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "^P", 0, do_up, 0);
