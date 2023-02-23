@@ -24,6 +24,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <strings.h>
+#include <term.h>
 
 /* Global variables. */
 #ifndef NANO_TINY
@@ -704,6 +705,10 @@ void shortcut_init(void)
 #endif
 #endif /* ENABLE_HELP */
 
+	/* If Backspace is not ^H, then ^H can be used for Help. */
+	char *bsp_string = tgetstr("kb", NULL);
+	char *help_key = (bsp_string && *bsp_string != 0x08) ? "^H" : "^N";
+
 #ifdef ENABLE_HELP
 #define WHENHELP(description)  description
 #else
@@ -1168,14 +1173,14 @@ void shortcut_init(void)
 	/* Link key combos to functions in certain menus. */
 	add_to_sclist(MMOST|MBROWSER, "^M", '\r', do_enter, 0);
 	add_to_sclist(MMOST|MBROWSER, "Enter", KEY_ENTER, do_enter, 0);
-	add_to_sclist(MMOST, "^H", '\b', do_backspace, 0);
 	add_to_sclist(MMOST, "Bsp", KEY_BACKSPACE, do_backspace, 0);
 	add_to_sclist(MMOST, "Sh-Del", SHIFT_DELETE, do_backspace, 0);
 	add_to_sclist(MMOST, "Del", KEY_DC, do_delete, 0);
 	add_to_sclist(MMOST, "^I", '\t', do_tab, 0);
 	add_to_sclist(MMOST, "Tab", '\t', do_tab, 0);
 	if (ISSET(MODERN_BINDINGS)) {
-		add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^N", 0, do_help, 0);
+		add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, help_key, 0, do_help, 0);
+		add_to_sclist(MHELP, help_key, 0, do_exit, 0);
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "^Q", 0, do_exit, 0);
 		add_to_sclist(MMAIN, "^S", 0, do_savefile, 0);
 		add_to_sclist(MMAIN, "^W", 0, do_writeout, 0);
@@ -1210,6 +1215,7 @@ void shortcut_init(void)
 		add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "^Y", 0, do_page_up, 0);
 		add_to_sclist(MMAIN|MBROWSER|MHELP|MLINTER, "^V", 0, do_page_down, 0);
 		add_to_sclist(MMAIN, "^C", 0, report_cursor_position, 0);
+		add_to_sclist(MMOST, "^H", '\b', do_backspace, 0);
 		add_to_sclist(MMOST, "^D", 0, do_delete, 0);
 	}
 	add_to_sclist(MMAIN, "Ins", KEY_IC, do_insertfile, 0);
