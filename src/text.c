@@ -65,8 +65,8 @@ void do_mark(void)
 void do_tab(void)
 {
 #ifdef ENABLE_COLOR
-	if (openfile->syntax && openfile->syntax->tab)
-		inject(openfile->syntax->tab, strlen(openfile->syntax->tab));
+	if (openfile->syntax && openfile->syntax->tabstring)
+		inject(openfile->syntax->tabstring, strlen(openfile->syntax->tabstring));
 	else
 #endif
 #ifndef NANO_TINY
@@ -134,8 +134,8 @@ void do_indent(void)
 	indentation = nmalloc(tabsize + 1);
 
 #ifdef ENABLE_COLOR
-	if (openfile->syntax && openfile->syntax->tab)
-		indentation = mallocstrcpy(indentation, openfile->syntax->tab);
+	if (openfile->syntax && openfile->syntax->tabstring)
+		indentation = mallocstrcpy(indentation, openfile->syntax->tabstring);
 	else
 #endif
 	/* Set the indentation to either a bunch of spaces or a single tab. */
@@ -173,10 +173,10 @@ size_t length_of_white(const char *text)
 	size_t white_count = 0;
 
 #ifdef ENABLE_COLOR
-	if (openfile->syntax && openfile->syntax->tab) {
-		size_t thelength = strlen(openfile->syntax->tab);
+	if (openfile->syntax && openfile->syntax->tabstring) {
+		size_t thelength = strlen(openfile->syntax->tabstring);
 
-		while (text[white_count] == openfile->syntax->tab[white_count])
+		while (text[white_count] == openfile->syntax->tabstring[white_count])
 			if (++white_count == thelength)
 				return thelength;
 

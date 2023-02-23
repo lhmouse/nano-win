@@ -674,7 +674,7 @@ void begin_new_syntax(char *ptr)
 	live_syntax->magics = NULL;
 	live_syntax->linter = NULL;
 	live_syntax->formatter = NULL;
-	live_syntax->tab = NULL;
+	live_syntax->tabstring = NULL;
 #ifdef ENABLE_COMMENT
 	live_syntax->comment = copy_of(GENERAL_COMMENT_CHARACTER);
 #endif
@@ -1325,7 +1325,7 @@ bool parse_syntax_commands(char *keyword, char *ptr)
 		pick_up_name("comment", ptr, &live_syntax->comment);
 #endif
 	} else if (strcmp(keyword, "tabgives") == 0) {
-		pick_up_name("tabgives", ptr, &live_syntax->tab);
+		pick_up_name("tabgives", ptr, &live_syntax->tabstring);
 	} else if (strcmp(keyword, "linter") == 0)
 		pick_up_name("linter", ptr, &live_syntax->linter);
 	else if (strcmp(keyword, "formatter") == 0)

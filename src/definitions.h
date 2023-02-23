@@ -432,7 +432,7 @@ typedef struct syntaxtype {
 		/* The command with which to lint this type of file. */
 	char *formatter;
 		/* The command with which to format/modify/arrange this type of file. */
-	char *tab;
+	char *tabstring;
 		/* What the Tab key should produce; NULL for default behavior. */
 #ifdef ENABLE_COMMENT
 	char *comment;

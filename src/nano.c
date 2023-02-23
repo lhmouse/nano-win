@@ -1107,7 +1107,7 @@ void toggle_this(int flag)
 			refresh_needed = TRUE;
 			break;
 		case TABS_TO_SPACES:
-			if (openfile->syntax && openfile->syntax->tab) {
+			if (openfile->syntax && openfile->syntax->tabstring) {
 				statusline(AHEM, _("Current syntax determines Tab"));
 				TOGGLE(flag);
 				return;
