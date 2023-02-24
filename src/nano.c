@@ -2205,7 +2205,7 @@ int main(int argc, char **argv)
 			alt_speller = alt_speller_cmdline;
 		}
 		/* Strip leading whitespace from the speller command, if any. */
-		while (alt_speller && *alt_speller && isblank(*alt_speller))
+		while (alt_speller && (*alt_speller == ' ' || *alt_speller == '\t'))
 			memmove(alt_speller, alt_speller + 1, strlen(alt_speller));
 #endif
 
@@ -2443,7 +2443,7 @@ int main(int argc, char **argv)
 #ifndef NANO_TINY
 			int n = 1;
 
-			while (isalpha(argv[optind][n])) {
+			while (isalpha((unsigned char)argv[optind][n])) {
 				switch (argv[optind][n++]) {
 					case 'c': SET(CASE_SENSITIVE); break;
 					case 'C': UNSET(CASE_SENSITIVE); break;
