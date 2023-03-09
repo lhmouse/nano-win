@@ -142,12 +142,17 @@ The usual way to invoke @command{nano} is:
 @blankline
 
 But it is also possible to specify one or more options (@pxref{Command-line Options}),
-and to edit several files in a row.  Additionally, the cursor
-can be put on a specific line of a file by adding the line number
-with a plus sign before the filename, and even in a specific column by
-adding it with a comma.
-(Negative numbers count from the end of the file or line.)
-The cursor can also be put on the first or last occurrence of a specific string
+and to edit several files in a row.
+
+The cursor can be put on a specific line of a file by adding
+the line number with a plus sign before the filename, and even
+in a specific column by adding it with a comma.
+Negative numbers count from the end of the file or line.
+The line and column numbers may also be specified by gluing them with colons
+after the filename.  (When a filename contains a colon followed by digits,
+escape the colon by preceding it with a triple backslash.)
+
+The cursor can be put on the first or last occurrence of a specific string
 by specifying that string after @code{+/} or @code{+?} before the filename.
 The string can be made case sensitive and/or caused to be interpreted as a
 regular expression by inserting a @code{c} and/or @code{r} after the plus sign.
