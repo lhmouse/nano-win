@@ -137,7 +137,7 @@ bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
 	while (*str == ' ')
 		str++;
 
-	comma = strpbrk(str, "m,. /;:");
+	comma = strpbrk(str, ",.:");
 
 	if (comma == NULL)
 		return parse_num(str, line);
