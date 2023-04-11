@@ -535,7 +535,8 @@ void mention_name_and_linecount(void)
 	if (ISSET(MINIBAR)) {
 		report_size = TRUE;
 		return;
-	}
+	} else if (ISSET(ZERO))
+		return;
 
 	if (openfile->fmt > NIX_FILE)
 		/* TRANSLATORS: First %s is file name, second %s is file format. */
