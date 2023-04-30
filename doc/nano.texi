@@ -163,7 +163,7 @@ A more complete command synopsis thus is:
 
 @blankline
 @example
-@code{nano [OPTION]@dots{} [[+LINE[,COLUMN]|+[crCR](/|?)STRING] FILE]@dots{}}
+@code{nano [OPTION]@dots{} [[+LINE[,COLUMN]|+[crCR]@{/|?@}STRING] FILE]@dots{}}
 @end example
 @blankline
 
