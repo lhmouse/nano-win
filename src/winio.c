@@ -380,7 +380,7 @@ int get_code_from_plantation(void)
 		if (*plants_pointer != '\0')
 			put_back(MORE_PLANTS);
 
-		return PLANTED_COMMAND;
+		return PLANTED_A_COMMAND;
 	} else {
 		char *opening = strchr(plants_pointer, '{');
 		char firstbyte = *plants_pointer;

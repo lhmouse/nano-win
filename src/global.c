@@ -266,9 +266,12 @@ char *startup_problem = NULL;
 #endif
 #ifdef ENABLE_NANORC
 char *custom_nanorc = NULL;
+		/* The argument of the --rcfile option, when given. */
 
 char *commandname = NULL;
+		/* The name (of a function) between braces in a string bind. */
 keystruct *planted_shortcut = NULL;
+		/* The function that the above name resolves to, if any. */
 #endif
 
 bool spotlighted = FALSE;
@@ -464,7 +467,7 @@ const keystruct *get_shortcut(const int keycode)
 		return NULL;
 #endif
 #ifdef ENABLE_NANORC
-	if (keycode == PLANTED_COMMAND)
+	if (keycode == PLANTED_A_COMMAND)
 		return planted_shortcut;
 #endif
 

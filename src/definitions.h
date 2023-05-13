@@ -219,7 +219,7 @@
  * needs execution or a specified function name is invalid. */
 #define MORE_PLANTS       0x4EA
 #define MISSING_BRACE     0x4EB
-#define PLANTED_COMMAND   0x4EC
+#define PLANTED_A_COMMAND 0x4EC
 #define NO_SUCH_FUNCTION  0x4EF
 
 /* A special keycode for when <Tab> is pressed while the mark is on. */
