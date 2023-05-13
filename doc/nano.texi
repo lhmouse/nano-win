@@ -35,7 +35,7 @@ The complete manual for the GNU nano text editor.
 
 @page
 
-This manual documents the GNU @command{nano} editor.
+This manual documents the GNU @command{nano} text editor.
 @sp 1
 The contents of this manual are part of the GNU @command{nano} distribution.
 
