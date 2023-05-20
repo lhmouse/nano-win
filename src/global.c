@@ -1013,7 +1013,6 @@ void shortcut_init(void)
 	add_to_funcs(to_next_anchor, MMAIN,
 			N_("Down to anchor"), WHENHELP(nextanchor_gist), BLANKAFTER);
 
-	if (!ISSET(RESTRICTED)) {
 #ifdef ENABLE_SPELLER
 		add_to_funcs(do_spell, MMAIN,
 				N_("Spell Check"), WHENHELP(spell_gist), TOGETHER);
@@ -1026,7 +1025,10 @@ void shortcut_init(void)
 		add_to_funcs(do_formatter, MMAIN,
 				N_("Formatter"), WHENHELP(formatter_gist), BLANKAFTER);
 #endif
-	}
+	/* Although not allowed in restricted mode, keep execution rebindable. */
+	if (ISSET(RESTRICTED))
+		add_to_funcs(do_execute, MMAIN,
+				N_("Execute"), WHENHELP(execute_gist), TOGETHER);
 #endif /* !NANO_TINY */
 
 #ifdef NANO_TINY
