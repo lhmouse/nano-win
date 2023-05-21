@@ -981,7 +981,10 @@ void shortcut_init(void)
 	add_to_funcs(do_verbatim_input, MMAIN,
 			N_("Verbatim"), WHENHELP(verbatim_gist), BLANKAFTER);
 
-#ifndef NANO_TINY
+#ifdef NANO_TINY
+	add_to_funcs(do_search_backward, MMAIN,
+			N_("Where Was"), WHENHELP(wherewas_gist), BLANKAFTER);
+#else
 	add_to_funcs(do_indent, MMAIN,
 			N_("Indent"), WHENHELP(indent_gist), TOGETHER);
 	add_to_funcs(do_unindent, MMAIN,
@@ -1029,15 +1032,11 @@ void shortcut_init(void)
 	if (ISSET(RESTRICTED))
 		add_to_funcs(do_execute, MMAIN,
 				N_("Execute"), WHENHELP(execute_gist), TOGETHER);
-#endif /* !NANO_TINY */
 
-#ifdef NANO_TINY
-	add_to_funcs(do_search_backward, MMAIN,
-			N_("Where Was"), WHENHELP(wherewas_gist), BLANKAFTER);
-#else
 	add_to_funcs(do_suspend, MMAIN,
 			N_("Suspend"), WHENHELP(suspend_gist), TOGETHER);
-#endif
+#endif /* !NANO_TINY */
+
 #ifdef ENABLE_HELP
 	add_to_funcs(full_refresh, MMAIN,
 			N_("Refresh"), WHENHELP(refresh_gist), TOGETHER);
@@ -1108,7 +1107,7 @@ void shortcut_init(void)
 			N_("No Conversion"), WHENHELP(convert_gist), BLANKAFTER);
 
 	/* Command execution is only available when not in restricted mode. */
-	if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE)) {
+	if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE))
 		add_to_funcs(flip_execute, MINSERTFILE,
 				N_("Execute Command"), WHENHELP(execute_gist), BLANKAFTER);
 
@@ -1117,7 +1116,6 @@ void shortcut_init(void)
 
 		add_to_funcs(do_suspend, MEXECUTE,
 				N_("Suspend"), WHENHELP(suspend_gist), BLANKAFTER);
-	}
 #endif /* !NANO_TINY */
 
 #ifdef ENABLE_BROWSER
@@ -1467,24 +1465,22 @@ void shortcut_init(void)
 #endif
 	}
 #endif
+	add_to_sclist(MBROWSER|MHELP, "^C", 0, do_exit, 0);
 #ifdef ENABLE_BROWSER
 	/* Only when not in restricted mode, allow entering the file browser. */
 	if (!ISSET(RESTRICTED))
 		add_to_sclist(MWRITEFILE|MINSERTFILE, "^T", 0, to_files, 0);
-#endif
-	add_to_sclist(MBROWSER|MHELP, "^C", 0, do_exit, 0);
-	/* Allow exiting from the file browser and the help viewer with
-	 * the same key as they were entered. */
-#ifdef ENABLE_BROWSER
+	/* Allow exiting the file browser with the same key as used for entry. */
 	add_to_sclist(MBROWSER, "^T", 0, do_exit, 0);
 #endif
 #ifdef ENABLE_HELP
+	/* Allow exiting the help viewer with the same keys as used for entry. */
 	add_to_sclist(MHELP, "^G", 0, do_exit, 0);
 	add_to_sclist(MHELP, "F1", KEY_F(1), do_exit, 0);
 	add_to_sclist(MHELP, "Home", KEY_HOME, to_first_line, 0);
 	add_to_sclist(MHELP, "End", KEY_END, to_last_line, 0);
 #endif
-#ifdef ENABLE_COLOR
+#ifdef ENABLE_LINTER
 	add_to_sclist(MLINTER, "^X", 0, do_cancel, 0);
 #endif
 	add_to_sclist(MMOST & ~MFINDINHELP, "F1", KEY_F(1), do_help, 0);
