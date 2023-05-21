@@ -1017,16 +1017,16 @@ void shortcut_init(void)
 			N_("Down to anchor"), WHENHELP(nextanchor_gist), BLANKAFTER);
 
 #ifdef ENABLE_SPELLER
-		add_to_funcs(do_spell, MMAIN,
-				N_("Spell Check"), WHENHELP(spell_gist), TOGETHER);
+	add_to_funcs(do_spell, MMAIN,
+			N_("Spell Check"), WHENHELP(spell_gist), TOGETHER);
 #endif
 #ifdef ENABLE_LINTER
-		add_to_funcs(do_linter, MMAIN,
-				N_("Linter"), WHENHELP(lint_gist), TOGETHER);
+	add_to_funcs(do_linter, MMAIN,
+			N_("Linter"), WHENHELP(lint_gist), TOGETHER);
 #endif
 #ifdef ENABLE_FORMATTER
-		add_to_funcs(do_formatter, MMAIN,
-				N_("Formatter"), WHENHELP(formatter_gist), BLANKAFTER);
+	add_to_funcs(do_formatter, MMAIN,
+			N_("Formatter"), WHENHELP(formatter_gist), BLANKAFTER);
 #endif
 	/* Although not allowed in restricted mode, keep execution rebindable. */
 	if (ISSET(RESTRICTED))
@@ -1111,11 +1111,11 @@ void shortcut_init(void)
 		add_to_funcs(flip_execute, MINSERTFILE,
 				N_("Execute Command"), WHENHELP(execute_gist), BLANKAFTER);
 
-		add_to_funcs(cut_till_eof, MEXECUTE,
-				N_("Cut Till End"), WHENHELP(cuttilleof_gist), BLANKAFTER);
+	add_to_funcs(cut_till_eof, MEXECUTE,
+			N_("Cut Till End"), WHENHELP(cuttilleof_gist), BLANKAFTER);
 
-		add_to_funcs(do_suspend, MEXECUTE,
-				N_("Suspend"), WHENHELP(suspend_gist), BLANKAFTER);
+	add_to_funcs(do_suspend, MEXECUTE,
+			N_("Suspend"), WHENHELP(suspend_gist), BLANKAFTER);
 #endif /* !NANO_TINY */
 
 #ifdef ENABLE_BROWSER
