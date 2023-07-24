@@ -436,7 +436,10 @@ char *browse(char *path)
 
 	titlebar(path);
 
-	while (TRUE) {
+	if (list_length == 0) {
+		statusline(ALERT, _("No entries"));
+		napms(1200);
+	} else while (TRUE) {
 		functionptrtype function;
 		int kbinput;
 
