@@ -607,7 +607,7 @@ void usage(void)
 #if defined(ENABLE_BROWSER) || defined(ENABLE_HELP)
 	print_opt("-g", "--showcursor", N_("Show cursor in file browser & help text"));
 #endif
-	print_opt("-h, -?", "--help", N_("Show this help text and exit"));
+	print_opt("-h", "--help", N_("Show this help text and exit"));
 #ifndef NANO_TINY
 	print_opt("-i", "--autoindent", N_("Automatically indent new lines"));
 	print_opt("-j", "--jumpyscrolling", N_("Scroll per half-screen, not per line"));
@@ -1849,7 +1849,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RS$T:UVWX:Y:Z"
-				"abcdef:gh?ijklmno:pqr:s:tuvwxy!%_0", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxy!%_0", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -1999,6 +1999,9 @@ int main(int argc, char **argv)
 				SET(SHOW_CURSOR);
 				break;
 #endif
+			case 'h':
+				usage();
+				exit(0);
 #ifndef NANO_TINY
 			case 'i':
 				SET(AUTOINDENT);
@@ -2095,13 +2098,7 @@ int main(int argc, char **argv)
 				SET(ZERO);
 				break;
 #endif
-			case 'h':
-			case '?':
-				/* If the option is valid, print the help text and exit. */
-				if (!optopt) {
-					usage();
-					exit(0);
-				}
+			default:
 				printf(_("Type '%s -h' for a list of available options.\n"), argv[0]);
 				exit(1);
 		}

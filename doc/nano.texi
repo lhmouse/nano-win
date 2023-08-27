@@ -574,7 +574,6 @@ highlighted item) and in the help viewer.  Useful for braille users
 and people with poor vision.
 
 @item -h
-@itemx -?
 @itemx --help
 Show a summary of command-line options and exit.
 
