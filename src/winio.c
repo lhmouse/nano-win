@@ -1320,6 +1320,11 @@ int parse_kbinput(WINDOW *frame)
 		case KEY_BTAB:
 			return SHIFT_TAB;
 
+		case 0x24C:
+			statusline(ALERT, _("Wrong TERM for this terminal"));
+			place_the_cursor();
+			return ERR;
+
 		case KEY_SBEG:
 		case KEY_BEG:
 		case KEY_B2:    /* Center (5) on keypad with NumLock off. */
