@@ -1320,7 +1320,7 @@ int parse_kbinput(WINDOW *frame)
 		case KEY_BTAB:
 			return SHIFT_TAB;
 
-		case 0x24C:
+		case 0x24C:    /* Spurious code from VTE -- see https://sv.gnu.org/bugs/?64578. */
 			statusline(ALERT, _("Wrong TERM for this terminal"));
 			place_the_cursor();
 			return ERR;
