@@ -997,10 +997,15 @@ short closest_index_color(short red, short green, short blue)
 	/* Translation table, from 16 intended levels to 6 available levels. */
 	static const short level[] = { 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
 
-	if (COLORS == 256)
-		return (36 * level[red] + 6 * level[green] + level[blue] + 16);
-	else
+	/* Translation table, from 14 intended gray levels to 24 available levels. */
+	static const short gray[] = { 1, 2, 3, 4, 5, 6, 7, 9, 11, 13, 15, 18, 21, 23 };
+
+	if (COLORS != 256)
 		return THE_DEFAULT;
+	else if (red == green && red == blue && red > 0 && red < 0xF)
+		return 232 + gray[red - 1];
+	else
+		return (36 * level[red] + 6 * level[green] + level[blue] + 16);
 }
 
 #define COLORCOUNT  34
