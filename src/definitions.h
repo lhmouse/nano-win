@@ -214,6 +214,9 @@
 #define SHIFT_DELETE    0x45D
 #define SHIFT_TAB       0x45F
 
+#define FOCUS_IN	0x491
+#define FOCUS_OUT	0x499
+
 /* Special keycodes for when a string bind has been partially implanted
  * or has an unpaired opening brace, or when a function in a string bind
  * needs execution or a specified function name is invalid. */

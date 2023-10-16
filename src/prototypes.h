@@ -80,6 +80,7 @@ extern int altinsert, altdelete;
 extern int shiftaltleft, shiftaltright;
 extern int shiftaltup, shiftaltdown;
 #endif
+extern int mousefocusin, mousefocusout;
 
 #ifdef ENABLED_WRAPORJUSTIFY
 extern ssize_t fill;

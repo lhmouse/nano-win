@@ -1245,6 +1245,10 @@ int parse_kbinput(WINDOW *frame)
 		return INDENT_KEY;
 #endif
 
+	/* Spurious codes from VTE -- see https://sv.gnu.org/bugs/?64578. */
+	if (keycode == mousefocusin || keycode == mousefocusout)
+		return ERR;
+
 	switch (keycode) {
 		case KEY_SLEFT:
 			shift_held = TRUE;
@@ -1319,11 +1323,6 @@ int parse_kbinput(WINDOW *frame)
 			return 0x1A;    /* The ASCII code for Ctrl+Z. */
 		case KEY_BTAB:
 			return SHIFT_TAB;
-
-		case 0x24C:    /* Spurious code from VTE -- see https://sv.gnu.org/bugs/?64578. */
-			statusline(ALERT, _("Wrong TERM for this terminal"));
-			place_the_cursor();
-			return ERR;
 
 		case KEY_SBEG:
 		case KEY_BEG:

@@ -2426,6 +2426,8 @@ int main(int argc, char **argv)
 	shiftaltup = get_keycode("kUP4", SHIFT_ALT_UP);
 	shiftaltdown = get_keycode("kDN4", SHIFT_ALT_DOWN);
 #endif
+	mousefocusin = get_keycode("kxIN", FOCUS_IN);
+	mousefocusout = get_keycode("kxOUT", FOCUS_OUT);
 
 #ifdef HAVE_SET_ESCDELAY
 	/* Tell ncurses to pass the Esc key quickly. */
