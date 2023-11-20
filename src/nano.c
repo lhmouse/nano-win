@@ -420,8 +420,9 @@ void window_init(void)
 		midwin = newwin(editwinrows, COLS, 0, 0);
 		footwin = newwin(1, COLS, LINES - 1, 0);
 	} else {
-		int toprows = ((ISSET(EMPTY_LINE) && LINES > 6) ? 2 : 1);
-		int bottomrows = ((ISSET(NO_HELP) || LINES < 6) ? 1 : 3);
+		int minimum = (ISSET(ZERO) ? 3 : ISSET(MINIBAR) ? 4 : 5);
+		int toprows = ((ISSET(EMPTY_LINE) && LINES > minimum) ? 2 : 1);
+		int bottomrows = ((ISSET(NO_HELP) || LINES < minimum) ? 1 : 3);
 
 		if (ISSET(MINIBAR) || ISSET(ZERO))
 			toprows = 0;
@@ -1077,7 +1078,7 @@ void toggle_this(int flag)
 			draw_all_subwindows();
 			return;
 		case NO_HELP:
-			if (LINES < 6) {
+			if (LINES < (ISSET(ZERO) ? 3 : ISSET(MINIBAR) ? 4 : 5)) {
 				statusline(AHEM, _("Too tiny"));
 				TOGGLE(flag);
 				return;
