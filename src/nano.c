@@ -1086,9 +1086,12 @@ void toggle_this(int flag)
 			draw_all_subwindows();
 			break;
 		case CONSTANT_SHOW:
-			if (ISSET(ZERO) || LINES == 1) {
-				statusline(AHEM, _("Not possible"));
+			if (LINES == 1) {
+				statusline(AHEM, _("Too tiny"));
 				TOGGLE(flag);
+			} else if (ISSET(ZERO)) {
+				SET(CONSTANT_SHOW);
+				toggle_this(ZERO);
 			} else if (!ISSET(MINIBAR))
 				wipe_statusbar();
 			return;
