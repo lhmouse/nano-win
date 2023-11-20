@@ -30,6 +30,24 @@ nano \- Nano's ANOther text editor, inspired by Pico
 .sp
 .BR nano " [" \fIoptions "] [[" + [ crCR ]{ / | ? } \fIstring "] " \fIfile ]...
 
+.SH NOTICE
+Since version 8.0, to be newcomer friendly, \fB^F\fR starts a forward search,
+\fB^B\fR starts a backward search, \fBM\-F\fR searches the next occurrence
+forward, and \fBM\-B\fR searches the next occurrence backward.  If you want
+those keystrokes to do what they did before version 8.0, add the following
+lines at the end of your \fInanorc\fR file:
+.sp
+.RS 4
+.B bind ^F forward main
+.br
+.B bind ^B back main
+.br
+.B bind M\-F formatter main
+.br
+.B bind M\-B linter main
+.RE
+.sp
+
 .SH DESCRIPTION
 \fBnano\fP is a small and friendly text editor.  It copies the look and feel
 of Pico, but is free software, and implements several features that Pico
