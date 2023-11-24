@@ -1182,8 +1182,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^O", 0, do_writeout, 0);
 	add_to_sclist(MMAIN, "^R", 0, do_insertfile, 0);
 	add_to_sclist(MMAIN, "Ins", KEY_IC, do_insertfile, 0);
-	add_to_sclist(MMAIN|MBROWSER|MHELP, "^B", 0, do_search_backward,  0);
-	add_to_sclist(MMAIN|MBROWSER|MHELP, "^F", 0, do_search_forward, 0);
 	if (!ISSET(PRESERVE))
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "^Q", 0, do_search_backward, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "^W", 0, do_search_forward, 0);
@@ -1208,9 +1206,11 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^J", '\n', do_justify, 0);
 #endif
 #ifdef ENABLE_LINTER
+	add_to_sclist(MMAIN, "M-B", 0, do_linter, 0);
 	add_to_sclist(MEXECUTE, "^Y", 0, do_linter, 0);
 #endif
 #ifdef ENABLE_FORMATTER
+	add_to_sclist(MMAIN, "M-F", 0, do_formatter, 0);
 	add_to_sclist(MEXECUTE, "^O", 0, do_formatter, 0);
 #endif
 	add_to_sclist(MMAIN, "^C", 0, report_cursor_position, 0);
@@ -1228,17 +1228,17 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN|MHELP, "^Home", CONTROL_HOME, to_first_line, 0);
 	add_to_sclist(MMAIN|MHELP, "M-/", 0, to_last_line, 0);
 	add_to_sclist(MMAIN|MHELP, "^End", CONTROL_END, to_last_line, 0);
-	add_to_sclist(MMAIN|MBROWSER|MHELP, "M-B", 0, do_findprevious, 0);
-	add_to_sclist(MMAIN|MBROWSER|MHELP, "M-F", 0, do_findnext, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "M-W", 0, do_findnext, 0);
 	add_to_sclist(MMAIN|MBROWSER|MHELP, "M-Q", 0, do_findprevious, 0);
 #ifdef NANO_TINY
 #ifdef ENABLE_LINENUMBERS
 	add_to_sclist(MMAIN, "M-N", 0, toggle_numbers, 0);
 #else
+	add_to_sclist(MMAIN, "M-B", 0, to_prev_word, 0);
 	add_to_sclist(MMAIN, "M-N", 0, to_next_word, 0);
 #endif
 	add_to_sclist(MMAIN, "M-D", 0, to_prev_word, 0);
+	add_to_sclist(MMAIN, "M-F", 0, to_next_word, 0);
 #else
 	add_to_sclist(MMAIN, "M-]", 0, do_find_bracket, 0);
 	add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
@@ -1268,8 +1268,8 @@ void shortcut_init(void)
 #ifdef ENABLE_COMMENT
 	add_to_sclist(MMAIN, "M-3", 0, do_comment, 0);
 #endif
-	add_to_sclist(MMOST & ~MMAIN, "^B", 0, do_left, 0);
-	add_to_sclist(MMOST & ~MMAIN, "^F", 0, do_right, 0);
+	add_to_sclist(MMOST|MBROWSER, "^B", 0, do_left, 0);
+	add_to_sclist(MMOST|MBROWSER, "^F", 0, do_right, 0);
 #ifdef ENABLE_UTF8
 	if (using_utf8()) {
 		add_to_sclist(MMOST|MBROWSER|MHELP, "\xE2\x97\x82", KEY_LEFT, do_left, 0);
