@@ -3167,12 +3167,13 @@ size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
 	/* If we're softwrapping at blanks and we found at least one blank, break
 	 * after that blank -- if it doesn't overshoot the screen's edge. */
 	if (farthest_blank != NULL) {
-		size_t onestep = advance_over(farthest_blank, &last_blank_col);
+		size_t aftertheblank = last_blank_col;
+		size_t onestep = advance_over(farthest_blank, &aftertheblank);
 
-		if (last_blank_col <= goal_column) {
+		if (aftertheblank <= goal_column) {
 			text = farthest_blank + onestep;
-			column = last_blank_col;
-			return last_blank_col;
+			column = aftertheblank;
+			return aftertheblank;
 		}
 
 		/* If it's a tab that overshoots, break at the screen's edge. */
