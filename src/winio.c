@@ -3125,9 +3125,9 @@ size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
 		/* Pointer at the current character in this line's data. */
 	static size_t column;
 		/* Column position that corresponds to the above pointer. */
-	size_t goal_column = leftedge + editwincols;
+	size_t rightside = leftedge + editwincols;
 		/* The place at or before which text must be broken. */
-	size_t breaking_col = goal_column;
+	size_t breaking_col = rightside;
 		/* The column where text can be broken, when there's no better. */
 	size_t last_blank_col = 0;
 		/* The column position of the last seen whitespace character. */
@@ -3146,21 +3146,21 @@ size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
 		text += advance_over(text, &column);
 
 	/* Now find the place in text where this chunk should end. */
-	while (*text != '\0' && column <= goal_column) {
+	while (*text != '\0' && column <= rightside) {
 		/* When breaking at blanks, do it *before* the target column. */
-		if (ISSET(AT_BLANKS) && is_blank_char(text) && column < goal_column) {
+		if (ISSET(AT_BLANKS) && is_blank_char(text) && column < rightside) {
 			farthest_blank = text;
 			last_blank_col = column;
 		}
 
-		breaking_col = (*text == '\t' ? goal_column : column);
+		breaking_col = (*text == '\t' ? rightside : column);
 		text += advance_over(text, &column);
 	}
 
 	/* If we didn't overshoot the limit, we've found a breaking point;
 	 * and we've reached EOL if we didn't even *reach* the limit. */
-	if (column <= goal_column) {
-		*end_of_line = (column < goal_column);
+	if (column <= rightside) {
+		*end_of_line = (column < rightside);
 		return column;
 	}
 
@@ -3170,7 +3170,7 @@ size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
 		size_t aftertheblank = last_blank_col;
 		size_t onestep = advance_over(farthest_blank, &aftertheblank);
 
-		if (aftertheblank <= goal_column) {
+		if (aftertheblank <= rightside) {
 			text = farthest_blank + onestep;
 			column = aftertheblank;
 			return aftertheblank;
@@ -3178,7 +3178,7 @@ size_t get_softwrap_breakpoint(const char *linedata, size_t leftedge,
 
 		/* If it's a tab that overshoots, break at the screen's edge. */
 		if (*farthest_blank == '\t')
-			breaking_col = goal_column;
+			breaking_col = rightside;
 	}
 
 	/* Otherwise, break at the last character that doesn't overshoot. */
