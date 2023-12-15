@@ -737,6 +737,12 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 					bracketed_paste = FALSE;
 					return BRACKETED_PASTE_MARKER;
 				}
+			} else {
+				/* When invalid, assume it's a truncated end-of-paste sequence,
+				 * in order to avoid a hang -- https://sv.gnu.org/bugs/?64996. */
+				bracketed_paste = FALSE;
+				*consumed = length;
+				return ERR;
 			}
 #endif
 			break;
