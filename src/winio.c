@@ -699,6 +699,16 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 						return KEY_F(11);
 					case '4': /* Esc [ 2 4 ~ == F12 on the same. */
 						return KEY_F(12);
+#ifdef ENABLE_NANORC
+					case '5': /* Esc [ 2 5 ~ == F13 on the same. */
+						return KEY_F(13);
+					case '6': /* Esc [ 2 6 ~ == F14 on the same. */
+						return KEY_F(14);
+					case '8': /* Esc [ 2 8 ~ == F15 on the same. */
+						return KEY_F(15);
+					case '9': /* Esc [ 2 9 ~ == F16 on the same. */
+						return KEY_F(16);
+#endif
 				}
 			} else if (length > 1 && seq[1] == '~')
 				/* Esc [ 2 ~ == Insert on VT220/VT320/
