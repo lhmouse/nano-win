@@ -5,6 +5,7 @@ gnulib_url="git://git.sv.gnu.org/gnulib.git"
 gnulib_hash="a007cf68f0ee224d1d88cd6907f5dbea0ad5c149"
 
 modules="
+	canonicalize-lgpl
 	futimens
 	getdelim
 	getline
