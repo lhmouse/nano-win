@@ -380,7 +380,7 @@ browser exits.
 @node Command-line Options
 @chapter Command-line Options
 
-@command{nano} takes the following options from the command line:
+@command{nano} accepts the following options from the command line:
 
 @table @option
 
@@ -406,8 +406,9 @@ The uniquely numbered files are stored in the specified directory.
 @item -D
 @itemx --boldtext
 For the interface, use bold instead of reverse video.  This will be overridden
-by setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
-@code{functioncolor}, @code{numbercolor}, and/or @code{selectedcolor} in your
+by setting the options @code{titlecolor}, @code{statuscolor},
+@code{promptcolor}, @code{minicolor}, @code{keycolor}, @code{functioncolor},
+@code{numbercolor}, and/or @code{selectedcolor} in your
 nanorc file.  @xref{@code{set keycolor}} for details.
 
 @item -E
