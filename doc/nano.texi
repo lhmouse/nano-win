@@ -112,13 +112,21 @@ as is reasonable while offering a superset of Pico's functionality.
 @xref{Pico Compatibility} for more details on how @command{nano} and
 Pico differ.
 
-Starting with version 4.0, @command{nano} no longer hard-wraps an overlong
-line by default.  It further uses linewise scrolling by default, and by
-default includes the line below the title bar into the editing area.
-If you want the old, Pico behavior back, you can use the
+@blankline
+Since version 4.0, @command{nano} no longer hard-wraps overlong
+lines by default.  It also by default uses linewise scrolling, and by
+default includes the line below the title bar in the editing area.
+In case you want the old, Pico behavior back, you can use the
 following options: @option{--breaklonglines},
 @option{--jumpyscrolling}, and @option{--emptyline}
 (or @option{-bje}).
+
+@blankline
+Since version 8.0, @kbd{^F} starts a forward search, @kbd{^B} starts
+a backward search, @kbd{M-F} searches the next occurrence forward,
+and @kbd{M-B} searches the next occurrence backward.  If you want
+those keystrokes to do what they did before version 8.0, see the
+rebindings in the sample nanorc file.
 
 @blankline
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
