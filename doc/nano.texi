@@ -715,7 +715,7 @@ filename in the center of the title bar.
 @itemx --minibar
 Suppress the title bar and instead show information about
 the current buffer at the bottom of the screen, in the space
-for the status bar.  In this "minibar" the filename is shown
+for the status bar.  In this "mini bar" the filename is shown
 on the left, followed by an asterisk if the buffer has been modified.
 On the right are displayed the current line and column number, the
 code of the character under the cursor (in Unicode format: U+xxxx),
@@ -799,7 +799,7 @@ for more details).  The following global toggles are available:
 @item Hidden Interface
 @kbd{M-Z} toggles the @option{-0} (@option{--zero}) command-line option,
 but without the @option{-x} (@option{--nohelp}) part.  That is: it toggles
-just the title bar plus status bar (or the combined minibar plus status bar),
+just the title bar plus status bar (or the combined mini bar plus status bar),
 not the help lines.  The latter are toggled with @kbd{M-X}.
 
 @end table
@@ -996,7 +996,7 @@ The default value is "@t{(<[@{)>]@}}".
 @item set minibar
 Suppress the title bar and instead show information about
 the current buffer at the bottom of the screen, in the space
-for the status bar.  In this "minibar" the filename is shown
+for the status bar.  In this "mini bar" the filename is shown
 on the left, followed by an asterisk if the buffer has been modified.
 On the right are displayed the current line and column number, the
 code of the character under the cursor (in Unicode format: U+xxxx),
@@ -1011,7 +1011,7 @@ The line plus column numbers and the character code are displayed only when
 The state flags are displayed only when @code{set stateflags} is used.
 
 @item set minicolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
-Use this color combination for the minibar.
+Use this color combination for the mini bar.
 (When this option is not specified, the colors of the title bar are used.)
 @xref{@code{set keycolor}} for valid color names.
 
