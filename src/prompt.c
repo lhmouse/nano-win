@@ -752,8 +752,9 @@ int ask_user(bool withall, const char *question)
 			focusing = TRUE;
 		}
 #endif
-		/* Interpret ^N and ^Q as "No", to allow exiting in anger. */
-		else if (kbinput == '\x0E' || kbinput == '\x11')
+		/* Interpret ^N as "No", to allow exiting in anger, and ^Q or ^X too. */
+		else if (kbinput == '\x0E' || (kbinput == '\x11' && !ISSET(MODERN_BINDINGS)) ||
+									  (kbinput == '\x18' && ISSET(MODERN_BINDINGS)))
 			choice = NO;
 		/* And interpret ^Y as "Yes". */
 		else if (kbinput == '\x19')
