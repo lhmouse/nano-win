@@ -738,6 +738,19 @@ and disappears after 1.5 seconds or upon the next keystroke.
 With @kbd{M-Z} the title bar plus status bar can be toggled.
 With @kbd{M-X} the help lines.
 
+@item -/
+@itemx --modernbindings
+Use key bindings similar to the ones that most modern programs use:
+@kbd{^X} cuts, @kbd{^C} copies, @kbd{^V} pastes,
+@kbd{^Z} undoes, @kbd{^Y} redoes,
+@kbd{^F} searches forward, @kbd{^G} searches next,
+@kbd{^S} saves, @kbd{^O} opens a file, @kbd{^Q} quits,
+and (when the terminal permits) @kbd{^H} shows help.
+Furthermore, @kbd{^A} sets the mark,
+@kbd{^R} makes replacements, @kbd{^D} searches previous,
+@kbd{^P} shows the position, @kbd{^T} goes to a line,
+@kbd{^W} writes out a file, and @kbd{^E} executes a command.
+
 @end table
 
 @sp 1
