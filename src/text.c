@@ -2586,7 +2586,7 @@ void do_linter(void)
 	if (in_restricted_mode())
 		return;
 
-	if (!openfile->syntax || !openfile->syntax->linter) {
+	if (!openfile->syntax || !openfile->syntax->linter || !*openfile->syntax->linter) {
 		statusline(AHEM, _("No linter is defined for this type of file"));
 		return;
 	}
