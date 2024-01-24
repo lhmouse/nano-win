@@ -2927,7 +2927,7 @@ void do_formatter(void)
 	if (in_restricted_mode())
 		return;
 
-	if (!openfile->syntax || !openfile->syntax->formatter) {
+	if (!openfile->syntax || !openfile->syntax->formatter || !*openfile->syntax->formatter) {
 		statusline(AHEM, _("No formatter is defined for this type of file"));
 		return;
 	}
