@@ -2208,9 +2208,7 @@ int main(int argc, char **argv)
 			free(alt_speller);
 			alt_speller = alt_speller_cmdline;
 		}
-		/* Strip leading whitespace from the speller command, if any. */
-		while (alt_speller && (*alt_speller == ' ' || *alt_speller == '\t'))
-			memmove(alt_speller, alt_speller + 1, strlen(alt_speller));
+		strip_leading_blanks_from(alt_speller);
 #endif
 
 		/* If an rcfile undid the default setting, copy it to the new flag. */

@@ -1332,11 +1332,13 @@ bool parse_syntax_commands(char *keyword, char *ptr)
 #endif
 	} else if (strcmp(keyword, "tabgives") == 0) {
 		pick_up_name("tabgives", ptr, &live_syntax->tabstring);
-	} else if (strcmp(keyword, "linter") == 0)
+	} else if (strcmp(keyword, "linter") == 0) {
 		pick_up_name("linter", ptr, &live_syntax->linter);
-	else if (strcmp(keyword, "formatter") == 0)
+		strip_leading_blanks_from(live_syntax->linter);
+	} else if (strcmp(keyword, "formatter") == 0) {
 		pick_up_name("formatter", ptr, &live_syntax->formatter);
-	else
+		strip_leading_blanks_from(live_syntax->formatter);
+	} else
 		return FALSE;
 
 	return TRUE;

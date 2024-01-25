@@ -654,3 +654,12 @@ bool white_string(const char *string)
 
 	return !*string;
 }
+
+#if defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
+/* Remove leading whitespace from the given string. */
+void strip_leading_blanks_from(char *string)
+{
+	while (string && (*string == ' ' || *string == '\t'))
+		memmove(string, string + 1, strlen(string));
+}
+#endif

@@ -238,6 +238,9 @@ char *mbrevstrpbrk(const char *head, const char *accept, const char *pointer);
 bool has_blank_char(const char *string);
 #endif
 bool white_string(const char *string);
+#if defined(ENABLE_SPELLER) || defined(ENABLE_COLOR)
+void strip_leading_blanks_from(char *string);
+#endif
 
 /* Most functions in color.c. */
 #ifdef ENABLE_COLOR
