@@ -36,13 +36,6 @@
 #define st_mtim  st_mtimespec
 #endif
 
-#ifdef ENABLE_WORDCOMPLETION
-static int pletion_x = 0;
-		/* The x position in pletion_line of the last found completion. */
-static completionstruct *list_of_completions;
-		/* A linked list of the completions that have been attempted. */
-#endif
-
 #ifndef NANO_TINY
 /* Toggle the mark. */
 void do_mark(void)
@@ -3081,6 +3074,10 @@ void complete_a_word(void)
 {
 	static openfilestruct *scouring = NULL;
 		/* The buffer that is being searched for possible completions. */
+	static completionstruct *list_of_completions;
+		/* A linked list of the completions that have been attempted. */
+	static int pletion_x = 0;
+		/* The x position in `pletion_line` of the last found completion. */
 	char *shard, *completion = NULL;
 	size_t start_of_shard, shard_length = 0;
 	size_t i = 0, j = 0;
