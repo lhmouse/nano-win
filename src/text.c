@@ -3066,10 +3066,10 @@ char *copy_completion(char *text)
 	return word;
 }
 
-/* Look at the fragment the user has typed, then search all buffers for
- * the first word that starts with this fragment, and tentatively complete the
- * fragment.  If the user types 'Complete' again, search and paste the next
- * possible completion. */
+/* Look at the fragment the user has typed, then search all buffers
+ * for the first word that starts with this fragment, and tentatively
+ * complete the fragment.  If the user hits 'Complete' again, search
+ * and paste the next possible completion. */
 void complete_a_word(void)
 {
 	static openfilestruct *scouring = NULL;
@@ -3078,13 +3078,12 @@ void complete_a_word(void)
 		/* A linked list of the completions that have been attempted. */
 	static int pletion_x = 0;
 		/* The x position in `pletion_line` of the last found completion. */
-	char *shard, *completion = NULL;
-	size_t start_of_shard, shard_length = 0;
-	size_t i = 0, j = 0;
-	completionstruct *some_word;
 #ifdef ENABLE_WRAPPING
 	bool was_set_wrapping = ISSET(BREAK_LONG_LINES);
 #endif
+	size_t start_of_shard;
+	size_t shard_length = 0;
+	char *shard;
 
 	/* If this is a fresh completion attempt... */
 	if (pletion_line == NULL) {
@@ -3140,6 +3139,9 @@ void complete_a_word(void)
 	while (pletion_line != NULL) {
 		ssize_t threshold = strlen(pletion_line->data) - shard_length - 1;
 				/* The point where we can stop searching for shard. */
+		completionstruct *some_word;
+		char *completion;
+		size_t i, j;
 
 		/* Traverse the whole line, looking for shard. */
 		for (i = pletion_x; (ssize_t)i < threshold; i++) {
