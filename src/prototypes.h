@@ -270,8 +270,8 @@ void cut_text(void);
 void cut_till_eof(void);
 void zap_text(void);
 void copy_marked_region(void);
-void copy_text(void);
 #endif
+void copy_text(void);
 void paste_text(void);
 
 /* Most functions in files.c. */

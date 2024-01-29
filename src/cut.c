@@ -634,6 +634,7 @@ void copy_marked_region(void)
 	botline->data[bot_x] = saved_byte;
 	botline->next = afterline;
 }
+#endif /* !NANO_TINY */
 
 /* Copy text from the current buffer into the cutbuffer.  The text is either
  * the marked region, the whole line, the text from cursor to end-of-line,
@@ -646,17 +647,24 @@ void copy_text(void)
 	linestruct *was_current = openfile->current;
 	linestruct *addition;
 
-	if (openfile->mark || openfile->last_action != COPY || !keep_cutbuffer) {
+#ifndef NANO_TINY
+	if (openfile->mark || openfile->last_action != COPY)
+		keep_cutbuffer = FALSE;
+#endif
+
+	if (!keep_cutbuffer) {
 		free_lines(cutbuffer);
 		cutbuffer = NULL;
 	}
 
 	wipe_statusbar();
 
+#ifndef NANO_TINY
 	if (openfile->mark) {
 		copy_marked_region();
 		return;
 	}
+#endif
 
 	/* When at the very end of the buffer, there is nothing to do. */
 	if (openfile->current->next == NULL && at_eol && (ISSET(CUT_FROM_CURSOR) ||
@@ -706,10 +714,11 @@ void copy_text(void)
 
 	edit_redraw(was_current, FLOWING);
 
+#ifndef NANO_TINY
 	openfile->last_action = COPY;
+#endif
 	keep_cutbuffer = TRUE;
 }
-#endif /* !NANO_TINY */
 
 /* Copy text from the cutbuffer into the current buffer. */
 void paste_text(void)

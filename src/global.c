@@ -561,6 +561,8 @@ void shortcut_init(void)
 		N_("Search backward for a string or a regular expression");
 	const char *cut_gist =
 		N_("Cut current line (or marked region) and store it in cutbuffer");
+	const char *copy_gist =
+		N_("Copy current line (or marked region) and store it in cutbuffer");
 	const char *paste_gist =
 		N_("Paste the contents of cutbuffer at current cursor position");
 	const char *cursorpos_gist = N_("Display the position of the cursor");
@@ -571,8 +573,6 @@ void shortcut_init(void)
 	const char *gotoline_gist = N_("Go to line and column number");
 #ifndef NANO_TINY
 	const char *mark_gist = N_("Mark text starting from the cursor position");
-	const char *copy_gist =
-		N_("Copy current line (or marked region) and store it in cutbuffer");
 	const char *zap_gist = N_("Throw away the current line (or marked region)");
 	const char *indent_gist = N_("Indent the current line (or marked lines)");
 	const char *unindent_gist = N_("Unindent the current line (or marked lines)");
@@ -982,6 +982,9 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	add_to_funcs(count_lines_words_and_characters, MMAIN,
 			N_("Word Count"), WHENHELP(wordcount_gist), TOGETHER);
+#else
+	add_to_funcs(copy_text, MMAIN,
+			N_("Copy"), WHENHELP(copy_gist), BLANKAFTER);
 #endif
 
 	add_to_funcs(do_verbatim_input, MMAIN,
@@ -1191,9 +1194,9 @@ void shortcut_init(void)
 		add_to_sclist(MMAIN, "^Z", 0, do_undo, 0);
 		add_to_sclist(MMAIN, "^Y", 0, do_redo, 0);
 		add_to_sclist(MMAIN, "^A", 0, do_mark, 0);
-		add_to_sclist(MMAIN, "^C", 0, copy_text, 0);
 #endif
 		add_to_sclist(MMAIN, "^X", 0, cut_text, 0);
+		add_to_sclist(MMAIN, "^C", 0, copy_text, 0);
 		add_to_sclist(MMAIN, "^V", 0, paste_text, 0);
 	} else {
 		add_to_sclist((MMOST|MBROWSER) & ~MFINDINHELP, "^G", 0, do_help, 0);
@@ -1224,6 +1227,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^\\", 0, do_replace, 0);
 	add_to_sclist(MMAIN, "M-R", 0, do_replace, 0);
 	add_to_sclist(MMOST, "^K", 0, cut_text, 0);
+	add_to_sclist(MMOST, "M-6", 0, copy_text, 0);
+	add_to_sclist(MMOST, "M-^", 0, copy_text, 0);
 #ifdef NANO_TINY
 	add_to_sclist(MMAIN, "^U", 0, paste_text, 0);
 #ifdef ENABLE_SPELLER
@@ -1275,8 +1280,6 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-A", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^6", 0, do_mark, 0);
 	add_to_sclist(MMAIN, "^^", 0, do_mark, 0);
-	add_to_sclist(MMOST, "M-6", 0, copy_text, 0);
-	add_to_sclist(MMOST, "M-^", 0, copy_text, 0);
 	add_to_sclist(MMAIN, "M-}", 0, do_indent, 0);
 	add_to_sclist(MMAIN, "", INDENT_KEY, do_indent, 0);
 	add_to_sclist(MMAIN, "M-{", 0, do_unindent, 0);
