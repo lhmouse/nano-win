@@ -260,9 +260,6 @@
 ## independent of the settings of 'tabsize' and 'tabstospaces':
 # extendsyntax python tabgives "    "
 
-## If <Tab> should always produce an actual TAB when editing a Makefile:
-# extendsyntax makefile tabgives "	"
-
 
 ## === Key bindings ===
 ## For all details, see 'man nanorc', section REBINDING KEYS.

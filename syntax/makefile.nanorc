@@ -2,6 +2,8 @@
 
 syntax makefile "(/((GNU)?m|M)akefile[^/]*$|\.(make|mk)$)"
 magic "makefile script"
+
+tabgives "	"
 comment "#"
 
 # Assignments.
