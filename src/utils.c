@@ -436,6 +436,8 @@ void remove_magicline(void)
 {
 	if (openfile->filebot->data[0] == '\0' &&
 				openfile->filebot != openfile->filetop) {
+		if (openfile->current == openfile->filebot)
+			openfile->current = openfile->current->prev;
 		openfile->filebot = openfile->filebot->prev;
 		delete_node(openfile->filebot->next);
 		openfile->filebot->next = NULL;
