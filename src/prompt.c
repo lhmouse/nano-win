@@ -604,6 +604,9 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 	/* Restore a possible previous prompt and maybe the typing position. */
 	prompt = saved_prompt;
 	if (function == do_cancel || function == do_enter ||
+#ifdef ENABLE_BROWSER
+				function == to_first_file || function == to_last_file ||
+#endif
 				function == to_first_line || function == to_last_line)
 		typing_x = was_typing_x;
 
