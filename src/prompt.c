@@ -603,7 +603,8 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 
 	/* Restore a possible previous prompt and maybe the typing position. */
 	prompt = saved_prompt;
-	if (function == do_cancel || function == do_enter)
+	if (function == do_cancel || function == do_enter ||
+				function == to_first_line || function == to_last_line)
 		typing_x = was_typing_x;
 
 	/* Set the proper return value for Cancel and Enter. */
