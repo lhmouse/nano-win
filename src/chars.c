@@ -98,10 +98,10 @@ bool is_blank_char(const char *c)
 bool is_cntrl_char(const char *c)
 {
 #ifdef ENABLE_UTF8
-	if (use_utf8) {
+	if (use_utf8)
 		return ((c[0] & 0xE0) == 0 || c[0] == DEL_CODE ||
 				((signed char)c[0] == -62 && (signed char)c[1] < -96));
-	} else
+	else
 #endif
 		return ((*c & 0x60) == 0 || *c == DEL_CODE);
 }

@@ -1849,9 +1849,8 @@ void justify_text(bool whole_buffer)
 	{
 		/* When justifying the entire buffer, start at the top.  Otherwise, when
 		 * in a paragraph but not at its beginning, move back to its first line. */
-		if (whole_buffer) {
+		if (whole_buffer)
 			openfile->current = openfile->filetop;
-		}
 		else if (inpar(openfile->current) && !begpar(openfile->current, 0))
 			do_para_begin(&openfile->current);
 

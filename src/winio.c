@@ -721,8 +721,7 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 				if (seq[2] == '3')
 					return ALT_INSERT;
 #endif
-			}
-			else if (length > 4 && seq[2] == ';' && seq[4] == '~')
+			} else if (length > 4 && seq[2] == ';' && seq[4] == '~')
 				/* Esc [ 2 n ; 2 ~ == F21...F24 on some terminals. */
 				*consumed = 5;
 #ifndef NANO_TINY
