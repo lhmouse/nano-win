@@ -1686,9 +1686,9 @@ int get_mouseinput(int *mouse_y, int *mouse_x, bool allow_shortcuts)
 		if (in_middle || (in_footer && *mouse_y == 0)) {
 			int keycode = (event.bstate & BUTTON4_PRESSED) ? ALT_UP : ALT_DOWN;
 
-			/* One roll of the mouse wheel should scroll three lines. */
-			for (int count = 3; count > 0; count--)
-				put_back(keycode);
+			/* One bump of the mouse wheel should scroll two lines. */
+			put_back(keycode);
+			put_back(keycode);
 
 			return 1;
 		} else
