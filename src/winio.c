@@ -1539,7 +1539,7 @@ char *get_verbatim_kbinput(WINDOW *frame, size_t *count)
 
 	/* If the byte is invalid in the current mode, discard it;
 	 * if it is an incomplete Unicode sequence, stuff it back. */
-	if (input != NULL) {
+	if (input && *count) {
 		if (*input >= 0x80 && *count == 1) {
 			put_back(*input);
 			*count = 999;
