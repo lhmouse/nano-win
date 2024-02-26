@@ -57,6 +57,10 @@ bool regexp_init(const char *regexp)
  * full screen refresh when the mark is on, in case the cursor has moved. */
 void tidy_up_after_search(void)
 {
+	/* Searching in a help text does not support regular expressions. */
+	if (inhelp)
+		return;
+
 	if (have_compiled_regexp) {
 		regfree(&search_regexp);
 		have_compiled_regexp = FALSE;
