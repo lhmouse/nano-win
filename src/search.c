@@ -707,10 +707,16 @@ void ask_for_and_do_replacements(void)
 	size_t was_firstcolumn = openfile->firstcolumn;
 	linestruct *beginline = openfile->current;
 	size_t begin_x = openfile->current_x;
+	char *replacee = copy_of(last_search);
 	ssize_t numreplaced;
+
 	int response = do_prompt(MREPLACEWITH, "", &replace_history,
 							/* TRANSLATORS: This is a prompt. */
 							edit_refresh, _("Replace with"));
+
+	/* Set the string to be searched, as it might have changed at the prompt. */
+	free(last_search);
+	last_search = replacee;
 
 #ifdef ENABLE_HISTORIES
 	/* When not "", add the replace string to the replace history list. */
