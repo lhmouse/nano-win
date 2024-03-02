@@ -290,10 +290,6 @@ void read_keys_from(WINDOW *frame)
 		napms(20);
 
 	while (TRUE) {
-#ifndef NANO_TINY
-		if (recording)
-			add_to_macrobuffer(input);
-#endif
 		input = wgetch(frame);
 
 		/* If there aren't any more characters, stop reading. */
@@ -1372,6 +1368,11 @@ int get_kbinput(WINDOW *frame, bool showcursor)
 	/* Extract one keystroke from the input stream. */
 	while (kbinput == ERR)
 		kbinput = parse_kbinput(frame);
+
+#ifndef NANO_TINY
+	if (recording)
+		add_to_macrobuffer(kbinput);
+#endif
 
 	/* If we read from the edit window, blank the status bar if needed. */
 	if (frame == midwin)
