@@ -1687,6 +1687,12 @@ void rewrap_paragraph(linestruct **line, char *lead_string, size_t lead_len)
 		*line = (*line)->next;
 	}
 
+#ifdef ENABLE_COLOR
+	/* If the new paragraph exceeds the viewport, recalculate the multidata. */
+	if ((*line)->lineno >= editwinrows)
+		recook = TRUE;
+#endif
+
 	/* When possible, go to the line after the rewrapped paragraph. */
 	if ((*line)->next != NULL)
 		*line = (*line)->next;
@@ -2015,6 +2021,9 @@ void do_full_justify(void)
 {
 	justify_text(WHOLE_BUFFER);
 	ran_a_tool = TRUE;
+#ifdef ENABLE_COLOR
+	recook = TRUE;
+#endif
 }
 #endif /* ENABLE_JUSTIFY */
 
