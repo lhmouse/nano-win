@@ -974,6 +974,11 @@ void parse_includes(char *ptr)
 		pattern++;
 	ptr = parse_argument(ptr);
 
+	if (strlen(pattern) > PATH_MAX) {
+		jot_error(N_("Path is too long"));
+		return;
+	}
+
 	/* Expand a tilde first, then try to match the globbing pattern. */
 	expanded = real_dir_from_tilde(pattern);
 	result = glob(expanded, GLOB_ERR|GLOB_NOCHECK, NULL, &files);
