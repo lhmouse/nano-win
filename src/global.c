@@ -670,6 +670,10 @@ void shortcut_init(void)
 	const char *execute_gist = N_("Execute a function or an external command");
 	const char *pipe_gist =
 		N_("Pipe the current buffer (or marked region) to the command");
+#ifdef ENABLE_HISTORIES
+	const char *older_command_gist = N_("Recall the previous command");
+	const char *newer_command_gist = N_("Recall the next command");
+#endif
 	const char *convert_gist = N_("Do not convert from DOS/Mac format");
 #endif
 #ifdef ENABLE_MULTIBUFFER
@@ -841,6 +845,12 @@ void shortcut_init(void)
 			N_("Older"), WHENHELP(older_gist), TOGETHER);
 	add_to_funcs(get_newer_item, MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE,
 			N_("Newer"), WHENHELP(newer_gist), BLANKAFTER);
+#ifndef NANO_TINY
+	add_to_funcs(get_older_item, MEXECUTE,
+			N_("Older"), WHENHELP(older_command_gist), TOGETHER);
+	add_to_funcs(get_newer_item, MEXECUTE,
+			N_("Newer"), WHENHELP(newer_command_gist), BLANKAFTER);
+#endif
 #endif
 
 #ifdef ENABLE_BROWSER
