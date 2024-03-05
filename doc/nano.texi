@@ -1114,8 +1114,6 @@ Save a changed buffer automatically on exit (@kbd{^X}); don't prompt.
 
 @item set scrollercolor @var{fgcolor},@var{bgcolor}
 Use this color combination for the indicator alias "scrollbar".
-(On terminal emulators that link to a libvte older than version 0.55,
-using a background color here does not work correctly.)
 @xref{@code{set keycolor}} for valid color names.
 
 @item set selectedcolor [bold,][italic,]@var{fgcolor},@var{bgcolor}
