@@ -553,8 +553,8 @@ void do_undo(void)
 		 * and the nonewlines flag isn't set, do not re-add a newline that
 		 * wasn't actually deleted; just position the cursor. */
 		if ((u->xflags & WAS_BACKSPACE_AT_EOF) && !ISSET(NO_NEWLINES)) {
-			openfile->current = openfile->filebot;
-			openfile->current_x = 0;
+	        goto_line_posx(openfile->filebot->lineno, 0);
+			focusing = FALSE;
 			break;
 		}
 		line->data[u->tail_x] = '\0';
