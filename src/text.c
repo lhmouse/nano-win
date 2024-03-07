@@ -664,8 +664,8 @@ void do_undo(void)
 #ifdef ENABLE_COLOR
 	if (u->type <= REPLACE)
 		check_the_multis(openfile->current);
-	else if (u->type == INSERT)
-		perturbed = TRUE;
+	else if (u->type == INSERT || u->type == COUPLE_BEGIN)
+		recook = TRUE;
 #endif
 
 	/* When at the point where the buffer was last saved, unset "Modified". */
@@ -834,7 +834,7 @@ void do_redo(void)
 #ifdef ENABLE_COLOR
 	if (u->type <= REPLACE)
 		check_the_multis(openfile->current);
-	else if (u->type == INSERT)
+	else if (u->type == INSERT || u->type == COUPLE_END)
 		recook = TRUE;
 #endif
 
