@@ -29,7 +29,7 @@ Appearance
   |                                                                    |
    --------------------------------------------------------------------
   |                       [ Some status message ]                      |
-  |^G Help       ^O Write Out  ^W Where Is   ^K Cut        ^T Execute  |
+  |^G Help       ^O Write Out  ^F Where Is   ^K Cut        ^T Execute  |
   |^X Exit       ^R Read File  ^\ Replace    ^U Paste      ^J Justify  |
    --------------------------------------------------------------------
 
