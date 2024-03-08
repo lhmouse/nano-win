@@ -308,6 +308,7 @@ similar to a chroot.
 .BR \-p ", " \-\-preserve
 Preserve the XON and XOFF sequences (\fB^Q\fR and \fB^S\fR) so they
 will be caught by the terminal.
+Note that option \fB\-/\fR (\fB\-\-modernbindings\fR) overrides this.
 .TP
 .BR \-q ", " \-\-indicator
 Display a "scrollbar" on the righthand side of the edit window.
@@ -397,6 +398,7 @@ Furthermore, \fB^A\fR sets the mark,
 \fB^R\fR makes replacements, \fB^D\fR searches previous,
 \fB^P\fR shows the position, \fB^T\fR goes to a line,
 \fB^W\fR writes out a file, and \fB^E\fR executes a command.
+Note that this overrides option \fB\-p\fR (\fB\-\-preserve\fR).
 
 .SH TOGGLES
 Several of the above options can be switched on and off also while

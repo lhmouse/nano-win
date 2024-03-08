@@ -648,6 +648,7 @@ similar to a chroot.
 @itemx --preserve
 Preserve the @kbd{^Q} (XON) and @kbd{^S} (XOFF) sequences so data being
 sent to the editor can be stopped and started.
+Note that option @option{-/} (@option{--modernbindings}) overrides this.
 
 @item -q
 @itemx --indicator
@@ -767,6 +768,7 @@ Furthermore, @kbd{^A} sets the mark,
 @kbd{^R} makes replacements, @kbd{^D} searches previous,
 @kbd{^P} shows the position, @kbd{^T} goes to a line,
 @kbd{^W} writes out a file, and @kbd{^E} executes a command.
+Note that this overrides option @option{-p} (@option{--preserve}).
 
 @end table
 
