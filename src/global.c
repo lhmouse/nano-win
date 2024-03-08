@@ -1409,10 +1409,7 @@ void shortcut_init(void)
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	add_to_sclist(MMAIN, "^L", 0, do_center, 0);
 #endif
-	if (!ISSET(PRESERVE))
-		add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "^L", 0, full_refresh, 0);
-	else
-		add_to_sclist(MMOST|MBROWSER|MYESNO, "^L", 0, full_refresh, 0);
+	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "^L", 0, full_refresh, 0);
 
 #ifndef NANO_TINY
 	/* Group of "Appearance" toggles. */
