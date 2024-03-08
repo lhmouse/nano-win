@@ -2253,6 +2253,10 @@ int main(int argc, char **argv)
 	if (ISSET(RAW_SEQUENCES))
 		UNSET(USE_MOUSE);
 
+	/* When --modernbindings is used, ^Q and ^S need to be functional. */
+	if (ISSET(MODERN_BINDINGS))
+		UNSET(PRESERVE);
+
 	/* When suppressing title bar or minibar, suppress also the help lines. */
 	if (ISSET(ZERO))
 		SET(NO_HELP);
