@@ -3387,6 +3387,10 @@ void edit_refresh(void)
 	linestruct *line;
 	int row = 0;
 
+	/* If the current line is out of view, get it back on screen. */
+	if (current_is_offscreen())
+		adjust_viewport((focusing || ISSET(JUMPY_SCROLLING)) ? CENTERING : FLOWING);
+
 #ifdef ENABLE_COLOR
 	/* When needed and useful, initialize the colors for the current syntax. */
 	if (openfile->syntax && !have_palette && !ISSET(NO_SYNTAX) && has_colors())
@@ -3398,10 +3402,6 @@ void edit_refresh(void)
 		recook = FALSE;
 	}
 #endif
-
-	/* If the current line is out of view, get it back on screen. */
-	if (current_is_offscreen())
-		adjust_viewport((focusing || ISSET(JUMPY_SCROLLING)) ? CENTERING : FLOWING);
 
 #ifndef NANO_TINY
 	if (thebar)
