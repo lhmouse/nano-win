@@ -3396,6 +3396,9 @@ void edit_refresh(void)
 	if (openfile->syntax && !have_palette && !ISSET(NO_SYNTAX) && has_colors())
 		prepare_palette();
 
+	/* When the line above the viewport does not have multidata, recalculate all. */
+	recook |= ISSET(SOFTWRAP) && openfile->edittop->prev && !openfile->edittop->prev->multidata;
+
 	if (recook) {
 		precalc_multicolorinfo();
 		perturbed = FALSE;
