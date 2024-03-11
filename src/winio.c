@@ -3066,7 +3066,7 @@ void draw_scrollbar(void)
 	int lowest = (fromline * editwinrows) / totallines;
 	int highest = lowest + (editwinrows * coveredlines) / totallines;
 
-	if (editwinrows > totallines)
+	if (editwinrows > totallines && !ISSET(SOFTWRAP))
 		highest = editwinrows;
 
 	for (int row = 0; row < editwinrows; row++) {
