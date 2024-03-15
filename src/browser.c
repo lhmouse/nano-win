@@ -182,11 +182,11 @@ void browser_refresh(void)
 			if (stat(filelist[index], &state) == -1 || !S_ISDIR(state.st_mode))
 				info = copy_of("--");
 			else
-				/* TRANSLATORS: Try to keep this at most 7 characters. */
+				/* TRANSLATORS: Anything more than 7 cells gets clipped. */
 				info = copy_of(_("(dir)"));
 		} else if (S_ISDIR(state.st_mode)) {
 			if (strcmp(thename, "..") == 0) {
-				/* TRANSLATORS: Try to keep this at most 12 characters. */
+				/* TRANSLATORS: Anything more than 12 cells gets clipped. */
 				info = copy_of(_("(parent dir)"));
 				infomaxlen = 12;
 			} else
@@ -215,7 +215,7 @@ void browser_refresh(void)
 			if (result < (1 << 10))
 				sprintf(info, "%4ju %cB", (intmax_t)result, modifier);
 			else
-				/* TRANSLATORS: Try to keep this at most 7 characters.
+				/* TRANSLATORS: Anything more than 7 cells gets clipped.
 				 * If necessary, you can leave out the parentheses. */
 				info = mallocstrcpy(info, _("(huge)"));
 		}
