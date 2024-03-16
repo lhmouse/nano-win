@@ -2534,6 +2534,10 @@ void place_the_cursor(void)
 		statusline(ALERT, "Misplaced cursor -- please report a bug");
 #endif
 
+#ifdef _CURSES_H_
+	wnoutrefresh(midwin);  /* Only needed for NetBSD curses. */
+#endif
+
 	openfile->current_y = row;
 }
 
