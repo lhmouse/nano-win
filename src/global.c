@@ -1080,6 +1080,7 @@ void shortcut_init(void)
 #endif
 #ifdef ENABLE_SPELLER
 	add_to_funcs(do_spell, MEXECUTE,
+			/* TRANSLATORS: Try to keep the next four strings at most 12 characters. */
 			N_("Spell Check"), WHENHELP(spell_gist), TOGETHER);
 #endif
 #ifdef ENABLE_LINTER
