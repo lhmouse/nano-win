@@ -1048,10 +1048,10 @@ void regenerate_screen(void)
 	endwin();
 	refresh();
 
-	thebar = (ISSET(INDICATOR) && LINES > 5 && COLS > 9) ? 1 : 0;
+	sidebar = (ISSET(INDICATOR) && LINES > 5 && COLS > 9) ? 1 : 0;
 	bardata = nrealloc(bardata, LINES * sizeof(int));
 
-	editwincols = COLS - margin - thebar;
+	editwincols = COLS - margin - sidebar;
 
 	/* Put the terminal in the desired state again, and
 	 * recreate the subwindows with their (new) sizes. */
@@ -1264,7 +1264,7 @@ void confirm_margin(void)
 		bool keep_focus = (margin > 0) && focusing;
 
 		margin = needed_margin;
-		editwincols = COLS - margin - thebar;
+		editwincols = COLS - margin - sidebar;
 
 #ifndef NANO_TINY
 		/* Ensure a proper starting column for the first screen row. */
@@ -2388,10 +2388,10 @@ int main(int argc, char **argv)
 	curs_set(0);
 
 #ifndef NANO_TINY
-	thebar = (ISSET(INDICATOR) && LINES > 5 && COLS > 9) ? 1 : 0;
+	sidebar = (ISSET(INDICATOR) && LINES > 5 && COLS > 9) ? 1 : 0;
 	bardata = nrealloc(bardata, LINES * sizeof(int));
 #endif
-	editwincols = COLS - thebar;
+	editwincols = COLS - sidebar;
 
 	/* Set up the signal handlers. */
 	signal_init();

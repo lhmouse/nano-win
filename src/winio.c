@@ -2581,7 +2581,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		wclrtoeol(midwin);
 
 #ifndef NANO_TINY
-	if (thebar)
+	if (sidebar)
 		mvwaddch(midwin, row, COLS - 1, bardata[row]);
 #endif
 
@@ -2859,7 +2859,7 @@ int update_line(linestruct *line, size_t index)
 	}
 	if (has_more) {
 		wattron(midwin, hilite_attribute);
-		mvwaddch(midwin, row, COLS - 1 - thebar, '>');
+		mvwaddch(midwin, row, COLS - 1 - sidebar, '>');
 		wattroff(midwin, hilite_attribute);
 	}
 
@@ -3044,7 +3044,7 @@ bool less_than_a_screenful(size_t was_lineno, size_t was_leftedge)
 }
 
 #ifndef NANO_TINY
-/* Draw a scroll bar on the righthand side of the screen. */
+/* Draw a "scroll bar" on the righthand side of the edit window. */
 void draw_scrollbar(void)
 {
 	int fromline = openfile->edittop->lineno - 1;
@@ -3110,7 +3110,7 @@ void edit_scroll(bool direction)
 		go_forward_chunks(editwinrows - nrows, &line, &leftedge);
 
 #ifndef NANO_TINY
-	if (thebar)
+	if (sidebar)
 		draw_scrollbar();
 
 	if (ISSET(SOFTWRAP)) {
@@ -3407,7 +3407,7 @@ void edit_refresh(void)
 #endif
 
 #ifndef NANO_TINY
-	if (thebar)
+	if (sidebar)
 		draw_scrollbar();
 #endif
 
@@ -3430,7 +3430,7 @@ void edit_refresh(void)
 	while (row < editwinrows) {
 		blank_row(midwin, row);
 #ifndef NANO_TINY
-		if (thebar)
+		if (sidebar)
 			mvwaddch(midwin, row, COLS - 1, bardata[row]);
 #endif
 		row++;
@@ -3549,7 +3549,7 @@ void spotlight(size_t from_col, size_t to_col)
 	wattron(midwin, interface_color_pair[SPOTLIGHTED]);
 	waddnstr(midwin, word, actual_x(word, to_col));
 	if (overshoots)
-		mvwaddch(midwin, openfile->current_y, COLS - 1 - thebar, '>');
+		mvwaddch(midwin, openfile->current_y, COLS - 1 - sidebar, '>');
 	wattroff(midwin, interface_color_pair[SPOTLIGHTED]);
 
 	free(word);

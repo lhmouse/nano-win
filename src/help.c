@@ -325,7 +325,7 @@ void help_init(void)
 void wrap_help_text_into_buffer(void)
 {
 	/* Avoid overtight and overwide paragraphs in the introductory text. */
-	size_t wrapping_point = ((COLS < 40) ? 40 : (COLS > 74) ? 74 : COLS) - thebar;
+	size_t wrapping_point = ((COLS < 40) ? 40 : (COLS > 74) ? 74 : COLS) - sidebar;
 	const char *ptr = start_of_body;
 	size_t sum = 0;
 
@@ -344,7 +344,7 @@ void wrap_help_text_into_buffer(void)
 		char *oneline;
 
 		if (ptr == end_of_intro)
-			wrapping_point = ((COLS < 40) ? 40 : COLS) - thebar;
+			wrapping_point = ((COLS < 40) ? 40 : COLS) - sidebar;
 
 		if (ptr < end_of_intro || *(ptr - 1) == '\n') {
 			length = break_line(ptr, wrapping_point, TRUE);
@@ -352,7 +352,7 @@ void wrap_help_text_into_buffer(void)
 			shim = (*(ptr + length - 1) == ' ') ? 0 : 1;
 			snprintf(oneline, length + shim, "%s", ptr);
 		} else {
-			length = break_line(ptr, ((COLS < 40) ? 22 : COLS - 18) - thebar, TRUE);
+			length = break_line(ptr, ((COLS < 40) ? 22 : COLS - 18) - sidebar, TRUE);
 			oneline = nmalloc(length + 5);
 			snprintf(oneline, length + 5, "\t\t  %s", ptr);
 		}
@@ -433,7 +433,7 @@ void show_help(void)
 	UNSET(WHITESPACE_DISPLAY);
 
 #ifdef ENABLE_LINENUMBERS
-	editwincols = COLS - thebar;
+	editwincols = COLS - sidebar;
 	margin = 0;
 #endif
 	tabsize = 8;
@@ -539,7 +539,7 @@ void show_help(void)
 
 #ifdef ENABLE_LINENUMBERS
 	margin = was_margin;
-	editwincols = COLS - margin - thebar;
+	editwincols = COLS - margin - sidebar;
 #endif
 	tabsize = was_tabsize;
 #ifdef ENABLE_COLOR
