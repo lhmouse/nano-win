@@ -3420,10 +3420,7 @@ void edit_refresh(void)
 	line = openfile->edittop;
 
 	while (row < editwinrows && line != NULL) {
-		if (line == openfile->current)
-			row += update_line(line, openfile->current_x);
-		else
-			row += update_line(line, 0);
+		row += update_line(line, (line == openfile->current) ? openfile->current_x : 0);
 		line = line->next;
 	}
 
@@ -3441,6 +3438,7 @@ void edit_refresh(void)
 #endif
 
 	place_the_cursor();
+
 	wnoutrefresh(midwin);
 
 	refresh_needed = FALSE;

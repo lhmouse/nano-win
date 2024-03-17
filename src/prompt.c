@@ -392,6 +392,7 @@ void draw_the_promptbar(void)
 
 	/* Place the cursor at the right spot. */
 	wmove(footwin, 0, column - the_page);
+
 	wnoutrefresh(footwin);
 }
 
