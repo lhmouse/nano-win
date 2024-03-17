@@ -60,7 +60,7 @@ static bool reveal_cursor = FALSE;
 		/* Whether the cursor should be shown when waiting for input. */
 static bool linger_after_escape = FALSE;
 		/* Whether to give ncurses some time to get the next code. */
-static int statusblank = 0;
+static int countdown = 0;
 		/* The number of keystrokes left before we blank the status bar. */
 static size_t from_x = 0;
 		/* From where in the relevant line the current row is drawn. */
@@ -1374,9 +1374,9 @@ int get_kbinput(WINDOW *frame, bool showcursor)
 		add_to_macrobuffer(kbinput);
 #endif
 
-	/* If we read from the edit window, blank the status bar if needed. */
+	/* If we read from the edit window, blank the status bar when it's time. */
 	if (frame == midwin)
-		check_statusblank();
+		blank_it_when_expired();
 
 	return kbinput;
 }
@@ -1751,12 +1751,12 @@ void blank_bottombars(void)
 }
 
 /* When some number of keystrokes has been reached, wipe the status bar. */
-void check_statusblank(void)
+void blank_it_when_expired(void)
 {
-	if (statusblank == 0)
+	if (countdown == 0)
 		return;
 
-	if (--statusblank == 0)
+	if (--countdown == 0)
 		wipe_statusbar();
 
 	/* When windows overlap, make sure to show the edit window now. */
@@ -1769,7 +1769,7 @@ void check_statusblank(void)
 /* Ensure that the status bar will be wiped upon the next keystroke. */
 void set_blankdelay_to_one(void)
 {
-	statusblank = 1;
+	countdown = 1;
 }
 
 /* Convert text into a string that can be displayed on screen.  The caller
@@ -2401,7 +2401,7 @@ void statusline(message_type importance, const char *msg, ...)
 	free(message);
 
 	/* When requested, wipe the status bar after just one keystroke. */
-	statusblank = (ISSET(QUICK_BLANK) ? 1 : 20);
+	countdown = (ISSET(QUICK_BLANK) ? 1 : 20);
 }
 
 /* Display a normal message on the status bar, quietly. */
