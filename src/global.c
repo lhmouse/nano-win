@@ -388,6 +388,14 @@ int keycode_from_string(const char *keystring)
 		return -1;
 }
 
+#if defined(ENABLE_EXTRA) && defined(NCURSES_VERSION_PATCH)
+void show_curses_version(void)
+{
+	statusline(INFO, "ncurses-%i.%i, patch %li", NCURSES_VERSION_MAJOR,
+							NCURSES_VERSION_MINOR, NCURSES_VERSION_PATCH);
+}
+#endif
+
 /* Add a key combo to the linked list of shortcuts. */
 void add_to_sclist(int menus, const char *scstring, const int keycode,
 						void (*function)(void), int toggle)
@@ -1539,6 +1547,9 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "F11", KEY_F(11), report_cursor_position, 0);
 #ifdef ENABLE_SPELLER
 	add_to_sclist(MMAIN, "F12", KEY_F(12), do_spell, 0);
+#endif
+#if defined(ENABLE_EXTRA) && defined(NCURSES_VERSION_PATCH)
+	add_to_sclist(MMAIN, "M-&", 0, show_curses_version, 0);
 #endif
 #ifndef NANO_TINY
 	add_to_sclist((MMOST & ~MMAIN) | MYESNO, "", KEY_CANCEL, do_cancel, 0);
