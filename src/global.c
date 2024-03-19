@@ -787,12 +787,12 @@ void shortcut_init(void)
 
 #ifdef NANO_TINY
 	add_to_funcs(do_search_backward, MHELP,
-			N_("Where Was"), WHENHELP(wherewas_gist), TOGETHER);
+			"Where Was", WHENHELP(wherewas_gist), TOGETHER);
 
 	add_to_funcs(do_findprevious, MMAIN|MHELP,
-			N_("Previous"), WHENHELP(findprev_gist), TOGETHER);
+			"Previous", WHENHELP(findprev_gist), TOGETHER);
 	add_to_funcs(do_findnext, MMAIN|MHELP,
-			N_("Next"), WHENHELP(findnext_gist), BLANKAFTER);
+			"Next", WHENHELP(findnext_gist), BLANKAFTER);
 #endif
 
 	add_to_funcs(cut_text, MMAIN,
@@ -825,7 +825,7 @@ void shortcut_init(void)
 
 #ifndef NANO_TINY
 	add_to_funcs(do_undo, MMAIN,
-		/* TRANSLATORS: Try to keep the next ten strings at most 12 characters. */
+			/* TRANSLATORS: Try to keep the next ten strings at most 12 characters. */
 			N_("Undo"), WHENHELP(undo_gist), TOGETHER);
 	add_to_funcs(do_redo, MMAIN,
 			N_("Redo"), WHENHELP(redo_gist), BLANKAFTER);
@@ -1010,7 +1010,7 @@ void shortcut_init(void)
 
 #ifdef NANO_TINY
 	add_to_funcs(do_search_backward, MMAIN,
-			N_("Where Was"), WHENHELP(wherewas_gist), BLANKAFTER);
+			"Where Was", WHENHELP(wherewas_gist), BLANKAFTER);
 #else
 	add_to_funcs(do_indent, MMAIN,
 			N_("Indent"), WHENHELP(indent_gist), TOGETHER);
