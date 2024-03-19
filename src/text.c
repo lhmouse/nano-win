@@ -1944,6 +1944,9 @@ void justify_text(bool whole_buffer)
 
 		free(secondary_lead);
 		free(primary_lead);
+
+		/* Keep as much of the marked region onscreen as possible. */
+		focusing = FALSE;
 	} else
 #endif
 	{
