@@ -1767,6 +1767,7 @@ void justify_text(bool whole_buffer)
 		/* The length of that later lead. */
 	ssize_t was_the_linenumber = openfile->current->lineno;
 		/* The line to return to after a full justification. */
+	bool marked_backward = (openfile->mark && !mark_is_before_cursor());
 
 	/* TRANSLATORS: This one goes with Undid/Redid messages. */
 	add_undo(COUPLE_BEGIN, N_("justification"));
@@ -1976,7 +1977,7 @@ void justify_text(bool whole_buffer)
 	update_undo(PASTE);
 
 	/* After justifying a backward-marked text, swap mark and cursor. */
-	if (openfile->mark && !mark_is_before_cursor()) {
+	if (marked_backward) {
 		linestruct *bottom = openfile->current;
 		size_t bottom_x = openfile->current_x;
 
