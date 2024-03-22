@@ -984,6 +984,8 @@ Each of these eight names may be prefixed with the word
 @code{light} to get a brighter version of that color.
 The word @code{grey} or @code{gray} may be used
 as a synonym for @code{lightblack}.
+On a Linux console, @code{light} does not have
+any effect for a background color.
 
 On terminal emulators that can do at least 256 colors,
 other valid (but unprefixable) color names are:
@@ -1336,6 +1338,8 @@ Each of these eight names may be prefixed with the word
 @code{light} to get a brighter version of that color.
 The word @code{grey} or @code{gray} may be used
 as a synonym for @code{lightblack}.
+On a Linux console, @code{light} does not have
+any effect for a background color.
 
 On terminal emulators that can do at least 256 colors,
 other valid (but unprefixable) color names are:
