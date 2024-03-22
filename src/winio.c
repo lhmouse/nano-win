@@ -91,7 +91,8 @@ void add_to_macrobuffer(int code)
 /* Remove the last key code plus any leading Esc codes from macro buffer. */
 void snip_last_keystroke(void)
 {
-	macro_length--;
+	if (macro_length > 0)
+		macro_length--;
 	while (macro_length > 0 && macro_buffer[macro_length - 1] == '\x1b')
 		macro_length--;
 }
