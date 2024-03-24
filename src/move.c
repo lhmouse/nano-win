@@ -180,8 +180,14 @@ void do_page_down(void)
 /* Place the cursor on the first row in the viewport. */
 void to_top_row(void)
 {
+	size_t leftedge, offset;
+
+	get_edge_and_target(&leftedge, &offset);
+
 	openfile->current = openfile->edittop;
-	openfile->current_x = actual_x(openfile->current->data, openfile->firstcolumn);
+	leftedge = openfile->firstcolumn;
+
+	set_proper_index_and_pww(&leftedge, offset, FALSE);
 
 	place_the_cursor();
 }
@@ -189,12 +195,15 @@ void to_top_row(void)
 /* Place the cursor on the last row in the viewport, when possible. */
 void to_bottom_row(void)
 {
-	size_t leftedge = openfile->firstcolumn;
+	size_t leftedge, offset;
+
+	get_edge_and_target(&leftedge, &offset);
 
 	openfile->current = openfile->edittop;
+	leftedge = openfile->firstcolumn;
 
 	go_forward_chunks(editwinrows - 1, &openfile->current, &leftedge);
-	openfile->current_x = actual_x(openfile->current->data, leftedge);
+	set_proper_index_and_pww(&leftedge, offset, TRUE);
 
 	place_the_cursor();
 }
