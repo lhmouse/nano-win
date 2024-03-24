@@ -176,6 +176,30 @@ void do_page_down(void)
 	refresh_needed = TRUE;
 }
 
+#ifndef NANO_TINY
+/* Place the cursor on the first row in the viewport. */
+void to_top_row(void)
+{
+	openfile->current = openfile->edittop;
+	openfile->current_x = actual_x(openfile->current->data, openfile->firstcolumn);
+
+	place_the_cursor();
+}
+
+/* Place the cursor on the last row in the viewport, when possible. */
+void to_bottom_row(void)
+{
+	size_t leftedge = openfile->firstcolumn;
+
+	openfile->current = openfile->edittop;
+
+	go_forward_chunks(editwinrows - 1, &openfile->current, &leftedge);
+	openfile->current_x = actual_x(openfile->current->data, leftedge);
+
+	place_the_cursor();
+}
+#endif
+
 #ifdef ENABLE_JUSTIFY
 /* Move to the first beginning of a paragraph before the current line. */
 void do_para_begin(linestruct **line)
