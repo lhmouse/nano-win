@@ -1084,40 +1084,40 @@ short color_to_short(const char *colorname, bool *vivid, bool *thick)
 
 /* Parse the color name (or pair of color names) in the given string.
  * Return FALSE when any color name is invalid; otherwise return TRUE. */
-bool parse_combination(char *combostr, short *fg, short *bg, int *attributes)
+bool parse_combination(char *combotext, short *fg, short *bg, int *attributes)
 {
 	bool vivid, thick;
 	char *comma;
 
 	*attributes = A_NORMAL;
 
-	if (strncmp(combostr, "bold", 4) == 0) {
+	if (strncmp(combotext, "bold", 4) == 0) {
 		*attributes |= A_BOLD;
-		if (combostr[4] != ',') {
+		if (combotext[4] != ',') {
 			jot_error(N_("An attribute requires a subsequent comma"));
 			return FALSE;
 		}
-		combostr += 5;
+		combotext += 5;
 	}
 
-	if (strncmp(combostr, "italic", 6) == 0) {
+	if (strncmp(combotext, "italic", 6) == 0) {
 #ifdef A_ITALIC
 		*attributes |= A_ITALIC;
 #endif
-		if (combostr[6] != ',') {
+		if (combotext[6] != ',') {
 			jot_error(N_("An attribute requires a subsequent comma"));
 			return FALSE;
 		}
-		combostr += 7;
+		combotext += 7;
 	}
 
-	comma = strchr(combostr, ',');
+	comma = strchr(combotext, ',');
 
 	if (comma)
 		*comma = '\0';
 
-	if (!comma || comma > combostr) {
-		*fg = color_to_short(combostr, &vivid, &thick);
+	if (!comma || comma > combotext) {
+		*fg = color_to_short(combotext, &vivid, &thick);
 		if (*fg == BAD_COLOR)
 			return FALSE;
 		if (vivid && !thick && COLORS > 8)
@@ -1230,11 +1230,11 @@ void parse_rule(char *ptr, int rex_flags)
 }
 
 /* Set the colors for the given interface element to the given combination. */
-void set_interface_color(int element, char *combostring)
+void set_interface_color(int element, char *combotext)
 {
 	colortype *trio = nmalloc(sizeof(colortype));
 
-	if (parse_combination(combostring, &trio->fg, &trio->bg, &trio->attributes)) {
+	if (parse_combination(combotext, &trio->fg, &trio->bg, &trio->attributes)) {
 		free(color_combo[element]);
 		color_combo[element] = trio;
 	} else
