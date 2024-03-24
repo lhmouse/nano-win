@@ -1316,6 +1316,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-Ins", ALT_INSERT, put_or_lift_anchor, 0);
 	add_to_sclist(MMAIN, "M-PgUp", ALT_PAGEUP, to_prev_anchor, 0);
 	add_to_sclist(MMAIN, "M-PgDn", ALT_PAGEDOWN, to_next_anchor, 0);
+	add_to_sclist(MMAIN, "M-\"", 0, put_or_lift_anchor, 0);
+	add_to_sclist(MMAIN, "M-'", 0, to_next_anchor, 0);
 #endif
 #ifdef ENABLE_WORDCOMPLETION
 	add_to_sclist(MMAIN, "^]", 0, complete_a_word, 0);
