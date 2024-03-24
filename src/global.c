@@ -104,7 +104,7 @@ int shiftleft, shiftright, shiftup, shiftdown;
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
 int shiftcontrolhome, shiftcontrolend;
 int altleft, altright, altup, altdown;
-int altpageup, altpagedown;
+int althome, altend, altpageup, altpagedown;
 int altinsert, altdelete;
 int shiftaltleft, shiftaltright, shiftaltup, shiftaltdown;
 #endif
@@ -1314,6 +1314,8 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "^Del", CONTROL_DELETE, chop_next_word, 0);
 	add_to_sclist(MMAIN, "M-Del", ALT_DELETE, zap_text, 0);
 	add_to_sclist(MMAIN, "M-Ins", ALT_INSERT, put_or_lift_anchor, 0);
+	add_to_sclist(MMAIN, "M-Home", ALT_HOME, to_top_row, 0);
+	add_to_sclist(MMAIN, "M-End", ALT_END, to_bottom_row, 0);
 	add_to_sclist(MMAIN, "M-PgUp", ALT_PAGEUP, to_prev_anchor, 0);
 	add_to_sclist(MMAIN, "M-PgDn", ALT_PAGEDOWN, to_next_anchor, 0);
 	add_to_sclist(MMAIN, "M-\"", 0, put_or_lift_anchor, 0);

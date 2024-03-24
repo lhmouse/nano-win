@@ -1173,6 +1173,10 @@ int parse_kbinput(WINDOW *frame)
 		return ALT_UP;
 	else if (keycode == altdown)
 		return ALT_DOWN;
+	else if (keycode == althome)
+		return ALT_HOME;
+	else if (keycode == altend)
+		return ALT_END;
 	else if (keycode == altpageup)
 		return ALT_PAGEUP;
 	else if (keycode == altpagedown)
@@ -1216,11 +1220,13 @@ int parse_kbinput(WINDOW *frame)
 			if (!meta_key)
 				shift_held = TRUE;
 		}
-		/* Is Alt being held? */
+		/* Is only Alt being held? */
 		if (modifiers == 0x08) {
 			switch (keycode) {
 				case KEY_UP:    return ALT_UP;
 				case KEY_DOWN:  return ALT_DOWN;
+				case KEY_HOME:  return ALT_HOME;
+				case KEY_END:   return ALT_END;
 				case KEY_PPAGE: return ALT_PAGEUP;
 				case KEY_NPAGE: return ALT_PAGEDOWN;
 				case KEY_DC:    return ALT_DELETE;

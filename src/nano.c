@@ -2434,6 +2434,8 @@ int main(int argc, char **argv)
 	altup = get_keycode("kUP3", ALT_UP);
 	altdown = get_keycode("kDN3", ALT_DOWN);
 
+	althome = get_keycode("kHOM3", ALT_HOME);
+	altend = get_keycode("kEND3", ALT_END);
 	altpageup = get_keycode("kPRV3", ALT_PAGEUP);
 	altpagedown = get_keycode("kNXT3", ALT_PAGEDOWN);
 	altinsert = get_keycode("kIC3", ALT_INSERT);

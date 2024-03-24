@@ -195,6 +195,8 @@
 #define ALT_RIGHT     0x422
 #define ALT_UP        0x423
 #define ALT_DOWN      0x424
+#define ALT_HOME      0x425
+#define ALT_END       0x426
 #define ALT_PAGEUP    0x427
 #define ALT_PAGEDOWN  0x428
 #define ALT_INSERT    0x42C
