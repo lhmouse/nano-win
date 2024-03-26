@@ -125,7 +125,7 @@ void run_macro(void)
 	}
 
 	if (macro_length == 0) {
-		statusline(REMARK, _("Macro is empty"));
+		statusline(AHEM, _("Macro is empty"));
 		return;
 	}
 
