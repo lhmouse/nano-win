@@ -1743,7 +1743,7 @@ Toggles between searching for something and replacing something.
 Toggles between searching for text and targeting a line number.
 
 @item flipexecute
-Toggles between inserting a file and executing a command.
+Switches from inserting a file to executing a command.
 
 @item flippipe
 When executing a command, toggles whether the current buffer (or marked
