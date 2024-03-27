@@ -1511,8 +1511,12 @@ void inject(char *burst, size_t count)
 	/* If text was added to the magic line, create a new magic line. */
 	if (thisline == openfile->filebot && !ISSET(NO_NEWLINES)) {
 		new_magicline();
-		if (margin > 0)
-			refresh_needed = TRUE;
+#ifdef ENABLE_COLOR
+		if (margin || (openfile->syntax && openfile->syntax->nmultis))
+#else
+		if (margin)
+#endif
+			update_line(thisline->next, 0);
 	}
 
 	openfile->current_x += count;
