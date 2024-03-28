@@ -1496,10 +1496,6 @@ void inject(char *burst, size_t count)
 	strncpy(thisline->data + openfile->current_x, burst, count);
 
 #ifndef NANO_TINY
-	/* When the mark is to the right of the cursor, compensate its position. */
-	if (thisline == openfile->mark && openfile->current_x < openfile->mark_x)
-		openfile->mark_x += count;
-
 	/* When the cursor is on the top row and not on the first chunk
 	 * of a line, adding text there might change the preceding chunk
 	 * and thus require an adjustment of firstcolumn. */
@@ -1507,7 +1503,17 @@ void inject(char *burst, size_t count)
 		ensure_firstcolumn_is_aligned();
 		refresh_needed = TRUE;
 	}
+
+	/* When the mark is to the right of the cursor, compensate its position. */
+	if (thisline == openfile->mark && openfile->current_x < openfile->mark_x)
+		openfile->mark_x += count;
 #endif
+
+	openfile->current_x += count;
+
+	openfile->totsize += mbstrlen(burst);
+	set_modified();
+
 	/* If text was added to the magic line, create a new magic line. */
 	if (thisline == openfile->filebot && !ISSET(NO_NEWLINES)) {
 		new_magicline();
@@ -1519,11 +1525,6 @@ void inject(char *burst, size_t count)
 			update_line(thisline->next, 0);
 	}
 
-	openfile->current_x += count;
-
-	openfile->totsize += mbstrlen(burst);
-	set_modified();
-
 #ifndef NANO_TINY
 	update_undo(ADD);
 #endif
@@ -1533,19 +1534,19 @@ void inject(char *burst, size_t count)
 		do_wrap();
 #endif
 
+	openfile->placewewant = xplustabs();
+
 #ifndef NANO_TINY
 	/* When softwrapping and the number of chunks in the current line changed,
 	 * or we were on the last row of the edit window and moved to a new chunk,
 	 * we need a full refresh. */
 	if (ISSET(SOFTWRAP) && (extra_chunks_in(openfile->current) != old_amount ||
 					(openfile->current_y == editwinrows - 1 &&
-					chunk_for(xplustabs(), openfile->current) > original_row))) {
+					chunk_for(openfile->placewewant, openfile->current) > original_row))) {
 		refresh_needed = TRUE;
 		focusing = FALSE;
 	}
 #endif
-
-	openfile->placewewant = xplustabs();
 
 #ifdef ENABLE_COLOR
 	if (!refresh_needed)
