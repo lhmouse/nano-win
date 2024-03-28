@@ -240,7 +240,7 @@ void check_the_multis(linestruct *line)
 	char *afterstart;
 
 	/* If there is no syntax or no multiline regex, there is nothing to do. */
-	if (openfile->syntax == NULL || openfile->syntax->nmultis == 0)
+	if (!openfile->syntax || openfile->syntax->multiscore == 0)
 		return;
 
 	if (line->multidata == NULL) {
@@ -293,7 +293,7 @@ void precalc_multicolorinfo(void)
 	regmatch_t startmatch, endmatch;
 	linestruct *line, *tailline;
 
-	if (!openfile->syntax || openfile->syntax->nmultis == 0 || ISSET(NO_SYNTAX))
+	if (!openfile->syntax || openfile->syntax->multiscore == 0 || ISSET(NO_SYNTAX))
 		return;
 
 //#define TIMEPRECALC  123
@@ -305,7 +305,7 @@ void precalc_multicolorinfo(void)
 	/* For each line, allocate cache space for the multiline-regex info. */
 	for (line = openfile->filetop; line != NULL; line = line->next)
 		if (!line->multidata)
-			line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+			line->multidata = nmalloc(openfile->syntax->multiscore * sizeof(short));
 
 	for (ink = openfile->syntax->color; ink != NULL; ink = ink->next) {
 		/* If this is not a multi-line regex, skip it. */

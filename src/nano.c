@@ -1518,7 +1518,7 @@ void inject(char *burst, size_t count)
 	if (thisline == openfile->filebot && !ISSET(NO_NEWLINES)) {
 		new_magicline();
 #ifdef ENABLE_COLOR
-		if (margin || (openfile->syntax && openfile->syntax->nmultis))
+		if (margin || (openfile->syntax && openfile->syntax->multiscore))
 #else
 		if (margin)
 #endif

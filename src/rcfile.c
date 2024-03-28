@@ -679,7 +679,7 @@ void begin_new_syntax(char *ptr)
 	live_syntax->comment = copy_of(GENERAL_COMMENT_CHARACTER);
 #endif
 	live_syntax->color = NULL;
-	live_syntax->nmultis = 0;
+	live_syntax->multiscore = 0;
 
 	/* Hook the new syntax in at the top of the list. */
 	live_syntax->next = syntaxes;
@@ -1223,8 +1223,8 @@ void parse_rule(char *ptr, int rex_flags)
 
 		/* For a multiline rule, give it a number and increase the count. */
 		if (expectend) {
-			newcolor->id = live_syntax->nmultis;
-			live_syntax->nmultis++;
+			newcolor->id = live_syntax->multiscore;
+			live_syntax->multiscore++;
 		}
 	}
 }

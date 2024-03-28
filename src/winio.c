@@ -2595,8 +2595,8 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		const colortype *varnish = openfile->syntax->color;
 
 		/* If there are multiline regexes, make sure this line has a cache. */
-		if (openfile->syntax->nmultis > 0 && line->multidata == NULL)
-			line->multidata = nmalloc(openfile->syntax->nmultis * sizeof(short));
+		if (openfile->syntax->multiscore > 0 && line->multidata == NULL)
+			line->multidata = nmalloc(openfile->syntax->multiscore * sizeof(short));
 
 		/* Iterate through all the coloring regexes. */
 		for (; varnish != NULL; varnish = varnish->next) {

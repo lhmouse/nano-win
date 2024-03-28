@@ -444,7 +444,7 @@ typedef struct syntaxtype {
 #endif
 	colortype *color;
 		/* The colors and their regexes used in this syntax. */
-	short nmultis;
+	short multiscore;
 		/* How many multiline regex strings this syntax has. */
 	struct syntaxtype *next;
 		/* Next syntax. */
