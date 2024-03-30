@@ -861,7 +861,7 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		 * line or chunk on the bottom line of the screen; otherwise, just
 		 * center the target line. */
 		if (rows_from_tail < editwinrows / 2 && !ISSET(JUMPY_SCROLLING)) {
-			openfile->current_y = editwinrows - 1 - rows_from_tail;
+			openfile->cursor_row = editwinrows - 1 - rows_from_tail;
 			adjust_viewport(STATIONARY);
 		} else
 			adjust_viewport(CENTERING);

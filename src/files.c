@@ -73,7 +73,7 @@ void make_new_buffer(void)
 	openfile->current = openfile->filetop;
 	openfile->current_x = 0;
 	openfile->placewewant = 0;
-	openfile->current_y = 0;
+	openfile->cursor_row = 0;
 
 	openfile->edittop = openfile->filetop;
 	openfile->firstcolumn = 0;

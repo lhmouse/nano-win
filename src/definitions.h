@@ -561,8 +561,8 @@ typedef struct openfilestruct {
 		/* The file's x-coordinate position. */
 	size_t placewewant;
 		/* The file's x position we would like. */
-	ssize_t current_y;
-		/* The file's y-coordinate position. */
+	ssize_t cursor_row;
+		/* The row in the edit window that the cursor is on. */
 	struct stat *statinfo;
 		/* The file's stat information from when it was opened or last saved. */
 #ifdef ENABLE_WRAPPING

@@ -618,12 +618,12 @@ void do_undo(void)
 	case COUPLE_BEGIN:
 		undidmsg = u->strdata;
 		goto_line_posx(u->head_lineno, u->head_x);
-		openfile->current_y = u->tail_lineno;
+		openfile->cursor_row = u->tail_lineno;
 		adjust_viewport(STATIONARY);
 		break;
 	case COUPLE_END:
 		/* Remember the row of the cursor for a possible redo. */
-		openfile->current_undo->head_lineno = openfile->current_y;
+		openfile->current_undo->head_lineno = openfile->cursor_row;
 		openfile->current_undo = openfile->current_undo->next;
 		do_undo();
 		do_undo();
@@ -796,7 +796,7 @@ void do_redo(void)
 	case COUPLE_END:
 		redidmsg = u->strdata;
 		goto_line_posx(u->tail_lineno, u->tail_x);
-		openfile->current_y = u->head_lineno;
+		openfile->cursor_row = u->head_lineno;
 		adjust_viewport(STATIONARY);
 		break;
 	case INDENT:
@@ -1075,7 +1075,7 @@ void add_undo(undo_type action, const char *message)
 			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 	case COUPLE_BEGIN:
-		u->tail_lineno = openfile->current_y;
+		u->tail_lineno = openfile->cursor_row;
 		/* Fall-through. */
 	case COUPLE_END:
 		u->strdata = copy_of(_(message));
@@ -3025,7 +3025,7 @@ void do_verbatim_input(void)
 
 #ifndef NANO_TINY
 	/* When barless and with cursor on bottom row, make room for the feedback. */
-	if (ISSET(ZERO) && openfile->current_y == editwinrows - 1 && LINES > 1) {
+	if (ISSET(ZERO) && openfile->cursor_row == editwinrows - 1 && LINES > 1) {
 		edit_scroll(FORWARD);
 		edit_refresh();
 	}

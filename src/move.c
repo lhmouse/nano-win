@@ -41,7 +41,7 @@ void to_last_line(void)
 	openfile->placewewant = xplustabs();
 
 	/* Set the last line of the screen as the target for the cursor. */
-	openfile->current_y = editwinrows - 1;
+	openfile->cursor_row = editwinrows - 1;
 
 	refresh_needed = TRUE;
 #ifdef ENABLE_COLOR
@@ -124,7 +124,7 @@ void do_page_up(void)
 	if (ISSET(JUMPY_SCROLLING)) {
 		openfile->current = openfile->edittop;
 		leftedge = openfile->firstcolumn;
-		openfile->current_y = 0;
+		openfile->cursor_row = 0;
 		target_column = 0;
 	} else
 #endif
@@ -156,7 +156,7 @@ void do_page_down(void)
 	if (ISSET(JUMPY_SCROLLING)) {
 		openfile->current = openfile->edittop;
 		leftedge = openfile->firstcolumn;
-		openfile->current_y = 0;
+		openfile->cursor_row = 0;
 		target_column = 0;
 	} else
 #endif
@@ -559,7 +559,7 @@ void do_up(void)
 
 	set_proper_index_and_pww(&leftedge, target_column, FALSE);
 
-	if (openfile->current_y == 0 && !ISSET(JUMPY_SCROLLING))
+	if (openfile->cursor_row == 0 && !ISSET(JUMPY_SCROLLING))
 		edit_scroll(BACKWARD);
 	else
 		edit_redraw(was_current, FLOWING);
@@ -582,7 +582,7 @@ void do_down(void)
 
 	set_proper_index_and_pww(&leftedge, target_column, TRUE);
 
-	if (openfile->current_y == editwinrows - 1 && !ISSET(JUMPY_SCROLLING))
+	if (openfile->cursor_row == editwinrows - 1 && !ISSET(JUMPY_SCROLLING))
 		edit_scroll(FORWARD);
 	else
 		edit_redraw(was_current, FLOWING);
@@ -599,7 +599,7 @@ void do_scroll_up(void)
 	if (openfile->edittop->prev == NULL && openfile->firstcolumn == 0)
 		return;
 
-	if (openfile->current_y == editwinrows - 1)
+	if (openfile->cursor_row == editwinrows - 1)
 		do_up();
 
 	if (editwinrows > 1)
@@ -609,7 +609,7 @@ void do_scroll_up(void)
 /* Scroll down one line or chunk without moving the cursor textwise. */
 void do_scroll_down(void)
 {
-	if (openfile->current_y == 0)
+	if (openfile->cursor_row == 0)
 		do_down();
 
 	if (editwinrows > 1 && (openfile->edittop->next != NULL

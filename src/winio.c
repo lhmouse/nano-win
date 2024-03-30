@@ -2503,8 +2503,8 @@ void bottombars(int menu)
 	wrefresh(footwin);
 }
 
-/* Redetermine current_y from the position of current relative to edittop,
- * and put the cursor in the edit window at (current_y, "current_x"). */
+/* Redetermine `cursor_row` from the position of current relative to edittop,
+ * and put the cursor in the edit window at (cursor_row, "current_x"). */
 void place_the_cursor(void)
 {
 	ssize_t row = 0;
@@ -2544,7 +2544,7 @@ void place_the_cursor(void)
 	wnoutrefresh(midwin);  /* Only needed for NetBSD curses. */
 #endif
 
-	openfile->current_y = row;
+	openfile->cursor_row = row;
 }
 
 /* The number of bytes after which to stop painting, to avoid major slowdowns. */
@@ -3461,7 +3461,7 @@ void adjust_viewport(update_type manner)
 	int goal = 0;
 
 	if (manner == STATIONARY)
-		goal = openfile->current_y;
+		goal = openfile->cursor_row;
 	else if (manner == CENTERING)
 		goal = editwinrows / 2;
 	else if (!current_is_above_screen())
@@ -3554,7 +3554,7 @@ void spotlight(size_t from_col, size_t to_col)
 	wattron(midwin, interface_color_pair[SPOTLIGHTED]);
 	waddnstr(midwin, word, actual_x(word, to_col));
 	if (overshoots)
-		mvwaddch(midwin, openfile->current_y, COLS - 1 - sidebar, '>');
+		mvwaddch(midwin, openfile->cursor_row, COLS - 1 - sidebar, '>');
 	wattroff(midwin, interface_color_pair[SPOTLIGHTED]);
 
 	free(word);
@@ -3572,7 +3572,7 @@ void spotlight_softwrapped(size_t from_col, size_t to_col)
 	char *word;
 
 	place_the_cursor();
-	row = openfile->current_y;
+	row = openfile->cursor_row;
 
 	while (row < editwinrows) {
 		break_col = get_softwrap_breakpoint(openfile->current->data,

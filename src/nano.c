@@ -1335,12 +1335,11 @@ int do_mouse(void)
 	/* If the click was in the edit window, put the cursor in that spot. */
 	if (wmouse_trafo(midwin, &click_row, &click_col, FALSE)) {
 		linestruct *current_save = openfile->current;
-		ssize_t row_count = click_row - openfile->current_y;
+		ssize_t row_count = click_row - openfile->cursor_row;
 		size_t leftedge;
 #ifndef NANO_TINY
 		size_t current_x_save = openfile->current_x;
-		bool sameline = (click_row == openfile->current_y);
-			/* Whether the click was on the row where the cursor is. */
+		bool sameline = (click_row == openfile->cursor_row);
 
 		if (ISSET(SOFTWRAP))
 			leftedge = leftedge_for(xplustabs(), openfile->current);
@@ -1468,7 +1467,7 @@ void inject(char *burst, size_t count)
 	size_t old_amount = 0;
 
 	if (ISSET(SOFTWRAP)) {
-		if (openfile->current_y == editwinrows - 1)
+		if (openfile->cursor_row == editwinrows - 1)
 			original_row = chunk_for(xplustabs(), thisline);
 		old_amount = extra_chunks_in(thisline);
 	}
@@ -1522,7 +1521,7 @@ void inject(char *burst, size_t count)
 #else
 		if (margin)
 #endif
-			if (openfile->current_y < editwinrows - 1)
+			if (openfile->cursor_row < editwinrows - 1)
 				update_line(thisline->next, 0);
 	}
 
@@ -1542,7 +1541,7 @@ void inject(char *burst, size_t count)
 	 * or we were on the last row of the edit window and moved to a new chunk,
 	 * we need a full refresh. */
 	if (ISSET(SOFTWRAP) && (extra_chunks_in(openfile->current) != old_amount ||
-					(openfile->current_y == editwinrows - 1 &&
+					(openfile->cursor_row == editwinrows - 1 &&
 					chunk_for(openfile->placewewant, openfile->current) > original_row))) {
 		refresh_needed = TRUE;
 		focusing = FALSE;
@@ -2642,7 +2641,7 @@ int main(int argc, char **argv)
 		/* In barless mode, either redraw a relevant status message,
 		 * or overwrite a minor, redundant one. */
 		if (ISSET(ZERO) && lastmessage > HUSH) {
-			if (openfile->current_y == editwinrows - 1 && LINES > 1) {
+			if (openfile->cursor_row == editwinrows - 1 && LINES > 1) {
 				edit_scroll(FORWARD);
 				wnoutrefresh(midwin);
 			}
