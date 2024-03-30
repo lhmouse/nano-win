@@ -1334,11 +1334,11 @@ int do_mouse(void)
 
 	/* If the click was in the edit window, put the cursor in that spot. */
 	if (wmouse_trafo(midwin, &click_row, &click_col, FALSE)) {
-		linestruct *current_save = openfile->current;
+		linestruct *was_current = openfile->current;
 		ssize_t row_count = click_row - openfile->cursor_row;
 		size_t leftedge;
 #ifndef NANO_TINY
-		size_t current_x_save = openfile->current_x;
+		size_t was_x = openfile->current_x;
 
 		if (ISSET(SOFTWRAP))
 			leftedge = leftedge_for(xplustabs(), openfile->current);
@@ -1356,9 +1356,8 @@ int do_mouse(void)
 								actual_last_column(leftedge, click_col));
 
 #ifndef NANO_TINY
-		/* Clicking where the cursor is toggles the mark, as does clicking
-		 * beyond the line length with the cursor at the end of the line. */
-		if (row_count == 0 && openfile->current_x == current_x_save) {
+		/* Clicking there where the cursor is toggles the mark. */
+		if (row_count == 0 && openfile->current_x == was_x) {
 			do_mark();
 			if (ISSET(STATEFLAGS))
 				titlebar(NULL);
@@ -1367,7 +1366,7 @@ int do_mouse(void)
 			/* The cursor moved; clean the cutbuffer on the next cut. */
 			keep_cutbuffer = FALSE;
 
-		edit_redraw(current_save, CENTERING);
+		edit_redraw(was_current, CENTERING);
 	}
 
 	/* No more handling is needed. */
