@@ -2914,11 +2914,8 @@ int update_softwrapped_line(linestruct *line)
 	}
 
 	/* If the first chunk is offscreen, don't even try to display it. */
-	if (row < 0 || row >= editwinrows) {
-		statusline(ALERT, "Badness: tried to display a chunk on row %i"
-								" -- please report a bug", row);
+	if (row < 0 || row >= editwinrows)
 		return 0;
-	}
 
 	starting_row = row;
 
