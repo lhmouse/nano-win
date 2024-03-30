@@ -67,8 +67,8 @@ void help_init(void)
 		htx[2] = NULL;
 	} else if (currmenu == MREPLACEWITH) {
 		htx[0] = N_("=== Replacement ===\n\n "
-				"Type the characters that should replace the characters that "
-				"you typed at the previous prompt, and press Enter.\n\n");
+				"Type the characters that should replace what you "
+				"typed at the previous prompt, and press Enter.\n\n");
 		htx[1] = N_(" The following function keys "
 				"are available at this prompt:\n\n");
 		htx[2] = NULL;
