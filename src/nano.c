@@ -1522,7 +1522,8 @@ void inject(char *burst, size_t count)
 #else
 		if (margin)
 #endif
-			update_line(thisline->next, 0);
+			if (openfile->current_y < editwinrows - 1)
+				update_line(thisline->next, 0);
 	}
 
 #ifndef NANO_TINY
