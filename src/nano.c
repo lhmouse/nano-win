@@ -1339,7 +1339,6 @@ int do_mouse(void)
 		size_t leftedge;
 #ifndef NANO_TINY
 		size_t current_x_save = openfile->current_x;
-		bool sameline = (click_row == openfile->cursor_row);
 
 		if (ISSET(SOFTWRAP))
 			leftedge = leftedge_for(xplustabs(), openfile->current);
@@ -1359,7 +1358,7 @@ int do_mouse(void)
 #ifndef NANO_TINY
 		/* Clicking where the cursor is toggles the mark, as does clicking
 		 * beyond the line length with the cursor at the end of the line. */
-		if (sameline && openfile->current_x == current_x_save) {
+		if (row_count == 0 && openfile->current_x == current_x_save) {
 			do_mark();
 			if (ISSET(STATEFLAGS))
 				titlebar(NULL);
