@@ -830,6 +830,8 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 
 	if (!writable)
 		statusline(ALERT, _("File '%s' is unwritable"), filename);
+	else if ((ISSET(ZERO) || ISSET(MINIBAR)) && !(we_are_running && undoable))
+		;  /* No blurb for new buffers with --zero or --mini. */
 #ifndef NANO_TINY
 	else if (format == MAC_FILE)
 		/* TRANSLATORS: Keep the next three messages at most 78 characters. */
@@ -841,7 +843,7 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 						"Read %zu lines (Converted from DOS format)",
 						num_lines), num_lines);
 #endif
-	else if ((!ISSET(MINIBAR) && !ISSET(ZERO)) || (we_are_running && undoable))
+	else
 		statusline(REMARK, P_("Read %zu line", "Read %zu lines",
 						num_lines), num_lines);
 
