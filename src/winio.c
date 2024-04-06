@@ -2215,8 +2215,12 @@ void minibar(void)
 	if (report_size && COLS > 35) {
 		size_t count = openfile->filebot->lineno - (openfile->filebot->data[0] == '\0');
 
-		number_of_lines = nmalloc(44);
-		sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
+		number_of_lines = nmalloc(49);
+		if (openfile->fmt == NIX_FILE)
+			sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
+		else
+			sprintf(number_of_lines, P_(" (%zu line, %s)", " (%zu lines, %s)", count),
+								count, (openfile->fmt == DOS_FILE) ? "DOS" : "Mac");
 		tallywidth = breadth(number_of_lines);
 		if (namewidth + tallywidth + 11 < COLS)
 			waddstr(footwin, number_of_lines);
