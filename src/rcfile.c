@@ -354,6 +354,12 @@ keystruct *strtosc(const char *input)
 		s->func = to_prev_block;
 	else if (!strcmp(input, "nextblock"))
 		s->func = to_next_block;
+#ifndef NANO_TINY
+	else if (!strcmp(input, "toprow"))
+		s->func = to_top_row;
+	else if (!strcmp(input, "bottomrow"))
+		s->func = to_bottom_row;
+#endif
 	else if (!strcmp(input, "pageup") ||
 	         !strcmp(input, "prevpage"))
 		s->func = do_page_up;
