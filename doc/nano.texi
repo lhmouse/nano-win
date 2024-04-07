@@ -1648,6 +1648,12 @@ Moves the cursor to the beginning of the current or preceding block of text.
 @item nextblock
 Moves the cursor to the beginning of the next block of text.
 
+@item toprow
+Moves the cursor to the first row in the viewport.
+
+@item bottomrow
+Moves the cursor to the last row in the viewport.
+
 @item pageup
 Goes up one screenful.
 
