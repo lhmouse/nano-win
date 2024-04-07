@@ -872,9 +872,9 @@ bool scoop_stdin(void)
 	/* Set up a signal handler so that ^C will stop the reading. */
 	install_handler_for_Ctrl_C();
 
-	/* Read the input into a new buffer. */
+	/* Read the input into a new buffer, undoably. */
 	make_new_buffer();
-	read_file(stream, 0, "stdin", TRUE);
+	read_file(stream, 0, "stdin", FALSE);
 #ifdef ENABLE_COLOR
 	find_and_prime_applicable_syntax();
 #endif
