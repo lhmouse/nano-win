@@ -878,6 +878,13 @@ void do_enter(void)
 	strcpy(&newnode->data[extra], openfile->current->data +
 										openfile->current_x);
 #ifndef NANO_TINY
+	/* Adjust the mark if it is on the current line after the cursor. */
+	if (openfile->mark == openfile->current &&
+				openfile->mark_x > openfile->current_x) {
+		openfile->mark = newnode;
+		openfile->mark_x += extra - openfile->current_x;
+	}
+
 	if (ISSET(AUTOINDENT)) {
 		/* Copy the whitespace from the sample line to the new one. */
 		strncpy(newnode->data, sampleline->data, extra);
@@ -892,13 +899,6 @@ void do_enter(void)
 
 #ifndef NANO_TINY
 	add_undo(ENTER, NULL);
-
-	/* Adjust the mark if it was on the current line after the cursor. */
-	if (openfile->mark == openfile->current &&
-				openfile->mark_x > openfile->current_x) {
-		openfile->mark = newnode;
-		openfile->mark_x += extra - openfile->current_x;
-	}
 #endif
 
 	/* Insert the newly created line after the current one and renumber. */
