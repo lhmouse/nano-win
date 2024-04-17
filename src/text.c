@@ -1339,6 +1339,12 @@ void do_wrap(void)
 	/* Now split the line. */
 	do_enter();
 
+#ifndef NANO_TINY
+	/* When wrapping a partially visible line, adjust start-of-screen. */
+	if (openfile->edittop == line && openfile->firstcolumn > 0 && cursor_x >= wrap_loc)
+		go_forward_chunks(1, &openfile->edittop, &openfile->firstcolumn);
+#endif
+
 #ifdef ENABLE_JUSTIFY
 	/* If the original line has quoting, copy it to the spillage line. */
 	if (quot_len > 0) {
