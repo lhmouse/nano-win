@@ -759,6 +759,7 @@ void do_redo(void)
 			do_redo();
 		u = openfile->current_undo;
 		goto_line_posx(u->head_lineno, u->head_x);
+		ensure_firstcolumn_is_aligned();
 		break;
 	case SPLIT_END:
 		redidmsg = _("addition");
