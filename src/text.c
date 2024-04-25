@@ -1307,18 +1307,18 @@ void do_wrap(void)
 		}
 
 		/* Join the next line to this one. */
-		do_delete();
+		expunge(DEL);
 
 #ifdef ENABLE_JUSTIFY
 		/* If the leading part of the current line equals the leading part of
 		 * what was the next line, then strip this second leading part. */
 		if (strncmp(line->data, line->data + openfile->current_x, lead_len) == 0)
 			for (size_t i = lead_len; i > 0; i--)
-				do_delete();
+				expunge(DEL);
 #endif
 		/* Remove any extra blanks. */
 		while (is_blank_char(&line->data[openfile->current_x]))
-			do_delete();
+			expunge(DEL);
 	}
 
 	/* Go to the wrap location. */
@@ -1332,7 +1332,7 @@ void do_wrap(void)
 		while ((rear_x != typed_x || cursor_x >= wrap_loc) &&
 						is_blank_char(line->data + rear_x)) {
 			openfile->current_x = rear_x;
-			do_delete();
+			expunge(DEL);
 			rear_x = step_left(line->data, rear_x);
 		}
 	}

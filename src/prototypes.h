@@ -253,6 +253,7 @@ void precalc_multicolorinfo(void);
 #endif
 
 /* Most functions in cut.c. */
+void expunge(undo_type action);
 void do_delete(void);
 void do_backspace(void);
 #ifndef NANO_TINY
