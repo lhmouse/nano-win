@@ -79,6 +79,8 @@ static int *macro_buffer = NULL;
 		/* A buffer where the recorded key codes are stored. */
 static size_t macro_length = 0;
 		/* The current length of the macro. */
+static size_t milestone = 0;
+		/* Where the last burst of recorded keystrokes started. */
 
 /* Add the given code to the macro buffer. */
 void add_to_macrobuffer(int code)
@@ -86,15 +88,6 @@ void add_to_macrobuffer(int code)
 	macro_length++;
 	macro_buffer = nrealloc(macro_buffer, macro_length * sizeof(int));
 	macro_buffer[macro_length - 1] = code;
-}
-
-/* Remove the last key code plus any leading Esc codes from macro buffer. */
-void snip_last_keystroke(void)
-{
-	if (macro_length > 0)
-		macro_length--;
-	while (macro_length > 0 && macro_buffer[macro_length - 1] == '\x1b')
-		macro_length--;
 }
 
 /* Start or stop the recording of keystrokes. */
@@ -106,7 +99,8 @@ void record_macro(void)
 		macro_length = 0;
 		statusline(REMARK, _("Recording a macro..."));
 	} else {
-		snip_last_keystroke();
+		/* Snip the keystroke that invoked this function. */
+		macro_length = milestone;
 		statusline(REMARK, _("Stopped recording"));
 	}
 
@@ -120,7 +114,7 @@ void run_macro(void)
 {
 	if (recording) {
 		statusline(AHEM, _("Cannot run macro while recording"));
-		snip_last_keystroke();
+		macro_length = milestone;
 		return;
 	}
 
@@ -280,6 +274,9 @@ void read_keys_from(WINDOW *frame)
 	/* If we got a SIGWINCH, get out as the frame argument is no longer valid. */
 	if (input == KEY_WINCH)
 		return;
+
+	/* Remember where the recording of this keystroke (or burst of them) started. */
+	milestone = macro_length;
 #endif
 
 	/* Read in any remaining key codes using non-blocking input. */
