@@ -1,3 +1,28 @@
+2024.05.01 - GNU nano 8.0 "Grus grus"
+• By default ^F is bound to starting a forward search, and ^B to
+  starting a backward search, while M-F and M-B repeat the search
+  in the corresponding direction.  (See the documentation if you
+  want the old bindings back.)
+• Command-line option --modernbindings (-/) makes ^Q quit, ^X cut,
+  ^C copy, ^V paste, ^Z undo, ^Y redo, ^O open a file, ^W write a
+  file, ^R replace, ^G find again, ^D find again backwards, ^A set
+  the mark, ^T jump to a line, ^P show the position, and ^E execute.
+• Above modern bindings are activated also when the name of nano's
+  executable (or a symlink to it) starts with the letter "e".
+• To open a file at a certain line number, one can now use also
+  `nano filename:number`, besides `nano +number filename`.
+• <Alt+Home> and <Alt+End> put the cursor on the first and last
+  row in the viewport, while retaining the horizontal position.
+• When the three digits in an #RGB color code are all the same,
+  the code is mapped to the xterm grey scale, giving access to
+  fourteen levels of grey instead of just four.
+• For easier access, M-" is bound to placing/removing an anchor,
+  and M-' to jumping to the next anchor.
+• Whenever an error occurs, the keystroke buffer is cleared, thus
+  stopping the execution of a macro or a string bind.
+• The mousewheel scrolls the viewport instead of moving the cursor.
+
+
 2023.01.18 - GNU nano 7.2 "Boer doe mij 't hekke lös!"
 • <Shift+Insert> is prevented from pasting in view mode.
 
