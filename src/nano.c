@@ -41,6 +41,9 @@
 #ifdef __linux__
 #include <sys/vt.h>
 #endif
+#define WIN32_LEAN_AND_MEAN 1
+#include <windows.h>
+#include <shlobj.h>
 
 #ifdef ENABLE_MULTIBUFFER
 #define read_them_all  TRUE
@@ -230,10 +233,6 @@ void restore_terminal(void)
 {
 	curs_set(1);
 	endwin();
-#ifndef NANO_TINY
-	printf("\x1B[?2004l");
-	fflush(stdout);
-#endif
 	tcsetattr(STDIN_FILENO, TCSANOW, &original_state);
 }
 
@@ -848,7 +847,7 @@ void restore_handler_for_Ctrl_C(void)
 /* Reconnect standard input to the tty, and store its state. */
 void reconnect_and_store_state(void)
 {
-	int thetty = open("/dev/tty", O_RDONLY);
+	int thetty = open("CONIN$", O_RDONLY);
 
 	if (thetty < 0 || dup2(thetty, STDIN_FILENO) < 0)
 		die(_("Could not reconnect stdin to keyboard\n"));
@@ -864,18 +863,22 @@ void reconnect_and_store_state(void)
 bool scoop_stdin(void)
 {
 	FILE *stream;
+	int fd;
 
 	restore_terminal();
 
 	/* When input comes from a terminal, show a helpful message. */
-	if (isatty(STDIN_FILENO))
+	if (GetConsoleWindow() != NULL)
 		fprintf(stderr, _("Reading data from keyboard; "
-							"type ^D or ^D^D to finish.\n"));
+							"type ^Z to finish.\n"));
 
 	/* Open standard input. */
-	stream = fopen("/dev/stdin", "rb");
+	fd = dup(0);
+	stream = fdopen(fd, "rb");
 	if (stream == NULL) {
 		int errnumber = errno;
+		if(fd != -1)
+			close(fd);
 
 		terminal_init();
 		doupdate();
@@ -1240,12 +1243,6 @@ void terminal_init(void)
 		enable_flow_control();
 
 	disable_kb_interrupt();
-
-#ifndef NANO_TINY
-	/* Tell the terminal to enable bracketed pastes. */
-	printf("\x1B[?2004h");
-	fflush(stdout);
-#endif
 }
 
 /* Ask ncurses for a keycode, or assign a default one. */
@@ -1843,6 +1840,9 @@ int main(int argc, char **argv)
 		{NULL, 0, NULL, 0}
 	};
 
+  /* Set default file mode to binary, as on Linux. */
+  _set_fmode(_O_BINARY);
+
 #ifdef __linux__
 	struct vt_stat dummy;
 
@@ -1863,7 +1863,7 @@ int main(int argc, char **argv)
 #ifdef ENABLE_UTF8
 	/* If setting the locale is successful and it uses UTF-8, we will
 	 * need to use the multibyte functions for text processing. */
-	if (setlocale(LC_ALL, "") && strcmp(nl_langinfo(CODESET), "UTF-8") == 0)
+	if (setlocale(LC_ALL, ".65001") && GetConsoleCP() == 65001)
 		using_utf8 = TRUE;
 #else
 	setlocale(LC_ALL, "");
@@ -2153,13 +2153,8 @@ int main(int argc, char **argv)
 		}
 	}
 
-#ifndef NANO_TINY
-	set_up_sigwinch_handler();
-#endif
-
-	/* Curses needs TERM; if it is unset, try falling back to a VT220. */
-	if (getenv("TERM") == NULL)
-		putenv("TERM=vt220");
+	/* Always use the Windows console driver. */
+	putenv("TERM=#win32con");
 
 	/* Enter into curses mode.  Abort if this fails. */
 	if (initscr() == NULL)
@@ -2619,7 +2614,7 @@ int main(int argc, char **argv)
 	UNSET(NOREAD_MODE);
 
 	/* Nano is a hands-on editor -- it needs a keyboard. */
-	if (!isatty(STDIN_FILENO))
+	if (GetConsoleWindow() == NULL)
 		die(_("Standard input is not a terminal\n"));
 
 	/* If no filenames were given, or all of them were invalid things like
