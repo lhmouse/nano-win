@@ -6,7 +6,9 @@ gnulib_hash="f1daedcb4c6c653dfc2936847dfe55f5a076d94b"
 
 modules="
 	canonicalize-lgpl
+	fsync
 	futimens
+	getcwd
 	getdelim
 	getline
 	getopt-gnu
