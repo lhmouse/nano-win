@@ -2213,7 +2213,7 @@ void minibar(void)
 		size_t count = openfile->filebot->lineno - (openfile->filebot->data[0] == '\0');
 
 		number_of_lines = nmalloc(49);
-		if (openfile->fmt == NIX_FILE)
+		if (openfile->fmt == NIX_FILE || openfile->fmt == UNSPECIFIED)
 			sprintf(number_of_lines, P_(" (%zu line)", " (%zu lines)", count), count);
 		else
 			sprintf(number_of_lines, P_(" (%zu line, %s)", " (%zu lines, %s)", count),
