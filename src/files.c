@@ -1015,7 +1015,7 @@ void send_data(const linestruct *line, int fd)
 /* Execute the given command in a shell. */
 void execute_command(const char *command)
 {
-#if defined(HAVE_FORK) && defined(HAVE_PIPE) && defined(HAVE_WAIT)
+#if defined(HAVE_FORK) && defined(HAVE_PIPE) && defined(HAVE_WAITPID)
 	int from_fd[2], to_fd[2];
 		/* The pipes through which text will be written and read. */
 	struct sigaction oldaction, newaction = {{0}};
