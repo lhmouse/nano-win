@@ -126,29 +126,30 @@ bool parse_num(const char *string, ssize_t *result)
 	return TRUE;
 }
 
-/* Read two numbers, separated by a comma, from str, and store them in
- * *line and *column.  Return FALSE on error, and TRUE otherwise. */
-bool parse_line_column(const char *str, ssize_t *line, ssize_t *column)
+/* Read one number (or two numbers separated by comma, period, or colon)
+ * from the given string and store the number(s) in *line (and *column).
+ * Return FALSE on a failed parsing, and TRUE otherwise. */
+bool parse_line_column(const char *string, ssize_t *line, ssize_t *column)
 {
 	const char *comma;
 	char *firstpart;
 	bool retval;
 
-	while (*str == ' ')
-		str++;
+	while (*string == ' ')
+		string++;
 
-	comma = strpbrk(str, ",.:");
+	comma = strpbrk(string, ",.:");
 
 	if (comma == NULL)
-		return parse_num(str, line);
+		return parse_num(string, line);
 
 	retval = parse_num(comma + 1, column);
 
-	if (comma == str)
+	if (comma == string)
 		return retval;
 
-	firstpart = copy_of(str);
-	firstpart[comma - str] = '\0';
+	firstpart = copy_of(string);
+	firstpart[comma - string] = '\0';
 
 	retval = parse_num(firstpart, line) && retval;
 
