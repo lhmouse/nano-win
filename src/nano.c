@@ -2495,18 +2495,23 @@ int main(int argc, char **argv)
 		{
 			char *filename = argv[optind++];
 			char *colon = filename + (*filename ? 1 : 0);
+			struct stat fileinfo;
 
 			/* Search the filename for a colon.  If the colon is preceded by
 			 * a backslash, elide the backslash and skip the colon.  If there
 			 * is a valid number after the colon, chop colon and number off.
 			 * The number is later used to place the cursor on that line. */
+			if (strchr(filename, ':') && stat(filename, &fileinfo) < 0) {
 			while ((colon = strchr(colon, ':'))) {
 				if (*(colon - 1) == '\\')
 					memmove(colon - 1, colon, strlen(colon) + 1);
-				else if (parse_line_column(colon + 1, &givenline, &givencol))
+				else if (parse_line_column(colon + 1, &givenline, &givencol)) {
 					*colon = '\0';
-				else
+					if (stat(filename, &fileinfo) < 0)
+						*colon++ = ':';
+				} else
 					++colon;
+			}
 			}
 
 			if (!open_buffer(filename, TRUE))
