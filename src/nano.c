@@ -2494,24 +2494,26 @@ int main(int argc, char **argv)
 #endif
 		{
 			char *filename = argv[optind++];
-			char *colon = filename + (*filename ? 1 : 0);
 			struct stat fileinfo;
 
-			/* Search the filename for a colon.  If the colon is preceded by
-			 * a backslash, elide the backslash and skip the colon.  If there
-			 * is a valid number after the colon, chop colon and number off.
+			/* If the filename contains a colon and this file does not exist,
+			 * then check if the filename ends with a number (while skipping
+			 * any colon preceded by a backslash and eliding the backslash).
+			 * If there is a valid trailing number, chop colon and number off.
 			 * The number is later used to place the cursor on that line. */
 			if (strchr(filename, ':') && stat(filename, &fileinfo) < 0) {
-			while ((colon = strchr(colon, ':'))) {
-				if (*(colon - 1) == '\\')
-					memmove(colon - 1, colon, strlen(colon) + 1);
-				else if (parse_line_column(colon + 1, &givenline, &givencol)) {
-					*colon = '\0';
-					if (stat(filename, &fileinfo) < 0)
-						*colon++ = ':';
-				} else
-					++colon;
-			}
+				char *colon = filename + (*filename ? 1 : 0);
+
+				while ((colon = strchr(colon, ':'))) {
+					if (*(colon - 1) == '\\')
+						memmove(colon - 1, colon, strlen(colon) + 1);
+					else if (parse_line_column(colon + 1, &givenline, &givencol)) {
+						*colon = '\0';
+						if (stat(filename, &fileinfo) < 0)
+							*colon++ = ':';
+					} else
+						++colon;
+				}
 			}
 
 			if (!open_buffer(filename, TRUE))
