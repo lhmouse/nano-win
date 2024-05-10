@@ -2509,8 +2509,10 @@ int main(int argc, char **argv)
 						memmove(colon - 1, colon, strlen(colon) + 1);
 					else if (parse_line_column(colon + 1, &givenline, &givencol)) {
 						*colon = '\0';
-						if (stat(filename, &fileinfo) < 0)
+						if (stat(filename, &fileinfo) < 0) {
 							*colon++ = ':';
+							givencol = 0;
+						}
 					} else
 						++colon;
 				}
