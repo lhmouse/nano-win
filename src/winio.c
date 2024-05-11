@@ -630,6 +630,10 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 								return ALT_RIGHT;
 							case 'D': /* Esc [ 1 ; 3 D == Alt-Left on xterm. */
 								return ALT_LEFT;
+							case 'F': /* Esc [ 1 ; 3 F == Alt-End on xterm. */
+								return ALT_END;
+							case 'H': /* Esc [ 1 ; 3 H == Alt-Home on xterm. */
+								return ALT_HOME;
 						}
 						break;
 					case '4':
