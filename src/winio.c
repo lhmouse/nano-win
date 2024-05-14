@@ -829,8 +829,6 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 #ifndef NANO_TINY
 			else if (length > 1 && seq[1] == '@')
 				return shiftcontrolhome;
-			else if (length > 1 && seq[1] == 0xFE)
-				return ALT_HOME;
 #endif
 			break;
 		case '8': /* Esc [ 8 ~ == End on Eterm/rxvt;
@@ -846,8 +844,6 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 #ifndef NANO_TINY
 			else if (length > 1 && seq[1] == '@')
 				return shiftcontrolend;
-			else if (length > 1 && seq[1] == 0xFE)
-				return ALT_END;
 #endif
 			break;
 		case '9': /* Esc [ 9 == Delete on Mach console. */
@@ -1060,12 +1056,6 @@ int parse_kbinput(WINDOW *frame)
 #endif
 			else if (keycode < 0x20 && !last_escape_was_alone)
 				meta_key = TRUE;
-#ifndef NANO_TINY
-			else if (keycode == KEY_HOME)
-				return ALT_HOME;
-			else if (keycode == KEY_END)
-				return ALT_END;
-#endif
 		} else if (waiting_codes == 0 || nextcodes[0] == ESC_CODE ||
 								(keycode != 'O' && keycode != '[')) {
 			if (!shifted_metas)
