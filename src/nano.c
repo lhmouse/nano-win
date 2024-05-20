@@ -2437,6 +2437,9 @@ int main(int argc, char **argv)
 	mousefocusin = get_keycode("kxIN", FOCUS_IN);
 	mousefocusout = get_keycode("kxOUT", FOCUS_OUT);
 
+	/* Disable the type-ahead checking that ncurses normally does. */
+	typeahead(-1);
+
 #ifdef HAVE_SET_ESCDELAY
 	/* Tell ncurses to pass the Esc key quickly. */
 	set_escdelay(50);
