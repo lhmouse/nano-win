@@ -642,6 +642,9 @@ void usage(void)
 #ifndef NANO_TINY
 	print_opt("-y", "--afterends", N_("Make Ctrl+Right stop at word ends"));
 #endif
+#ifdef ENABLE_COLOR
+	print_opt("-z", "--listsyntaxes", N_("List the names of available syntaxes"));
+#endif
 #ifdef HAVE_LIBMAGIC
 	print_opt("-!", "--magic", N_("Also try magic to determine syntax"));
 #endif
@@ -795,6 +798,27 @@ void version(void)
 #endif
 	printf("\n");
 }
+
+#ifdef ENABLE_COLOR
+/* List the names of the available syntaxes. */
+void list_syntax_names(void)
+{
+	int width = 0;
+
+	printf(_("Available syntaxes:\n"));
+
+	for (syntaxtype *sntx = syntaxes; sntx != NULL; sntx = sntx->next) {
+		if (width > 45) {
+			printf("\n");
+			width = 0;
+		}
+		printf(" %s", sntx->name);
+		width += wideness(sntx->name, 45 * 4);
+	}
+
+	printf("\n");
+}
+#endif
 
 /* Register that Ctrl+C was pressed during some system call. */
 void make_a_note(int signal)
@@ -1773,6 +1797,9 @@ int main(int argc, char **argv)
 		{"nowrap", 0, NULL, 'w'},
 #endif
 		{"nohelp", 0, NULL, 'x'},
+#ifdef ENABLE_COLOR
+		{"listsyntaxes", 0, NULL, 'z'},
+#endif
 		{"modernbindings", 0, NULL, '/'},
 #ifndef NANO_TINY
 		{"smarthome", 0, NULL, 'A'},
@@ -1852,7 +1879,7 @@ int main(int argc, char **argv)
 		SET(MODERN_BINDINGS);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RS$T:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxy!@%_0/", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxyz!@%_0/", long_options, NULL)) > 0) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -2084,6 +2111,14 @@ int main(int argc, char **argv)
 			case 'y':
 				SET(AFTER_ENDS);
 				break;
+#endif
+#ifdef ENABLE_COLOR
+			case 'z':
+				if (!ignore_rcfiles)
+					do_rcfiles();
+				if (syntaxes)
+					list_syntax_names();
+				exit(0);
 #endif
 #ifdef HAVE_LIBMAGIC
 			case '!':
