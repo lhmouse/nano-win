@@ -98,6 +98,7 @@ static const rcoption rcopts[] = {
 	{"backup", MAKE_BACKUP},
 	{"backupdir", 0},
 	{"bookstyle", BOOKSTYLE},
+	{"colonparsing", COLON_PARSING},
 	{"cutfromcursor", CUT_FROM_CURSOR},
 	{"emptyline", EMPTY_LINE},
 	{"guidestripe", 0},

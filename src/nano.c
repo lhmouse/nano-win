@@ -646,6 +646,7 @@ void usage(void)
 	print_opt("-!", "--magic", N_("Also try magic to determine syntax"));
 #endif
 #ifndef NANO_TINY
+	print_opt("-@", "--colonparsing", N_("Accept 'filename:linenumber' notation"));
 	print_opt("-%", "--stateflags", N_("Show some states on the title bar"));
 	print_opt("-_", "--minibar", N_("Show a feedback bar at the bottom"));
 	print_opt("-0", "--zero", N_("Hide all bars, use whole terminal"));
@@ -1799,6 +1800,7 @@ int main(int argc, char **argv)
 		{"indicator", 0, NULL, 'q'},
 		{"unix", 0, NULL, 'u'},
 		{"afterends", 0, NULL, 'y'},
+		{"colonparsing", 0, NULL, '@'},
 		{"stateflags", 0, NULL, '%'},
 		{"minibar", 0, NULL, '_'},
 		{"zero", 0, NULL, '0'},
@@ -1850,7 +1852,7 @@ int main(int argc, char **argv)
 		SET(MODERN_BINDINGS);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RS$T:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxy!%_0/", long_options, NULL)) != -1) {
+				"abcdef:ghijklmno:pqr:s:tuvwxy!@%_0/", long_options, NULL)) != -1) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -2089,6 +2091,9 @@ int main(int argc, char **argv)
 				break;
 #endif
 #ifndef NANO_TINY
+			case '@':
+				SET(COLON_PARSING);
+				break;
 			case '%':
 				SET(STATEFLAGS);
 				break;
@@ -2504,7 +2509,8 @@ int main(int argc, char **argv)
 			 * (possibly preceded by more digits and a colon).  If there is or
 			 * are such trailing numbers, chop the colons plus numbers off.
 			 * The number is later used to place the cursor on that line. */
-			if (strchr(filename, ':') && stat(filename, &fileinfo) < 0) {
+			if (ISSET(COLON_PARSING) && !givenline && strchr(filename, ':') &&
+									!givencol && stat(filename, &fileinfo) < 0) {
 				char *coda = filename + strlen(filename);
   maybe_two:
 				while (--coda > filename + 1 && ('0' <= *coda && *coda <= '9'))
