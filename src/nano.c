@@ -2500,24 +2500,24 @@ int main(int argc, char **argv)
 			struct stat fileinfo;
 
 			/* If the filename contains a colon and this file does not exist,
-			 * then check if the filename ends with a number (while skipping
-			 * any colon preceded by a backslash and eliding the backslash).
-			 * If there is a valid trailing number, chop colon and number off.
+			 * then check if the filename ends with digits preceded by a colon
+			 * (possibly preceded by more digits and a colon).  If there is or
+			 * are such trailing numbers, chop the colons plus numbers off.
 			 * The number is later used to place the cursor on that line. */
 			if (strchr(filename, ':') && stat(filename, &fileinfo) < 0) {
-				char *colon = filename + (*filename ? 1 : 0);
-
-				while ((colon = strchr(colon, ':'))) {
-					if (*(colon - 1) == '\\')
-						memmove(colon - 1, colon, strlen(colon) + 1);
-					else if (parse_line_column(colon + 1, &givenline, &givencol)) {
-						*colon = '\0';
-						if (stat(filename, &fileinfo) < 0) {
-							*colon++ = ':';
-							givencol = 0;
-						}
-					} else
-						++colon;
+				char *coda = filename + strlen(filename);
+  maybe_two:
+				while (--coda > filename + 1 && ('0' <= *coda && *coda <= '9'))
+					;
+				if (*coda == ':' && ('0' <= *(coda + 1) && *(coda +1) <= '9')) {
+					*coda = '\0';
+					if (stat(filename, &fileinfo) < 0) {
+						*coda = ':';
+						/* If this was the first colon, look for a second one. */
+						if (!strchr(coda + 1, ':'))
+							goto maybe_two;
+					} else if (!parse_line_column(coda + 1, &givenline, &givencol))
+						die(_("Invalid number\n"));
 				}
 			}
 
