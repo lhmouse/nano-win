@@ -156,9 +156,6 @@ The cursor can be put on a specific line of a file by adding
 the line number with a plus sign before the filename, and even
 in a specific column by adding it with a comma.
 Negative numbers count from the end of the file or line.
-The line and column numbers may also be specified by gluing them with colons
-after the filename.  (When a filename contains a colon followed by digits,
-escape the colon by preceding it with a triple backslash.)
 
 The cursor can be put on the first or last occurrence of a specific string
 by specifying that string after @code{+/} or @code{+?} before the filename.
@@ -720,6 +717,17 @@ instead of beginnings.
 When neither the file's name nor its first line give a clue,
 try using libmagic to determine the applicable syntax.
 
+@item -@
+@itemx --colonparsing
+When a filename given on the command line ends in a colon plus digits
+and this filename does not exist, then snip the colon plus digits and
+understand the digits as a line number.  If the trimmed filename does
+not exist either, then repeat the process and understand the obtained
+two numbers as line and column number.  But if the doubly trimmed
+filename does not exist either, then forget the trimming and accept
+the original filename as is.  To disable this colon parsing, use
+something like @code{+1} before the filename.
+
 @item -%
 @itemx --stateflags
 Use the top-right corner of the screen for showing some state flags:
@@ -928,6 +936,16 @@ Automatically hard-wrap the current line when it becomes overlong.
 
 @item set casesensitive
 Do case-sensitive searches by default.
+
+@item set colonparsing
+When a filename given on the command line ends in a colon plus digits
+and this filename does not exist, then snip the colon plus digits and
+understand the digits as a line number.  If the trimmed filename does
+not exist either, then repeat the process and understand the obtained
+two numbers as line and column number.  But if the doubly trimmed
+filename does not exist either, then forget the trimming and accept
+the original filename as is.  To disable this colon parsing, use
+something like @code{+1} before the filename.
 
 @item set constantshow
 Constantly display the cursor position on the status bar.

@@ -121,6 +121,16 @@ Automatically hard-wrap the current line when it becomes overlong.
 .B set casesensitive
 Do case-sensitive searches by default.
 .TP
+.B set colonparsing
+When a filename given on the command line ends in a colon plus digits
+and this filename does not exist, then snip the colon plus digits and
+understand the digits as a line number.  If the trimmed filename does
+not exist either, then repeat the process and understand the obtained
+two numbers as line and column number.  But if the doubly trimmed
+filename does not exist either, then forget the trimming and accept
+the original filename as is.  To disable this colon parsing, use
+something like \fB+1\fR before the filename.
+.TP
 .B set constantshow
 Constantly display the cursor position in the status bar.
 This overrides the option \fBquickblank\fR.
