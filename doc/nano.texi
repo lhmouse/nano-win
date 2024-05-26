@@ -712,6 +712,10 @@ disabled to display the help-system navigation keys.
 Make @kbd{Ctrl+Right} and @kbd{Ctrl+Delete} stop at word ends
 instead of beginnings.
 
+@item -z
+@itemx --listsyntaxes
+List the names of the available syntaxes and exit.
+
 @item -!
 @itemx --magic
 When neither the file's name nor its first line give a clue,
