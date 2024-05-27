@@ -40,6 +40,8 @@ extern bool report_size;
 extern bool ran_a_tool;
 extern char *foretext;
 
+extern int final_status;
+
 extern bool inhelp;
 extern char *title;
 

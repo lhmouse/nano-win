@@ -788,10 +788,12 @@ int ask_user(bool withall, const char *question)
 #endif
 		/* Interpret ^N as "No", to allow exiting in anger, and ^Q or ^X too. */
 		else if (kbinput == '\x0E' || (kbinput == '\x11' && !ISSET(MODERN_BINDINGS)) ||
-									  (kbinput == '\x18' && ISSET(MODERN_BINDINGS)))
+									  (kbinput == '\x18' && ISSET(MODERN_BINDINGS))) {
 			choice = NO;
+			if (kbinput != '\x0E')  /* ^X^Q makes nano exit with an error. */
+				final_status = 2;
 		/* Also, interpret ^Y as "Yes, and  ^A as "All". */
-		else if (kbinput == '\x19')
+		} else if (kbinput == '\x19')
 			choice = YES;
 		else if (kbinput == '\x01' && withall)
 			choice = ALL;

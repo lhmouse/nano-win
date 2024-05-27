@@ -2195,6 +2195,7 @@ int write_it_out(bool exiting, bool withprompt)
 
 		/* Upon request, abandon the buffer. */
 		if (function == discard_buffer) {
+			final_status = 2;  /* ^O^Q makes nano exit with an error. */
 			free(given);
 			return 2;
 		}

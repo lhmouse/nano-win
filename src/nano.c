@@ -260,7 +260,7 @@ void finish(void)
 #endif
 
 	/* Get out. */
-	exit(0);
+	exit(final_status);
 }
 
 /* Close the current buffer, and terminate nano if it is the only buffer. */
@@ -2717,6 +2717,7 @@ int main(int argc, char **argv)
 			wredrawln(midwin, editwinrows - 1, 1);
 #endif
 
+		final_status = 0;
 		errno = 0;
 		focusing = TRUE;
 

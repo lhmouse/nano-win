@@ -58,6 +58,9 @@ char *foretext = NULL;
 		/* What was typed at the Execute prompt before invoking a tool. */
 #endif
 
+int final_status = 0;
+		/* The status value that nano returns upon exit. */
+
 bool inhelp = FALSE;
 		/* Whether we are in the help viewer. */
 char *title = NULL;
