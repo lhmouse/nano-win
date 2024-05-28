@@ -2502,6 +2502,7 @@ int main(int argc, char **argv)
 #endif
 		{
 			char *filename = argv[optind++];
+#ifndef NANO_TINY
 			struct stat fileinfo;
 
 			/* If the filename contains a colon and this file does not exist,
@@ -2526,7 +2527,7 @@ int main(int argc, char **argv)
 						die(_("Invalid number\n"));
 				}
 			}
-
+#endif
 			if (!open_buffer(filename, TRUE))
 				continue;
 		}
