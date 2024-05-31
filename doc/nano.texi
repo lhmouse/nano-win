@@ -518,7 +518,6 @@ any name beginning with @code{r} (e.g.@: @command{rnano}).
 Display over multiple screen rows lines that exceed the screen's width.
 (You can make this soft-wrapping occur at whitespace instead of rudely at
 the screen's edge, by using also @code{--atblanks}.)
-(The old short option, @code{-$}, is deprecated.)
 
 @item -T @var{number}
 @itemx --tabsize=@var{number}

@@ -1878,7 +1878,7 @@ int main(int argc, char **argv)
 	else if (*(tail(argv[0])) == 'e')
 		SET(MODERN_BINDINGS);
 
-	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RS$T:UVWX:Y:Z"
+	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
 				"abcdef:ghijklmno:pqr:s:tuvwxyz!@%_0/", long_options, NULL)) > 0) {
 		switch (optchr) {
 #ifndef NANO_TINY
@@ -1965,7 +1965,6 @@ int main(int argc, char **argv)
 				break;
 #ifndef NANO_TINY
 			case 'S':
-			case '$':  /* Deprecated; remove in 2024. */
 				SET(SOFTWRAP);
 				break;
 			case 'T':
