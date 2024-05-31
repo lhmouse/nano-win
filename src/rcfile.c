@@ -69,7 +69,7 @@ static const rcoption rcopts[] = {
 	{"nohelp", NO_HELP},
 	{"nonewlines", NO_NEWLINES},
 #ifdef ENABLE_WRAPPING
-	{"nowrap", NO_WRAP},  /* Deprecated; remove in 2024. */
+	{"nowrap", NO_WRAP},  /* Deprecated; remove in 2027. */
 #endif
 #ifdef ENABLE_OPERATINGDIR
 	{"operatingdir", 0},
@@ -1048,7 +1048,7 @@ short indices[COLORCOUNT] = { COLOR_RED, COLOR_GREEN, COLOR_BLUE,
 short color_to_short(const char *colorname, bool *vivid, bool *thick)
 {
 	if (strncmp(colorname, "bright", 6) == 0 && colorname[6] != '\0') {
-		/* Prefix "bright" is deprecated; remove in 2024. */
+		/* Prefix "bright" is deprecated; remove in 2027. */
 		*vivid = TRUE;
 		*thick = TRUE;
 		colorname += 6;
