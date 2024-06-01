@@ -574,8 +574,7 @@ void usage(void)
 					N_("Which other characters are word parts"));
 #endif
 #ifdef ENABLE_COLOR
-	if (!ISSET(RESTRICTED))
-		print_opt(_("-Y <name>"), _("--syntax=<name>"),
+	print_opt(_("-Y <name>"), _("--syntax=<name>"),
 					N_("Syntax definition to use for coloring"));
 #endif
 #ifndef NANO_TINY
