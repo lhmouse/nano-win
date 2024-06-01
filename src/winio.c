@@ -409,7 +409,7 @@ int get_input(WINDOW *frame)
 	else if (frame)
 		read_keys_from(frame);
 
-	if (waiting_codes > 0) {
+	if (waiting_codes) {
 		waiting_codes--;
 #ifdef ENABLE_NANORC
 		if (*nextcodes == MORE_PLANTS) {
