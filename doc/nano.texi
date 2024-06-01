@@ -784,7 +784,6 @@ Note that this overrides option @option{-p} (@option{--preserve}).
 @end table
 
 @sp 1
-Option @code{-z} (@code{--suspendable}) has been removed.
 Suspension is enabled by default, reachable via @kbd{^T^Z}.
 (If you want a plain @kbd{^Z} to suspend nano, add
 @code{bind ^Z suspend main} to your nanorc.)
