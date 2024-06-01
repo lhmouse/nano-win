@@ -2196,7 +2196,7 @@ int write_it_out(bool exiting, bool withprompt)
 		given = mallocstrcpy(given, answer);
 
 #ifdef ENABLE_BROWSER
-		if (function == to_files) {
+		if (function == to_files && !ISSET(RESTRICTED)) {
 			char *chosen = browse_in(answer);
 
 			if (chosen == NULL)
@@ -2213,10 +2213,10 @@ int write_it_out(bool exiting, bool withprompt)
 		} else if (function == mac_format) {
 			openfile->fmt = (openfile->fmt == MAC_FILE) ? NIX_FILE : MAC_FILE;
 			continue;
-		} else if (function == back_it_up) {
+		} else if (function == back_it_up && !ISSET(RESTRICTED)) {
 			TOGGLE(MAKE_BACKUP);
 			continue;
-		} else if (function == prepend_it || function == append_it) {
+		} else if ((function == prepend_it || function == append_it) && !ISSET(RESTRICTED)) {
 			if (function == prepend_it)
 				method = (method == PREPEND) ? OVERWRITE : PREPEND;
 			else
