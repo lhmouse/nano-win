@@ -427,9 +427,10 @@ The uniquely numbered files are stored in the specified directory.
 
 @item -D
 @itemx --boldtext
-For the interface, use bold instead of reverse video.  This will be overridden
+For the interface, use bold instead of reverse video.
+This can be overridden for specific elements
 by setting the options @code{titlecolor}, @code{statuscolor},
-@code{promptcolor}, @code{minicolor}, @code{keycolor}, @code{functioncolor},
+@code{promptcolor}, @code{minicolor}, @code{keycolor},
 @code{numbercolor}, and/or @code{selectedcolor} in your
 nanorc file.  @xref{@code{set keycolor}} for details.
 
@@ -917,10 +918,11 @@ with @code{set backup} or @option{--backup} or @option{-B}.
 The uniquely numbered files are stored in the specified directory.
 
 @item set boldtext
-Use bold instead of reverse video for the title bar, status bar, key combos,
-function tags, line numbers, and selected text.  This is overridden by
-setting the options @code{titlecolor}, @code{statuscolor}, @code{keycolor},
-@code{functioncolor}, @code{numbercolor}, and/or @code{selectedcolor}.
+Use bold instead of reverse video for the title bar, status bar,
+prompt bar, mini bar, key combos, line numbers, and selected text.
+This can be overridden by setting the options @code{titlecolor},
+@code{statuscolor}, @code{promptcolor}, @code{minicolor},
+@code{keycolor}, @code{numbercolor}, and/or @code{selectedcolor}.
 
 @item set bookstyle
 When justifying, treat any line that starts with whitespace as the
