@@ -1874,8 +1874,6 @@ int main(int argc, char **argv)
 	/* If the executable's name starts with 'r', activate restricted mode. */
 	if (*(tail(argv[0])) == 'r')
 		SET(RESTRICTED);
-	else if (*(tail(argv[0])) == 'e')
-		SET(MODERN_BINDINGS);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
 				"abcdef:ghijklmno:pqr:s:tuvwxyz!@%_0/", long_options, NULL)) > 0) {
