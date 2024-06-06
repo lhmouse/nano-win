@@ -104,6 +104,9 @@ the built-in help (\fB^G\fR) lists all the available ones.
 The default key bindings can be changed via a \fInanorc\fR file -- see
 .BR nanorc (5).
 
+.\" Never hyphenate these:
+.hw ncurses terminfo
+
 .SH OPTIONS
 .TP
 .BR \-A ", " \-\-smarthome
@@ -155,7 +158,7 @@ in your \fInanorc\fR file.)
 .BR \-K ", " \-\-rawsequences
 Interpret escape sequences directly, instead of asking \fBncurses\fR
 to translate them.  (If you need this option to get some keys to work
-properly, it means that the terminfo terminal description that is used
+properly, it means that the \fBterminfo\fR terminal description that is used
 does not fully match the actual behavior of your terminal.  This can
 happen when you ssh into a BSD machine, for example.)
 Using this option disables \fBnano\fR's mouse support.
