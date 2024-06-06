@@ -12,9 +12,12 @@ color brightred "^\.(B[IR]?|I[BR]?|R[BI]|S[BM]) .*"
 color brightblue "^\.((B[IR]?|I[BR]?|R[BI]|S[BM]) |[LP]?P$)"
 # Inline type faces.
 color magenta "\\f[BIPR]"
+# Hyphenation control.
+color purple "\\[%:]"
+color yellow "^\.(hc|hla|hlm|hw|hy)"
 # Relative margins, hyperlinks, and various other stuff.
 color yellow "^\.(RS|RE|UR|UE|PD|DT)"
-color yellow "^\.(ad|bp|br|ce|de|ds|el|ie|if|fi|ft|hy|ig|in|na|ne|nf|nh|ps|so|sp|ti|tr)"
+color yellow "^\.(ad|bp|br|ce|de|ds|el|ie|if|fi|ft|ig|in|na|ne|nf|nh|ps|so|sp|ti|tr)"
 
 # Comments.
 color cyan "(^\.)?\\".*"
