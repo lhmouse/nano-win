@@ -1,5 +1,7 @@
 ## Syntax highlighting for groff.
 
+## Original author:  Robert D. Goulding
+
 syntax groff "\.(m[ems]|rof|tmac)$|/tmac\.[^/]+$"
 comment ".\""
 

@@ -1,5 +1,7 @@
 ## Syntax highlighting for AWK scripts.
 
+## Original author:  Donnie Berkholz
+
 syntax awk "\.awk$"
 header "^#!.*awk"
 magic "awk script"

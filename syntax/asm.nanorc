@@ -1,5 +1,7 @@
 ## Syntax highlighting for assembler.
 
+## Original author:  Mike Frysinger
+
 syntax asm "\.(S|s|asm)$"
 magic "assembler source"
 comment "//"

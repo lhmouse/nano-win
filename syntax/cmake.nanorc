@@ -1,5 +1,7 @@
 ## Syntax highlighting for CMake files.
 
+## Original author:  Felipe Bugno
+
 syntax cmake "(CMakeLists\.txt|\.cmake)$"
 comment "#"
 

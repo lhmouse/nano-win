@@ -1,5 +1,7 @@
 ## Syntax highlighting for Ruby.
 
+## Original author:  John M. Gabriele
+
 syntax ruby "\.rb$"
 header "^#!.*ruby"
 magic "Ruby script"

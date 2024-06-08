@@ -1,5 +1,7 @@
 ## Syntax highlighting for C/C++/Obj-C files.
 
+## Original author:  Dave Geering
+
 syntax m "\.m$"
 magic "Objective-C source"
 comment "//"

@@ -1,5 +1,7 @@
 ## Syntax highlighting for PHP.
 
+## Original author:  Mike Frysinger
+
 syntax php "\.(php[23457s~]?|phtml|ctp)$"
 magic "PHP script"
 comment "//"

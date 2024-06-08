@@ -1,5 +1,7 @@
 ## Syntax highlighting for Fortran 90/95.
 
+## Original author:  Pascal Gentil
+
 syntax fortran "\.(f|for|f90|f95)$"
 comment "!"
 
