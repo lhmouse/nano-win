@@ -619,6 +619,8 @@ void shortcut_init(void)
 		N_("Scroll up one line without moving the cursor textually");
 	const char *scrolldown_gist =
 		N_("Scroll down one line without moving the cursor textually");
+#endif
+#ifndef NANO_TINY
 	const char *center_gist = N_("Center the line where the cursor is");
 #endif
 #ifdef ENABLE_MULTIBUFFER
@@ -1079,7 +1081,7 @@ void shortcut_init(void)
 	add_to_funcs(full_refresh, MMAIN,
 			N_("Refresh"), WHENHELP(refresh_gist), TOGETHER);
 #endif
-#if !defined(NANO_TINY) || defined(ENABLE_HELP)
+#ifndef NANO_TINY
 	add_to_funcs(do_center, MMAIN,
 			N_("Center"), WHENHELP(center_gist), BLANKAFTER);
 #endif
@@ -1430,7 +1432,7 @@ void shortcut_init(void)
 	add_to_sclist(MMAIN, "M-J", 0, do_full_justify, 0);
 	add_to_sclist(MEXECUTE, "^J", 0, do_full_justify, 0);
 #endif
-#if !defined(NANO_TINY) || defined(ENABLE_HELP)
+#ifndef NANO_TINY
 	add_to_sclist(MMAIN, "^L", 0, do_center, 0);
 #endif
 	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "^L", 0, full_refresh, 0);

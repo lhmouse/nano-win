@@ -340,8 +340,6 @@ keystruct *strtosc(const char *input)
 		s->func = do_scroll_up;
 	else if (!strcmp(input, "scrolldown"))
 		s->func = do_scroll_down;
-	else if (!strcmp(input, "center"))
-		s->func = do_center;
 #endif
 	else if (!strcmp(input, "prevword"))
 		s->func = to_prev_word;
@@ -360,6 +358,8 @@ keystruct *strtosc(const char *input)
 		s->func = to_top_row;
 	else if (!strcmp(input, "bottomrow"))
 		s->func = to_bottom_row;
+	else if (!strcmp(input, "center"))
+		s->func = do_center;
 #endif
 	else if (!strcmp(input, "pageup") ||
 	         !strcmp(input, "prevpage"))
