@@ -207,7 +207,15 @@ void to_bottom_row(void)
 
 	place_the_cursor();
 }
-#endif
+
+/* Scroll the line with the cursor to the center of the screen. */
+void do_center(void)
+{
+	adjust_viewport(CENTERING);
+	draw_all_subwindows();
+	full_refresh();
+}
+#endif /* !NANO_TINY */
 
 #ifdef ENABLE_JUSTIFY
 /* Move to the first beginning of a paragraph before the current line. */
@@ -621,16 +629,6 @@ void do_scroll_down(void)
 		edit_scroll(FORWARD);
 }
 #endif /* !NANO_TINY || ENABLE_HELP */
-
-#ifndef NANO_TINY
-/* Scroll the line with the cursor to the center of the screen. */
-void do_center(void)
-{
-	adjust_viewport(CENTERING);
-	draw_all_subwindows();
-	full_refresh();
-}
-#endif
 
 /* Move left one character. */
 void do_left(void)

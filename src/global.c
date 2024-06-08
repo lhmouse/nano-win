@@ -580,6 +580,7 @@ void shortcut_init(void)
 	const char *replace_gist = N_("Replace a string or a regular expression");
 	const char *gotoline_gist = N_("Go to line and column number");
 #ifndef NANO_TINY
+	const char *bracket_gist = N_("Go to the matching bracket");
 	const char *mark_gist = N_("Mark text starting from the cursor position");
 	const char *zap_gist = N_("Throw away the current line (or marked region)");
 	const char *indent_gist = N_("Indent the current line (or marked lines)");
@@ -606,22 +607,17 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	const char *toprow_gist = N_("Go to first row in the viewport");
 	const char *bottomrow_gist = N_("Go to last row in the viewport");
+	const char *center_gist = N_("Center the line where the cursor is");
 #endif
 	const char *prevpage_gist = N_("Go one screenful up");
 	const char *nextpage_gist = N_("Go one screenful down");
 	const char *firstline_gist = N_("Go to the first line of the file");
 	const char *lastline_gist = N_("Go to the last line of the file");
-#ifndef NANO_TINY
-	const char *bracket_gist = N_("Go to the matching bracket");
-#endif
 #if !defined(NANO_TINY) || defined(ENABLE_HELP)
 	const char *scrollup_gist =
 		N_("Scroll up one line without moving the cursor textually");
 	const char *scrolldown_gist =
 		N_("Scroll down one line without moving the cursor textually");
-#endif
-#ifndef NANO_TINY
-	const char *center_gist = N_("Center the line where the cursor is");
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	const char *prevfile_gist = N_("Switch to the previous file buffer");

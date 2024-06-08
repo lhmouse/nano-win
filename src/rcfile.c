@@ -322,6 +322,8 @@ keystruct *strtosc(const char *input)
 		s->func = do_undo;
 	else if (!strcmp(input, "redo"))
 		s->func = do_redo;
+	else if (!strcmp(input, "suspend"))
+		s->func = do_suspend;
 #endif
 	else if (!strcmp(input, "left") ||
 	         !strcmp(input, "back"))
@@ -389,10 +391,6 @@ keystruct *strtosc(const char *input)
 		s->func = do_backspace;
 	else if (!strcmp(input, "refresh"))
 		s->func = full_refresh;
-#ifndef NANO_TINY
-	else if (!strcmp(input, "suspend"))
-		s->func = do_suspend;
-#endif
 	else if (!strcmp(input, "casesens"))
 		s->func = case_sens_void;
 	else if (!strcmp(input, "regexp"))
