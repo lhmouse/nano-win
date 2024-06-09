@@ -227,9 +227,7 @@ void do_cycle(void)
 /* Scroll the line with the cursor to the center of the screen. */
 void do_center(void)
 {
-	adjust_viewport(CENTERING);
-	draw_all_subwindows();
-	full_refresh();
+	do_cycle();  /* The main loop has set 'cycling_aim' to zero. */
 }
 #endif /* !NANO_TINY */
 
