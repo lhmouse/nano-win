@@ -1079,11 +1079,11 @@ void shortcut_init(void)
 
 #ifdef ENABLE_HELP
 	add_to_funcs(full_refresh, MMAIN,
-			N_("Refresh"), WHENHELP(refresh_gist), TOGETHER);
+			N_("Refresh"), WHENHELP(refresh_gist), BLANKAFTER);
 #endif
 #ifndef NANO_TINY
 	add_to_funcs(do_center, MMAIN,
-			N_("Center"), WHENHELP(center_gist), BLANKAFTER);
+			N_("Center"), WHENHELP(center_gist), TOGETHER);
 	add_to_funcs(do_cycle, MMAIN,
 			N_("Cycle"), WHENHELP(cycle_gist), BLANKAFTER);
 #endif
