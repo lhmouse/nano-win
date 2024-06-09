@@ -1643,7 +1643,11 @@ while keeping the cursor in the same text position, if possible.
 (This function is bound by default to @kbd{Alt+Down}.)
 
 @item center
-Scrolls the line with the cursor to the middle of the screen.
+Scrolls the line with the cursor to the middle of the viewport.
+
+@item cycle
+Scrolls the line with the cursor first to the middle of the viewport,
+then to the top, then to the bottom.
 
 @item prevword
 Moves the cursor to the beginning of the previous word.
