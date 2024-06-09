@@ -1434,7 +1434,7 @@ void shortcut_init(void)
 	add_to_sclist(MEXECUTE, "^J", 0, do_full_justify, 0);
 #endif
 #ifndef NANO_TINY
-	add_to_sclist(MMAIN, "^L", 0, do_center, 0);
+	add_to_sclist(MMAIN, "^L", 0, do_cycle, 0);
 #endif
 	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "^L", 0, full_refresh, 0);
 
