@@ -57,6 +57,13 @@ void do_mark(void)
  * of spaces that a tab would normally take up at this position. */
 void do_tab(void)
 {
+#ifndef NANO_TINY
+	/* When <Tab> is pressed while a region is marked, indent the region. */
+	if (openfile->mark && openfile->mark != openfile->current &&
+							currmenu == MMAIN && !bracketed_paste)
+		do_indent();
+	else
+#endif
 #ifdef ENABLE_COLOR
 	if (openfile->syntax && openfile->syntax->tabstring)
 		inject(openfile->syntax->tabstring, strlen(openfile->syntax->tabstring));

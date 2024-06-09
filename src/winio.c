@@ -1261,13 +1261,6 @@ int parse_kbinput(WINDOW *frame)
 	}
 #endif /* __linux__ */
 
-#ifndef NANO_TINY
-	/* When <Tab> is pressed while the mark is on, do an indent. */
-	if (keycode == '\t' && openfile->mark && currmenu == MMAIN &&
-				!bracketed_paste && openfile->mark != openfile->current)
-		return INDENT_KEY;
-#endif
-
 	/* Spurious codes from VTE -- see https://sv.gnu.org/bugs/?64578. */
 	if (keycode == mousefocusin || keycode == mousefocusout)
 		return ERR;
