@@ -98,6 +98,7 @@ extern int sidebar;
 #ifndef NANO_TINY
 extern int *bardata;
 extern ssize_t stripe_column;
+extern int cycling_aim;
 #endif
 
 extern linestruct *cutbuffer;
@@ -366,6 +367,7 @@ void do_page_down(void);
 #ifndef NANO_TINY
 void to_top_row(void);
 void to_bottom_row(void);
+void do_cycle(void);
 void do_center(void);
 #endif
 #ifdef ENABLE_JUSTIFY

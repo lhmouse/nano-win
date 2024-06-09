@@ -208,6 +208,22 @@ void to_bottom_row(void)
 	place_the_cursor();
 }
 
+/* Put the cursor line at the center, then the top, then the bottom. */
+void do_cycle(void)
+{
+	if (cycling_aim == 0)
+		adjust_viewport(CENTERING);
+	else {
+		openfile->cursor_row = (cycling_aim == 1) ? 0 : editwinrows - 1;
+		adjust_viewport(STATIONARY);
+	}
+
+	cycling_aim = (cycling_aim + 1) % 3;
+
+	draw_all_subwindows();
+	full_refresh();
+}
+
 /* Scroll the line with the cursor to the center of the screen. */
 void do_center(void)
 {

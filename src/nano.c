@@ -1643,6 +1643,11 @@ void process_a_keystroke(void)
 		depth = 0;
 	}
 
+#ifndef NANO_TINY
+	if (function != do_cycle)
+		cycling_aim = 0;
+#endif
+
 	if (!function) {
 		pletion_line = NULL;
 		keep_cutbuffer = FALSE;

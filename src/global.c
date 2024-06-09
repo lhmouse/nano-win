@@ -139,6 +139,9 @@ int *bardata = NULL;
 		/* An array of characters that together depict the scrollbar. */
 ssize_t stripe_column = 0;
 		/* The column at which a vertical bar will be drawn. */
+int cycling_aim = 0;
+		/* Whether to center the line with the cursor (0), push it
+		 * to the top of the viewport (1), or to the bottom (2). */
 #endif
 
 linestruct *cutbuffer = NULL;
@@ -608,6 +611,7 @@ void shortcut_init(void)
 	const char *toprow_gist = N_("Go to first row in the viewport");
 	const char *bottomrow_gist = N_("Go to last row in the viewport");
 	const char *center_gist = N_("Center the line where the cursor is");
+	const char *cycle_gist = N_("Push the cursor line to the center, then top, then bottom");
 #endif
 	const char *prevpage_gist = N_("Go one screenful up");
 	const char *nextpage_gist = N_("Go one screenful down");
@@ -1080,6 +1084,8 @@ void shortcut_init(void)
 #ifndef NANO_TINY
 	add_to_funcs(do_center, MMAIN,
 			N_("Center"), WHENHELP(center_gist), BLANKAFTER);
+	add_to_funcs(do_cycle, MMAIN,
+			N_("Cycle"), WHENHELP(cycle_gist), BLANKAFTER);
 #endif
 
 	add_to_funcs(do_savefile, MMAIN,

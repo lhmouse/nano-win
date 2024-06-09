@@ -362,6 +362,8 @@ keystruct *strtosc(const char *input)
 		s->func = to_bottom_row;
 	else if (!strcmp(input, "center"))
 		s->func = do_center;
+	else if (!strcmp(input, "cycle"))
+		s->func = do_cycle;
 #endif
 	else if (!strcmp(input, "pageup") ||
 	         !strcmp(input, "prevpage"))
