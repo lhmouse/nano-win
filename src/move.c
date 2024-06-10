@@ -567,7 +567,8 @@ void do_up(void)
 
 	set_proper_index_and_pww(&leftedge, target_column, FALSE);
 
-	if (openfile->cursor_row == 0 && !ISSET(JUMPY_SCROLLING))
+	if (openfile->cursor_row == 0 && !ISSET(JUMPY_SCROLLING) &&
+						(tabsize < editwincols || !ISSET(SOFTWRAP)))
 		edit_scroll(BACKWARD);
 	else
 		edit_redraw(was_current, FLOWING);
@@ -590,7 +591,8 @@ void do_down(void)
 
 	set_proper_index_and_pww(&leftedge, target_column, TRUE);
 
-	if (openfile->cursor_row == editwinrows - 1 && !ISSET(JUMPY_SCROLLING))
+	if (openfile->cursor_row == editwinrows - 1 && !ISSET(JUMPY_SCROLLING) &&
+								(tabsize < editwincols || !ISSET(SOFTWRAP)))
 		edit_scroll(FORWARD);
 	else
 		edit_redraw(was_current, FLOWING);
