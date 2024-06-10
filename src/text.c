@@ -59,8 +59,7 @@ void do_tab(void)
 {
 #ifndef NANO_TINY
 	/* When <Tab> is pressed while a region is marked, indent the region. */
-	if (openfile->mark && openfile->mark != openfile->current &&
-							currmenu == MMAIN && !bracketed_paste)
+	if (openfile->mark && openfile->mark != openfile->current)
 		do_indent();
 	else
 #endif
