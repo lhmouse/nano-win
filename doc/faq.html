@@ -176,7 +176,7 @@
 <h3 id="3.8">3.8. How do I make a .nanorc file that will be read when I start nano?</h3>
 <blockquote><p>It's not hard at all! Simply copy the <b>sample.nanorc</b> from the doc/ directory in the nano source package (or from /usr/doc/nano on your system) to <b>.nanorc</b> in your home directory, and then edit it. If you didn't get a sample nanorc, the syntax of the file is simple: features are turned on and off by using the words <b>set</b> and <b>unset</b> followed by the long option name of the feature (see <b>man nanorc</b> for the full list of options). For example, &quot;set quickblank&quot; or &quot;set smarthome&quot;. Of course, for this to work, your nano must <b>not</b> have been compiled with <b>--disable-nanorc</b>.</p></blockquote>
 <h3 id="3.9">3.9. Why does my self-compiled nano not read /etc/nanorc?</h3>
-<blockquote><p>By default (see <a href="#3.3">3.3</a>), nano gets installed into /usr/local. This also means that, at startup, nano will read <b>/usr/local/etc/nanorc</b> instead of <b>/etc/nanorc</b>. You can make a symlink from the former to the latter if you want your self-compiled nano to read the same nanorc as the system-installed nano. Or you can configure your nano to overwrite the system nano (again, see <a href="#3.3">3.3</a>).</p></blockquote>
+<blockquote><p>By default (see <a href="#3.3">3.3</a>), nano gets installed into /usr/local. This also means that, at startup, nano reads <b>/usr/local/etc/nanorc</b> instead of <b>/etc/nanorc</b>. You can make a symlink from the former to the latter if you want your self-compiled nano to read the same nanorc as the system-installed nano. Or you can configure your nano to overwrite the system nano (again, see <a href="#3.3">3.3</a>).</p></blockquote>
 <hr width="100%">
 
 <h1 id="4">4. Running</h1>
@@ -220,15 +220,15 @@
 <h3 id="4.3">4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</h3>
 <blockquote><p>You can use the <b>-K</b> or <b>--rawsequences</b> option on the command line, or add the line <b>set rawsequences</b> to your .nanorc. However, nano's mouse support will be disabled if you do any of these things.</p></blockquote>
 <h3 id="4.4">4.4. With what keystroke can I paste text from the clipboard into nano?</h3>
-<blockquote><p>In most desktop environments <b>Shift+Insert</b> will paste the contents of the clipboard.</p></blockquote>
+<blockquote><p>In most desktop environments <b>Shift+Insert</b> pastes the contents of the clipboard.</p></blockquote>
 <h3 id="4.5">4.5. How do I select text for or paste text from the clipboard when nano's mouse support is turned on?</h3>
 <blockquote><p>Try holding down the Shift key and selecting or pasting the text as you normally would.</p></blockquote>
 <h3 id="4.6">4.6. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</h3>
 <blockquote><p>You have the <i>autoindent</i> feature turned on. Hit <b>Meta-I</b> to turn it off, paste your text, and then hit <b>Meta-I</b> again to turn it back on.</p>
-  <p><i>Update:</i> Since version 4.8, nano will suppress auto-indentation during a paste (when your terminal understands <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed pastes</a>), so you no longer need to toggle it off and on manually.</p></blockquote>
+  <p><i>Update:</i> Since version 4.8, nano suppresses auto-indentation during a paste (when your terminal understands <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed pastes</a>), so you no longer need to toggle it off and on manually.</p></blockquote>
 <h3 id="4.7">4.7. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?</h3>
 <blockquote><p>When pasting from Windows, in some situations linefeeds are sent instead of carriage returns (Enters). And linefeeds are <b>^J</b>s, which make nano justify (rewrap) the current paragraph. To prevent these linefeeds from causing these unwanted justifications, add this line to your .nanorc on the remote Linux box: <b>unbind ^J main</b> or <b>bind ^J enter main</b>, depending on whether the paste contains CR + LF or only LF.</p>
-  <p><i>Update:</i> Since version 4.8, nano will ignore linefeed characters in a paste (when your terminal understands <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed pastes</a>), so you no longer need the above workaround.</p></blockquote>
+  <p><i>Update:</i> Since version 4.8, nano ignores linefeed characters in a paste (when your terminal understands <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed pastes</a>), so you no longer need the above workaround.</p></blockquote>
 <h3 id="4.8">4.8. I've compiled nano with color support, but I don't see any color when I run it!</h3>
 <blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Several example configurations are in the <b>syntax/</b> subdirectory of the nano source, which are normally installed to <b>/usr/local/share/nano/</b>. To enable all of them, uncomment the line <b># include "/usr/local/share/nano/*.nanorc"</b> in your nanorc. See also section <a href="#3.9">3.9</a>.</p></blockquote>
 <h3 id="4.9">4.9. How do I make nano my default editor (in Pine, mutt, etc.)?</h3>

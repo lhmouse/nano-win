@@ -24,12 +24,12 @@ nanorc \- GNU nano's configuration file
 .SH DESCRIPTION
 The \fInanorc\fP files contain the default settings for \fBnano\fP,
 a small and friendly text editor.  During startup, if \fB\-\-rcfile\fR
-is not given, \fBnano\fR will read two files: first the
+is not given, \fBnano\fR reads two files: first the
 system-wide settings, from \fI/etc/nanorc\fP (the exact path might be
 different on your system), and then the user-specific settings, either
 from \fI~/.nanorc\fR or from \fI$XDG_CONFIG_HOME/nano/nanorc\fR
 or from \fI~/.config/nano/nanorc\fR, whichever is encountered first.
-If \fB\-\-rcfile\fR is given, \fBnano\fR will read just the specified
+If \fB\-\-rcfile\fR is given, \fBnano\fR reads just the specified
 settings file.
 
 .SH NOTICE
@@ -150,7 +150,7 @@ See \fBset titlecolor\fR for valid color names.
 .TP
 .B set fill \fInumber\fR
 Set the target width for justifying and automatic hard-wrapping at this
-\fInumber\fR of columns.  If the value is 0 or less, wrapping will occur
+\fInumber\fR of columns.  If the value is 0 or less, wrapping occurs
 at the width of the screen minus \fInumber\fR columns, allowing the wrap
 point to vary along with the width of the screen if the screen is resized.
 The default value is \fB\-8\fR.
@@ -225,7 +225,7 @@ See \fBset titlecolor\fR for more details.
 .B set mouse
 Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
-click), and execute shortcuts.  The mouse will work in the X Window
+click), and execute shortcuts.  The mouse works in the X Window
 System, and on the console when gpm is running.  Text can still be
 selected through dragging by holding down the Shift key.
 .TP
@@ -251,7 +251,7 @@ Use this color combination for line numbers.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set operatingdir "\fIdirectory\fP"
-\fBnano\fP will only read and write files inside \fIdirectory\fP and its
+\fBnano\fP only reads and writes files inside \fIdirectory\fP and its
 subdirectories.  Also, the current directory is changed to here, so
 files are inserted from this directory.  By default, the operating
 directory feature is turned off.
@@ -261,7 +261,8 @@ Save the cursor position of files between editing sessions.
 The cursor position is remembered for the 200 most-recently edited files.
 .TP
 .B set preserve
-Preserve the XON and XOFF keys (\fB^Q\fR and \fB^S\fR).
+Preserve the XOFF and XON sequences (\fB^S\fR and \fB^Q\fR) so that
+they are caught by the terminal (stopping and resuming the output).
 .TP
 .B set promptcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the prompt bar.
@@ -323,10 +324,9 @@ poor vision.
 .TP
 .B set smarthome
 Make the Home key smarter.  When Home is pressed anywhere but at the
-very beginning of non-whitespace characters on a line, the cursor will
-jump to that beginning (either forwards or backwards).  If the cursor is
-already at that position, it will jump to the true beginning of the
-line.
+very beginning of non-whitespace characters on a line, the cursor jumps
+to that beginning (either forwards or backwards).  If the cursor is
+already at that position, it jumps to the true beginning of the line.
 .TP
 .B set softwrap
 Display lines that exceed the screen's width over multiple screen lines.
@@ -467,10 +467,10 @@ via the following commands:
 .BI syntax " name \fR[" """" fileregex """ " \fR...]
 Start the definition of a syntax with this \fIname\fR.
 All subsequent \fBcolor\fR and other such commands
-will be added to this syntax, until a new \fBsyntax\fR
+are added to this syntax, until a new \fBsyntax\fR
 command is encountered.
 .sp
-When \fBnano\fR is run, this syntax will be automatically
+When \fBnano\fR is run, this syntax is automatically
 activated (for the relevant buffer) if the absolute filename
 matches the extended regular expression \fIfileregex\fR.
 Or the syntax can be explicitly activated (for all buffers)
@@ -493,7 +493,7 @@ either, then compare this \fIregex\fR (or regexes) against the
 result of querying the \fBmagic\fP database about the current
 file, to determine whether this syntax should be used for it.
 (This functionality only works when \fBlibmagic\fP is installed on the
-system and will be silently ignored otherwise.)
+system and is silently ignored otherwise.)
 .TP
 .BI formatter " program " \fR[ "argument " \fR...]
 Run the given \fIprogram\fR on the full contents of the current buffer.
@@ -558,7 +558,7 @@ Paint all pieces of text whose start matches extended regular expression
 with the given foreground and background colors,
 at least one of which must be specified.  This means that, after an
 initial instance of \fIfromrx\fP, all text until the first instance of
-\fItorx\fP will be colored.  This allows syntax highlighting to span
+\fItorx\fP is colored.  This allows syntax highlighting to span
 multiple lines.
 .TP
 .BI "icolor \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
@@ -590,7 +590,7 @@ Rebinds the given \fIkey\fP to the given \fIfunction\fP in the given \fImenu\fP
 Makes the given \fIkey\fR produce the given \fIstring\fR in the given
 \fImenu\fR (or in all menus where the key exists when \fBall\fR is used).
 Besides literal text and/or control codes, the \fIstring\fR may contain
-function names between braces.  These functions will be invoked when
+function names between braces.  These functions are invoked when
 the key is typed.  To include a literal opening brace, use \fB{{}\fR.
 .TP
 .BI unbind " key menu"
@@ -600,9 +600,9 @@ menus where the key exists when \fBall\fP is used).
 .sp
 Note that \fBbind \fIkey\fR \fB"{\fIfunction\fB}"\fR \fImenu\fR is equivalent
 to \fBbind \fIkey\fR \fIfunction\fR \fImenu\fR, except that for the latter form
-\fBnano\fR will check the availability of the \fIfunction\fR in the given \fImenu\fR
+\fBnano\fR checks the availability of the \fIfunction\fR in the given \fImenu\fR
 at startup time (and report an error if it does not exist there), whereas for the
-first form \fBnano\fR will check at execution time that the \fIfunction\fR exists
+first form \fBnano\fR checks at execution time that the \fIfunction\fR exists
 but not whether it makes any sense in the current menu.  The user has to take care
 that a function name between braces (or any sequence of them) is appropriate.
 Strange behavior can result when it is not.
@@ -723,7 +723,7 @@ Counts and reports on the status bar the number of lines, words,
 and characters in the current buffer (or in the marked region).
 .TP
 .B execute
-Prompts for a program to execute.  The program's output will be inserted
+Prompts for a program to execute.  The program's output is inserted
 into the current buffer (or into a new buffer when \fBM\-F\fR is toggled).
 .TP
 .B speller
@@ -739,7 +739,7 @@ the contents of the buffer.)
 .B linter
 Invokes a syntax-checking program (if the active syntax defines one).
 If this program produces lines of the form "filename:linenum:charnum:
-some message", then the cursor will be put at the indicated position
+some message", then the cursor is put at the indicated position
 in the mentioned file while showing "some message" on the status bar.
 You can move from message to message with <PgUp> and <PgDn>,
 and leave linting mode with \fB^C\fR or <Enter>.
@@ -1006,14 +1006,14 @@ whitespace as the preceding line -- or as the next line if the preceding line
 is the beginning of a paragraph.
 .TP
 .B cutfromcursor
-Toggles whether cutting text will cut the whole line or just from the current cursor
+Toggles whether cutting text cuts the whole line or just from the current cursor
 position to the end of the line.
 .TP
 .B breaklonglines
-Toggles whether long lines will be hard-wrapped to the next line.
+Toggles whether the overlong part of a line is hard-wrapped to the next line.
 .TP
 .B tabstospaces
-Toggles whether typed tabs will be converted to spaces.
+Toggles whether typed tabs are converted to spaces.
 .TP
 .B mouse
 Toggles mouse support.

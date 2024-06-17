@@ -77,21 +77,21 @@ Entering text and moving around in a file is straightforward: typing the
 letters and using the normal cursor movement keys.  Commands are entered
 by using the Control (^) and the Alt or Meta (M\-) keys.
 Typing \fB^K\fR deletes the current line and puts it in the cutbuffer.
-Consecutive \fB^K\fRs will put all deleted lines together in the cutbuffer.
-Any cursor movement or executing any other command will cause the next
-\fB^K\fR to overwrite the cutbuffer.  A \fB^U\fR will paste the current
+Consecutive \fB^K\fRs put all deleted lines together in the cutbuffer.
+Any cursor movement or executing any other command causes the next
+\fB^K\fR to overwrite the cutbuffer.  A \fB^U\fR pastes the current
 contents of the cutbuffer at the current cursor position.
 .sp
 When a more precise piece of text needs to be cut or copied, you can mark
-its start with \fB^6\fR, move the cursor to its end (the marked text will be
+its start with \fB^6\fR, move the cursor to its end (the marked text is
 highlighted), and then use \fB^K\fR to cut it, or \fBM\-6\fR to copy it to the
 cutbuffer.  You can also save the marked text to a file with \fB^O\fR, or
 spell check it with \fB^T^T\fR.
 .sp
 On some terminals, text can be selected also by holding down Shift while
-using the arrow keys.  Holding down the Ctrl or Alt key too will increase
+using the arrow keys.  Holding down the Ctrl or Alt key too increases
 the stride.
-Any cursor movement without Shift being held will cancel such a selection.
+Any cursor movement without Shift being held cancels such a selection.
 .sp
 Any valid Unicode code point can be inserted into the buffer by typing
 \fBM\-V\fR followed by the hexadecimal digits of the code point (concluded
@@ -111,10 +111,9 @@ The default key bindings can be changed via a \fInanorc\fR file -- see
 .TP
 .BR \-A ", " \-\-smarthome
 Make the Home key smarter.  When Home is pressed anywhere but at the
-very beginning of non-whitespace characters on a line, the cursor will
-jump to that beginning (either forwards or backwards).  If the cursor is
-already at that position, it will jump to the true beginning of the
-line.
+very beginning of non-whitespace characters on a line, the cursor jumps
+to that beginning (either forwards or backwards).  If the cursor is
+already at that position, it jumps to the true beginning of the line.
 .TP
 .BR \-B ", " \-\-backup
 When saving a file, back up the previous version of it, using the current
@@ -287,14 +286,14 @@ Display line numbers to the left of the text area.
 .BR \-m ", " \-\-mouse
 Enable mouse support, if available for your system.  When enabled, mouse
 clicks can be used to place the cursor, set the mark (with a double
-click), and execute shortcuts.  The mouse will work in the X Window
+click), and execute shortcuts.  The mouse works in the X Window
 System, and on the console when gpm is running.  Text can still be
 selected through dragging by holding down the Shift key.
 .TP
 .BR \-n ", " \-\-noread
 Treat any name given on the command line as a new file.  This allows
-\fBnano\fR to write to named pipes: it will start with a blank buffer,
-and will write to the pipe when the user saves the "file".  This way
+\fBnano\fR to write to named pipes: it starts with a blank buffer,
+and writes to the pipe when the user saves the "file".  This way
 \fBnano\fR can be used as an editor in combination with for instance
 \fBgpg\fR without having to write sensitive data to disk first.
 .TP
@@ -303,8 +302,8 @@ Set the operating directory.  This makes \fBnano\fP set up something
 similar to a chroot.
 .TP
 .BR \-p ", " \-\-preserve
-Preserve the XON and XOFF sequences (\fB^Q\fR and \fB^S\fR) so they
-will be caught by the terminal.
+Preserve the XOFF and XON sequences (\fB^S\fR and \fB^Q\fR) so that
+they are caught by the terminal (stopping and resuming the output).
 Note that option \fB\-/\fR (\fB\-\-modernbindings\fR) overrides this.
 .TP
 .BR \-q ", " \-\-indicator
@@ -314,7 +313,7 @@ and how much of the buffer is covered by the viewport.
 .TP
 .BR \-r\ \fInumber ", " \-\-fill= \fInumber
 Set the target width for justifying and automatic hard-wrapping at this
-\fInumber\fR of columns.  If the value is 0 or less, wrapping will occur
+\fInumber\fR of columns.  If the value is 0 or less, wrapping occurs
 at the width of the screen minus \fInumber\fR columns, allowing the wrap
 point to vary along with the width of the screen if the screen is resized.
 The default value is \fB\-8\fR.
@@ -423,9 +422,9 @@ the help viewer and the linter.  All other toggles work in
 the main menu only.
 
 .SH FILES
-When \fB\-\-rcfile\fR is given, \fBnano\fR will read just the specified file
+When \fB\-\-rcfile\fR is given, \fBnano\fR reads just the specified file
 for setting its options and syntaxes and key bindings.  Without that option,
-\fBnano\fR will read two configuration files: first the system's
+\fBnano\fR reads two configuration files: first the system's
 \fInanorc\fR (if it exists), and then the user's \fInanorc\fR (if it
 exists), either \fI~/.nanorc\fR or \fI$XDG_CONFIG_HOME/nano/nanorc\fR
 or \fI~/.config/nano/nanorc\fR, whichever is encountered first.  See
@@ -444,17 +443,17 @@ When you want to copy marked text from \fBnano\fR to the system's clipboard,
 see one of the examples in the \fBnanorc\fR(5) man page.
 .sp
 If no alternative spell checker command is specified on the command
-line nor in one of the \fInanorc\fP files, \fBnano\fP will check the
+line nor in one of the \fInanorc\fP files, \fBnano\fP checks the
 \fBSPELL\fP environment variable for one.
 .sp
-In some cases \fBnano\fP will try to dump the buffer into an emergency
-file.  This will happen mainly if \fBnano\fP receives a SIGHUP or
-SIGTERM or runs out of memory.  It will write the buffer into a file
-named \fInano.save\fP if the buffer didn't have a name already, or will
-add a ".save" suffix to the current filename.  If an emergency file with
-that name already exists in the current directory, it will add ".save"
+In some cases \fBnano\fP tries to dump the buffer into an emergency
+file.  This happens mainly if \fBnano\fP receives a SIGHUP or
+SIGTERM or runs out of memory.  It writes the buffer into a file
+named \fInano.save\fP if the buffer didn't have a name already, or
+adds a ".save" suffix to the current filename.  If an emergency file with
+that name already exists in the current directory, it adds ".save"
 plus a number (e.g.\& ".save.1") to the current filename in order to make
-it unique.  In multibuffer mode, \fBnano\fP will write all the open
+it unique.  In multibuffer mode, \fBnano\fP writes all the open
 buffers to their respective emergency files.
 .sp
 If you have any question about how to use \fBnano\fR in some specific
@@ -469,7 +468,7 @@ Please report any other bugs that you encounter via:
 .br
 .IR https://savannah.gnu.org/bugs/?group=nano .
 .sp
-When nano crashes, it will save any modified buffers to emergency .save files.
+When nano crashes, it saves any modified buffers to emergency .save files.
 If you are able to reproduce the crash and you want to get a backtrace, define
 the environment variable \fBNANO_NOCATCH\fR.
 
