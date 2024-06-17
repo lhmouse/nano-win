@@ -48,7 +48,7 @@ PKG_PROG_PKG_CONFIG
 
 dnl Internationalization macros.
 
-AM_GNU_GETTEXT_VERSION([0.18.3])
+AM_GNU_GETTEXT_VERSION([0.20])
 AM_GNU_GETTEXT([external], [need-ngettext])
 AM_CONDITIONAL(USE_NLS, test x$USE_NLS = xyes)
 
