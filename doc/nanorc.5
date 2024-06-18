@@ -24,13 +24,12 @@ nanorc \- GNU nano's configuration file
 .SH DESCRIPTION
 The \fInanorc\fP files contain the default settings for \fBnano\fP,
 a small and friendly text editor.  During startup, if \fB\-\-rcfile\fR
-is not given, \fBnano\fR reads two files: first the
-system-wide settings, from \fI/etc/nanorc\fP (the exact path might be
-different on your system), and then the user-specific settings, either
-from \fI~/.nanorc\fR or from \fI$XDG_CONFIG_HOME/nano/nanorc\fR
-or from \fI~/.config/nano/nanorc\fR, whichever is encountered first.
-If \fB\-\-rcfile\fR is given, \fBnano\fR reads just the specified
-settings file.
+is not given, \fBnano\fR reads two files: first the system-wide settings,
+from \fI/etc/nanorc\fP (the exact path might be different on your system),
+and then the user-specific settings, either from \fI~/.nanorc\fR or from
+\fI$XDG_CONFIG_HOME/nano/nanorc\fR or from \fI~/.config/nano/nanorc\fR,
+whichever is encountered first.  If \fB\-\-rcfile\fR is given,
+\fBnano\fR reads just the specified settings file.
 
 .SH NOTICE
 Since version 8.0, to be newcomer friendly, \fB^F\fR starts a forward search,
@@ -102,8 +101,8 @@ The uniquely numbered files are stored in the specified \fIdirectory\fR.
 .TP
 .B set boldtext
 Use bold instead of reverse video for the title bar, status bar,
-prompt bar, mini bar, key combos, line numbers,
-and selected text.  This can be overridden by setting the options
+prompt bar, mini bar, key combos, line numbers, and selected text.
+This can be overridden by setting the options
 \fBtitlecolor\fP, \fBstatuscolor\fP, \fBpromptcolor\fP, \fBminicolor\fP,
 \fBkeycolor\fP, \fBnumbercolor\fP, and/or \fBselectedcolor\fP.
 .TP
@@ -223,9 +222,9 @@ Use this color combination for the mini bar.
 See \fBset titlecolor\fR for more details.
 .TP
 .B set mouse
-Enable mouse support, if available for your system.  When enabled, mouse
-clicks can be used to place the cursor, set the mark (with a double
-click), and execute shortcuts.  The mouse works in the X Window
+Enable mouse support, if available for your system.  When enabled,
+mouse clicks can be used to place the cursor, set the mark (with two
+clicks), and execute shortcuts.  The mouse works in the X Window
 System, and on the console when gpm is running.  Text can still be
 selected through dragging by holding down the Shift key.
 .TP
@@ -492,8 +491,8 @@ If no \fIfileregex\fR matched and no \fBheader\fR regex matched
 either, then compare this \fIregex\fR (or regexes) against the
 result of querying the \fBmagic\fP database about the current
 file, to determine whether this syntax should be used for it.
-(This functionality only works when \fBlibmagic\fP is installed on the
-system and is silently ignored otherwise.)
+(This querying is done only when \fBlibmagic\fR is actually installed
+on the system and \fB\-\-magic\fR or \fBset magic\fR was given.)
 .TP
 .BI formatter " program " \fR[ "argument " \fR...]
 Run the given \fIprogram\fR on the full contents of the current buffer.
@@ -638,8 +637,8 @@ Example: F10.
 Rebinding \fB^M\fR (Enter) or \fB^I\fR (Tab) is probably not a good idea.
 Rebinding \fB^[\fR (Esc) is not possible, because its keycode
 is the starter byte of Meta keystrokes and escape sequences.
-Rebinding any of the dedicated cursor-moving keys (the arrows, Home, End,
-PageUp and PageDown) is not possible.
+Rebinding any of the dedicated cursor-moving keys (the arrows,
+Home, End, PageUp and PageDown) is not possible.
 On some terminals it's not possible to rebind \fB^H\fR (unless \fB\-\-raw\fR
 is used) because its keycode is identical to that of the Backspace key.
 

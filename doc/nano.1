@@ -84,9 +84,9 @@ contents of the cutbuffer at the current cursor position.
 .sp
 When a more precise piece of text needs to be cut or copied, you can mark
 its start with \fB^6\fR, move the cursor to its end (the marked text is
-highlighted), and then use \fB^K\fR to cut it, or \fBM\-6\fR to copy it to the
-cutbuffer.  You can also save the marked text to a file with \fB^O\fR, or
-spell check it with \fB^T^T\fR.
+highlighted), and then use \fB^K\fR to cut it, or \fBM\-6\fR to copy it to
+the cutbuffer.  You can also save the marked text to a file with \fB^O\fR,
+or spell check it with \fB^T^T\fR.
 .sp
 On some terminals, text can be selected also by holding down Shift while
 using the arrow keys.  Holding down the Ctrl or Alt key too increases
@@ -157,9 +157,9 @@ in your \fInanorc\fR file.)
 .BR \-K ", " \-\-rawsequences
 Interpret escape sequences directly, instead of asking \fBncurses\fR
 to translate them.  (If you need this option to get some keys to work
-properly, it means that the \fBterminfo\fR terminal description that is used
-does not fully match the actual behavior of your terminal.  This can
-happen when you ssh into a BSD machine, for example.)
+properly, it means that the \fBterminfo\fR terminal description that
+is used does not fully match the actual behavior of your terminal.
+This can happen when you ssh into a BSD machine, for example.)
 Using this option disables \fBnano\fR's mouse support.
 .TP
 .BR \-L ", " \-\-nonewlines
@@ -423,8 +423,8 @@ the main menu only.
 
 .SH FILES
 When \fB\-\-rcfile\fR is given, \fBnano\fR reads just the specified file
-for setting its options and syntaxes and key bindings.  Without that option,
-\fBnano\fR reads two configuration files: first the system's
+for setting its options and syntaxes and key bindings.  Without that
+option, \fBnano\fR reads two configuration files: first the system's
 \fInanorc\fR (if it exists), and then the user's \fInanorc\fR (if it
 exists), either \fI~/.nanorc\fR or \fI$XDG_CONFIG_HOME/nano/nanorc\fR
 or \fI~/.config/nano/nanorc\fR, whichever is encountered first.  See
@@ -446,15 +446,14 @@ If no alternative spell checker command is specified on the command
 line nor in one of the \fInanorc\fP files, \fBnano\fP checks the
 \fBSPELL\fP environment variable for one.
 .sp
-In some cases \fBnano\fP tries to dump the buffer into an emergency
-file.  This happens mainly if \fBnano\fP receives a SIGHUP or
-SIGTERM or runs out of memory.  It writes the buffer into a file
-named \fInano.save\fP if the buffer didn't have a name already, or
-adds a ".save" suffix to the current filename.  If an emergency file with
-that name already exists in the current directory, it adds ".save"
-plus a number (e.g.\& ".save.1") to the current filename in order to make
-it unique.  In multibuffer mode, \fBnano\fP writes all the open
-buffers to their respective emergency files.
+In some cases \fBnano\fP tries to dump the buffer into an emergency file.
+This happens mainly if \fBnano\fP receives a SIGHUP or SIGTERM or runs out
+of memory.  It writes the buffer into a file named \fInano.save\fP if the
+buffer didn't have a name already, or adds a ".save" suffix to the current
+filename.  If an emergency file with that name already exists in the
+current directory, it adds ".save" plus a number (e.g.\& ".save.1") to
+the current filename in order to make it unique.  In multibuffer mode,
+\fBnano\fP writes all open buffers to their respective emergency files.
 .sp
 If you have any question about how to use \fBnano\fR in some specific
 situation, you can ask on \fIhelp-nano@gnu.org\fR.

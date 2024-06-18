@@ -622,10 +622,10 @@ Display line numbers to the left of the text area.
 @item -m
 @itemx --mouse
 Enable mouse support, if available for your system.  When enabled, mouse
-clicks can be used to place the cursor, set the mark (with a double
-click), and execute shortcuts.  The mouse works in the X Window
-System, and on the console when gpm is running.  Text can still be
-selected through dragging by holding down the Shift key.
+clicks can be used to place the cursor, set the mark (with two clicks),
+and execute shortcuts.  The mouse works in the X Window System, and on
+the console when gpm is running.  Text can still be selected through
+dragging by holding down the Shift key.
 
 @item -n
 @itemx --noread
@@ -1072,7 +1072,7 @@ Use this color combination for the mini bar.
 
 @item set mouse
 Enable mouse support, so that mouse clicks can be used to place the
-cursor, set the mark (with a double click), or execute shortcuts.
+cursor, set the mark (with two clicks), or execute shortcuts.
 
 @item set multibuffer
 When reading in a file with @kbd{^R}, insert it into a new buffer by default.
@@ -1323,8 +1323,8 @@ If no @var{fileregex} matched and no @code{header} regex matched
 either, then compare this @var{regex} (or regexes) against the
 result of querying the @code{magic} database about the current
 file, to determine whether this syntax should be used for it.
-(This functionality only works when @code{libmagic} is installed
-on the system and is silently ignored otherwise.)
+(This querying is done only when @code{libmagic} is actually installed
+on the system and @option{--magic} or @code{set magic} was given.)
 
 @item formatter @var{program} [@var{argument} @dots{}]
 Run the given @var{program} on the full contents of the current buffer.
@@ -1988,8 +1988,8 @@ but also (between the two) the current column position.
 
 @item Spell Checking
 In the internal spell checker misspelled words are sorted alphabetically
-and trimmed for uniqueness, such that the words 'apple' and 'Apple' will
-be prompted for correction separately.
+and trimmed for uniqueness, such that the strings 'Aplpe' and 'aplpe'
+will be offered for correction separately.
 
 @item Writing Selected Text to Files
 When using the Write-Out key (@kbd{^O}), text that has been selected using the
