@@ -2,7 +2,7 @@
 # Generate configure & friends for GIT users.
 
 gnulib_url="git://git.sv.gnu.org/gnulib.git"
-gnulib_hash="f948d1813a3545c75ba79087e6cb52b51d44dfe6"
+gnulib_hash="0ba13435a9362bec0ff5fd0830907b9fac723e41"
 
 modules="
 	canonicalize-lgpl

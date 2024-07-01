@@ -31,6 +31,5 @@ EXTRA_DIST = \
 	threadlib.m4 \
 	uintmax_t.m4 \
 	visibility.m4 \
-	wchar_t.m4 \
 	wint_t.m4 \
 	xsize.m4
