@@ -720,7 +720,7 @@ List the names of the available syntaxes and exit.
 When neither the file's name nor its first line give a clue,
 try using libmagic to determine the applicable syntax.
 
-@item -@
+@item -@@
 @itemx --colonparsing
 When a filename given on the command line ends in a colon plus digits
 and this filename does not exist, then snip the colon plus digits and
