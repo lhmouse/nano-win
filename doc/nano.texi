@@ -728,8 +728,8 @@ understand the digits as a line number.  If the trimmed filename does
 not exist either, then repeat the process and understand the obtained
 two numbers as line and column number.  But if the doubly trimmed
 filename does not exist either, then forget the trimming and accept
-the original filename as is.  To disable this colon parsing, use
-something like @code{+1} before the filename.
+the original filename as is.  To disable this colon parsing for some
+file, use @code{+1} or similar before the relevant filename.
 
 @item -%
 @itemx --stateflags
@@ -947,8 +947,8 @@ understand the digits as a line number.  If the trimmed filename does
 not exist either, then repeat the process and understand the obtained
 two numbers as line and column number.  But if the doubly trimmed
 filename does not exist either, then forget the trimming and accept
-the original filename as is.  To disable this colon parsing, use
-something like @code{+1} before the filename.
+the original filename as is.  To disable this colon parsing for some
+file, use @code{+1} or similar before the relevant filename.
 
 @item set constantshow
 Constantly display the cursor position on the status bar.
