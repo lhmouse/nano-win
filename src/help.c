@@ -477,7 +477,9 @@ void show_help(void)
 #ifndef NANO_TINY
 		spotlighted = FALSE;
 
-		if (bracketed_paste || kbinput == BRACKETED_PASTE_MARKER) {
+		while (bracketed_paste)
+			kbinput = get_kbinput(midwin, BLIND);
+		if (kbinput == BRACKETED_PASTE_MARKER) {
 			beep();
 			continue;
 		}
