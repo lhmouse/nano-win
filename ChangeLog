@@ -1,3 +1,68 @@
+Changes between v8.0 and v8.1:
+------------------------------
+
+Benno Schulenberg (56):
+      bindings: let ^L put the cursor line at center, then top, then bottom
+      build: check for the correct function in an #ifdef
+      build: require version 0.20 of gettext for building nano from git
+      build: use the standard `autoreconf` invocation
+      bump version numbers and add a news item for the 8.1 release
+      docs: add 'set colonparsing' to the sample nanorc
+      docs: add the Alt+Home/Alt+End shortcuts to the cheatsheet
+      docs: avert hyphenation of the technical words "ncurses" and "terminfo"
+      docs: correct the description of --bold, as function tags are unaffected
+      docs: document the new --listsyntaxes (-z) option
+      docs: don't say any more that -z was removed, as it has been repurposed
+      docs: explain the behavior of the new function `cycle`
+      docs: explain the details of --colonparsing / -@ / 'set colonparsing'
+      docs: extend the FAQ item about urxvt modified keys, with M-Home/M-End
+      docs: properly escape a literal '@' in the texi document
+      docs: remove the 'filename:linenumber' format from the synopsis
+      files: avoid mistakenly setting the column number to a given line number
+      files: look for digits and colons starting from the end of the filename
+      files: when a filename with a colon and digits exists, open that file
+      files: with --rectrict, prevent invoking the browser and toggling backups
+      general: disable the type-ahead checking that ncurses normally does
+      gnulib: update to its current upstream state
+      help: regroup the `center` item, placing it with the new `cycle`
+      help: show option -Y/--syntax in --help output also in restricted mode
+      input: drop recognition of the urxvt escape sequences for M-Home/M-End
+      input: make sure that a string-bind return value is non-negative
+      input: provide for urxvt setting a high bit or sending an extra escape
+      input: recognize the raw Xterm escape sequences for Alt+Home and Alt+End
+      minibar: do not falsely report that a new, empty file is in Mac format
+      moving: use edit_scroll() only when scrolling one row is enough
+      new feature: add bindable function `cycle` that pushes cursor line around
+      new feature: option -z lists the names of available syntaxes
+      options: remove the deprecated synonym -$ of -S/--softwrap
+      options: require --colonparsing/-@ to parse colon+number after a filename
+      rcfile: remove old bindable function 'nowrap', alias of 'breaklonglines'
+      startup: do not activate --modernbindings when name starts with "e"
+      syntaxes: mention the original author of most of the syntax files
+      syntax: man: colorize some of the things that manipulate hyphenation
+      syntax: patch: recognize also the .rej extension
+      text: do not check for <Tab> + mark while getting input but in do_tab()
+      tweaks: add a space after a '+', for consistent formatting
+      tweaks: discard a bracketed paste in the help viewer with fewer beeps
+      tweaks: drop two redundant conditions
+      tweaks: elide unhelpful occurrences of the word "will"
+      tweaks: exclude the colon-parsing code from the tiny version
+      tweaks: extend the deprecation period of 'set nowrap' and prefix 'bright'
+      tweaks: implement do_center() with a single call instead of three
+      tweaks: in FAQ, use 'id' attribute instead of empty anchor with 'name'
+      tweaks: make a comment more accurate, and unabbreviate a variable name
+      tweaks: make the inclusion condition for do_center() more strict
+      tweaks: remove the now unneeded special keycode INDENT_KEY
+      tweaks: reshuffle a declaration, adjust a comment, normalize indentation
+      tweaks: reshuffle some lines, to put vaguely related things together
+      tweaks: rewrap some lines, for more even lengths
+      tweaks: simplify a condition, to match the same condition five lines back
+      tweaks: slightly reword a phrase in the explanation of --colonparsing
+
+Jaroslav Fowkes (1):
+      syntax: fortran: fix a typo (a missing backslash)
+
+
 Changes between v7.2 and v8.0:
 ------------------------------
 

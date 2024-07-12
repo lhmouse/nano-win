@@ -7,7 +7,8 @@ Since 8.0:
     ^Z undo, ^Y redo, ^O open a file, and ^G find again, among others.
   - M-Home/M-End put the cursor on the first/last row in the viewport.
   - With `nano filename:number` the given file will be opened with the
-    cursor on the given line number.
+    cursor on the given line number (when 'set colonparsing' is used).
+  - Option --listsyntaxes lists the names of available syntaxes.
 
 Since 7.0:
   - String binds may contain bindable function names between braces.
