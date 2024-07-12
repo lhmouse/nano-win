@@ -6,10 +6,10 @@
 # Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
-"Project-Id-Version: nano 8.0-pre1\n"
+"Project-Id-Version: nano 8.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2024-05-01 10:39+0200\n"
-"PO-Revision-Date: 2024-04-25 13:14+0900\n"
+"POT-Creation-Date: 2024-07-12 11:20+0200\n"
+"PO-Revision-Date: 2024-07-02 21:13+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "X-Generator: Poedit 3.2.2\n"
-"X-Poedit-Basepath: nano-8.0-pre1\n"
+"X-Poedit-Basepath: nano-8.1-pre1\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #. TRANSLATORS: Anything more than 7 cells gets clipped.
@@ -58,7 +58,7 @@ msgstr " [戻る]"
 
 #: src/browser.c:322 src/browser.c:567 src/files.c:1157 src/files.c:1244
 #: src/files.c:2183 src/nano.c:321 src/search.c:114 src/search.c:295
-#: src/search.c:724 src/search.c:780 src/text.c:2617 src/text.c:2808
+#: src/search.c:724 src/search.c:780 src/text.c:2623 src/text.c:2814
 msgid "Cancelled"
 msgstr "取り消しました"
 
@@ -228,7 +228,7 @@ msgid "%s -- %zu line (%s)"
 msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu 行 (%s)"
 
-#: src/files.c:545 src/files.c:551 src/global.c:1094 src/winio.c:2066
+#: src/files.c:545 src/files.c:551 src/global.c:1098 src/winio.c:2063
 msgid "New Buffer"
 msgstr "新しいバッファ"
 
@@ -295,13 +295,13 @@ msgstr "FIFOから読み込み中..."
 msgid "Reading..."
 msgstr "読み込み中..."
 
-#: src/files.c:1032 src/text.c:2360 src/text.c:2625
+#: src/files.c:1032 src/text.c:2366 src/text.c:2631
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "pipe を作成できません: %s"
 
-#: src/files.c:1072 src/files.c:1116 src/text.c:2174 src/text.c:2440
-#: src/text.c:2660
+#: src/files.c:1072 src/files.c:1116 src/text.c:2180 src/text.c:2446
+#: src/text.c:2666
 #, c-format
 msgid "Could not fork: %s"
 msgstr "forkできません: %s"
@@ -416,8 +416,8 @@ msgstr "%s の外部から書き込めません"
 msgid "Error writing %s: %s"
 msgstr "%s の書き込みエラー: %s"
 
-#: src/files.c:1825 src/files.c:1837 src/text.c:2549 src/text.c:2561
-#: src/text.c:2959
+#: src/files.c:1825 src/files.c:1837 src/text.c:2555 src/text.c:2567
+#: src/text.c:2965
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "テンポラリファイルの書き込みエラー: %s"
@@ -493,7 +493,7 @@ msgid "File Name to Write"
 msgstr "書き込むファイル"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2243 src/nano.c:1073 src/nano.c:1082
+#: src/files.c:2243 src/nano.c:1097 src/nano.c:1106
 msgid "Too tiny"
 msgstr "画面が狭すぎます"
 
@@ -525,864 +525,872 @@ msgid "(more)"
 msgstr "(続き)"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:550
+#: src/global.c:553
 msgid "Exit"
 msgstr "終了"
 
-#: src/global.c:551
+#: src/global.c:554
 msgid "Close"
 msgstr "閉じる"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
-#: src/global.c:559
+#: src/global.c:562
 msgid "Cancel the current function"
 msgstr "動作を取り消します"
 
-#: src/global.c:560
+#: src/global.c:563
 msgid "Display this help text"
 msgstr "ヘルプを表示"
 
-#: src/global.c:561
+#: src/global.c:564
 msgid "Close the current buffer / Exit from nano"
 msgstr "現在のバッファを閉じて nano を終了"
 
-#: src/global.c:563
+#: src/global.c:566
 msgid "Write the current buffer (or the marked region) to disk"
 msgstr "現在のバッファ（またはマークした範囲）をディスクへ書き込み"
 
-#: src/global.c:565
+#: src/global.c:568
 msgid "Insert another file into current buffer (or into new buffer)"
 msgstr "他のファイルから現在のバッファ（または新しいバッファ）に読み込み"
 
-#: src/global.c:567
+#: src/global.c:570
 msgid "Search forward for a string or a regular expression"
 msgstr "正規表現で文字列を前方に向かって検索"
 
-#: src/global.c:569
+#: src/global.c:572
 msgid "Search backward for a string or a regular expression"
 msgstr "正規表現で文字列を後方に向かって検索"
 
-#: src/global.c:571
+#: src/global.c:574
 msgid "Cut current line (or marked region) and store it in cutbuffer"
 msgstr "現在の行（またはマークした範囲）を切り取ってカットバッファに格納する"
 
-#: src/global.c:573
+#: src/global.c:576
 msgid "Copy current line (or marked region) and store it in cutbuffer"
 msgstr "現在の行（またはマークした範囲）をコピーしてカットバッファに格納する"
 
-#: src/global.c:575
+#: src/global.c:578
 msgid "Paste the contents of cutbuffer at current cursor position"
 msgstr "カットバッファの内容をカーソル位置に貼り付ける"
 
-#: src/global.c:576
+#: src/global.c:579
 msgid "Display the position of the cursor"
 msgstr "カーソル位置を表示"
 
-#: src/global.c:578
+#: src/global.c:581
 msgid "Invoke the spell checker, if available"
 msgstr "スペルチェッカを起動 (利用可能な場合)"
 
-#: src/global.c:580
+#: src/global.c:583
 msgid "Replace a string or a regular expression"
 msgstr "正規表現置換"
 
-#: src/global.c:581
+#: src/global.c:584
 msgid "Go to line and column number"
 msgstr "指定位置へ移動"
 
-#: src/global.c:583
+#: src/global.c:586
+msgid "Go to the matching bracket"
+msgstr "対応する括弧へ移動"
+
+#: src/global.c:587
 msgid "Mark text starting from the cursor position"
 msgstr "カーソル位置から始まる単語をマーク"
 
-#: src/global.c:584
+#: src/global.c:588
 msgid "Throw away the current line (or marked region)"
 msgstr "現在行（またはマークされた範囲）を捨てる"
 
-#: src/global.c:585
+#: src/global.c:589
 msgid "Indent the current line (or marked lines)"
 msgstr "現在行（またはマークされた行）をインデント"
 
-#: src/global.c:586
+#: src/global.c:590
 msgid "Unindent the current line (or marked lines)"
 msgstr "現在行（またはマークされた行）のインデントを縮小"
 
-#: src/global.c:587
+#: src/global.c:591
 msgid "Undo the last operation"
 msgstr "直前の操作を取り消す (undo)"
 
-#: src/global.c:588
+#: src/global.c:592
 msgid "Redo the last undone operation"
 msgstr "取り消した直前の操作をやり直す (redo)"
 
-#: src/global.c:590
+#: src/global.c:594
 msgid "Go back one character"
 msgstr "前の文字へ戻る"
 
-#: src/global.c:591
+#: src/global.c:595
 msgid "Go forward one character"
 msgstr "次の文字へ進む"
 
-#: src/global.c:592
+#: src/global.c:596
 msgid "Go back one word"
 msgstr "前の単語へ戻る"
 
-#: src/global.c:593
+#: src/global.c:597
 msgid "Go forward one word"
 msgstr "次の単語へ進む"
 
-#: src/global.c:594
+#: src/global.c:598
 msgid "Go to previous line"
 msgstr "前の行へ移動する"
 
-#: src/global.c:595
+#: src/global.c:599
 msgid "Go to next line"
 msgstr "次の行へ移動する"
 
-#: src/global.c:596
+#: src/global.c:600
 msgid "Go to beginning of current line"
 msgstr "現在行の先頭へ移動"
 
-#: src/global.c:597
+#: src/global.c:601
 msgid "Go to end of current line"
 msgstr "現在行の末尾へ移動"
 
-#: src/global.c:598
+#: src/global.c:602
 msgid "Go to previous block of text"
 msgstr "前のテキストブロックへ移動する"
 
-#: src/global.c:599
+#: src/global.c:603
 msgid "Go to next block of text"
 msgstr "次のテキストブロックへ移動する"
 
-#: src/global.c:602
+#: src/global.c:606
 msgid "Go to beginning of paragraph; then of previous paragraph"
 msgstr "段落の先頭へ移動、カーソルがその位置にある場合その前の段落へ移動"
 
-#: src/global.c:604
+#: src/global.c:608
 msgid "Go just beyond end of paragraph; then of next paragraph"
 msgstr ""
 "段落の末尾の次の位置へ移動、カーソルがその位置にある場合その次の段落へ移動"
 
-#: src/global.c:607
+#: src/global.c:611
 msgid "Go to first row in the viewport"
 msgstr "ビューポートの最上段へ移動"
 
-#: src/global.c:608
+#: src/global.c:612
 msgid "Go to last row in the viewport"
 msgstr "ビューポートの最下段へ移動"
 
-#: src/global.c:610
-msgid "Go one screenful up"
-msgstr "前のページへ移動"
-
-#: src/global.c:611
-msgid "Go one screenful down"
-msgstr "次のページへ移動"
-
-#: src/global.c:612
-msgid "Go to the first line of the file"
-msgstr "ファイルの先頭行へ移動"
-
 #: src/global.c:613
-msgid "Go to the last line of the file"
-msgstr "ファイルの最終行へ移動"
-
-#: src/global.c:615
-msgid "Go to the matching bracket"
-msgstr "対応する括弧へ移動"
-
-#: src/global.c:619
-msgid "Scroll up one line without moving the cursor textually"
-msgstr "文中のカーソル位置を変えずに一行上にスクロールする"
-
-#: src/global.c:621
-msgid "Scroll down one line without moving the cursor textually"
-msgstr "文中のカーソル位置を変えずに一行下にスクロールする"
-
-#: src/global.c:622
 msgid "Center the line where the cursor is"
 msgstr "カーソル位置の行を中寄せ"
 
-#: src/global.c:625
+#: src/global.c:614
+msgid "Push the cursor line to the center, then top, then bottom"
+msgstr "カーソルのある行を中央、最上行、最下行へ"
+
+#: src/global.c:616
+msgid "Go one screenful up"
+msgstr "前のページへ移動"
+
+#: src/global.c:617
+msgid "Go one screenful down"
+msgstr "次のページへ移動"
+
+#: src/global.c:618
+msgid "Go to the first line of the file"
+msgstr "ファイルの先頭行へ移動"
+
+#: src/global.c:619
+msgid "Go to the last line of the file"
+msgstr "ファイルの最終行へ移動"
+
+#: src/global.c:622
+msgid "Scroll up one line without moving the cursor textually"
+msgstr "文中のカーソル位置を変えずに一行上にスクロールする"
+
+#: src/global.c:624
+msgid "Scroll down one line without moving the cursor textually"
+msgstr "文中のカーソル位置を変えずに一行下にスクロールする"
+
+#: src/global.c:627
 msgid "Switch to the previous file buffer"
 msgstr "前のバッファに切替え"
 
-#: src/global.c:626
+#: src/global.c:628
 msgid "Switch to the next file buffer"
 msgstr "次のバッファに切替え"
 
-#: src/global.c:628
+#: src/global.c:630
 msgid "Insert the next keystroke verbatim"
 msgstr "後に続く特殊キーをそのまま入力"
 
-#: src/global.c:629
+#: src/global.c:631
 msgid "Insert a tab at the cursor position (or indent marked lines)"
 msgstr "カーソル位置にタブ文字を挿入（またはマークした行をインデント）"
 
-#: src/global.c:630
+#: src/global.c:632
 msgid "Insert a newline at the cursor position"
 msgstr "行の挿入"
 
-#: src/global.c:631
+#: src/global.c:633
 msgid "Delete the character under the cursor"
 msgstr "カーソル位置の文字を削除"
 
-#: src/global.c:633
+#: src/global.c:635
 msgid "Delete the character to the left of the cursor"
 msgstr "カーソルの前の文字を削除"
 
-#: src/global.c:636
+#: src/global.c:638
 msgid "Delete backward from cursor to word start"
 msgstr "カーソルから単語の先頭までを削除する"
 
-#: src/global.c:638
+#: src/global.c:640
 msgid "Delete forward from cursor to next word start"
 msgstr "カーソルから次の単語の先頭までを削除する"
 
-#: src/global.c:640
+#: src/global.c:642
 msgid "Cut from the cursor position to the end of the file"
 msgstr "カーソル位置からファイル終端までを切り取る"
 
-#: src/global.c:643
+#: src/global.c:645
 msgid "Justify the current paragraph"
 msgstr "段落を均等割付"
 
-#: src/global.c:644
+#: src/global.c:646
 msgid "Justify the entire file"
 msgstr "ファイル全体を均等割付"
 
-#: src/global.c:648
+#: src/global.c:650
 msgid "Count the number of lines, words, and characters"
 msgstr "行数、単語数、文字数を表示"
 
-#: src/global.c:649
+#: src/global.c:651
 msgid "Suspend the editor (return to the shell)"
 msgstr "エディタを一時中断する (シェルに戻る)"
 
-#: src/global.c:651
+#: src/global.c:653
 msgid "Refresh (redraw) the current screen"
 msgstr "画面の更新"
 
-#: src/global.c:653
+#: src/global.c:655
 msgid "Try and complete the current word"
 msgstr "現在の単語の補完を試みる"
 
-#: src/global.c:657
+#: src/global.c:659
 msgid "Comment/uncomment the current line (or marked lines)"
 msgstr "現在行（またはマークされた行）をコメント/コメント解除"
 
-#: src/global.c:659
+#: src/global.c:661
 msgid "Save file without prompting"
 msgstr "ファイルを確認なしで保存する"
 
-#: src/global.c:660
+#: src/global.c:662
 msgid "Search next occurrence backward"
 msgstr "次を検索（前方へ）"
 
-#: src/global.c:661
+#: src/global.c:663
 msgid "Search next occurrence forward"
 msgstr "次を検索（後方へ）"
 
-#: src/global.c:663
+#: src/global.c:665
 msgid "Start/stop recording a macro"
 msgstr "マクロの記録を開始/停止"
 
-#: src/global.c:664
+#: src/global.c:666
 msgid "Run the last recorded macro"
 msgstr "直前に記録されたマクロを実行する"
 
-#: src/global.c:665
+#: src/global.c:667
 msgid "Place or remove an anchor at the current line"
 msgstr "現在の行にアンカーを設置または削除する"
 
-#: src/global.c:666
+#: src/global.c:668
 msgid "Jump backward to the nearest anchor"
 msgstr "後方にジャンプし直近のアンカーへ"
 
-#: src/global.c:667
+#: src/global.c:669
 msgid "Jump forward to the nearest anchor"
 msgstr "前方にジャンプし直近のアンカーへ"
 
-#: src/global.c:669
+#: src/global.c:671
 msgid "Toggle the case sensitivity of the search"
 msgstr "検索時に大文字小文字を区別をするかしないかを切り替える"
 
-#: src/global.c:670
+#: src/global.c:672
 msgid "Reverse the direction of the search"
 msgstr "検索方向の順逆を切り替える"
 
-#: src/global.c:671
+#: src/global.c:673
 msgid "Toggle the use of regular expressions"
 msgstr "正規表現を使用するかしないかを切り替える"
 
-#: src/global.c:673
+#: src/global.c:675
 msgid "Recall the previous search/replace string"
 msgstr "前の検索文字 / 置換文字列を呼び出す"
 
-#: src/global.c:674
+#: src/global.c:676
 msgid "Recall the next search/replace string"
 msgstr "次の検索文字 / 置換文字列を呼び出す"
 
-#: src/global.c:677
+#: src/global.c:679
 msgid "Toggle the use of DOS format"
 msgstr "DOS フォーマットに切替え"
 
-#: src/global.c:678
+#: src/global.c:680
 msgid "Toggle the use of Mac format"
 msgstr "Mac フォーマットに切替え"
 
-#: src/global.c:679
+#: src/global.c:681
 msgid "Toggle appending"
 msgstr "ファイル末尾に追加する動作に切り替える"
 
-#: src/global.c:680
+#: src/global.c:682
 msgid "Toggle prepending"
 msgstr "ファイル先頭に追加する動作に切り替える"
 
-#: src/global.c:681
+#: src/global.c:683
 msgid "Toggle backing up of the original file"
 msgstr "元ファイルのバックアップを作成する動作に切り替える"
 
-#: src/global.c:682
+#: src/global.c:684
 msgid "Execute a function or an external command"
 msgstr "関数または外部コマンドの実行"
 
-#: src/global.c:684
+#: src/global.c:686
 msgid "Pipe the current buffer (or marked region) to the command"
 msgstr "現在のバッファ（またはマークした範囲）を指定したコマンドへパイプ送り"
 
-#: src/global.c:686
+#: src/global.c:688
 msgid "Recall the previous command"
 msgstr "前のコマンドを呼び出す"
 
-#: src/global.c:687
+#: src/global.c:689
 msgid "Recall the next command"
 msgstr "次のコマンドを呼び出す"
 
-#: src/global.c:689
+#: src/global.c:691
 msgid "Do not convert from DOS/Mac format"
 msgstr "DOS/Mac フォーマットを変換しない"
 
-#: src/global.c:692
+#: src/global.c:694
 msgid "Toggle the use of a new buffer"
 msgstr "新しいバッファに切替え"
 
-#: src/global.c:694
+#: src/global.c:696
 msgid "Close buffer without saving it"
 msgstr "変更を破棄して閉じる"
 
-#: src/global.c:696
+#: src/global.c:698
 msgid "Go to file browser"
 msgstr "ファイルブラウザの起動"
 
-#: src/global.c:697
+#: src/global.c:699
 msgid "Exit from the file browser"
 msgstr "ファイルブラウザの終了"
 
-#: src/global.c:698
+#: src/global.c:700
 msgid "Go to the first file in the list"
 msgstr "リストの先頭に移動"
 
-#: src/global.c:699
+#: src/global.c:701
 msgid "Go to the last file in the list"
 msgstr "リストの末尾に移動"
 
-#: src/global.c:700
+#: src/global.c:702
 msgid "Go to the previous file in the list"
 msgstr "リストの前のファイルへ移動"
 
-#: src/global.c:701
+#: src/global.c:703
 msgid "Go to the next file in the list"
 msgstr "リストの次のファイルへ移動"
 
-#: src/global.c:703
+#: src/global.c:705
 msgid "Go to lefthand column"
 msgstr "左端の列へ移動"
 
-#: src/global.c:704
+#: src/global.c:706
 msgid "Go to righthand column"
 msgstr "右端の列へ移動"
 
-#: src/global.c:705
+#: src/global.c:707
 msgid "Go to first row in this column"
 msgstr "最上段へ移動"
 
-#: src/global.c:706
+#: src/global.c:708
 msgid "Go to last row in this column"
 msgstr "最下段へ移動"
 
-#: src/global.c:708
+#: src/global.c:710
 msgid "Search forward for a string"
 msgstr "文字列を前方へ検索"
 
-#: src/global.c:709
+#: src/global.c:711
 msgid "Search backward for a string"
 msgstr "文字列を後方へ検索"
 
-#: src/global.c:710
+#: src/global.c:712
 msgid "Refresh the file list"
 msgstr "ファイルのリストを更新"
 
-#: src/global.c:711
+#: src/global.c:713
 msgid "Go to directory"
 msgstr "ディレクトリに移動"
 
-#: src/global.c:714
+#: src/global.c:716
 msgid "Invoke the linter, if available"
 msgstr "構文チェッカを起動 (利用可能な場合)"
 
-#: src/global.c:715
+#: src/global.c:717
 msgid "Go to previous linter msg"
 msgstr "前の構文チェックメッセージへ"
 
-#: src/global.c:716
+#: src/global.c:718
 msgid "Go to next linter msg"
 msgstr "次の構文チェックメッセージへ"
 
-#: src/global.c:720
+#: src/global.c:722
 msgid "Invoke a program to format/arrange/manipulate the buffer"
 msgstr "プログラムを呼び出しバッファを 整形/編集/操作します"
 
 #. TRANSLATORS: Try to keep the next thirteen strings at most 10 characters.
-#: src/global.c:738
+#: src/global.c:740
 msgid "Help"
 msgstr "ヘルプ"
 
-#: src/global.c:742 src/prompt.c:684
+#: src/global.c:744 src/prompt.c:684
 msgid "Cancel"
 msgstr "取消"
 
-#: src/global.c:764
+#: src/global.c:766
 msgid "Write Out"
 msgstr "書き込み"
 
-#: src/global.c:772
+#: src/global.c:774
 msgid "Read File"
 msgstr "読み込み"
 
-#: src/global.c:776 src/global.c:815
+#: src/global.c:778 src/global.c:817
 msgid "Justify"
 msgstr "均等割付"
 
-#: src/global.c:782 src/global.c:874 src/global.c:1080
+#: src/global.c:784 src/global.c:876 src/global.c:1082
 msgid "Refresh"
 msgstr "更新"
 
-#: src/global.c:787 src/global.c:877
+#: src/global.c:789 src/global.c:879
 msgid "Where Is"
 msgstr "検索"
 
-#: src/global.c:790 src/global.c:851
+#: src/global.c:792 src/global.c:853
 msgid "Replace"
 msgstr "置換"
 
-#: src/global.c:803
+#: src/global.c:805
 msgid "Cut"
 msgstr "切り取り"
 
-#: src/global.c:806
+#: src/global.c:808
 msgid "Paste"
 msgstr "貼り付け"
 
-#: src/global.c:811 src/global.c:1072
+#: src/global.c:813 src/global.c:1074
 msgid "Execute"
 msgstr "コマンドを実行"
 
 #. TRANSLATORS: This refers to the position of the cursor.
-#: src/global.c:821
+#: src/global.c:823
 msgid "Location"
 msgstr "位置"
 
-#: src/global.c:827 src/global.c:982 src/global.c:1120
+#: src/global.c:829 src/global.c:984 src/global.c:1124
 msgid "Go To Line"
 msgstr "行を指定"
 
 #. TRANSLATORS: Try to keep the next ten strings at most 12 characters.
-#: src/global.c:833
+#: src/global.c:835
 msgid "Undo"
 msgstr "Undo"
 
-#: src/global.c:835
+#: src/global.c:837
 msgid "Redo"
 msgstr "Redo"
 
-#: src/global.c:838
+#: src/global.c:840
 msgid "Set Mark"
 msgstr "マークを設置"
 
-#: src/global.c:840 src/global.c:1016
+#: src/global.c:842 src/global.c:1018
 msgid "Copy"
 msgstr "コピー"
 
-#: src/global.c:844
+#: src/global.c:846
 msgid "Case Sens"
 msgstr "大/小文字"
 
-#: src/global.c:846
+#: src/global.c:848
 msgid "Reg.exp."
 msgstr "正規表現"
 
-#: src/global.c:848
+#: src/global.c:850
 msgid "Backwards"
 msgstr "後方に"
 
-#: src/global.c:853
+#: src/global.c:855
 msgid "No Replace"
 msgstr "置換しない"
 
-#: src/global.c:857 src/global.c:862
+#: src/global.c:859 src/global.c:864
 msgid "Older"
 msgstr "古い方へ"
 
-#: src/global.c:859 src/global.c:864
+#: src/global.c:861 src/global.c:866
 msgid "Newer"
 msgstr "新しい方へ"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:871
+#: src/global.c:873
 msgid "Go To Dir"
 msgstr "ディレクトリに移動"
 
 #. TRANSLATORS: This starts a backward search.
-#: src/global.c:879 src/global.c:898
+#: src/global.c:881 src/global.c:900
 msgid "Where Was"
 msgstr "検索（後方へ）"
 
 #. TRANSLATORS: This refers to searching the preceding occurrence.
-#: src/global.c:882 src/global.c:902
+#: src/global.c:884 src/global.c:904
 msgid "Previous"
 msgstr "前へ"
 
-#: src/global.c:884 src/global.c:904
+#: src/global.c:886 src/global.c:906
 msgid "Next"
 msgstr "次へ"
 
-#: src/global.c:894
+#: src/global.c:896
 msgid "To Bracket"
 msgstr "対の括弧へ"
 
 #. TRANSLATORS: This means move the cursor one character back.
-#: src/global.c:909 src/global.c:914
+#: src/global.c:911 src/global.c:916
 msgid "Back"
 msgstr "戻る"
 
-#: src/global.c:911 src/global.c:916
+#: src/global.c:913 src/global.c:918
 msgid "Forward"
 msgstr "進む"
 
 #. TRANSLATORS: Try to keep the next ten strings at most 12 characters.
-#: src/global.c:922
+#: src/global.c:924
 msgid "Prev Word"
 msgstr "前の単語"
 
-#: src/global.c:924
+#: src/global.c:926
 msgid "Next Word"
 msgstr "次の単語"
 
-#: src/global.c:928
+#: src/global.c:930
 msgid "Home"
 msgstr "先頭"
 
-#: src/global.c:930
+#: src/global.c:932
 msgid "End"
 msgstr "末尾"
 
-#: src/global.c:933
+#: src/global.c:935
 msgid "Prev Line"
 msgstr "前の行"
 
-#: src/global.c:935
+#: src/global.c:937
 msgid "Next Line"
 msgstr "次の行"
 
-#: src/global.c:938
+#: src/global.c:940
 msgid "Scroll Up"
 msgstr "上にスクロール"
 
-#: src/global.c:940
+#: src/global.c:942
 msgid "Scroll Down"
 msgstr "下にスクロール"
 
-#: src/global.c:944
+#: src/global.c:946
 msgid "Prev Block"
 msgstr "前のテキストブロック"
 
-#: src/global.c:946
+#: src/global.c:948
 msgid "Next Block"
 msgstr "次のテキストブロック"
 
 #. TRANSLATORS: Try to keep these two strings at most 16 characters.
-#: src/global.c:950
+#: src/global.c:952
 msgid "Begin of Paragr."
 msgstr "段落の始点"
 
-#: src/global.c:952
+#: src/global.c:954
 msgid "End of Paragraph"
 msgstr "段落の終点"
 
-#: src/global.c:957 src/global.c:1183
+#: src/global.c:959 src/global.c:1187
 msgid "Top Row"
 msgstr "最上段"
 
-#: src/global.c:959 src/global.c:1185
+#: src/global.c:961 src/global.c:1189
 msgid "Bottom Row"
 msgstr "最下段"
 
 #. TRANSLATORS: Try to keep the next six strings at most 12 characters.
-#: src/global.c:964 src/global.c:1168
+#: src/global.c:966 src/global.c:1172
 msgid "Prev Page"
 msgstr "前のページ"
 
-#: src/global.c:966 src/global.c:1170
+#: src/global.c:968 src/global.c:1174
 msgid "Next Page"
 msgstr "次のページ"
 
-#: src/global.c:969
+#: src/global.c:971
 msgid "First Line"
 msgstr "先頭行"
 
-#: src/global.c:971
+#: src/global.c:973
 msgid "Last Line"
 msgstr "最終行"
 
-#: src/global.c:975
+#: src/global.c:977
 msgid "Prev File"
 msgstr "前のファイル"
 
-#: src/global.c:977
+#: src/global.c:979
 msgid "Next File"
 msgstr "次のファイル"
 
 #. TRANSLATORS: The next four strings are names of keyboard keys.
-#: src/global.c:987
+#: src/global.c:989
 msgid "Tab"
 msgstr "タブ"
 
-#: src/global.c:989
+#: src/global.c:991
 msgid "Enter"
 msgstr "Enter"
 
-#: src/global.c:992
+#: src/global.c:994
 msgid "Backspace"
 msgstr "バックスペース"
 
-#: src/global.c:994
+#: src/global.c:996
 msgid "Delete"
 msgstr "削除"
 
 #. TRANSLATORS: The next two strings refer to deleting words.
-#: src/global.c:999
+#: src/global.c:1001
 msgid "Chop Left"
 msgstr "左を切り落とす"
 
-#: src/global.c:1001
+#: src/global.c:1003
 msgid "Chop Right"
 msgstr "右を切り落とす"
 
-#: src/global.c:1003 src/global.c:1154
+#: src/global.c:1005 src/global.c:1158
 msgid "Cut Till End"
 msgstr "末尾まで切り取り"
 
-#: src/global.c:1008 src/global.c:1111
+#: src/global.c:1010 src/global.c:1115
 msgid "Full Justify"
 msgstr "全て両端揃え"
 
-#: src/global.c:1013
+#: src/global.c:1015
 msgid "Word Count"
 msgstr "単語の合計数"
 
-#: src/global.c:1020
+#: src/global.c:1022
 msgid "Verbatim"
 msgstr "特殊キー入力"
 
-#: src/global.c:1027
+#: src/global.c:1029
 msgid "Indent"
 msgstr "インデント"
 
-#: src/global.c:1029
+#: src/global.c:1031
 msgid "Unindent"
 msgstr "インデント縮小"
 
-#: src/global.c:1033
+#: src/global.c:1035
 msgid "Comment Lines"
 msgstr "指定行をコメント"
 
-#: src/global.c:1037
+#: src/global.c:1039
 msgid "Complete"
 msgstr "単語の補完"
 
-#: src/global.c:1042
+#: src/global.c:1044
 msgid "Record"
 msgstr "記録"
 
-#: src/global.c:1044
+#: src/global.c:1046
 msgid "Run Macro"
 msgstr "マクロ実行"
 
 #. TRANSLATORS: This refers to deleting a line or marked region.
-#: src/global.c:1048
+#: src/global.c:1050
 msgid "Zap"
 msgstr "削除"
 
-#: src/global.c:1051
+#: src/global.c:1053
 msgid "Anchor"
 msgstr "アンカー"
 
-#: src/global.c:1053
+#: src/global.c:1055
 msgid "Up to anchor"
 msgstr "アンカーに向かって上へ"
 
-#: src/global.c:1055
+#: src/global.c:1057
 msgid "Down to anchor"
 msgstr "アンカーに向かって下へ"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:1059 src/global.c:1103
+#: src/global.c:1061 src/global.c:1107
 msgid "Spell Check"
 msgstr "スペルチェック"
 
-#: src/global.c:1063 src/global.c:1107
+#: src/global.c:1065 src/global.c:1111
 msgid "Linter"
 msgstr "構文チェック"
 
-#: src/global.c:1067 src/global.c:1115
+#: src/global.c:1069 src/global.c:1119
 msgid "Formatter"
 msgstr "整形プログラム"
 
-#: src/global.c:1075 src/global.c:1157
+#: src/global.c:1077 src/global.c:1161
 msgid "Suspend"
 msgstr "一時中断"
 
-#: src/global.c:1084
+#: src/global.c:1086
 msgid "Center"
 msgstr "中寄せ"
 
 #: src/global.c:1088
+msgid "Cycle"
+msgstr "サイクル"
+
+#: src/global.c:1092
 msgid "Save"
 msgstr "保存"
 
-#: src/global.c:1098
+#: src/global.c:1102
 msgid "Pipe Text"
 msgstr "パイプに送る"
 
-#: src/global.c:1122
+#: src/global.c:1126
 msgid "Go To Text"
 msgstr "検索"
 
-#: src/global.c:1127
+#: src/global.c:1131
 msgid "DOS Format"
 msgstr "DOS フォーマット"
 
-#: src/global.c:1129
+#: src/global.c:1133
 msgid "Mac Format"
 msgstr "Mac フォーマット"
 
-#: src/global.c:1137
+#: src/global.c:1141
 msgid "Append"
 msgstr "末尾に追加"
 
-#: src/global.c:1139
+#: src/global.c:1143
 msgid "Prepend"
 msgstr "先頭に追加"
 
-#: src/global.c:1142
+#: src/global.c:1146
 msgid "Backup File"
 msgstr "バックアップファイル"
 
-#: src/global.c:1146
+#: src/global.c:1150
 msgid "No Conversion"
 msgstr "変換しない"
 
-#: src/global.c:1151
+#: src/global.c:1155
 msgid "Execute Command"
 msgstr "コマンドを実行"
 
 #. TRANSLATORS: This invokes the file browser.
-#: src/global.c:1165
+#: src/global.c:1169
 msgid "Browse"
 msgstr "ファイル一覧"
 
-#: src/global.c:1173
+#: src/global.c:1177
 msgid "First File"
 msgstr "先頭へ"
 
-#: src/global.c:1175
+#: src/global.c:1179
 msgid "Last File"
 msgstr "末尾へ"
 
-#: src/global.c:1179
+#: src/global.c:1183
 msgid "Left Column"
 msgstr "左端"
 
-#: src/global.c:1181
+#: src/global.c:1185
 msgid "Right Column"
 msgstr "右端"
 
-#: src/global.c:1190
+#: src/global.c:1194
 msgid "Discard buffer"
 msgstr "バッファを破棄"
 
 #. TRANSLATORS: The next two strings may be up to 37 characters each.
-#: src/global.c:1195
+#: src/global.c:1199
 msgid "Previous Linter message"
 msgstr "前の構文チェックメッセージへ"
 
-#: src/global.c:1197
+#: src/global.c:1201
 msgid "Next Linter message"
 msgstr "次の構文チェックメッセージ"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1587
+#: src/global.c:1590
 msgid "Hidden interface"
 msgstr "隠れたインターフェース"
 
-#: src/global.c:1589
+#: src/global.c:1592
 msgid "Help mode"
 msgstr "ヘルプ"
 
-#: src/global.c:1591
+#: src/global.c:1594
 msgid "Constant cursor position display"
 msgstr "常にカーソル位置を表示"
 
-#: src/global.c:1593
+#: src/global.c:1596
 msgid "Soft wrapping of overlong lines"
 msgstr "長い行を画面上で折り返す"
 
-#: src/global.c:1595
+#: src/global.c:1598
 msgid "Line numbering"
 msgstr "行番号"
 
-#: src/global.c:1597
+#: src/global.c:1600
 msgid "Whitespace display"
 msgstr "空白を表示"
 
-#: src/global.c:1599
+#: src/global.c:1602
 msgid "Color syntax highlighting"
 msgstr "単語の強調"
 
-#: src/global.c:1601
+#: src/global.c:1604
 msgid "Smart home key"
 msgstr "スマートホームキー"
 
-#: src/global.c:1603
+#: src/global.c:1606
 msgid "Auto indent"
 msgstr "自動インデント"
 
-#: src/global.c:1605
+#: src/global.c:1608
 msgid "Cut to end"
 msgstr "改行の前まで削除"
 
-#: src/global.c:1607
+#: src/global.c:1610
 msgid "Hard wrapping of overlong lines"
 msgstr "長い行を強制的に改行で折り返す"
 
-#: src/global.c:1609
+#: src/global.c:1612
 msgid "Conversion of typed tabs to spaces"
 msgstr "タブをスペースに変換"
 
-#: src/global.c:1611
+#: src/global.c:1614
 msgid "Mouse support"
 msgstr "マウスのサポート"
 
@@ -1723,7 +1731,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "有効/無効"
 
-#: src/help.c:586 src/nano.c:1635
+#: src/help.c:588 src/nano.c:1664
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -1971,319 +1979,336 @@ msgstr "--wordchars=<文字列>"
 msgid "Which other characters are word parts"
 msgstr "単語の一部とみなす文字の集合"
 
-#: src/nano.c:578
+#: src/nano.c:577
 msgid "-Y <name>"
 msgstr "-Y <文法名>"
 
-#: src/nano.c:578
+#: src/nano.c:577
 msgid "--syntax=<name>"
 msgstr "--syntax=<文法名>"
 
-#: src/nano.c:579
+#: src/nano.c:578
 msgid "Syntax definition to use for coloring"
 msgstr "表示色を決めるための構文定義"
 
-#: src/nano.c:582
+#: src/nano.c:581
 msgid "Let Bsp and Del erase a marked region"
 msgstr "バックスペースとDelでマークした範囲を削除する"
 
-#: src/nano.c:583
+#: src/nano.c:582
 msgid "When soft-wrapping, do it at whitespace"
 msgstr "折り返し表示を空白にも適用する"
 
-#: src/nano.c:586
+#: src/nano.c:585
 msgid "Automatically hard-wrap overlong lines"
 msgstr "自動的に長い行を強制改行する"
 
-#: src/nano.c:588
+#: src/nano.c:587
 msgid "Constantly show cursor position"
 msgstr "常にカーソル位置を表示"
 
-#: src/nano.c:590
+#: src/nano.c:589
 msgid "Fix Backspace/Delete confusion problem"
 msgstr "Del キーをバックスペースとして扱う"
 
-#: src/nano.c:592
+#: src/nano.c:591
 msgid "Keep the line below the title bar empty"
 msgstr "タイトルバーの下の行を空けておく"
 
-#: src/nano.c:595
+#: src/nano.c:594
 msgid "-f <file>"
 msgstr "-f <ファイル>"
 
-#: src/nano.c:595
+#: src/nano.c:594
 msgid "--rcfile=<file>"
 msgstr "--rcfile=<ファイル>"
 
-#: src/nano.c:596
+#: src/nano.c:595
 msgid "Use only this file for configuring nano"
 msgstr "このファイルのみを nano の設定に使用する"
 
-#: src/nano.c:599
+#: src/nano.c:598
 msgid "Show cursor in file browser & help text"
 msgstr "ファイルブラウザとヘルプ文書の中でカーソルを表示"
 
-#: src/nano.c:601
+#: src/nano.c:600
 msgid "Show this help text and exit"
 msgstr "このヘルプを表示して終了"
 
-#: src/nano.c:603
+#: src/nano.c:602
 msgid "Automatically indent new lines"
 msgstr "改行で自動インデント"
 
-#: src/nano.c:604
+#: src/nano.c:603
 msgid "Scroll per half-screen, not per line"
 msgstr "1行ずつではなく、半画面ずつスクロールする"
 
-#: src/nano.c:605
+#: src/nano.c:604
 msgid "Cut from cursor to end of line"
 msgstr "行削除時に改行文字を削除しない"
 
-#: src/nano.c:608
+#: src/nano.c:607
 msgid "Show line numbers in front of the text"
 msgstr "行頭に行番号を表示する"
 
-#: src/nano.c:611
+#: src/nano.c:610
 msgid "Enable the use of the mouse"
 msgstr "マウスを有効にする"
 
-#: src/nano.c:614
+#: src/nano.c:613
 msgid "Do not read the file (only write it)"
 msgstr "ファイルを読み込まない（書き込みのみ）"
 
-#: src/nano.c:617
+#: src/nano.c:616
 msgid "-o <dir>"
 msgstr "-o <dir>"
 
-#: src/nano.c:617
+#: src/nano.c:616
 msgid "--operatingdir=<dir>"
 msgstr "--operatingdir=<dir>"
 
-#: src/nano.c:618
+#: src/nano.c:617
 msgid "Set operating directory"
 msgstr "作業ディレクトリを指定"
 
-#: src/nano.c:620
+#: src/nano.c:619
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "XON (^Q) および XOFF (^S) キーを維持する"
 
-#: src/nano.c:622
+#: src/nano.c:621
 msgid "Show a position+portion indicator"
 msgstr "位置と選択部分を示すインジケーターを表示する"
 
-#: src/nano.c:625
+#: src/nano.c:624
 msgid "-r <number>"
 msgstr "-r <番号>"
 
-#: src/nano.c:625
+#: src/nano.c:624
 msgid "--fill=<number>"
 msgstr "--fill=<番号>"
 
-#: src/nano.c:626
+#: src/nano.c:625
 msgid "Set width for hard-wrap and justify"
 msgstr "強制改行の幅を設定し均等割付"
 
-#: src/nano.c:630
+#: src/nano.c:629
 msgid "-s <program>"
 msgstr "-s <プログラム>"
 
-#: src/nano.c:630
+#: src/nano.c:629
 msgid "--speller=<program>"
 msgstr "--speller=<プログラム>"
 
-#: src/nano.c:631
+#: src/nano.c:630
 msgid "Use this alternative spell checker"
 msgstr "別のスペルチェッカを使用する"
 
-#: src/nano.c:633
+#: src/nano.c:632
 msgid "Save changes on exit, don't prompt"
 msgstr "終了時に保存する、問い合わせをしない"
 
-#: src/nano.c:635
+#: src/nano.c:634
 msgid "Save a file by default in Unix format"
 msgstr "ファイルをデフォルトで UNIX 形式で保存する"
 
-#: src/nano.c:637
+#: src/nano.c:636
 msgid "View mode (read-only)"
 msgstr "ビューモード(読み込み専用)"
 
-#: src/nano.c:639
+#: src/nano.c:638
 msgid "Don't hard-wrap long lines [default]"
 msgstr "長い行の強制改行をしない [デフォルト]"
 
-#: src/nano.c:641
+#: src/nano.c:640
 msgid "Don't show the two help lines"
 msgstr "キーのガイドを表示しない"
 
-#: src/nano.c:643
+#: src/nano.c:642
 msgid "Make Ctrl+Right stop at word ends"
-msgstr "Ctrl+Right で単語の終わりに止まるようにします"
+msgstr "Ctrl+Right で単語の終わりに止まる"
 
-#: src/nano.c:646
+#: src/nano.c:645
+msgid "List the names of available syntaxes"
+msgstr "利用可能な文法名の一覧を表示する"
+
+#: src/nano.c:648
 msgid "Also try magic to determine syntax"
 msgstr "またマジックを試して、文法を特定する"
 
-#: src/nano.c:649
+#: src/nano.c:651
+msgid "Accept 'filename:linenumber' notation"
+msgstr "'ファイル名:行番号'の記法を受け付ける"
+
+#: src/nano.c:652
 msgid "Show some states on the title bar"
 msgstr "いくつかの状態をタイトルバーに表示する"
 
-#: src/nano.c:650
+#: src/nano.c:653
 msgid "Show a feedback bar at the bottom"
-msgstr "下部にフィードバックバーを表示します"
+msgstr "下部にフィードバックバーを表示する"
 
-#: src/nano.c:651
+#: src/nano.c:654
 msgid "Hide all bars, use whole terminal"
 msgstr "すべてのバーを隠し、端末全体を使う"
 
-#: src/nano.c:653
+#: src/nano.c:656
 msgid "Use better-known key bindings"
 msgstr "よく知られたキーバインドを使う"
 
-#: src/nano.c:663
+#: src/nano.c:666
 #, c-format
 msgid " GNU nano, version %s\n"
 msgstr " GNU nano バージョン %s\n"
 
 #. TRANSLATORS: The %s is the year of the latest release.
-#: src/nano.c:667
+#: src/nano.c:670
 #, c-format
 msgid " (C) %s the Free Software Foundation and various contributors\n"
 msgstr " (C) %s the Free Software Foundation と数多くの貢献者たち\n"
 
-#: src/nano.c:669
+#: src/nano.c:672
 #, c-format
 msgid " Compiled options:"
 msgstr " コンパイルオプション:"
 
-#: src/nano.c:830
+#: src/nano.c:807
+#, c-format
+msgid "Available syntaxes:\n"
+msgstr "利用可能な文法:\n"
+
+#: src/nano.c:854
 msgid "Could not reconnect stdin to keyboard\n"
 msgstr "標準入力をキーボードに再接続できません。\n"
 
-#: src/nano.c:848
+#: src/nano.c:872
 #, c-format
 msgid "Reading data from keyboard; type ^D or ^D^D to finish.\n"
 msgstr ""
 "キーボードからデータを読み込んでいます; ^D または ^D^D で読み込みを終えま"
 "す。\n"
 
-#: src/nano.c:858
+#: src/nano.c:882
 #, c-format
 msgid "Failed to open stdin: %s"
 msgstr "標準入力を開けません: %s"
 
-#: src/nano.c:936
+#: src/nano.c:960
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "SIGHUP または SIGTERM を受信しました\n"
 
-#: src/nano.c:943
+#: src/nano.c:967
 #, c-format
 msgid "Sorry! Nano crashed!  Code: %d.  Please report a bug.\n"
 msgstr ""
 "Nano がクラッシュしてしまいました。  コード: %d。  バグ報告をしてください。\n"
 
-#: src/nano.c:959
+#: src/nano.c:983
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "\"fg\" とタイプすることで nano を再開できます。\n"
 
-#: src/nano.c:1106
+#: src/nano.c:1130
 msgid "Current syntax determines Tab"
 msgstr "現在の文法がタブを決めます"
 
-#: src/nano.c:1134
+#: src/nano.c:1158
 msgid "enabled"
 msgstr "使用する"
 
-#: src/nano.c:1134
+#: src/nano.c:1158
 msgid "disabled"
 msgstr "使用しない"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1277
+#: src/nano.c:1301
 msgid "Unknown sequence"
 msgstr "未知のシーケンス"
 
-#: src/nano.c:1280 src/rcfile.c:816
+#: src/nano.c:1304 src/rcfile.c:816
 #, c-format
 msgid "Unknown function: %s"
 msgstr "未知の機能 \"%s\""
 
-#: src/nano.c:1282
+#: src/nano.c:1306
 msgid "Missing }"
 msgstr "} がみつかりません"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1287
+#: src/nano.c:1311
 #, c-format
 msgid "Unbound key: F%i"
 msgstr "未割り当てのキー: F%i"
 
-#: src/nano.c:1290
+#: src/nano.c:1314
 msgid "Unbound key"
 msgstr "未割り当てのキー"
 
-#: src/nano.c:1294
+#: src/nano.c:1318
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "未割り当てのキー: M-^%c"
 
-#: src/nano.c:1299 src/nano.c:1302 src/nano.c:1306 src/nano.c:1309
+#: src/nano.c:1323 src/nano.c:1326 src/nano.c:1330 src/nano.c:1333
 #, c-format
 msgid "Unbound key: %s%c"
 msgstr "未割り当てのキー: %s%c"
 
-#: src/nano.c:1304
+#: src/nano.c:1328
 msgid "Unbindable key: ^["
 msgstr "割り当てできないキー: ^["
 
-#: src/nano.c:1897 src/rcfile.c:1675
+#: src/nano.c:1928 src/rcfile.c:1675
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "ガイドバーを表示する列の指定として \"%s\" が正しくありません"
 
-#: src/nano.c:1944 src/rcfile.c:1680
+#: src/nano.c:1974 src/rcfile.c:1680
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "要求されたタブのサイズ \"%s\" は不正です"
 
-#: src/nano.c:2048 src/rcfile.c:1625
+#: src/nano.c:2078 src/rcfile.c:1625
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "要求されたサイズ \"%s\" は不正です"
 
-#: src/nano.c:2106
+#: src/nano.c:2147
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "'%s -h' で指定可能なオプションを表示します。\n"
 
-#: src/nano.c:2304
+#: src/nano.c:2345
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "不正なエスケープされた正規表現 \"%s\": %s\n"
 
-#: src/nano.c:2463
+#: src/nano.c:2507
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "無効な検索修飾子 '%c'"
 
-#: src/nano.c:2474
+#: src/nano.c:2518
 msgid "Empty search string"
 msgstr "空の検索文字列"
 
-#: src/nano.c:2483 src/search.c:797
+#: src/nano.c:2527 src/search.c:797
 msgid "Invalid line or column number"
 msgstr "無効な行または列番号です"
 
-#: src/nano.c:2552
+#: src/nano.c:2563
+msgid "Invalid number\n"
+msgstr "行番号として無効\n"
+
+#: src/nano.c:2607
 msgid "Standard input is not a terminal\n"
 msgstr "標準入力が端末ではありません\n"
 
-#: src/nano.c:2571
+#: src/nano.c:2626
 msgid "Can open just one file\n"
 msgstr "1つのファイルのみ開くことができます\n"
 
-#: src/nano.c:2589
+#: src/nano.c:2644
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "nano へようこそ。 Ctrl+G で簡単なヘルプが出ます。"
 
@@ -2314,16 +2339,16 @@ msgstr "いいえ"
 msgid "All"
 msgstr "全て"
 
-#: src/rcfile.c:189
+#: src/rcfile.c:190
 #, c-format
 msgid "Mistakes in '%s'"
 msgstr "'%s' に間違いがあります"
 
-#: src/rcfile.c:193
+#: src/rcfile.c:194
 msgid "Problems with history file"
 msgstr "l履歴ファイルに問題があります"
 
-#: src/rcfile.c:197
+#: src/rcfile.c:198
 #, c-format
 msgid "Error in %s on line %zu: "
 msgstr "エラー検出 %s の %zu 行目: "
@@ -2614,271 +2639,271 @@ msgstr "マークセット"
 msgid "Mark Unset"
 msgstr "マーク解除"
 
-#: src/text.c:374
+#: src/text.c:380
 msgid "Commenting is not supported for this file type"
 msgstr "コメントはこの種類のファイルではサポートされていません"
 
-#: src/text.c:384
+#: src/text.c:390
 msgid "Cannot comment past end of file"
 msgstr "ファイルの終端を超えてコメントすることはできません"
 
-#: src/text.c:505
+#: src/text.c:511
 msgid "Nothing to undo"
 msgstr "取り消す操作はありません"
 
 #. TRANSLATORS: The next thirteen strings describe actions
 #. * that are undone or redone.  They are all nouns, not verbs.
-#: src/text.c:516 src/text.c:578 src/text.c:703 src/text.c:765
+#: src/text.c:522 src/text.c:584 src/text.c:709 src/text.c:771
 msgid "addition"
 msgstr "追加"
 
-#: src/text.c:524 src/text.c:715
+#: src/text.c:530 src/text.c:721
 msgid "line break"
 msgstr "改行"
 
-#: src/text.c:541 src/text.c:725
+#: src/text.c:547 src/text.c:731
 msgid "deletion"
 msgstr "削除"
 
-#: src/text.c:551 src/text.c:731
+#: src/text.c:557 src/text.c:737
 msgid "line join"
 msgstr "行の結合"
 
-#: src/text.c:568 src/text.c:747
+#: src/text.c:574 src/text.c:753
 msgid "replacement"
 msgstr "置換"
 
-#: src/text.c:588 src/text.c:769
+#: src/text.c:594 src/text.c:775
 msgid "erasure"
 msgstr "抹消"
 
 #. TRANSLATORS: Remember: these are nouns, NOT verbs.
-#: src/text.c:594 src/text.c:774
+#: src/text.c:600 src/text.c:780
 msgid "cut"
 msgstr "切り取り"
 
-#: src/text.c:598 src/text.c:778
+#: src/text.c:604 src/text.c:784
 msgid "paste"
 msgstr "貼り付け"
 
-#: src/text.c:605 src/text.c:782
+#: src/text.c:611 src/text.c:788
 msgid "insertion"
 msgstr "挿入"
 
-#: src/text.c:634 src/text.c:805
+#: src/text.c:640 src/text.c:811
 msgid "indent"
 msgstr "インデント追加"
 
-#: src/text.c:638 src/text.c:809
+#: src/text.c:644 src/text.c:815
 msgid "unindent"
 msgstr "インデント縮小"
 
-#: src/text.c:643 src/text.c:814
+#: src/text.c:649 src/text.c:820
 msgid "comment"
 msgstr "コメント"
 
-#: src/text.c:647 src/text.c:818
+#: src/text.c:653 src/text.c:824
 msgid "uncomment"
 msgstr "コメント解除"
 
-#: src/text.c:655
+#: src/text.c:661
 #, c-format
 msgid "Undid %s"
 msgstr "操作 (%s) を取り消しました"
 
-#: src/text.c:690
+#: src/text.c:696
 msgid "Nothing to redo"
 msgstr "やり直す操作はありません"
 
-#: src/text.c:826
+#: src/text.c:832
 #, c-format
 msgid "Redid %s"
 msgstr "操作 (%s) をやり直しました"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1780 src/text.c:2001
+#: src/text.c:1786 src/text.c:2007
 msgid "justification"
 msgstr "均等割付"
 
-#: src/text.c:1791 src/text.c:2130
+#: src/text.c:1797 src/text.c:2136
 msgid "Selection is empty"
 msgstr "選択範囲は空です"
 
-#: src/text.c:2005
+#: src/text.c:2011
 msgid "Justified selection"
 msgstr "選択範囲を均等割付しました"
 
-#: src/text.c:2009
+#: src/text.c:2015
 msgid "Justified file"
 msgstr "ファイル全体を均等割付しました"
 
-#: src/text.c:2011
+#: src/text.c:2017
 msgid "Justified paragraph"
 msgstr "段落を均等割付しました"
 
-#: src/text.c:2133
+#: src/text.c:2139
 msgid "Buffer is empty"
 msgstr "バッファは空です"
 
-#: src/text.c:2145
+#: src/text.c:2151
 msgid "Invoking formatter..."
 msgstr "整形用プログラムを起動中です..."
 
-#: src/text.c:2178 src/text.c:2758
+#: src/text.c:2184 src/text.c:2764
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "'%s' の呼び出しに失敗"
 
-#: src/text.c:2182
+#: src/text.c:2188
 #, c-format
 msgid "Program '%s' complained"
 msgstr "プログラム '%s' が文句を言いました"
 
-#: src/text.c:2190
+#: src/text.c:2196
 msgid "Nothing changed"
 msgstr "何も変更していません"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2215
+#: src/text.c:2221
 msgid "spelling correction"
 msgstr "スペル訂正"
 
-#: src/text.c:2215
+#: src/text.c:2221
 msgid "formatting"
 msgstr "整形しています"
 
-#: src/text.c:2233 src/text.c:2529
+#: src/text.c:2239 src/text.c:2535
 msgid "Finished checking spelling"
 msgstr "スペルチェック完了"
 
-#: src/text.c:2235
+#: src/text.c:2241
 msgid "Buffer has been processed"
 msgstr "バッファを処理しました"
 
-#: src/text.c:2279
+#: src/text.c:2285
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "見つからない単語: %s"
 
 #. TRANSLATORS: This is a prompt.
-#: src/text.c:2298
+#: src/text.c:2304
 msgid "Edit a replacement"
 msgstr "置換先を編集"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2311
+#: src/text.c:2317
 msgid "Next word..."
 msgstr "次の単語..."
 
-#: src/text.c:2364
+#: src/text.c:2370
 msgid "Invoking spell checker..."
 msgstr "スペルチェッカを起動中です..."
 
-#: src/text.c:2449 src/text.c:2669
+#: src/text.c:2455 src/text.c:2675
 msgid "Could not get size of pipe buffer"
 msgstr "pipe バッファのサイズを取得できませんでした"
 
-#: src/text.c:2523
+#: src/text.c:2529
 msgid "Error invoking \"uniq\""
 msgstr "\"uniq\" の呼び出しに失敗"
 
-#: src/text.c:2525
+#: src/text.c:2531
 msgid "Error invoking \"sort\""
 msgstr "\"sort\" の呼び出しに失敗"
 
-#: src/text.c:2527
+#: src/text.c:2533
 msgid "Error invoking \"spell\""
 msgstr "\"spell\" の呼び出しに失敗"
 
-#: src/text.c:2604
+#: src/text.c:2610
 msgid "No linter is defined for this type of file"
 msgstr "この種類のファイルには、構文チェッカが定義されていません"
 
-#: src/text.c:2614
+#: src/text.c:2620
 msgid "Save modified buffer before linting?"
 msgstr "構文チェックの前に変更されたバッファを保存しますか？"
 
-#: src/text.c:2631
+#: src/text.c:2637
 msgid "Invoking linter..."
 msgstr "構文チェッカを起動中です..."
 
-#: src/text.c:2763
+#: src/text.c:2769
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "解析可能な行がコマンドの出力から得られませんでした: %s"
 
-#: src/text.c:2801
+#: src/text.c:2807
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "このメッセージは開いていないファイル \"%s\" についてのものです、新しいバッ"
 "ファで開きますか?"
 
-#: src/text.c:2840
+#: src/text.c:2846
 msgid "No messages for this file"
 msgstr "このファイルに対するメッセージはありません"
 
-#: src/text.c:2890
+#: src/text.c:2896
 msgid "At first message"
 msgstr "最初のメッセージへ"
 
-#: src/text.c:2900
+#: src/text.c:2906
 msgid "At last message"
 msgstr "最後のメッセージへ"
 
-#: src/text.c:2945
+#: src/text.c:2951
 msgid "No formatter is defined for this type of file"
 msgstr "この種類のファイルには、整形プログラムが定義されていません"
 
-#: src/text.c:3019
+#: src/text.c:3025
 #, c-format
 msgid "%s%zd %s,  %zu %s,  %zu %s"
 msgstr "%s%zd %s,  %zu %s,  %zu %s"
 
-#: src/text.c:3020
+#: src/text.c:3026
 msgid "In Selection:  "
 msgstr "選択範囲内:  "
 
-#: src/text.c:3021
+#: src/text.c:3027
 msgid "line"
 msgid_plural "lines"
 msgstr[0] "行"
 
-#: src/text.c:3022
+#: src/text.c:3028
 msgid "word"
 msgid_plural "words"
 msgstr[0] "単語"
 
-#: src/text.c:3023
+#: src/text.c:3029
 msgid "character"
 msgid_plural "characters"
 msgstr[0] "文字"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:3041
+#: src/text.c:3047
 msgid "Verbatim Input"
 msgstr "特殊キー入力"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3065
+#: src/text.c:3071
 msgid "Invalid code"
 msgstr "無効なコード"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3147
+#: src/text.c:3153
 msgid "No word fragment"
 msgstr "書きかけの単語がありません"
 
-#: src/text.c:3251
+#: src/text.c:3257
 msgid "No further matches"
 msgstr "これ以上の一致はありません"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3254
+#: src/text.c:3260
 msgid "No matches"
 msgstr "一致するものがありません"
 
-#: src/utils.c:296 src/utils.c:307
+#: src/utils.c:297 src/utils.c:308
 msgid "Nano is out of memory!\n"
 msgstr "nano のメモリが足りなくなりました!\n"
 
@@ -2908,86 +2933,86 @@ msgstr "標準入力からのエラーが多すぎます\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1422
+#: src/winio.c:1419
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "ユニコード入力: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:2044
+#: src/winio.c:2041
 msgid "Linting --"
 msgstr "構文チェック中 --"
 
-#: src/winio.c:2050
+#: src/winio.c:2047
 msgid "DIR:"
 msgstr "ディレクトリ:"
 
-#: src/winio.c:2071
+#: src/winio.c:2068
 msgid "View"
 msgstr "表示"
 
-#: src/winio.c:2077 src/winio.c:2081
+#: src/winio.c:2074 src/winio.c:2078
 msgid "Modified"
 msgstr "変更済み"
 
-#: src/winio.c:2079
+#: src/winio.c:2076
 msgid "Restricted"
 msgstr "制限モード"
 
-#: src/winio.c:2185
+#: src/winio.c:2182
 msgid "(nameless)"
 msgstr "(名前無し)"
 
-#: src/winio.c:2217
+#: src/winio.c:2214
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] " (%zu 行)"
 
-#: src/winio.c:2219
+#: src/winio.c:2216
 #, c-format
 msgid " (%zu line, %s)"
 msgid_plural " (%zu lines, %s)"
 msgstr[0] " (%zu 行, %s)"
 
-#: src/winio.c:3527
+#: src/winio.c:3524
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr "行 %*zd/%zd (%2d%%), 列 %2zu/%2zu (%3d%%), 文字 %*zu/%zu (%2d%%)"
 
-#: src/winio.c:3681
+#: src/winio.c:3678
 msgid "The nano text editor"
 msgstr "nano テキストエディタ"
 
-#: src/winio.c:3682
+#: src/winio.c:3679
 msgid "version"
 msgstr "バージョン"
 
-#: src/winio.c:3683
+#: src/winio.c:3680
 msgid "Brought to you by:"
 msgstr "貢献してくれた方々:"
 
-#: src/winio.c:3684
+#: src/winio.c:3681
 msgid "Special thanks to:"
 msgstr "スペシャルサンクス:"
 
-#: src/winio.c:3685
+#: src/winio.c:3682
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: src/winio.c:3686
+#: src/winio.c:3683
 msgid "the many translators and the TP"
 msgstr "多くの翻訳者と Translation Project"
 
-#: src/winio.c:3687
+#: src/winio.c:3684
 msgid "For ncurses:"
 msgstr "ncurses に関して:"
 
-#: src/winio.c:3688
+#: src/winio.c:3685
 msgid "and anyone else we forgot..."
 msgstr "および他のすべての方々..."
 
-#: src/winio.c:3689
+#: src/winio.c:3686
 msgid "Thank you for using nano!"
 msgstr "nano を使用していただきありがとうございます!"
 
