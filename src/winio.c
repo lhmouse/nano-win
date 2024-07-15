@@ -123,14 +123,9 @@ void run_macro(void)
 		return;
 	}
 
-	if (macro_length > capacity)
-		reserve_space_for(macro_length);
+	for (size_t index = macro_length; index > 0; )
+		put_back(macro_buffer[--index]);
 
-	for (size_t i = 0; i < macro_length; i++)
-		key_buffer[i] = macro_buffer[i];
-
-	waiting_codes = macro_length;
-	nextcodes = key_buffer;
 	mute_modifiers = TRUE;
 }
 #endif /* !NANO_TINY */

@@ -595,8 +595,8 @@ linestruct *line_from_number(ssize_t number);
 void record_macro(void);
 void run_macro(void);
 #endif
-void reserve_space_for(size_t newsize);
 size_t waiting_keycodes(void);
+void put_back(int keycode);
 #ifdef ENABLE_NANORC
 void implant(const char *string);
 #endif
