@@ -660,6 +660,8 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 								return CONTROL_RIGHT;
 							case 'D': /* Esc [ 1 ; 5 D == Ctrl-Left on xterm. */
 								return CONTROL_LEFT;
+							case 'E': /* Esc [ 1 ; 5 E == Ctrl-"Center" on xterm. */
+								return KEY_CENTER;
 							case 'F': /* Esc [ 1 ; 5 F == Ctrl-End on xterm. */
 								return CONTROL_END;
 							case 'H': /* Esc [ 1 ; 5 H == Ctrl-Home on xterm. */

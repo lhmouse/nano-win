@@ -227,6 +227,9 @@
 #define PLANTED_A_COMMAND 0x4EC
 #define NO_SUCH_FUNCTION  0x4EF
 
+/* A special keycode for Ctrl + the central key on the numeric keypad. */
+#define KEY_CENTER  0x4F0
+
 /* A special keycode to signal the beginning and end of a bracketed paste. */
 #define BRACKETED_PASTE_MARKER  0x4FB
 
