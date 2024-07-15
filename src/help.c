@@ -513,7 +513,7 @@ void show_help(void)
 			get_mouseinput(&dummy_row, &dummy_col, TRUE);
 #endif
 #ifndef NANO_TINY
-		} else if (kbinput == KEY_WINCH) {
+		} else if (kbinput == THE_WINDOW_RESIZED) {
 			;  /* Nothing to do. */
 #endif
 		} else if (function == do_exit) {

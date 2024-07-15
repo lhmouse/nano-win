@@ -2877,7 +2877,7 @@ void do_linter(void)
 		kbinput = get_kbinput(footwin, VISIBLE);
 
 #ifndef NANO_TINY
-		if (kbinput == KEY_WINCH)
+		if (kbinput == THE_WINDOW_RESIZED)
 			continue;
 #endif
 		function = func_from_key(kbinput);

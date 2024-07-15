@@ -227,8 +227,13 @@
 #define PLANTED_A_COMMAND 0x4EC
 #define NO_SUCH_FUNCTION  0x4EF
 
+#ifndef NANO_TINY
 /* A special keycode for Ctrl + the central key on the numeric keypad. */
 #define KEY_CENTER  0x4F0
+
+/* A special keycode for when we get a SIGWINCH (a window resize). */
+#define THE_WINDOW_RESIZED  0x4F7
+#endif
 
 /* A special keycode to signal the beginning and end of a bracketed paste. */
 #define BRACKETED_PASTE_MARKER  0x4FB
@@ -240,9 +245,6 @@
 #define KEY_FRESH  0x4FE
 
 #ifndef NANO_TINY
-/* A special keycode for when we get a SIGWINCH (a window resize). */
-#define KEY_WINCH  -2
-
 /* Some extra flags for the undo function. */
 #define WAS_BACKSPACE_AT_EOF  (1<<1)
 #define WAS_WHOLE_LINE        (1<<2)

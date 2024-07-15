@@ -218,7 +218,7 @@ void read_keys_from(WINDOW *frame)
 #ifndef NANO_TINY
 		if (the_window_resized) {
 			regenerate_screen();
-			input = KEY_WINCH;
+			input = THE_WINDOW_RESIZED;
 		}
 
 		if (timed) {
@@ -272,7 +272,7 @@ void read_keys_from(WINDOW *frame)
 	}
 
 	/* If we got a SIGWINCH, get out as the frame argument is no longer valid. */
-	if (input == KEY_WINCH)
+	if (input == THE_WINDOW_RESIZED)
 		return;
 
 	/* Remember where the recording of this keystroke (or burst of them) started. */
@@ -1445,7 +1445,7 @@ int *parse_verbatim_kbinput(WINDOW *frame, size_t *count)
 
 #ifndef NANO_TINY
 	/* When the window was resized, abort and return nothing. */
-	if (keycode == KEY_WINCH) {
+	if (keycode == THE_WINDOW_RESIZED) {
 		*count = 999;
 		return NULL;
 	}
@@ -1469,7 +1469,7 @@ int *parse_verbatim_kbinput(WINDOW *frame, size_t *count)
 		}
 
 #ifndef NANO_TINY
-		if (keycode == KEY_WINCH) {
+		if (keycode == THE_WINDOW_RESIZED) {
 			*count = 999;
 			free(yield);
 			return NULL;

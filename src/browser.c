@@ -498,11 +498,11 @@ char *browse(char *path)
 #ifndef NANO_TINY
 			/* Simulate a terminal resize to force a directory reread,
 			 * or because the terminal dimensions might have changed. */
-			kbinput = KEY_WINCH;
+			kbinput = THE_WINDOW_RESIZED;
 		} else if (function == do_toggle && get_shortcut(kbinput)->toggle == NO_HELP) {
 			TOGGLE(NO_HELP);
 			window_init();
-			kbinput = KEY_WINCH;
+			kbinput = THE_WINDOW_RESIZED;
 #endif
 		} else if (function == do_search_backward) {
 			search_filename(BACKWARD);
@@ -642,7 +642,7 @@ char *browse(char *path)
 			implant(first_sc_for(MBROWSER, function)->expansion);
 #endif
 #ifndef NANO_TINY
-		} else if (kbinput == KEY_WINCH) {
+		} else if (kbinput == THE_WINDOW_RESIZED) {
 			;  /* Gets handled below. */
 #endif
 		} else if (function == do_exit) {
@@ -652,7 +652,7 @@ char *browse(char *path)
 
 #ifndef NANO_TINY
 		/* If the terminal resized (or might have), refresh the file list. */
-		if (kbinput == KEY_WINCH) {
+		if (kbinput == THE_WINDOW_RESIZED) {
 			/* Remember the selected file, to be able to reselect it. */
 			present_name = copy_of(filelist[selected]);
 			goto read_directory_contents;

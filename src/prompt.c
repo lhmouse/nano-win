@@ -442,9 +442,9 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 
 #ifndef NANO_TINY
 		/* If the window size changed, go reformat the prompt string. */
-		if (input == KEY_WINCH) {
+		if (input == THE_WINDOW_RESIZED) {
 			refresh_func();  /* Only needed when in file browser. */
-			*actual = KEY_WINCH;
+			*actual = THE_WINDOW_RESIZED;
 #ifdef ENABLE_HISTORIES
 			free(stored_string);
 #endif
@@ -598,7 +598,7 @@ int do_prompt(int menu, const char *provided, linestruct **history_list,
 	free(prompt);
 
 #ifndef NANO_TINY
-	if (retval == KEY_WINCH)
+	if (retval == THE_WINDOW_RESIZED)
 		goto redo_theprompt;
 #endif
 
@@ -697,7 +697,7 @@ int ask_user(bool withall, const char *question)
 		kbinput = get_kbinput(footwin, !withall);
 
 #ifndef NANO_TINY
-		if (kbinput == KEY_WINCH)
+		if (kbinput == THE_WINDOW_RESIZED)
 			continue;
 
 		/* Accept first character of an external paste and ignore the rest. */

@@ -1592,7 +1592,7 @@ void process_a_keystroke(void)
 	lastmessage = VACUUM;
 
 #ifndef NANO_TINY
-	if (input == KEY_WINCH)
+	if (input == THE_WINDOW_RESIZED)
 		return;
 #endif
 #ifdef ENABLE_MOUSE
