@@ -15,8 +15,8 @@ color red "\<(FILENAME|FNR|FS|IGNORECASE|LINT|NF|NR|OFMT|OFS|ORS)\>"
 color red "\<(PROCINFO|RS|RT|RSTART|RLENGTH|SUBSEP|TEXTDOMAIN)\>"
 # Function declarations and special patterns.
 color brightgreen "\<(function|extension|BEGIN|END)\>"
-# Operators.
-color green "\{|\}|\(|\)|\;|\[|\]|\\|<|>|!|=|&|\+|-|\*|%|/|\?|:|\^|\|"
+# Operators and brackets/braces/slashes/parentheses.
+color green "[][!%&()*+/:;<=>?\^{|}~-]"
 # Flow control.
 color brightyellow "\<(for|if|while|do|else|in|delete|exit)\>"
 color brightyellow "\<(break|continue|return)\>"
