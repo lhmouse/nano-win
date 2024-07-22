@@ -486,10 +486,8 @@ void show_help(void)
 #endif
 		function = interpret(kbinput);
 
-		if (function == full_refresh) {
-			full_refresh();
-		} else if (ISSET(SHOW_CURSOR) && (function == do_left || function == do_right ||
-											function == do_up || function == do_down)) {
+		if (ISSET(SHOW_CURSOR) && (function == do_left || function == do_right ||
+									function == do_up || function == do_down)) {
 			function();
 		} else if (function == do_up || function == do_scroll_up) {
 			do_scroll_up();
@@ -516,6 +514,8 @@ void show_help(void)
 		} else if (kbinput == THE_WINDOW_RESIZED) {
 			;  /* Nothing to do. */
 #endif
+		} else if (function == full_refresh) {
+			full_refresh();
 		} else if (function == do_exit) {
 			break;
 		} else

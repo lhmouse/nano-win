@@ -493,7 +493,7 @@ char *browse(char *path)
 #endif
 		function = interpret(kbinput);
 
-		if (function == full_refresh || function == do_help) {
+		if (function == do_help || function == full_refresh) {
 			function();
 #ifndef NANO_TINY
 			/* Simulate a terminal resize to force a directory reread,
