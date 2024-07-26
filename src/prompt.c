@@ -761,9 +761,11 @@ int ask_user(bool withall, const char *question)
 		else if (kbinput == '\x0E' || (kbinput == '\x11' && !ISSET(MODERN_BINDINGS)) ||
 									  (kbinput == '\x18' && ISSET(MODERN_BINDINGS)))
 			choice = NO;
-		/* And interpret ^Y as "Yes". */
+		/* Also, interpret ^Y as "Yes, and  ^A as "All". */
 		else if (kbinput == '\x19')
 			choice = YES;
+		else if (kbinput == '\x01' && withall)
+			choice = ALL;
 #ifdef ENABLE_MOUSE
 		else if (kbinput == KEY_MOUSE) {
 			int mouse_x, mouse_y;
