@@ -3478,19 +3478,17 @@ void full_refresh(void)
 	wrefresh(curscr);
 }
 
-/* Draw all elements of the screen.  That is: the title bar plus the content
- * of the edit window (when not in the file browser), and the bottom bars. */
+/* Draw the three elements of the screen: the title bar,
+ * the contents of the edit window, and the bottom bars. */
 void draw_all_subwindows(void)
 {
-	if (currmenu & ~(MBROWSER|MWHEREISFILE|MGOTODIR))
-		titlebar(title);
+	titlebar(title);
 #ifdef ENABLE_HELP
 	if (inhelp) {
 		close_buffer();
 		wrap_help_text_into_buffer();
 	} else
 #endif
-	if (currmenu & ~(MBROWSER|MWHEREISFILE|MGOTODIR))
 		edit_refresh();
 	bottombars(currmenu);
 }
