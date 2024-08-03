@@ -2547,9 +2547,7 @@ char **filename_completion(const char *morsel, size_t *num_matches)
 		if (strncmp(entry->d_name, filename, filenamelen) == 0 &&
 									strcmp(entry->d_name, ".") != 0 &&
 									strcmp(entry->d_name, "..") != 0) {
-			fullname = nrealloc(fullname, strlen(dirname) +
-											strlen(entry->d_name) + 1);
-
+			fullname = nrealloc(fullname, strlen(dirname) + strlen(entry->d_name) + 1);
 			sprintf(fullname, "%s%s", dirname, entry->d_name);
 
 #ifdef ENABLE_OPERATINGDIR

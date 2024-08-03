@@ -572,8 +572,7 @@ char *browse(char *path)
 
 			/* If the given path is relative, join it with the current path. */
 			if (*path != '/') {
-				path = nrealloc(path, strlen(present_path) +
-												strlen(answer) + 1);
+				path = nrealloc(path, strlen(present_path) + strlen(answer) + 1);
 				sprintf(path, "%s%s", present_path, answer);
 			}
 

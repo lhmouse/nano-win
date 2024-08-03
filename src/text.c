@@ -1588,8 +1588,7 @@ void concat_paragraph(linestruct *line, size_t count)
 			line->data[line_len] = '\0';
 		}
 
-		line->data = nrealloc(line->data,
-								line_len + next_line_len - next_lead_len + 1);
+		line->data = nrealloc(line->data, line_len + next_line_len - next_lead_len + 1);
 		strcat(line->data, next_line->data + next_lead_len);
 #ifndef NANO_TINY
 		line->has_anchor |= next_line->has_anchor;
