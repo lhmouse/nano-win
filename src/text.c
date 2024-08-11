@@ -572,8 +572,6 @@ void do_undo(void)
 		break;
 	case REPLACE:
 		undidmsg = _("replacement");
-		if ((u->xflags & INCLUDED_LAST_LINE) && !ISSET(NO_NEWLINES))
-			remove_magicline();
 		data = u->strdata;
 		u->strdata = line->data;
 		line->data = data;
@@ -751,8 +749,6 @@ void do_redo(void)
 		break;
 	case REPLACE:
 		redidmsg = _("replacement");
-		if ((u->xflags & INCLUDED_LAST_LINE) && !ISSET(NO_NEWLINES))
-			new_magicline();
 		data = u->strdata;
 		u->strdata = line->data;
 		line->data = data;
@@ -1037,8 +1033,6 @@ void add_undo(undo_type action, const char *message)
 		break;
 	case REPLACE:
 		u->strdata = copy_of(thisline->data);
-		if (thisline == openfile->filebot && answer[0] != '\0')
-			u->xflags |= INCLUDED_LAST_LINE;
 		break;
 #ifdef ENABLE_WRAPPING
 	case SPLIT_BEGIN:
