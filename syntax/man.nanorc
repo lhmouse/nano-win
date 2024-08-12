@@ -1,6 +1,7 @@
 ## Syntax highlighting for man pages.
 
 ## Original author:  Mike Frysinger
+## License:  GPL version 3 or newer
 
 syntax man "\.[1-9]x?$"
 magic "troff or preprocessor input"

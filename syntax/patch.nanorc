@@ -1,6 +1,7 @@
 ## Syntax highlighting for patch and diff files.
 
 ## Original author:  Mike Frysinger
+## License:  GPL version 3 or newer
 
 syntax patch "\.(patch|diff|debdiff|rej)$"
 magic "diff output"

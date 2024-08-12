@@ -1,6 +1,7 @@
 ## Syntax highlighting for PHP.
 
 ## Original author:  Mike Frysinger
+## License:  GPL version 3 or newer
 
 syntax php "\.(php[23457s~]?|phtml|ctp)$"
 magic "PHP script"
