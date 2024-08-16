@@ -10,7 +10,7 @@ color brightred ".*"
 color yellow "^[[:blank:]]*(i?color|set[[:blank:]]+((error|function|key|mini|number|prompt|scroller|selected|spotlight|status|stripe|title)color))[[:blank:]]+(bold,)?(italic,)?(((bright|light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|rosy|beet|plum|sea|sky|slate|teal|sage|brown|ocher|sand|tawny|brick|crimson|grey|gray|#[[:xdigit:]]{3})?(,(((light)?(white|black|red|blue|green|yellow|magenta|cyan))|normal|pink|purple|mauve|lagoon|mint|lime|peach|orange|latte|rosy|beet|plum|sea|sky|slate|teal|sage|brown|ocher|sand|tawny|brick|crimson|grey|gray|#[[:xdigit:]]{3}))?\>"
 
 # The arguments of two special commands
-color bold,purple "^[[:blank:]]*include[[:blank:]][^"]*([[:blank:]]|$)"
+color bold,purple "^[[:blank:]]*include[[:blank:]]+[^[:blank:]"]+"
 color lime "^[[:blank:]]*extendsyntax[[:blank:]]+[[:alpha:]]+[[:blank:]]+(i?color|header|magic|comment|formatter|linter|tabgives)[[:blank:]]+.*"
 
 # The arguments of commands
