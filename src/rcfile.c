@@ -525,9 +525,9 @@ char *menu_to_name(int menu)
 	return "boooo";
 }
 
-/* Parse the next word from the string, null-terminate it, and return
- * a pointer to the first character after the null terminator.  The
- * returned pointer will point to '\0' if we hit the end of the line. */
+/* Parse the next word from the string (if any), null-terminate it,
+ * and return a pointer to the next word.  The returned pointer will
+ * point to '\0' when end-of-line was reached. */
 char *parse_next_word(char *ptr)
 {
 	while (!isblank((unsigned char)*ptr) && *ptr != '\0')
@@ -545,10 +545,9 @@ char *parse_next_word(char *ptr)
 	return ptr;
 }
 
-/* Parse an argument, with optional quotes, after a keyword that takes
- * one.  If the next word starts with a ", we say that it ends with the
- * last " of the line.  Otherwise, we interpret it as usual, so that the
- * arguments can contain "'s too. */
+/* Parse an argument (optionally enveloped in double quotes).  When the
+ * argument starts with a ", then the last " of the line indicates its
+ * end -- meaning that an argument can contain "'s either way. */
 char *parse_argument(char *ptr)
 {
 	const char *ptr_save = ptr;
@@ -738,9 +737,11 @@ bool is_universal(void (*func)(void))
 /* Bind or unbind a key combo, to or from a function. */
 void parse_binding(char *ptr, bool dobind)
 {
-	char *keyptr = NULL, *keycopy = NULL, *funcptr = NULL, *menuptr = NULL;
-	int keycode, menu, mask = 0;
+	char *keycopy, *keyptr, *menuptr;
 	keystruct *newsc = NULL;
+	char *funcptr = NULL;
+	int keycode, menu;
+	int mask = 0;
 
 	check_for_nonempty_syntax();
 
@@ -759,7 +760,7 @@ void parse_binding(char *ptr, bool dobind)
 	else
 		keycopy[0] = toupper((unsigned char)keycopy[0]);
 
-	/* Verify that the key name is not too short, to allow the next call. */
+	/* Verify that the key name is not too short. */
 	if (keycopy[1] == '\0' || (keycopy[0] == 'M' && keycopy[2] == '\0')) {
 		jot_error(N_("Key name %s is invalid"), keycopy);
 		goto free_things;
@@ -1304,7 +1305,7 @@ void grab_and_store(const char *kind, char *ptr, regexlisttype **storage)
 	}
 }
 
-/* Gather and store the string after a comment/linter command. */
+/* Gather and store the string after a comment/linter/formatter/tabgives command. */
 void pick_up_name(const char *kind, char *ptr, char **storage)
 {
 	if (*ptr == '\0') {
@@ -1356,8 +1357,8 @@ bool parse_syntax_commands(char *keyword, char *ptr)
 }
 #endif /* ENABLE_COLOR */
 
-/* Verify that the user has not unmapped every shortcut for a
- * function that we consider 'vital' (such as "Exit"). */
+/* Verify that the user has not unmapped every shortcut for
+ * a function that we consider 'vital' (such as "Exit"). */
 static void check_vitals_mapped(void)
 {
 #define VITALS  4
@@ -1381,7 +1382,7 @@ static void check_vitals_mapped(void)
 
 /* Parse the rcfile, once it has been opened successfully at rcstream,
  * and close it afterwards.  If just_syntax is TRUE, allow the file to
- * to contain only color syntax commands. */
+ * contain only color syntax commands. */
 void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 {
 	char *buffer = NULL;
@@ -1709,6 +1710,7 @@ void parse_one_nanorc(void)
 		jot_error(N_("Error reading %s: %s"), nanorc, strerror(errno));
 }
 
+/* Return TRUE when path-plus-name denotes a readable, normal file. */
 bool have_nanorc(const char *path, const char *name)
 {
 	if (path == NULL)
