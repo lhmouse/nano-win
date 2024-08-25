@@ -43,7 +43,7 @@ nano_SOURCES = \
 		winio.c
 
 nano_LDADD = @LIBINTL@ $(top_builddir)/lib/libgnu.a \
-		$(GETRANDOM_LIB) $(LIB_CLOCK_GETTIME) $(LIBTHREAD)
+		$(GETRANDOM_LIB) $(CLOCK_TIME_LIB) $(LIBTHREAD)
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && rm -f rnano && $(LN_S) nano rnano
