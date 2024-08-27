@@ -7,7 +7,7 @@ syntax autoconf "\.(ac|m4)$"
 comment "#"
 
 # Keywords:
-color yellow "\<(if|test|then|elif|else|fi|for|in|do|done)\>"
+color yellow "\<(if|test|then|elif|else|fi|case|esac|ifelse|for|in|do|done)\>"
 color yellow "=|!=|&&|\|\|"
 
 # Macros:
