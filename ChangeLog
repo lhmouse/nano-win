@@ -1,3 +1,34 @@
+Changes between v8.1 and v8.2:
+------------------------------
+
+Benno Schulenberg (22):
+      bindings: at a Yes-No-All prompt, accept also ^A for "All"
+      bindings: let the central numpad key (with Ctrl) center the current line
+      bump version numbers and add a news item for the 8.2 release
+      docs: do not quote the argument of 'include' statements in sample nanorc
+      docs: mention former maintainership last among an author's contributions
+      docs: mention the availability of ^Y, ^N, and ^A at a Yes-No prompt
+      docs: trim stuff that is more than four years old from the changelog
+      gnulib: update to its current upstream state
+      macro: insert it in keystroke buffer without discarding latter's contents
+      moving: for Alt+Home/Alt+End, refresh the screen when the mark is on
+      syntax: autoconf: colorize the keywords 'case', 'esac', and 'ifelse' too
+      syntax: awk: add a missing "|" between "\?" and ":"
+      syntax: awk: colorize escape sequences specially
+      syntax: awk: rewrite a regex more densely, and add the missing ~ operator
+      syntax: man: colorize also the .MT .ME .EX .EE .SY .OP and .YS macros
+      syntax: nanorc: an unquoted argument of 'include' may not contain blanks
+      tweaks: delete three redundant checks from the undo/redo code
+      tweaks: improve or rewrap six comments, and add two missing ones
+      tweaks: move a condition to the only place that needs it
+      tweaks: rename a symbol, away from an obscure abbreviation
+      tweaks: reshuffle a seldom-used function to the end of an if-else series
+      tweaks: unwrap three lines that don't need to be wrapped
+
+Collin Funk (1):
+      build: update a symbol that was renamed in gnulib
+
+
 Changes between v8.0 and v8.1:
 ------------------------------
 

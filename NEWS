@@ -1,3 +1,8 @@
+2024.09.05 - GNU nano 8.2 "Charlotte will climb walls!"
+• At a Yes-No prompt, beside Y and the localized initial for "Yes",
+  also ^Y is accepted.  Similarly, ^N for "No", and ^A for "All".
+• A text-highlighting bug with Alt+Home/Alt+End is fixed.
+
 2024.07.12 - GNU nano 8.1 "de dag van de bitterkoekjespudding"
 • The idiom `nano filename:linenumber` is understood only when the
   option --colonparsing (or 'set colonparsing') is used.
