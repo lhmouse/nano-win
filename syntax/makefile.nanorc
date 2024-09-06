@@ -17,7 +17,7 @@ color magenta "^((override +)?(un)?define|endef|(un)?export|private|vpath)\>"
 color blue "\$+[{(][a-zA-Z0-9_-]+[})]"
 
 # Targets.
-color brightblue "^[^ 	]+:"
+color brightblue "^[^	].*:"
 
 # Comments.
 color green "(^|[[:blank:]]+)#.*"
