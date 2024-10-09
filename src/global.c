@@ -928,6 +928,7 @@ void shortcut_init(void)
 #endif
 
 	add_to_funcs(do_home, MMAIN,
+			/* TRANSLATORS: These two mean: "to beginning of line", "to end of line". */
 			N_("Home"), WHENHELP(home_gist), TOGETHER);
 	add_to_funcs(do_end, MMAIN,
 			N_("End"), WHENHELP(end_gist), BLANKAFTER);
