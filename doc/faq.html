@@ -215,7 +215,9 @@
     URxvt.keysym.M-Delete: \033[3;3~
 
     URxvt.keysym.M-Page_Up: \033[5;3~
-    URxvt.keysym.M-Page_Down: \033[6;3~</pre>
+    URxvt.keysym.M-Page_Down: \033[6;3~
+    URxvt.keysym.S-Page_Up: \033[5;2~
+    URxvt.keysym.S-Page_Down: \033[6;2~</pre>
 <p>Then run <b>xrdb ~/.Xresources</b> and restart your urxvt terminal.  Now <b>Ctrl+Shift+Left</b> and <b>Ctrl+Shift+Right</b> will select words, <b>Alt+Up</b> and <b>Alt+Down</b> will scroll the text without moving the cursor, and several such things more.</p></blockquote>
 <h3 id="4.3">4.3. Ack! My numeric keypad's keys don't work properly when NumLock is off! What can I do?</h3>
 <blockquote><p>You can use the <b>-K</b> or <b>--rawsequences</b> option on the command line, or add the line <b>set rawsequences</b> to your .nanorc. However, nano's mouse support will be disabled if you do any of these things.</p></blockquote>
