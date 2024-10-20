@@ -600,11 +600,11 @@ menus where the key exists when \fBall\fP is used).
 Note that \fBbind \fIkey\fR \fB"{\fIfunction\fB}"\fR \fImenu\fR is equivalent
 to \fBbind \fIkey\fR \fIfunction\fR \fImenu\fR, except that for the latter form
 \fBnano\fR checks the availability of the \fIfunction\fR in the given \fImenu\fR
-at startup time (and report an error if it does not exist there), whereas for the
+at startup time (and reports an error if it does not exist there), whereas for the
 first form \fBnano\fR checks at execution time that the \fIfunction\fR exists
 but not whether it makes any sense in the current menu.  The user has to take care
 that a function name between braces (or any sequence of them) is appropriate.
-Strange behavior can result when it is not.
+Strange behavior or even a crash can result when the braced name is unfitting.
 
 .TP
 The format of \fIkey\fP should be one of:
