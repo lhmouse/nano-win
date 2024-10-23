@@ -2,7 +2,7 @@
 
 ## Original author:  Robert D. Goulding
 
-syntax groff "\.(me|mm|mom|ms|rof|tmac)$|/tmac\.[^/]+$"
+syntax groff "\.(me|mm|mom|ms|roff|tmac)$|/tmac\.[^/]+$"
 comment ".\""
 
 # The setting of a string or register
