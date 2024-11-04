@@ -291,13 +291,13 @@
 # unbind M-T main
 ## (Those functions are still accessible through ^T^J and ^T^V.)
 
-## For quickly uppercasing or lowercasing the word under or after the cursor.
+## For quickly uppercasing or lowercasing the word that the cursor is on.
 ## (These effectively select a word and pipe it through a sed command.)
-# bind Sh-M-U "{nextword}{mark}{prevword}{execute}|sed 's/.*/\U&/'{enter}" main
-# bind Sh-M-L "{nextword}{mark}{prevword}{execute}|sed 's/.*/\L&/'{enter}" main
+# bind Sh-M-U "{nextword}{mark}{prevword}{execute}| sed 's/.*/\U&/' {enter}" main
+# bind Sh-M-L "{nextword}{mark}{prevword}{execute}| sed 's/.*/\L&/' {enter}" main
 
 ## For copying a marked region to the system clipboard:
-# bind Sh-M-C "{execute}|xsel -ib{enter}{undo}" main
+# bind Sh-M-C "{execute}| xsel -ib {enter}{undo}" main
 
 ## For normalizing Unicode to precomposed characters:
 # bind Sh-M-N "{execute}| uconv -x nfc {enter}" main
