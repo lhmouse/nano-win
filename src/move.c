@@ -189,7 +189,7 @@ void to_top_row(void)
 
 	set_proper_index_and_pww(&leftedge, offset, FALSE);
 
-	refresh_needed = (openfile->mark);
+	refresh_needed = (openfile->mark != NULL);
 }
 
 /* Place the cursor on the last row in the viewport, when possible. */
@@ -205,7 +205,7 @@ void to_bottom_row(void)
 	go_forward_chunks(editwinrows - 1, &openfile->current, &leftedge);
 	set_proper_index_and_pww(&leftedge, offset, TRUE);
 
-	refresh_needed = (openfile->mark);
+	refresh_needed = (openfile->mark != NULL);
 }
 
 /* Put the cursor line at the center, then the top, then the bottom. */
