@@ -181,8 +181,8 @@ char control_mbrep(const char *c, bool isdata)
 int mbtowide(wchar_t *wc, const char *c)
 {
 	if ((signed char)*c < 0 && use_utf8) {
-		unsigned char v1 = (unsigned char)c[0];
-		unsigned char v2 = (unsigned char)c[1] ^ 0x80;
+		unsigned char v1 = c[0];
+		unsigned char v2 = c[1] ^ 0x80;
 
 		if (v2 > 0x3F || v1 < 0xC2)
 			return -1;
@@ -192,7 +192,7 @@ int mbtowide(wchar_t *wc, const char *c)
 			return 2;
 		}
 
-		unsigned char v3 = (unsigned char)c[2] ^ 0x80;
+		unsigned char v3 = c[2] ^ 0x80;
 
 		if (v3 > 0x3F)
 			return -1;
@@ -206,7 +206,7 @@ int mbtowide(wchar_t *wc, const char *c)
 				return -1;
 		}
 
-		unsigned char v4 = (unsigned char)c[3] ^ 0x80;
+		unsigned char v4 = c[3] ^ 0x80;
 
 		if (v4 > 0x3F || v1 > 0xF4)
 			return -1;
@@ -265,8 +265,8 @@ int char_length(const char *pointer)
 {
 #ifdef ENABLE_UTF8
 	if ((unsigned char)*pointer > 0xC1 && use_utf8) {
-		unsigned char c1 = (unsigned char)pointer[0];
-		unsigned char c2 = (unsigned char)pointer[1];
+		unsigned char c1 = pointer[0];
+		unsigned char c2 = pointer[1];
 
 		if ((c2 ^ 0x80) > 0x3F)
 			return 1;
