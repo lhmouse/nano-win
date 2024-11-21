@@ -964,7 +964,7 @@ void shortcut_init(void)
 #endif
 
 	add_to_funcs(do_page_up, MMAIN|MHELP,
-			/* TRANSLATORS: Try to keep the next six strings at most 12 characters. */
+			/* TRANSLATORS: Try to keep the next four strings at most 10 characters. */
 			N_("Prev Page"), WHENHELP(prevpage_gist), TOGETHER);
 	add_to_funcs(do_page_down, MMAIN|MHELP,
 			N_("Next Page"), WHENHELP(nextpage_gist), TOGETHER);
@@ -976,6 +976,7 @@ void shortcut_init(void)
 
 #ifdef ENABLE_MULTIBUFFER
 	add_to_funcs(switch_to_prev_buffer, MMAIN,
+			/* TRANSLATORS: Try to keep these two strings at most 15 characters. */
 			N_("Prev File"), WHENHELP(prevfile_gist), TOGETHER);
 	add_to_funcs(switch_to_next_buffer, MMAIN,
 			N_("Next File"), WHENHELP(nextfile_gist), BLANKAFTER);
