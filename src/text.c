@@ -2755,6 +2755,13 @@ void do_linter(void)
 
 	if (!WIFEXITED(lint_status) || WEXITSTATUS(lint_status) > 2) {
 		statusline(ALERT, _("Error invoking '%s'"), openfile->syntax->linter);
+		for (curlint = lints; curlint != NULL;) {
+			tmplint = curlint;
+			curlint = curlint->next;
+			free(tmplint->msg);
+			free(tmplint->filename);
+			free(tmplint);
+		}
 		return;
 	}
 
