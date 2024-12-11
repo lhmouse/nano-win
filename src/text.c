@@ -2771,6 +2771,7 @@ void do_linter(void)
 		return;
 	}
 
+	/* When the help lines are off and there is room, force them on. */
 	if (helpless && LINES > 5) {
 		UNSET(NO_HELP);
 		window_init();
