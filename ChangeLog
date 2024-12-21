@@ -1,3 +1,31 @@
+Changes between v8.2 and v8.3:
+------------------------------
+
+Benno Schulenberg (16):
+      build: fix a compilation error with gcc-15
+      bump version numbers and add a news item for the 8.3 release
+      docs: add Shift+PgUp/PgDown to the FAQ item about urxvt modified keys
+      docs: clarify the possible effects of a misuse of braced function names
+      docs: put a space after "|" and before "{enter}" in the sample nanorc
+      gnulib: update to its current upstream state
+      syntax: groff: correct the mistaken .rof extension to .roff
+      syntax: groff: recognize also the .mom extension
+      syntax: makefile: colorize also multiple targets
+      syntax: markdown: accept also digit 0 in a list marker
+      syntax: spec: colorize all canonical architecture names
+      tweaks: add a small clarifying comment
+      tweaks: add a translator hint
+      tweaks: adjust another translator hint, and add two more
+      tweaks: adjust a translator hint, and add another one
+      tweaks: drop six unneeded casts
+
+LIU Hao (1):
+      syntax: asm: add end-of-word anchors to the keywords
+
+Lukáš Zaoral (1):
+      memory: avoid a leak when linter aborts after producing parsable output
+
+
 Changes between v8.1 and v8.2:
 ------------------------------
 

@@ -1,3 +1,7 @@
+2024.12.21 - GNU nano 8.3 "like mice in the dream of a tabby cat"
+• A build failure with gcc-15 is fixed.
+• Several translations were updated.
+
 2024.09.05 - GNU nano 8.2 "Charlotte will climb walls!"
 • At a Yes-No prompt, beside Y and the localized initial for "Yes",
   also ^Y is accepted.  Similarly, ^N for "No", and ^A for "All".
