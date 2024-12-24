@@ -133,7 +133,7 @@
 # set preserve
 
 ## The characters treated as closing punctuation when justifying paragraphs.
-## This may not contain blank characters.  Only these closing punctuations,
+## This may not contain blank characters.  Only these terminating characters,
 ## optionally followed by closing brackets, can end sentences.
 # set punct "!.?"
 
