@@ -52,8 +52,13 @@ bool more_than_one = FALSE;
 		/* Whether more than one buffer is or has been open. */
 bool report_size = TRUE;
 		/* Whether to show the number of lines when the minibar is used. */
+
 bool ran_a_tool = FALSE;
 		/* Whether a tool has been run at the Execute-Command prompt. */
+#ifndef NANO_TINY
+char *foretext = NULL;
+		/* What was typed at the Execute prompt before invoking a tool. */
+#endif
 
 bool inhelp = FALSE;
 		/* Whether we are in the help viewer. */

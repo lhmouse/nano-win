@@ -2384,6 +2384,9 @@ int main(int argc, char **argv)
 			whitelen[1] = 1;
 		}
 	}
+
+	/* Initialize a special stash for something typed at the Execute prompt. */
+	foretext = copy_of("");
 #endif /* !NANO_TINY */
 
 	/* Initialize the search string. */

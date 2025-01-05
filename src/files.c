@@ -1197,6 +1197,12 @@ void insert_a_file_or(bool execute)
 	/* Reset the flag that is set by the Spell Checker and Linter and such. */
 	ran_a_tool = FALSE;
 
+#ifndef NANO_TINY
+	/* If something was typed at the Execute prompt without being run, restore it. */
+	if (execute && *foretext)
+		given = mallocstrcpy(given, foretext);
+#endif
+
 	while (TRUE) {
 #ifndef NANO_TINY
 		if (execute) {

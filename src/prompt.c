@@ -538,6 +538,11 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		else if (function && !handle_editing(function)) {
 			/* When it's a permissible shortcut, run it and done. */
 			if (!ISSET(VIEW_MODE) || !changes_something(function)) {
+#ifndef NANO_TINY
+				/* When invoking a tool at the Execute prompt, stash an "answer". */
+				if (currmenu == MEXECUTE)
+					foretext = mallocstrcpy(foretext, answer);
+#endif
 				function();
 				break;
 			} else
@@ -549,6 +554,11 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #endif
 	}
 
+#ifndef NANO_TINY
+	/* When an external command was run, clear a possibly stashed answer. */
+	if (currmenu == MEXECUTE && function == do_enter)
+		*foretext = '\0';
+#endif
 #ifdef ENABLE_HISTORIES
 	/* If the history pointer was moved, point it at the bottom again. */
 	if (stored_string != NULL) {
