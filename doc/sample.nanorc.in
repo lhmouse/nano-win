@@ -54,7 +54,7 @@
 ## as the line number to go to in that file.
 # set colonparsing
 
-## Constantly display the cursor position in the status bar or minibar.
+## Constantly report the cursor position, in the status bar or minibar.
 # set constantshow
 
 ## Use cut-from-cursor-to-end-of-line by default.

@@ -570,7 +570,7 @@ the last one given takes effect.)
 
 @item -c
 @itemx --constantshow
-Constantly display the cursor position (line number, column number,
+Constantly report the cursor position (line number, column number,
 and character number) on the status bar.
 Note that this overrides option @option{-U} (@option{--quickblank}).
 
@@ -951,7 +951,7 @@ the original filename as is.  To disable this colon parsing for some
 file, use @code{+1} or similar before the relevant filename.
 
 @item set constantshow
-Constantly display the cursor position on the status bar.
+Constantly report the cursor position on the status bar.
 Note that this overrides @option{quickblank}.
 
 @item set cutfromcursor
@@ -1832,7 +1832,8 @@ and the linter.  All further toggles are available in the main menu only.)
 Toggles the presence of title bar and status bar.
 
 @item constantshow
-Toggles the constant display of the current line, column, and character positions.
+Toggles the constant reporting (on the status bar)
+of the current line, column, and character positions.
 
 @item softwrap
 Toggles the displaying of overlong lines on multiple screen lines.
