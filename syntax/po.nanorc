@@ -22,7 +22,7 @@ color brightblue "^(msgid|msgid_plural|msgstr)\>"
 color red " fuzzy(,|$)"
 color yellow " (no-)?[-[:alpha:]]+-format(,|$)"
 # Format specifiers.
-color brightmagenta "%([1-9]\$)?[#0 +'I-]?(\*([1-9]\$)?|[1-9](\.[0-9]?)?)?[hlLjzt]?[diouxXeEfFgGaAcspnm%]"
+color brightmagenta "%([1-9]\$)?[#0 +'I-]?(\*([1-9]\$)?|[1-9](\.[0-9]?)?)?(hh|ll|[hlLjzt])?[diouxXeEfFgGaAcspnm]|%%"
 # Quotes and escaped characters.
 color yellow """
 color cyan "\\([abcefnrtv"\]|x[[:xdigit:]]{2}|[0-7]{3})"
