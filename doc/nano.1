@@ -119,7 +119,7 @@ already at that position, it jumps to the true beginning of the line.
 When saving a file, back up the previous version of it, using the current
 filename suffixed with a tilde (\fB~\fP).
 .TP
-.BR \-C\ \fIdirectory ", " \-\-backupdir= \fIdirectory
+.BI \-C " directory\fR, " \-\-backupdir= directory
 Make and keep not just one backup file, but make and keep a uniquely
 numbered one every time a file is saved -- when backups are enabled (\fB\-B\fR).
 The uniquely numbered files are stored in the specified \fIdirectory\fR.
@@ -149,7 +149,7 @@ executed commands, so they can be easily reused in later sessions.
 .BR \-I ", " \-\-ignorercfiles
 Don't look at the system's \fInanorc\fR nor at the user's \fInanorc\fR.
 .TP
-.BR \-J\ \fInumber ", " \-\-guidestripe= \fInumber
+.BI \-J " number\fR, " \-\-guidestripe= number
 Draw a vertical stripe at the given column, to help judge the width of the
 text.  (The color of the stripe can be changed with \fBset stripecolor\fR
 in your \fInanorc\fR file.)
@@ -181,7 +181,7 @@ beginning of a paragraph (unless auto-indenting is on).
 For the 200 most recent files, log the last position of the cursor,
 and place it at that position again upon reopening such a file.
 .TP
-.BR "\-Q ""\fIregex\fB""" ", " "\-\-quotestr=""" \fIregex """
+.BI "\-Q """ regex\fB"\fR, " \-\-quotestr=""" regex """
 Set the regular expression for matching the quoting part of a line.
 The default value is "\fB^([\ \\t]*([!#%:;>|}]|//))+\fR".
 (Note that \fB\\t\fP stands for an actual Tab.)
@@ -202,7 +202,7 @@ Display over multiple screen rows lines that exceed the screen's width.
 (You can make this soft-wrapping occur at whitespace instead of rudely at
 the screen's edge, by using also \fB\-\-atblanks\fR.)
 .TP
-.BR \-T\ \fInumber ", " \-\-tabsize= \fInumber
+.BI \-T " number\fR, " \-\-tabsize= number
 Set the size (width) of a tab to \fInumber\fP columns.  The value of
 \fInumber\fR must be greater than 0.  The default value is \fB8\fR.
 .TP
@@ -221,12 +221,12 @@ Show the current version number and exit.
 Detect word boundaries differently by treating punctuation
 characters as part of a word.
 .TP
-.BR "\-X ""\fIcharacters\fB""" ", " "\-\-wordchars=""" \fIcharacters """
+.BI "\-X """ characters\fB"\fR, " \-\-wordchars=""" characters """
 Specify which other characters (besides the normal alphanumeric ones)
 should be considered as part of a word.  When using this option, you
 probably want to omit \fB\-W\fR (\fB\-\-wordbounds\fR).
 .TP
-.BR \-Y\ \fIname ", " \-\-syntax= \fIname
+.BI \-Y " name\fR, " \-\-syntax= name
 Specify the name of the syntax highlighting to use from among the ones
 defined in the \fInanorc\fP files.
 .TP
@@ -255,7 +255,7 @@ system either Backspace acts like Delete or Delete acts like Backspace.
 .BR \-e ", " \-\-emptyline
 Do not use the line below the title bar, leaving it entirely blank.
 .TP
-.BR \-f\ \fIfile ", " \-\-rcfile= \fIfile
+.BI \-f " file\fR, " \-\-rcfile= file
 Read only this \fIfile\fR for setting nano's options, instead of reading
 both the system-wide and the user's nanorc files.
 .TP
@@ -297,7 +297,7 @@ and writes to the pipe when the user saves the "file".  This way
 \fBnano\fR can be used as an editor in combination with for instance
 \fBgpg\fR without having to write sensitive data to disk first.
 .TP
-.BR \-o\ \fIdirectory ", " \-\-operatingdir= \fIdirectory
+.BI \-o " directory\fR, " \-\-operatingdir= directory
 Set the operating directory.  This makes \fBnano\fP set up something
 similar to a chroot.
 .TP
@@ -311,7 +311,7 @@ Display a "scrollbar" on the righthand side of the edit window.
 It shows the position of the viewport in the buffer
 and how much of the buffer is covered by the viewport.
 .TP
-.BR \-r\ \fInumber ", " \-\-fill= \fInumber
+.BI \-r " number\fR, " \-\-fill= number
 Set the target width for justifying and automatic hard-wrapping at this
 \fInumber\fR of columns.  If the value is 0 or less, wrapping occurs
 at the width of the screen minus \fInumber\fR columns, allowing the wrap
