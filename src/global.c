@@ -507,7 +507,7 @@ functionptrtype func_from_key(const int keycode)
  * with Pico or to mimic 'less' and similar text viewers. */
 functionptrtype interpret(const int keycode)
 {
-	if (!meta_key) {
+	if (!meta_key && keycode < 0x7F) {
 		if (keycode == 'N')
 			return do_findprevious;
 		if (keycode == 'n')
