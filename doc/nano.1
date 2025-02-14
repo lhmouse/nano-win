@@ -101,7 +101,7 @@ A literal control code (except \fB^J\fR) can be inserted by typing
 .sp
 The two lines at the bottom of the screen show some important commands;
 the built-in help (\fB^G\fR) lists all the available ones.
-The default key bindings can be changed via a \fInanorc\fR file -- see
+The default key bindings can be changed via a \fInanorc\fR file \(em see
 .BR nanorc (5).
 
 .\" Never hyphenate these:
@@ -120,8 +120,8 @@ When saving a file, back up the previous version of it, using the current
 filename suffixed with a tilde (\fB~\fR).
 .TP
 .BI \-C " directory\fR, " \-\-backupdir= directory
-Make and keep not just one backup file, but make and keep a uniquely
-numbered one every time a file is saved -- when backups are enabled (\fB\-B\fR).
+Make and keep not just one backup file, but make and keep a uniquely numbered
+one every time a file is saved \(em when backups are enabled (\fB\-B\fR).
 The uniquely numbered files are stored in the specified \fIdirectory\fR.
 .TP
 .BR \-D ", " \-\-boldtext
@@ -132,7 +132,7 @@ This can be overridden for specific elements by setting the options
 nanorc file.  See \fBnanorc\fR(5).
 .TP
 .BR \-E ", " \-\-tabstospaces
-Convert each typed tab to spaces -- to the number of spaces
+Convert each typed tab to spaces \(em to the number of spaces
 that a tab at that position would take up.
 (Note: pasted tabs are not converted.)
 .TP
@@ -195,7 +195,7 @@ don't allow suspending; don't allow spell checking;
 don't allow a file to be appended to, prepended to, or saved under a
 different name if it already has one; and don't make backup files.
 Restricted mode can also be activated by invoking \fBnano\fR
-with any name beginning with 'r' (e.g. "rnano").
+with any name beginning with 'r' (e.g.\& "rnano").
 .TP
 .BR \-S ", " \-\-softwrap
 Display over multiple screen rows lines that exceed the screen's width.
@@ -338,7 +338,7 @@ unless \fB\-\-restricted\fR is given too.
 .BR \-w ", " \-\-nowrap
 Do not automatically hard-wrap the current line when it becomes overlong.
 This is the default.  (This option is the opposite of \fB\-b\fR
-(\fB\-\-breaklonglines\fR) -- the last one given takes effect.)
+(\fB\-\-breaklonglines\fR) \(em the last one given takes effect.)
 .TP
 .BR \-x ", " \-\-nohelp
 Don't show the two help lines at the bottom of the screen.
@@ -459,7 +459,7 @@ the current filename in order to make it unique.  In multibuffer mode,
 \fBnano\fR writes all open buffers to their respective emergency files.
 .sp
 If you have any question about how to use \fBnano\fR in some specific
-situation, you can ask on \fIhelp-nano@gnu.org\fR.
+situation, you can ask on \fIhelp\-nano@gnu.org\fR.
 
 .SH BUGS
 The recording and playback of keyboard macros works correctly only on a
