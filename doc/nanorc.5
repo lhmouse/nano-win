@@ -102,9 +102,9 @@ The uniquely numbered files are stored in the specified \fIdirectory\fR.
 .B set boldtext
 Use bold instead of reverse video for the title bar, status bar,
 prompt bar, mini bar, key combos, line numbers, and selected text.
-This can be overridden by setting the options
-\fBtitlecolor\fR, \fBstatuscolor\fR, \fBpromptcolor\fR, \fBminicolor\fR,
-\fBkeycolor\fR, \fBnumbercolor\fR, and/or \fBselectedcolor\fR.
+This can be overridden by setting the options \fB\%titlecolor\fR,
+\fB\%statuscolor\fR, \fB\%promptcolor\fR, \fB\%minicolor\fR,
+\fB\%keycolor\fR, \fB\%numbercolor\fR, and/or \fB\%selectedcolor\fR.
 .TP
 .B set bookstyle
 When justifying, treat any line that starts with whitespace as the
@@ -145,7 +145,7 @@ Do not use the line below the title bar, leaving it entirely blank.
 .B set errorcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the status bar when an error message is displayed.
 The default value is \fBbold,white,red\fR.
-See \fBset titlecolor\fR for valid color names.
+See \fBset \%titlecolor\fR for valid color names.
 .TP
 .B set fill \fInumber\fR
 Set the target width for justifying and automatic hard-wrapping at this
@@ -157,7 +157,7 @@ The default value is \fB\-8\fR.
 .B set functioncolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the concise function descriptions
 in the two help lines at the bottom of the screen.
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .B set guidestripe \fInumber
 Draw a vertical stripe at the given column, to help judge the width of the
@@ -178,7 +178,7 @@ Scroll the buffer contents per half-screen instead of per line.
 .B set keycolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the shortcut key combos
 in the two help lines at the bottom of the screen.
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .B set linenumbers
 Display line numbers to the left of the text area.
@@ -219,7 +219,7 @@ The state flags are displayed only when \fBset stateflags\fR is used.
 .B set minicolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the mini bar.
 (When this option is not specified, the colors of the title bar are used.)
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .B set mouse
 Enable mouse support, if available for your system.  When enabled,
@@ -247,7 +247,7 @@ When needed, use \fBunset breaklonglines\fR instead.
 .TP
 .B set numbercolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for line numbers.
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .B set operatingdir \fIdirectory\fR
 \fBnano\fR only reads and writes files inside \fIdirectory\fR and its
@@ -266,13 +266,13 @@ they are caught by the terminal (stopping and resuming the output).
 .B set promptcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the prompt bar.
 (When this option is not specified, the colors of the title bar are used.)
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .BI "set punct """ characters """
 Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the
 specified closing punctuation, optionally followed by closing brackets
-(see \fBbrackets\fR), can end sentences.  The default value is "\fB!.?\fR".
+(see \fBset brackets\fR), can end sentences.  The default value is "\fB!.?\fR".
 .TP
 .B set quickblank
 Make status-bar messages disappear after 1 keystroke instead of after 20.
@@ -310,11 +310,11 @@ Save a changed buffer automatically on exit (\fB^X\fR); don't prompt.
 .TP
 .B set scrollercolor \fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the indicator alias "scrollbar".
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .B set selectedcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for selected text.
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .B set showcursor
 Put the cursor on the highlighted item in the file browser, and show
@@ -338,8 +338,8 @@ using the built-in corrector that calls \fBhunspell\fR(1) or \fBspell\fR(1).
 .TP
 .B set spotlightcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for highlighting a search match.
-The default value is \fBblack,lightyellow\fR.
-See \fBset titlecolor\fR for valid color names.
+The default value is \fBblack,\%lightyellow\fR.
+See \fBset \%titlecolor\fR for valid color names.
 .TP
 .B set stateflags
 Use the top-right corner of the screen for showing some state flags:
@@ -351,11 +351,11 @@ filename in the center of the title bar.
 .TP
 .B set statuscolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the status bar.
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .B set stripecolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the vertical guiding stripe.
-See \fBset titlecolor\fR for more details.
+See \fBset \%titlecolor\fR for more details.
 .TP
 .B set tabsize \fInumber\fR
 Use a tab size of \fInumber\fR columns.  The value of \fInumber\fR must be
@@ -568,9 +568,9 @@ to \fBicolor\fR.
 .TP
 .BI extendsyntax " name command argument " \fR...
 Extend the syntax previously defined as \fIname\fR with another
-\fIcommand\fR.  This allows adding a new \fBcolor\fR, \fBicolor\fR,
-\fBheader\fR, \fBmagic\fR, \fBformatter\fR, \fBlinter\fR, \fBcomment\fR,
-or \fBtabgives\fR
+\fI\%command\fR.  This allows adding a new \fB\%color\fR, \fB\%icolor\fR,
+\fB\%header\fR, \fB\%magic\fR, \fB\%formatter\fR, \fB\%linter\fR,
+\fB\%comment\fR, or \fB\%tabgives\fR
 command to an already defined syntax \(em useful when you want to
 slightly improve a syntax defined in one of the system-installed
 files (which normally are not writable).
