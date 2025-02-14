@@ -369,29 +369,28 @@ that a tab at that position would take up.
 .B set titlecolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for the title bar.
 Valid names for the foreground and background colors are:
-.BR red ", " green ", " blue ", " magenta ", " yellow ", " cyan ,
+.BR red ", " green ", " blue ", " \%magenta ", " \%yellow ", " \%cyan ,
 .BR white ", and " black .
 Each of these eight names may be prefixed with the word \fBlight\fR
 to get a brighter version of that color.
 The word \fBgrey\fR or \fBgray\fR may be used
-as a synonym for \fBlightblack\fR.
+as a synonym for \fB\%lightblack\fR.
 On a Linux console, \fBlight\fR does not have
 any effect for a background color.
 On terminal emulators that can do at least 256 colors,
 other valid (but unprefixable) color names are:
-.BR pink ", " purple ", " mauve ", " lagoon ", " mint ,
-.BR lime ", " peach ", " orange ", " latte ,
-.BR rosy ", " beet ", " plum ", " sea ", " sky ", " slate ,
-.BR teal ", " sage ", " brown ", " ocher ", " sand ", " tawny ,
-.BR brick ", " crimson ", and " normal
-\(em where \fBnormal\fR means the default foreground or background color.
+.BR pink ", " \%purple ", " mauve ", " \%lagoon ", " mint ", " lime ", " peach ,
+.BR \%orange ", " \%latte ", " \%rosy ", " beet ", " plum ", " sea ", " sky ,
+.BR slate ", " teal ", " sage ", " brown ", " \%ocher ", " sand ", " \%tawny ,
+.BR brick ", " \%crimson ", and " \%normal
+\(em where \fB\%normal\fR means the default foreground or background color.
 On such emulators, the color may also be specified as a three-digit hexadecimal
 number prefixed with \fB#\fR, with the digits representing the amounts of red,
 green, and blue, respectively.  This tells \fBnano\fR to select from the
 available palette the color that approximates the given values.
 
 Either "\fIfgcolor\fR" or "\fB,\fIbgcolor\fR" may be left out,
-and the pair may be preceded by \fBbold\fR and/or \fBitalic\fR
+and the pair may be preceded by \fBbold\fR and/or \fB\%italic\fR
 (separated by commas) to get a bold and/or slanting typeface,
 if your terminal can do those.
 .TP
@@ -520,28 +519,27 @@ This overrides the setting of the \fBtabstospaces\fR option.
 Paint all pieces of text that match the extended regular expression
 \fIregex\fR with the given foreground and background colors, at least
 one of which must be specified.  Valid color names are:
-.BR red ", " green ", " blue ", " magenta ", " yellow ", " cyan ,
+.BR red ", " green ", " blue ", " \%magenta ", " \%yellow ", " \%cyan ,
 .BR white ", and " black .
 Each of these eight names may be prefixed with the word \fBlight\fR
 to get a brighter version of that color.
 The word \fBgrey\fR or \fBgray\fR may be used
-as a synonym for \fBlightblack\fR.
+as a synonym for \fB\%lightblack\fR.
 On a Linux console, \fBlight\fR does not have
 any effect for a background color.
 On terminal emulators that can do at least 256 colors,
 other valid (but unprefixable) color names are:
-.BR pink ", " purple ", " mauve ", " lagoon ", " mint ,
-.BR lime ", " peach ", " orange ", " latte ,
-.BR rosy ", " beet ", " plum ", " sea ", " sky ", " slate ,
-.BR teal ", " sage ", " brown ", " ocher ", " sand ", " tawny ,
-.BR brick ", " crimson ", and " normal
-\(em where \fBnormal\fR means the default foreground or background color.
+.BR pink ", " \%purple ", " mauve ", " \%lagoon ", " mint ", " lime ", " peach ,
+.BR \%orange ", " \%latte ", " \%rosy ", " beet ", " plum ", " sea ", " sky ,
+.BR slate ", " teal ", " sage ", " brown ", " \%ocher ", " sand ", " \%tawny ,
+.BR brick ", " \%crimson ", and " \%normal
+\(em where \fB\%normal\fR means the default foreground or background color.
 On such emulators, the color may also be specified as a three-digit hexadecimal
 number prefixed with \fB#\fR, with the digits representing the amounts of red,
 green, and blue, respectively.  This tells \fBnano\fR to select from the
 available palette the color that approximates the given values.
 
-The color pair may be preceded by \fBbold\fR and/or \fBitalic\fR
+The color pair may be preceded by \fBbold\fR and/or \fB\%italic\fR
 (separated by commas) to get a bold and/or slanting typeface,
 if your terminal can do those.
 .sp
