@@ -110,7 +110,7 @@ This can be overridden by setting the options \fB\%titlecolor\fR,
 When justifying, treat any line that starts with whitespace as the
 beginning of a paragraph (unless auto-indenting is on).
 .TP
-.BI "set brackets """ characters """
+.BI "set brackets """ characters """"
 Set the characters treated as closing brackets when justifying
 paragraphs.  This may not include blank characters.  Only closing
 punctuation (see \fBset punct\fR), optionally followed by the specified
@@ -193,7 +193,7 @@ try using libmagic to determine the applicable syntax.
 (Calling libmagic can be relatively time consuming.
 It is therefore not done by default.)
 .TP
-.BI "set matchbrackets """ characters """
+.BI "set matchbrackets """ characters """"
 Specify the opening and closing brackets that can be found by bracket
 searches.  This may not include blank characters.  The opening set must
 come before the closing set, and the two sets must be in the same order.
@@ -268,7 +268,7 @@ Use this color combination for the prompt bar.
 (When this option is not specified, the colors of the title bar are used.)
 See \fBset \%titlecolor\fR for more details.
 .TP
-.BI "set punct """ characters """
+.BI "set punct """ characters """"
 Set the characters treated as closing punctuation when justifying
 paragraphs.  This may not include blank characters.  Only the
 specified closing punctuation, optionally followed by closing brackets
@@ -281,7 +281,7 @@ When option \fBminibar\fR or \fBzero\fR is in effect,
 \fBquickblank\fR makes a message disappear after
 0.8 seconds instead of after the default 1.5 seconds.
 .TP
-.BI "set quotestr """ regex """
+.BI "set quotestr """ regex """"
 Set the regular expression for matching the quoting part of a line.
 The default value is "\fB^([\ \et]*([!#%:;>|}]|//))+\fR".
 (Note that \fB\et\fR stands for an actual Tab character.)
@@ -403,7 +403,7 @@ Save a file by default in Unix format.  This overrides nano's
 default behavior of saving a file in the format that it had.
 (This option has no effect when you also use \fBset noconvert\fR.)
 .TP
-.BI "set whitespace """ characters """
+.BI "set whitespace """ characters """"
 Set the two characters used to indicate the presence of tabs and
 spaces.  They must be single-column characters.  The default pair
 for a UTF-8 locale is "\fB\[Fc]\[md]\fR", and for other locales "\fB>.\fR".
@@ -412,7 +412,7 @@ for a UTF-8 locale is "\fB\[Fc]\[md]\fR", and for other locales "\fB>.\fR".
 Detect word boundaries differently by treating punctuation
 characters as parts of words.
 .TP
-.BI "set wordchars """ characters """
+.BI "set wordchars """ characters """"
 Specify which other characters (besides the normal alphanumeric ones)
 should be considered as parts of words.  When using this option, you
 probably want to unset \fBwordbounds\fR.
@@ -480,12 +480,12 @@ and applies to files that don't match any syntax's regexes.
 The syntax \fBnone\fR is reserved; specifying it on the command line
 is the same as not having a syntax at all.
 .TP
-.BI "header """ regex """ \fR...
+.BI "header """ regex """ " \fR...
 If from all defined syntaxes no \fIfileregex\fR matched, then compare
 this \fIregex\fR (or regexes) against the first line of the current file,
 to determine whether this syntax should be used for it.
 .TP
-.BI "magic """ regex """ \fR...
+.BI "magic """ regex """ " \fR...
 If no \fIfileregex\fR matched and no \fBheader\fR regex matched
 either, then compare this \fIregex\fR (or regexes) against the
 result of querying the \fBmagic\fR database about the current
@@ -499,7 +499,7 @@ Run the given \fIprogram\fR on the full contents of the current buffer.
 .BI linter " program " \fR[ "argument " \fR...]
 Use the given \fIprogram\fR to run a syntax check on the current buffer.
 .TP
-.BI "comment """ string """
+.BI "comment """ string """"
 Use the given \fIstring\fR for commenting and uncommenting lines.
 If the string contains a vertical bar or pipe character (\fB|\fR),
 this designates bracket-style comments; for example, "\fB/*|*/\fR" for
@@ -510,7 +510,7 @@ for Python files.  If empty double quotes are specified, the comment/uncomment
 function is disabled; for example, "" for JSON.
 The default value is "\fB#\fR".
 .TP
-.BI "tabgives """ string """
+.BI "tabgives """ string """"
 Make the <Tab> key produce the given \fIstring\fR.  Useful for languages like
 Python that want to see only spaces for indentation.
 This overrides the setting of the \fBtabstospaces\fR option.
@@ -549,7 +549,7 @@ which means that later commands can recolor stuff that was colored earlier.
 .BI "icolor \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " """ regex """ " \fR...
 Same as above, except that the matching is case insensitive.
 .TP
-.BI "color \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
+.BI "color \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """"
 Paint all pieces of text whose start matches extended regular expression
 \fIfromrx\fR and whose end matches extended regular expression \fItorx\fR
 with the given foreground and background colors,
@@ -558,10 +558,10 @@ initial instance of \fIfromrx\fR, all text until the first instance of
 \fItorx\fR is colored.  This allows syntax highlighting to span
 multiple lines.
 .TP
-.BI "icolor \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """
+.BI "icolor \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """"
 Same as above, except that the matching is case insensitive.
 .TP
-.BI "include """ syntaxfile """
+.BI "include """ syntaxfile """"
 Read in self-contained color syntaxes from \fIsyntaxfile\fR.  Note that
 \fIsyntaxfile\fR may contain only the above commands, from \fBsyntax\fR
 to \fBicolor\fR.
