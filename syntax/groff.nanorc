@@ -25,4 +25,4 @@ color green start="\\(\\)?\*\[" end="]"
 color brightred "\\\(.."
 color brightred start="\\\[" end="]"
 # Macro arguments
-color brightcyan "\\\\\$[1-9]"
+color brightcyan "\\\\\$[0-9]"
