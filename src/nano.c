@@ -1444,9 +1444,13 @@ void suck_up_input_and_paste_it(void)
 	cutbuffer = line;
 
 	while (bracketed_paste) {
+		size_t were_waiting = waiting_keycodes();
 		int input = get_kbinput(midwin, BLIND);
 
-		if (input == '\r' || input == '\n') {
+		/* If key codes come singly, something is wrong. */
+		if (were_waiting == 0 && waiting_keycodes() == 0)
+			break;
+		else if (input == '\r' || input == '\n') {
 			line->next = make_new_node(line);
 			line = line->next;
 			line->data = copy_of("");
@@ -1457,13 +1461,18 @@ void suck_up_input_and_paste_it(void)
 			line->data[index++] = (char)input;
 			line->data[index] = '\0';
 		} else if (input != BRACKETED_PASTE_MARKER)
-			beep();
+			break;
 	}
 
 	if (ISSET(VIEW_MODE))
 		print_view_warning();
 	else
 		paste_text();
+
+	if (bracketed_paste) {
+		statusline(ALERT, _("Flawed paste"));
+		bracketed_paste = FALSE;
+	}
 
 	free_lines(cutbuffer);
 	cutbuffer = was_cutbuffer;

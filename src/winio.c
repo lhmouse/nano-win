@@ -742,10 +742,8 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 				}
 
 				if (trailer != '~') {
-					/* Broken -- assume a truncated end-of-paste sequence. */
-					bracketed_paste = FALSE;
 					*consumed = length;
-					return ERR;
+					return FOREIGN_SEQUENCE;
 				}
 
 				if (seq[2] == '0') {
