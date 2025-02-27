@@ -724,10 +724,30 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 				/* Esc [ 2 n ; 2 ~ == F21...F24 on some terminals. */
 				*consumed = 5;
 #ifndef NANO_TINY
-			else if (length > 3 && seq[1] == '0' && seq[3] == '~') {
+			else {
 				/* Esc [ 2 0 0 ~ == start of a bracketed paste,
 				 * Esc [ 2 0 1 ~ == end of a bracketed paste. */
-				*consumed = 4;
+				int trailer = 0;
+
+				if (length > 3 && seq[1] == '0' && seq[3] == '~') {
+					trailer = '~';
+					*consumed = 4;
+				} else if (length == 3 && seq[1] == '0') {
+					/* Wait at most one second for the missing '~' character. */
+					halfdelay(10);
+					disable_kb_interrupt();
+					trailer = getch();
+					*consumed = 3;
+					raw();
+				}
+
+				if (trailer != '~') {
+					/* Broken -- assume a truncated end-of-paste sequence. */
+					bracketed_paste = FALSE;
+					*consumed = length;
+					return ERR;
+				}
+
 				if (seq[2] == '0') {
 					bracketed_paste = TRUE;
 					return BRACKETED_PASTE_MARKER;
@@ -735,12 +755,6 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 					bracketed_paste = FALSE;
 					return BRACKETED_PASTE_MARKER;
 				}
-			} else {
-				/* When invalid, assume it's a truncated end-of-paste sequence,
-				 * in order to avoid a hang -- https://sv.gnu.org/bugs/?64996. */
-				bracketed_paste = FALSE;
-				*consumed = length;
-				return ERR;
 			}
 #endif
 			break;
