@@ -1307,6 +1307,8 @@ void unbound_key(int code)
 		statusline(AHEM, _("Missing }"));
 #endif
 #ifndef NANO_TINY
+	else if (code == BRACKETED_PASTE_MARKER)
+		statusline(AHEM, _("Paste is ignored"));
 	else if (code > KEY_F0 && code < KEY_F0 + 25)
 		/* TRANSLATORS: This refers to an unbound function key. */
 		statusline(AHEM, _("Unbound key: F%i"), code - KEY_F0);

@@ -477,12 +477,9 @@ void show_help(void)
 #ifndef NANO_TINY
 		spotlighted = FALSE;
 
-		while (bracketed_paste)
+		while (bracketed_paste && kbinput != FOREIGN_SEQUENCE)
 			kbinput = get_kbinput(midwin, BLIND);
-		if (kbinput == BRACKETED_PASTE_MARKER) {
-			beep();
-			continue;
-		}
+		bracketed_paste = FALSE;
 #endif
 		function = interpret(kbinput);
 
