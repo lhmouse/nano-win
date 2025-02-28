@@ -746,13 +746,8 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 					return FOREIGN_SEQUENCE;
 				}
 
-				if (seq[2] == '0') {
-					bracketed_paste = TRUE;
-					return BRACKETED_PASTE_MARKER;
-				} else if (seq[2] == '1') {
-					bracketed_paste = FALSE;
-					return BRACKETED_PASTE_MARKER;
-				}
+				bracketed_paste = (seq[2] == '0');
+				return BRACKETED_PASTE_MARKER;
 			}
 #endif
 			break;
