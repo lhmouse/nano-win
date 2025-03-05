@@ -1440,19 +1440,22 @@ void suck_up_input_and_paste_it(void)
 {
 	linestruct *was_cutbuffer = cutbuffer;
 	linestruct *line = make_new_node(NULL);
+	size_t were_waiting = 0;
 	size_t index = 0;
+	int input = ERR;
 
 	line->data = copy_of("");
 	cutbuffer = line;
 
 	while (bracketed_paste) {
-		size_t were_waiting = waiting_keycodes();
-		int input = get_kbinput(midwin, BLIND);
+		were_waiting = waiting_keycodes();
+		input = get_kbinput(midwin, BLIND);
 
 		/* If key codes come singly, something is wrong. */
 		if (were_waiting == 0 && waiting_keycodes() == 0)
-			break;
-		else if (input == '\r' || input == '\n') {
+			bracketed_paste = FALSE;
+
+		if (input == '\r' || input == '\n') {
 			line->next = make_new_node(line);
 			line = line->next;
 			line->data = copy_of("");
@@ -1463,7 +1466,7 @@ void suck_up_input_and_paste_it(void)
 			line->data[index++] = (char)input;
 			line->data[index] = '\0';
 		} else if (input != BRACKETED_PASTE_MARKER)
-			break;
+			bracketed_paste = FALSE;
 	}
 
 	if (ISSET(VIEW_MODE))
@@ -1471,10 +1474,8 @@ void suck_up_input_and_paste_it(void)
 	else
 		paste_text();
 
-	if (bracketed_paste) {
+	if (were_waiting == 0 || input == FOREIGN_SEQUENCE)
 		statusline(ALERT, _("Flawed paste"));
-		bracketed_paste = FALSE;
-	}
 
 	free_lines(cutbuffer);
 	cutbuffer = was_cutbuffer;
