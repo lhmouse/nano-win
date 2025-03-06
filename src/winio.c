@@ -724,30 +724,15 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 				/* Esc [ 2 n ; 2 ~ == F21...F24 on some terminals. */
 				*consumed = 5;
 #ifndef NANO_TINY
-			else {
+			else if (length > 3 && seq[1] == '0' && seq[3] == '~') {
 				/* Esc [ 2 0 0 ~ == start of a bracketed paste,
 				 * Esc [ 2 0 1 ~ == end of a bracketed paste. */
-				int trailer = 0;
-
-				if (length > 3 && seq[1] == '0' && seq[3] == '~') {
-					trailer = '~';
-					*consumed = 4;
-				} else if (length == 3 && seq[1] == '0') {
-					/* Wait at most one second for the missing '~' character. */
-					halfdelay(10);
-					disable_kb_interrupt();
-					trailer = getch();
-					*consumed = 3;
-					raw();
-				}
-
-				if (trailer != '~') {
-					*consumed = length;
-					return FOREIGN_SEQUENCE;
-				}
-
+				*consumed = 4;
 				bracketed_paste = (seq[2] == '0');
 				return BRACKETED_PASTE_MARKER;
+			} else {
+				*consumed = length;
+				return FOREIGN_SEQUENCE;
 			}
 #endif
 			break;
