@@ -304,7 +304,7 @@ void read_keys_from(WINDOW *frame)
 	nodelay(frame, FALSE);
 
 #ifdef DEBUG
-	fprintf(stderr, "\nSequence of hex codes:");
+	fprintf(stderr, "Sequence of hex codes:");
 	for (size_t i = 0; i < waiting_codes; i++)
 		fprintf(stderr, " %3x", key_buffer[i]);
 	fprintf(stderr, "\n");
