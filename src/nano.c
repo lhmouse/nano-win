@@ -1455,16 +1455,15 @@ void suck_up_input_and_paste_it(void)
 		if (were_waiting == 0 && waiting_keycodes() == 0)
 			bracketed_paste = FALSE;
 
-		if (input == '\r' || input == '\n') {
+		if ((0x20 <= input && input <= 0xFF && input != DEL_CODE) || input == '\t') {
+			line->data = nrealloc(line->data, index + 2);
+			line->data[index++] = (char)input;
+			line->data[index] = '\0';
+		} else if (input == '\r' || input == '\n') {
 			line->next = make_new_node(line);
 			line = line->next;
 			line->data = copy_of("");
 			index = 0;
-		} else if ((0x20 <= input && input <= 0xFF && input != DEL_CODE) ||
-														input == '\t') {
-			line->data = nrealloc(line->data, index + 2);
-			line->data[index++] = (char)input;
-			line->data[index] = '\0';
 		} else if (input != BRACKETED_PASTE_MARKER)
 			bracketed_paste = FALSE;
 	}
