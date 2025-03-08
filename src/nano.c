@@ -1440,7 +1440,6 @@ void suck_up_input_and_paste_it(void)
 {
 	linestruct *was_cutbuffer = cutbuffer;
 	linestruct *line = make_new_node(NULL);
-	size_t were_waiting = 0;
 	size_t index = 0;
 	int input = ERR;
 
@@ -1448,12 +1447,7 @@ void suck_up_input_and_paste_it(void)
 	cutbuffer = line;
 
 	while (bracketed_paste) {
-		were_waiting = waiting_keycodes();
 		input = get_kbinput(midwin, BLIND);
-
-		/* If key codes come singly, something is wrong. */
-		if (were_waiting == 0 && waiting_keycodes() == 0)
-			bracketed_paste = FALSE;
 
 		if ((0x20 <= input && input <= 0xFF && input != DEL_CODE) || input == '\t') {
 			line->data = nrealloc(line->data, index + 2);
@@ -1473,7 +1467,7 @@ void suck_up_input_and_paste_it(void)
 	else
 		paste_text();
 
-	if (were_waiting == 0 || input == FOREIGN_SEQUENCE)
+	if (input == FOREIGN_SEQUENCE)
 		statusline(ALERT, _("Flawed paste"));
 
 	free_lines(cutbuffer);
