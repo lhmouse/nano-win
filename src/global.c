@@ -43,8 +43,6 @@ bool shift_held;
 		/* Whether Shift was being held together with a movement key. */
 bool mute_modifiers = FALSE;
 		/* Whether to ignore modifier keys while running a macro or string bind. */
-bool bracketed_paste = FALSE;
-		/* Whether text is being pasted into nano from outside. */
 
 bool we_are_running = FALSE;
 		/* Becomes TRUE as soon as all options and files have been read. */
@@ -480,11 +478,6 @@ const keystruct *get_shortcut(const int keycode)
 	if (meta_key && keycode < 0x20)
 		return NULL;
 
-#ifndef NANO_TINY
-	/* During a paste at a prompt, ignore all command keycodes. */
-	if (bracketed_paste && keycode != BRACKETED_PASTE_MARKER)
-		return NULL;
-#endif
 #ifdef ENABLE_NANORC
 	if (keycode == PLANTED_A_COMMAND)
 		return planted_shortcut;
@@ -1583,8 +1576,9 @@ void shortcut_init(void)
 	add_to_sclist((MMOST & ~MMAIN) | MYESNO, "", KEY_CANCEL, do_cancel, 0);
 	add_to_sclist(MMAIN, "", KEY_CENTER, do_center, 0);
 	add_to_sclist(MMAIN, "", KEY_SIC, do_insertfile, 0);
-	/* Catch and ignore bracketed paste marker keys. */
-	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "", BRACKETED_PASTE_MARKER, do_nothing, 0);
+	add_to_sclist(MMAIN, "", START_OF_PASTE, suck_up_input_and_paste_it, 0);
+	add_to_sclist(MMOST, "", START_OF_PASTE, do_nothing, 0);
+	add_to_sclist(MMOST, "", END_OF_PASTE, do_nothing, 0);
 #else
 	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "", KEY_FRESH, full_refresh, 0);
 #endif

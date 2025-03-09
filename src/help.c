@@ -476,10 +476,6 @@ void show_help(void)
 
 #ifndef NANO_TINY
 		spotlighted = FALSE;
-
-		while (bracketed_paste && kbinput != FOREIGN_SEQUENCE)
-			kbinput = get_kbinput(midwin, BLIND);
-		bracketed_paste = FALSE;
 #endif
 		function = interpret(kbinput);
 
@@ -508,6 +504,10 @@ void show_help(void)
 			get_mouseinput(&dummy_row, &dummy_col, TRUE);
 #endif
 #ifndef NANO_TINY
+		} else if (kbinput == START_OF_PASTE) {
+			while (get_kbinput(midwin, BLIND) != END_OF_PASTE)
+				;
+			statusline(AHEM, _("Paste is ignored"));
 		} else if (kbinput == THE_WINDOW_RESIZED) {
 			;  /* Nothing to do. */
 #endif

@@ -728,8 +728,7 @@ int convert_CSI_sequence(const int *seq, size_t length, int *consumed)
 				/* Esc [ 2 0 0 ~ == start of a bracketed paste,
 				 * Esc [ 2 0 1 ~ == end of a bracketed paste. */
 				*consumed = 4;
-				bracketed_paste = (seq[2] == '0');
-				return BRACKETED_PASTE_MARKER;
+				return (seq[2] == '0') ? START_OF_PASTE : END_OF_PASTE;
 			} else {
 				*consumed = length;
 				return FOREIGN_SEQUENCE;

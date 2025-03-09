@@ -217,6 +217,10 @@
 #define FOCUS_IN   0x491
 #define FOCUS_OUT  0x499
 
+/* Custom keycodes for signaling the start and end of a bracketed paste. */
+#define START_OF_PASTE  0x4B5
+#define END_OF_PASTE    0x4BE
+
 /* Special keycodes for when a string bind has been partially implanted
  * or has an unpaired opening brace, or when a function in a string bind
  * needs execution or a specified function name is invalid. */
@@ -232,9 +236,6 @@
 /* A special keycode for when we get a SIGWINCH (a window resize). */
 #define THE_WINDOW_RESIZED  0x4F7
 #endif
-
-/* A special keycode to signal the beginning and end of a bracketed paste. */
-#define BRACKETED_PASTE_MARKER  0x4FB
 
 /* A special keycode for when a key produces an unknown escape sequence. */
 #define FOREIGN_SEQUENCE  0x4FC

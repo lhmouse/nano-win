@@ -427,6 +427,9 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		/* The length of the fragment that the user tries to tab complete. */
 #endif
 #endif
+#ifndef NANO_TINY
+	bool bracketed_paste = FALSE;
+#endif
 	const keystruct *shortcut;
 	functionptrtype function;
 	int input;
@@ -450,6 +453,8 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #endif
 			return NULL;
 		}
+		if (input == START_OF_PASTE || input == END_OF_PASTE)
+			bracketed_paste = (input == START_OF_PASTE);
 #endif
 #ifdef ENABLE_MOUSE
 		/* For a click on a shortcut, read in the resulting keycode. */
@@ -465,6 +470,12 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 
 		/* When it's a normal character, add it to the answer. */
 		absorb_character(input, function);
+
+#ifndef NANO_TINY
+		/* Ignore any commands inside an external paste. */
+		if (bracketed_paste)
+			continue;
+#endif
 
 		if (function == do_cancel || function == do_enter)
 			break;
@@ -711,10 +722,11 @@ int ask_user(bool withall, const char *question)
 			continue;
 
 		/* Accept first character of an external paste and ignore the rest. */
-		if (bracketed_paste)
+		if (kbinput == START_OF_PASTE) {
 			kbinput = get_kbinput(footwin, BLIND);
-		while (bracketed_paste)
-			get_kbinput(footwin, BLIND);
+			while (get_kbinput(footwin, BLIND) != END_OF_PASTE)
+				;
+		}
 #endif
 
 #ifdef ENABLE_NLS

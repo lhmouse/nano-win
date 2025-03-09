@@ -1307,8 +1307,6 @@ void unbound_key(int code)
 		statusline(AHEM, _("Missing }"));
 #endif
 #ifndef NANO_TINY
-	else if (code == BRACKETED_PASTE_MARKER)
-		statusline(AHEM, _("Paste is ignored"));
 	else if (code > KEY_F0 && code < KEY_F0 + 25)
 		/* TRANSLATORS: This refers to an unbound function key. */
 		statusline(AHEM, _("Unbound key: F%i"), code - KEY_F0);
@@ -1446,7 +1444,7 @@ void suck_up_input_and_paste_it(void)
 	line->data = copy_of("");
 	cutbuffer = line;
 
-	while (bracketed_paste) {
+	while (TRUE) {
 		input = get_kbinput(midwin, BLIND);
 
 		if ((0x20 <= input && input <= 0xFF && input != DEL_CODE) || input == '\t') {
@@ -1458,8 +1456,8 @@ void suck_up_input_and_paste_it(void)
 			line = line->next;
 			line->data = copy_of("");
 			index = 0;
-		} else if (input != BRACKETED_PASTE_MARKER)
-			bracketed_paste = FALSE;
+		} else
+			break;
 	}
 
 	if (ISSET(VIEW_MODE))
@@ -1467,7 +1465,7 @@ void suck_up_input_and_paste_it(void)
 	else
 		paste_text();
 
-	if (input == FOREIGN_SEQUENCE)
+	if (input != END_OF_PASTE)
 		statusline(ALERT, _("Flawed paste"));
 
 	free_lines(cutbuffer);
@@ -1724,9 +1722,6 @@ void process_a_keystroke(void)
 		refresh_needed = TRUE;
 	} else if (openfile->current != was_current)
 		also_the_last = FALSE;
-
-	if (bracketed_paste)
-		suck_up_input_and_paste_it();
 
 	if (ISSET(STATEFLAGS) && openfile->mark != was_mark)
 		titlebar(NULL);
@@ -2483,6 +2478,10 @@ int main(int argc, char **argv)
 	shiftaltright = get_keycode("kRIT4", SHIFT_ALT_RIGHT);
 	shiftaltup = get_keycode("kUP4", SHIFT_ALT_UP);
 	shiftaltdown = get_keycode("kDN4", SHIFT_ALT_DOWN);
+
+	/* Tell ncurses to transform bracketed-paste sequences into keycodes. */
+	define_key("\e[200~", START_OF_PASTE);
+	define_key("\e[201~", END_OF_PASTE);
 #endif
 	mousefocusin = get_keycode("kxIN", FOCUS_IN);
 	mousefocusout = get_keycode("kxOUT", FOCUS_OUT);

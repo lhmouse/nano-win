@@ -32,7 +32,6 @@ extern bool shifted_metas;
 extern bool meta_key;
 extern bool shift_held;
 extern bool mute_modifiers;
-extern bool bracketed_paste;
 
 extern bool we_are_running;
 extern bool more_than_one;
@@ -441,6 +440,7 @@ void confirm_margin(void);
 #endif
 void unbound_key(int code);
 bool changes_something(functionptrtype f);
+void suck_up_input_and_paste_it(void);
 void inject(char *burst, size_t count);
 
 /* Most functions in prompt.c. */

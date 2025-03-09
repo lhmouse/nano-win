@@ -483,11 +483,7 @@ char *browse(char *path)
 				continue;
 		}
 #endif /* ENABLE_MOUSE */
-#ifndef NANO_TINY
-		while (bracketed_paste && kbinput != FOREIGN_SEQUENCE)
-			kbinput = get_kbinput(midwin, BLIND);
-		bracketed_paste = FALSE;
-#endif
+
 		function = interpret(kbinput);
 
 		if (function == do_help || function == full_refresh) {
@@ -638,6 +634,10 @@ char *browse(char *path)
 			implant(first_sc_for(MBROWSER, function)->expansion);
 #endif
 #ifndef NANO_TINY
+		} else if (kbinput == START_OF_PASTE) {
+			while (get_kbinput(midwin, BLIND) != END_OF_PASTE)
+				;
+			statusline(AHEM, _("Paste is ignored"));
 		} else if (kbinput == THE_WINDOW_RESIZED) {
 			;  /* Gets handled below. */
 #endif
