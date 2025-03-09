@@ -105,7 +105,7 @@ int controlleft, controlright, controlup, controldown;
 int controlhome, controlend;
 #ifndef NANO_TINY
 int controldelete, controlshiftdelete;
-int shiftleft, shiftright, shiftup, shiftdown;
+int shiftup, shiftdown;
 int shiftcontrolleft, shiftcontrolright, shiftcontrolup, shiftcontroldown;
 int shiftcontrolhome, shiftcontrolend;
 int altleft, altright, altup, altdown;
