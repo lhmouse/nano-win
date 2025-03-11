@@ -473,8 +473,11 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 
 #ifndef NANO_TINY
 		/* Ignore any commands inside an external paste. */
-		if (bracketed_paste)
+		if (bracketed_paste) {
+			if (function && function != do_nothing)
+				beep();
 			continue;
+		}
 #endif
 
 		if (function == do_cancel || function == do_enter)
