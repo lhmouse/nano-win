@@ -261,7 +261,7 @@ void absorb_character(int input, functionptrtype function)
 	 * Apart from that, only accept input when not in restricted mode, or when
 	 * not at the "Write File" prompt, or when there is no filename yet. */
 	if (!function) {
-		if (input < 0x20 || input > 0xFF || meta_key)
+		if ((input < 0x20 && input != '\t') || meta_key || input > 0xFF)
 			beep();
 		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
 						openfile->filename[0] == '\0') {
@@ -467,7 +467,11 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 		/* Check for a shortcut in the current list. */
 		shortcut = get_shortcut(input);
 		function = (shortcut ? shortcut->func : NULL);
-
+#ifndef NANO_TINY
+		/* Tabs in an external paste are not commands. */
+		if (input == '\t' && bracketed_paste)
+			function = NULL;
+#endif
 		/* When it's a normal character, add it to the answer. */
 		absorb_character(input, function);
 
