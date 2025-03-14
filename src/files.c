@@ -2162,8 +2162,8 @@ int write_it_out(bool exiting, bool withprompt)
 						(method == APPEND) ? _("Append Selection to File") :
 						_("Write Selection to File");
 		else if (method != OVERWRITE)
-			msg = (method == PREPEND) ? _("Prepend to File") :
-										_("Append to File");
+			/* TRANSLATORS: Next three prompts are analogous to the above three. */
+			msg = (method == PREPEND) ? _("Prepend to File") : _("Append to File");
 		else
 #endif
 			msg = _("Write to File");
