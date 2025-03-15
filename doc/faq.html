@@ -51,7 +51,7 @@
   <a href="#4.6">4.6. When I paste text into a document, each line gets indented further than the last. Why? And how can I stop this?</a><br>
   <a href="#4.7">4.7. When I paste from Windows into a remote nano, nano rewraps the lines. What gives?</a><br>
   <a href="#4.8">4.8. I've compiled nano with color support, but I don't see any color when I run it!</a><br>
-  <a href="#4.9">4.9. How do I make nano my default editor (in Pine, mutt, etc.)?</a><br>
+  <a href="#4.9">4.9. How do I make nano my default editor (in Pine, mutt, git, ...)?</a><br>
 </p></blockquote>
 <h3><a href="#5">5. Internationalization</a></h3>
 <blockquote><p>
@@ -234,11 +234,9 @@
   <p><i>Update:</i> Since version 4.8, nano ignores linefeed characters in a paste (when your terminal understands <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed pastes</a>), so you no longer need the above workaround.</p></blockquote>
 <h3 id="4.8">4.8. I've compiled nano with color support, but I don't see any color when I run it!</h3>
 <blockquote><p>If you want nano to actually use color, you have to specify the color configurations you want it to use in your .nanorc. Several example configurations are in the <b>syntax/</b> subdirectory of the nano source, which are normally installed to <b>/usr/local/share/nano/</b>. To enable all of them, uncomment the line <b># include "/usr/local/share/nano/*.nanorc"</b> in your nanorc. See also section <a href="#3.9">3.9</a>.</p></blockquote>
-<h3 id="4.9">4.9. How do I make nano my default editor (in Pine, mutt, etc.)?</h3>
+<h3 id="4.9">4.9. How do I make nano my default editor (in Pine, mutt, git, ...)?</h3>
 <blockquote><p>You need to make nano your $EDITOR. If you want this to be saved, you should put a line like this in your <b>.bashrc</b> if you use bash (or <b>.zshrc</b> if you believe in zsh):</p>
   <p class="indented"><b>export EDITOR=/usr/local/bin/nano</b></p>
-  <p>or, if you use tcsh, put this in your <b>.cshrc</b> file:</p>
-  <p class="indented"><b>setenv EDITOR /usr/local/bin/nano</b></p>
   <p>Change /usr/local/bin/nano to wherever nano is installed on your system. Type &quot;which nano&quot; to find out. This will not take effect until the next time you log in. So log out and back in again.</p>
   <p>Then, on top of that, if you use Pine, you must go into setup (type <b>S</b> at the main menu), and then configure (type <b>C</b>). Hit Enter on the lines that say:</p>
   <p class="indented"><b>[ ] enable-alternate-editor-cmd</b><br>
@@ -246,7 +244,10 @@
   <p>Then exit (<b>E</b>) and select Yes (<b>Y</b>).</p>
   <p>If you're a mutt user, you should see an effect immediately the next time you log in. No further configuration is needed. However, if you want to let people know you use nano to compose your email messages, you can put a line like this in your <b>.muttrc</b>:</p>
   <p class="indented"><b>my_hdr X-Composer: nano-x.y</b></p>
-  <p>Again, replace x.y with the version of nano you use.</p></blockquote>
+  <p>Again, replace x.y with the version of nano you use.</p>
+  <p>To use nano to edit your git commit messages, you can run:</p>
+  <p class="indented"><b>git config --global core.editor "nano --guide=74 --nohelp +1"</b></p>
+  <p>Note the <b>+1</b> at the end — it makes nano start always at the top of the edit window. The guidestripe helps you keep the text within a reasonable width.</blockquote>
 <hr width="100%">
 
 <h1 id="5">5. Internationalization</h1>
