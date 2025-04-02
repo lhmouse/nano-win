@@ -1,3 +1,52 @@
+Changes between v8.3 and v8.4:
+------------------------------
+
+Benno Schulenberg (40):
+      bump version numbers and add a news item for the 8.4 release
+      copyright: update the years for the FSF
+      docs: add a suggestion to the FAQ on how to configure nano for git
+      docs: change two interface colors in the sample nanorc
+      docs: improve the description of the `constantshow` bindable function
+      docs: in the FAQ, replace an old item with an item about Byte Order Marks
+      docs: replace a word that is better not used in the plural
+      docs: use proper emdashes instead of double hyphens: "--" => "\(em"
+      execute: retain what the user typed before a tool was invoked
+      feedback: warn when the cursor sits on a Byte Order Mark (BOM)
+      gnulib: update to its current upstream state
+      input: adjust file browser and help viewer for changed bracketed pastes
+      input: implement bracketed pastes in a different manner
+      input: make bracketed paste more robust against loss of closing sequence
+      input: remove a special-case workaround
+      input: remove single-keycode detection from the bracketed-paste routine
+      input: robustness is good, but dropping a key code is not a good idea
+      input: wait a bit for "~" when bracketed-paste sequence is incomplete
+      prompt: accept tabs in an external paste as literal tabs
+      prompt: beep when an external paste contains a command code
+      syntax: groff: highlight the zeroeth macro argument too
+      syntax: man: highlight some escapes, like \& and \(em, specially
+      syntax: po: colorize also a 'msgctxt' line, and the 'c++-format' flag
+      syntax: po: colorize also format specifiers like "%.6f"
+      syntax: po: colorize also format specifiers like "%<PRIu64>"
+      syntax: po: colorize also Python's "%(name)x" format specifiers
+      syntax: po: colorize also the %llu and %hhi format specifiers
+      syntax: po: colorize also the Python-specific conversion specifier "%r"
+      tweaks: add a translator hint for the three changed file-writing prompts
+      tweaks: add missing closing quotes, as reported by `mandoc -T lint ...`
+      tweaks: avoid running tolower() on an out-of-range value
+      tweaks: change the man-page markup of options that take an argument
+      tweaks: condense a fragment of code
+      tweaks: consistently use "\fR" for switching back to normal, roman font
+      tweaks: prevent some color keywords from getting hyphenated in man page
+      tweaks: prevent some more keywords from getting hyphenated
+      tweaks: remove an unwanted newline from a debugging message
+      tweaks: remove three redundant pairs of parentheses from a nanorc regex
+      tweaks: remove two commented-out lines and two unused variables
+      tweaks: swap two fragments of code, to allow unwrapping a line
+
+Brand Huntsman (1):
+      files: improve the wording of the normal file-writing prompts
+
+
 Changes between v8.2 and v8.3:
 ------------------------------
 

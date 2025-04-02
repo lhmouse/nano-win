@@ -1,3 +1,9 @@
+2025.04.02 - GNU nano 8.4 "Five Miles Out"
+• Bracketed pastes over a slow connection are more reliable.
+• Tabs in an external paste at a prompt are not dropped.
+• Feedback occurs when the cursor sits on a Byte Order Mark.
+• The Execute prompt is more forgiving of a typo.
+
 2024.12.21 - GNU nano 8.3 "like mice in the dream of a tabby cat"
 • A build failure with gcc-15 is fixed.
 • Several translations were updated.
