@@ -353,13 +353,13 @@ void research_filename(bool forwards)
 	}
 }
 
-/* Select the first file in the list -- called by ^W^Y. */
+/* Select the first file in the list -- called directly by ^W^Y. */
 void to_first_file(void)
 {
 	selected = 0;
 }
 
-/* Select the last file in the list -- called by ^W^V. */
+/* Select the last file in the list -- called directly by ^W^V. */
 void to_last_file(void)
 {
 	selected = list_length - 1;
@@ -548,10 +548,8 @@ char *browse(char *path)
 								list_length - piles;
 			else
 				selected += usable_rows * piles;
-		} else if (function == to_first_file) {
-			selected = 0;
-		} else if (function == to_last_file) {
-			selected = list_length - 1;
+		} else if (function == to_first_file || function == to_last_file) {
+			function();
 		} else if (function == goto_dir) {
 			/* Ask for the directory to go to. */
 			if (do_prompt(MGOTODIR, "", NULL,
