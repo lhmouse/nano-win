@@ -42,7 +42,7 @@ nano_SOURCES = \
 		utils.c \
 		winio.c
 
-nano_LDADD = @LIBINTL@ $(top_builddir)/lib/libgnu.a \
+nano_LDADD = $(top_builddir)/lib/libgnu.a @LIBINTL@ \
 		$(GETRANDOM_LIB) $(CLOCK_TIME_LIB) $(LIBTHREAD)
 
 install-exec-hook:
