@@ -1832,6 +1832,7 @@ int main(int argc, char **argv)
 		{"indicator", 0, NULL, 'q'},
 		{"unix", 0, NULL, 'u'},
 		{"afterends", 0, NULL, 'y'},
+		{"whitespacedisplay", 0, NULL, 0xCC},
 		{"colonparsing", 0, NULL, '@'},
 		{"stateflags", 0, NULL, '%'},
 		{"minibar", 0, NULL, '_'},
@@ -2128,6 +2129,9 @@ int main(int argc, char **argv)
 				break;
 #endif
 #ifndef NANO_TINY
+			case 0xCC:
+				SET(WHITESPACE_DISPLAY);
+				break;
 			case '@':
 				SET(COLON_PARSING);
 				break;

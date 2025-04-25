@@ -117,6 +117,7 @@ static const rcoption rcopts[] = {
 	{"trimblanks", TRIM_BLANKS},
 	{"unix", MAKE_IT_UNIX},
 	{"whitespace", 0},
+	{"whitespacedisplay", WHITESPACE_DISPLAY},
 	{"wordbounds", WORD_BOUNDS},
 	{"wordchars", 0},
 	{"zap", LET_THEM_ZAP},
