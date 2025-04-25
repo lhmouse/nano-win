@@ -26,5 +26,8 @@ color brightgreen "^\[[^][]+\]$"
 # Comments.
 color cyan "^[[:blank:]]*#.*"
 
+# Make hard (non-breaking) spaces noticeable.
+color ,#444 " "
+
 # Control codes.
 color orange "[[:cntrl:]]"
