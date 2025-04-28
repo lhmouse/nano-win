@@ -1438,8 +1438,10 @@ void shortcut_init(void)
 #endif
 #ifndef NANO_TINY
 	add_to_sclist(MMAIN, "^L", 0, do_cycle, 0);
-#endif
+	add_to_sclist((MMOST|MBROWSER|MHELP|MYESNO)&~MMAIN, "^L", 0, full_refresh, 0);
+#else
 	add_to_sclist(MMOST|MBROWSER|MHELP|MYESNO, "^L", 0, full_refresh, 0);
+#endif
 
 #ifndef NANO_TINY
 	/* Group of "Appearance" toggles. */
