@@ -1164,6 +1164,9 @@ void shortcut_init(void)
 			N_("Suspend"), WHENHELP(suspend_gist), BLANKAFTER);
 #endif /* !NANO_TINY */
 
+	add_to_funcs(discard_buffer, MWRITEFILE,
+			N_("Discard buffer"), WHENHELP(discardbuffer_gist), BLANKAFTER);
+
 #ifdef ENABLE_BROWSER
 	/* The file browser is only available when not in restricted mode. */
 	if (!ISSET(RESTRICTED))
@@ -1192,9 +1195,6 @@ void shortcut_init(void)
 			N_("Bottom Row"), WHENHELP(browserbottomrow_gist), BLANKAFTER);
 #endif
 #endif /* ENABLE_BROWSER */
-
-	add_to_funcs(discard_buffer, MWRITEFILE,
-			N_("Discard buffer"), WHENHELP(discardbuffer_gist), BLANKAFTER);
 
 #ifdef ENABLE_LINTER
 	add_to_funcs(do_page_up, MLINTER,
