@@ -1515,7 +1515,7 @@ void shortcut_init(void)
 	add_to_sclist(MBROWSER, "M-G", 0, goto_dir, 0);
 	add_to_sclist(MBROWSER, "^_", 0, goto_dir, 0);
 #endif
-	if (ISSET(SAVE_ON_EXIT) && !ISSET(PRESERVE))
+	if (!ISSET(PRESERVE))
 		add_to_sclist(MWRITEFILE, "^Q", 0, discard_buffer, 0);
 #ifndef NANO_TINY
 	add_to_sclist(MWRITEFILE, "M-D", 0, dos_format, 0);
