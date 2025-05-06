@@ -1046,8 +1046,8 @@ int parse_kbinput(WINDOW *frame)
 				meta_key = TRUE;
 		} else if (waiting_codes == 0 || nextcodes[0] == ESC_CODE ||
 								(keycode != 'O' && keycode != '[')) {
-			if (!shifted_metas)
-				keycode = tolower(keycode);
+			if ('A' <= keycode && keycode <= 'Z' && !shifted_metas)
+				keycode |= 0x20;
 			meta_key = TRUE;
 		} else
 			keycode = parse_escape_sequence(keycode);
@@ -1105,8 +1105,8 @@ int parse_kbinput(WINDOW *frame)
 			/* If the first escape arrived alone but not the second, then it
 			 * is a Meta keystroke; otherwise, it is an "Esc Esc control". */
 			if (first_escape_was_alone && !last_escape_was_alone) {
-				if (!shifted_metas)
-					keycode = tolower(keycode);
+				if ('A' <= keycode && keycode <= 'Z' && !shifted_metas)
+					keycode |= 0x20;
 				meta_key = TRUE;
 			} else
 				keycode = convert_to_control(keycode);
