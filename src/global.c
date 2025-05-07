@@ -371,8 +371,12 @@ int keycode_from_string(const char *keystring)
 		else
 			return -1;
 	} else if (keystring[0] == 'M') {
-		if (keystring[1] == '-' && keystring[3] == '\0')
-			return tolower((unsigned char)keystring[2]);
+		if (keystring[1] == '-' && keystring[3] == '\0') {
+			if ('A' <= keystring[2] && keystring[2] <= 'Z')
+				return (keystring[2] | 0x20);
+			else
+				return keystring[2];
+		}
 		if (strcasecmp(keystring, "M-Space") == 0)
 			return (int)' ';
 		else
