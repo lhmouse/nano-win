@@ -20,7 +20,7 @@ color yellow "\<((pre|rc)?[0-9]+|[0-9]bit)\>"
 color brightblue "^(msgid|msgid_plural|msgstr)\>"
 # Flags.
 color red " fuzzy(,|$)"
-color yellow " (no-)?([a-z-]+|c\+\+)-format(,|$)"
+color yellow " (no-)?([[:lower:]-]+|c\+\+)-format(,|$)"
 # Format specifiers.
 color brightmagenta "%([1-9]\$)?[#0 +'I-]?(\*([1-9]\$)?|[0-9]\.?|[0-9]?\.[0-9])?(hh|ll|[hlLjzt])?([diouxXeEfFgGaAcspnmr]|<PRI[diouxX](32|64)>)|%%"
 color rosy "%\([[:alpha:]][[:alnum:]_]*\)([0-9]\.?|[0-9]?\.[0-9])?[#0 +-]?[diouxXeEfFgGcrs]"

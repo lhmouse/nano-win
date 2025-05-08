@@ -14,7 +14,7 @@ color magenta "^(if|ifn?def|ifn?eq|else|endif|(-|s)?include)\>"
 color magenta "^((override +)?(un)?define|endef|(un)?export|private|vpath)\>"
 
 # Variable expansions.
-color blue "\$+[{(][a-zA-Z0-9_-]+[})]"
+color blue "\$+[{(][[:alnum:]_-]+[})]"
 
 # Targets.
 color brightblue "^[^	].*:"

@@ -31,7 +31,7 @@ color green "\<(sleep|sync|system|tclx_(findinit|fork|load_tndxs|sleep|system|wa
 color green "[!$&();<=>\`|]"
 color brightblue "\<proc[[:blank:]]|\{|\}"
 color brightyellow ""([^"\]|\\.)*"|'([^'\]|\\.)*'"
-color brightred "\$\{?[0-9A-Za-z_!@#$*?-]+\}?"
+color brightred "\$\{?[[:alnum:]_!@#$*?-]+\}?"
 
 # Trailing whitespace:
 color ,green "[[:space:]]+$"
