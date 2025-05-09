@@ -352,11 +352,10 @@ void save_history(void)
 /* Return as a string... the line numbers of the lines with an anchor. */
 char *stringify_anchors(void)
 {
-	linestruct *line = openfile->filetop;
 	char *string = copy_of("");
 	char number[24];
 
-	for (; line != NULL; line = line->next)
+	for (linestruct *line = openfile->filetop; line != NULL; line = line->next)
 		if (line->has_anchor) {
 			sprintf(number, "%li ", line->lineno);
 			string = nrealloc(string, strlen(string) + strlen(number) + 1);

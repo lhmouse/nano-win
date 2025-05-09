@@ -1555,10 +1555,10 @@ void init_backup_dir(void)
 }
 #endif
 
-/* Read all data from inn, and write it to out.  File inn must be open for
- * reading, and out for writing.  Return 0 on success, a negative number on
- * read error, and a positive number on write error.  File inn is always
- * closed by this function, out is closed  only if close_out is true. */
+/* Read all data from `inn`, and write it to `out`.  File `inn` must be open
+ * for reading, and `out` for writing.  Return 0 on success, a negative number
+ * on read error, and a positive number on write error.  File `inn` is always
+ * closed by this function, `out` is closed only if `close_out` is true. */
 int copy_file(FILE *inn, FILE *out, bool close_out)
 {
 	int retval = 0;

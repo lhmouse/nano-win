@@ -29,7 +29,7 @@ color brightred "^[[:blank:]]*\*\*\*.*"
 color magenta "\[|\]|\(|\)"
 
 # Comments:
-color blue "^[[:blank:]]*#.*"  "\<dnl.*"
+color blue "^[[:blank:]]*#.*|\<dnl.*"
 
 # Trailing whitespace:
 color ,green "[[:space:]]+$"

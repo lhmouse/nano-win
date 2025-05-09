@@ -8246,7 +8246,7 @@ nano-0.7.7 - 2000.01.19
 	- Added check for keystroke key sequence 407 or NANO_CONTROL_Z
 	  in main while loop because suspend mode was broken.  This should
 	  fix it, at least for now.
-	- Added long option support (By popular harassment ;-) - Added
+	- Added long option support (by popular harassment ;-) : added
 	  #include for getopt.h, changed getopt() to getopt_long().
 	  Options added so far: --version (-V), --nowrap (-w), --suspend
 	  (-z), --help (-h), --nohelp (-x).
@@ -8258,15 +8258,15 @@ nano 0.7.6 - 2000.01.15
   main():	Bound CONTROL_H to backspace (oops).
 		Added more Alt-[-key combinations, for page up & down.
   read_bytes():	New function. (Adam Rogoyski)
-  read_file():	Optimizations - malloc()s *buf a little at a time rather
-		than one huge buffer, and replaced the strcat at the end
-		with an index variable.  Added call to read_bytes().
+  read_file():	Optimizations -- malloc()s *buf a little at a time
+		rather than one huge buffer, and replaced the strcat() at
+		the end with an index variable.  Added call to read_bytes().
   do_next_word(): New function, binding is Ctrl-Space (0). (Chris)
 - winio.c:
   bottombars():	Fixed non-expanding shortcut keys at bottom of screen.
 		(formula is extra space needed = COLS / 6 - 13).
   actual_x() & strlenpt():
-		Added bug#9 fix - when tabs % 8 == 0, we should only
+		Added fix for bug #9 -- when tabs % 8 == 0, we should only
 		increment tabs by 1.
   titlebar():	Fixed overrun in titlebar on very long filenames.
 
