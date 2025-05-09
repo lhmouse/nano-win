@@ -2602,12 +2602,8 @@ int main(int argc, char **argv)
 		}
 #endif
 #ifdef ENABLE_HISTORIES
-		else if (ISSET(POSITIONLOG) && openfile->filename[0] != '\0') {
-			ssize_t savedline, savedcol;
-			/* If edited before, restore the last cursor position. */
-			if (has_old_position(argv[optind - 1], &savedline, &savedcol))
-				goto_line_and_column(savedline, savedcol, FALSE, FALSE);
-		}
+		else if (ISSET(POSITIONLOG) && openfile->filename[0] != '\0')
+			restore_cursor_position_if_any();
 #endif
 	}
 

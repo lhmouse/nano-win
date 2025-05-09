@@ -556,16 +556,15 @@ void update_poshistory(void)
 	save_poshistory();
 }
 
-/* Check whether the given file matches an existing entry in the recorded
- * last file positions.  If not, return FALSE.  If yes, return TRUE and
- * set line and column to the retrieved values. */
-bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
+/* Check whether the current filename matches an entry in the list of
+ * recorded positions.  If yes, restore the relevant cursor position. */
+void restore_cursor_position_if_any(void)
 {
-	char *fullpath = get_full_path(file);
+	char *fullpath = get_full_path(openfile->filename);
 	poshiststruct *item;
 
 	if (fullpath == NULL)
-		return FALSE;
+		return;
 
 	reload_positions_if_needed();
 
@@ -575,11 +574,7 @@ bool has_old_position(const char *file, ssize_t *line, ssize_t *column)
 
 	free(fullpath);
 
-	if (item == NULL)
-		return FALSE;
-
-	*line = item->linenumber;
-	*column = item->columnnumber;
-	return TRUE;
+	if (item)
+		goto_line_and_column(item->linenumber, item->columnnumber, FALSE, FALSE);
 }
 #endif /* ENABLE_HISTORIES */

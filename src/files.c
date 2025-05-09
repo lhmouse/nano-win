@@ -1342,12 +1342,10 @@ void insert_a_file_or(bool execute)
 			if (ISSET(MULTIBUFFER)) {
 #ifdef ENABLE_HISTORIES
 				if (ISSET(POSITIONLOG)) {
-					ssize_t priorline, priorcol;
 #ifndef NANO_TINY
 					if (!execute)
 #endif
-					if (has_old_position(answer, &priorline, &priorcol))
-						goto_line_and_column(priorline, priorcol, FALSE, FALSE);
+						restore_cursor_position_if_any();
 				}
 #endif
 				/* Update title bar and color info for this new buffer. */

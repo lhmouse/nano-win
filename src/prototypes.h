@@ -358,7 +358,7 @@ void load_history(void);
 void save_history(void);
 void load_poshistory(void);
 void update_poshistory(void);
-bool has_old_position(const char *file, ssize_t *line, ssize_t *column);
+void restore_cursor_position_if_any(void);
 #endif
 
 /* Most functions in move.c. */
