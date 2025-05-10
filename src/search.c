@@ -1009,9 +1009,9 @@ void put_or_lift_anchor(void)
 		refresh_needed = TRUE;
 
 	if (openfile->current->has_anchor)
-		statusline(REMARK, _("Placed anchor"));
+		statusline(HUSH, _("Placed anchor"));
 	else
-		statusline(REMARK, _("Removed anchor"));
+		statusline(HUSH, _("Removed anchor"));
 }
 
 /* Make the given line the current line, or report the anchoredness. */

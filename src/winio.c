@@ -2272,6 +2272,12 @@ void minibar(void)
 		show_states_at(footwin);
 	}
 
+	/* Indicate it when the line has an anchor. */
+	if (openfile->current->has_anchor && namewidth + 7 < COLS)
+		mvwaddstr(footwin, 0, COLS - 5 - padding, openfile->filetop->has_anchor ?
+										(using_utf8() ? "\xEF\xBF\xAD" : "=") :
+										(using_utf8() ? "\xE2\xAC\xA5" : "+"));
+
 	/* Display how many percent the current line is into the file. */
 	if (namewidth + 6 < COLS) {
 		sprintf(location, "%3zi%%", 100 * openfile->current->lineno / openfile->filebot->lineno);
