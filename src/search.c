@@ -1003,7 +1003,10 @@ void put_or_lift_anchor(void)
 {
 	openfile->current->has_anchor = !openfile->current->has_anchor;
 
-	update_line(openfile->current, openfile->current_x);
+	if (openfile->current != openfile->filetop)
+		update_line(openfile->current, openfile->current_x);
+	else
+		refresh_needed = TRUE;
 
 	if (openfile->current->has_anchor)
 		statusline(REMARK, _("Placed anchor"));

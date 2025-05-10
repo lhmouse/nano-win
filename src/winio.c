@@ -2558,10 +2558,12 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		if (line->has_anchor && (from_col == 0 || !ISSET(SOFTWRAP)))
 #ifdef ENABLE_UTF8
 			if (using_utf8())
-				wprintw(midwin, "\xE2\xAC\xA5");  /* black medium diamond */
+				wprintw(midwin, openfile->filetop->has_anchor ?
+						"\xEF\xBF\xAD" :  /* halfwidth black square */
+						"\xE2\xAC\xA5");  /* black medium diamond */
 			else
 #endif
-				wprintw(midwin, "+");
+				wprintw(midwin, openfile->filetop->has_anchor ? "=" : "+");
 		else
 #endif
 			wprintw(midwin, " ");
