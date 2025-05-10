@@ -538,6 +538,8 @@ typedef struct poshiststruct {
 		/* The line where the cursor was when we closed the file. */
 	ssize_t columnnumber;
 		/* The column where the cursor was. */
+	char *anchors;
+		/* The line numbers where anchors were placed, in string form. */
 	struct poshiststruct *next;
 		/* The next item of position history. */
 } poshiststruct;

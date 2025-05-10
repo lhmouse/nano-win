@@ -2,7 +2,7 @@
  *   history.c  --  This file is part of GNU nano.                        *
  *                                                                        *
  *   Copyright (C) 2003-2011, 2013-2025 Free Software Foundation, Inc.    *
- *   Copyright (C) 2016, 2017, 2019 Benno Schulenberg                     *
+ *   Copyright (C) 2016, 2017, 2019, 2025 Benno Schulenberg               *
  *                                                                        *
  *   GNU nano is free software: you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published    *
@@ -349,6 +349,47 @@ void save_history(void)
 	free(histname);
 }
 
+/* Return as a string... the line numbers of the lines with an anchor. */
+char *stringify_anchors(void)
+{
+	linestruct *line = openfile->filetop;
+	char *string = NULL;
+	char number[24];
+
+	if (!line->has_anchor || asprintf(&string, "%s", "") < 0)
+		return NULL;
+
+	for (; line != NULL; line = line->next)
+		if (line->has_anchor) {
+			sprintf(number, "%li ", line->lineno);
+			string = free_and_assign(string, concatenate(string, number));
+		}
+
+	return string;
+}
+
+/* Set an anchor for each line number in the given string. */
+void restore_anchors(char *string)
+{
+	linestruct *line = openfile->filetop;
+	ssize_t number;
+	char *space;
+
+	while (*string) {
+		if ((space = strchr(string, ' ')) == NULL)
+			return;
+		*space = '\0';
+		number = atoi(string);
+		string = space + 1;
+
+		while (line->lineno < number)
+			if ((line = line->next) == NULL)
+				return;
+
+		line->has_anchor = TRUE;
+	}
+}
+
 /* Load the recorded cursor positions for files that were edited. */
 void load_poshistory(void)
 {
@@ -365,20 +406,23 @@ void load_poshistory(void)
 
 	poshiststruct *lastitem = NULL;
 	poshiststruct *newitem;
-	char *lineptr, *columnptr;
-	char *stanza = NULL;
+	char *stanza, *lineptr, *columnptr;
+	char *phrase = NULL;
 	struct stat fileinfo;
 	size_t dummy = 0;
 	ssize_t count = 0;
-	ssize_t read;
+	ssize_t length;
 
 	/* Read and parse each line, and store the extracted data. */
-	while ((read = getline(&stanza, &dummy, histfile)) > 5) {
+	while ((length = getline(&phrase, &dummy, histfile)) > 1) {
+		stanza = strchr(phrase, '/');
+		length -= (stanza ? stanza - phrase : 0);
+
 		/* Decode NULs as embedded newlines. */
-		recode_NUL_to_LF(stanza, read);
+		recode_NUL_to_LF(stanza, length);
 
 		/* Find the spaces before column number and line number. */
-		columnptr = revstrstr(stanza, " ", stanza + read - 3);
+		columnptr = revstrstr(stanza, " ", stanza + length - 3);
 		if (columnptr == NULL)
 			continue;
 		lineptr = revstrstr(stanza, " ", columnptr - 2);
@@ -394,6 +438,7 @@ void load_poshistory(void)
 		newitem->filename = copy_of(stanza);
 		newitem->linenumber = atoi(lineptr);
 		newitem->columnnumber = atoi(columnptr);
+		newitem->anchors = (phrase == stanza) ? NULL : measured_copy(phrase, stanza - phrase);
 		newitem->next = NULL;
 
 		/* Add the record to the list. */
@@ -411,6 +456,7 @@ void load_poshistory(void)
 			position_history = position_history->next;
 
 			free(drop_record->filename);
+			free(drop_record->anchors);
 			free(drop_record);
 		}
 	}
@@ -418,7 +464,7 @@ void load_poshistory(void)
 	if (fclose(histfile) == EOF)
 		jot_error(N_("Error reading %s: %s"), poshistname, strerror(errno));
 
-	free(stanza);
+	free(phrase);
 
 	if (stat(poshistname, &fileinfo) == 0)
 		latest_timestamp = fileinfo.st_mtime;
@@ -442,7 +488,11 @@ void save_poshistory(void)
 
 	for (item = position_history; item != NULL; item = item->next) {
 		char *path_and_place;
-		size_t length;
+		size_t length = (item->anchors == NULL) ? 0 : strlen(item->anchors);
+
+		/* First write the string of line numbers with anchors, if any. */
+		if (length && fwrite(item->anchors, 1, length, histfile) < length)
+			jot_error(N_("Error writing %s: %s"), poshistname, strerror(errno));
 
 		/* Assume 20 decimal positions each for line and column number,
 		 * plus two spaces, plus the line feed, plus the null byte. */
@@ -480,6 +530,7 @@ void reload_positions_if_needed(void)
 	for (item = position_history; item != NULL; item = nextone) {
 		nextone = item->next;
 		free(item->filename);
+		free(item->anchors);
 		free(item);
 	}
 
@@ -511,13 +562,15 @@ void update_poshistory(void)
 	}
 
 	/* Don't record files that have the default cursor position. */
-	if (openfile->current->lineno == 1 && openfile->current_x == 0) {
+	if (openfile->current->lineno == 1 && openfile->current_x == 0 &&
+										!openfile->filetop->has_anchor) {
 		if (item != NULL) {
 			if (previous == NULL)
 				position_history = item->next;
 			else
 				previous->next = item->next;
 			free(item->filename);
+			free(item->anchors);
 			free(item);
 			save_poshistory();
 		}
@@ -532,6 +585,7 @@ void update_poshistory(void)
 	if (theone == NULL) {
 		theone = nmalloc(sizeof(poshiststruct));
 		theone->filename = copy_of(fullpath);
+		theone->anchors = NULL;
 		if (position_history == NULL)
 			position_history = theone;
 		else
@@ -549,6 +603,7 @@ void update_poshistory(void)
 	/* Store the last cursor position. */
 	theone->linenumber = openfile->current->lineno;
 	theone->columnnumber = xplustabs() + 1;
+	theone->anchors = free_and_assign(theone->anchors, stringify_anchors());
 	theone->next = NULL;
 
 	free(fullpath);
@@ -574,6 +629,8 @@ void restore_cursor_position_if_any(void)
 
 	free(fullpath);
 
+	if (item && item->anchors)
+		restore_anchors(item->anchors);
 	if (item)
 		goto_line_and_column(item->linenumber, item->columnnumber, FALSE, FALSE);
 }
