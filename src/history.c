@@ -410,11 +410,11 @@ void load_poshistory(void)
 	char *phrase = NULL;
 	struct stat fileinfo;
 	size_t dummy = 0;
-	ssize_t count = 0;
+	int count = 0;
 	ssize_t length;
 
 	/* Read and parse each line, and store the extracted data. */
-	while ((length = getline(&phrase, &dummy, histfile)) > 1) {
+	while (count++ < 200 && (length = getline(&phrase, &dummy, histfile)) > 1) {
 		stanza = strchr(phrase, '/');
 		length -= (stanza ? stanza - phrase : 0);
 
@@ -448,17 +448,6 @@ void load_poshistory(void)
 			lastitem->next = newitem;
 
 		lastitem = newitem;
-
-		/* Impose a limit, so the file will not grow indefinitely. */
-		if (++count > 200) {
-			poshiststruct *drop_record = position_history;
-
-			position_history = position_history->next;
-
-			free(drop_record->filename);
-			free(drop_record->anchors);
-			free(drop_record);
-		}
 	}
 
 	if (fclose(histfile) == EOF)
@@ -476,6 +465,7 @@ void save_poshistory(void)
 	FILE *histfile = fopen(poshistname, "wb");
 	struct stat fileinfo;
 	poshiststruct *item;
+	int count = 0;
 
 	if (histfile == NULL) {
 		jot_error(N_("Error writing %s: %s"), poshistname, strerror(errno));
@@ -486,7 +476,7 @@ void save_poshistory(void)
 	if (chmod(poshistname, S_IRUSR | S_IWUSR) < 0)
 		jot_error(N_("Cannot limit permissions on %s: %s"), poshistname, strerror(errno));
 
-	for (item = position_history; item != NULL; item = item->next) {
+	for (item = position_history; item != NULL && count++ < 200; item = item->next) {
 		char *path_and_place;
 		size_t length = (item->anchors == NULL) ? 0 : strlen(item->anchors);
 
@@ -580,31 +570,24 @@ void update_poshistory(void)
 
 	theone = item;
 
-	/* If we didn't find it, make a new node; otherwise, if we're
-	 * not at the end, move the matching one to the end. */
+	/* If no match was found, make a new node; otherwise, unlink the match. */
 	if (theone == NULL) {
 		theone = nmalloc(sizeof(poshiststruct));
 		theone->filename = copy_of(fullpath);
 		theone->anchors = NULL;
-		if (position_history == NULL)
-			position_history = theone;
-		else
-			previous->next = theone;
-	} else if (item->next != NULL) {
-		if (previous == NULL)
-			position_history = item->next;
-		else
-			previous->next = item->next;
-		while (item->next != NULL)
-			item = item->next;
-		item->next = theone;
+	} else if (previous)
+		previous->next = theone->next;
+
+	/* Place the found or new node at the beginning, if not already there. */
+	if (theone != position_history) {
+		theone->next = position_history;
+		position_history = theone;
 	}
 
 	/* Store the last cursor position. */
 	theone->linenumber = openfile->current->lineno;
 	theone->columnnumber = xplustabs() + 1;
 	theone->anchors = free_and_assign(theone->anchors, stringify_anchors());
-	theone->next = NULL;
 
 	free(fullpath);
 
