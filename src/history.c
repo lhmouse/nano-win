@@ -356,7 +356,7 @@ char *stringify_anchors(void)
 	char *string = NULL;
 	char number[24];
 
-	if (!line->has_anchor || asprintf(&string, "%s", "") < 0)
+	if (asprintf(&string, "%s", "") < 0)
 		return NULL;
 
 	for (; line != NULL; line = line->next)
