@@ -2274,9 +2274,7 @@ void minibar(void)
 
 	/* Indicate it when the line has an anchor. */
 	if (openfile->current->has_anchor && namewidth + 7 < COLS)
-		mvwaddstr(footwin, 0, COLS - 5 - padding, openfile->filetop->has_anchor ?
-										(using_utf8() ? "\xEF\xBF\xAD" : "=") :
-										(using_utf8() ? "\xE2\xAC\xA5" : "+"));
+		mvwaddstr(footwin, 0, COLS - 5 - padding, using_utf8() ? "\xE2\x80\xA0" : "+");
 
 	/* Display how many percent the current line is into the file. */
 	if (namewidth + 6 < COLS) {
@@ -2562,14 +2560,7 @@ void draw_row(int row, const char *converted, linestruct *line, size_t from_col)
 		wattroff(midwin, interface_color_pair[LINE_NUMBER]);
 #ifndef NANO_TINY
 		if (line->has_anchor && (from_col == 0 || !ISSET(SOFTWRAP)))
-#ifdef ENABLE_UTF8
-			if (using_utf8())
-				wprintw(midwin, openfile->filetop->has_anchor ?
-						"\xEF\xBF\xAD" :  /* halfwidth black square */
-						"\xE2\xAC\xA5");  /* black medium diamond */
-			else
-#endif
-				wprintw(midwin, openfile->filetop->has_anchor ? "=" : "+");
+			wprintw(midwin, using_utf8() ? "\xE2\x80\xA0" : "+");
 		else
 #endif
 			wprintw(midwin, " ");
