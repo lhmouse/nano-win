@@ -302,6 +302,9 @@
 ## For normalizing Unicode to precomposed characters:
 # bind Sh-M-N "{execute}| uconv -x nfc {enter}" main
 
+## For wiping all anchors in a buffer:
+# bind Sh-M-W "{execute}| cat {enter}" main
+
 ## For snipping trailing blanks when you save a file:
 # bind ^S "{execute}| sed 's/\s\+$//' {enter}{savefile}" main
 
