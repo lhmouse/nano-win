@@ -535,7 +535,7 @@ void update_poshistory(void)
 {
 	char *fullpath = get_full_path(openfile->filename);
 	poshiststruct *previous = NULL;
-	poshiststruct *item, *theone;
+	poshiststruct *item;
 
 	if (fullpath == NULL || openfile->filename[0] == '\0') {
 		free(fullpath);
@@ -568,26 +568,24 @@ void update_poshistory(void)
 		return;
 	}
 
-	theone = item;
-
 	/* If no match was found, make a new node; otherwise, unlink the match. */
-	if (theone == NULL) {
-		theone = nmalloc(sizeof(poshiststruct));
-		theone->filename = copy_of(fullpath);
-		theone->anchors = NULL;
+	if (item == NULL) {
+		item = nmalloc(sizeof(poshiststruct));
+		item->filename = copy_of(fullpath);
+		item->anchors = NULL;
 	} else if (previous)
-		previous->next = theone->next;
+		previous->next = item->next;
 
 	/* Place the found or new node at the beginning, if not already there. */
-	if (theone != position_history) {
-		theone->next = position_history;
-		position_history = theone;
+	if (item != position_history) {
+		item->next = position_history;
+		position_history = item;
 	}
 
-	/* Store the last cursor position. */
-	theone->linenumber = openfile->current->lineno;
-	theone->columnnumber = xplustabs() + 1;
-	theone->anchors = free_and_assign(theone->anchors, stringify_anchors());
+	/* Record the last cursor position and any anchors. */
+	item->linenumber = openfile->current->lineno;
+	item->columnnumber = xplustabs() + 1;
+	item->anchors = free_and_assign(item->anchors, stringify_anchors());
 
 	free(fullpath);
 
