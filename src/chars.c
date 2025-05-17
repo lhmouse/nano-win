@@ -24,25 +24,25 @@
 #include <ctype.h>
 #include <string.h>
 
+static bool use_utf8 = FALSE;
+		/* Whether we've enabled UTF-8 support. */
+
 #ifdef ENABLE_UTF8
 #include <wchar.h>
 #include <wctype.h>
-
-static bool use_utf8 = FALSE;
-		/* Whether we've enabled UTF-8 support. */
 
 /* Enable UTF-8 support. */
 void utf8_init(void)
 {
 	use_utf8 = TRUE;
 }
+#endif
 
 /* Is UTF-8 support enabled? */
 bool using_utf8(void)
 {
 	return use_utf8;
 }
-#endif /* ENABLE_UTF8 */
 
 #ifdef ENABLE_SPELLER
 /* Return TRUE when the given character is some kind of letter. */

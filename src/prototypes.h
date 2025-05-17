@@ -208,8 +208,8 @@ void to_last_file(void);
 /* Most functions in chars.c. */
 #ifdef ENABLE_UTF8
 void utf8_init(void);
-bool using_utf8(void);
 #endif
+bool using_utf8(void);
 bool is_alpha_char(const char *c);
 bool is_blank_char(const char *c);
 bool is_cntrl_char(const char *c);
