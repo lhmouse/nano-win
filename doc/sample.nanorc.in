@@ -126,7 +126,7 @@
 ## string means the operating-directory feature is turned off.
 # set operatingdir ""
 
-## Remember the cursor position in each file for the next editing session.
+## Remember the position of cursor and anchors for the next editing session.
 # set positionlog
 
 ## Preserve the XON and XOFF keys (^Q and ^S).

@@ -350,18 +350,22 @@ is running.
 @node Anchors
 @section Anchors
 
-With @kbd{M-Ins} you can place an anchor (a kind of temporary bookmark)
-at the current line.  With @kbd{M-PgUp} and @kbd{M-PgDn} you can jump
+With @kbd{M-Ins} you can place an anchor (a kind of bookmark) at
+the current line.  With @kbd{M-PgUp} and @kbd{M-PgDn} you can jump
 to an anchor in the backward/forward direction.  This jumping wraps
 around at the top and bottom.
 
-When a line with an anchor is removed, the line where the cursor ends up
-inherits the anchor.  After performing an operation on the entire buffer
-(like formatting it, piping it through a command, or doing an external
-spell check on it), any anchors that were present are gone.  And when
-you close the buffer, all its anchors simply disappear; they are not saved.
+When an operation removes a line with an anchor, the new line with the
+cursor inherits the anchor.  But after performing an operation on the
+entire buffer (like formatting it, piping it through a command, or
+doing an external spell check on it), any anchors that were present
+are gone.
 
-Anchors are visualized in the margin when line numbers are activated.
+When @option{--positionlog} or @code{set positionlog} is active, anchors
+are saved when the file is closed, and restored when the file is reopened.
+
+Anchors are visualized in the left margin if line numbers are active,
+and are always visualized (on the right-hand side) in the mini bar.
 
 @node Limitations
 @section Limitations
@@ -494,6 +498,7 @@ beginning of a paragraph (unless auto-indenting is on).
 @itemx --positionlog
 For the 200 most recent files, log the last position of the cursor,
 and place it at that position again upon reopening such a file.
+Also save and restore the positions of any anchors.
 
 @item -Q "@var{regex}"
 @itemx --quotestr="@var{regex}"
@@ -1102,8 +1107,8 @@ files are inserted from this directory.  By default, the operating
 directory feature is turned off.
 
 @item set positionlog
-Save the cursor position of files between editing sessions.
-The cursor position is remembered for the 200 most-recently edited files.
+Save the positions of cursor and anchors between editing sessions.
+These positions are remembered for the 200 most-recently edited files.
 
 @item set preserve
 Preserve the XOFF and XON sequences (@kbd{^S} and @kbd{^Q}) so that
