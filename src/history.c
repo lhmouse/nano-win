@@ -551,23 +551,6 @@ void update_poshistory(void)
 		previous = item;
 	}
 
-	/* Don't record files that have the default cursor position. */
-	if (openfile->current->lineno == 1 && openfile->current_x == 0 &&
-										!openfile->filetop->has_anchor) {
-		if (item != NULL) {
-			if (previous == NULL)
-				position_history = item->next;
-			else
-				previous->next = item->next;
-			free(item->filename);
-			free(item->anchors);
-			free(item);
-			save_poshistory();
-		}
-		free(fullpath);
-		return;
-	}
-
 	/* If no match was found, make a new node; otherwise, unlink the match. */
 	if (item == NULL) {
 		item = nmalloc(sizeof(poshiststruct));
