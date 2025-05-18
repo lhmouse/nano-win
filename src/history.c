@@ -353,16 +353,14 @@ void save_history(void)
 char *stringify_anchors(void)
 {
 	linestruct *line = openfile->filetop;
-	char *string = NULL;
+	char *string = copy_of("");
 	char number[24];
-
-	if (asprintf(&string, "%s", "") < 0)
-		return NULL;
 
 	for (; line != NULL; line = line->next)
 		if (line->has_anchor) {
 			sprintf(number, "%li ", line->lineno);
-			string = free_and_assign(string, concatenate(string, number));
+			string = nrealloc(string, strlen(string) + strlen(number) + 1);
+			strcat(string, number);
 		}
 
 	return string;
