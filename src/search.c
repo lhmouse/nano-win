@@ -1012,7 +1012,7 @@ void put_or_lift_anchor(void)
 		if (openfile->current->has_anchor)
 			statusline(REMARK, _("Placed anchor"));
 		else
-			statusline(REMARK, _("Removed anchor"));
+			statusline(HUSH, _("Removed anchor"));
 	}
 }
 
