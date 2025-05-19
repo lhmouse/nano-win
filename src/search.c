@@ -1030,7 +1030,8 @@ void go_to_and_confirm(linestruct *line)
 			recook |= perturbed;
 #endif
 		edit_redraw(was_current, CENTERING);
-		statusbar(_("Jumped to anchor"));
+		if (!ISSET(LINE_NUMBERS))
+			statusbar(_("Jumped to anchor"));
 	} else if (openfile->current->has_anchor)
 		statusline(REMARK, _("This is the only anchor"));
 	else
