@@ -565,7 +565,8 @@ void update_poshistory(void)
 	/* Record the last cursor position and any anchors. */
 	item->linenumber = openfile->current->lineno;
 	item->columnnumber = xplustabs() + 1;
-	item->anchors = free_and_assign(item->anchors, stringify_anchors());
+	free(item->anchors);
+	item->anchors = stringify_anchors();
 
 	free(fullpath);
 
