@@ -34,6 +34,8 @@ volatile sig_atomic_t the_window_resized = FALSE;
 
 bool on_a_vt = FALSE;
 		/* Whether we're running on a Linux console (a VT). */
+bool using_utf8 = FALSE;
+		/* Whether we're in a UTF-8 locale. */
 bool shifted_metas = FALSE;
 		/* Whether any Sh-M-<letter> combo has been bound. */
 
@@ -1354,7 +1356,7 @@ void shortcut_init(void)
 	add_to_sclist(MMOST & ~MMAIN, "^B", 0, do_left, 0);
 	add_to_sclist(MMOST & ~MMAIN, "^F", 0, do_right, 0);
 #ifdef ENABLE_UTF8
-	if (using_utf8()) {
+	if (using_utf8) {
 		add_to_sclist(MMOST|MBROWSER|MHELP, "\xE2\x97\x82", KEY_LEFT, do_left, 0);
 		add_to_sclist(MMOST|MBROWSER|MHELP, "\xE2\x96\xb8", KEY_RIGHT, do_right, 0);
 		add_to_sclist(MSOME, "^\xE2\x97\x82", CONTROL_LEFT, to_prev_word, 0);
@@ -1384,7 +1386,7 @@ void shortcut_init(void)
 	add_to_sclist(MMOST, "Home", KEY_HOME, do_home, 0);
 	add_to_sclist(MMOST, "End", KEY_END, do_end, 0);
 #ifdef ENABLE_UTF8
-	if (using_utf8()) {
+	if (using_utf8) {
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "\xE2\x96\xb4", KEY_UP, do_up, 0);
 		add_to_sclist(MMAIN|MBROWSER|MHELP, "\xE2\x96\xbe", KEY_DOWN, do_down, 0);
 		add_to_sclist(MMAIN|MBROWSER|MLINTER, "^\xE2\x96\xb4", CONTROL_UP, to_prev_block, 0);
@@ -1407,7 +1409,7 @@ void shortcut_init(void)
 #endif
 #ifndef NANO_TINY
 #ifdef ENABLE_UTF8
-	if (using_utf8()) {
+	if (using_utf8) {
 		add_to_sclist(MMAIN|MHELP, "M-\xE2\x96\xb4", ALT_UP, do_scroll_up, 0);
 		add_to_sclist(MMAIN|MHELP, "M-\xE2\x96\xbe", ALT_DOWN, do_scroll_down, 0);
 	} else
@@ -1492,7 +1494,7 @@ void shortcut_init(void)
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^P", 0, get_older_item, 0);
 	add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "^N", 0, get_newer_item, 0);
 #ifdef ENABLE_UTF8
-	if (using_utf8()) {
+	if (using_utf8) {
 		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "\xE2\x96\xb4", KEY_UP, get_older_item, 0);
 		add_to_sclist(MWHEREIS|MREPLACE|MREPLACEWITH|MWHEREISFILE|MFINDINHELP|MEXECUTE, "\xE2\x96\xbe", KEY_DOWN, get_newer_item, 0);
 	} else

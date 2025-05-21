@@ -27,6 +27,7 @@ extern volatile sig_atomic_t the_window_resized;
 #endif
 
 extern bool on_a_vt;
+extern bool using_utf8;
 extern bool shifted_metas;
 
 extern bool meta_key;
@@ -206,10 +207,6 @@ void to_last_file(void);
 #endif
 
 /* Most functions in chars.c. */
-#ifdef ENABLE_UTF8
-void utf8_init(void);
-#endif
-bool using_utf8(void);
 bool is_alpha_char(const char *c);
 bool is_blank_char(const char *c);
 bool is_cntrl_char(const char *c);

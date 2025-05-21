@@ -1585,7 +1585,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 
 #ifdef ENABLE_UTF8
 		/* When in a UTF-8 locale, ignore arguments with invalid sequences. */
-		if (using_utf8() && mbstowcs(NULL, argument, 0) == (size_t)-1) {
+		if (using_utf8 && mbstowcs(NULL, argument, 0) == (size_t)-1) {
 			jot_error(N_("Argument is not a valid multibyte string"));
 			continue;
 		}

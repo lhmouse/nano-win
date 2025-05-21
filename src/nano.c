@@ -1865,7 +1865,7 @@ int main(int argc, char **argv)
 	/* If setting the locale is successful and it uses UTF-8, we will
 	 * need to use the multibyte functions for text processing. */
 	if (setlocale(LC_ALL, "") && strcmp(nl_langinfo(CODESET), "UTF-8") == 0)
-		utf8_init();
+		using_utf8 = TRUE;
 #else
 	setlocale(LC_ALL, "");
 #endif
@@ -2374,7 +2374,7 @@ int main(int argc, char **argv)
 	/* If the whitespace option wasn't specified, set its default value. */
 	if (whitespace == NULL) {
 #ifdef ENABLE_UTF8
-		if (using_utf8()) {
+		if (using_utf8) {
 			/* A tab is shown as a Right-Pointing Double Angle Quotation Mark
 			 * (U+00BB), and a space as a Middle Dot (U+00B7). */
 			whitespace = copy_of("\xC2\xBB\xC2\xB7");
@@ -2687,7 +2687,7 @@ int main(int argc, char **argv)
 #define byte(n)  (unsigned char)openfile->current->data[n]
 		/* Tell the user when the cursor sits on a BOM. */
 		if (openfile->current_x == 0 && byte(0) == 0xEF && byte(1) == 0xBB &&
-										byte(2) == 0xBF && using_utf8()) {
+										byte(2) == 0xBF && using_utf8) {
 			statusline(NOTICE, _("Byte Order Mark"));
 			set_blankdelay_to_one();
 		}
