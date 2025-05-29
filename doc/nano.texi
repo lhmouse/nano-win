@@ -642,8 +642,8 @@ and writes to the pipe when the user saves the "file".  This way
 
 @item -o @var{directory}
 @itemx --operatingdir=@var{directory}
-Set the operating directory.  This makes @command{nano} set up something
-similar to a chroot.
+Change to the given @var{directory}, and allow reading and writing
+files only in this directory and its subdirectories.
 
 @item -p
 @itemx --preserve
@@ -1101,10 +1101,8 @@ Use this color combination for line numbers.
 @xref{@code{set keycolor}} for valid color names.
 
 @item set operatingdir "@var{directory}"
-@command{nano} only reads and writes files inside @var{directory} and its
-subdirectories.  Also, the current directory is changed to here, so
-files are inserted from this directory.  By default, the operating
-directory feature is turned off.
+At startup, make @command{nano} change to the given @var{directory}, and
+allow reading and writing files only in this directory and its subdirectories.
 
 @item set positionlog
 Save the positions of cursor and anchors between editing sessions.

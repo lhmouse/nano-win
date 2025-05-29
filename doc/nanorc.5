@@ -250,10 +250,8 @@ Use this color combination for line numbers.
 See \fBset \%titlecolor\fR for more details.
 .TP
 .B set operatingdir \fIdirectory\fR
-\fBnano\fR only reads and writes files inside \fIdirectory\fR and its
-subdirectories.  Also, the current directory is changed to here, so
-files are inserted from this directory.  By default, the operating
-directory feature is turned off.
+At startup, make \fBnano\fR change to the given \fIdirectory\fR, and allow
+reading and writing files only in this directory and its subdirectories.
 .TP
 .B set positionlog
 Save the positions of cursor and anchors between editing sessions.

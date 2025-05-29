@@ -299,8 +299,8 @@ and writes to the pipe when the user saves the "file".  This way
 \fBgpg\fR without having to write sensitive data to disk first.
 .TP
 .BI \-o " directory\fR, " \-\-operatingdir= directory
-Set the operating directory.  This makes \fBnano\fR set up something
-similar to a chroot.
+Change to the given \fIdirectory\fR, and allow reading and writing
+files only in this directory and its subdirectories.
 .TP
 .BR \-p ", " \-\-preserve
 Preserve the XOFF and XON sequences (\fB^S\fR and \fB^Q\fR) so that
