@@ -1101,7 +1101,7 @@ Use this color combination for line numbers.
 @xref{@code{set keycolor}} for valid color names.
 
 @item set operatingdir "@var{directory}"
-@command{nano} only reads and writes files inside "directory" and its
+@command{nano} only reads and writes files inside @var{directory} and its
 subdirectories.  Also, the current directory is changed to here, so
 files are inserted from this directory.  By default, the operating
 directory feature is turned off.
@@ -1394,18 +1394,18 @@ Same as above, except that the matching is case insensitive.
 
 @item color [bold,][italic,]@var{fgcolor},@var{bgcolor} start="@var{fromrx}" end="@var{torx}"
 Paint all pieces of text whose start matches extended regular expression
-"fromrx" and whose end matches extended regular expression "torx" with
-the given foreground and background colors, at least one of
+@var{fromrx} and whose end matches extended regular expression @var{torx}
+with the given foreground and background colors, at least one of
 which must be specified.  This means that, after an initial instance of
-"fromrx", all text until the first instance of "torx" is colored.
+@var{fromrx}, all text until the first instance of @var{torx} is colored.
 This allows syntax highlighting to span multiple lines.
 
 @item icolor [bold,][italic,]@var{fgcolor},@var{bgcolor} start="@var{fromrx}" end="@var{torx}"
 Same as above, except that the matching is case insensitive.
 
 @item include "@var{syntaxfile}"
-Read in self-contained color syntaxes from "syntaxfile".  Note that
-"syntaxfile" may contain only the above commands, from @code{syntax}
+Read in self-contained color syntaxes from @var{syntaxfile}.  Note that
+such a syntax file may contain only the above commands, from @code{syntax}
 to @code{icolor}.
 
 @item extendsyntax @var{name} @var{command} @var{argument} @dots{}
