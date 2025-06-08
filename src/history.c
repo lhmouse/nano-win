@@ -357,7 +357,7 @@ char *stringify_anchors(void)
 
 	for (linestruct *line = openfile->filetop; line != NULL; line = line->next)
 		if (line->has_anchor) {
-			sprintf(number, "%li ", line->lineno);
+			sprintf(number, "%zi ", line->lineno);
 			string = nrealloc(string, strlen(string) + strlen(number) + 1);
 			strcat(string, number);
 		}
