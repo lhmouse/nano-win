@@ -484,7 +484,7 @@ typedef struct linestruct {
 	short *multidata;
 		/* Array of which multi-line regexes apply to this line. */
 #endif
-#ifdef ENABLE_HISTORIES
+#ifndef NANO_TINY
 	bool has_anchor;
 		/* Whether the user has placed an anchor at this line. */
 #endif

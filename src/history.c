@@ -353,6 +353,7 @@ void save_history(void)
 char *stringify_anchors(void)
 {
 	char *string = copy_of("");
+#ifndef NANO_TINY
 	char number[24];
 
 	for (linestruct *line = openfile->filetop; line != NULL; line = line->next)
@@ -361,13 +362,14 @@ char *stringify_anchors(void)
 			string = nrealloc(string, strlen(string) + strlen(number) + 1);
 			strcat(string, number);
 		}
-
+#endif
 	return string;
 }
 
 /* Set an anchor for each line number in the given string. */
 void restore_anchors(char *string)
 {
+#ifndef NANO_TINY
 	linestruct *line = openfile->filetop;
 	ssize_t number;
 	char *space;
@@ -385,6 +387,7 @@ void restore_anchors(char *string)
 
 		line->has_anchor = TRUE;
 	}
+#endif
 }
 
 /* Load the recorded cursor positions for files that were edited. */
