@@ -9,6 +9,8 @@ Since 8.0:
   - With `nano filename:number` the given file will be opened with the
     cursor on the given line number (when 'set colonparsing' is used).
   - Option --listsyntaxes lists the names of available syntaxes.
+  - Anchors are saved and restored (when --positionlog is active).
+  - Key combos ^O^Q and ^X^Q cause an exit status of 2.
 
 Since 7.0:
   - String binds may contain bindable function names between braces.

@@ -1,3 +1,56 @@
+Changes between v8.4 and v8.5:
+------------------------------
+
+Benno Schulenberg (44):
+      anchor: change the aspect of any anchor to a dagger (†)
+      bindings: always bind ^Q in the WriteOut menu, not only for --saveonexit
+      bindings: do not list ^L twice (in main help text and help lines)
+      bindings: let ^L just center the cursor, not cycle it -- let M-% cycle it
+      bindings: lowercase an ASCII character in a locale-proof manner
+      build: fix compilation for config with --enable-tiny --enable-histories
+      build: fix compilation when configured with --disable-histories
+      build: fix compilation when configured with --disable-utf8
+      build: swap two linker arguments, to enable compilation on Cygwin
+      bump version numbers and add a news item for the 8.5 release
+      docs: add a suggested key combo for wiping all anchors to sample nanorc
+      docs: in cheatsheet, equalize the spacing in three consecutive blocks
+      docs: mention that --positionlog also saves the positions of anchors
+      docs: reword the descriptions of --operatingdir and 'set operatingdir'
+      feedback: change the appearance of anchors when they will be saved
+      feedback: change the level of a certain message, to show it is special
+      feedback: report the setting and removing of an anchor just once
+      feedback: show in mini bar the presence of an anchor on the cursor line
+      feedback: suppress "Jumped to anchor" when line numbers are active
+      feedback: suppress "Removed anchor" when the mini bar is hidden
+      gnulib: pull in the fix for a cross-compilation failure
+      gnulib: update to its current upstream state
+      history: always save the last cursor position, also for line=1,column=1
+      history: always save the positions of any anchors
+      history: reverse the order in the file-positions list, to latest first
+      menus: reshuffle an item, to avoid truncating its help-line label
+      moving: make cycling (M-%) independent from centering (^L)
+      new feature: exit with an error status (2) for ^X^Q and ^O^Q
+      new feature: save and restore anchors when the first line has an anchor
+      options: accept --whitespacedisplay and 'set whitespacedisplay'
+      syntax: default: show hard spaces with a lightgrey background
+      syntaxes: add a license line to files that were created by Mike Frysinger
+      syntaxes: use character classes instead of range expressions
+      tweaks: avoid using toupper() and tolower() where easily possible
+      tweaks: elide an auxiliary variable that is no longer needed
+      tweaks: elide the unneeded passing around of three parameters
+      tweaks: elide the unneeded use of an auxiliary function
+      tweaks: in the browser, implement M-\ and M-/ in a slightly denser way
+      tweaks: properly tag some keywords in texi doc, instead of using quotes
+      tweaks: random unimportant edits here and there
+      tweaks: rename 'use_utf8' to 'using_utf8', and make it a global variable
+      tweaks: shorten a URL, and update it to use https
+      tweaks: use reallocations, instead of new allocations plus frees
+      tweaks: use the correct modifier, to avoid a warning on 32-bit machines
+
+Peter Michaux (1):
+      build: add the 'm4/host-cpu-c-abi.m4' file to .gitignore
+
+
 Changes between v8.3 and v8.4:
 ------------------------------
 

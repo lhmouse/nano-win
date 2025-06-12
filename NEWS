@@ -1,3 +1,11 @@
+2025.06.12 - GNU nano 8.5 ""
+• Anchors are now saved when a file is closed, and restored when
+  the file is reopened -- if and when --positionlog is active.
+• Nano exits with an error status upon keystrokes ^O^Q and ^X^Q.
+• Keystroke ^L just centers the cursor, while M-% cycles it.
+• Option --whitespace is accepted, but left undocumented.
+• Syntax coloring now works correctly in more locales.
+
 2025.04.02 - GNU nano 8.4 "Five Miles Out"
 • Bracketed pastes over a slow connection are more reliable.
 • Tabs in an external paste at a prompt are not dropped.
