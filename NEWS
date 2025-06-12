@@ -1,4 +1,4 @@
-2025.06.12 - GNU nano 8.5 ""
+2025.06.12 - GNU nano 8.5 "Sigourney"
 • Anchors are now saved when a file is closed, and restored when
   the file is reopened -- if and when --positionlog is active.
 • Nano exits with an error status upon keystrokes ^O^Q and ^X^Q.
