@@ -774,6 +774,7 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		int response = do_prompt(MGOTOLINE, retain_answer ? answer : "", NULL,
 						/* TRANSLATORS: This is a prompt. */
 						edit_refresh, _("Enter line number, column number"));
+		int doublesign = 0;
 
 		/* If the user cancelled or gave a blank answer, get out. */
 		if (response < 0) {
@@ -792,11 +793,18 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		if (response > 0)
 			return;
 
+		/* A ++ or -- before the number signifies a relative jump. */
+		if ((answer[0] == '+' && answer[1] == '+') || (answer[0] == '-' && answer[1] == '-'))
+			doublesign = 1;
+
 		/* Try to extract one or two numbers from the user's response. */
-		if (!parse_line_column(answer, &line, &column)) {
+		if (!parse_line_column(answer + doublesign, &line, &column)) {
 			statusline(AHEM, _("Invalid line or column number"));
 			return;
 		}
+
+		if (doublesign)
+			line += openfile->current->lineno;
 	} else {
 		if (line == 0)
 			line = openfile->current->lineno;
