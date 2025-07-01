@@ -1696,8 +1696,10 @@ Goes to the first line of the file.
 Goes to the last line of the file.
 
 @item gotoline
-Goes to a specific line (and column if specified).  Negative numbers count
-from the end of the file (and end of the line).
+Goes to a specific line (and column if given).
+A negative number counts from the end of the buffer (and end of the line).
+Putting @code{++} or @code{--} before the first number will jump the given
+number of lines forward or backward.
 
 @item findbracket
 Moves the cursor to the bracket (or brace or parenthesis, etc.) that matches
