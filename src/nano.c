@@ -2580,11 +2580,21 @@ int main(int argc, char **argv)
 				continue;
 		}
 
+#ifdef ENABLE_HISTORIES
+		if (ISSET(POSITIONLOG) && openfile->filename[0] != '\0')
+			restore_cursor_position_if_any();
+#endif
+
 		/* If a position was given on the command line, go there. */
-		if (givenline != 0 || givencol != 0)
+		if (givenline != 0 || givencol != 0) {
+			openfile->current = openfile->filetop;
+			openfile->placewewant = 0;
 			goto_line_and_column(givenline, givencol, FALSE, FALSE);
+		}
 #ifndef NANO_TINY
 		else if (searchstring != NULL) {
+			openfile->current = openfile->filetop;
+			openfile->current_x = 0;
 			if (ISSET(USE_REGEXP))
 				regexp_init(searchstring);
 			if (!findnextstr(searchstring, FALSE, JUSTFIND, NULL,
@@ -2600,10 +2610,6 @@ int main(int argc, char **argv)
 			last_search = searchstring;
 			searchstring = NULL;
 		}
-#endif
-#ifdef ENABLE_HISTORIES
-		else if (ISSET(POSITIONLOG) && openfile->filename[0] != '\0')
-			restore_cursor_position_if_any();
 #endif
 	}
 
