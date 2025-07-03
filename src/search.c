@@ -155,8 +155,7 @@ void search_init(bool replacing, bool retain_answer)
 			} else
 				replacing = !replacing;
 		} else if (function == flip_goto) {
-			goto_line_and_column(openfile->current->lineno,
-								openfile->placewewant + 1, TRUE, TRUE);
+			goto_line_and_column(0, 0, TRUE, TRUE);
 			break;
 		} else
 			break;
@@ -769,6 +768,11 @@ void goto_line_posx(ssize_t linenumber, size_t pos_x)
 void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 							bool interactive)
 {
+	if (line == 0)
+		line = openfile->current->lineno;
+	if (column == 0)
+		column = openfile->placewewant + 1;
+
 	if (interactive) {
 		/* Ask for the line and column. */
 		int response = do_prompt(MGOTOLINE, retain_answer ? answer : "", NULL,
@@ -805,12 +809,6 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 
 		if (doublesign)
 			line += openfile->current->lineno;
-	} else {
-		if (line == 0)
-			line = openfile->current->lineno;
-
-		if (column == 0)
-			column = openfile->placewewant + 1;
 	}
 
 	/* Take a negative line number to mean: from the end of the file. */
@@ -879,8 +877,7 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 /* Go to the specified line and column, asking for them beforehand. */
 void do_gotolinecolumn(void)
 {
-	goto_line_and_column(openfile->current->lineno,
-						openfile->placewewant + 1, FALSE, TRUE);
+	goto_line_and_column(0, 0, FALSE, TRUE);
 }
 
 #ifndef NANO_TINY
