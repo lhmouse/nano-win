@@ -271,7 +271,7 @@ void close_and_go(void)
 		delete_lockfile(openfile->lock_filename);
 #endif
 #ifdef ENABLE_HISTORIES
-	if (ISSET(POSITIONLOG))
+	if (ISSET(POSITIONLOG) && openfile->filename[0] != '\0')
 		update_poshistory();
 #endif
 #ifdef ENABLE_MULTIBUFFER
