@@ -155,7 +155,7 @@ void search_init(bool replacing, bool retain_answer)
 			} else
 				replacing = !replacing;
 		} else if (function == flip_goto) {
-			goto_line_and_column(0, 0, TRUE, TRUE);
+			ask_for_line_and_column(TRUE);
 			break;
 		} else
 			break;
@@ -762,18 +762,12 @@ void goto_line_posx(ssize_t linenumber, size_t pos_x)
 }
 #endif
 
-/* Go to the specified line and column, or ask for them if interactive
- * is TRUE.  In the latter case also update the screen afterwards.
- * Note that both the line and column number should be one-based. */
-void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
-							bool interactive)
+/* Ask for a line and maybe column number, and then jump there. */
+void ask_for_line_and_column(bool retain_answer)
 {
-	if (line == 0)
-		line = openfile->current->lineno;
-	if (column == 0)
-		column = openfile->placewewant + 1;
+	ssize_t line = openfile->current->lineno;
+	ssize_t column = openfile->placewewant + 1;
 
-	if (interactive) {
 		/* Ask for the line and column. */
 		int response = do_prompt(MGOTOLINE, retain_answer ? answer : "", NULL,
 						/* TRANSLATORS: This is a prompt. */
@@ -809,7 +803,20 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 
 		if (doublesign)
 			line += openfile->current->lineno;
-	}
+
+	goto_line_and_column(line, column, TRUE);
+
+	adjust_viewport((*answer == ',') ? STATIONARY : CENTERING);
+	refresh_needed = TRUE;
+}
+
+/* Go to the specified line and column.  (Note that both are one-based.) */
+void goto_line_and_column(ssize_t line, ssize_t column, bool interactive)
+{
+	if (line == 0)
+		line = openfile->current->lineno;
+	if (column == 0)
+		column = openfile->placewewant + 1;
 
 	/* Take a negative line number to mean: from the end of the file. */
 	if (line < 0)
@@ -844,12 +851,10 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 		openfile->placewewant = breadth(openfile->current->data);
 #endif
 
-	/* When a line number was manually given, center the target line. */
-	if (interactive) {
-		adjust_viewport((*answer == ',') ? STATIONARY : CENTERING);
-		refresh_needed = TRUE;
-	} else {
-		int rows_from_tail;
+	if (interactive)
+		return;
+
+	int rows_from_tail;
 
 #ifndef NANO_TINY
 		if (ISSET(SOFTWRAP)) {
@@ -871,13 +876,12 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool retain_answer,
 			adjust_viewport(STATIONARY);
 		} else
 			adjust_viewport(CENTERING);
-	}
 }
 
 /* Go to the specified line and column, asking for them beforehand. */
 void do_gotolinecolumn(void)
 {
-	goto_line_and_column(0, 0, FALSE, TRUE);
+	ask_for_line_and_column(FALSE);
 }
 
 #ifndef NANO_TINY
