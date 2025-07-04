@@ -2589,7 +2589,7 @@ int main(int argc, char **argv)
 		if (givenline != 0 || givencol != 0) {
 			openfile->current = openfile->filetop;
 			openfile->placewewant = 0;
-			goto_line_and_column(givenline, givencol, FALSE);
+			goto_line_and_column(givenline, givencol, TRUE);
 		}
 #ifndef NANO_TINY
 		else if (searchstring != NULL) {

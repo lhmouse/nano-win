@@ -802,14 +802,14 @@ void ask_for_line_and_column(bool retain_answer)
 	if (doublesign)
 		line += openfile->current->lineno;
 
-	goto_line_and_column(line, column, TRUE);
+	goto_line_and_column(line, column, FALSE);
 
 	adjust_viewport((*answer == ',') ? STATIONARY : CENTERING);
 	refresh_needed = TRUE;
 }
 
 /* Go to the specified line and column.  (Note that both are one-based.) */
-void goto_line_and_column(ssize_t line, ssize_t column, bool interactive)
+void goto_line_and_column(ssize_t line, ssize_t column, bool hugfloor)
 {
 	if (line == 0)
 		line = openfile->current->lineno;
@@ -849,7 +849,7 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool interactive)
 		openfile->placewewant = breadth(openfile->current->data);
 #endif
 
-	if (interactive)
+	if (!hugfloor)
 		return;
 
 	int rows_from_tail;

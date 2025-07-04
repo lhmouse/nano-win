@@ -595,6 +595,6 @@ void restore_cursor_position_if_any(void)
 	if (item && item->anchors)
 		restore_anchors(item->anchors);
 	if (item)
-		goto_line_and_column(item->linenumber, item->columnnumber, FALSE);
+		goto_line_and_column(item->linenumber, item->columnnumber, TRUE);
 }
 #endif /* ENABLE_HISTORIES */
