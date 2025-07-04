@@ -767,42 +767,40 @@ void ask_for_line_and_column(bool retain_answer)
 {
 	ssize_t line = openfile->current->lineno;
 	ssize_t column = openfile->placewewant + 1;
+	int response = do_prompt(MGOTOLINE, retain_answer ? answer : "", NULL,
+					/* TRANSLATORS: This is a prompt. */
+					edit_refresh, _("Enter line number, column number"));
+	int doublesign = 0;
 
-		/* Ask for the line and column. */
-		int response = do_prompt(MGOTOLINE, retain_answer ? answer : "", NULL,
-						/* TRANSLATORS: This is a prompt. */
-						edit_refresh, _("Enter line number, column number"));
-		int doublesign = 0;
+	/* If the user cancelled or gave a blank answer, get out. */
+	if (response < 0) {
+		statusbar(_("Cancelled"));
+		return;
+	}
 
-		/* If the user cancelled or gave a blank answer, get out. */
-		if (response < 0) {
-			statusbar(_("Cancelled"));
-			return;
-		}
+	if (func_from_key(response) == flip_goto) {
+		UNSET(BACKWARDS_SEARCH);
+		/* Switch to searching but retain what the user typed so far. */
+		search_init(FALSE, TRUE);
+		return;
+	}
 
-		if (func_from_key(response) == flip_goto) {
-			UNSET(BACKWARDS_SEARCH);
-			/* Switch to searching but retain what the user typed so far. */
-			search_init(FALSE, TRUE);
-			return;
-		}
+	/* If a function was executed, we're done here. */
+	if (response > 0)
+		return;
 
-		/* If a function was executed, we're done here. */
-		if (response > 0)
-			return;
+	/* A ++ or -- before the number signifies a relative jump. */
+	if ((answer[0] == '+' && answer[1] == '+') || (answer[0] == '-' && answer[1] == '-'))
+		doublesign = 1;
 
-		/* A ++ or -- before the number signifies a relative jump. */
-		if ((answer[0] == '+' && answer[1] == '+') || (answer[0] == '-' && answer[1] == '-'))
-			doublesign = 1;
+	/* Try to extract one or two numbers from the user's response. */
+	if (!parse_line_column(answer + doublesign, &line, &column)) {
+		statusline(AHEM, _("Invalid line or column number"));
+		return;
+	}
 
-		/* Try to extract one or two numbers from the user's response. */
-		if (!parse_line_column(answer + doublesign, &line, &column)) {
-			statusline(AHEM, _("Invalid line or column number"));
-			return;
-		}
-
-		if (doublesign)
-			line += openfile->current->lineno;
+	if (doublesign)
+		line += openfile->current->lineno;
 
 	goto_line_and_column(line, column, TRUE);
 
@@ -857,25 +855,25 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool interactive)
 	int rows_from_tail;
 
 #ifndef NANO_TINY
-		if (ISSET(SOFTWRAP)) {
-			linestruct *currentline = openfile->current;
-			size_t leftedge = leftedge_for(xplustabs(), openfile->current);
+	if (ISSET(SOFTWRAP)) {
+		linestruct *currentline = openfile->current;
+		size_t leftedge = leftedge_for(xplustabs(), openfile->current);
 
-			rows_from_tail = (editwinrows / 2) - go_forward_chunks(
-								editwinrows / 2, &currentline, &leftedge);
-		} else
+		rows_from_tail = (editwinrows / 2) - go_forward_chunks(
+							editwinrows / 2, &currentline, &leftedge);
+	} else
 #endif
-			rows_from_tail = openfile->filebot->lineno -
-								openfile->current->lineno;
+		rows_from_tail = openfile->filebot->lineno -
+							openfile->current->lineno;
 
-		/* If the target line is close to the tail of the file, put the last
-		 * line or chunk on the bottom line of the screen; otherwise, just
-		 * center the target line. */
-		if (rows_from_tail < editwinrows / 2 && !ISSET(JUMPY_SCROLLING)) {
-			openfile->cursor_row = editwinrows - 1 - rows_from_tail;
-			adjust_viewport(STATIONARY);
-		} else
-			adjust_viewport(CENTERING);
+	/* If the target line is close to the tail of the file, put the last
+	 * line or chunk on the bottom line of the screen; otherwise, just
+	 * center the target line. */
+	if (rows_from_tail < editwinrows / 2 && !ISSET(JUMPY_SCROLLING)) {
+		openfile->cursor_row = editwinrows - 1 - rows_from_tail;
+		adjust_viewport(STATIONARY);
+	} else
+		adjust_viewport(CENTERING);
 }
 
 /* Go to the specified line and column, asking for them beforehand. */
