@@ -155,7 +155,7 @@ void search_init(bool replacing, bool retain_answer)
 			} else
 				replacing = !replacing;
 		} else if (function == flip_goto) {
-			ask_for_line_and_column(TRUE);
+			ask_for_line_and_column(answer);
 			break;
 		} else
 			break;
@@ -763,13 +763,13 @@ void goto_line_posx(ssize_t linenumber, size_t pos_x)
 #endif
 
 /* Ask for a line and maybe column number, and then jump there. */
-void ask_for_line_and_column(bool retain_answer)
+void ask_for_line_and_column(char *provided)
 {
 	ssize_t line = openfile->current->lineno;
 	ssize_t column = openfile->placewewant + 1;
-	int response = do_prompt(MGOTOLINE, retain_answer ? answer : "", NULL,
+	int response = do_prompt(MGOTOLINE, provided, NULL, edit_refresh,
 					/* TRANSLATORS: This is a prompt. */
-					edit_refresh, _("Enter line number, column number"));
+					_("Enter line number, column number"));
 	int doublesign = 0;
 
 	/* If the user cancelled or gave a blank answer, get out. */
@@ -879,7 +879,7 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool hugfloor)
 /* Go to the specified line and column, asking for them beforehand. */
 void do_gotolinecolumn(void)
 {
-	ask_for_line_and_column(FALSE);
+	ask_for_line_and_column("");
 }
 
 #ifndef NANO_TINY

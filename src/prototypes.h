@@ -484,7 +484,7 @@ void ask_for_and_do_replacements(void);
 #if !defined(NANO_TINY) || defined(ENABLE_SPELLER) || defined (ENABLE_LINTER) || defined (ENABLE_FORMATTER)
 void goto_line_posx(ssize_t line, size_t pos_x);
 #endif
-void ask_for_line_and_column(bool retain_answer);
+void ask_for_line_and_column(char *provided);
 void goto_line_and_column(ssize_t line, ssize_t column, bool hugfloor);
 void do_gotolinecolumn(void);
 #ifndef NANO_TINY
