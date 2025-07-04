@@ -762,6 +762,12 @@ void goto_line_posx(ssize_t linenumber, size_t pos_x)
 }
 #endif
 
+/* Implement the Go To Line menu. */
+void do_gotolinecolumn(void)
+{
+	ask_for_line_and_column("");
+}
+
 /* Ask for a line and maybe column number, and then jump there. */
 void ask_for_line_and_column(char *provided)
 {
@@ -811,14 +817,13 @@ void ask_for_line_and_column(char *provided)
 /* Go to the specified line and column.  (Note that both are one-based.) */
 void goto_line_and_column(ssize_t line, ssize_t column, bool hugfloor)
 {
-	if (line == 0)
-		line = openfile->current->lineno;
-	if (column == 0)
-		column = openfile->placewewant + 1;
+	int rows_from_tail;
 
 	/* Take a negative line number to mean: from the end of the file. */
 	if (line < 0)
 		line = openfile->filebot->lineno + line + 1;
+	else if (line == 0)
+		line = openfile->current->lineno;
 	if (line < 1)
 		line = 1;
 
@@ -836,6 +841,8 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool hugfloor)
 	/* Take a negative column number to mean: from the end of the line. */
 	if (column < 0)
 		column = breadth(openfile->current->data) + column + 2;
+	else if (column == 0)
+		column = openfile->placewewant + 1;
 	if (column < 1)
 		column = 1;
 
@@ -851,8 +858,6 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool hugfloor)
 
 	if (!hugfloor)
 		return;
-
-	int rows_from_tail;
 
 #ifndef NANO_TINY
 	if (ISSET(SOFTWRAP)) {
@@ -874,12 +879,6 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool hugfloor)
 		adjust_viewport(STATIONARY);
 	} else
 		adjust_viewport(CENTERING);
-}
-
-/* Go to the specified line and column, asking for them beforehand. */
-void do_gotolinecolumn(void)
-{
-	ask_for_line_and_column("");
 }
 
 #ifndef NANO_TINY
