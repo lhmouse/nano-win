@@ -718,7 +718,7 @@ void ask_for_and_do_replacements(void)
 		update_history(&replace_history, answer, PRUNE_DUPLICATE);
 #endif
 
-	/* When cancelled, or when a function was run, get out. */
+	/* When cancelled, or when a function was run, we're done. */
 	if (response == -1) {
 		statusbar(_("Cancelled"));
 		return;
@@ -778,12 +778,6 @@ void ask_for_line_and_column(char *provided)
 					_("Enter line number, column number"));
 	int doublesign = 0;
 
-	/* If the user cancelled or gave a blank answer, get out. */
-	if (response < 0) {
-		statusbar(_("Cancelled"));
-		return;
-	}
-
 	if (func_from_key(response) == flip_goto) {
 		UNSET(BACKWARDS_SEARCH);
 		/* Switch to searching but retain what the user typed so far. */
@@ -791,8 +785,11 @@ void ask_for_line_and_column(char *provided)
 		return;
 	}
 
-	/* If a function was executed, we're done here. */
-	if (response > 0)
+	/* When cancelled or blank, or when a function was run, we're done. */
+	if (response < 0) {
+		statusbar(_("Cancelled"));
+		return;
+	} else if (response > 0)
 		return;
 
 	/* A ++ or -- before the number signifies a relative jump. */
