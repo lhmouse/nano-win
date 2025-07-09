@@ -446,7 +446,6 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #ifndef NANO_TINY
 		/* If the window size changed, go reformat the prompt string. */
 		if (input == THE_WINDOW_RESIZED) {
-			refresh_func();  /* Only needed when in file browser. */
 			*actual = THE_WINDOW_RESIZED;
 #ifdef ENABLE_HISTORIES
 			free(stored_string);

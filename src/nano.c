@@ -1075,8 +1075,7 @@ void regenerate_screen(void)
 	/* If we have an open buffer, redraw the contents of the subwindows. */
 	if (openfile) {
 		ensure_firstcolumn_is_aligned();
-		if (currmenu & ~(MBROWSER|MWHEREISFILE|MGOTODIR))
-			draw_all_subwindows();
+		draw_all_subwindows();
 	}
 }
 
