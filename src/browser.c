@@ -489,9 +489,6 @@ char *browse(char *path)
 		if (function == do_help || function == full_refresh) {
 			function();
 #ifndef NANO_TINY
-			/* Simulate a terminal resize to force a directory reread,
-			 * or because the terminal dimensions might have changed. */
-			kbinput = THE_WINDOW_RESIZED;
 		} else if (function == do_toggle && get_shortcut(kbinput)->toggle == NO_HELP) {
 			TOGGLE(NO_HELP);
 			window_init();
@@ -556,7 +553,7 @@ char *browse(char *path)
 							/* TRANSLATORS: This is a prompt. */
 							browser_refresh, _("Go To Directory")) < 0) {
 				statusbar(_("Cancelled"));
-				continue;
+				goto rearrange;
 			}
 
 			path = free_and_assign(path, real_dir_from_tilde(answer));
@@ -573,7 +570,7 @@ char *browse(char *path)
 				 * the option --operatingdir, not of --restricted. */
 				statusline(ALERT, _("Can't go outside of %s"), operating_dir);
 				path = mallocstrcpy(path, present_path);
-				continue;
+				goto rearrange;
 			}
 #endif
 			/* Snip any trailing slashes, so the name can be compared. */
@@ -644,9 +641,11 @@ char *browse(char *path)
 		} else
 			unbound_key(kbinput);
 
+  rearrange:
 #ifndef NANO_TINY
 		/* If the terminal resized (or might have), refresh the file list. */
-		if (kbinput == THE_WINDOW_RESIZED) {
+		if (kbinput == THE_WINDOW_RESIZED || function == do_help || function == goto_dir ||
+						function == do_search_backward || function == do_search_forward) {
 			/* Remember the selected file, to be able to reselect it. */
 			present_name = copy_of(filelist[selected]);
 			goto read_directory_contents;
