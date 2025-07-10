@@ -563,7 +563,7 @@ void show_help(void)
 	bottombars(oldmenu);
 
 #ifdef ENABLE_BROWSER
-	if (oldmenu & (MBROWSER|MWHEREISFILE|MGOTODIR))
+	if (oldmenu & (MBROWSER|MGOTODIR|MWHEREISFILE))
 		browser_refresh();
 	else
 #endif
