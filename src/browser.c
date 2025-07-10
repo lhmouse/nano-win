@@ -490,9 +490,13 @@ char *browse(char *path)
 
 		function = interpret(kbinput);
 
-		if (function == do_help || function == full_refresh) {
-			function();
-#ifndef NANO_TINY
+		if (function == do_help)
+			do_help();
+		else if (function == full_refresh) {
+#ifdef NANO_TINY
+			full_refresh();
+#else
+			kbinput = THE_WINDOW_RESIZED;
 		} else if (function == do_toggle && get_shortcut(kbinput)->toggle == NO_HELP) {
 			TOGGLE(NO_HELP);
 			window_init();
@@ -557,7 +561,7 @@ char *browse(char *path)
 							/* TRANSLATORS: This is a prompt. */
 							browser_refresh, _("Go To Directory")) < 0) {
 				statusbar(_("Cancelled"));
-				goto rearrange;
+				goto testresize;
 			}
 
 			path = free_and_assign(path, real_dir_from_tilde(answer));
@@ -574,7 +578,7 @@ char *browse(char *path)
 				 * the option --operatingdir, not of --restricted. */
 				statusline(ALERT, _("Can't go outside of %s"), operating_dir);
 				path = mallocstrcpy(path, present_path);
-				goto rearrange;
+				goto testresize;
 			}
 #endif
 			/* Snip any trailing slashes, so the name can be compared. */
@@ -645,7 +649,7 @@ char *browse(char *path)
 		} else
 			unbound_key(kbinput);
 
-  rearrange:
+  testresize:
 #ifndef NANO_TINY
 		/* If the terminal resized (or might have), refresh the file list. */
 		if (kbinput == THE_WINDOW_RESIZED || resized_for_browser) {
