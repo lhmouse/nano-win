@@ -421,6 +421,10 @@ char *browse(char *path)
 		dir = NULL;
 	}
 
+#ifndef NANO_TINY
+	resized_for_browser = FALSE;
+#endif
+
 	/* If something was selected before, reselect it;
 	 * otherwise, just select the first item (..). */
 	if (present_name != NULL) {
@@ -644,8 +648,7 @@ char *browse(char *path)
   rearrange:
 #ifndef NANO_TINY
 		/* If the terminal resized (or might have), refresh the file list. */
-		if (kbinput == THE_WINDOW_RESIZED || function == do_help || function == goto_dir ||
-						function == do_search_backward || function == do_search_forward) {
+		if (kbinput == THE_WINDOW_RESIZED || resized_for_browser) {
 			/* Remember the selected file, to be able to reselect it. */
 			present_name = copy_of(filelist[selected]);
 			goto read_directory_contents;

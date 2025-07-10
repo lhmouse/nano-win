@@ -24,6 +24,7 @@
 
 #ifndef NANO_TINY
 extern volatile sig_atomic_t the_window_resized;
+extern volatile sig_atomic_t resized_for_browser;
 #endif
 
 extern bool on_a_vt;

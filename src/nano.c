@@ -1049,6 +1049,7 @@ void handle_sigwinch(int signal)
 {
 	/* Let the input routine know that a SIGWINCH has occurred. */
 	the_window_resized = TRUE;
+	resized_for_browser = TRUE;
 }
 
 /* Reinitialize and redraw the screen completely. */

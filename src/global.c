@@ -30,6 +30,8 @@
 #ifndef NANO_TINY
 volatile sig_atomic_t the_window_resized = FALSE;
 		/* Set to TRUE by the handler whenever a SIGWINCH occurs. */
+volatile sig_atomic_t resized_for_browser = FALSE;
+		/* Same as above, but used by the file browser. */
 #endif
 
 bool on_a_vt = FALSE;
