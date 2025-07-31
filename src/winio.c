@@ -352,11 +352,14 @@ int get_code_from_plantation(void)
 		if (!closing)
 			return MISSING_BRACE;
 
-		if (plants_pointer[1] == '{' && plants_pointer[2] == '}') {
+		/* Handle the {{} sequence, and for symmetry accept {}} too. */
+		if (plants_pointer[1] == '{' || plants_pointer[1] == '}') {
+			if (plants_pointer[2] != '}')
+				return MISSING_BRACE;
 			plants_pointer += 3;
 			if (*plants_pointer != '\0')
 				put_back(MORE_PLANTS);
-			return '{';
+			return *(plants_pointer - 2);
 		}
 
 		free(commandname);
