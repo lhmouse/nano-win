@@ -3165,7 +3165,7 @@ void complete_a_word(void)
 
 	/* Run through all of the lines in the buffer, looking for shard. */
 	while (pletion_line != NULL) {
-		ssize_t threshold = strlen(pletion_line->data) - shard_length - 1;
+		ssize_t threshold = strlen(pletion_line->data) - shard_length;
 				/* The point where we can stop searching for shard. */
 		completionstruct *some_word;
 		char *completion;
