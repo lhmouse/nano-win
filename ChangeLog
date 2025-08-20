@@ -1,3 +1,31 @@
+Changes between v8.5 and v8.6:
+------------------------------
+
+Benno Schulenberg (22):
+      browser: let a refresh also reread the file list, like it used to
+      browser: redo the layout only when an actual resize occurred
+      browser: redo the layout when the window _might_ have resized
+      bump version numbers and add a news item for the 8.6 release
+      completion: don't stop looking for candidates one byte too early
+      display: when resizing, redraw the bottom bars also when in file browser
+      docs: document the ++/-- prefix feature for the `gotoline` function
+      gnulib: update to its current upstream state
+      history: do not forget anchors when line number is given on command line
+      new feature: interpret a line number prefixed with ++ or -- as relative
+      rcfile: accept also {}} in a string bind, for symmetry with {{}
+      syntax: po: colorize also the %b and %B format specifiers
+      tweaks: normalize the indentation after the previous change
+      tweaks: put two related checks together, like they are elsewhere
+      tweaks: remove a check for a symbol that never gets defined
+      tweaks: rename a parameter, and invert its logic
+      tweaks: reshuffle a condition to a better place, like it is elsewhere
+      tweaks: reshuffle a few lines, for density and to elide an 'else'
+      tweaks: reshuffle some lines, to group things better
+      tweaks: split the goto function into an interactive and command-line one
+      tweaks: swap two symbolic menu names, for giggles
+      tweaks: use a direct parameter instead of an intermediary boolean
+
+
 Changes between v8.4 and v8.5:
 ------------------------------
 
