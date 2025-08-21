@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano-7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2025-06-12 09:31+0200\n"
+"POT-Creation-Date: 2025-08-21 07:53+0200\n"
 "PO-Revision-Date: 2023-07-18 23:06+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -45,11 +45,11 @@ msgstr "(ophavs-kat)"
 msgid "(huge)"
 msgstr "(enorm)"
 
-#: src/browser.c:269 src/browser.c:274 src/search.c:260
+#: src/browser.c:269 src/browser.c:274 src/search.c:259
 msgid "Search Wrapped"
 msgstr "Søgningen genstartet fra begyndelsen"
 
-#: src/browser.c:281 src/search.c:437
+#: src/browser.c:281 src/search.c:436
 msgid "This is the only occurrence"
 msgstr "Dette er det eneste tilfælde"
 
@@ -63,13 +63,13 @@ msgstr "Søg"
 msgid " [Backwards]"
 msgstr " [Bagud]"
 
-#: src/browser.c:322 src/browser.c:558 src/files.c:1157 src/files.c:1250
-#: src/files.c:2187 src/nano.c:321 src/search.c:114 src/search.c:295
-#: src/search.c:724 src/search.c:780 src/text.c:2616 src/text.c:2815
+#: src/browser.c:322 src/browser.c:563 src/files.c:1157 src/files.c:1250
+#: src/files.c:2187 src/nano.c:321 src/search.c:114 src/search.c:294
+#: src/search.c:723 src/search.c:790 src/text.c:2616 src/text.c:2815
 msgid "Cancelled"
 msgstr "Afbrudt"
 
-#: src/browser.c:349 src/search.c:371
+#: src/browser.c:349 src/search.c:370
 msgid "No current search pattern"
 msgstr "Intet aktuelt søgemønster"
 
@@ -78,38 +78,38 @@ msgstr "Intet aktuelt søgemønster"
 msgid "Cannot open directory: %s"
 msgstr "Kan ikke åbne katalog: %s"
 
-#: src/browser.c:440
+#: src/browser.c:444
 msgid "No entries"
 msgstr ""
 
 #. TRANSLATORS: This is a prompt.
-#: src/browser.c:557
+#: src/browser.c:562
 msgid "Go To Directory"
 msgstr "Gå til katalog"
 
 #. TRANSLATORS: This refers to the confining effect of
 #. * the option --operatingdir, not of --restricted.
-#: src/browser.c:574 src/browser.c:605
+#: src/browser.c:579 src/browser.c:610
 #, c-format
 msgid "Can't go outside of %s"
 msgstr "Kan ikke gå uden for %s"
 
-#: src/browser.c:596
+#: src/browser.c:601
 msgid "Can't move up a directory"
 msgstr "Kan ikke gå et katalog op"
 
-#: src/browser.c:611 src/files.c:920 src/files.c:926 src/files.c:1822
+#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1822
 #: src/files.c:1837 src/history.c:263 src/history.c:291 src/history.c:400
 #: src/history.c:454 src/rcfile.c:926 src/rcfile.c:1712
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Fejl ved læsning af %s: %s"
 
-#: src/browser.c:638 src/help.c:510
+#: src/browser.c:643 src/help.c:510
 msgid "Paste is ignored"
 msgstr ""
 
-#: src/browser.c:685 src/files.c:363
+#: src/browser.c:691 src/files.c:363
 msgid "The working directory has disappeared"
 msgstr "Arbejdskataloget er forsvundet"
 
@@ -239,7 +239,7 @@ msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu linje (%s)"
 msgstr[1] "%s -- %zu linjer (%s)"
 
-#: src/files.c:545 src/files.c:551 src/global.c:1110 src/winio.c:2051
+#: src/files.c:545 src/files.c:551 src/global.c:1112 src/winio.c:2054
 msgid "New Buffer"
 msgstr "Ny buffer"
 
@@ -541,900 +541,900 @@ msgstr "(mere)"
 
 # max 10 tegn
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:561
+#: src/global.c:563
 msgid "Exit"
 msgstr "Afslut"
 
-#: src/global.c:562
+#: src/global.c:564
 msgid "Close"
 msgstr "Luk"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
-#: src/global.c:570
+#: src/global.c:572
 msgid "Cancel the current function"
 msgstr "Afbryd den aktuelle funktion"
 
-#: src/global.c:571
+#: src/global.c:573
 msgid "Display this help text"
 msgstr "Vis denne hjælpetekst"
 
-#: src/global.c:572
+#: src/global.c:574
 msgid "Close the current buffer / Exit from nano"
 msgstr "Luk nuværende buffer / afslut nano"
 
-#: src/global.c:574
+#: src/global.c:576
 msgid "Write the current buffer (or the marked region) to disk"
 msgstr "Skriv den nuværende buffer (eller det markerede område) til disken"
 
-#: src/global.c:576
+#: src/global.c:578
 msgid "Insert another file into current buffer (or into new buffer)"
 msgstr "Indsæt en anden fil i den nuværende buffer (eller i en ny buffer)"
 
-#: src/global.c:578
+#: src/global.c:580
 msgid "Search forward for a string or a regular expression"
 msgstr "Søg fremad efter en streng eller et regulært udtryk"
 
-#: src/global.c:580
+#: src/global.c:582
 msgid "Search backward for a string or a regular expression"
 msgstr "Søg bagud efter en streng eller et regulært udtryk"
 
-#: src/global.c:582
+#: src/global.c:584
 msgid "Cut current line (or marked region) and store it in cutbuffer"
 msgstr ""
 "Klip aktuelle linje (eller markerede område) ud og gem den i udklipsbufferen"
 
-#: src/global.c:584
+#: src/global.c:586
 msgid "Copy current line (or marked region) and store it in cutbuffer"
 msgstr ""
 "Kopiér aktuelle linje (eller markerede område) og gem den i udklipsbufferen"
 
-#: src/global.c:586
+#: src/global.c:588
 msgid "Paste the contents of cutbuffer at current cursor position"
 msgstr "Indsæt indholdet af udklipsholderen ved nuværende markørposition"
 
-#: src/global.c:587
+#: src/global.c:589
 msgid "Display the position of the cursor"
 msgstr "Vis markørens position"
 
-#: src/global.c:589
+#: src/global.c:591
 msgid "Invoke the spell checker, if available"
 msgstr "Start stavekontrollen, hvis tilgængelig"
 
-#: src/global.c:591
+#: src/global.c:593
 msgid "Replace a string or a regular expression"
 msgstr "Erstat en streng eller et regulært udtryk"
 
-#: src/global.c:592
+#: src/global.c:594
 msgid "Go to line and column number"
 msgstr "Gå til linje- og kolonnenummer"
 
-#: src/global.c:594
+#: src/global.c:596
 msgid "Go to the matching bracket"
 msgstr "Gå til modsvarende klamme"
 
-#: src/global.c:595
+#: src/global.c:597
 msgid "Mark text starting from the cursor position"
 msgstr "Markér tekst startende fra markørposition"
 
-#: src/global.c:596
+#: src/global.c:598
 msgid "Throw away the current line (or marked region)"
 msgstr "Smid den nuværende linje (eller det markerede område) væk"
 
-#: src/global.c:597
+#: src/global.c:599
 msgid "Indent the current line (or marked lines)"
 msgstr "Indryk aktuelle linje (eller markerede linjer)"
 
-#: src/global.c:598
+#: src/global.c:600
 msgid "Unindent the current line (or marked lines)"
 msgstr "Fjern indrykning for aktuelle linje (eller markerede linjer)"
 
-#: src/global.c:599
+#: src/global.c:601
 msgid "Undo the last operation"
 msgstr "Fortryd sidste handling"
 
-#: src/global.c:600
+#: src/global.c:602
 msgid "Redo the last undone operation"
 msgstr "Gentag sidste fortrudte handling"
 
-#: src/global.c:602
+#: src/global.c:604
 msgid "Go back one character"
 msgstr "Gå et tegn bagud"
 
-#: src/global.c:603
+#: src/global.c:605
 msgid "Go forward one character"
 msgstr "Gå et tegn fremad"
 
-#: src/global.c:604
+#: src/global.c:606
 msgid "Go back one word"
 msgstr "Gå et ord bagud"
 
-#: src/global.c:605
+#: src/global.c:607
 msgid "Go forward one word"
 msgstr "Gå et ord fremad"
 
-#: src/global.c:606
+#: src/global.c:608
 msgid "Go to previous line"
 msgstr "Gå til forrige linje"
 
-#: src/global.c:607
+#: src/global.c:609
 msgid "Go to next line"
 msgstr "Gå til næste linje"
 
-#: src/global.c:608
+#: src/global.c:610
 msgid "Go to beginning of current line"
 msgstr "Gå til begyndelsen af aktuel linje"
 
-#: src/global.c:609
+#: src/global.c:611
 msgid "Go to end of current line"
 msgstr "Gå til enden af aktuel linje"
 
-#: src/global.c:610
+#: src/global.c:612
 msgid "Go to previous block of text"
 msgstr "Gå til forrige tekstblok"
 
-#: src/global.c:611
+#: src/global.c:613
 msgid "Go to next block of text"
 msgstr "Gå til næste tekstblok"
 
-#: src/global.c:614
+#: src/global.c:616
 msgid "Go to beginning of paragraph; then of previous paragraph"
 msgstr "Gå til afsnittets begyndelse; dernæst forrige afsnits"
 
 # må være præcist nok i denne lidt korte form.  Ellers bliver linjen for lang
-#: src/global.c:616
+#: src/global.c:618
 msgid "Go just beyond end of paragraph; then of next paragraph"
 msgstr "Gå til afsnittets slutning; dernæst næste afsnits"
 
-#: src/global.c:619
+#: src/global.c:621
 msgid "Go to first row in the viewport"
 msgstr ""
 
-#: src/global.c:620
+#: src/global.c:622
 msgid "Go to last row in the viewport"
 msgstr ""
 
-#: src/global.c:621
+#: src/global.c:623
 msgid "Center the line where the cursor is"
 msgstr "Centrér markørens linje"
 
-#: src/global.c:622
+#: src/global.c:624
 msgid "Push the cursor line to the center, then top, then bottom"
 msgstr ""
 
-#: src/global.c:624
+#: src/global.c:626
 msgid "Go one screenful up"
 msgstr "Gå en skærm op"
 
-#: src/global.c:625
+#: src/global.c:627
 msgid "Go one screenful down"
 msgstr "Gå en skærm ned"
 
-#: src/global.c:626
+#: src/global.c:628
 msgid "Go to the first line of the file"
 msgstr "Gå til filens første linje"
 
-#: src/global.c:627
+#: src/global.c:629
 msgid "Go to the last line of the file"
 msgstr "Gå til filens sidste linje"
 
-#: src/global.c:630
+#: src/global.c:632
 msgid "Scroll up one line without moving the cursor textually"
 msgstr "Rul en linje op uden at flytte markøren i teksten"
 
-#: src/global.c:632
+#: src/global.c:634
 msgid "Scroll down one line without moving the cursor textually"
 msgstr "Rul en linje ned uden at flytte markøren i teksten"
 
-#: src/global.c:635
+#: src/global.c:637
 msgid "Switch to the previous file buffer"
 msgstr "Gå til forrige filbuffer"
 
-#: src/global.c:636
+#: src/global.c:638
 msgid "Switch to the next file buffer"
 msgstr "Gå til næste filbuffer"
 
-#: src/global.c:638
+#: src/global.c:640
 msgid "Insert the next keystroke verbatim"
 msgstr "Indsæt næste tasteanslag ordret"
 
-#: src/global.c:639
+#: src/global.c:641
 msgid "Insert a tab at the cursor position (or indent marked lines)"
 msgstr ""
 "Indsæt et tabulatortegn ved markørposition (eller indryk markerede linjer)"
 
-#: src/global.c:640
+#: src/global.c:642
 msgid "Insert a newline at the cursor position"
 msgstr "Indsæt et linjeskift ved markørpositionen"
 
-#: src/global.c:641
+#: src/global.c:643
 msgid "Delete the character under the cursor"
 msgstr "Fjern tegnet under markøren"
 
-#: src/global.c:643
+#: src/global.c:645
 msgid "Delete the character to the left of the cursor"
 msgstr "Fjern tegnet til venstre for markøren"
 
-#: src/global.c:646
+#: src/global.c:648
 msgid "Delete backward from cursor to word start"
 msgstr "Slet bagud fra markøren til ordets begyndelse"
 
-#: src/global.c:648
+#: src/global.c:650
 msgid "Delete forward from cursor to next word start"
 msgstr "Slet fremad fra markøren til næste ords begyndelse"
 
-#: src/global.c:650
+#: src/global.c:652
 msgid "Cut from the cursor position to the end of the file"
 msgstr "Klip fra markørpositionen til filens slutning"
 
-#: src/global.c:653
+#: src/global.c:655
 msgid "Justify the current paragraph"
 msgstr "Ombryd den aktuelle paragraf"
 
-#: src/global.c:654
+#: src/global.c:656
 msgid "Justify the entire file"
 msgstr "Ombryd hele filen"
 
-#: src/global.c:658
+#: src/global.c:660
 msgid "Count the number of lines, words, and characters"
 msgstr "Tæl linjer, ord og tegn"
 
-#: src/global.c:659
+#: src/global.c:661
 msgid "Suspend the editor (return to the shell)"
 msgstr "Kør i baggrunden (vend tilbage til skallen)"
 
-#: src/global.c:661
+#: src/global.c:663
 msgid "Refresh (redraw) the current screen"
 msgstr "Opdatér (genskriv) den aktuelle skærm"
 
-#: src/global.c:663
+#: src/global.c:665
 msgid "Try and complete the current word"
 msgstr "Forsøg at fuldføre nuværende ord"
 
-#: src/global.c:667
+#: src/global.c:669
 msgid "Comment/uncomment the current line (or marked lines)"
 msgstr "Kommentér/fjern kommentar for nuværende linje (eller markerede linjer)"
 
-#: src/global.c:669
+#: src/global.c:671
 msgid "Save file without prompting"
 msgstr "Gem fil uden at spørge"
 
-#: src/global.c:670
+#: src/global.c:672
 msgid "Search next occurrence backward"
 msgstr "Søg bagud efter næste forekomst"
 
-#: src/global.c:671
+#: src/global.c:673
 msgid "Search next occurrence forward"
 msgstr "Søg fremad efter næste forekomst"
 
-#: src/global.c:673
+#: src/global.c:675
 msgid "Start/stop recording a macro"
 msgstr "Start/stop optagelse af en makro"
 
-#: src/global.c:674
+#: src/global.c:676
 msgid "Run the last recorded macro"
 msgstr "Kør sidst optagede makro"
 
-#: src/global.c:675
+#: src/global.c:677
 msgid "Place or remove an anchor at the current line"
 msgstr "Placér eller fjern anker ved nuværende linje"
 
-#: src/global.c:676
+#: src/global.c:678
 msgid "Jump backward to the nearest anchor"
 msgstr "Hop bagud til nærmeste anker"
 
-#: src/global.c:677
+#: src/global.c:679
 msgid "Jump forward to the nearest anchor"
 msgstr "Hop frem til nærmeste anker"
 
-#: src/global.c:679
+#: src/global.c:681
 msgid "Toggle the case sensitivity of the search"
 msgstr "Slå forskel på store og små bogstaver til eller fra"
 
-#: src/global.c:680
+#: src/global.c:682
 msgid "Reverse the direction of the search"
 msgstr "Omvend søgeretning"
 
-#: src/global.c:681
+#: src/global.c:683
 msgid "Toggle the use of regular expressions"
 msgstr "Slå brug af regulære udtryk til eller fra"
 
-#: src/global.c:683
+#: src/global.c:685
 msgid "Recall the previous search/replace string"
 msgstr "Husk de foregående søg og erstat-strenge"
 
-#: src/global.c:684
+#: src/global.c:686
 msgid "Recall the next search/replace string"
 msgstr "Husk de følgende søg og erstat-strenge"
 
-#: src/global.c:687
+#: src/global.c:689
 msgid "Toggle the use of DOS format"
 msgstr "Slå DOS-format til eller fra"
 
-#: src/global.c:688
+#: src/global.c:690
 msgid "Toggle the use of Mac format"
 msgstr "Slå Mac-format til eller fra"
 
-#: src/global.c:689
+#: src/global.c:691
 msgid "Toggle appending"
 msgstr "Slå efterstillet tilføjelse til eller fra"
 
-#: src/global.c:690
+#: src/global.c:692
 msgid "Toggle prepending"
 msgstr "Slå foranstillet tilføjelse til eller fra"
 
-#: src/global.c:691
+#: src/global.c:693
 msgid "Toggle backing up of the original file"
 msgstr "Slå sikkerhedskopiering af originalfil til eller fra"
 
-#: src/global.c:692
+#: src/global.c:694
 msgid "Execute a function or an external command"
 msgstr "Kald en funktion eller en ekstern kommando"
 
 # lidt kortere end de andre lignende af hensyn til <80 tegn
-#: src/global.c:694
+#: src/global.c:696
 msgid "Pipe the current buffer (or marked region) to the command"
 msgstr ""
 "Send nuværende buffer (eller markeret område) til kommando gennem datakanal"
 
-#: src/global.c:696
+#: src/global.c:698
 msgid "Recall the previous command"
 msgstr ""
 
-#: src/global.c:697
+#: src/global.c:699
 msgid "Recall the next command"
 msgstr ""
 
-#: src/global.c:699
+#: src/global.c:701
 msgid "Do not convert from DOS/Mac format"
 msgstr "Konvertér ikke fra DOS/Mac-format"
 
-#: src/global.c:702
+#: src/global.c:704
 msgid "Toggle the use of a new buffer"
 msgstr "Slå brug af ny buffer til eller fra"
 
-#: src/global.c:704
+#: src/global.c:706
 msgid "Close buffer without saving it"
 msgstr "Luk buffer uden at gemme den"
 
-#: src/global.c:706
+#: src/global.c:708
 msgid "Go to file browser"
 msgstr "Gå til filbrowser"
 
-#: src/global.c:707
+#: src/global.c:709
 msgid "Exit from the file browser"
 msgstr "Gå ud af filbrowseren"
 
-#: src/global.c:708
+#: src/global.c:710
 msgid "Go to the first file in the list"
 msgstr "Gå til første fil i listen"
 
-#: src/global.c:709
+#: src/global.c:711
 msgid "Go to the last file in the list"
 msgstr "Gå til sidste fil i listen"
 
-#: src/global.c:710
+#: src/global.c:712
 msgid "Go to the previous file in the list"
 msgstr "Gå til forrige fil i listen"
 
-#: src/global.c:711
+#: src/global.c:713
 msgid "Go to the next file in the list"
 msgstr "Gå til næste fil i listen"
 
-#: src/global.c:713
+#: src/global.c:715
 msgid "Go to lefthand column"
 msgstr "Gå til venstre kolonne"
 
-#: src/global.c:714
+#: src/global.c:716
 msgid "Go to righthand column"
 msgstr "Gå til højre kolonne"
 
-#: src/global.c:715
+#: src/global.c:717
 msgid "Go to first row in this column"
 msgstr "Gå til første række i denne kolonne"
 
-#: src/global.c:716
+#: src/global.c:718
 msgid "Go to last row in this column"
 msgstr "Gå til sidste række i denne kolonne"
 
-#: src/global.c:718
+#: src/global.c:720
 msgid "Search forward for a string"
 msgstr "Søg fremad efter en streng"
 
-#: src/global.c:719
+#: src/global.c:721
 msgid "Search backward for a string"
 msgstr "Søg bagud efter en streng"
 
-#: src/global.c:720
+#: src/global.c:722
 msgid "Refresh the file list"
 msgstr "Opdatér fillisten"
 
-#: src/global.c:721
+#: src/global.c:723
 msgid "Go to directory"
 msgstr "Gå til katalog"
 
-#: src/global.c:724
+#: src/global.c:726
 msgid "Invoke the linter, if available"
 msgstr "Start linteren, hvis tilgængelig"
 
-#: src/global.c:725
+#: src/global.c:727
 msgid "Go to previous linter msg"
 msgstr "Gå til forrige linter-besked"
 
-#: src/global.c:726
+#: src/global.c:728
 msgid "Go to next linter msg"
 msgstr "Gå til næste linter-besked"
 
-#: src/global.c:730
+#: src/global.c:732
 msgid "Invoke a program to format/arrange/manipulate the buffer"
 msgstr "Kald et program som formaterer/arrangerer/manipulerer bufferen"
 
 #. TRANSLATORS: Try to keep the next thirteen strings at most 10 characters.
-#: src/global.c:748
+#: src/global.c:750
 msgid "Help"
 msgstr "Hjælp"
 
-#: src/global.c:752 src/prompt.c:712
+#: src/global.c:754 src/prompt.c:711
 msgid "Cancel"
 msgstr "Annullér"
 
-#: src/global.c:774
+#: src/global.c:776
 msgid "Write Out"
 msgstr "Gem"
 
-#: src/global.c:782
+#: src/global.c:784
 msgid "Read File"
 msgstr "Læs fil"
 
-#: src/global.c:786 src/global.c:825
+#: src/global.c:788 src/global.c:827
 msgid "Justify"
 msgstr "Ombryd"
 
 # max 10 tegn
-#: src/global.c:792 src/global.c:884 src/global.c:1094
+#: src/global.c:794 src/global.c:886 src/global.c:1096
 msgid "Refresh"
 msgstr "Opdatér"
 
 # max 10 tegn
-#: src/global.c:797 src/global.c:887
+#: src/global.c:799 src/global.c:889
 msgid "Where Is"
 msgstr "Hvor er"
 
 # max 10 tegn
-#: src/global.c:800 src/global.c:861
+#: src/global.c:802 src/global.c:863
 msgid "Replace"
 msgstr "Erstat"
 
-#: src/global.c:813
+#: src/global.c:815
 msgid "Cut"
 msgstr "Klip"
 
-#: src/global.c:816
+#: src/global.c:818
 msgid "Paste"
 msgstr "Indsæt"
 
-#: src/global.c:821 src/global.c:1086
+#: src/global.c:823 src/global.c:1088
 msgid "Execute"
 msgstr "Kør"
 
 #. TRANSLATORS: This refers to the position of the cursor.
-#: src/global.c:831
+#: src/global.c:833
 msgid "Location"
 msgstr "Placering"
 
-#: src/global.c:837 src/global.c:996 src/global.c:1136
+#: src/global.c:839 src/global.c:998 src/global.c:1138
 msgid "Go To Line"
 msgstr "Til linje"
 
 #. TRANSLATORS: Try to keep the next ten strings at most 12 characters.
-#: src/global.c:843
+#: src/global.c:845
 msgid "Undo"
 msgstr "Fortryd"
 
-#: src/global.c:845
+#: src/global.c:847
 msgid "Redo"
 msgstr "Gentag"
 
 # Ikke helt sikker på hvad denne handling dækker over
-#: src/global.c:848
+#: src/global.c:850
 msgid "Set Mark"
 msgstr "Sæt mærke"
 
-#: src/global.c:850 src/global.c:1030
+#: src/global.c:852 src/global.c:1032
 msgid "Copy"
 msgstr "Kopiér"
 
 # max 10 tegn
-#: src/global.c:854
+#: src/global.c:856
 msgid "Case Sens"
 msgstr "VersalFøls"
 
-#: src/global.c:856
+#: src/global.c:858
 msgid "Reg.exp."
 msgstr "Reg.udtryk"
 
 # max 10 tegn
-#: src/global.c:858
+#: src/global.c:860
 msgid "Backwards"
 msgstr "Baglæns"
 
 # max 10 tegn
-#: src/global.c:863
+#: src/global.c:865
 msgid "No Replace"
 msgstr "ErstatIkke"
 
-#: src/global.c:867 src/global.c:872
+#: src/global.c:869 src/global.c:874
 msgid "Older"
 msgstr "Ældre"
 
-#: src/global.c:869 src/global.c:874
+#: src/global.c:871 src/global.c:876
 msgid "Newer"
 msgstr "Nyere"
 
 # max 16 tegn
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:881
+#: src/global.c:883
 msgid "Go To Dir"
 msgstr "Gå til katalog"
 
 #. TRANSLATORS: This starts a backward search.
-#: src/global.c:889 src/global.c:908
+#: src/global.c:891 src/global.c:910
 msgid "Where Was"
 msgstr "Hvor var"
 
 #. TRANSLATORS: This refers to searching the preceding occurrence.
-#: src/global.c:892 src/global.c:912
+#: src/global.c:894 src/global.c:914
 msgid "Previous"
 msgstr "Forrige"
 
-#: src/global.c:894 src/global.c:914
+#: src/global.c:896 src/global.c:916
 msgid "Next"
 msgstr "Næste"
 
-#: src/global.c:904
+#: src/global.c:906
 msgid "To Bracket"
 msgstr "Til klamme"
 
 #. TRANSLATORS: This means move the cursor one character back.
-#: src/global.c:919 src/global.c:924
+#: src/global.c:921 src/global.c:926
 msgid "Back"
 msgstr "Bagud"
 
-#: src/global.c:921 src/global.c:926
+#: src/global.c:923 src/global.c:928
 msgid "Forward"
 msgstr "Fremad"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:932
+#: src/global.c:934
 msgid "Prev Word"
 msgstr "Forrige ord"
 
-#: src/global.c:934
+#: src/global.c:936
 msgid "Next Word"
 msgstr "Næste ord"
 
 #. TRANSLATORS: These two mean: "to beginning of line", "to end of line".
-#: src/global.c:939
+#: src/global.c:941
 msgid "Home"
 msgstr "Hjem"
 
-#: src/global.c:941
+#: src/global.c:943
 msgid "End"
 msgstr "Slut"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:945
+#: src/global.c:947
 msgid "Prev Line"
 msgstr "Forrige linje"
 
-#: src/global.c:947
+#: src/global.c:949
 msgid "Next Line"
 msgstr "Næste linje"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:951
+#: src/global.c:953
 msgid "Scroll Up"
 msgstr "Rul op"
 
-#: src/global.c:953
+#: src/global.c:955
 msgid "Scroll Down"
 msgstr "Rul ned"
 
-#: src/global.c:957
+#: src/global.c:959
 msgid "Prev Block"
 msgstr "Forrige blok"
 
-#: src/global.c:959
+#: src/global.c:961
 msgid "Next Block"
 msgstr "Næste blok"
 
 #. TRANSLATORS: Try to keep these two strings at most 16 characters.
-#: src/global.c:963
+#: src/global.c:965
 msgid "Begin of Paragr."
 msgstr "Start på afsnit"
 
-#: src/global.c:965
+#: src/global.c:967
 msgid "End of Paragraph"
 msgstr "Slut på afsnit"
 
-#: src/global.c:970 src/global.c:1202
+#: src/global.c:972 src/global.c:1204
 msgid "Top Row"
 msgstr "Øverste række"
 
-#: src/global.c:972 src/global.c:1204
+#: src/global.c:974 src/global.c:1206
 msgid "Bottom Row"
 msgstr "Nederste række"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:977 src/global.c:1187
+#: src/global.c:979 src/global.c:1189
 msgid "Prev Page"
 msgstr "Forrige side"
 
-#: src/global.c:979 src/global.c:1189
+#: src/global.c:981 src/global.c:1191
 msgid "Next Page"
 msgstr "Næste side"
 
-#: src/global.c:982
+#: src/global.c:984
 msgid "First Line"
 msgstr "Første linje"
 
-#: src/global.c:984
+#: src/global.c:986
 msgid "Last Line"
 msgstr "Sidste linje"
 
 #. TRANSLATORS: Try to keep these two strings at most 15 characters.
-#: src/global.c:989
+#: src/global.c:991
 msgid "Prev File"
 msgstr "Forrige fil"
 
-#: src/global.c:991
+#: src/global.c:993
 msgid "Next File"
 msgstr "Næste fil"
 
 #. TRANSLATORS: The next four strings are names of keyboard keys.
-#: src/global.c:1001
+#: src/global.c:1003
 msgid "Tab"
 msgstr "Tabulator"
 
-#: src/global.c:1003
+#: src/global.c:1005
 msgid "Enter"
 msgstr "Enter"
 
-#: src/global.c:1006
+#: src/global.c:1008
 msgid "Backspace"
 msgstr "Slet baglæns"
 
-#: src/global.c:1008
+#: src/global.c:1010
 msgid "Delete"
 msgstr "Fjern"
 
 #. TRANSLATORS: The next two strings refer to deleting words.
-#: src/global.c:1013
+#: src/global.c:1015
 msgid "Chop Left"
 msgstr "Slet til venstre"
 
-#: src/global.c:1015
+#: src/global.c:1017
 msgid "Chop Right"
 msgstr "Slet til højre"
 
-#: src/global.c:1017 src/global.c:1170
+#: src/global.c:1019 src/global.c:1172
 msgid "Cut Till End"
 msgstr "Klip resten"
 
 # max 10 tegn
-#: src/global.c:1022 src/global.c:1127
+#: src/global.c:1024 src/global.c:1129
 msgid "Full Justify"
 msgstr "Fuld ombryd."
 
-#: src/global.c:1027
+#: src/global.c:1029
 msgid "Word Count"
 msgstr "Ordtælling"
 
-#: src/global.c:1034
+#: src/global.c:1036
 msgid "Verbatim"
 msgstr "Ordret"
 
-#: src/global.c:1041
+#: src/global.c:1043
 msgid "Indent"
 msgstr "Indryk"
 
-#: src/global.c:1043
+#: src/global.c:1045
 msgid "Unindent"
 msgstr "Fjern indrykning"
 
-#: src/global.c:1047
+#: src/global.c:1049
 msgid "Comment Lines"
 msgstr "Kommentér linjer"
 
-#: src/global.c:1051
+#: src/global.c:1053
 msgid "Complete"
 msgstr "Fuldfør"
 
 # kontekst: at optage en makro
-#: src/global.c:1056
+#: src/global.c:1058
 msgid "Record"
 msgstr "Optag"
 
-#: src/global.c:1058
+#: src/global.c:1060
 msgid "Run Macro"
 msgstr "Kør makro"
 
 #. TRANSLATORS: This refers to deleting a line or marked region.
-#: src/global.c:1062
+#: src/global.c:1064
 msgid "Zap"
 msgstr "Zap"
 
-#: src/global.c:1065
+#: src/global.c:1067
 msgid "Anchor"
 msgstr "Anker"
 
-#: src/global.c:1067
+#: src/global.c:1069
 msgid "Up to anchor"
 msgstr "Op til anker"
 
-#: src/global.c:1069
+#: src/global.c:1071
 msgid "Down to anchor"
 msgstr "Ned til anker"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:1073 src/global.c:1119
+#: src/global.c:1075 src/global.c:1121
 msgid "Spell Check"
 msgstr "Stavekontrol"
 
-#: src/global.c:1077 src/global.c:1123
+#: src/global.c:1079 src/global.c:1125
 msgid "Linter"
 msgstr "Linter"
 
 # max 16 tegn
 # var tidligere Formateringsp. (p=program) men tror dette er nemmere at forstå
-#: src/global.c:1081 src/global.c:1131
+#: src/global.c:1083 src/global.c:1133
 msgid "Formatter"
 msgstr "Formatering"
 
 # max 10 tegn
-#: src/global.c:1089 src/global.c:1173
+#: src/global.c:1091 src/global.c:1175
 msgid "Suspend"
 msgstr "I baggrund"
 
-#: src/global.c:1098
+#: src/global.c:1100
 msgid "Center"
 msgstr "Centrér"
 
-#: src/global.c:1100
+#: src/global.c:1102
 msgid "Cycle"
 msgstr ""
 
-#: src/global.c:1104
+#: src/global.c:1106
 msgid "Save"
 msgstr "Gem"
 
-#: src/global.c:1114
+#: src/global.c:1116
 msgid "Pipe Text"
 msgstr "Send tekst gennem datakanal"
 
-#: src/global.c:1138
+#: src/global.c:1140
 msgid "Go To Text"
 msgstr "Gå til tekst"
 
 # max 16 tegn
-#: src/global.c:1143
+#: src/global.c:1145
 msgid "DOS Format"
 msgstr "DOS-format"
 
 # max 16 tegn
-#: src/global.c:1145
+#: src/global.c:1147
 msgid "Mac Format"
 msgstr "Mac-format"
 
 # max 16 tegn
-#: src/global.c:1153
+#: src/global.c:1155
 msgid "Append"
 msgstr "Tilføj ved enden"
 
 # max 16 tegn
-#: src/global.c:1155
+#: src/global.c:1157
 msgid "Prepend"
 msgstr "Tilføj ved start"
 
 # max 16 tegn
-#: src/global.c:1158
+#: src/global.c:1160
 msgid "Backup File"
 msgstr "SikrKopiér fil"
 
-#: src/global.c:1162
+#: src/global.c:1164
 msgid "No Conversion"
 msgstr "Konvertér ikke"
 
 # max 16 tegn
-#: src/global.c:1167
+#: src/global.c:1169
 msgid "Execute Command"
 msgstr "Kør kommando"
 
-#: src/global.c:1177
+#: src/global.c:1179
 msgid "Discard buffer"
 msgstr "Forkast buffer"
 
 #. TRANSLATORS: This invokes the file browser.
-#: src/global.c:1184
+#: src/global.c:1186
 msgid "Browse"
 msgstr "Filer"
 
-#: src/global.c:1192
+#: src/global.c:1194
 msgid "First File"
 msgstr "Første fil"
 
-#: src/global.c:1194
+#: src/global.c:1196
 msgid "Last File"
 msgstr "Sidste fil"
 
-#: src/global.c:1198
+#: src/global.c:1200
 msgid "Left Column"
 msgstr "Venstre kolonne"
 
-#: src/global.c:1200
+#: src/global.c:1202
 msgid "Right Column"
 msgstr "Højre kolonne"
 
 #. TRANSLATORS: The next two strings may be up to 37 characters each.
-#: src/global.c:1211
+#: src/global.c:1213
 msgid "Previous Linter message"
 msgstr "Forrige Linter-besked"
 
-#: src/global.c:1213
+#: src/global.c:1215
 msgid "Next Linter message"
 msgstr "Næste Linter-besked"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1607
+#: src/global.c:1609
 msgid "Hidden interface"
 msgstr "Skjult grænseflade"
 
-#: src/global.c:1609
+#: src/global.c:1611
 msgid "Help mode"
 msgstr "Hjælpetilstand"
 
-#: src/global.c:1611
+#: src/global.c:1613
 msgid "Constant cursor position display"
 msgstr "Konstant visning af markørposition"
 
-#: src/global.c:1613
+#: src/global.c:1615
 msgid "Soft wrapping of overlong lines"
 msgstr "Blød ombrydning af for lange linjer"
 
-#: src/global.c:1615
+#: src/global.c:1617
 msgid "Line numbering"
 msgstr "Linjenumre"
 
-#: src/global.c:1617
+#: src/global.c:1619
 msgid "Whitespace display"
 msgstr "Visning af mellemrum"
 
-#: src/global.c:1619
+#: src/global.c:1621
 msgid "Color syntax highlighting"
 msgstr "Farvefremhævelse af syntaks"
 
-#: src/global.c:1621
+#: src/global.c:1623
 msgid "Smart home key"
 msgstr "Smart home-tast"
 
-#: src/global.c:1623
+#: src/global.c:1625
 msgid "Auto indent"
 msgstr "Automatisk indrykning"
 
-#: src/global.c:1625
+#: src/global.c:1627
 msgid "Cut to end"
 msgstr "Klip ud til enden"
 
-#: src/global.c:1627
+#: src/global.c:1629
 msgid "Hard wrapping of overlong lines"
 msgstr "Hård ombrydning af for lange linjer"
 
-#: src/global.c:1629
+#: src/global.c:1631
 msgid "Conversion of typed tabs to spaces"
 msgstr "Konvertering af skrevne tab-tegn til mellemrum"
 
-#: src/global.c:1631
+#: src/global.c:1633
 msgid "Mouse support"
 msgstr "Museunderstøttelse"
 
@@ -2341,7 +2341,7 @@ msgstr "Ugyldig søgemodifikator “%c”"
 msgid "Empty search string"
 msgstr "Tom søgestreng"
 
-#: src/nano.c:2539 src/search.c:797
+#: src/nano.c:2539 src/search.c:801
 msgid "Invalid line or column number"
 msgstr "Ugyldigt linje- eller kolonnenummer"
 
@@ -2349,46 +2349,46 @@ msgstr "Ugyldigt linje- eller kolonnenummer"
 msgid "Invalid number\n"
 msgstr ""
 
-#: src/nano.c:2615
+#: src/nano.c:2621
 msgid "Standard input is not a terminal\n"
 msgstr "Standard input er ikke en terminal\n"
 
-#: src/nano.c:2634
+#: src/nano.c:2640
 msgid "Can open just one file\n"
 msgstr "Kan kun åbne én fil\n"
 
-#: src/nano.c:2652
+#: src/nano.c:2658
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Velkommen til nano.  Tast Ctrl+G for at vise kortfattet hjælp."
 
-#: src/nano.c:2691
+#: src/nano.c:2697
 msgid "Byte Order Mark"
 msgstr ""
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:671
+#: src/prompt.c:670
 msgid "Yy"
 msgstr "JjYy"
 
-#: src/prompt.c:672
+#: src/prompt.c:671
 msgid "Nn"
 msgstr "Nn"
 
-#: src/prompt.c:673
+#: src/prompt.c:672
 msgid "Aa"
 msgstr "Aa"
 
-#: src/prompt.c:699
+#: src/prompt.c:698
 msgid "Yes"
 msgstr "Ja"
 
-#: src/prompt.c:703
+#: src/prompt.c:702
 msgid "No"
 msgstr "Nej"
 
-#: src/prompt.c:708
+#: src/prompt.c:707
 msgid "All"
 msgstr "Alle"
 
@@ -2625,26 +2625,26 @@ msgstr " (at erstatte)"
 
 #. TRANSLATORS: This is shown when searching takes
 #. * more than half a second.
-#: src/search.c:236 src/search.c:309
+#: src/search.c:235 src/search.c:308
 msgid "Searching..."
 msgstr "Søger …"
 
-#: src/search.c:410
+#: src/search.c:409
 #, c-format
 msgid "\"%.*s%s\" not found"
 msgstr "“%.*s%s” ikke fundet"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:599
+#: src/search.c:598
 msgid "Replace this instance?"
 msgstr "Erstat denne forekomst?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:710
+#: src/search.c:709
 msgid "Replace with"
 msgstr "Erstat med"
 
-#: src/search.c:740
+#: src/search.c:739
 #, c-format
 msgid "Replaced %zd occurrence"
 msgid_plural "Replaced %zd occurrences"
@@ -2652,35 +2652,35 @@ msgstr[0] "Erstattede %zd forekomst"
 msgstr[1] "Erstattede %zd forekomster"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:776
+#: src/search.c:778
 msgid "Enter line number, column number"
 msgstr "Indtast linjenummer, kolonnenummer"
 
-#: src/search.c:951
+#: src/search.c:954
 msgid "Not a bracket"
 msgstr "Ikke en klamme"
 
-#: src/search.c:994
+#: src/search.c:997
 msgid "No matching bracket"
 msgstr "Ingen modsvarende klamme"
 
-#: src/search.c:1013
+#: src/search.c:1016
 msgid "Placed anchor"
 msgstr "Anker placeret"
 
-#: src/search.c:1015
+#: src/search.c:1018
 msgid "Removed anchor"
 msgstr "Anker fjernet"
 
-#: src/search.c:1034
+#: src/search.c:1037
 msgid "Jumped to anchor"
 msgstr "Hoppede til anker"
 
-#: src/search.c:1036
+#: src/search.c:1039
 msgid "This is the only anchor"
 msgstr "Dette er det eneste anker"
 
-#: src/search.c:1038
+#: src/search.c:1041
 msgid "There are no anchors"
 msgstr "Der er ingen ankre"
 
@@ -2989,89 +2989,89 @@ msgstr "For mange fejl fra stdin\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1407
+#: src/winio.c:1410
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Unicode-input: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:2029
+#: src/winio.c:2032
 msgid "Linting --"
 msgstr "Linter --"
 
-#: src/winio.c:2035
+#: src/winio.c:2038
 msgid "DIR:"
 msgstr "KAT:"
 
-#: src/winio.c:2056
+#: src/winio.c:2059
 msgid "View"
 msgstr "Se"
 
-#: src/winio.c:2062 src/winio.c:2066
+#: src/winio.c:2065 src/winio.c:2069
 msgid "Modified"
 msgstr "Ændret"
 
-#: src/winio.c:2064
+#: src/winio.c:2067
 msgid "Restricted"
 msgstr "Begrænset"
 
-#: src/winio.c:2170
+#: src/winio.c:2173
 msgid "(nameless)"
 msgstr "(unavngivet)"
 
-#: src/winio.c:2202
+#: src/winio.c:2205
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] " (%zu linje)"
 msgstr[1] " (%zu linjer)"
 
-#: src/winio.c:2204
+#: src/winio.c:2207
 #, c-format
 msgid " (%zu line, %s)"
 msgid_plural " (%zu lines, %s)"
 msgstr[0] " (%zu linje, %s)"
 msgstr[1] " (%zu linjer, %s)"
 
-#: src/winio.c:3506
+#: src/winio.c:3515
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "linje %*zd/%zd (%2d %%), kol %2zu/%2zu (%3d %%), tegn %*zu/%zu (%2d %%)"
 
-#: src/winio.c:3660
+#: src/winio.c:3669
 msgid "The nano text editor"
 msgstr "Tekstredigereren nano"
 
-#: src/winio.c:3661
+#: src/winio.c:3670
 msgid "version"
 msgstr "version"
 
-#: src/winio.c:3662
+#: src/winio.c:3671
 msgid "Brought to you by:"
 msgstr "Præsenteres af:"
 
-#: src/winio.c:3663
+#: src/winio.c:3672
 msgid "Special thanks to:"
 msgstr "Særlig tak til:"
 
-#: src/winio.c:3664
+#: src/winio.c:3673
 msgid "The Free Software Foundation"
 msgstr "Free Software Foundation"
 
-#: src/winio.c:3665
+#: src/winio.c:3674
 msgid "the many translators and the TP"
 msgstr "de mange oversættere og TP"
 
-#: src/winio.c:3666
+#: src/winio.c:3675
 msgid "For ncurses:"
 msgstr "For ncurses:"
 
-#: src/winio.c:3667
+#: src/winio.c:3676
 msgid "and anyone else we forgot..."
 msgstr "og alle andre som vi har glemt …"
 
-#: src/winio.c:3668
+#: src/winio.c:3677
 msgid "Thank you for using nano!"
 msgstr "Tak for at du bruger nano!"
 

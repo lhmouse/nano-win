@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU nano 8.4-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2025-06-12 09:31+0200\n"
+"POT-Creation-Date: 2025-08-21 07:53+0200\n"
 "PO-Revision-Date: 2025-03-26 21:33+0100\n"
 "Last-Translator: Marek Felšöci <marek@felsoci.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -35,11 +35,11 @@ msgstr "(nadr prieč)"
 msgid "(huge)"
 msgstr "(veľký)"
 
-#: src/browser.c:269 src/browser.c:274 src/search.c:260
+#: src/browser.c:269 src/browser.c:274 src/search.c:259
 msgid "Search Wrapped"
 msgstr "Hľadá sa od opačného konca"
 
-#: src/browser.c:281 src/search.c:437
+#: src/browser.c:281 src/search.c:436
 msgid "This is the only occurrence"
 msgstr "Toto je jediná zhoda"
 
@@ -53,13 +53,13 @@ msgstr "Hľadať"
 msgid " [Backwards]"
 msgstr " [Dozadu]"
 
-#: src/browser.c:322 src/browser.c:558 src/files.c:1157 src/files.c:1250
-#: src/files.c:2187 src/nano.c:321 src/search.c:114 src/search.c:295
-#: src/search.c:724 src/search.c:780 src/text.c:2616 src/text.c:2815
+#: src/browser.c:322 src/browser.c:563 src/files.c:1157 src/files.c:1250
+#: src/files.c:2187 src/nano.c:321 src/search.c:114 src/search.c:294
+#: src/search.c:723 src/search.c:790 src/text.c:2616 src/text.c:2815
 msgid "Cancelled"
 msgstr "Zrušené"
 
-#: src/browser.c:349 src/search.c:371
+#: src/browser.c:349 src/search.c:370
 msgid "No current search pattern"
 msgstr "Žiadny výraz vyhľadávania"
 
@@ -68,38 +68,38 @@ msgstr "Žiadny výraz vyhľadávania"
 msgid "Cannot open directory: %s"
 msgstr "Nedá sa otvoriť priečinok: %s"
 
-#: src/browser.c:440
+#: src/browser.c:444
 msgid "No entries"
 msgstr "Žiadne položky"
 
 #. TRANSLATORS: This is a prompt.
-#: src/browser.c:557
+#: src/browser.c:562
 msgid "Go To Directory"
 msgstr "Prejsť do priečinka"
 
 #. TRANSLATORS: This refers to the confining effect of
 #. * the option --operatingdir, not of --restricted.
-#: src/browser.c:574 src/browser.c:605
+#: src/browser.c:579 src/browser.c:610
 #, c-format
 msgid "Can't go outside of %s"
 msgstr "Nedá sa vyjsť z %s"
 
-#: src/browser.c:596
+#: src/browser.c:601
 msgid "Can't move up a directory"
 msgstr "Nedá sa prejsť do nadradeného priečinka"
 
-#: src/browser.c:611 src/files.c:920 src/files.c:926 src/files.c:1822
+#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1822
 #: src/files.c:1837 src/history.c:263 src/history.c:291 src/history.c:400
 #: src/history.c:454 src/rcfile.c:926 src/rcfile.c:1712
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Chyba čítania %s: %s"
 
-#: src/browser.c:638 src/help.c:510
+#: src/browser.c:643 src/help.c:510
 msgid "Paste is ignored"
 msgstr "Vkladanie sa prehliada"
 
-#: src/browser.c:685 src/files.c:363
+#: src/browser.c:691 src/files.c:363
 msgid "The working directory has disappeared"
 msgstr "Pracovný priečinok zmizol"
 
@@ -230,7 +230,7 @@ msgstr[0] "%s -- %zu riadok (%s)"
 msgstr[1] "%s -- %zu riadky (%s)"
 msgstr[2] "%s -- %zu riadkov (%s)"
 
-#: src/files.c:545 src/files.c:551 src/global.c:1110 src/winio.c:2051
+#: src/files.c:545 src/files.c:551 src/global.c:1112 src/winio.c:2054
 msgid "New Buffer"
 msgstr "Nový zásobník"
 
@@ -536,879 +536,879 @@ msgid "(more)"
 msgstr "(viac)"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:561
+#: src/global.c:563
 msgid "Exit"
 msgstr "Ukončiť"
 
-#: src/global.c:562
+#: src/global.c:564
 msgid "Close"
 msgstr "Zavrieť"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
-#: src/global.c:570
+#: src/global.c:572
 msgid "Cancel the current function"
 msgstr "Zrušiť súčasnú funkciu"
 
-#: src/global.c:571
+#: src/global.c:573
 msgid "Display this help text"
 msgstr "Zobraziť túto pomocnú správu"
 
-#: src/global.c:572
+#: src/global.c:574
 msgid "Close the current buffer / Exit from nano"
 msgstr "Zavrieť súčasný zásobník / Ukončiť nano"
 
-#: src/global.c:574
+#: src/global.c:576
 msgid "Write the current buffer (or the marked region) to disk"
 msgstr "Zapísať súčasný zásobník (alebo označený výber) na disk"
 
-#: src/global.c:576
+#: src/global.c:578
 msgid "Insert another file into current buffer (or into new buffer)"
 msgstr "Vložiť iný súbor do súčasného zásobníka (alebo do nového zásobníka)"
 
-#: src/global.c:578
+#: src/global.c:580
 msgid "Search forward for a string or a regular expression"
 msgstr "Hľadať reťazec alebo regulárny výraz dopredu"
 
-#: src/global.c:580
+#: src/global.c:582
 msgid "Search backward for a string or a regular expression"
 msgstr "Hľadať reťazec alebo regulárny výraz dozadu"
 
-#: src/global.c:582
+#: src/global.c:584
 msgid "Cut current line (or marked region) and store it in cutbuffer"
 msgstr ""
 "Vystrihnúť súčasný riadok (alebo označenú oblasť) a uložiť ho do zásobníka "
 "vystrihovania"
 
-#: src/global.c:584
+#: src/global.c:586
 msgid "Copy current line (or marked region) and store it in cutbuffer"
 msgstr ""
 "Kopírovať súčasný riadok (alebo označenú oblasť) a uložiť ho do zásobníka "
 "vystrihovania"
 
-#: src/global.c:586
+#: src/global.c:588
 msgid "Paste the contents of cutbuffer at current cursor position"
 msgstr "Vložiť obsah zásobníka vystrihovania na miesto kurzora"
 
-#: src/global.c:587
+#: src/global.c:589
 msgid "Display the position of the cursor"
 msgstr "Zobraziť umiestnenie kurzora"
 
-#: src/global.c:589
+#: src/global.c:591
 msgid "Invoke the spell checker, if available"
 msgstr "Spustiť nástroj na overenie pravopisu ak je dostupný"
 
-#: src/global.c:591
+#: src/global.c:593
 msgid "Replace a string or a regular expression"
 msgstr "Nahradiť reťazec alebo regulárny výraz"
 
-#: src/global.c:592
+#: src/global.c:594
 msgid "Go to line and column number"
 msgstr "Ísť na riadok a stĺpec"
 
-#: src/global.c:594
+#: src/global.c:596
 msgid "Go to the matching bracket"
 msgstr "Prejsť k zodpovedajúcej zátvorke"
 
-#: src/global.c:595
+#: src/global.c:597
 msgid "Mark text starting from the cursor position"
 msgstr "Označiť text od miesta kurzora"
 
-#: src/global.c:596
+#: src/global.c:598
 msgid "Throw away the current line (or marked region)"
 msgstr "Zahodiť súčasný riadok (alebo označenú oblasť)"
 
-#: src/global.c:597
+#: src/global.c:599
 msgid "Indent the current line (or marked lines)"
 msgstr "Odsadiť súčasný riadok (alebo vybraté riadky)"
 
-#: src/global.c:598
+#: src/global.c:600
 msgid "Unindent the current line (or marked lines)"
 msgstr "Zmenšiť odsadenie súčasného riadku (alebo vybratých riadkov)"
 
-#: src/global.c:599
+#: src/global.c:601
 msgid "Undo the last operation"
 msgstr "Vrátiť poslednú činnosť"
 
-#: src/global.c:600
+#: src/global.c:602
 msgid "Redo the last undone operation"
 msgstr "Znova vykonať poslednú vrátenú činnosť"
 
-#: src/global.c:602
+#: src/global.c:604
 msgid "Go back one character"
 msgstr "Prejsť o jeden znak dozadu"
 
-#: src/global.c:603
+#: src/global.c:605
 msgid "Go forward one character"
 msgstr "Prejsť o jeden znak dopredu"
 
-#: src/global.c:604
+#: src/global.c:606
 msgid "Go back one word"
 msgstr "Prejsť o jedno slovo dozadu"
 
-#: src/global.c:605
+#: src/global.c:607
 msgid "Go forward one word"
 msgstr "Prejsť o jedno slovo dopredu"
 
-#: src/global.c:606
+#: src/global.c:608
 msgid "Go to previous line"
 msgstr "Prejsť na predchádzajúci riadok"
 
-#: src/global.c:607
+#: src/global.c:609
 msgid "Go to next line"
 msgstr "Prejsť na ďalší riadok"
 
-#: src/global.c:608
+#: src/global.c:610
 msgid "Go to beginning of current line"
 msgstr "Prejsť na začiatok súčasného riadku"
 
-#: src/global.c:609
+#: src/global.c:611
 msgid "Go to end of current line"
 msgstr "Prejsť na koniec súčasného riadku"
 
-#: src/global.c:610
+#: src/global.c:612
 msgid "Go to previous block of text"
 msgstr "Prejsť na predchádzajúci blok textu"
 
-#: src/global.c:611
+#: src/global.c:613
 msgid "Go to next block of text"
 msgstr "Prejsť na ďalší blok textu"
 
-#: src/global.c:614
+#: src/global.c:616
 msgid "Go to beginning of paragraph; then of previous paragraph"
 msgstr "Prejsť na začiatok odseku; potom predchádzajúceho odseku"
 
-#: src/global.c:616
+#: src/global.c:618
 msgid "Go just beyond end of paragraph; then of next paragraph"
 msgstr "Prejsť hneď za koniec odseku; potom ďalšieho odseku"
 
-#: src/global.c:619
+#: src/global.c:621
 msgid "Go to first row in the viewport"
 msgstr "Prejsť do prvého riadku vo výreze"
 
-#: src/global.c:620
+#: src/global.c:622
 msgid "Go to last row in the viewport"
 msgstr "Prejsť do posledného riadku vo výreze"
 
-#: src/global.c:621
+#: src/global.c:623
 msgid "Center the line where the cursor is"
 msgstr "Zarovnať na stred riadok kde sa nachádza kurzor"
 
-#: src/global.c:622
+#: src/global.c:624
 msgid "Push the cursor line to the center, then top, then bottom"
 msgstr "Popchnúť riadok s kurzorom do stredu, potom nahor a potom nadol"
 
-#: src/global.c:624
+#: src/global.c:626
 msgid "Go one screenful up"
 msgstr "Posunúť sa o obrazovku vyššie"
 
-#: src/global.c:625
+#: src/global.c:627
 msgid "Go one screenful down"
 msgstr "Posunúť sa o obrazovku nižšie"
 
-#: src/global.c:626
+#: src/global.c:628
 msgid "Go to the first line of the file"
 msgstr "Prejsť do prvého riadku súboru"
 
-#: src/global.c:627
+#: src/global.c:629
 msgid "Go to the last line of the file"
 msgstr "Prejsť do posledného riadku súboru"
 
-#: src/global.c:630
+#: src/global.c:632
 msgid "Scroll up one line without moving the cursor textually"
 msgstr "Posunúť sa o riadok vyššie bez pohnutia kurzora"
 
-#: src/global.c:632
+#: src/global.c:634
 msgid "Scroll down one line without moving the cursor textually"
 msgstr "Posunúť sa o riadok nižšie bez pohnutia kurzora"
 
-#: src/global.c:635
+#: src/global.c:637
 msgid "Switch to the previous file buffer"
 msgstr "Prepnúť na predchádzajúci zásobník súboru"
 
-#: src/global.c:636
+#: src/global.c:638
 msgid "Switch to the next file buffer"
 msgstr "Prepnúť na nasledujúci zásobník súboru"
 
-#: src/global.c:638
+#: src/global.c:640
 msgid "Insert the next keystroke verbatim"
 msgstr "Vložiť ďalší znak priamo (taký aký je)"
 
-#: src/global.c:639
+#: src/global.c:641
 msgid "Insert a tab at the cursor position (or indent marked lines)"
 msgstr "Vložiť odsadenie na miesto kurzora (alebo odsadiť označené riadky)"
 
-#: src/global.c:640
+#: src/global.c:642
 msgid "Insert a newline at the cursor position"
 msgstr "Zalomiť riadok na miesto kurzora"
 
-#: src/global.c:641
+#: src/global.c:643
 msgid "Delete the character under the cursor"
 msgstr "Odstrániť znak na mieste kurzora"
 
-#: src/global.c:643
+#: src/global.c:645
 msgid "Delete the character to the left of the cursor"
 msgstr "Odstrániť znak naľavo od kurzora"
 
-#: src/global.c:646
+#: src/global.c:648
 msgid "Delete backward from cursor to word start"
 msgstr "Odstrániť dozadu od kurzora po začiatok slova"
 
-#: src/global.c:648
+#: src/global.c:650
 msgid "Delete forward from cursor to next word start"
 msgstr "Odstrániť dopredu od kurzora po začiatok ďalšieho slova"
 
-#: src/global.c:650
+#: src/global.c:652
 msgid "Cut from the cursor position to the end of the file"
 msgstr "Vystrihnúť od kurzora po koniec súboru"
 
-#: src/global.c:653
+#: src/global.c:655
 msgid "Justify the current paragraph"
 msgstr "Zarovnať súčasný odsek"
 
-#: src/global.c:654
+#: src/global.c:656
 msgid "Justify the entire file"
 msgstr "Zarovnať celý súbor"
 
-#: src/global.c:658
+#: src/global.c:660
 msgid "Count the number of lines, words, and characters"
 msgstr "Spočítať riadky, slová a znaky"
 
-#: src/global.c:659
+#: src/global.c:661
 msgid "Suspend the editor (return to the shell)"
 msgstr "Uspať editor (vrátiť sa do príkazového riadku)"
 
-#: src/global.c:661
+#: src/global.c:663
 msgid "Refresh (redraw) the current screen"
 msgstr "Obnoviť (prekresliť) súčasnú obrazovku"
 
-#: src/global.c:663
+#: src/global.c:665
 msgid "Try and complete the current word"
 msgstr "Skúsiť a doplniť súčasné slovo"
 
-#: src/global.c:667
+#: src/global.c:669
 msgid "Comment/uncomment the current line (or marked lines)"
 msgstr "Komentovať/odkomentovať súčasný riadok (alebo vyznačené riadky)"
 
-#: src/global.c:669
+#: src/global.c:671
 msgid "Save file without prompting"
 msgstr "Uložiť súbor bez opýtania"
 
-#: src/global.c:670
+#: src/global.c:672
 msgid "Search next occurrence backward"
 msgstr "Hľadať ďalšiu zhodu dozadu"
 
-#: src/global.c:671
+#: src/global.c:673
 msgid "Search next occurrence forward"
 msgstr "Hľadať ďalšiu zhodu dopredu"
 
-#: src/global.c:673
+#: src/global.c:675
 msgid "Start/stop recording a macro"
 msgstr "Spustiť/zastaviť nahrávanie makra"
 
-#: src/global.c:674
+#: src/global.c:676
 msgid "Run the last recorded macro"
 msgstr "Spustiť posledné nahraté makro"
 
-#: src/global.c:675
+#: src/global.c:677
 msgid "Place or remove an anchor at the current line"
 msgstr "Umiestniť alebo odstrániť ukotvenie v súčasnom riadku"
 
-#: src/global.c:676
+#: src/global.c:678
 msgid "Jump backward to the nearest anchor"
 msgstr "Preskočiť dozadu na najbližšie ukotvenie"
 
-#: src/global.c:677
+#: src/global.c:679
 msgid "Jump forward to the nearest anchor"
 msgstr "Preskočiť dopredu na najbližšie ukotvenie"
 
-#: src/global.c:679
+#: src/global.c:681
 msgid "Toggle the case sensitivity of the search"
 msgstr "Prepnúť rozlišovanie veľkých a malých písmen pri hľadaní"
 
-#: src/global.c:680
+#: src/global.c:682
 msgid "Reverse the direction of the search"
 msgstr "Obrátiť smer hľadania"
 
-#: src/global.c:681
+#: src/global.c:683
 msgid "Toggle the use of regular expressions"
 msgstr "Prepnúť používanie regulárnych výrazov"
 
-#: src/global.c:683
+#: src/global.c:685
 msgid "Recall the previous search/replace string"
 msgstr "Vyvolať predchádzajúci reťazec hľadania/nahradenia"
 
-#: src/global.c:684
+#: src/global.c:686
 msgid "Recall the next search/replace string"
 msgstr "Vyvolať ďalší reťazec hľadania/nahradenia"
 
-#: src/global.c:687
+#: src/global.c:689
 msgid "Toggle the use of DOS format"
 msgstr "Prepnúť použitie formátu DOS"
 
-#: src/global.c:688
+#: src/global.c:690
 msgid "Toggle the use of Mac format"
 msgstr "Prepnúť použitie formátu Mac"
 
-#: src/global.c:689
+#: src/global.c:691
 msgid "Toggle appending"
 msgstr "Prepnúť vkladanie na koniec"
 
-#: src/global.c:690
+#: src/global.c:692
 msgid "Toggle prepending"
 msgstr "Prepnúť vkladanie na začiatok"
 
-#: src/global.c:691
+#: src/global.c:693
 msgid "Toggle backing up of the original file"
 msgstr "Prepnúť zálohovanie pôvodného súboru"
 
-#: src/global.c:692
+#: src/global.c:694
 msgid "Execute a function or an external command"
 msgstr "Vykonať funkciu alebo vonkajší príkaz"
 
-#: src/global.c:694
+#: src/global.c:696
 msgid "Pipe the current buffer (or marked region) to the command"
 msgstr "Zreťaziť súčasný zásobník (alebo označenú oblasť) s príkazom"
 
-#: src/global.c:696
+#: src/global.c:698
 msgid "Recall the previous command"
 msgstr "Vyvolať predchádzajúci príkaz"
 
-#: src/global.c:697
+#: src/global.c:699
 msgid "Recall the next command"
 msgstr "Vyvolať ďalší príkaz"
 
-#: src/global.c:699
+#: src/global.c:701
 msgid "Do not convert from DOS/Mac format"
 msgstr "Neprevádzať z formátu DOS/Mac"
 
-#: src/global.c:702
+#: src/global.c:704
 msgid "Toggle the use of a new buffer"
 msgstr "Prepnúť použitie nového zásobníka"
 
-#: src/global.c:704
+#: src/global.c:706
 msgid "Close buffer without saving it"
 msgstr "Zavrieť zásobník bez uloženia"
 
-#: src/global.c:706
+#: src/global.c:708
 msgid "Go to file browser"
 msgstr "Prejsť do prehliadača súborov"
 
-#: src/global.c:707
+#: src/global.c:709
 msgid "Exit from the file browser"
 msgstr "Ukončiť prehliadač súborov"
 
-#: src/global.c:708
+#: src/global.c:710
 msgid "Go to the first file in the list"
 msgstr "Prejsť na prvý súbor v zozname"
 
-#: src/global.c:709
+#: src/global.c:711
 msgid "Go to the last file in the list"
 msgstr "Prejsť na posledný súbor v zozname"
 
-#: src/global.c:710
+#: src/global.c:712
 msgid "Go to the previous file in the list"
 msgstr "Prejsť na predchádzajúci súbor v zozname"
 
-#: src/global.c:711
+#: src/global.c:713
 msgid "Go to the next file in the list"
 msgstr "Prejsť na ďalší súbor v zozname"
 
-#: src/global.c:713
+#: src/global.c:715
 msgid "Go to lefthand column"
 msgstr "Prejsť do ľavého stĺpca"
 
-#: src/global.c:714
+#: src/global.c:716
 msgid "Go to righthand column"
 msgstr "Prejsť do pravého stĺpca"
 
-#: src/global.c:715
+#: src/global.c:717
 msgid "Go to first row in this column"
 msgstr "Prejsť do prvého riadku v tomto stĺpci"
 
-#: src/global.c:716
+#: src/global.c:718
 msgid "Go to last row in this column"
 msgstr "Prejsť do posledného riadku v tomto stĺpci"
 
-#: src/global.c:718
+#: src/global.c:720
 msgid "Search forward for a string"
 msgstr "Hľadať reťazec dopredu"
 
-#: src/global.c:719
+#: src/global.c:721
 msgid "Search backward for a string"
 msgstr "Hľadať reťazec dozadu"
 
-#: src/global.c:720
+#: src/global.c:722
 msgid "Refresh the file list"
 msgstr "Obnoviť zoznam súborov"
 
-#: src/global.c:721
+#: src/global.c:723
 msgid "Go to directory"
 msgstr "Prejsť do priečinka"
 
-#: src/global.c:724
+#: src/global.c:726
 msgid "Invoke the linter, if available"
 msgstr "Vyvolať nástroj na rozbor, ak je dostupný"
 
-#: src/global.c:725
+#: src/global.c:727
 msgid "Go to previous linter msg"
 msgstr "Prejsť na predchádzajúcu správu rozboru"
 
-#: src/global.c:726
+#: src/global.c:728
 msgid "Go to next linter msg"
 msgstr "Prejsť na ďalšiu správu rozboru"
 
-#: src/global.c:730
+#: src/global.c:732
 msgid "Invoke a program to format/arrange/manipulate the buffer"
 msgstr "Vyvolať program na formátovanie/usporiadanie/narábanie so zásobníkom"
 
 #. TRANSLATORS: Try to keep the next thirteen strings at most 10 characters.
-#: src/global.c:748
+#: src/global.c:750
 msgid "Help"
 msgstr "Pomoc"
 
-#: src/global.c:752 src/prompt.c:712
+#: src/global.c:754 src/prompt.c:711
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: src/global.c:774
+#: src/global.c:776
 msgid "Write Out"
 msgstr "Zapísať"
 
-#: src/global.c:782
+#: src/global.c:784
 msgid "Read File"
 msgstr "Otv. súbor"
 
-#: src/global.c:786 src/global.c:825
+#: src/global.c:788 src/global.c:827
 msgid "Justify"
 msgstr "Zarovnať"
 
-#: src/global.c:792 src/global.c:884 src/global.c:1094
+#: src/global.c:794 src/global.c:886 src/global.c:1096
 msgid "Refresh"
 msgstr "Obnoviť"
 
-#: src/global.c:797 src/global.c:887
+#: src/global.c:799 src/global.c:889
 msgid "Where Is"
 msgstr "Hľadať"
 
-#: src/global.c:800 src/global.c:861
+#: src/global.c:802 src/global.c:863
 msgid "Replace"
 msgstr "Nahradiť"
 
-#: src/global.c:813
+#: src/global.c:815
 msgid "Cut"
 msgstr "Vystrihnúť"
 
-#: src/global.c:816
+#: src/global.c:818
 msgid "Paste"
 msgstr "Vložiť"
 
-#: src/global.c:821 src/global.c:1086
+#: src/global.c:823 src/global.c:1088
 msgid "Execute"
 msgstr "Vykonať"
 
 #. TRANSLATORS: This refers to the position of the cursor.
-#: src/global.c:831
+#: src/global.c:833
 msgid "Location"
 msgstr "Umiestnenie"
 
-#: src/global.c:837 src/global.c:996 src/global.c:1136
+#: src/global.c:839 src/global.c:998 src/global.c:1138
 msgid "Go To Line"
 msgstr "Ísť na riadok"
 
 #. TRANSLATORS: Try to keep the next ten strings at most 12 characters.
-#: src/global.c:843
+#: src/global.c:845
 msgid "Undo"
 msgstr "Vrátiť späť"
 
-#: src/global.c:845
+#: src/global.c:847
 msgid "Redo"
 msgstr "Znovu"
 
-#: src/global.c:848
+#: src/global.c:850
 msgid "Set Mark"
 msgstr "Značka"
 
-#: src/global.c:850 src/global.c:1030
+#: src/global.c:852 src/global.c:1032
 msgid "Copy"
 msgstr "Kopírovať"
 
-#: src/global.c:854
+#: src/global.c:856
 msgid "Case Sens"
 msgstr "VEĽKÉ/malé"
 
-#: src/global.c:856
+#: src/global.c:858
 msgid "Reg.exp."
 msgstr "Reg. výr."
 
-#: src/global.c:858
+#: src/global.c:860
 msgid "Backwards"
 msgstr "Dozadu"
 
-#: src/global.c:863
+#: src/global.c:865
 msgid "No Replace"
 msgstr "Nenahrádzať"
 
-#: src/global.c:867 src/global.c:872
+#: src/global.c:869 src/global.c:874
 msgid "Older"
 msgstr "Starší"
 
-#: src/global.c:869 src/global.c:874
+#: src/global.c:871 src/global.c:876
 msgid "Newer"
 msgstr "Novší"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:881
+#: src/global.c:883
 msgid "Go To Dir"
 msgstr "Ísť do prč"
 
 #. TRANSLATORS: This starts a backward search.
-#: src/global.c:889 src/global.c:908
+#: src/global.c:891 src/global.c:910
 msgid "Where Was"
 msgstr "Hľ. dozadu"
 
 #. TRANSLATORS: This refers to searching the preceding occurrence.
-#: src/global.c:892 src/global.c:912
+#: src/global.c:894 src/global.c:914
 msgid "Previous"
 msgstr "Predch"
 
-#: src/global.c:894 src/global.c:914
+#: src/global.c:896 src/global.c:916
 msgid "Next"
 msgstr "Ďalšia"
 
-#: src/global.c:904
+#: src/global.c:906
 msgid "To Bracket"
 msgstr "K zátvorke"
 
 #. TRANSLATORS: This means move the cursor one character back.
-#: src/global.c:919 src/global.c:924
+#: src/global.c:921 src/global.c:926
 msgid "Back"
 msgstr "Dozadu"
 
-#: src/global.c:921 src/global.c:926
+#: src/global.c:923 src/global.c:928
 msgid "Forward"
 msgstr "Dopredu"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:932
+#: src/global.c:934
 msgid "Prev Word"
 msgstr "Predch slovo"
 
-#: src/global.c:934
+#: src/global.c:936
 msgid "Next Word"
 msgstr "Ďalšie slovo"
 
 #. TRANSLATORS: These two mean: "to beginning of line", "to end of line".
-#: src/global.c:939
+#: src/global.c:941
 msgid "Home"
 msgstr "Začiatok"
 
-#: src/global.c:941
+#: src/global.c:943
 msgid "End"
 msgstr "Koniec"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:945
+#: src/global.c:947
 msgid "Prev Line"
 msgstr "Predch riadok"
 
-#: src/global.c:947
+#: src/global.c:949
 msgid "Next Line"
 msgstr "Ďalší riadok"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:951
+#: src/global.c:953
 msgid "Scroll Up"
 msgstr "Posun vyššie"
 
-#: src/global.c:953
+#: src/global.c:955
 msgid "Scroll Down"
 msgstr "Posun nižšie"
 
-#: src/global.c:957
+#: src/global.c:959
 msgid "Prev Block"
 msgstr "Predch blok"
 
-#: src/global.c:959
+#: src/global.c:961
 msgid "Next Block"
 msgstr "Ďalší blok"
 
 #. TRANSLATORS: Try to keep these two strings at most 16 characters.
-#: src/global.c:963
+#: src/global.c:965
 msgid "Begin of Paragr."
 msgstr "Začiatok odseku"
 
-#: src/global.c:965
+#: src/global.c:967
 msgid "End of Paragraph"
 msgstr "Koniec odseku"
 
-#: src/global.c:970 src/global.c:1202
+#: src/global.c:972 src/global.c:1204
 msgid "Top Row"
 msgstr "Horný riadok"
 
-#: src/global.c:972 src/global.c:1204
+#: src/global.c:974 src/global.c:1206
 msgid "Bottom Row"
 msgstr "Dolný riadok"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:977 src/global.c:1187
+#: src/global.c:979 src/global.c:1189
 msgid "Prev Page"
 msgstr "Predch str"
 
-#: src/global.c:979 src/global.c:1189
+#: src/global.c:981 src/global.c:1191
 msgid "Next Page"
 msgstr "Ďalšia str"
 
-#: src/global.c:982
+#: src/global.c:984
 msgid "First Line"
 msgstr "Prvý riadok"
 
-#: src/global.c:984
+#: src/global.c:986
 msgid "Last Line"
 msgstr "Posl riadok"
 
 #. TRANSLATORS: Try to keep these two strings at most 15 characters.
-#: src/global.c:989
+#: src/global.c:991
 msgid "Prev File"
 msgstr "Predch súbor"
 
-#: src/global.c:991
+#: src/global.c:993
 msgid "Next File"
 msgstr "Ďalší súbor"
 
 #. TRANSLATORS: The next four strings are names of keyboard keys.
-#: src/global.c:1001
+#: src/global.c:1003
 msgid "Tab"
 msgstr "Tabulátor"
 
-#: src/global.c:1003
+#: src/global.c:1005
 msgid "Enter"
 msgstr "Enter"
 
-#: src/global.c:1006
+#: src/global.c:1008
 msgid "Backspace"
 msgstr "Backspace"
 
-#: src/global.c:1008
+#: src/global.c:1010
 msgid "Delete"
 msgstr "Delete"
 
 #. TRANSLATORS: The next two strings refer to deleting words.
-#: src/global.c:1013
+#: src/global.c:1015
 msgid "Chop Left"
 msgstr "Odseknúť zľava"
 
-#: src/global.c:1015
+#: src/global.c:1017
 msgid "Chop Right"
 msgstr "Odseknúť sprava"
 
-#: src/global.c:1017 src/global.c:1170
+#: src/global.c:1019 src/global.c:1172
 msgid "Cut Till End"
 msgstr "Vystrihnúť do konca"
 
-#: src/global.c:1022 src/global.c:1127
+#: src/global.c:1024 src/global.c:1129
 msgid "Full Justify"
 msgstr "Úplné zarovnanie"
 
-#: src/global.c:1027
+#: src/global.c:1029
 msgid "Word Count"
 msgstr "Počet slov"
 
-#: src/global.c:1034
+#: src/global.c:1036
 msgid "Verbatim"
 msgstr "Priame zadanie"
 
-#: src/global.c:1041
+#: src/global.c:1043
 msgid "Indent"
 msgstr "Odsadiť"
 
-#: src/global.c:1043
+#: src/global.c:1045
 msgid "Unindent"
 msgstr "Zrušiť odsadenie"
 
-#: src/global.c:1047
+#: src/global.c:1049
 msgid "Comment Lines"
 msgstr "Komentovať riadky"
 
-#: src/global.c:1051
+#: src/global.c:1053
 msgid "Complete"
 msgstr "Dokončiť"
 
-#: src/global.c:1056
+#: src/global.c:1058
 msgid "Record"
 msgstr "Nahrať"
 
-#: src/global.c:1058
+#: src/global.c:1060
 msgid "Run Macro"
 msgstr "Spustiť makro"
 
 #. TRANSLATORS: This refers to deleting a line or marked region.
-#: src/global.c:1062
+#: src/global.c:1064
 msgid "Zap"
 msgstr "Odstrániť"
 
-#: src/global.c:1065
+#: src/global.c:1067
 msgid "Anchor"
 msgstr "Ukotvenie"
 
-#: src/global.c:1067
+#: src/global.c:1069
 msgid "Up to anchor"
 msgstr "Nahor k ukotveniu"
 
-#: src/global.c:1069
+#: src/global.c:1071
 msgid "Down to anchor"
 msgstr "Nadol k ukotveniu"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:1073 src/global.c:1119
+#: src/global.c:1075 src/global.c:1121
 msgid "Spell Check"
 msgstr "Overenie pravopisu"
 
-#: src/global.c:1077 src/global.c:1123
+#: src/global.c:1079 src/global.c:1125
 msgid "Linter"
 msgstr "Rozbor"
 
-#: src/global.c:1081 src/global.c:1131
+#: src/global.c:1083 src/global.c:1133
 msgid "Formatter"
 msgstr "Formátovač"
 
-#: src/global.c:1089 src/global.c:1173
+#: src/global.c:1091 src/global.c:1175
 msgid "Suspend"
 msgstr "Uspať"
 
-#: src/global.c:1098
+#: src/global.c:1100
 msgid "Center"
 msgstr "Stred"
 
-#: src/global.c:1100
+#: src/global.c:1102
 msgid "Cycle"
 msgstr "Odznova"
 
-#: src/global.c:1104
+#: src/global.c:1106
 msgid "Save"
 msgstr "Uložiť"
 
-#: src/global.c:1114
+#: src/global.c:1116
 msgid "Pipe Text"
 msgstr "Zreťaziť text"
 
-#: src/global.c:1138
+#: src/global.c:1140
 msgid "Go To Text"
 msgstr "Prejsť na text"
 
-#: src/global.c:1143
+#: src/global.c:1145
 msgid "DOS Format"
 msgstr "Formát DOS"
 
-#: src/global.c:1145
+#: src/global.c:1147
 msgid "Mac Format"
 msgstr "Formát Mac"
 
-#: src/global.c:1153
+#: src/global.c:1155
 msgid "Append"
 msgstr "Vložiť na koniec"
 
-#: src/global.c:1155
+#: src/global.c:1157
 msgid "Prepend"
 msgstr "Vložiť na začiatok"
 
-#: src/global.c:1158
+#: src/global.c:1160
 msgid "Backup File"
 msgstr "Zálohovať súbor"
 
-#: src/global.c:1162
+#: src/global.c:1164
 msgid "No Conversion"
 msgstr "Žiadny prevod"
 
-#: src/global.c:1167
+#: src/global.c:1169
 msgid "Execute Command"
 msgstr "Vykonať príkaz"
 
-#: src/global.c:1177
+#: src/global.c:1179
 msgid "Discard buffer"
 msgstr "Zahodiť zásobník"
 
 #. TRANSLATORS: This invokes the file browser.
-#: src/global.c:1184
+#: src/global.c:1186
 msgid "Browse"
 msgstr "Prehliadať"
 
-#: src/global.c:1192
+#: src/global.c:1194
 msgid "First File"
 msgstr "Prvý súbor"
 
-#: src/global.c:1194
+#: src/global.c:1196
 msgid "Last File"
 msgstr "Posledný súbor"
 
-#: src/global.c:1198
+#: src/global.c:1200
 msgid "Left Column"
 msgstr "Ľavý stĺpec"
 
-#: src/global.c:1200
+#: src/global.c:1202
 msgid "Right Column"
 msgstr "Pravý stĺpec"
 
 #. TRANSLATORS: The next two strings may be up to 37 characters each.
-#: src/global.c:1211
+#: src/global.c:1213
 msgid "Previous Linter message"
 msgstr "Predchádzajúca správa rozboru"
 
-#: src/global.c:1213
+#: src/global.c:1215
 msgid "Next Linter message"
 msgstr "Ďalšia správa rozboru"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1607
+#: src/global.c:1609
 msgid "Hidden interface"
 msgstr "Skryté rozhranie"
 
-#: src/global.c:1609
+#: src/global.c:1611
 msgid "Help mode"
 msgstr "Režim pomocníka"
 
-#: src/global.c:1611
+#: src/global.c:1613
 msgid "Constant cursor position display"
 msgstr "Stále zobrazovanie umiestnenia kurzora"
 
-#: src/global.c:1613
+#: src/global.c:1615
 msgid "Soft wrapping of overlong lines"
 msgstr "Plynulé zalamovanie pridlhých riadkov"
 
-#: src/global.c:1615
+#: src/global.c:1617
 msgid "Line numbering"
 msgstr "Číslovanie riadkov"
 
-#: src/global.c:1617
+#: src/global.c:1619
 msgid "Whitespace display"
 msgstr "Zobrazovanie bielych znakov"
 
-#: src/global.c:1619
+#: src/global.c:1621
 msgid "Color syntax highlighting"
 msgstr "Farebné zobrazovanie vetnej skladby"
 
-#: src/global.c:1621
+#: src/global.c:1623
 msgid "Smart home key"
 msgstr "Chytrá klávesa pre začiatok dokumentu"
 
-#: src/global.c:1623
+#: src/global.c:1625
 msgid "Auto indent"
 msgstr "Automatické odsadenie"
 
-#: src/global.c:1625
+#: src/global.c:1627
 msgid "Cut to end"
 msgstr "Vystrihnutie do konca"
 
-#: src/global.c:1627
+#: src/global.c:1629
 msgid "Hard wrapping of overlong lines"
 msgstr "Tvrdé zalamovanie pridlhých riadkov"
 
-#: src/global.c:1629
+#: src/global.c:1631
 msgid "Conversion of typed tabs to spaces"
 msgstr "Prevod tabulátorov na medzery"
 
-#: src/global.c:1631
+#: src/global.c:1633
 msgid "Mouse support"
 msgstr "Podpora myši"
 
@@ -2322,7 +2322,7 @@ msgstr "Neplatná voľba vyhľadávania '%c'"
 msgid "Empty search string"
 msgstr "Prázdny reťazec vyhľadávania"
 
-#: src/nano.c:2539 src/search.c:797
+#: src/nano.c:2539 src/search.c:801
 msgid "Invalid line or column number"
 msgstr "Neplatné číslo riadku alebo stĺpca"
 
@@ -2330,46 +2330,46 @@ msgstr "Neplatné číslo riadku alebo stĺpca"
 msgid "Invalid number\n"
 msgstr "Neplatné číslo\n"
 
-#: src/nano.c:2615
+#: src/nano.c:2621
 msgid "Standard input is not a terminal\n"
 msgstr "Štandardný výstup nie je terminál\n"
 
-#: src/nano.c:2634
+#: src/nano.c:2640
 msgid "Can open just one file\n"
 msgstr "Môže sa otvoriť len jeden súbor\n"
 
-#: src/nano.c:2652
+#: src/nano.c:2658
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Víta vás nano.  Základnú pomoc získate stlačením Ctrl+G."
 
-#: src/nano.c:2691
+#: src/nano.c:2697
 msgid "Byte Order Mark"
 msgstr "Značka poradia bajtov"
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:671
+#: src/prompt.c:670
 msgid "Yy"
 msgstr "AaÁá"
 
-#: src/prompt.c:672
+#: src/prompt.c:671
 msgid "Nn"
 msgstr "Nn"
 
-#: src/prompt.c:673
+#: src/prompt.c:672
 msgid "Aa"
 msgstr "Vv"
 
-#: src/prompt.c:699
+#: src/prompt.c:698
 msgid "Yes"
 msgstr "Áno"
 
-#: src/prompt.c:703
+#: src/prompt.c:702
 msgid "No"
 msgstr "Nie"
 
-#: src/prompt.c:708
+#: src/prompt.c:707
 msgid "All"
 msgstr "Všetky"
 
@@ -2607,26 +2607,26 @@ msgstr " (nahradiť)"
 
 #. TRANSLATORS: This is shown when searching takes
 #. * more than half a second.
-#: src/search.c:236 src/search.c:309
+#: src/search.c:235 src/search.c:308
 msgid "Searching..."
 msgstr "Hľadá sa..."
 
-#: src/search.c:410
+#: src/search.c:409
 #, c-format
 msgid "\"%.*s%s\" not found"
 msgstr "nenašlo sa „%.*s%s“"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:599
+#: src/search.c:598
 msgid "Replace this instance?"
 msgstr "Nahradiť tento výskyt?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:710
+#: src/search.c:709
 msgid "Replace with"
 msgstr "Nahradiť nasledovným"
 
-#: src/search.c:740
+#: src/search.c:739
 #, c-format
 msgid "Replaced %zd occurrence"
 msgid_plural "Replaced %zd occurrences"
@@ -2635,35 +2635,35 @@ msgstr[1] "Boli nahradené %zd výskyty"
 msgstr[2] "Bolo nahradených %zd výskytov"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:776
+#: src/search.c:778
 msgid "Enter line number, column number"
 msgstr "Zadajte číslo riadka, číslo stĺpca"
 
-#: src/search.c:951
+#: src/search.c:954
 msgid "Not a bracket"
 msgstr "Nie je zátvorka"
 
-#: src/search.c:994
+#: src/search.c:997
 msgid "No matching bracket"
 msgstr "Chýba zodpovedajúca zátvorka"
 
-#: src/search.c:1013
+#: src/search.c:1016
 msgid "Placed anchor"
 msgstr "Ukotvenie umiestnené"
 
-#: src/search.c:1015
+#: src/search.c:1018
 msgid "Removed anchor"
 msgstr "Ukotvenie odstránené"
 
-#: src/search.c:1034
+#: src/search.c:1037
 msgid "Jumped to anchor"
 msgstr "Preskočilo sa na ukotvenie"
 
-#: src/search.c:1036
+#: src/search.c:1039
 msgid "This is the only anchor"
 msgstr "Toto je jediné ukotvenie"
 
-#: src/search.c:1038
+#: src/search.c:1041
 msgid "There are no anchors"
 msgstr "Žiadne ukotvenia"
 
@@ -2974,37 +2974,37 @@ msgstr "Priveľa chýb na štandardnom vstupe\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1407
+#: src/winio.c:1410
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Vstup Unicode: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:2029
+#: src/winio.c:2032
 msgid "Linting --"
 msgstr "Rozbor --"
 
-#: src/winio.c:2035
+#: src/winio.c:2038
 msgid "DIR:"
 msgstr "PRIEČ:"
 
-#: src/winio.c:2056
+#: src/winio.c:2059
 msgid "View"
 msgstr "Zobrazenie"
 
-#: src/winio.c:2062 src/winio.c:2066
+#: src/winio.c:2065 src/winio.c:2069
 msgid "Modified"
 msgstr "Upravený"
 
-#: src/winio.c:2064
+#: src/winio.c:2067
 msgid "Restricted"
 msgstr "Neprístupný"
 
-#: src/winio.c:2170
+#: src/winio.c:2173
 msgid "(nameless)"
 msgstr "(bez názvu)"
 
-#: src/winio.c:2202
+#: src/winio.c:2205
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
@@ -3012,7 +3012,7 @@ msgstr[0] " (%zu riadok)"
 msgstr[1] " (%zu riadky)"
 msgstr[2] " (%zu riadkov)"
 
-#: src/winio.c:2204
+#: src/winio.c:2207
 #, c-format
 msgid " (%zu line, %s)"
 msgid_plural " (%zu lines, %s)"
@@ -3020,45 +3020,45 @@ msgstr[0] " (%zu riadok, %s)"
 msgstr[1] " (%zu riadky, %s)"
 msgstr[2] " (%zu riadkov, %s)"
 
-#: src/winio.c:3506
+#: src/winio.c:3515
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "riadok %*zd/%zd (%2d%%), stĺpec %2zu/%2zu (%3d%%), znak %*zu/%zu (%2d%%)"
 
-#: src/winio.c:3660
+#: src/winio.c:3669
 msgid "The nano text editor"
 msgstr "Textový editor nano"
 
-#: src/winio.c:3661
+#: src/winio.c:3670
 msgid "version"
 msgstr "verzia"
 
-#: src/winio.c:3662
+#: src/winio.c:3671
 msgid "Brought to you by:"
 msgstr "Prinášajú:"
 
-#: src/winio.c:3663
+#: src/winio.c:3672
 msgid "Special thanks to:"
 msgstr "Zvláštne poďakovanie patrí:"
 
-#: src/winio.c:3664
+#: src/winio.c:3673
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: src/winio.c:3665
+#: src/winio.c:3674
 msgid "the many translators and the TP"
 msgstr "mnohým prekladateľom a TP"
 
-#: src/winio.c:3666
+#: src/winio.c:3675
 msgid "For ncurses:"
 msgstr "Za ncurses:"
 
-#: src/winio.c:3667
+#: src/winio.c:3676
 msgid "and anyone else we forgot..."
 msgstr "a každému na koho sme zabudli..."
 
-#: src/winio.c:3668
+#: src/winio.c:3677
 msgid "Thank you for using nano!"
 msgstr "Ďakujeme Vám, že používate nano!"
 

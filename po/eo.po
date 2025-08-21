@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 8.4-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2025-06-12 09:31+0200\n"
+"POT-Creation-Date: 2025-08-21 07:53+0200\n"
 "PO-Revision-Date: 2025-03-24 16:18+0100\n"
 "Last-Translator: Benno Schulenberg <vertaling@coevern.nl>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
@@ -36,11 +36,11 @@ msgstr "(patra ujo)"
 msgid "(huge)"
 msgstr "(ega)"
 
-#: src/browser.c:269 src/browser.c:274 src/search.c:260
+#: src/browser.c:269 src/browser.c:274 src/search.c:259
 msgid "Search Wrapped"
 msgstr "Serĉado ĉirkaŭiris"
 
-#: src/browser.c:281 src/search.c:437
+#: src/browser.c:281 src/search.c:436
 msgid "This is the only occurrence"
 msgstr "Ĉi tiu estas la ununura aperaĵo"
 
@@ -54,13 +54,13 @@ msgstr "Serĉi"
 msgid " [Backwards]"
 msgstr " [malantaŭen]"
 
-#: src/browser.c:322 src/browser.c:558 src/files.c:1157 src/files.c:1250
-#: src/files.c:2187 src/nano.c:321 src/search.c:114 src/search.c:295
-#: src/search.c:724 src/search.c:780 src/text.c:2616 src/text.c:2815
+#: src/browser.c:322 src/browser.c:563 src/files.c:1157 src/files.c:1250
+#: src/files.c:2187 src/nano.c:321 src/search.c:114 src/search.c:294
+#: src/search.c:723 src/search.c:790 src/text.c:2616 src/text.c:2815
 msgid "Cancelled"
 msgstr "Rezignita"
 
-#: src/browser.c:349 src/search.c:371
+#: src/browser.c:349 src/search.c:370
 msgid "No current search pattern"
 msgstr "Mankas ankoraŭ serĉendaĵo"
 
@@ -69,38 +69,38 @@ msgstr "Mankas ankoraŭ serĉendaĵo"
 msgid "Cannot open directory: %s"
 msgstr "Ne eblas malfermi dosierujon: %s"
 
-#: src/browser.c:440
+#: src/browser.c:444
 msgid "No entries"
 msgstr "Neniuj eroj"
 
 #. TRANSLATORS: This is a prompt.
-#: src/browser.c:557
+#: src/browser.c:562
 msgid "Go To Directory"
 msgstr "Iri dosierujon"
 
 #. TRANSLATORS: This refers to the confining effect of
 #. * the option --operatingdir, not of --restricted.
-#: src/browser.c:574 src/browser.c:605
+#: src/browser.c:579 src/browser.c:610
 #, c-format
 msgid "Can't go outside of %s"
 msgstr "Ne eblas iri ekstere de %s"
 
-#: src/browser.c:596
+#: src/browser.c:601
 msgid "Can't move up a directory"
 msgstr "Ne eblas iri al supra dosierujo"
 
-#: src/browser.c:611 src/files.c:920 src/files.c:926 src/files.c:1822
+#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1822
 #: src/files.c:1837 src/history.c:263 src/history.c:291 src/history.c:400
 #: src/history.c:454 src/rcfile.c:926 src/rcfile.c:1712
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Eraro dum legado de %s: %s"
 
-#: src/browser.c:638 src/help.c:510
+#: src/browser.c:643 src/help.c:510
 msgid "Paste is ignored"
 msgstr "Algluo ignoratas"
 
-#: src/browser.c:685 src/files.c:363
+#: src/browser.c:691 src/files.c:363
 msgid "The working directory has disappeared"
 msgstr "La labordosierujo malaperis"
 
@@ -230,7 +230,7 @@ msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu linio (%s)"
 msgstr[1] "%s -- %zu linioj (%s)"
 
-#: src/files.c:545 src/files.c:551 src/global.c:1110 src/winio.c:2051
+#: src/files.c:545 src/files.c:551 src/global.c:1112 src/winio.c:2054
 msgid "New Buffer"
 msgstr "Nova bufro"
 
@@ -531,875 +531,875 @@ msgid "(more)"
 msgstr "(plu)"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:561
+#: src/global.c:563
 msgid "Exit"
 msgstr "Fini"
 
-#: src/global.c:562
+#: src/global.c:564
 msgid "Close"
 msgstr "Fermi"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
-#: src/global.c:570
+#: src/global.c:572
 msgid "Cancel the current function"
 msgstr "Rezigni la nunan operacion"
 
-#: src/global.c:571
+#: src/global.c:573
 msgid "Display this help text"
 msgstr "Montri ĉi tiun helptekston"
 
-#: src/global.c:572
+#: src/global.c:574
 msgid "Close the current buffer / Exit from nano"
 msgstr "Fermi la nunan bufron / Eliri el 'nano'"
 
-#: src/global.c:574
+#: src/global.c:576
 msgid "Write the current buffer (or the marked region) to disk"
 msgstr "Konservi la nunan bufron (aŭ markitan regionon) sur disko"
 
-#: src/global.c:576
+#: src/global.c:578
 msgid "Insert another file into current buffer (or into new buffer)"
 msgstr "Enmeti alian dosieron en la nuna bufro (aŭ en nova bufro)"
 
-#: src/global.c:578
+#: src/global.c:580
 msgid "Search forward for a string or a regular expression"
 msgstr "Antaŭen serĉi signoĉenon aŭ regulesprimon"
 
-#: src/global.c:580
+#: src/global.c:582
 msgid "Search backward for a string or a regular expression"
 msgstr "Malantaŭen serĉi signoĉenon aŭ regulesprimon"
 
-#: src/global.c:582
+#: src/global.c:584
 msgid "Cut current line (or marked region) and store it in cutbuffer"
 msgstr "Eltondi linion (aŭ markitan regionon) kaj gardi ĝin en tondujo"
 
-#: src/global.c:584
+#: src/global.c:586
 msgid "Copy current line (or marked region) and store it in cutbuffer"
 msgstr "Kopii linion (aŭ markitan regionon) kaj gardi ĝin en tondujo"
 
-#: src/global.c:586
+#: src/global.c:588
 msgid "Paste the contents of cutbuffer at current cursor position"
 msgstr "Glui tekstaĵon el la tondujo al la nuna kursora pozicio"
 
-#: src/global.c:587
+#: src/global.c:589
 msgid "Display the position of the cursor"
 msgstr "Montri la pozicion de la kursoro"
 
-#: src/global.c:589
+#: src/global.c:591
 msgid "Invoke the spell checker, if available"
 msgstr "Ruli literumilon (se disponeblas)"
 
-#: src/global.c:591
+#: src/global.c:593
 msgid "Replace a string or a regular expression"
 msgstr "Anstataŭigi signoĉenon aŭ regulesprimon"
 
-#: src/global.c:592
+#: src/global.c:594
 msgid "Go to line and column number"
 msgstr "Iri al lininumero (kaj kolumnnumero)"
 
-#: src/global.c:594
+#: src/global.c:596
 msgid "Go to the matching bracket"
 msgstr "Iri al para krampo"
 
-#: src/global.c:595
+#: src/global.c:597
 msgid "Mark text starting from the cursor position"
 msgstr "Marki tekston ekde la kursora pozicio"
 
-#: src/global.c:596
+#: src/global.c:598
 msgid "Throw away the current line (or marked region)"
 msgstr "Forĵeti la nunan linion (aŭ markitan regionon)"
 
-#: src/global.c:597
+#: src/global.c:599
 msgid "Indent the current line (or marked lines)"
 msgstr "Deŝovi enen la nunan linion (aŭ markitajn liniojn)"
 
-#: src/global.c:598
+#: src/global.c:600
 msgid "Unindent the current line (or marked lines)"
 msgstr "Deŝovi eksteren la nunan linion (aŭ markitajn liniojn)"
 
-#: src/global.c:599
+#: src/global.c:601
 msgid "Undo the last operation"
 msgstr "Malfari la lastan agon"
 
-#: src/global.c:600
+#: src/global.c:602
 msgid "Redo the last undone operation"
 msgstr "Refari la lastan malfaratan agon"
 
-#: src/global.c:602
+#: src/global.c:604
 msgid "Go back one character"
 msgstr "Iri unu signon malantaŭen"
 
-#: src/global.c:603
+#: src/global.c:605
 msgid "Go forward one character"
 msgstr "Iri unu signon antaŭen"
 
-#: src/global.c:604
+#: src/global.c:606
 msgid "Go back one word"
 msgstr "Iri unu vorton malantaŭen"
 
-#: src/global.c:605
+#: src/global.c:607
 msgid "Go forward one word"
 msgstr "Iri unu vorton antaŭen"
 
-#: src/global.c:606
+#: src/global.c:608
 msgid "Go to previous line"
 msgstr "Iri al la supra linio"
 
-#: src/global.c:607
+#: src/global.c:609
 msgid "Go to next line"
 msgstr "Iri al la suba linio"
 
-#: src/global.c:608
+#: src/global.c:610
 msgid "Go to beginning of current line"
 msgstr "Iri al la komenco de la nuna linio"
 
-#: src/global.c:609
+#: src/global.c:611
 msgid "Go to end of current line"
 msgstr "Iri al la fino de la nuna linio"
 
-#: src/global.c:610
+#: src/global.c:612
 msgid "Go to previous block of text"
 msgstr "Iri al antaŭa tekstbloko"
 
-#: src/global.c:611
+#: src/global.c:613
 msgid "Go to next block of text"
 msgstr "Iri al sekva tekstbloko"
 
-#: src/global.c:614
+#: src/global.c:616
 msgid "Go to beginning of paragraph; then of previous paragraph"
 msgstr "Iri al komenco de alineo; poste al ĝi de antaŭa alineo"
 
-#: src/global.c:616
+#: src/global.c:618
 msgid "Go just beyond end of paragraph; then of next paragraph"
 msgstr "Iri al postfino de alineo; poste al ĝi de sekva alineo"
 
-#: src/global.c:619
+#: src/global.c:621
 msgid "Go to first row in the viewport"
 msgstr "Iri al supra linio en vidujo"
 
-#: src/global.c:620
+#: src/global.c:622
 msgid "Go to last row in the viewport"
 msgstr "Iri al suba linio en vidujo"
 
-#: src/global.c:621
+#: src/global.c:623
 msgid "Center the line where the cursor is"
 msgstr "Centrigi la linion kiu havas la kursoron"
 
-#: src/global.c:622
+#: src/global.c:624
 msgid "Push the cursor line to the center, then top, then bottom"
 msgstr "Loki linion kun kursoro je mezo, je supro, je subo"
 
-#: src/global.c:624
+#: src/global.c:626
 msgid "Go one screenful up"
 msgstr "Iri unu paĝo supren"
 
-#: src/global.c:625
+#: src/global.c:627
 msgid "Go one screenful down"
 msgstr "Iri unu paĝo suben"
 
-#: src/global.c:626
+#: src/global.c:628
 msgid "Go to the first line of the file"
 msgstr "Iri al la unua linio de la dosiero"
 
-#: src/global.c:627
+#: src/global.c:629
 msgid "Go to the last line of the file"
 msgstr "Iri al la lasta linio de la dosiero"
 
-#: src/global.c:630
+#: src/global.c:632
 msgid "Scroll up one line without moving the cursor textually"
 msgstr "Rulumi unu linion supren sen movi la kursoron tekste"
 
-#: src/global.c:632
+#: src/global.c:634
 msgid "Scroll down one line without moving the cursor textually"
 msgstr "Rulumi unu linion suben sen movi la kursoron tekste"
 
-#: src/global.c:635
+#: src/global.c:637
 msgid "Switch to the previous file buffer"
 msgstr "Ŝalti al malsekva dosierbufro"
 
-#: src/global.c:636
+#: src/global.c:638
 msgid "Switch to the next file buffer"
 msgstr "Ŝalti al sekva dosierbufro"
 
-#: src/global.c:638
+#: src/global.c:640
 msgid "Insert the next keystroke verbatim"
 msgstr "Enmeti la tujsekvan klavon tielkiel"
 
-#: src/global.c:639
+#: src/global.c:641
 msgid "Insert a tab at the cursor position (or indent marked lines)"
 msgstr "Enmeti tabon je la kursora pozicio (aŭ deŝovi markitajn liniojn)"
 
-#: src/global.c:640
+#: src/global.c:642
 msgid "Insert a newline at the cursor position"
 msgstr "Enmeti linfinon je la kursora pozicio"
 
-#: src/global.c:641
+#: src/global.c:643
 msgid "Delete the character under the cursor"
 msgstr "Forigi la signon sub la kursoro"
 
-#: src/global.c:643
+#: src/global.c:645
 msgid "Delete the character to the left of the cursor"
 msgstr "Forigi la signon maldekstran de la kursoro"
 
-#: src/global.c:646
+#: src/global.c:648
 msgid "Delete backward from cursor to word start"
 msgstr "Forigi ekde de la kursoro ĝis antaŭa vortkomenco"
 
-#: src/global.c:648
+#: src/global.c:650
 msgid "Delete forward from cursor to next word start"
 msgstr "Forigi ekde de la kursoro ĝis sekva vortkomenco"
 
-#: src/global.c:650
+#: src/global.c:652
 msgid "Cut from the cursor position to the end of the file"
 msgstr "Forigi ĉion ekde de la kursoro ĝis la dosierfino"
 
-#: src/global.c:653
+#: src/global.c:655
 msgid "Justify the current paragraph"
 msgstr "Rektigi la nunan alineon"
 
-#: src/global.c:654
+#: src/global.c:656
 msgid "Justify the entire file"
 msgstr "Rektigi la tutan dosieron"
 
-#: src/global.c:658
+#: src/global.c:660
 msgid "Count the number of lines, words, and characters"
 msgstr "Nombri la liniojn, vortojn, kaj signojn"
 
-#: src/global.c:659
+#: src/global.c:661
 msgid "Suspend the editor (return to the shell)"
 msgstr "Paŭzigi la redaktilon (reveni la ŝelon)"
 
-#: src/global.c:661
+#: src/global.c:663
 msgid "Refresh (redraw) the current screen"
 msgstr "Aktualigi (redesegni) la nunan ekranon"
 
-#: src/global.c:663
+#: src/global.c:665
 msgid "Try and complete the current word"
 msgstr "Provi kompletigi la nunan vortpecon"
 
-#: src/global.c:667
+#: src/global.c:669
 msgid "Comment/uncomment the current line (or marked lines)"
 msgstr "(Mal)komentigi la nunan linion (aŭ markitajn liniojn)"
 
-#: src/global.c:669
+#: src/global.c:671
 msgid "Save file without prompting"
 msgstr "Konservi dosieron sen demandi"
 
-#: src/global.c:670
+#: src/global.c:672
 msgid "Search next occurrence backward"
 msgstr "Serĉi sekvan okazon malantaŭen"
 
-#: src/global.c:671
+#: src/global.c:673
 msgid "Search next occurrence forward"
 msgstr "Serĉi sekvan okazon antaŭen"
 
-#: src/global.c:673
+#: src/global.c:675
 msgid "Start/stop recording a macro"
 msgstr "Komenci/fini registron de makroo"
 
-#: src/global.c:674
+#: src/global.c:676
 msgid "Run the last recorded macro"
 msgstr "Ruli laste registritan makroon"
 
-#: src/global.c:675
+#: src/global.c:677
 msgid "Place or remove an anchor at the current line"
 msgstr "Meti aŭ forigi ankron je la nuna linio"
 
-#: src/global.c:676
+#: src/global.c:678
 msgid "Jump backward to the nearest anchor"
 msgstr "Salti malantaŭen al la plej proksima ankro"
 
-#: src/global.c:677
+#: src/global.c:679
 msgid "Jump forward to the nearest anchor"
 msgstr "Salti antaŭen al la plej proksima ankro"
 
-#: src/global.c:679
+#: src/global.c:681
 msgid "Toggle the case sensitivity of the search"
 msgstr "Ŝalti la usklecdistingon de serĉo"
 
-#: src/global.c:680
+#: src/global.c:682
 msgid "Reverse the direction of the search"
 msgstr "Mali la direkton de serĉo"
 
-#: src/global.c:681
+#: src/global.c:683
 msgid "Toggle the use of regular expressions"
 msgstr "Ŝalti la uzon de regulesprimoj"
 
-#: src/global.c:683
+#: src/global.c:685
 msgid "Recall the previous search/replace string"
 msgstr "Repreni la antaŭan serĉitan signoĉenon"
 
-#: src/global.c:684
+#: src/global.c:686
 msgid "Recall the next search/replace string"
 msgstr "Repreni la postan serĉitan signoĉenon"
 
-#: src/global.c:687
+#: src/global.c:689
 msgid "Toggle the use of DOS format"
 msgstr "Ŝalti la uzon de DOS-aranĝo"
 
-#: src/global.c:688
+#: src/global.c:690
 msgid "Toggle the use of Mac format"
 msgstr "Ŝalti la uzon de Mac-aranĝo"
 
-#: src/global.c:689
+#: src/global.c:691
 msgid "Toggle appending"
 msgstr "Ŝalti postgluon"
 
-#: src/global.c:690
+#: src/global.c:692
 msgid "Toggle prepending"
 msgstr "Ŝalti antaŭgluon"
 
-#: src/global.c:691
+#: src/global.c:693
 msgid "Toggle backing up of the original file"
 msgstr "Ŝalti fari savkopion de redaktota dosiero"
 
-#: src/global.c:692
+#: src/global.c:694
 msgid "Execute a function or an external command"
 msgstr "Ruli funkcion aŭ eksteran komandon"
 
-#: src/global.c:694
+#: src/global.c:696
 msgid "Pipe the current buffer (or marked region) to the command"
 msgstr "Dukti la nunan bufron (aŭ markitan regionon) al la komando"
 
-#: src/global.c:696
+#: src/global.c:698
 msgid "Recall the previous command"
 msgstr "Repreni la antaŭan komandon"
 
-#: src/global.c:697
+#: src/global.c:699
 msgid "Recall the next command"
 msgstr "Repreni la postan komandon"
 
-#: src/global.c:699
+#: src/global.c:701
 msgid "Do not convert from DOS/Mac format"
 msgstr "Ŝalti konverton el DOS-/Mac-aranĝo"
 
-#: src/global.c:702
+#: src/global.c:704
 msgid "Toggle the use of a new buffer"
 msgstr "Ŝalti la uzon de nova bufro"
 
-#: src/global.c:704
+#: src/global.c:706
 msgid "Close buffer without saving it"
 msgstr "Fermi bufron sen konservi ĝin"
 
-#: src/global.c:706
+#: src/global.c:708
 msgid "Go to file browser"
 msgstr "Iri al dosieresplorilo"
 
-#: src/global.c:707
+#: src/global.c:709
 msgid "Exit from the file browser"
 msgstr "Eliri el dosieresplorilo"
 
-#: src/global.c:708
+#: src/global.c:710
 msgid "Go to the first file in the list"
 msgstr "Iri al la unua dosiero en la listo"
 
-#: src/global.c:709
+#: src/global.c:711
 msgid "Go to the last file in the list"
 msgstr "Iri al la lasta dosiero en la listo"
 
-#: src/global.c:710
+#: src/global.c:712
 msgid "Go to the previous file in the list"
 msgstr "Iri al la malsekva dosiero en la listo"
 
-#: src/global.c:711
+#: src/global.c:713
 msgid "Go to the next file in the list"
 msgstr "Iri al la sekva dosiero en la listo"
 
-#: src/global.c:713
+#: src/global.c:715
 msgid "Go to lefthand column"
 msgstr "Iri al plej liva kolumno"
 
-#: src/global.c:714
+#: src/global.c:716
 msgid "Go to righthand column"
 msgstr "Iri al plej dekstra kolumno"
 
-#: src/global.c:715
+#: src/global.c:717
 msgid "Go to first row in this column"
 msgstr "Iri al unua vico en ĉi tiu kolumno"
 
-#: src/global.c:716
+#: src/global.c:718
 msgid "Go to last row in this column"
 msgstr "Iri al lasta vico en ĉi tiu kolumno"
 
-#: src/global.c:718
+#: src/global.c:720
 msgid "Search forward for a string"
 msgstr "Serĉi antaŭen parton de dosiernomo"
 
-#: src/global.c:719
+#: src/global.c:721
 msgid "Search backward for a string"
 msgstr "Serĉi malantaŭen parton de dosiernomo"
 
-#: src/global.c:720
+#: src/global.c:722
 msgid "Refresh the file list"
 msgstr "Aktualigi dosierliston"
 
-#: src/global.c:721
+#: src/global.c:723
 msgid "Go to directory"
 msgstr "Iri al indikota dosierujo"
 
-#: src/global.c:724
+#: src/global.c:726
 msgid "Invoke the linter, if available"
 msgstr "Ruli sintaks-kontrolilon (se disponeblas)"
 
-#: src/global.c:725
+#: src/global.c:727
 msgid "Go to previous linter msg"
 msgstr "Iri al la antaŭa mesaĝo de la kontrolilo"
 
-#: src/global.c:726
+#: src/global.c:728
 msgid "Go to next linter msg"
 msgstr "Iri al la sekva mesaĝo de la kontrolilo"
 
-#: src/global.c:730
+#: src/global.c:732
 msgid "Invoke a program to format/arrange/manipulate the buffer"
 msgstr "Ruli programon kiu traktas/aranĝas/prilaboras la bufron"
 
 #. TRANSLATORS: Try to keep the next thirteen strings at most 10 characters.
-#: src/global.c:748
+#: src/global.c:750
 msgid "Help"
 msgstr "Helpo"
 
-#: src/global.c:752 src/prompt.c:712
+#: src/global.c:754 src/prompt.c:711
 msgid "Cancel"
 msgstr "Rezigni"
 
-#: src/global.c:774
+#: src/global.c:776
 msgid "Write Out"
 msgstr "Konservi"
 
-#: src/global.c:782
+#: src/global.c:784
 msgid "Read File"
 msgstr "Enmeti"
 
-#: src/global.c:786 src/global.c:825
+#: src/global.c:788 src/global.c:827
 msgid "Justify"
 msgstr "Rektigi"
 
-#: src/global.c:792 src/global.c:884 src/global.c:1094
+#: src/global.c:794 src/global.c:886 src/global.c:1096
 msgid "Refresh"
 msgstr "Rebildigi"
 
-#: src/global.c:797 src/global.c:887
+#: src/global.c:799 src/global.c:889
 msgid "Where Is"
 msgstr "Serĉi"
 
-#: src/global.c:800 src/global.c:861
+#: src/global.c:802 src/global.c:863
 msgid "Replace"
 msgstr "Anstataŭigi"
 
-#: src/global.c:813
+#: src/global.c:815
 msgid "Cut"
 msgstr "Eltondi"
 
-#: src/global.c:816
+#: src/global.c:818
 msgid "Paste"
 msgstr "Alglui"
 
-#: src/global.c:821 src/global.c:1086
+#: src/global.c:823 src/global.c:1088
 msgid "Execute"
 msgstr "Komando"
 
 #. TRANSLATORS: This refers to the position of the cursor.
-#: src/global.c:831
+#: src/global.c:833
 msgid "Location"
 msgstr "Pozicio"
 
-#: src/global.c:837 src/global.c:996 src/global.c:1136
+#: src/global.c:839 src/global.c:998 src/global.c:1138
 msgid "Go To Line"
 msgstr "Iri linion"
 
 #. TRANSLATORS: Try to keep the next ten strings at most 12 characters.
-#: src/global.c:843
+#: src/global.c:845
 msgid "Undo"
 msgstr "Malfari"
 
-#: src/global.c:845
+#: src/global.c:847
 msgid "Redo"
 msgstr "Refari"
 
-#: src/global.c:848
+#: src/global.c:850
 msgid "Set Mark"
 msgstr "Markŝalto"
 
-#: src/global.c:850 src/global.c:1030
+#: src/global.c:852 src/global.c:1032
 msgid "Copy"
 msgstr "Kopii"
 
-#: src/global.c:854
+#: src/global.c:856
 msgid "Case Sens"
 msgstr "Usklece"
 
-#: src/global.c:856
+#: src/global.c:858
 msgid "Reg.exp."
 msgstr "Regulesprime"
 
-#: src/global.c:858
+#: src/global.c:860
 msgid "Backwards"
 msgstr "Malantaŭen"
 
-#: src/global.c:863
+#: src/global.c:865
 msgid "No Replace"
 msgstr "Ne anstataŭigi"
 
-#: src/global.c:867 src/global.c:872
+#: src/global.c:869 src/global.c:874
 msgid "Older"
 msgstr "Pli olda"
 
-#: src/global.c:869 src/global.c:874
+#: src/global.c:871 src/global.c:876
 msgid "Newer"
 msgstr "Pli freŝa"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:881
+#: src/global.c:883
 msgid "Go To Dir"
 msgstr "Dosierujen"
 
 #. TRANSLATORS: This starts a backward search.
-#: src/global.c:889 src/global.c:908
+#: src/global.c:891 src/global.c:910
 msgid "Where Was"
 msgstr "Retroserĉi"
 
 #. TRANSLATORS: This refers to searching the preceding occurrence.
-#: src/global.c:892 src/global.c:912
+#: src/global.c:894 src/global.c:914
 msgid "Previous"
 msgstr "Antaŭan okazon"
 
-#: src/global.c:894 src/global.c:914
+#: src/global.c:896 src/global.c:916
 msgid "Next"
 msgstr "Sekvan okazon"
 
-#: src/global.c:904
+#: src/global.c:906
 msgid "To Bracket"
 msgstr "Al krampo"
 
 #. TRANSLATORS: This means move the cursor one character back.
-#: src/global.c:919 src/global.c:924
+#: src/global.c:921 src/global.c:926
 msgid "Back"
 msgstr "Malantaŭen"
 
-#: src/global.c:921 src/global.c:926
+#: src/global.c:923 src/global.c:928
 msgid "Forward"
 msgstr "Antaŭen"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:932
+#: src/global.c:934
 msgid "Prev Word"
 msgstr "Antaŭa vorto"
 
-#: src/global.c:934
+#: src/global.c:936
 msgid "Next Word"
 msgstr "Sekva vorto"
 
 #. TRANSLATORS: These two mean: "to beginning of line", "to end of line".
-#: src/global.c:939
+#: src/global.c:941
 msgid "Home"
 msgstr "Linikomencen"
 
-#: src/global.c:941
+#: src/global.c:943
 msgid "End"
 msgstr "Linifinen"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:945
+#: src/global.c:947
 msgid "Prev Line"
 msgstr "Linio supren"
 
-#: src/global.c:947
+#: src/global.c:949
 msgid "Next Line"
 msgstr "Linio suben"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:951
+#: src/global.c:953
 msgid "Scroll Up"
 msgstr "Rulumi supren"
 
-#: src/global.c:953
+#: src/global.c:955
 msgid "Scroll Down"
 msgstr "Rulumi suben"
 
-#: src/global.c:957
+#: src/global.c:959
 msgid "Prev Block"
 msgstr "Antaŭa bloko"
 
-#: src/global.c:959
+#: src/global.c:961
 msgid "Next Block"
 msgstr "Sekva bloko"
 
 #. TRANSLATORS: Try to keep these two strings at most 16 characters.
-#: src/global.c:963
+#: src/global.c:965
 msgid "Begin of Paragr."
 msgstr "Alineo-eken"
 
-#: src/global.c:965
+#: src/global.c:967
 msgid "End of Paragraph"
 msgstr "Alineo-finen"
 
-#: src/global.c:970 src/global.c:1202
+#: src/global.c:972 src/global.c:1204
 msgid "Top Row"
 msgstr "Pinten"
 
-#: src/global.c:972 src/global.c:1204
+#: src/global.c:974 src/global.c:1206
 msgid "Bottom Row"
 msgstr "Funden"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:977 src/global.c:1187
+#: src/global.c:979 src/global.c:1189
 msgid "Prev Page"
 msgstr "Paĝo supren"
 
-#: src/global.c:979 src/global.c:1189
+#: src/global.c:981 src/global.c:1191
 msgid "Next Page"
 msgstr "Paĝo suben"
 
-#: src/global.c:982
+#: src/global.c:984
 msgid "First Line"
 msgstr "Unua linio"
 
-#: src/global.c:984
+#: src/global.c:986
 msgid "Last Line"
 msgstr "Lasta linio"
 
 #. TRANSLATORS: Try to keep these two strings at most 15 characters.
-#: src/global.c:989
+#: src/global.c:991
 msgid "Prev File"
 msgstr "Malsekvan"
 
-#: src/global.c:991
+#: src/global.c:993
 msgid "Next File"
 msgstr "Sekvan"
 
 #. TRANSLATORS: The next four strings are names of keyboard keys.
-#: src/global.c:1001
+#: src/global.c:1003
 msgid "Tab"
 msgstr "«Tabo»"
 
-#: src/global.c:1003
+#: src/global.c:1005
 msgid "Enter"
 msgstr "«Enigo»"
 
-#: src/global.c:1006
+#: src/global.c:1008
 msgid "Backspace"
 msgstr "«Retropaŝo»"
 
-#: src/global.c:1008
+#: src/global.c:1010
 msgid "Delete"
 msgstr "«Forigo»"
 
 #. TRANSLATORS: The next two strings refer to deleting words.
-#: src/global.c:1013
+#: src/global.c:1015
 msgid "Chop Left"
 msgstr "Vorthaki liven"
 
-#: src/global.c:1015
+#: src/global.c:1017
 msgid "Chop Right"
 msgstr "Vorthaki dekstren"
 
-#: src/global.c:1017 src/global.c:1170
+#: src/global.c:1019 src/global.c:1172
 msgid "Cut Till End"
 msgstr "Tondi reston"
 
-#: src/global.c:1022 src/global.c:1127
+#: src/global.c:1024 src/global.c:1129
 msgid "Full Justify"
 msgstr "Rektigi ĉion"
 
-#: src/global.c:1027
+#: src/global.c:1029
 msgid "Word Count"
 msgstr "Nombri vortojn"
 
-#: src/global.c:1034
+#: src/global.c:1036
 msgid "Verbatim"
 msgstr "Konforme"
 
-#: src/global.c:1041
+#: src/global.c:1043
 msgid "Indent"
 msgstr "Endeŝovi"
 
-#: src/global.c:1043
+#: src/global.c:1045
 msgid "Unindent"
 msgstr "Eldeŝovi"
 
-#: src/global.c:1047
+#: src/global.c:1049
 msgid "Comment Lines"
 msgstr "Komentigi"
 
-#: src/global.c:1051
+#: src/global.c:1053
 msgid "Complete"
 msgstr "Kompletigi"
 
-#: src/global.c:1056
+#: src/global.c:1058
 msgid "Record"
 msgstr "Registri"
 
-#: src/global.c:1058
+#: src/global.c:1060
 msgid "Run Macro"
 msgstr "Ruli makroon"
 
 #. TRANSLATORS: This refers to deleting a line or marked region.
-#: src/global.c:1062
+#: src/global.c:1064
 msgid "Zap"
 msgstr "Forĵeti"
 
-#: src/global.c:1065
+#: src/global.c:1067
 msgid "Anchor"
 msgstr "Ankri"
 
-#: src/global.c:1067
+#: src/global.c:1069
 msgid "Up to anchor"
 msgstr "Supren ankren"
 
-#: src/global.c:1069
+#: src/global.c:1071
 msgid "Down to anchor"
 msgstr "Suben ankren"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:1073 src/global.c:1119
+#: src/global.c:1075 src/global.c:1121
 msgid "Spell Check"
 msgstr "Literumo"
 
-#: src/global.c:1077 src/global.c:1123
+#: src/global.c:1079 src/global.c:1125
 msgid "Linter"
 msgstr "Trakombo"
 
-#: src/global.c:1081 src/global.c:1131
+#: src/global.c:1083 src/global.c:1133
 msgid "Formatter"
 msgstr "Aranĝilo"
 
-#: src/global.c:1089 src/global.c:1173
+#: src/global.c:1091 src/global.c:1175
 msgid "Suspend"
 msgstr "Paŭzigi"
 
-#: src/global.c:1098
+#: src/global.c:1100
 msgid "Center"
 msgstr "Centrigi"
 
-#: src/global.c:1100
+#: src/global.c:1102
 msgid "Cycle"
 msgstr "Permuti"
 
-#: src/global.c:1104
+#: src/global.c:1106
 msgid "Save"
 msgstr "Konservi nun"
 
-#: src/global.c:1114
+#: src/global.c:1116
 msgid "Pipe Text"
 msgstr "Dukti tekston"
 
-#: src/global.c:1138
+#: src/global.c:1140
 msgid "Go To Text"
 msgstr "Serĉi"
 
-#: src/global.c:1143
+#: src/global.c:1145
 msgid "DOS Format"
 msgstr "DOS-aranĝo"
 
-#: src/global.c:1145
+#: src/global.c:1147
 msgid "Mac Format"
 msgstr "Mac-aranĝo"
 
-#: src/global.c:1153
+#: src/global.c:1155
 msgid "Append"
 msgstr "Postglui"
 
-#: src/global.c:1155
+#: src/global.c:1157
 msgid "Prepend"
 msgstr "Antaŭglui"
 
-#: src/global.c:1158
+#: src/global.c:1160
 msgid "Backup File"
 msgstr "Savkopii"
 
-#: src/global.c:1162
+#: src/global.c:1164
 msgid "No Conversion"
 msgstr "Ne konverti"
 
-#: src/global.c:1167
+#: src/global.c:1169
 msgid "Execute Command"
 msgstr "Ruli komandon"
 
-#: src/global.c:1177
+#: src/global.c:1179
 msgid "Discard buffer"
 msgstr "Forĵeti"
 
 #. TRANSLATORS: This invokes the file browser.
-#: src/global.c:1184
+#: src/global.c:1186
 msgid "Browse"
 msgstr "Dosierlisto"
 
-#: src/global.c:1192
+#: src/global.c:1194
 msgid "First File"
 msgstr "Unua dosiero"
 
-#: src/global.c:1194
+#: src/global.c:1196
 msgid "Last File"
 msgstr "Lasta dosiero"
 
-#: src/global.c:1198
+#: src/global.c:1200
 msgid "Left Column"
 msgstr "Liven"
 
-#: src/global.c:1200
+#: src/global.c:1202
 msgid "Right Column"
 msgstr "Dekstren"
 
 #. TRANSLATORS: The next two strings may be up to 37 characters each.
-#: src/global.c:1211
+#: src/global.c:1213
 msgid "Previous Linter message"
 msgstr "Antaŭa mesaĝo"
 
-#: src/global.c:1213
+#: src/global.c:1215
 msgid "Next Linter message"
 msgstr "Sekva mesaĝo"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1607
+#: src/global.c:1609
 msgid "Hidden interface"
 msgstr "Kaŝata interfaco"
 
-#: src/global.c:1609
+#: src/global.c:1611
 msgid "Help mode"
 msgstr "Helpaj linioj"
 
-#: src/global.c:1611
+#: src/global.c:1613
 msgid "Constant cursor position display"
 msgstr "Daŭra montro de kursora pozicio"
 
-#: src/global.c:1613
+#: src/global.c:1615
 msgid "Soft wrapping of overlong lines"
 msgstr "Ĉirkaŭfluigo de tro longaj linioj"
 
-#: src/global.c:1615
+#: src/global.c:1617
 msgid "Line numbering"
 msgstr "Lininumeroj"
 
-#: src/global.c:1617
+#: src/global.c:1619
 msgid "Whitespace display"
 msgstr "Montro de blankspacoj"
 
-#: src/global.c:1619
+#: src/global.c:1621
 msgid "Color syntax highlighting"
 msgstr "Kolora montro de sintakso"
 
-#: src/global.c:1621
+#: src/global.c:1623
 msgid "Smart home key"
 msgstr "Inteligenta klavo «Komencen»"
 
-#: src/global.c:1623
+#: src/global.c:1625
 msgid "Auto indent"
 msgstr "Aŭtomata deŝovo"
 
-#: src/global.c:1625
+#: src/global.c:1627
 msgid "Cut to end"
 msgstr "Tondo ekde kursoro ĝis linifino"
 
-#: src/global.c:1627
+#: src/global.c:1629
 msgid "Hard wrapping of overlong lines"
 msgstr "Faldo de longaj linioj"
 
-#: src/global.c:1629
+#: src/global.c:1631
 msgid "Conversion of typed tabs to spaces"
 msgstr "Konverto de tajpataj taboj al spacoj"
 
-#: src/global.c:1631
+#: src/global.c:1633
 msgid "Mouse support"
 msgstr "Subteno de muso"
 
@@ -2310,7 +2310,7 @@ msgstr "Nevalida serĉmodifilo '%c'"
 msgid "Empty search string"
 msgstr "Vaka serĉĉeno"
 
-#: src/nano.c:2539 src/search.c:797
+#: src/nano.c:2539 src/search.c:801
 msgid "Invalid line or column number"
 msgstr "Ne validas numero de linio aŭ kolumno"
 
@@ -2318,48 +2318,48 @@ msgstr "Ne validas numero de linio aŭ kolumno"
 msgid "Invalid number\n"
 msgstr "Nevalida nombro\n"
 
-#: src/nano.c:2615
+#: src/nano.c:2621
 msgid "Standard input is not a terminal\n"
 msgstr "Ĉefenigujo ne estas terminalo\n"
 
-#: src/nano.c:2634
+#: src/nano.c:2640
 msgid "Can open just one file\n"
 msgstr "Eblas malfermi nur unu dosieron\n"
 
-#: src/nano.c:2652
+#: src/nano.c:2658
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Bonvenon al nano.  Por baza helpo, tajpu Stir+G."
 
-#: src/nano.c:2691
+#: src/nano.c:2697
 msgid "Byte Order Mark"
 msgstr "Bajt-orda marko"
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:671
+#: src/prompt.c:670
 msgid "Yy"
 msgstr "Jj"
 
-#: src/prompt.c:672
+#: src/prompt.c:671
 msgid "Nn"
 msgstr "Nn"
 
 # La unua litero ne povas esti plurbitoka, tial senĉapela.
 # Inkluzivas "Tt" (Tute) ĉar tiuj uziĝis antaŭe.
-#: src/prompt.c:673
+#: src/prompt.c:672
 msgid "Aa"
 msgstr "CcĈĉTt"
 
-#: src/prompt.c:699
+#: src/prompt.c:698
 msgid "Yes"
 msgstr "Jes"
 
-#: src/prompt.c:703
+#: src/prompt.c:702
 msgid "No"
 msgstr "Ne"
 
-#: src/prompt.c:708
+#: src/prompt.c:707
 msgid "All"
 msgstr "Ĉiujn"
 
@@ -2592,26 +2592,26 @@ msgstr " (por anstataŭigi)"
 
 #. TRANSLATORS: This is shown when searching takes
 #. * more than half a second.
-#: src/search.c:236 src/search.c:309
+#: src/search.c:235 src/search.c:308
 msgid "Searching..."
 msgstr "Serĉante..."
 
-#: src/search.c:410
+#: src/search.c:409
 #, c-format
 msgid "\"%.*s%s\" not found"
 msgstr "'%.*s%s' ne trovatas"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:599
+#: src/search.c:598
 msgid "Replace this instance?"
 msgstr "Anstataŭigi ĉi tiun aperaĵon?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:710
+#: src/search.c:709
 msgid "Replace with"
 msgstr "Anstataŭigi per"
 
-#: src/search.c:740
+#: src/search.c:739
 #, c-format
 msgid "Replaced %zd occurrence"
 msgid_plural "Replaced %zd occurrences"
@@ -2619,35 +2619,35 @@ msgstr[0] "Anstataŭiĝis %zd aperaĵo"
 msgstr[1] "Anstataŭiĝis %zd aperaĵoj"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:776
+#: src/search.c:778
 msgid "Enter line number, column number"
 msgstr "Enigu lininumeron, kolumnnumeron"
 
-#: src/search.c:951
+#: src/search.c:954
 msgid "Not a bracket"
 msgstr "Ne estas krampo"
 
-#: src/search.c:994
+#: src/search.c:997
 msgid "No matching bracket"
 msgstr "Ne ekzistas para krampo"
 
-#: src/search.c:1013
+#: src/search.c:1016
 msgid "Placed anchor"
 msgstr "Ankro metiĝis"
 
-#: src/search.c:1015
+#: src/search.c:1018
 msgid "Removed anchor"
 msgstr "Ankro foriĝis"
 
-#: src/search.c:1034
+#: src/search.c:1037
 msgid "Jumped to anchor"
 msgstr "Saltis al ankro"
 
-#: src/search.c:1036
+#: src/search.c:1039
 msgid "This is the only anchor"
 msgstr "Ĉi tie estas la ununura ankro"
 
-#: src/search.c:1038
+#: src/search.c:1041
 msgid "There are no anchors"
 msgstr "Ne ekzistas ankroj"
 
@@ -2955,89 +2955,89 @@ msgstr "Tro da eraroj el ĉefenigujo\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1407
+#: src/winio.c:1410
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Enigo de Unikodo: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:2029
+#: src/winio.c:2032
 msgid "Linting --"
 msgstr "Trakombo --"
 
-#: src/winio.c:2035
+#: src/winio.c:2038
 msgid "DIR:"
 msgstr "DOSIERUJO:"
 
-#: src/winio.c:2056
+#: src/winio.c:2059
 msgid "View"
 msgstr "Nur rigardi"
 
-#: src/winio.c:2062 src/winio.c:2066
+#: src/winio.c:2065 src/winio.c:2069
 msgid "Modified"
 msgstr "Ŝanĝita"
 
-#: src/winio.c:2064
+#: src/winio.c:2067
 msgid "Restricted"
 msgstr "Limigita"
 
-#: src/winio.c:2170
+#: src/winio.c:2173
 msgid "(nameless)"
 msgstr "(sennoma)"
 
-#: src/winio.c:2202
+#: src/winio.c:2205
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] " (%zu linio)"
 msgstr[1] " (%zu linioj)"
 
-#: src/winio.c:2204
+#: src/winio.c:2207
 #, c-format
 msgid " (%zu line, %s)"
 msgid_plural " (%zu lines, %s)"
 msgstr[0] " (%zu linio, %s)"
 msgstr[1] " (%zu linioj, %s)"
 
-#: src/winio.c:3506
+#: src/winio.c:3515
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "linio %*zd/%zd (%2d%%) ⬥ kolumno %2zu/%2zu (%3d%%) ⬥ signo %*zu/%zu (%2d%%)"
 
-#: src/winio.c:3660
+#: src/winio.c:3669
 msgid "The nano text editor"
 msgstr "La tekstredaktilo 'nano'"
 
-#: src/winio.c:3661
+#: src/winio.c:3670
 msgid "version"
 msgstr "versio"
 
-#: src/winio.c:3662
+#: src/winio.c:3671
 msgid "Brought to you by:"
 msgstr "Prezentita al vi per:"
 
-#: src/winio.c:3663
+#: src/winio.c:3672
 msgid "Special thanks to:"
 msgstr "Specialan dankon al:"
 
-#: src/winio.c:3664
+#: src/winio.c:3673
 msgid "The Free Software Foundation"
 msgstr "la “Free Software Foundation”"
 
-#: src/winio.c:3665
+#: src/winio.c:3674
 msgid "the many translators and the TP"
 msgstr "la multaj tradukantoj kaj la TP"
 
-#: src/winio.c:3666
+#: src/winio.c:3675
 msgid "For ncurses:"
 msgstr "por 'ncurses':"
 
-#: src/winio.c:3667
+#: src/winio.c:3676
 msgid "and anyone else we forgot..."
 msgstr "kaj iuj ajn kiujn ni forgesis..."
 
-#: src/winio.c:3668
+#: src/winio.c:3677
 msgid "Thank you for using nano!"
 msgstr "Dankon pro via uzo de 'nano'!"
 
