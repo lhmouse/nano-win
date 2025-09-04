@@ -1022,9 +1022,14 @@ void execute_command(const char *command)
 		/* Original and temporary handlers for SIGINT. */
 	ssize_t was_lineno = (openfile->mark ? 0 : openfile->current->lineno);
 	int command_status, sender_status;
+	bool capture_output = TRUE;
 	FILE *stream;
 
 	should_pipe = (command[0] == '|');
+
+	/* Two leading pipe symbols mean: let the output go to the terminal. */
+	if (should_pipe && command[1] == '|')
+		capture_output = FALSE;
 
 	/* Create a pipe to read the command's output from, and, if needed,
 	 * a pipe to feed the command's input through. */
@@ -1044,7 +1049,7 @@ void execute_command(const char *command)
 		close(from_fd[0]);
 
 		/* Connect the write end of the output pipe to the process' output streams. */
-		if (dup2(from_fd[1], STDOUT_FILENO) < 0)
+		if (capture_output && dup2(from_fd[1], STDOUT_FILENO) < 0)
 			exit(3);
 		if (dup2(from_fd[1], STDERR_FILENO) < 0)
 			exit(4);
@@ -1059,7 +1064,8 @@ void execute_command(const char *command)
 		}
 
 		/* Run the given command inside the preferred shell. */
-		execl(theshell, tail(theshell), "-c", should_pipe ? &command[1] : command, NULL);
+		execl(theshell, tail(theshell), "-c", should_pipe ? capture_output ?
+										&command[1] : &command[2] : command, NULL);
 
 		/* If the exec call returns, there was an error. */
 		exit(6);
