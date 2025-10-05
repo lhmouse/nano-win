@@ -804,6 +804,8 @@ void ask_for_line_and_column(char *provided)
 
 	if (doublesign)
 		line += openfile->current->lineno;
+	if (doublesign && line < 1)
+		line = 1;
 
 	goto_line_and_column(line, column, FALSE);
 
