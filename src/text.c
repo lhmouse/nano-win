@@ -894,6 +894,8 @@ void do_enter(void)
 		/* If there were only blanks before the cursor, trim them. */
 		if (allblanks)
 			openfile->current_x = 0;
+		if (allblanks && openfile->mark == openfile->current)
+			openfile->mark_x = 0;
 	}
 #endif
 
