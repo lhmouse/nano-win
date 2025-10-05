@@ -876,14 +876,13 @@ void do_enter(void)
 			allblanks = (indent_length(openfile->current->data) == extra);
 	}
 #endif /* NANO_TINY */
-	newnode->data = nmalloc(strlen(openfile->current->data +
-										openfile->current_x) + extra + 1);
-	strcpy(&newnode->data[extra], openfile->current->data +
-										openfile->current_x);
+
+	newnode->data = nmalloc(strlen(openfile->current->data + openfile->current_x) + extra + 1);
+	strcpy(&newnode->data[extra], openfile->current->data + openfile->current_x);
+
 #ifndef NANO_TINY
 	/* Adjust the mark if it is on the current line after the cursor. */
-	if (openfile->mark == openfile->current &&
-				openfile->mark_x > openfile->current_x) {
+	if (openfile->mark == openfile->current && openfile->mark_x > openfile->current_x) {
 		openfile->mark = newnode;
 		openfile->mark_x += extra - openfile->current_x;
 	}
