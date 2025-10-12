@@ -299,6 +299,9 @@
 ## For copying a marked region to the system clipboard:
 # bind Sh-M-C "{execute}| xsel -ib {enter}{undo}" main
 
+## For copying text to the local clipboard via OSC52 (if terminal supports it).
+# bind M-* "{execute}|| printf "\033]52;c;%s\007" "$(base64 | tr -d '\n')" {enter}{undo}" main
+
 ## For normalizing Unicode to precomposed characters:
 # bind Sh-M-N "{execute}| uconv -x nfc {enter}" main
 
