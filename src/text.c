@@ -3101,8 +3101,10 @@ char *copy_completion(char *text)
  * and paste the next possible completion. */
 void complete_a_word(void)
 {
+#ifdef ENABLE_MULTIBUFFER
 	static openfilestruct *scouring = NULL;
 		/* The buffer that is being searched for possible completions. */
+#endif
 	static completionstruct *list_of_completions;
 		/* A linked list of the completions that have been attempted. */
 	static int pletion_x = 0;
@@ -3128,7 +3130,9 @@ void complete_a_word(void)
 		openfile->last_action = OTHER;
 
 		/* Initialize the starting point for searching. */
+#ifdef ENABLE_MULTIBUFFER
 		scouring = openfile;
+#endif
 		pletion_line = openfile->filetop;
 		pletion_x = 0;
 
