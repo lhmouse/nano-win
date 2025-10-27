@@ -1073,8 +1073,8 @@ void regenerate_screen(void)
 	terminal_init();
 	window_init();
 
-	/* If we have an open buffer, redraw the contents of the subwindows. */
-	if (openfile) {
+	/* Only when fully initialized, redraw the contents of the subwindows. */
+	if (we_are_running) {
 		ensure_firstcolumn_is_aligned();
 		draw_all_subwindows();
 	}
