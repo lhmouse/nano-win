@@ -208,9 +208,11 @@ void read_keys_from(WINDOW *frame)
 
 	/* Read in the first keycode, waiting for it to arrive. */
 	while (input == ERR) {
+#ifdef NANO_TINY
 		input = wgetch(frame);
-
-#ifndef NANO_TINY
+#else
+		if (!the_window_resized)
+			input = wgetch(frame);
 		if (the_window_resized) {
 			regenerate_screen();
 			input = THE_WINDOW_RESIZED;

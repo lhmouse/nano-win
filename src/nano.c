@@ -1039,11 +1039,6 @@ void block_sigwinch(bool blockit)
 	sigaddset(&winch, SIGWINCH);
 	sigprocmask(blockit ? SIG_BLOCK : SIG_UNBLOCK, &winch, NULL);
 #endif
-
-#ifndef NANO_TINY
-	if (the_window_resized)
-		regenerate_screen();
-#endif
 }
 #endif
 
