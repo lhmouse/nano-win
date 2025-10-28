@@ -2167,6 +2167,10 @@ void treat(char *tempfile_name, char *theprogram, bool spelling)
 	if (spelling) {
 		terminal_init();
 		doupdate();
+#ifndef NANO_TINY
+		if (the_window_resized)
+			regenerate_screen();
+#endif
 	} else
 		full_refresh();
 
