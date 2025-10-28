@@ -901,7 +901,6 @@ bool scoop_stdin(void)
 
 	return TRUE;
 }
-#endif
 
 /* Register a handler for SIGWINCH because we want to handle window resizes. */
 void set_up_sigwinch_handler(void)
@@ -913,9 +912,10 @@ void set_up_sigwinch_handler(void)
 	sigaction(SIGWINCH, &deed, NULL);
 #endif
 }
+#endif /* !NANO_TINY */
 
-/* Register half a dozen signal handlers. */
-void signal_init(void)
+/* Register five more signal handlers. */
+void set_up_signal_handlers(void)
 {
 	struct sigaction deed = {{0}};
 
@@ -933,14 +933,12 @@ void signal_init(void)
 #endif
 	sigaction(SIGTERM, &deed, NULL);
 
-#ifndef NANO_TINY
-#ifdef SIGTSTP
+#if defined(SIGTSTP) && !defined(NANO_TINY)
 	/* Prevent the suspend handler from getting interrupted. */
 	sigfillset(&deed.sa_mask);
 	deed.sa_handler = suspend_nano;
 	sigaction(SIGTSTP, &deed, NULL);
 #endif
-#endif /* !NANO_TINY */
 #ifdef SIGCONT
 	sigfillset(&deed.sa_mask);
 	deed.sa_handler = continue_nano;
@@ -2445,8 +2443,7 @@ int main(int argc, char **argv)
 #endif
 	editwincols = COLS - sidebar;
 
-	/* Set up the signal handlers. */
-	signal_init();
+	set_up_signal_handlers();
 
 #ifdef ENABLE_MOUSE
 	/* Initialize mouse support. */
