@@ -903,6 +903,17 @@ bool scoop_stdin(void)
 }
 #endif
 
+/* Register a handler for SIGWINCH because we want to handle window resizes. */
+void set_up_sigwinch_handler(void)
+{
+#ifdef SIGWINCH
+	struct sigaction deed = {{0}};
+
+	deed.sa_handler = handle_sigwinch;
+	sigaction(SIGWINCH, &deed, NULL);
+#endif
+}
+
 /* Register half a dozen signal handlers. */
 void signal_init(void)
 {
@@ -923,11 +934,6 @@ void signal_init(void)
 	sigaction(SIGTERM, &deed, NULL);
 
 #ifndef NANO_TINY
-#ifdef SIGWINCH
-	/* Trap SIGWINCH because we want to handle window resizes. */
-	deed.sa_handler = handle_sigwinch;
-	sigaction(SIGWINCH, &deed, NULL);
-#endif
 #ifdef SIGTSTP
 	/* Prevent the suspend handler from getting interrupted. */
 	sigfillset(&deed.sa_mask);
@@ -2153,6 +2159,10 @@ int main(int argc, char **argv)
 				exit(1);
 		}
 	}
+
+#ifndef NANO_TINY
+	set_up_sigwinch_handler();
+#endif
 
 	/* Curses needs TERM; if it is unset, try falling back to a VT220. */
 	if (getenv("TERM") == NULL)
