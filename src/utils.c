@@ -28,16 +28,15 @@
 #include <string.h>
 #include <unistd.h>
 
-/* Return the user's home directory.  We use $HOME, and if that fails,
- * we fall back on the home directory of the effective user ID. */
+/* Set global variable `homedir` to the user's home directory.  First try
+ * $HOME, otherwise consult the password database for the current UID. */
 void get_homedir(void)
 {
 	if (homedir == NULL) {
 		const char *homenv = getenv("HOME");
 
 #ifdef HAVE_PWD_H
-		/* When HOME isn't set, or when we're root, get the home directory
-		 * from the password file instead. */
+		/* When $HOME is unset, or when we're root, try the database. */
 		if (homenv == NULL || geteuid() == ROOT_UID) {
 			const struct passwd *userage = getpwuid(geteuid());
 
@@ -46,8 +45,7 @@ void get_homedir(void)
 		}
 #endif
 
-		/* Only set homedir if some home directory could be determined,
-		 * otherwise keep homedir NULL. */
+		/* Only set `homedir` if a home directory could be determined. */
 		if (homenv != NULL && *homenv != '\0')
 			homedir = copy_of(homenv);
 	}
@@ -199,16 +197,13 @@ void free_chararray(char **array, size_t len)
 #endif
 
 #ifdef ENABLE_SPELLER
-/* Is the word starting at the given position in 'text' and of the given
+/* Is the word starting at the given position in `text` and of the given
  * length a separate word?  That is: is it not part of a longer word? */
 bool is_separate_word(size_t position, size_t length, const char *text)
 {
 	const char *before = text + step_left(text, position);
 	const char *after = text + position + length;
 
-	/* If the word starts at the beginning of the line OR the character before
-	 * the word isn't a letter, and if the word ends at the end of the line OR
-	 * the character after the word isn't a letter, we have a whole word. */
 	return ((position == 0 || !is_alpha_char(before)) &&
 					(*after == '\0' || !is_alpha_char(after)));
 }
@@ -219,8 +214,7 @@ bool is_separate_word(size_t position, size_t length, const char *text)
  * than the given start; otherwise, we find the first match starting no earlier
  * than start.  If we are doing a regexp search, and we find a match, we fill
  * in the global variable regmatches with at most 9 subexpression matches. */
-const char *strstrwrapper(const char *haystack, const char *needle,
-		const char *start)
+const char *strstrwrapper(const char *haystack, const char *needle, const char *start)
 {
 	if (ISSET(USE_REGEXP)) {
 		if (ISSET(BACKWARDS_SEARCH)) {
@@ -250,16 +244,14 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 				next_rung = step_right(haystack, last_find);
 				regmatches[0].rm_so = next_rung;
 				regmatches[0].rm_eo = far_end;
-				if (regexec(&search_regexp, haystack, 1, regmatches,
-										REG_STARTEND) != 0)
+				if (regexec(&search_regexp, haystack, 1, regmatches, REG_STARTEND) != 0)
 					break;
 			}
 
 			/* Find the last match again, to get possible submatches. */
 			regmatches[0].rm_so = floor;
 			regmatches[0].rm_eo = far_end;
-			if (regexec(&search_regexp, haystack, 10, regmatches,
-										REG_STARTEND) != 0)
+			if (regexec(&search_regexp, haystack, 10, regmatches, REG_STARTEND) != 0)
 				return NULL;
 
 			return haystack + regmatches[0].rm_so;
@@ -268,8 +260,7 @@ const char *strstrwrapper(const char *haystack, const char *needle,
 		/* Do a forward regex search from the starting point. */
 		regmatches[0].rm_so = start - haystack;
 		regmatches[0].rm_eo = strlen(haystack);
-		if (regexec(&search_regexp, haystack, 10, regmatches,
-										REG_STARTEND) != 0)
+		if (regexec(&search_regexp, haystack, 10, regmatches, REG_STARTEND) != 0)
 			return NULL;
 		else
 			return haystack + regmatches[0].rm_so;
@@ -435,8 +426,7 @@ void new_magicline(void)
  * it isn't the only line in the file. */
 void remove_magicline(void)
 {
-	if (openfile->filebot->data[0] == '\0' &&
-				openfile->filebot != openfile->filetop) {
+	if (openfile->filebot->data[0] == '\0' && openfile->filebot != openfile->filetop) {
 		if (openfile->current == openfile->filebot)
 			openfile->current = openfile->current->prev;
 		openfile->filebot = openfile->filebot->prev;
