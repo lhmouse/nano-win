@@ -1,3 +1,26 @@
+Changes between v8.6 and v8.7:
+------------------------------
+
+Benno Schulenberg (17):
+      build: avoid a warning when configured with --disable-multibuffer
+      bump version numbers and add a news item for the 8.7 release
+      display: regenerate the screen after a resize during a spell check
+      display: regenerate the screen only before and after waiting for input
+      display: upon resize, redraw the subwindows only when fully initialized
+      docs: add example of copy-to-clipboard-with-OSC52 to the sample nanorc
+      docs: mention that `execute` can pipe buffer or region to the command
+      gnulib: update to its current upstream state
+      moving: prevent a negative relative jump from going beyond top of buffer
+      new feature: execute a command without capturing the output
+      startup: register the handler for SIGWINCH much earlier
+      text: when blanking a line due to --autoindent, keep the mark in sync
+      tweaks: improve a few comments, drop one, and unwrap some lines
+      tweaks: improve the punctuation of one item in the sample nanorc
+      tweaks: replace a remaining double dash with a true emdash
+      tweaks: reshuffle some #ifdefs, and rename a function
+      tweaks: unwrap three lines, for esthetics
+
+
 Changes between v8.5 and v8.6:
 ------------------------------
 
