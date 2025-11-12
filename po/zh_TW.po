@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNU nano 8.1-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2025-08-21 07:53+0200\n"
+"POT-Creation-Date: 2025-11-12 10:44+0100\n"
 "PO-Revision-Date: 2024-11-30 13:31+0800\n"
 "Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@lists.slat.org>\n"
@@ -54,9 +54,9 @@ msgstr "搜尋"
 msgid " [Backwards]"
 msgstr " [往後搜尋]"
 
-#: src/browser.c:322 src/browser.c:563 src/files.c:1157 src/files.c:1250
-#: src/files.c:2187 src/nano.c:321 src/search.c:114 src/search.c:294
-#: src/search.c:723 src/search.c:790 src/text.c:2616 src/text.c:2815
+#: src/browser.c:322 src/browser.c:563 src/files.c:1163 src/files.c:1256
+#: src/files.c:2193 src/nano.c:321 src/search.c:114 src/search.c:294
+#: src/search.c:723 src/search.c:790 src/text.c:2621 src/text.c:2820
 msgid "Cancelled"
 msgstr "已取消"
 
@@ -89,8 +89,8 @@ msgstr "不可超出 %s 範圍"
 msgid "Can't move up a directory"
 msgstr "無法上移一個目錄"
 
-#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1822
-#: src/files.c:1837 src/history.c:263 src/history.c:291 src/history.c:400
+#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1828
+#: src/files.c:1843 src/history.c:263 src/history.c:291 src/history.c:400
 #: src/history.c:454 src/rcfile.c:926 src/rcfile.c:1712
 #, c-format
 msgid "Error reading %s: %s"
@@ -229,7 +229,7 @@ msgid "%s -- %zu line (%s)"
 msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- 第 %zu 列 (%s)"
 
-#: src/files.c:545 src/files.c:551 src/global.c:1112 src/winio.c:2054
+#: src/files.c:545 src/files.c:551 src/global.c:1112 src/winio.c:2056
 msgid "New Buffer"
 msgstr "新緩衝區"
 
@@ -251,7 +251,7 @@ msgstr[0] "%s -- 第 %zu 列"
 msgid "No more open file buffers"
 msgstr "無其他已開啟檔案的緩衝區"
 
-#: src/files.c:786 src/files.c:918 src/files.c:1875
+#: src/files.c:786 src/files.c:918 src/files.c:1881
 msgid "Interrupted"
 msgstr "已中止"
 
@@ -296,231 +296,231 @@ msgstr "正在從 FIFO 讀取…"
 msgid "Reading..."
 msgstr "讀取中…"
 
-#: src/files.c:1032 src/text.c:2359 src/text.c:2624
+#: src/files.c:1037 src/text.c:2364 src/text.c:2629
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "無法建立管線：%s"
 
-#: src/files.c:1072 src/files.c:1116 src/text.c:2173 src/text.c:2439
-#: src/text.c:2659
+#: src/files.c:1078 src/files.c:1122 src/text.c:2178 src/text.c:2444
+#: src/text.c:2664
 #, c-format
 msgid "Could not fork: %s"
 msgstr "無法 fork：%s"
 
-#: src/files.c:1077
+#: src/files.c:1083
 msgid "Executing..."
 msgstr "執行中…"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/files.c:1097 src/files.c:1147
+#: src/files.c:1103 src/files.c:1153
 msgid "filtering"
 msgstr "正在篩選"
 
-#: src/files.c:1140
+#: src/files.c:1146
 #, c-format
 msgid "Failed to open pipe: %s"
 msgstr "無法開啟管線：%s"
 
-#: src/files.c:1158
+#: src/files.c:1164
 #, c-format
 msgid "Error: %s"
 msgstr "錯誤：%s"
 
-#: src/files.c:1163
+#: src/files.c:1169
 msgid "Piping failed"
 msgstr "傳入管線失敗"
 
 #. TRANSLATORS: The next six messages are prompts.
-#: src/files.c:1212
+#: src/files.c:1218
 msgid "Command to execute in new buffer"
 msgstr "要在新緩衝區執行的指令"
 
-#: src/files.c:1215
+#: src/files.c:1221
 msgid "Command to execute"
 msgstr "要執行的指令"
 
-#: src/files.c:1223
+#: src/files.c:1229
 #, c-format
 msgid "File to read unconverted into new buffer [from %s]"
 msgstr "要讀取的檔案未轉換至新的緩衝區 [來自 %s]"
 
-#: src/files.c:1226
+#: src/files.c:1232
 #, c-format
 msgid "File to read into new buffer [from %s]"
 msgstr "將檔案讀入新的緩衝區 [來自 %s]"
 
-#: src/files.c:1231
+#: src/files.c:1237
 #, c-format
 msgid "File to insert unconverted [from %s]"
 msgstr "要不轉換插入的檔案 [來自 %s]"
 
-#: src/files.c:1234
+#: src/files.c:1240
 #, c-format
 msgid "File to insert [from %s]"
 msgstr "要插入的檔案 [從 %s]"
 
-#: src/files.c:1502
+#: src/files.c:1508
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr "操作目錄無效：%s\n"
 
-#: src/files.c:1551
+#: src/files.c:1557
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr "備份目錄無效：%s\n"
 
-#: src/files.c:1606
+#: src/files.c:1612
 msgid "Making backup..."
 msgstr "正在建立備份…"
 
-#: src/files.c:1638
+#: src/files.c:1644
 msgid "Too many existing backup files"
 msgstr "現存備份檔案過多"
 
-#: src/files.c:1686
+#: src/files.c:1692
 msgid "Cannot read original file"
 msgstr "無法讀取原始檔案"
 
-#: src/files.c:1718
+#: src/files.c:1724
 msgid "Cannot make regular backup"
 msgstr "無法建立規律備份"
 
-#: src/files.c:1719
+#: src/files.c:1725
 msgid "Trying again in your home directory"
 msgstr "請在家目錄重試一次"
 
-#: src/files.c:1731
+#: src/files.c:1737
 msgid "Cannot make backup"
 msgstr "無法建立備份"
 
 #. TRANSLATORS: Try to keep this message at most 76 characters.
-#: src/files.c:1742
+#: src/files.c:1748
 msgid "Cannot make backup; continue and save actual file? "
 msgstr "無法建立備份；繼續並儲存實體檔案？"
 
 #. TRANSLATORS: The %s is the reason of failure.
-#: src/files.c:1747
+#: src/files.c:1753
 #, c-format
 msgid "Cannot make backup: %s"
 msgstr "無法建立備份：%s"
 
-#: src/files.c:1783
+#: src/files.c:1789
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "無法寫入 %s 外部"
 
-#: src/files.c:1815 src/files.c:1877 src/files.c:1888 src/files.c:1909
-#: src/files.c:1926 src/files.c:1935 src/files.c:1963 src/files.c:1974
-#: src/files.c:1991 src/history.c:333 src/history.c:344 src/history.c:347
+#: src/files.c:1821 src/files.c:1883 src/files.c:1894 src/files.c:1915
+#: src/files.c:1932 src/files.c:1941 src/files.c:1969 src/files.c:1980
+#: src/files.c:1997 src/history.c:333 src/history.c:344 src/history.c:347
 #: src/history.c:471 src/history.c:485 src/history.c:499 src/history.c:505
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "寫入 %s 時發生錯誤: %s"
 
-#: src/files.c:1829 src/files.c:1841 src/text.c:2548 src/text.c:2560
-#: src/text.c:2966
+#: src/files.c:1835 src/files.c:1847 src/text.c:2553 src/text.c:2565
+#: src/text.c:2971
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "寫入暫存檔時發生錯誤：%s"
 
-#: src/files.c:1848
+#: src/files.c:1854
 msgid "Writing to FIFO..."
 msgstr "正在寫入 FIFO…"
 
-#: src/files.c:1895
+#: src/files.c:1901
 msgid "Writing..."
 msgstr "寫入中…"
 
-#: src/files.c:1951 src/files.c:1959
+#: src/files.c:1957 src/files.c:1965
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr "讀取暫存檔時發生錯誤：%s"
 
 #. TRANSLATORS: This warns for data loss when the disk is full.
-#: src/files.c:1998
+#: src/files.c:2004
 msgid "File on disk has been truncated!"
 msgstr "磁碟上的檔案遭截斷！"
 
 #. TRANSLATORS: This is a suggestion to the user,
 #. * where "resume" means resuming from suspension.
 #. * Try to keep this at most 76 characters.
-#: src/files.c:2003
+#: src/files.c:2009
 msgid "Maybe ^T^Z, make room on disk, resume, then ^S^X"
 msgstr "試試 ^T^Z，清出磁碟空間，繼續，然後 ^S^X"
 
-#: src/files.c:2065
+#: src/files.c:2071
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "已寫入 %zu 列"
 
-#: src/files.c:2150
+#: src/files.c:2156
 msgid " [DOS Format]"
 msgstr " [DOS 格式]"
 
-#: src/files.c:2151
+#: src/files.c:2157
 msgid " [Mac Format]"
 msgstr " [Mac 格式]"
 
-#: src/files.c:2152
+#: src/files.c:2158
 msgid " [Backup]"
 msgstr " [備份]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2159
+#: src/files.c:2165
 msgid "Prepend Selection to File"
 msgstr "將選取區域複製到檔案開頭"
 
-#: src/files.c:2160
+#: src/files.c:2166
 msgid "Append Selection to File"
 msgstr "將選取區域複製至檔案結尾"
 
-#: src/files.c:2161
+#: src/files.c:2167
 msgid "Write Selection to File"
 msgstr "將選取區域寫入檔案"
 
 #. TRANSLATORS: Next three prompts are analogous to the above three.
-#: src/files.c:2164
+#: src/files.c:2170
 msgid "Prepend to File"
 msgstr ""
 
-#: src/files.c:2164
+#: src/files.c:2170
 msgid "Append to File"
 msgstr ""
 
-#: src/files.c:2167
+#: src/files.c:2173
 msgid "Write to File"
 msgstr ""
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2248 src/nano.c:1098 src/nano.c:1107
+#: src/files.c:2254 src/nano.c:1097 src/nano.c:1106
 msgid "Too tiny"
 msgstr "螢幕過小"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2281
+#: src/files.c:2287
 msgid "File exists -- cannot overwrite"
 msgstr "檔案已存在 -- 無法覆蓋"
 
-#: src/files.c:2290
+#: src/files.c:2296
 msgid "Save file under DIFFERENT NAME? "
 msgstr "以不同名稱存檔？"
 
-#: src/files.c:2298
+#: src/files.c:2304
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "檔案「%s」已存在；是否覆寫？"
 
-#: src/files.c:2322
+#: src/files.c:2328
 msgid "File on disk has changed"
 msgstr "磁碟上的檔案已變更"
 
 #. TRANSLATORS: Try to keep this at most 76 characters.
-#: src/files.c:2325
+#: src/files.c:2331
 msgid "File was modified since you opened it; continue saving? "
 msgstr "檔案在您開啟後被修改過；是否繼續儲存？ "
 
-#: src/files.c:2702
+#: src/files.c:2708
 msgid "(more)"
 msgstr "(更多)"
 
@@ -1724,7 +1724,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "啟用/停用"
 
-#: src/help.c:585 src/nano.c:1668
+#: src/help.c:585 src/nano.c:1667
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2182,130 +2182,130 @@ msgstr "正在從鍵盤讀取資料；輸入 ^D 或 ^D^D 結束。\n"
 msgid "Failed to open stdin: %s"
 msgstr "無法開啟標準輸入：%s"
 
-#: src/nano.c:960
+#: src/nano.c:964
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "接收到 SIGHUP 或 SIGTERM\n"
 
-#: src/nano.c:967
+#: src/nano.c:971
 #, c-format
 msgid "Sorry! Nano crashed!  Code: %d.  Please report a bug.\n"
 msgstr "抱歉，Nano 當掉了！錯誤代碼：%d。請回報此臭蟲。\n"
 
-#: src/nano.c:983
+#: src/nano.c:987
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "請使用「fg」回到 nano。\n"
 
-#: src/nano.c:1131
+#: src/nano.c:1130
 msgid "Current syntax determines Tab"
 msgstr "目前的語法判定為 Tab"
 
-#: src/nano.c:1159
+#: src/nano.c:1158
 msgid "enabled"
 msgstr "啟用"
 
-#: src/nano.c:1159
+#: src/nano.c:1158
 msgid "disabled"
 msgstr "停用"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1302
+#: src/nano.c:1301
 msgid "Unknown sequence"
 msgstr "序列未知"
 
-#: src/nano.c:1305 src/rcfile.c:819
+#: src/nano.c:1304 src/rcfile.c:819
 #, c-format
 msgid "Unknown function: %s"
 msgstr "未知函式：%s"
 
-#: src/nano.c:1307
+#: src/nano.c:1306
 msgid "Missing }"
 msgstr "缺少 }"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1312
+#: src/nano.c:1311
 #, c-format
 msgid "Unbound key: F%i"
 msgstr "按鍵未綁定：F%i"
 
-#: src/nano.c:1315
+#: src/nano.c:1314
 msgid "Unbound key"
 msgstr "按鍵未綁定"
 
-#: src/nano.c:1319
+#: src/nano.c:1318
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "按鍵未綁定：M-^%c"
 
-#: src/nano.c:1324 src/nano.c:1327 src/nano.c:1331 src/nano.c:1334
+#: src/nano.c:1323 src/nano.c:1326 src/nano.c:1330 src/nano.c:1333
 #, c-format
 msgid "Unbound key: %s%c"
 msgstr "按鍵未綁定：%s%c"
 
-#: src/nano.c:1329
+#: src/nano.c:1328
 msgid "Unbindable key: ^["
 msgstr "無法綁定按鍵：^["
 
-#: src/nano.c:1469
+#: src/nano.c:1468
 msgid "Flawed paste"
 msgstr ""
 
-#: src/nano.c:1930 src/rcfile.c:1678
+#: src/nano.c:1929 src/rcfile.c:1678
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "指引欄「%s」無效"
 
-#: src/nano.c:1976 src/rcfile.c:1683
+#: src/nano.c:1975 src/rcfile.c:1683
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "所請求的 Tab 寬度「%s」無效"
 
-#: src/nano.c:2080 src/rcfile.c:1628
+#: src/nano.c:2079 src/rcfile.c:1628
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "所請求的填充長度「%s」無效"
 
-#: src/nano.c:2152
+#: src/nano.c:2151
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "輸入「%s -h」顯示可用的選項列表。\n"
 
-#: src/nano.c:2350
+#: src/nano.c:2353
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "引號中的正規表示式「%s」無效：%s\n"
 
-#: src/nano.c:2519
+#: src/nano.c:2521
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "搜尋修飾符「%c」無效"
 
-#: src/nano.c:2530
+#: src/nano.c:2532
 msgid "Empty search string"
 msgstr "搜尋字串為空"
 
-#: src/nano.c:2539 src/search.c:801
+#: src/nano.c:2541 src/search.c:801
 msgid "Invalid line or column number"
 msgstr "列碼或欄碼無效"
 
-#: src/nano.c:2575
+#: src/nano.c:2577
 msgid "Invalid number\n"
 msgstr "數字無效\n"
 
-#: src/nano.c:2621
+#: src/nano.c:2623
 msgid "Standard input is not a terminal\n"
 msgstr "標準輸入不是終端機\n"
 
-#: src/nano.c:2640
+#: src/nano.c:2642
 msgid "Can open just one file\n"
 msgstr "只能開啟一個檔案\n"
 
-#: src/nano.c:2658
+#: src/nano.c:2660
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "歡迎使用 nano。請按 Ctrl+G 取得基本使用說明。"
 
-#: src/nano.c:2697
+#: src/nano.c:2699
 msgid "Byte Order Mark"
 msgstr ""
 
@@ -2595,31 +2595,31 @@ msgstr[0] "已取代 %zd 處"
 msgid "Enter line number, column number"
 msgstr "輸入列碼, 欄碼"
 
-#: src/search.c:954
+#: src/search.c:956
 msgid "Not a bracket"
 msgstr "非括號"
 
-#: src/search.c:997
+#: src/search.c:999
 msgid "No matching bracket"
 msgstr "無對應括號"
 
-#: src/search.c:1016
+#: src/search.c:1018
 msgid "Placed anchor"
 msgstr "已放置錨點"
 
-#: src/search.c:1018
+#: src/search.c:1020
 msgid "Removed anchor"
 msgstr "已移除錨點"
 
-#: src/search.c:1037
+#: src/search.c:1039
 msgid "Jumped to anchor"
 msgstr "已跳至錨點"
 
-#: src/search.c:1039
+#: src/search.c:1041
 msgid "This is the only anchor"
 msgstr "此為唯一錨點"
 
-#: src/search.c:1041
+#: src/search.c:1043
 msgid "There are no anchors"
 msgstr "沒有錨點"
 
@@ -2713,187 +2713,187 @@ msgid "Redid %s"
 msgstr "已重作 %s"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1779 src/text.c:2000
+#: src/text.c:1780 src/text.c:2001
 msgid "justification"
 msgstr "對齊"
 
-#: src/text.c:1790 src/text.c:2129
+#: src/text.c:1791 src/text.c:2130
 msgid "Selection is empty"
 msgstr "選取區域為空"
 
-#: src/text.c:2004
+#: src/text.c:2005
 msgid "Justified selection"
 msgstr "已對齊選取區域"
 
-#: src/text.c:2008
+#: src/text.c:2009
 msgid "Justified file"
 msgstr "已對齊檔案"
 
-#: src/text.c:2010
+#: src/text.c:2011
 msgid "Justified paragraph"
 msgstr "已對齊段落"
 
-#: src/text.c:2132
+#: src/text.c:2133
 msgid "Buffer is empty"
 msgstr "緩衝區空白"
 
-#: src/text.c:2144
+#: src/text.c:2145
 msgid "Invoking formatter..."
 msgstr "正在呼叫格式化工具…"
 
-#: src/text.c:2177 src/text.c:2757
+#: src/text.c:2182 src/text.c:2762
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "呼叫「%s」時發生錯誤"
 
-#: src/text.c:2181
+#: src/text.c:2186
 #, c-format
 msgid "Program '%s' complained"
 msgstr "應用程式「%s」在抱怨"
 
-#: src/text.c:2189
+#: src/text.c:2194
 msgid "Nothing changed"
 msgstr "未變更任何東西"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2214
+#: src/text.c:2219
 msgid "spelling correction"
 msgstr "拼字修正"
 
-#: src/text.c:2214
+#: src/text.c:2219
 msgid "formatting"
 msgstr "格式化中"
 
-#: src/text.c:2232 src/text.c:2528
+#: src/text.c:2237 src/text.c:2533
 msgid "Finished checking spelling"
 msgstr "拼字檢查完成"
 
-#: src/text.c:2234
+#: src/text.c:2239
 msgid "Buffer has been processed"
 msgstr "已處理緩衝區"
 
-#: src/text.c:2278
+#: src/text.c:2283
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "單字無法搜尋：%s"
 
 #. TRANSLATORS: This is a prompt.
-#: src/text.c:2297
+#: src/text.c:2302
 msgid "Edit a replacement"
 msgstr "編輯取代文字"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2310
+#: src/text.c:2315
 msgid "Next word..."
 msgstr "下一單字…"
 
-#: src/text.c:2363
+#: src/text.c:2368
 msgid "Invoking spell checker..."
 msgstr "正在呼叫拼字檢查…"
 
-#: src/text.c:2448 src/text.c:2668
+#: src/text.c:2453 src/text.c:2673
 msgid "Could not get size of pipe buffer"
 msgstr "無法取得管線緩衝區的大小"
 
-#: src/text.c:2522
+#: src/text.c:2527
 msgid "Error invoking \"uniq\""
 msgstr "呼叫「uniq」時發生錯誤"
 
-#: src/text.c:2524
+#: src/text.c:2529
 msgid "Error invoking \"sort\""
 msgstr "呼叫「sort」時發生錯誤"
 
-#: src/text.c:2526
+#: src/text.c:2531
 msgid "Error invoking \"spell\""
 msgstr "呼叫「spell」時發生錯誤"
 
-#: src/text.c:2603
+#: src/text.c:2608
 msgid "No linter is defined for this type of file"
 msgstr "未定義此類型檔案的 Linter"
 
-#: src/text.c:2613
+#: src/text.c:2618
 msgid "Save modified buffer before linting?"
 msgstr "在 Lint 之前儲存已修改過的緩衝區？"
 
-#: src/text.c:2630
+#: src/text.c:2635
 msgid "Invoking linter..."
 msgstr "正在呼叫 linter…"
 
-#: src/text.c:2769
+#: src/text.c:2774
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "在指令中取得 0 個可解析的列：%s"
 
-#: src/text.c:2808
+#: src/text.c:2813
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr "這個訊息關於未開啟的檔案 %s，是否在新緩衝區開啟此檔？"
 
-#: src/text.c:2847
+#: src/text.c:2852
 msgid "No messages for this file"
 msgstr "沒有此檔案的訊息"
 
-#: src/text.c:2897
+#: src/text.c:2902
 msgid "At first message"
 msgstr "第一則訊息"
 
-#: src/text.c:2907
+#: src/text.c:2912
 msgid "At last message"
 msgstr "最近的訊息"
 
-#: src/text.c:2952
+#: src/text.c:2957
 msgid "No formatter is defined for this type of file"
 msgstr "未定義此類型檔案的格式化工具"
 
-#: src/text.c:3026
+#: src/text.c:3031
 #, c-format
 msgid "%s%zd %s,  %zu %s,  %zu %s"
 msgstr "%s%zd %s,  %zu %s,  %zu %s"
 
-#: src/text.c:3027
+#: src/text.c:3032
 msgid "In Selection:  "
 msgstr "於選取區塊："
 
-#: src/text.c:3028
+#: src/text.c:3033
 msgid "line"
 msgid_plural "lines"
 msgstr[0] "列"
 
-#: src/text.c:3029
+#: src/text.c:3034
 msgid "word"
 msgid_plural "words"
 msgstr[0] "個單字"
 
-#: src/text.c:3030
+#: src/text.c:3035
 msgid "character"
 msgid_plural "characters"
 msgstr[0] "字元"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:3048
+#: src/text.c:3053
 msgid "Verbatim Input"
 msgstr "原形輸入"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3072
+#: src/text.c:3077
 msgid "Invalid code"
 msgstr "代碼無效"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3154
+#: src/text.c:3163
 msgid "No word fragment"
 msgstr "未找到單詞片段"
 
-#: src/text.c:3258
+#: src/text.c:3267
 msgid "No further matches"
 msgstr "未找到其他符合項目"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3261
+#: src/text.c:3270
 msgid "No matches"
 msgstr "未找到符合項目"
 
-#: src/utils.c:297 src/utils.c:308
+#: src/utils.c:288 src/utils.c:299
 msgid "Nano is out of memory!\n"
 msgstr "Nano 已用盡記憶體！\n"
 
@@ -2917,94 +2917,94 @@ msgstr "巨集為空"
 msgid "Too much input at once\n"
 msgstr "一次輸入的內容過多\n"
 
-#: src/winio.c:248
+#: src/winio.c:250
 msgid "Too many errors from stdin\n"
 msgstr "過多來自標準輸入的錯誤\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1410
+#: src/winio.c:1412
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "萬國碼 Unicode 輸入：%s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:2032
+#: src/winio.c:2034
 msgid "Linting --"
 msgstr "Lint 中 --"
 
-#: src/winio.c:2038
+#: src/winio.c:2040
 msgid "DIR:"
 msgstr "目錄："
 
-#: src/winio.c:2059
+#: src/winio.c:2061
 msgid "View"
 msgstr "檢視"
 
-#: src/winio.c:2065 src/winio.c:2069
+#: src/winio.c:2067 src/winio.c:2071
 msgid "Modified"
 msgstr "已變更"
 
-#: src/winio.c:2067
+#: src/winio.c:2069
 msgid "Restricted"
 msgstr "受限模式"
 
-#: src/winio.c:2173
+#: src/winio.c:2175
 msgid "(nameless)"
 msgstr "（未命名）"
 
-#: src/winio.c:2205
+#: src/winio.c:2207
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] " (%zu 列)"
 
-#: src/winio.c:2207
+#: src/winio.c:2209
 #, c-format
 msgid " (%zu line, %s)"
 msgid_plural " (%zu lines, %s)"
 msgstr[0] " (%zu 列，%s)"
 
-#: src/winio.c:3515
+#: src/winio.c:3517
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "第 %*zd/%zd 橫列 (%2d%%)，第 %2zu/%2zu 直行 (%3d%%)，第 %*zu/%zu 個字元 "
 "(%2d%%)"
 
-#: src/winio.c:3669
+#: src/winio.c:3671
 msgid "The nano text editor"
 msgstr "nano 文字編輯器"
 
-#: src/winio.c:3670
+#: src/winio.c:3672
 msgid "version"
 msgstr "版本"
 
-#: src/winio.c:3671
+#: src/winio.c:3673
 msgid "Brought to you by:"
 msgstr "來自於："
 
-#: src/winio.c:3672
+#: src/winio.c:3674
 msgid "Special thanks to:"
 msgstr "特別感謝："
 
-#: src/winio.c:3673
+#: src/winio.c:3675
 msgid "The Free Software Foundation"
 msgstr "自由軟體基金會"
 
-#: src/winio.c:3674
+#: src/winio.c:3676
 msgid "the many translators and the TP"
 msgstr "許多的翻譯者與 TP"
 
-#: src/winio.c:3675
+#: src/winio.c:3677
 msgid "For ncurses:"
 msgstr "ncurses 部分："
 
-#: src/winio.c:3676
+#: src/winio.c:3678
 msgid "and anyone else we forgot..."
 msgstr "以及其他我們不記得的人…"
 
-#: src/winio.c:3677
+#: src/winio.c:3679
 msgid "Thank you for using nano!"
 msgstr "謝謝您使用 nano﹗"
 

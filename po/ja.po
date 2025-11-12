@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the nano package.
 #
 # Yasuaki Taniguchi <yasuakit@gmail.com>, 2011.
-# Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
+# Takeshi Hamasaki <Takeshi.Ken.Hamasaki+hmatrjp@gmail.com>, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: nano 8.4-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2025-08-21 07:53+0200\n"
-"PO-Revision-Date: 2025-04-01 00:50+0900\n"
-"Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
+"POT-Creation-Date: 2025-11-12 10:44+0100\n"
+"PO-Revision-Date: 2025-09-06 21:58+0900\n"
+"Last-Translator: Takeshi Hamasaki <Takeshi.Ken.Hamasaki+hmatrjp@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-Basepath: nano-8.4-pre1\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -56,9 +56,9 @@ msgstr "検索"
 msgid " [Backwards]"
 msgstr " [戻る]"
 
-#: src/browser.c:322 src/browser.c:563 src/files.c:1157 src/files.c:1250
-#: src/files.c:2187 src/nano.c:321 src/search.c:114 src/search.c:294
-#: src/search.c:723 src/search.c:790 src/text.c:2616 src/text.c:2815
+#: src/browser.c:322 src/browser.c:563 src/files.c:1163 src/files.c:1256
+#: src/files.c:2193 src/nano.c:321 src/search.c:114 src/search.c:294
+#: src/search.c:723 src/search.c:790 src/text.c:2621 src/text.c:2820
 msgid "Cancelled"
 msgstr "取り消しました"
 
@@ -91,8 +91,8 @@ msgstr "%s の外部へ移動できません"
 msgid "Can't move up a directory"
 msgstr "上位のディレクトリへ移動できません"
 
-#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1822
-#: src/files.c:1837 src/history.c:263 src/history.c:291 src/history.c:400
+#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1828
+#: src/files.c:1843 src/history.c:263 src/history.c:291 src/history.c:400
 #: src/history.c:454 src/rcfile.c:926 src/rcfile.c:1712
 #, c-format
 msgid "Error reading %s: %s"
@@ -232,7 +232,7 @@ msgid "%s -- %zu line (%s)"
 msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu 行 (%s)"
 
-#: src/files.c:545 src/files.c:551 src/global.c:1112 src/winio.c:2054
+#: src/files.c:545 src/files.c:551 src/global.c:1112 src/winio.c:2056
 msgid "New Buffer"
 msgstr "新しいバッファ"
 
@@ -254,7 +254,7 @@ msgstr[0] "%s -- %zu 行"
 msgid "No more open file buffers"
 msgstr "ファイルを開くためのバッファがありません"
 
-#: src/files.c:786 src/files.c:918 src/files.c:1875
+#: src/files.c:786 src/files.c:918 src/files.c:1881
 msgid "Interrupted"
 msgstr "中断されました"
 
@@ -299,233 +299,233 @@ msgstr "FIFOから読み込み中..."
 msgid "Reading..."
 msgstr "読み込み中..."
 
-#: src/files.c:1032 src/text.c:2359 src/text.c:2624
+#: src/files.c:1037 src/text.c:2364 src/text.c:2629
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "pipe を作成できません: %s"
 
-#: src/files.c:1072 src/files.c:1116 src/text.c:2173 src/text.c:2439
-#: src/text.c:2659
+#: src/files.c:1078 src/files.c:1122 src/text.c:2178 src/text.c:2444
+#: src/text.c:2664
 #, c-format
 msgid "Could not fork: %s"
 msgstr "forkできません: %s"
 
-#: src/files.c:1077
+#: src/files.c:1083
 msgid "Executing..."
 msgstr "実行中..."
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/files.c:1097 src/files.c:1147
+#: src/files.c:1103 src/files.c:1153
 msgid "filtering"
 msgstr "フィルタリング"
 
-#: src/files.c:1140
+#: src/files.c:1146
 #, c-format
 msgid "Failed to open pipe: %s"
 msgstr "パイプを開けません: %s"
 
-#: src/files.c:1158
+#: src/files.c:1164
 #, c-format
 msgid "Error: %s"
 msgstr "エラー: %s"
 
-#: src/files.c:1163
+#: src/files.c:1169
 msgid "Piping failed"
 msgstr "パイプでの接続に失敗しました"
 
 #. TRANSLATORS: The next six messages are prompts.
-#: src/files.c:1212
+#: src/files.c:1218
 msgid "Command to execute in new buffer"
 msgstr "新しいバッファで実行するコマンド"
 
-#: src/files.c:1215
+#: src/files.c:1221
 msgid "Command to execute"
 msgstr "実行するコマンド"
 
-#: src/files.c:1223
+#: src/files.c:1229
 #, c-format
 msgid "File to read unconverted into new buffer [from %s]"
 msgstr "新しいバッファへ変換無しで読み込むファイル [%s から]"
 
-#: src/files.c:1226
+#: src/files.c:1232
 #, c-format
 msgid "File to read into new buffer [from %s]"
 msgstr "新しいバッファへ読み込むファイル [%s から]"
 
-#: src/files.c:1231
+#: src/files.c:1237
 #, c-format
 msgid "File to insert unconverted [from %s]"
 msgstr "変換無しで挿入するファイル [%s から]"
 
-#: src/files.c:1234
+#: src/files.c:1240
 #, c-format
 msgid "File to insert [from %s]"
 msgstr "読み込むファイル [from %s]"
 
-#: src/files.c:1502
+#: src/files.c:1508
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr "無効な作業ディレクトリ: %s\n"
 
-#: src/files.c:1551
+#: src/files.c:1557
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr "無効なバックアップディレクトリ: %s\n"
 
-#: src/files.c:1606
+#: src/files.c:1612
 msgid "Making backup..."
 msgstr "バックアップを作成中..."
 
-#: src/files.c:1638
+#: src/files.c:1644
 msgid "Too many existing backup files"
 msgstr "バックアップファイルが多すぎます"
 
-#: src/files.c:1686
+#: src/files.c:1692
 msgid "Cannot read original file"
 msgstr "元ファイルを読めません"
 
-#: src/files.c:1718
+#: src/files.c:1724
 msgid "Cannot make regular backup"
 msgstr "定期バックアップを作成できません"
 
-#: src/files.c:1719
+#: src/files.c:1725
 msgid "Trying again in your home directory"
 msgstr "ホームディレクトリで再試行しています"
 
-#: src/files.c:1731
+#: src/files.c:1737
 msgid "Cannot make backup"
 msgstr "バックアップを作成できません"
 
 #. TRANSLATORS: Try to keep this message at most 76 characters.
-#: src/files.c:1742
+#: src/files.c:1748
 msgid "Cannot make backup; continue and save actual file? "
 msgstr "バックアップを作成できません; 続けて実際のファイルを保存しますか？ "
 
 #. TRANSLATORS: The %s is the reason of failure.
-#: src/files.c:1747
+#: src/files.c:1753
 #, c-format
 msgid "Cannot make backup: %s"
 msgstr "バックアップを作成できません: %s"
 
-#: src/files.c:1783
+#: src/files.c:1789
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "%s の外部から書き込めません"
 
-#: src/files.c:1815 src/files.c:1877 src/files.c:1888 src/files.c:1909
-#: src/files.c:1926 src/files.c:1935 src/files.c:1963 src/files.c:1974
-#: src/files.c:1991 src/history.c:333 src/history.c:344 src/history.c:347
+#: src/files.c:1821 src/files.c:1883 src/files.c:1894 src/files.c:1915
+#: src/files.c:1932 src/files.c:1941 src/files.c:1969 src/files.c:1980
+#: src/files.c:1997 src/history.c:333 src/history.c:344 src/history.c:347
 #: src/history.c:471 src/history.c:485 src/history.c:499 src/history.c:505
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "%s の書き込みエラー: %s"
 
-#: src/files.c:1829 src/files.c:1841 src/text.c:2548 src/text.c:2560
-#: src/text.c:2966
+#: src/files.c:1835 src/files.c:1847 src/text.c:2553 src/text.c:2565
+#: src/text.c:2971
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "テンポラリファイルの書き込みエラー: %s"
 
-#: src/files.c:1848
+#: src/files.c:1854
 msgid "Writing to FIFO..."
 msgstr "FIFOに書き込み中..."
 
-#: src/files.c:1895
+#: src/files.c:1901
 msgid "Writing..."
 msgstr "書き込み中..."
 
-#: src/files.c:1951 src/files.c:1959
+#: src/files.c:1957 src/files.c:1965
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr "テンポラリファイルの読み込みエラー: %s"
 
 #. TRANSLATORS: This warns for data loss when the disk is full.
-#: src/files.c:1998
+#: src/files.c:2004
 msgid "File on disk has been truncated!"
 msgstr "ディスク上でファイルが切り詰められました!"
 
 #. TRANSLATORS: This is a suggestion to the user,
 #. * where "resume" means resuming from suspension.
 #. * Try to keep this at most 76 characters.
-#: src/files.c:2003
+#: src/files.c:2009
 msgid "Maybe ^T^Z, make room on disk, resume, then ^S^X"
 msgstr ""
 "^T^Z で一度抜け、ディスク上に余裕を作り、戻ってきて、^S^X を試してみてくださ"
 "い"
 
-#: src/files.c:2065
+#: src/files.c:2071
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "%zu 行を書き込みました"
 
-#: src/files.c:2150
+#: src/files.c:2156
 msgid " [DOS Format]"
 msgstr " [DOS フォーマット]"
 
-#: src/files.c:2151
+#: src/files.c:2157
 msgid " [Mac Format]"
 msgstr " [Mac フォーマット]"
 
-#: src/files.c:2152
+#: src/files.c:2158
 msgid " [Backup]"
 msgstr " [バックアップ]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2159
+#: src/files.c:2165
 msgid "Prepend Selection to File"
 msgstr "選択範囲をファイルの先頭に追加"
 
-#: src/files.c:2160
+#: src/files.c:2166
 msgid "Append Selection to File"
 msgstr "選択範囲をファイルの末尾に追加"
 
-#: src/files.c:2161
+#: src/files.c:2167
 msgid "Write Selection to File"
 msgstr "選択範囲をファイルに書き込み"
 
 #. TRANSLATORS: Next three prompts are analogous to the above three.
-#: src/files.c:2164
+#: src/files.c:2170
 msgid "Prepend to File"
 msgstr "ファイルの先頭に追加"
 
-#: src/files.c:2164
+#: src/files.c:2170
 msgid "Append to File"
 msgstr "ファイルの末尾に追加"
 
-#: src/files.c:2167
+#: src/files.c:2173
 msgid "Write to File"
 msgstr "ファイルに書き込み"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2248 src/nano.c:1098 src/nano.c:1107
+#: src/files.c:2254 src/nano.c:1097 src/nano.c:1106
 msgid "Too tiny"
 msgstr "画面が狭すぎます"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2281
+#: src/files.c:2287
 msgid "File exists -- cannot overwrite"
 msgstr "ファイルが存在し、上書きできません"
 
-#: src/files.c:2290
+#: src/files.c:2296
 msgid "Save file under DIFFERENT NAME? "
 msgstr "ファイルを違う名前で保存しますか？ "
 
-#: src/files.c:2298
+#: src/files.c:2304
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "ファイル \"%s\" が既に存在します、上書きしてよいですか？ "
 
-#: src/files.c:2322
+#: src/files.c:2328
 msgid "File on disk has changed"
 msgstr "ディスク上でファイルが変更されました"
 
 #. TRANSLATORS: Try to keep this at most 76 characters.
-#: src/files.c:2325
+#: src/files.c:2331
 msgid "File was modified since you opened it; continue saving? "
 msgstr "ファイルを開いた後に修正が入りました、保存しますか？ "
 
-#: src/files.c:2702
+#: src/files.c:2708
 msgid "(more)"
 msgstr "(続き)"
 
@@ -1740,7 +1740,7 @@ msgstr ""
 msgid "enable/disable"
 msgstr "有効/無効"
 
-#: src/help.c:585 src/nano.c:1668
+#: src/help.c:585 src/nano.c:1667
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -2201,131 +2201,131 @@ msgstr ""
 msgid "Failed to open stdin: %s"
 msgstr "標準入力を開けません: %s"
 
-#: src/nano.c:960
+#: src/nano.c:964
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "SIGHUP または SIGTERM を受信しました\n"
 
-#: src/nano.c:967
+#: src/nano.c:971
 #, c-format
 msgid "Sorry! Nano crashed!  Code: %d.  Please report a bug.\n"
 msgstr ""
 "Nano がクラッシュしてしまいました。  コード: %d。  バグ報告をしてください。\n"
 
-#: src/nano.c:983
+#: src/nano.c:987
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "\"fg\" とタイプすることで nano を再開できます。\n"
 
-#: src/nano.c:1131
+#: src/nano.c:1130
 msgid "Current syntax determines Tab"
 msgstr "現在の文法がタブを決めます"
 
-#: src/nano.c:1159
+#: src/nano.c:1158
 msgid "enabled"
 msgstr "使用する"
 
-#: src/nano.c:1159
+#: src/nano.c:1158
 msgid "disabled"
 msgstr "使用しない"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1302
+#: src/nano.c:1301
 msgid "Unknown sequence"
 msgstr "未知のシーケンス"
 
-#: src/nano.c:1305 src/rcfile.c:819
+#: src/nano.c:1304 src/rcfile.c:819
 #, c-format
 msgid "Unknown function: %s"
 msgstr "未知の機能 \"%s\""
 
-#: src/nano.c:1307
+#: src/nano.c:1306
 msgid "Missing }"
 msgstr "} がみつかりません"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1312
+#: src/nano.c:1311
 #, c-format
 msgid "Unbound key: F%i"
 msgstr "未割り当てのキー: F%i"
 
-#: src/nano.c:1315
+#: src/nano.c:1314
 msgid "Unbound key"
 msgstr "未割り当てのキー"
 
-#: src/nano.c:1319
+#: src/nano.c:1318
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "未割り当てのキー: M-^%c"
 
-#: src/nano.c:1324 src/nano.c:1327 src/nano.c:1331 src/nano.c:1334
+#: src/nano.c:1323 src/nano.c:1326 src/nano.c:1330 src/nano.c:1333
 #, c-format
 msgid "Unbound key: %s%c"
 msgstr "未割り当てのキー: %s%c"
 
-#: src/nano.c:1329
+#: src/nano.c:1328
 msgid "Unbindable key: ^["
 msgstr "割り当てできないキー: ^["
 
-#: src/nano.c:1469
+#: src/nano.c:1468
 msgid "Flawed paste"
 msgstr "不完全な貼り付け"
 
-#: src/nano.c:1930 src/rcfile.c:1678
+#: src/nano.c:1929 src/rcfile.c:1678
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "ガイドバーを表示する列の指定として \"%s\" が正しくありません"
 
-#: src/nano.c:1976 src/rcfile.c:1683
+#: src/nano.c:1975 src/rcfile.c:1683
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "要求されたタブのサイズ \"%s\" は不正です"
 
-#: src/nano.c:2080 src/rcfile.c:1628
+#: src/nano.c:2079 src/rcfile.c:1628
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "要求されたサイズ \"%s\" は不正です"
 
-#: src/nano.c:2152
+#: src/nano.c:2151
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "'%s -h' で指定可能なオプションを表示します。\n"
 
-#: src/nano.c:2350
+#: src/nano.c:2353
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "不正なエスケープされた正規表現 \"%s\": %s\n"
 
-#: src/nano.c:2519
+#: src/nano.c:2521
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "無効な検索修飾子 '%c'"
 
-#: src/nano.c:2530
+#: src/nano.c:2532
 msgid "Empty search string"
 msgstr "空の検索文字列"
 
-#: src/nano.c:2539 src/search.c:801
+#: src/nano.c:2541 src/search.c:801
 msgid "Invalid line or column number"
 msgstr "無効な行または列番号です"
 
-#: src/nano.c:2575
+#: src/nano.c:2577
 msgid "Invalid number\n"
 msgstr "行番号として無効\n"
 
-#: src/nano.c:2621
+#: src/nano.c:2623
 msgid "Standard input is not a terminal\n"
 msgstr "標準入力が端末ではありません\n"
 
-#: src/nano.c:2640
+#: src/nano.c:2642
 msgid "Can open just one file\n"
 msgstr "1つのファイルのみ開くことができます\n"
 
-#: src/nano.c:2658
+#: src/nano.c:2660
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "nano へようこそ。 Ctrl+G で簡単なヘルプが出ます。"
 
-#: src/nano.c:2697
+#: src/nano.c:2699
 msgid "Byte Order Mark"
 msgstr "バイト順マーク"
 
@@ -2620,31 +2620,31 @@ msgstr[0] "%zd 個置換されました"
 msgid "Enter line number, column number"
 msgstr "行番号と列番号を入力"
 
-#: src/search.c:954
+#: src/search.c:956
 msgid "Not a bracket"
 msgstr "大括弧ではありません"
 
-#: src/search.c:997
+#: src/search.c:999
 msgid "No matching bracket"
 msgstr "大括弧が一致しません"
 
-#: src/search.c:1016
+#: src/search.c:1018
 msgid "Placed anchor"
 msgstr "アンカーを設置しました"
 
-#: src/search.c:1018
+#: src/search.c:1020
 msgid "Removed anchor"
 msgstr "アンカーを削除しました"
 
-#: src/search.c:1037
+#: src/search.c:1039
 msgid "Jumped to anchor"
 msgstr "アンカーにジャンプしました"
 
-#: src/search.c:1039
+#: src/search.c:1041
 msgid "This is the only anchor"
 msgstr "唯一のアンカーです"
 
-#: src/search.c:1041
+#: src/search.c:1043
 msgid "There are no anchors"
 msgstr "アンカーがありません"
 
@@ -2738,189 +2738,189 @@ msgid "Redid %s"
 msgstr "操作 (%s) をやり直しました"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1779 src/text.c:2000
+#: src/text.c:1780 src/text.c:2001
 msgid "justification"
 msgstr "均等割付"
 
-#: src/text.c:1790 src/text.c:2129
+#: src/text.c:1791 src/text.c:2130
 msgid "Selection is empty"
 msgstr "選択範囲は空です"
 
-#: src/text.c:2004
+#: src/text.c:2005
 msgid "Justified selection"
 msgstr "選択範囲を均等割付しました"
 
-#: src/text.c:2008
+#: src/text.c:2009
 msgid "Justified file"
 msgstr "ファイル全体を均等割付しました"
 
-#: src/text.c:2010
+#: src/text.c:2011
 msgid "Justified paragraph"
 msgstr "段落を均等割付しました"
 
-#: src/text.c:2132
+#: src/text.c:2133
 msgid "Buffer is empty"
 msgstr "バッファは空です"
 
-#: src/text.c:2144
+#: src/text.c:2145
 msgid "Invoking formatter..."
 msgstr "整形用プログラムを起動中です..."
 
-#: src/text.c:2177 src/text.c:2757
+#: src/text.c:2182 src/text.c:2762
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "'%s' の呼び出しに失敗"
 
-#: src/text.c:2181
+#: src/text.c:2186
 #, c-format
 msgid "Program '%s' complained"
 msgstr "プログラム '%s' が文句を言いました"
 
-#: src/text.c:2189
+#: src/text.c:2194
 msgid "Nothing changed"
 msgstr "何も変更していません"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2214
+#: src/text.c:2219
 msgid "spelling correction"
 msgstr "スペル訂正"
 
-#: src/text.c:2214
+#: src/text.c:2219
 msgid "formatting"
 msgstr "整形しています"
 
-#: src/text.c:2232 src/text.c:2528
+#: src/text.c:2237 src/text.c:2533
 msgid "Finished checking spelling"
 msgstr "スペルチェック完了"
 
-#: src/text.c:2234
+#: src/text.c:2239
 msgid "Buffer has been processed"
 msgstr "バッファを処理しました"
 
-#: src/text.c:2278
+#: src/text.c:2283
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "見つからない単語: %s"
 
 #. TRANSLATORS: This is a prompt.
-#: src/text.c:2297
+#: src/text.c:2302
 msgid "Edit a replacement"
 msgstr "置換先を編集"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2310
+#: src/text.c:2315
 msgid "Next word..."
 msgstr "次の単語..."
 
-#: src/text.c:2363
+#: src/text.c:2368
 msgid "Invoking spell checker..."
 msgstr "スペルチェッカを起動中です..."
 
-#: src/text.c:2448 src/text.c:2668
+#: src/text.c:2453 src/text.c:2673
 msgid "Could not get size of pipe buffer"
 msgstr "pipe バッファのサイズを取得できませんでした"
 
-#: src/text.c:2522
+#: src/text.c:2527
 msgid "Error invoking \"uniq\""
 msgstr "\"uniq\" の呼び出しに失敗"
 
-#: src/text.c:2524
+#: src/text.c:2529
 msgid "Error invoking \"sort\""
 msgstr "\"sort\" の呼び出しに失敗"
 
-#: src/text.c:2526
+#: src/text.c:2531
 msgid "Error invoking \"spell\""
 msgstr "\"spell\" の呼び出しに失敗"
 
-#: src/text.c:2603
+#: src/text.c:2608
 msgid "No linter is defined for this type of file"
 msgstr "この種類のファイルには、構文チェッカが定義されていません"
 
-#: src/text.c:2613
+#: src/text.c:2618
 msgid "Save modified buffer before linting?"
 msgstr "構文チェックの前に変更されたバッファを保存しますか？"
 
-#: src/text.c:2630
+#: src/text.c:2635
 msgid "Invoking linter..."
 msgstr "構文チェッカを起動中です..."
 
-#: src/text.c:2769
+#: src/text.c:2774
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "解析可能な行がコマンドの出力から得られませんでした: %s"
 
-#: src/text.c:2808
+#: src/text.c:2813
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 "このメッセージは開いていないファイル \"%s\" についてのものです、新しいバッ"
 "ファで開きますか?"
 
-#: src/text.c:2847
+#: src/text.c:2852
 msgid "No messages for this file"
 msgstr "このファイルに対するメッセージはありません"
 
-#: src/text.c:2897
+#: src/text.c:2902
 msgid "At first message"
 msgstr "最初のメッセージへ"
 
-#: src/text.c:2907
+#: src/text.c:2912
 msgid "At last message"
 msgstr "最後のメッセージへ"
 
-#: src/text.c:2952
+#: src/text.c:2957
 msgid "No formatter is defined for this type of file"
 msgstr "この種類のファイルには、整形プログラムが定義されていません"
 
-#: src/text.c:3026
+#: src/text.c:3031
 #, c-format
 msgid "%s%zd %s,  %zu %s,  %zu %s"
 msgstr "%s%zd %s,  %zu %s,  %zu %s"
 
-#: src/text.c:3027
+#: src/text.c:3032
 msgid "In Selection:  "
 msgstr "選択範囲内:  "
 
-#: src/text.c:3028
+#: src/text.c:3033
 msgid "line"
 msgid_plural "lines"
 msgstr[0] "行"
 
-#: src/text.c:3029
+#: src/text.c:3034
 msgid "word"
 msgid_plural "words"
 msgstr[0] "単語"
 
-#: src/text.c:3030
+#: src/text.c:3035
 msgid "character"
 msgid_plural "characters"
 msgstr[0] "文字"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:3048
+#: src/text.c:3053
 msgid "Verbatim Input"
 msgstr "特殊キー入力"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3072
+#: src/text.c:3077
 msgid "Invalid code"
 msgstr "無効なコード"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3154
+#: src/text.c:3163
 msgid "No word fragment"
 msgstr "書きかけの単語がありません"
 
-#: src/text.c:3258
+#: src/text.c:3267
 msgid "No further matches"
 msgstr "これ以上の一致はありません"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3261
+#: src/text.c:3270
 msgid "No matches"
 msgstr "一致するものがありません"
 
-#: src/utils.c:297 src/utils.c:308
+#: src/utils.c:288 src/utils.c:299
 msgid "Nano is out of memory!\n"
 msgstr "nano のメモリが足りなくなりました!\n"
 
@@ -2944,92 +2944,92 @@ msgstr "マクロは空です"
 msgid "Too much input at once\n"
 msgstr "一度の入力としては多すぎます\n"
 
-#: src/winio.c:248
+#: src/winio.c:250
 msgid "Too many errors from stdin\n"
 msgstr "標準入力からのエラーが多すぎます\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1410
+#: src/winio.c:1412
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "ユニコード入力: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:2032
+#: src/winio.c:2034
 msgid "Linting --"
 msgstr "構文チェック中 --"
 
-#: src/winio.c:2038
+#: src/winio.c:2040
 msgid "DIR:"
 msgstr "ディレクトリ:"
 
-#: src/winio.c:2059
+#: src/winio.c:2061
 msgid "View"
 msgstr "表示"
 
-#: src/winio.c:2065 src/winio.c:2069
+#: src/winio.c:2067 src/winio.c:2071
 msgid "Modified"
 msgstr "変更済み"
 
-#: src/winio.c:2067
+#: src/winio.c:2069
 msgid "Restricted"
 msgstr "制限モード"
 
-#: src/winio.c:2173
+#: src/winio.c:2175
 msgid "(nameless)"
 msgstr "(名前無し)"
 
-#: src/winio.c:2205
+#: src/winio.c:2207
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] " (%zu 行)"
 
-#: src/winio.c:2207
+#: src/winio.c:2209
 #, c-format
 msgid " (%zu line, %s)"
 msgid_plural " (%zu lines, %s)"
 msgstr[0] " (%zu 行, %s)"
 
-#: src/winio.c:3515
+#: src/winio.c:3517
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr "行 %*zd/%zd (%2d%%), 列 %2zu/%2zu (%3d%%), 文字 %*zu/%zu (%2d%%)"
 
-#: src/winio.c:3669
+#: src/winio.c:3671
 msgid "The nano text editor"
 msgstr "nano テキストエディタ"
 
-#: src/winio.c:3670
+#: src/winio.c:3672
 msgid "version"
 msgstr "バージョン"
 
-#: src/winio.c:3671
+#: src/winio.c:3673
 msgid "Brought to you by:"
 msgstr "貢献してくれた方々:"
 
-#: src/winio.c:3672
+#: src/winio.c:3674
 msgid "Special thanks to:"
 msgstr "スペシャルサンクス:"
 
-#: src/winio.c:3673
+#: src/winio.c:3675
 msgid "The Free Software Foundation"
 msgstr "The Free Software Foundation"
 
-#: src/winio.c:3674
+#: src/winio.c:3676
 msgid "the many translators and the TP"
 msgstr "多くの翻訳者と Translation Project"
 
-#: src/winio.c:3675
+#: src/winio.c:3677
 msgid "For ncurses:"
 msgstr "ncurses に関して:"
 
-#: src/winio.c:3676
+#: src/winio.c:3678
 msgid "and anyone else we forgot..."
 msgstr "および他のすべての方々..."
 
-#: src/winio.c:3677
+#: src/winio.c:3679
 msgid "Thank you for using nano!"
 msgstr "nano を使用していただきありがとうございます!"
 
