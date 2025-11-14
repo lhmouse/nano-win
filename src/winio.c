@@ -1573,14 +1573,9 @@ char *get_verbatim_kbinput(WINDOW *frame, size_t *count)
 }
 
 #ifdef ENABLE_MOUSE
-/* Handle any mouse event that may have occurred.  We currently handle
- * releases/clicks of the first mouse button, and if ncurses supports them,
- * we also handle presses of the fourth mouse button (upward rolls of
- * the mouse wheel) by putting back keystrokes to scroll up, and presses
- * of the fifth mouse button (downward rolls of the mouse wheel) by
- * putting back keystrokes to scroll down.  We also store the coordinates
- * of a mouse event that needs further handling in mouse_x and mouse_y.
- * Return -1 on error, 0 if the mouse event needs to be handled, 1 if it's
+/* Handle clicks of the first mouse button, and rolls of the mouse wheel.
+ * Store the coordinates of the mouse event in `mouse_x` and `mouse_y`.
+ * Return -1 on error, 0 if the mouse event needs handling, 1 if it has
  * been handled by putting back keystrokes, or 2 if it's been ignored. */
 int get_mouseinput(int *mouse_y, int *mouse_x)
 {
@@ -1598,13 +1593,10 @@ int get_mouseinput(int *mouse_y, int *mouse_x)
 	*mouse_x = event.x - (in_middle ? margin : 0);
 	*mouse_y = event.y;
 
-	/* Handle releases/clicks of the first mouse button. */
+	/* Handle clicks/releases of the first mouse button. */
 	if (event.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
-		/* If we're allowing shortcuts, and the current shortcut list is
-		 * being displayed on the last two lines of the screen, and the
-		 * first mouse button was released on/clicked inside it, we need
-		 * to figure out which shortcut was released on/clicked and put
-		 * back the equivalent keystroke(s) for it. */
+		/* Clicking on one of the shortcuts in the two help lines
+		 * should be transformed to the equivalent keystroke. */
 		if (in_footer && !ISSET(NO_HELP) && currmenu != MYESNO) {
 			int width;
 				/* The width of each shortcut item, except the last two. */
