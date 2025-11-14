@@ -1732,16 +1732,16 @@ void do_rcfiles(void)
 		nanorc = get_full_path(custom_nanorc);
 		if (nanorc == NULL || access(nanorc, F_OK) != 0)
 			die(_("Specified rcfile does not exist\n"));
-	} else
-		nanorc = mallocstrcpy(nanorc, SYSCONFDIR "/nanorc");
+		if (is_good_file(nanorc))
+			parse_one_nanorc();
+	} else {
+		const char *xdgconfdir;
 
-	if (is_good_file(nanorc))
-		parse_one_nanorc();
-
-	if (custom_nanorc == NULL) {
-		const char *xdgconfdir = getenv("XDG_CONFIG_HOME");
+		if (have_nanorc(SYSCONFDIR, "/nanorc"))
+			parse_one_nanorc();
 
 		get_homedir();
+		xdgconfdir = getenv("XDG_CONFIG_HOME");
 
 		/* Now try to find a nanorc file in the user's home directory or in the
 		 * XDG configuration directories, and process the first one found. */
