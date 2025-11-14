@@ -1595,6 +1595,14 @@ int get_mouseinput(int *mouse_y, int *mouse_x)
 
 	/* Handle clicks/releases of the first mouse button. */
 	if (event.bstate & (BUTTON1_RELEASED | BUTTON1_CLICKED)) {
+		/* Clicking in the "scrollbar" goes to the roughly corresponding line. */
+		if (in_middle && sidebar && event.x == (COLS - 1) && currmenu == MMAIN) {
+			wmouse_trafo(midwin, mouse_y, mouse_x, FALSE);
+			*mouse_y += (*mouse_y ? 1 : 0);
+			goto_line_and_column(openfile->filebot->lineno * *mouse_y / editwinrows + 1,
+									openfile->placewewant + 1, TRUE);
+			refresh_needed = TRUE;
+		} else
 		/* Clicking on one of the shortcuts in the two help lines
 		 * should be transformed to the equivalent keystroke. */
 		if (in_footer && !ISSET(NO_HELP) && currmenu != MYESNO) {
