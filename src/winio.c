@@ -1605,16 +1605,12 @@ int get_mouseinput(int *mouse_y, int *mouse_x)
 			size_t number;
 				/* The number of shortcut items that get displayed. */
 
+			/* Clicks in the prompt bar are handled elsewhere. */
+			if (*mouse_y == (LINES - 3))
+				return 0;
+
 			/* Shift the coordinates to be relative to the bottom window. */
 			wmouse_trafo(footwin, mouse_y, mouse_x, FALSE);
-
-			/* Clicks on the status bar are handled elsewhere, so
-			 * restore the untranslated mouse-event coordinates. */
-			if (*mouse_y == 0) {
-				*mouse_x = event.x;
-				*mouse_y = event.y;
-				return 0;
-			}
 
 			/* Determine how many shortcuts are being shown. */
 			number = shown_entries_for(currmenu);
