@@ -197,7 +197,7 @@ void paste_into_answer(void)
 int do_statusbar_mouse(void)
 {
 	int click_row, click_col;
-	int retval = get_mouseinput(&click_row, &click_col, TRUE);
+	int retval = get_mouseinput(&click_row, &click_col);
 
 	/* We can click on the status-bar window text to move the cursor. */
 	if (retval == 0 && wmouse_trafo(footwin, &click_row, &click_col, FALSE)) {
@@ -800,7 +800,7 @@ int ask_user(bool withall, const char *question)
 		else if (kbinput == KEY_MOUSE) {
 			int mouse_x, mouse_y;
 			/* We can click on the Yes/No/All shortcuts to select an answer. */
-			if (get_mouseinput(&mouse_y, &mouse_x, FALSE) == 0 &&
+			if (get_mouseinput(&mouse_y, &mouse_x) == 0 &&
 						wmouse_trafo(footwin, &mouse_y, &mouse_x, FALSE) &&
 						mouse_x < (width * 2) && mouse_y > 0) {
 				int x = mouse_x / width;

@@ -465,7 +465,7 @@ char *browse(char *path)
 			int mouse_x, mouse_y;
 
 			/* When the user clicked in the file list, select a filename. */
-			if (get_mouseinput(&mouse_y, &mouse_x, TRUE) == 0 &&
+			if (get_mouseinput(&mouse_y, &mouse_x) == 0 &&
 						wmouse_trafo(midwin, &mouse_y, &mouse_x, FALSE)) {
 				selected = selected - selected % (usable_rows * piles) +
 								(mouse_y * piles) + (mouse_x / (gauge + 2));

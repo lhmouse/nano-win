@@ -501,7 +501,7 @@ void show_help(void)
 #ifdef ENABLE_MOUSE
 		} else if (kbinput == KEY_MOUSE) {
 			int dummy_row, dummy_col;
-			get_mouseinput(&dummy_row, &dummy_col, TRUE);
+			get_mouseinput(&dummy_row, &dummy_col);
 #endif
 #ifndef NANO_TINY
 		} else if (kbinput == START_OF_PASTE) {
