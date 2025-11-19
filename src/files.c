@@ -1419,8 +1419,9 @@ char *get_full_path(const char *origpath)
 
 		/* Upon success, re-add the last component of the original path. */
 		if (target) {
-			target = nrealloc(target, strlen(target) + strlen(slash + 1) + 1);
-			strcat(target, slash + 1);
+			*slash = '/';
+			target = nrealloc(target, strlen(target) + strlen(slash) + 1);
+			strcat(target, slash);
 		}
 	}
 
