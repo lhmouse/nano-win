@@ -569,7 +569,10 @@ instead of always at the edge of the screen.
 
 @item -b
 @itemx --breaklonglines
-Automatically hard-wrap the current line when it becomes overlong.
+Automatically hard-wrap the current line when it becomes overlong,
+that is: when the line becomes wider than the value given with @option{-r}
+(@option{--fill}).  The default value for @option{-r} is the terminal's
+width minus eight.
 (This option is the opposite of @option{-w} (@option{--nowrap}) ---
 the last one given takes effect.)
 
@@ -940,7 +943,9 @@ closing brackets, can end sentences.  The default value is
 "@t{"')>]@}}".
 
 @item set breaklonglines
-Automatically hard-wrap the current line when it becomes overlong.
+Automatically hard-wrap the current line when it becomes overlong --- that
+is: when the line becomes wider than the value given with @code{set fill}
+(which defaults to the width of the terminal minus eight).
 
 @item set casesensitive
 Do case-sensitive searches by default.

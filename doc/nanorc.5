@@ -117,7 +117,9 @@ punctuation (see \fBset punct\fR), optionally followed by the specified
 closing brackets, can end sentences.  The default value is "\fB\(dq')>]}\fR".
 .TP
 .B set breaklonglines
-Automatically hard-wrap the current line when it becomes overlong.
+Automatically hard-wrap the current line when it becomes overlong \(em
+that is: when it becomes wider than the value given with \fBset fill\fR
+(which defaults to the width of the terminal minus eight).
 .TP
 .B set casesensitive
 Do case-sensitive searches by default.
