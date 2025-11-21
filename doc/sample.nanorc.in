@@ -50,7 +50,7 @@
 ## Do case-sensitive searches by default.
 # set casesensitive
 
-## Interpret digits given on the command line after a colon after a filename
+## Interpret digits after a colon after a filename (on the command line)
 ## as the line number to go to in that file.
 # set colonparsing
 
@@ -72,7 +72,7 @@
 ## (This option does not have a default value.)
 # set guidestripe 75
 
-## Remember the used search/replace strings for the next session.
+## Remember the used search/replace/command strings for the next session.
 # set historylog
 
 ## Display a "scrollbar" on the righthand side of the edit window.
@@ -84,9 +84,8 @@
 ## Display line numbers to the left (and any anchors in the margin).
 # set linenumbers
 
-## Enable vim-style lock-files.  This is just to let a vim user know you
-## are editing a file [s]he is trying to edit and vice versa.  There are
-## no plans to implement vim-style undo state in these files.
+## Let other users (of nano or vim) know that you are editing the file
+## they are trying to edit, and the other way around.
 # set locking
 
 ## Fall back to slow libmagic to try and determine an applicable syntax.
