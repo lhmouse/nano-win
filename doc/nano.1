@@ -240,7 +240,10 @@ When doing soft line wrapping, wrap lines at whitespace
 instead of always at the edge of the screen.
 .TP
 .BR \-b ", " \-\-breaklonglines
-Automatically hard-wrap the current line when it becomes overlong.
+Automatically hard-wrap the current line when it becomes overlong,
+that is: when it becomes wider than the value given with \fB\-r\fR
+(\fB\-\-fill\fR).  The default value for \fB-r\fR is the terminal's
+width minus eight.
 (This option is the opposite of \fB\-w\fR (\fB\-\-nowrap\fR) \(em
 the last one given takes effect.)
 .TP
