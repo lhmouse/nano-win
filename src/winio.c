@@ -2328,6 +2328,8 @@ void statusline(message_type importance, const char *msg, ...)
 	}
 
 #if defined(ENABLE_MULTIBUFFER) && !defined(NANO_TINY)
+	/* Save the first error message for each buffer (except for the first buffer),
+	 * so that this message can be shown later, when the buffer is switched to. */
 	if (!we_are_running && importance == ALERT && openfile && !openfile->fmt &&
 						!openfile->errormessage && openfile->next != openfile)
 		openfile->errormessage = copy_of(compound);
