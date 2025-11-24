@@ -193,20 +193,19 @@ void paste_into_answer(void)
 #endif
 
 #ifdef ENABLE_MOUSE
-/* Handle a mouse click on the status-bar prompt or the shortcut list. */
-int do_statusbar_mouse(void)
+/* Handle a mouse click in the prompt bar or the help lines. */
+int process_prompt_click(void)
 {
 	int click_row, click_col;
-	int retval = get_mouseinput(&click_row, &click_col);
+	int retval = get_mouseinput(&click_row, &click_col);  /* Handles shortcuts. */
 
-	/* We can click on the status-bar window text to move the cursor. */
+	/* When the click is in the prompt bar, position the cursor. */
 	if (retval == 0 && wmouse_trafo(footwin, &click_row, &click_col, FALSE)) {
 		size_t start_col = breadth(prompt) + 2;
 
 		if (click_col >= start_col)
-			typing_x = actual_x(answer,
-							get_statusbar_page_start(start_col, start_col +
-							wideness(answer, typing_x)) + click_col - start_col);
+			typing_x = actual_x(answer, get_statusbar_page_start(start_col, start_col +
+								wideness(answer, typing_x)) + click_col - start_col);
 		else
 			typing_x = 0;
 	}
@@ -458,7 +457,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 #endif
 #ifdef ENABLE_MOUSE
 		/* For a click on a shortcut, read in the resulting keycode. */
-		if (input == KEY_MOUSE && do_statusbar_mouse() == 1)
+		if (input == KEY_MOUSE && process_prompt_click() == 1)
 			input = get_kbinput(footwin, BLIND);
 		if (input == KEY_MOUSE)
 			continue;
