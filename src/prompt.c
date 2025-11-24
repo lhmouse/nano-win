@@ -203,11 +203,12 @@ int do_statusbar_mouse(void)
 	if (retval == 0 && wmouse_trafo(footwin, &click_row, &click_col, FALSE)) {
 		size_t start_col = breadth(prompt) + 2;
 
-		/* Move to where the click occurred. */
-		if (click_row == 0 && click_col >= start_col)
+		if (click_col >= start_col)
 			typing_x = actual_x(answer,
 							get_statusbar_page_start(start_col, start_col +
 							wideness(answer, typing_x)) + click_col - start_col);
+		else
+			typing_x = 0;
 	}
 
 	return retval;
