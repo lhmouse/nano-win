@@ -4,7 +4,7 @@
  *   Copyright (C) 2001-2011, 2013-2025 Free Software Foundation, Inc.    *
  *   Copyright (C) 2014 Mike Frysinger                                    *
  *   Copyright (C) 2019 Brand Huntsman                                    *
- *   Copyright (C) 2014-2021 Benno Schulenberg                            *
+ *   Copyright (C) 2014-2021, 2024 Benno Schulenberg                      *
  *                                                                        *
  *   GNU nano is free software: you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published    *
