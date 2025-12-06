@@ -19,13 +19,13 @@ modules="
 	regex
 	sigaction
 	snprintf-posix
-	stdarg
+	stdarg-h
 	strcase
 	strcasestr-simple
 	strnlen
 	sys_wait
 	vsnprintf-posix
-	wchar
+	wchar-h
 	wctype-h
 	wcwidth
 "
