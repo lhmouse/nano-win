@@ -47,6 +47,8 @@ extern int final_status;
 extern bool inhelp;
 extern char *title;
 
+extern size_t brink;
+
 extern bool focusing;
 
 extern bool as_an_at;

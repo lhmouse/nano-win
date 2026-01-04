@@ -73,6 +73,8 @@ char *title = NULL;
 bool refresh_needed = FALSE;
 		/* Did a command mangle enough of the buffer that we should
 		 * repaint the screen? */
+size_t brink = 0;
+		/* From which column the edit window is drawn (when panning). */
 bool focusing = TRUE;
 		/* Whether an update of the edit window should center the cursor. */
 

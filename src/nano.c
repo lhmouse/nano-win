@@ -1551,6 +1551,10 @@ void inject(char *burst, size_t count)
 
 	openfile->placewewant = xplustabs();
 
+	/* When panning, and we have come near the edge of the viewport... */
+	if (!ISSET(SOLO_SIDESCROLL) && openfile->placewewant > brink + editwincols - CUSHION - 1 )
+		refresh_needed = TRUE;
+
 #ifndef NANO_TINY
 	/* When softwrapping and the number of chunks in the current line changed,
 	 * or we were on the last row of the edit window and moved to a new chunk,

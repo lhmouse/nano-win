@@ -143,6 +143,9 @@
 /* The default number of columns from end of line where wrapping occurs. */
 #define COLUMNS_FROM_EOL  8
 
+/* The number of columns the cursor should stay away from the edge. */
+#define CUSHION  3
+
 /* The default comment character when a syntax does not specify any. */
 #define GENERAL_COMMENT_CHARACTER  "#"
 
@@ -376,7 +379,8 @@ enum {
 	USE_MAGIC,
 	MINIBAR,
 	ZERO,
-	MODERN_BINDINGS
+	MODERN_BINDINGS,
+	SOLO_SIDESCROLL
 };
 
 /* Structure types. */

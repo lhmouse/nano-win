@@ -2838,7 +2838,10 @@ int update_line(linestruct *line, size_t index)
 #endif
 
 	row = line->lineno - openfile->edittop->lineno;
-	from_col = get_page_start(wideness(line->data, index));
+	if (!ISSET(SOLO_SIDESCROLL))
+		from_col = brink;
+	else
+		from_col = get_page_start(wideness(line->data, index));
 
 	/* Expand the piece to be drawn to its representable form, and draw it. */
 	converted = display_string(line->data, from_col, editwincols, TRUE, FALSE);
@@ -2931,9 +2934,13 @@ bool line_needs_update(const size_t old_column, const size_t new_column)
 #ifndef NANO_TINY
 	if (openfile->mark)
 		return TRUE;
-	else
 #endif
-		return (get_page_start(old_column) != get_page_start(new_column));
+	if (get_page_start(old_column) == get_page_start(new_column))
+		return FALSE;
+	if (!ISSET(SOLO_SIDESCROLL) && !ISSET(SOFTWRAP))
+		refresh_needed = TRUE;
+
+	return !refresh_needed;
 }
 
 /* Try to move up nrows softwrapped chunks from the given line and the
@@ -3342,6 +3349,9 @@ void edit_redraw(linestruct *old_current, update_type manner)
 		adjust_viewport(ISSET(JUMPY_SCROLLING) ? CENTERING : manner);
 		refresh_needed = TRUE;
 		return;
+	} else if (!ISSET(SOLO_SIDESCROLL) && !ISSET(SOFTWRAP)) {
+		refresh_needed = TRUE;
+		return;
 	}
 
 #ifndef NANO_TINY
@@ -3380,6 +3390,10 @@ void edit_refresh(void)
 	/* If the current line is out of view, get it back on screen. */
 	if (current_is_offscreen())
 		adjust_viewport((focusing || ISSET(JUMPY_SCROLLING)) ? CENTERING : FLOWING);
+
+	/* When panning, ensure the cursor will be within the viewport. */
+	if (!ISSET(SOLO_SIDESCROLL) && !ISSET(SOFTWRAP))
+		brink = get_page_start(xplustabs());
 
 #ifdef ENABLE_COLOR
 	/* When needed and useful, initialize the colors for the current syntax. */

@@ -343,6 +343,17 @@ char *free_and_assign(char *dest, char *src)
  * displayed in the edit window when the cursor is at the given column. */
 size_t get_page_start(size_t column)
 {
+	if (!ISSET(SOLO_SIDESCROLL) && !ISSET(SOFTWRAP)) {
+		if (column < CUSHION)
+			return 0;
+		else if (column < brink + CUSHION)
+			return column - CUSHION;
+		else if (column > brink + editwincols - CUSHION - 1)
+			return column - editwincols + CUSHION + 1;
+		else
+			return brink;
+	}
+
 	if (column == 0 || column + 2 < editwincols || ISSET(SOFTWRAP))
 		return 0;
 	else if (editwincols > 8)
