@@ -40,7 +40,7 @@ This manual documents the GNU @command{nano} text editor.
 The contents of this manual are part of the GNU @command{nano} distribution.
 
 @sp 5
-Copyright @copyright{} 1999-2009, 2014-2025 Free Software Foundation, Inc.
+Copyright @copyright{} 1999-2009, 2014-2026 Free Software Foundation, Inc.
 @sp 1
 This document is dual-licensed.  You may distribute and/or modify it
 under the terms of either of the following licenses:
