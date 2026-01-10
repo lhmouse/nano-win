@@ -1,6 +1,6 @@
 # Configuration for GNU nano - a small and user-friendly text editor
 #
-# Copyright (C) 1999-2011, 2013-2025 Free Software Foundation, Inc.
+# Copyright (C) 1999-2011, 2013-2026 Free Software Foundation, Inc.
 # Copyright (C) 2014, 2017 Mike Frysinger
 #
 # GNU nano is free software: you can redistribute it and/or modify
