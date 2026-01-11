@@ -2687,6 +2687,10 @@ int main(int argc, char **argv)
 		if (currmenu != MMAIN)
 			bottombars(MMAIN);
 
+		/* Fall back to single-line sidescrolling when the window is narrow. */
+		if (editwincols < 2 * CUSHION + 2)
+			SET(SOLO_SIDESCROLL);
+
 #ifndef NANO_TINY
 		if (ISSET(MINIBAR) && !ISSET(ZERO) && LINES > 1 && lastmessage < REMARK)
 			minibar();
