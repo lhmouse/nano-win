@@ -654,6 +654,7 @@ void usage(void)
 	print_opt("-0", "--zero", N_("Hide all bars, use whole terminal"));
 #endif
 	print_opt("-/", "--modernbindings", N_("Use better-known key bindings"));
+	print_opt("-1", "--solosidescroll", N_("Scroll only the current line sideways"));
 }
 
 /* Display the version number of this nano, a copyright notice, some contact
@@ -1809,6 +1810,7 @@ int main(int argc, char **argv)
 		{"listsyntaxes", 0, NULL, 'z'},
 #endif
 		{"modernbindings", 0, NULL, '/'},
+		{"solosidescroll", 0, NULL, '1'},
 #ifndef NANO_TINY
 		{"smarthome", 0, NULL, 'A'},
 		{"backup", 0, NULL, 'B'},
@@ -1886,7 +1888,7 @@ int main(int argc, char **argv)
 		SET(RESTRICTED);
 
 	while ((optchr = getopt_long(argc, argv, "ABC:DEFGHIJ:KLMNOPQ:RST:UVWX:Y:Z"
-				"abcdef:ghijklmno:pqr:s:tuvwxyz!@%_0/", long_options, NULL)) > 0) {
+				"abcdef:ghijklmno:pqr:s:tuvwxyz!@%_01/", long_options, NULL)) > 0) {
 		switch (optchr) {
 #ifndef NANO_TINY
 			case 'A':
@@ -2150,6 +2152,9 @@ int main(int argc, char **argv)
 #endif
 			case '/':
 				SET(MODERN_BINDINGS);
+				break;
+			case '1':
+				SET(SOLO_SIDESCROLL);
 				break;
 			default:
 				printf(_("Type '%s -h' for a list of available options.\n"), argv[0]);

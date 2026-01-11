@@ -87,6 +87,7 @@ static const rcoption rcopts[] = {
 	{"rebinddelete", REBIND_DELETE},
 	{"regexp", USE_REGEXP},
 	{"saveonexit", SAVE_ON_EXIT},
+	{"solosidescroll", SOLO_SIDESCROLL},
 #ifdef ENABLE_SPELLER
 	{"speller", 0},
 #endif
