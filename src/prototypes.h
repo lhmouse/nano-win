@@ -47,6 +47,7 @@ extern int final_status;
 extern bool inhelp;
 extern char *title;
 
+extern bool united_sidescroll;
 extern size_t brink;
 
 extern bool focusing;

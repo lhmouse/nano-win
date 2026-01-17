@@ -2838,7 +2838,7 @@ int update_line(linestruct *line, size_t index)
 #endif
 
 	row = line->lineno - openfile->edittop->lineno;
-	if (!ISSET(SOLO_SIDESCROLL))
+	if (united_sidescroll)
 		from_col = brink;
 	else
 		from_col = get_page_start(wideness(line->data, index));
@@ -2937,7 +2937,7 @@ bool line_needs_update(const size_t old_column, const size_t new_column)
 #endif
 	if (get_page_start(old_column) == get_page_start(new_column))
 		return FALSE;
-	if (!ISSET(SOLO_SIDESCROLL) && !ISSET(SOFTWRAP))
+	if (united_sidescroll)
 		refresh_needed = TRUE;
 
 	return !refresh_needed;
@@ -3349,7 +3349,7 @@ void edit_redraw(linestruct *old_current, update_type manner)
 		adjust_viewport(ISSET(JUMPY_SCROLLING) ? CENTERING : manner);
 		refresh_needed = TRUE;
 		return;
-	} else if (!ISSET(SOLO_SIDESCROLL) && !ISSET(SOFTWRAP)) {
+	} else if (united_sidescroll) {
 		refresh_needed = TRUE;
 		return;
 	}
@@ -3392,7 +3392,7 @@ void edit_refresh(void)
 		adjust_viewport((focusing || ISSET(JUMPY_SCROLLING)) ? CENTERING : FLOWING);
 
 	/* When panning, ensure the cursor will be within the viewport. */
-	if (!ISSET(SOLO_SIDESCROLL) && !ISSET(SOFTWRAP))
+	if (united_sidescroll)
 		brink = get_page_start(xplustabs());
 
 #ifdef ENABLE_COLOR

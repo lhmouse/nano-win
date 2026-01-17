@@ -73,6 +73,8 @@ char *title = NULL;
 bool refresh_needed = FALSE;
 		/* Did a command mangle enough of the buffer that we should
 		 * repaint the screen? */
+bool united_sidescroll = TRUE;
+		/* Whether to scroll all lines sideways.  That is: whether to pan. */
 size_t brink = 0;
 		/* From which column the edit window is drawn (when panning). */
 bool focusing = TRUE;

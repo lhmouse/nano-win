@@ -1553,7 +1553,7 @@ void inject(char *burst, size_t count)
 	openfile->placewewant = xplustabs();
 
 	/* When panning, and we have come near the edge of the viewport... */
-	if (!ISSET(SOLO_SIDESCROLL) && openfile->placewewant > brink + editwincols - CUSHION - 1 )
+	if (united_sidescroll && openfile->placewewant > brink + editwincols - CUSHION - 1 )
 		refresh_needed = TRUE;
 
 #ifndef NANO_TINY
@@ -2687,9 +2687,13 @@ int main(int argc, char **argv)
 		if (currmenu != MMAIN)
 			bottombars(MMAIN);
 
-		/* Fall back to single-line sidescrolling when the window is narrow. */
-		if (editwincols < 2 * CUSHION + 2)
-			SET(SOLO_SIDESCROLL);
+		/* Do sideways scrolling only when the user didn't switch it off,
+		 * when not softwrapping, and the window is wide enough. */
+		if (united_sidescroll != (!ISSET(SOLO_SIDESCROLL) && !ISSET(SOFTWRAP) &&
+									editwincols > 2 * CUSHION + 2)) {
+			united_sidescroll = !united_sidescroll;
+			refresh_needed = TRUE;
+		}
 
 #ifndef NANO_TINY
 		if (ISSET(MINIBAR) && !ISSET(ZERO) && LINES > 1 && lastmessage < REMARK)

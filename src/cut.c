@@ -54,7 +54,7 @@ void expunge(undo_type action)
 		if (ISSET(SOFTWRAP) && extra_chunks_in(openfile->current) != old_amount)
 			refresh_needed = TRUE;
 		/* When panning, and we have come near edge of the viewport... */
-		else if (!ISSET(SOLO_SIDESCROLL) && openfile->placewewant < brink + CUSHION)
+		else if (united_sidescroll && openfile->placewewant < brink + CUSHION)
 			refresh_needed = TRUE;
 
 		/* Adjust the mark if it is after the cursor on the current line. */
