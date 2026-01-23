@@ -561,7 +561,7 @@ typedef struct openfilestruct {
 	size_t current_x;
 		/* The file's x-coordinate position. */
 	size_t placewewant;
-		/* The file's x position we would like. */
+		/* The preferred column for the cursor. */
 	ssize_t cursor_row;
 		/* The row in the edit window that the cursor is on. */
 	struct stat *statinfo;
