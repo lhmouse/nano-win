@@ -332,6 +332,14 @@ Display lines that exceed the screen's width over multiple screen lines.
 (You can make this soft-wrapping occur at whitespace instead of rudely at
 the screen's edge, by using also \fBset atblanks\fR.)
 .TP
+.B set solosidescroll
+When the cursor approaches the right edge of the edit window, scroll only the
+current line sideways by a large amount, instead of scrolling all visible lines
+sideways by just the amount needed to keep the cursor in view.
+This latter whole-window smooth sideways scrolling is the new default behavior.
+The single-line jerky sideways scrolling enabled by this option was the old
+behavior \(em the only behavior that \fBnano\fR knew.
+.TP
 .B set speller """\fIprogram\fR [\fIargument \fR...]\fB"""
 Use the given \fIprogram\fR to do spell checking and correcting, instead of
 using the built-in corrector that calls \fBhunspell\fR(1) or \fBspell\fR(1).

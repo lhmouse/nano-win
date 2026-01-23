@@ -789,6 +789,15 @@ Furthermore, @kbd{^A} sets the mark,
 @kbd{^W} writes out a file, and @kbd{^E} executes a command.
 Note that this overrides option @option{-p} (@option{--preserve}).
 
+@item -1
+@itemx --solosidescroll
+When the cursor approaches the right edge of the edit window, scroll only the
+current line sideways by a large amount, instead of scrolling all visible lines
+sideways by just the amount needed to keep the cursor in view.
+This latter whole-window smooth sideways scrolling is the new default behavior.
+The single-line jerky sideways scrolling enabled by this option was the old
+behavior --- the only behavior that @command{nano} knew.
+
 @end table
 
 @sp 1
@@ -1186,6 +1195,14 @@ already at that position, it jumps to the true beginning of the line.
 Display lines that exceed the screen's width over multiple screen lines.
 (You can make this soft-wrapping occur at whitespace instead of rudely at
 the screen's edge, by using also @code{set atblanks}.)
+
+@item set solosidescroll
+When the cursor approaches the right edge of the edit window, scroll only the
+current line sideways by a large amount, instead of scrolling all visible lines
+sideways by just the amount needed to keep the cursor in view.
+This latter whole-window smooth sideways scrolling is the new default behavior.
+The single-line jerky sideways scrolling enabled by this option was the old
+behavior --- the only behavior that @command{nano} knew.
 
 @item set speller "@var{program} [@var{argument} @dots{}]"
 Use the given program to do spell checking and correcting.

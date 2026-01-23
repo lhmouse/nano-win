@@ -412,6 +412,14 @@ Furthermore, \fB^A\fR sets the mark,
 \fB^P\fR shows the position, \fB^T\fR goes to a line,
 \fB^W\fR writes out a file, and \fB^E\fR executes a command.
 Note that this overrides option \fB\-p\fR (\fB\-\-preserve\fR).
+.TP
+.BR \-1 ", " \-\-solosidescroll
+When the cursor approaches the right edge of the edit window, scroll only the
+current line sideways by a large amount, instead of scrolling all visible lines
+sideways by just the amount needed to keep the cursor in view.
+This latter whole-window smooth sideways scrolling is the new default behavior.
+The single-line jerky sideways scrolling enabled by this option was the old
+behavior \(em the only behavior that \fBnano\fR knew.
 
 .SH TOGGLES
 Several of the above options can be switched on and off also while
