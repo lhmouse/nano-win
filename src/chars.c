@@ -545,7 +545,7 @@ char *mbrevstrcasestr(const char *haystack, const char *needle,
 
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
 /* This function is equivalent to strchr() for multibyte strings. */
-char *mbstrchr(const char *string, const char *chr)
+const char *mbstrchr(const char *string, const char *chr)
 {
 #ifdef ENABLE_UTF8
 	if (using_utf8) {
