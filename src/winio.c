@@ -349,7 +349,7 @@ void implant(const char *string)
 int get_code_from_plantation(void)
 {
 	if (*plants_pointer == '{') {
-		char *closing = strchr(plants_pointer + 1, '}');
+		const char *closing = strchr(plants_pointer + 1, '}');
 
 		if (!closing)
 			return MISSING_BRACE;
@@ -380,7 +380,7 @@ int get_code_from_plantation(void)
 
 		return PLANTED_A_COMMAND;
 	} else {
-		char *opening = strchr(plants_pointer, '{');
+		const char *opening = strchr(plants_pointer, '{');
 		unsigned char firstbyte = *plants_pointer;
 		int length;
 

@@ -233,7 +233,7 @@ char *mbstrcasestr(const char *haystack, const char *needle);
 char *revstrstr(const char *haystack, const char *needle, const char *pointer);
 char *mbrevstrcasestr(const char *haystack, const char *needle, const char *pointer);
 #if !defined(NANO_TINY) || defined(ENABLE_JUSTIFY)
-char *mbstrchr(const char *string, const char *chr);
+const char *mbstrchr(const char *string, const char *chr);
 #endif
 #ifndef NANO_TINY
 char *mbstrpbrk(const char *string, const char *accept);
