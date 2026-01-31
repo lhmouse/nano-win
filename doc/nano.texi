@@ -129,6 +129,13 @@ those keystrokes to do what they did before version 8.0, see the
 rebindings in the sample nanorc file.
 
 @blankline
+Since version 9.0, all lines are scrolled horizontally together
+(when the cursor approaches the edge), by just the amount needed,
+instead of scrolling only the current line by a large step.
+If you prefer the old behavior, you can use @code{--solo} on the
+command line or @code{set solosidescroll} in your nanorc.
+
+@blankline
 Please report bugs via @url{https://savannah.gnu.org/bugs/?group=nano}.
 
 @blankline

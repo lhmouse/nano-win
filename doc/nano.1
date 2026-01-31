@@ -27,7 +27,13 @@ nano \- Nano's ANOther text editor, inspired by Pico
 .sp
 .BR nano " [" \fIoptions "] [[" + [ crCR ]{ / | ? } \fIstring "] " \fIfile ]...
 
-.SH NOTICE
+.SH NOTICES
+Since version 9.0, all lines are scrolled horizontally together
+(when the cursor approaches the edge), by just the amount needed,
+instead of scrolling only the current line by a large step.
+If you prefer the old behavior, you can use \fB--solo\fR on the
+command line or \fBset solosidescroll\fR in your nanorc.
+.sp
 Since version 8.0, to be newcomer friendly, \fB^F\fR starts a forward search,
 \fB^B\fR starts a backward search, \fBM\-F\fR searches the next occurrence
 forward, and \fBM\-B\fR searches the next occurrence backward.  If you want
