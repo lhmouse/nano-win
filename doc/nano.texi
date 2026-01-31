@@ -194,6 +194,7 @@ a command straight into a buffer, and then edit it.
 * Search and Replace::
 * Using the Mouse::
 * Anchors::
+* Exit status::
 * Limitations::
 @end menu
 
@@ -366,6 +367,14 @@ are saved when the file is closed, and restored when the file is reopened.
 
 Anchors are visualized in the left margin if line numbers are active,
 and are always visualized (on the right-hand side) in the mini bar.
+
+@node Exit status
+@section Exit status
+
+The exit status is @code{0} when @command{nano} finished normally,
+@code{1} when an invalid option or option argument was given,
+and @code{2} when the last open buffer was discarded
+(with @kbd{^O^Q} or @kbd{^X^Q}).
 
 @node Limitations
 @section Limitations
@@ -1835,9 +1844,8 @@ When writing a file, 'prepends' (writes at the beginning) instead of overwriting
 When writing a file, creates a backup of the current file.
 
 @item discardbuffer
-When about to write a file, discard the current buffer without saving.
-(This function is bound by default only when option @option{--saveonexit}
-is in effect.)
+Discards the current buffer without saving (when in the Write Out menu).
+When it was the last buffer, then @command{nano} exits with error status 2.
 
 @item browser
 Starts the file browser (in the Read File and Write Out menus),

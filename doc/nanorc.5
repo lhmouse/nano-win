@@ -966,9 +966,8 @@ When writing a file, "prepends" (writes at the beginning) instead of overwriting
 When writing a file, creates a backup of the current file.
 .TP
 .B discardbuffer
-When about to write a file, discard the current buffer without saving.
-(This function is bound by default only when option \fB\-\-saveonexit\fR
-is in effect.)
+Discards the current buffer without saving (when in the Write Out menu).
+When it was the last buffer, then \fBnano\fR exits with error status 2.
 .TP
 .B browser
 Starts the file browser (in the Read File and Write Out menus),
