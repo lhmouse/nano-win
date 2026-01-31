@@ -346,12 +346,12 @@ size_t get_page_start(size_t column)
 	if (united_sidescroll) {
 		if (column < CUSHION)
 			return 0;
-		else if (column < brink + CUSHION)
+		else if (column < openfile->brink + CUSHION)
 			return column - CUSHION;
-		else if (column > brink + editwincols - CUSHION - 1)
+		else if (column > openfile->brink + editwincols - CUSHION - 1)
 			return column - editwincols + CUSHION + 1;
 		else
-			return brink;
+			return openfile->brink;
 	}
 
 	if (column == 0 || column + 2 < editwincols || ISSET(SOFTWRAP))

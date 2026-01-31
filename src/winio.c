@@ -2839,7 +2839,7 @@ int update_line(linestruct *line, size_t index)
 
 	row = line->lineno - openfile->edittop->lineno;
 	if (united_sidescroll)
-		from_col = brink;
+		from_col = openfile->brink;
 	else
 		from_col = get_page_start(wideness(line->data, index));
 
@@ -3393,7 +3393,7 @@ void edit_refresh(void)
 
 	/* When panning, ensure the cursor will be within the viewport. */
 	if (united_sidescroll)
-		brink = get_page_start(xplustabs());
+		openfile->brink = get_page_start(xplustabs());
 
 #ifdef ENABLE_COLOR
 	/* When needed and useful, initialize the colors for the current syntax. */

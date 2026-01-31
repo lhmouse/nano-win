@@ -1553,7 +1553,7 @@ void inject(char *burst, size_t count)
 	openfile->placewewant = xplustabs();
 
 	/* When panning, and we have come near the edge of the viewport... */
-	if (united_sidescroll && openfile->placewewant > brink + editwincols - CUSHION - 1 )
+	if (united_sidescroll && openfile->placewewant > openfile->brink + editwincols - CUSHION - 1 )
 		refresh_needed = TRUE;
 
 #ifndef NANO_TINY

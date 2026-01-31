@@ -335,7 +335,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 
 		/* When panning, ensure the end of the match will be visible too. */
 		if (united_sidescroll)
-			brink = get_page_start(light_to_col);
+			openfile->brink = get_page_start(light_to_col);
 
 		refresh_needed = TRUE;
 	}
@@ -597,7 +597,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 										openfile->current_x + match_len);
 
 			if (united_sidescroll)
-				brink = get_page_start(light_to_col);
+				openfile->brink = get_page_start(light_to_col);
 
 			/* Refresh the edit window, scrolling it if necessary. */
 			edit_refresh();

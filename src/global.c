@@ -75,8 +75,6 @@ bool refresh_needed = FALSE;
 		 * repaint the screen? */
 bool united_sidescroll = TRUE;
 		/* Whether to scroll all lines sideways.  That is: whether to pan. */
-size_t brink = 0;
-		/* From which column the edit window is drawn (when panning). */
 bool focusing = TRUE;
 		/* Whether an update of the edit window should center the cursor. */
 
