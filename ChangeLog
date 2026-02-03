@@ -1,3 +1,18 @@
+Changes between v8.7 and v8.7.1:
+--------------------------------
+
+Benno Schulenberg (9):
+      build: avoid three warnings when compiling against glibc-2.43
+      bump version numbers and add a news item for the 8.7.1 release
+      copyright: update the years for significantly changed files
+      copyright: update the years for the FSF
+      docs: add an Exit Status section to the man page and the manual
+      docs: explain what "overlong" means for --breaklonglines
+      files: include also the slash when re-adding the filename to the path
+      gnulib: update to a recent version, to allow compiling against glibc-2.43
+      syntax: python: colorize also the `match` and `case` keywords
+
+
 Changes between v8.6 and v8.7:
 ------------------------------
 
