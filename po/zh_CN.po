@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano 8.4-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2025-11-12 10:44+0100\n"
+"POT-Creation-Date: 2026-02-04 09:04+0100\n"
 "PO-Revision-Date: 2025-03-24 18:51+0800\n"
 "Last-Translator: Wenbin Lv <wenbin816@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -57,7 +57,7 @@ msgid " [Backwards]"
 msgstr " [向后搜索]"
 
 #: src/browser.c:322 src/browser.c:563 src/files.c:1163 src/files.c:1256
-#: src/files.c:2193 src/nano.c:321 src/search.c:114 src/search.c:294
+#: src/files.c:2194 src/nano.c:321 src/search.c:114 src/search.c:294
 #: src/search.c:723 src/search.c:790 src/text.c:2621 src/text.c:2820
 msgid "Cancelled"
 msgstr "已取消"
@@ -91,8 +91,8 @@ msgstr "无法访问 %s 外部"
 msgid "Can't move up a directory"
 msgstr "无法上移一个目录"
 
-#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1828
-#: src/files.c:1843 src/history.c:263 src/history.c:291 src/history.c:400
+#: src/browser.c:616 src/files.c:920 src/files.c:926 src/files.c:1829
+#: src/files.c:1844 src/history.c:263 src/history.c:291 src/history.c:400
 #: src/history.c:454 src/rcfile.c:926 src/rcfile.c:1712
 #, c-format
 msgid "Error reading %s: %s"
@@ -253,7 +253,7 @@ msgstr[0] "%s -- %zu 行"
 msgid "No more open file buffers"
 msgstr "无多余文件缓冲区可启用"
 
-#: src/files.c:786 src/files.c:918 src/files.c:1881
+#: src/files.c:786 src/files.c:918 src/files.c:1882
 msgid "Interrupted"
 msgstr "被中断"
 
@@ -361,168 +361,168 @@ msgstr "要不经转换插入的文件 [来自 %s]"
 msgid "File to insert [from %s]"
 msgstr "要插入的文件 [来自 %s]"
 
-#: src/files.c:1508
+#: src/files.c:1509
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr "无效的操作目录：%s\n"
 
-#: src/files.c:1557
+#: src/files.c:1558
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr "无效的备份目录：%s\n"
 
-#: src/files.c:1612
+#: src/files.c:1613
 msgid "Making backup..."
 msgstr "正在创建备份…"
 
-#: src/files.c:1644
+#: src/files.c:1645
 msgid "Too many existing backup files"
 msgstr "已有备份文件过多"
 
-#: src/files.c:1692
+#: src/files.c:1693
 msgid "Cannot read original file"
 msgstr "无法读取原始文件"
 
-#: src/files.c:1724
+#: src/files.c:1725
 msgid "Cannot make regular backup"
 msgstr "无法创建正常备份"
 
-#: src/files.c:1725
+#: src/files.c:1726
 msgid "Trying again in your home directory"
 msgstr "正重新尝试在您的家目录下存放备份"
 
-#: src/files.c:1737
+#: src/files.c:1738
 msgid "Cannot make backup"
 msgstr "无法创建备份"
 
 #. TRANSLATORS: Try to keep this message at most 76 characters.
-#: src/files.c:1748
+#: src/files.c:1749
 msgid "Cannot make backup; continue and save actual file? "
 msgstr "无法创建备份；要继续并保存实际文件吗？"
 
 #. TRANSLATORS: The %s is the reason of failure.
-#: src/files.c:1753
+#: src/files.c:1754
 #, c-format
 msgid "Cannot make backup: %s"
 msgstr "无法创建备份：%s"
 
-#: src/files.c:1789
+#: src/files.c:1790
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "无法写入%s 外部"
 
-#: src/files.c:1821 src/files.c:1883 src/files.c:1894 src/files.c:1915
-#: src/files.c:1932 src/files.c:1941 src/files.c:1969 src/files.c:1980
-#: src/files.c:1997 src/history.c:333 src/history.c:344 src/history.c:347
+#: src/files.c:1822 src/files.c:1884 src/files.c:1895 src/files.c:1916
+#: src/files.c:1933 src/files.c:1942 src/files.c:1970 src/files.c:1981
+#: src/files.c:1998 src/history.c:333 src/history.c:344 src/history.c:347
 #: src/history.c:471 src/history.c:485 src/history.c:499 src/history.c:505
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "写入%s 出错：%s"
 
-#: src/files.c:1835 src/files.c:1847 src/text.c:2553 src/text.c:2565
+#: src/files.c:1836 src/files.c:1848 src/text.c:2553 src/text.c:2565
 #: src/text.c:2971
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "写入临时文件%s 出错"
 
-#: src/files.c:1854
+#: src/files.c:1855
 msgid "Writing to FIFO..."
 msgstr "正在写入命名管道（FIFO）..."
 
-#: src/files.c:1901
+#: src/files.c:1902
 msgid "Writing..."
 msgstr "正在写入..."
 
-#: src/files.c:1957 src/files.c:1965
+#: src/files.c:1958 src/files.c:1966
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr "读取临时文件出错：%s"
 
 #. TRANSLATORS: This warns for data loss when the disk is full.
-#: src/files.c:2004
+#: src/files.c:2005
 msgid "File on disk has been truncated!"
 msgstr "磁盘上的文件已被截断！"
 
 #. TRANSLATORS: This is a suggestion to the user,
 #. * where "resume" means resuming from suspension.
 #. * Try to keep this at most 76 characters.
-#: src/files.c:2009
+#: src/files.c:2010
 msgid "Maybe ^T^Z, make room on disk, resume, then ^S^X"
 msgstr "尝试输入 ^T^Z，释放一些磁盘空间，解除挂起，然后输入 ^S^X"
 
-#: src/files.c:2071
+#: src/files.c:2072
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "已写入 %zu 行"
 
-#: src/files.c:2156
+#: src/files.c:2157
 msgid " [DOS Format]"
 msgstr " [DOS 格式]"
 
-#: src/files.c:2157
+#: src/files.c:2158
 msgid " [Mac Format]"
 msgstr " [Mac 格式]"
 
-#: src/files.c:2158
+#: src/files.c:2159
 msgid " [Backup]"
 msgstr " [备份]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2165
+#: src/files.c:2166
 msgid "Prepend Selection to File"
 msgstr "将选中部分插入到文件开头"
 
-#: src/files.c:2166
+#: src/files.c:2167
 msgid "Append Selection to File"
 msgstr "将选中部分追加到文件末尾"
 
-#: src/files.c:2167
+#: src/files.c:2168
 msgid "Write Selection to File"
 msgstr "将选中部分写入到文件"
 
 #. TRANSLATORS: Next three prompts are analogous to the above three.
-#: src/files.c:2170
+#: src/files.c:2171
 msgid "Prepend to File"
 msgstr "插入到文件开头"
 
-#: src/files.c:2170
+#: src/files.c:2171
 msgid "Append to File"
 msgstr "追加到文件末尾"
 
-#: src/files.c:2173
+#: src/files.c:2174
 msgid "Write to File"
 msgstr "写入到文件"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2254 src/nano.c:1097 src/nano.c:1106
+#: src/files.c:2255 src/nano.c:1097 src/nano.c:1106
 msgid "Too tiny"
 msgstr "屏幕过小"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2287
+#: src/files.c:2288
 msgid "File exists -- cannot overwrite"
 msgstr "文件已存在——无法覆写"
 
-#: src/files.c:2296
+#: src/files.c:2297
 msgid "Save file under DIFFERENT NAME? "
 msgstr "以不同的名称保存文件？ "
 
-#: src/files.c:2304
+#: src/files.c:2305
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "文件“%s”已存在；要覆盖吗？ "
 
-#: src/files.c:2328
+#: src/files.c:2329
 msgid "File on disk has changed"
 msgstr "磁盘上的文件已改变"
 
 #. TRANSLATORS: Try to keep this at most 76 characters.
-#: src/files.c:2331
+#: src/files.c:2332
 msgid "File was modified since you opened it; continue saving? "
 msgstr "在您打开文件后文件已被改变；是否继续保存？"
 
-#: src/files.c:2708
+#: src/files.c:2709
 msgid "(more)"
 msgstr "(更多)"
 
@@ -3001,27 +3001,27 @@ msgstr "以及其他我们不记得的人..."
 msgid "Thank you for using nano!"
 msgstr "感谢您使用 nano！"
 
-#: lib/getopt.c:282
+#: lib/getopt.c:283
 #, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
 msgstr "%s：选项“%s%s”有歧义\n"
 
-#: lib/getopt.c:288
+#: lib/getopt.c:289
 #, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
 msgstr "%s：选项“%s%s”有歧义；可能是："
 
-#: lib/getopt.c:322
+#: lib/getopt.c:323
 #, c-format
 msgid "%s: unrecognized option '%s%s'\n"
 msgstr "%s：无法识别的选项“%s%s”\n"
 
-#: lib/getopt.c:348
+#: lib/getopt.c:349
 #, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
 msgstr "%s：选项“%s%s”不允许带参数\n"
 
-#: lib/getopt.c:363
+#: lib/getopt.c:364
 #, c-format
 msgid "%s: option '%s%s' requires an argument\n"
 msgstr "%s：选项“%s%s”需要参数\n"
