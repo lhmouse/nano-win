@@ -68,13 +68,13 @@ four lines at the end of your \fInanorc\fR file:
 
 .SH OPTIONS
 The configuration file accepts a series of \fBset\fR and \fBunset\fR
-commands, which can be used to configure nano on startup without using
+commands, which can be used to configure \fBnano\fR on startup without using
 command-line options.  Additionally, there are some commands to define
 syntax highlighting and to rebind keys \[em] see the two separate sections
 on those.  \fBnano\fR reads one command per line.
 All commands and keywords should be written in lowercase.
 .sp
-Options in \fInanorc\fR files take precedence over nano's defaults, and
+Options in \fInanorc\fR files take precedence over \fBnano\fR's defaults, and
 command-line options override \fInanorc\fR settings.  Also, options that
 do not take an argument are unset by default.  So using the \fBunset\fR
 command is only needed when wanting to override a setting of the system's
@@ -421,7 +421,7 @@ Remove trailing whitespace from wrapped lines when automatic
 hard-wrapping occurs or when text is justified.
 .TP
 .B set unix
-Save a file by default in Unix format.  This overrides nano's
+Save a file by default in Unix format.  This overrides \fBnano\fR's
 default behavior of saving a file in the format that it had.
 (This option has no effect when you also use \fBset \%noconvert\fR.)
 .TP
