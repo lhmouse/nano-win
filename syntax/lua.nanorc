@@ -9,8 +9,6 @@ comment "--"
 
 linter luacheck --no-color
 
-color brightwhite "\[\[.*\]\]"
-
 # Operators
 color brightyellow ":|\*|/|%|\+|-|\^|>|>=|<|<=|~=|=|\.\.|#|\<(not|and|or)\>"
 # Don't partially color ... as an operator
@@ -55,6 +53,7 @@ color brightcyan "^#!.*"
 
 # Strings
 color red ""([^"\]|\\.)*"|'([^'\]|\\.)*'"
+color red start="\[\[" end="\]\]"
 
 # Simple comments and multiline comments
 color green "--.*"
