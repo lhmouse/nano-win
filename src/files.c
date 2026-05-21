@@ -2330,7 +2330,7 @@ char *expand_leading_tilde(const char *path)
 	char *tilded, *retval;
 	size_t i = 1;
 
-	if (*path != '~')
+	if (*path != '~' || path[1] == '\0')
 		return copy_of(path);
 
 	/* Figure out how much of the string we need to compare. */
