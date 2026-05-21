@@ -42,8 +42,8 @@ color brightmagenta "\<(false|nil|true)\>"
 color lime "(_G|_ENV|_VERSION)\>"
 
 # Decimal and hexadecimal numbers
-color red "\<[0-9]+(\.[0-9]*)?([Ee][+-]?[0-9]+)?\>"
-color red "\<0x[[:xdigit:]]+(\.[[:xdigit:]]*)?([Pp][+-]?[0-9]+)?\>"
+color orange "\<[0-9]+(\.[0-9]*)?([Ee][+-]?[0-9]+)?\>"
+color orange "\<0[Xx][[:xdigit:]]+(\.[[:xdigit:]]*)?([Pp][+-]?[0-9]+)?\>"
 
 # Brackets
 color brightmagenta "\(|\)|\[|\]|\{|\}"
@@ -55,8 +55,11 @@ color brightcyan "^#!.*"
 color pink "::[[:alnum:]_]+::"
 
 # Strings
-color red ""([^"\]|\\.)*"|'([^'\]|\\.)*'"
-color red start="\[\[" end="\]\]"
+color orange ""([^"\]|\\.)*"|'([^'\]|\\.)*'"
+color orange start="\[\[" end="\]\]"
+
+# Backslash escapes
+color mauve "\\([abfnrtvz\"']|[0-9]{1,3}|x[[:xdigit:]]{2}|u\{[[:xdigit:]]{1,6}\})"
 
 # Simple comments and multiline comments
 color green "--.*"
