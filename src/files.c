@@ -1743,12 +1743,6 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 	/* Check whether the file (at the end of the symlink) exists. */
 	is_existing_file = normal && (stat(realname, &fileinfo) != -1);
 
-	/* If we haven't statted this file before (say, the user just specified
-	 * it interactively), stat and save the value now, or else we will chase
-	 * null pointers when we do modtime checks and such during backup. */
-	if (openfile->statinfo == NULL && is_existing_file)
-		stat_with_alloc(realname, &openfile->statinfo);
-
 	/* Make a backup only for a file that exists and is a regular file. */
 	if (ISSET(MAKE_BACKUP) && is_existing_file && !S_ISFIFO(fileinfo.st_mode))
 		if (!make_backup_of(realname, fileinfo))
