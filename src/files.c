@@ -1749,16 +1749,10 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 	if (openfile->statinfo == NULL && is_existing_file)
 		stat_with_alloc(realname, &openfile->statinfo);
 
-	/* When the user requested a backup, we do this only if the file exists and
-	 * isn't temporary AND the file has not been modified by someone else since
-	 * we opened it (or we are appending/prepending or writing a selection). */
-	if (ISSET(MAKE_BACKUP) && is_existing_file && !S_ISFIFO(fileinfo.st_mode) &&
-						openfile->statinfo &&
-						(openfile->statinfo->st_mtime == fileinfo.st_mtime ||
-						method != OVERWRITE || openfile->mark)) {
+	/* Make a backup only for a file that exists and is a regular file. */
+	if (ISSET(MAKE_BACKUP) && is_existing_file && !S_ISFIFO(fileinfo.st_mode))
 		if (!make_backup_of(realname, fileinfo))
 			goto cleanup_and_exit;
-	}
 
 	/* When prepending, first copy the existing file to a temporary file. */
 	if (method == PREPEND) {
