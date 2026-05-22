@@ -250,11 +250,11 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 	free(secondcopy);
 	free(namecopy);
 
-	if (!ask_the_user && stat(lockfilename, &fileinfo) != -1) {
+	if (!ask_the_user && stat(lockfilename, &fileinfo) == 0) {
 		blank_bottombars();
 		statusline(ALERT, _("Someone else is also editing this file"));
 		napms(1200);
-	} else if (stat(lockfilename, &fileinfo) != -1) {
+	} else if (stat(lockfilename, &fileinfo) == 0) {
 		char *lockbuf, *question, *pidstring, *postedname, *promptstr;
 		static char lockprog[11], lockuser[17];
 		int lockfd, lockpid, choice;
@@ -1741,7 +1741,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 #endif
 #ifndef NANO_TINY
 	/* Check whether the file (at the end of the symlink) exists. */
-	is_existing_file = normal && (stat(realname, &fileinfo) != -1);
+	is_existing_file = normal && stat(realname, &fileinfo) == 0;
 
 	/* Make a backup only for a file that exists and is a regular file. */
 	if (ISSET(MAKE_BACKUP) && is_existing_file && !S_ISFIFO(fileinfo.st_mode))
@@ -2192,7 +2192,7 @@ int write_it_out(bool exiting, bool withprompt)
 			full_answer = get_full_path(answer);
 			full_filename = get_full_path(openfile->filename);
 			name_exists = (stat((full_answer == NULL) ?
-								answer : full_answer, &fileinfo) != -1);
+								answer : full_answer, &fileinfo) == 0);
 
 			if (openfile->filename[0] == '\0')
 				do_warning = name_exists;
@@ -2360,8 +2360,8 @@ int diralphasort(const void *va, const void *vb)
 	struct stat fileinfo;
 	const char *a = *(const char *const *)va;
 	const char *b = *(const char *const *)vb;
-	bool aisdir = stat(a, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode);
-	bool bisdir = stat(b, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode);
+	bool aisdir = stat(a, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode);
+	bool bisdir = stat(b, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode);
 
 	if (aisdir && !bisdir)
 		return -1;
@@ -2386,7 +2386,7 @@ bool is_dir(const char *path)
 	struct stat fileinfo;
 	bool retval;
 
-	retval = (stat(thepath, &fileinfo) != -1 && S_ISDIR(fileinfo.st_mode));
+	retval = (stat(thepath, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode));
 
 	free(thepath);
 

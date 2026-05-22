@@ -2794,7 +2794,7 @@ void do_linter(void)
 		functionptrtype function;
 		struct stat lintfileinfo;
 
-		if (stat(curlint->filename, &lintfileinfo) != -1 &&
+		if (stat(curlint->filename, &lintfileinfo) == 0 &&
 					(openfile->statinfo == NULL ||
 					openfile->statinfo->st_ino != lintfileinfo.st_ino)) {
 #ifdef ENABLE_MULTIBUFFER
