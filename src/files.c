@@ -1557,8 +1557,8 @@ bool make_backup_of(char *realname)
 	int verdict = 0;
 
 	/* Remember the original file's access and modification times. */
-	filetime[0].tv_sec = openfile->statinfo->st_atime;
-	filetime[1].tv_sec = openfile->statinfo->st_mtime;
+	filetime[0] = openfile->statinfo->st_atim;
+	filetime[1] = openfile->statinfo->st_mtim;
 
 	statusbar(_("Making backup..."));
 
