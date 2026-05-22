@@ -32,10 +32,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#if defined(__APPLE__) && !defined(st_mtim)
-#define st_mtim  st_mtimespec
-#endif
-
 #ifndef NANO_TINY
 /* Toggle the mark. */
 void do_mark(void)

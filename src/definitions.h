@@ -41,6 +41,11 @@
 #define ROOT_UID  0
 #endif
 
+#if defined(__APPLE__) && !defined(st_atim)
+#define st_atim  st_atimespec
+#define st_mtim  st_mtimespec
+#endif
+
 #ifdef HAVE_LIMITS_H
 #include <limits.h>
 #endif
