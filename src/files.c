@@ -1550,15 +1550,11 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 bool make_backup_of(char *realname)
 {
 	FILE *original = NULL, *backup_file = NULL;
-	static struct timespec filetime[2];
+	struct timespec filetimes[2];
 	int creation_flags, descriptor;
 	bool second_attempt = FALSE;
 	char *backupname = NULL;
 	int verdict = 0;
-
-	/* Remember the original file's access and modification times. */
-	filetime[0] = openfile->statinfo->st_atim;
-	filetime[1] = openfile->statinfo->st_mtim;
 
 	statusbar(_("Making backup..."));
 
@@ -1657,7 +1653,9 @@ bool make_backup_of(char *realname)
 
 	/* Set the backup's timestamps to those of the original file.
 	 * Failure is unimportant: saving the file apparently worked. */
-	IGNORE_CALL_RESULT(futimens(descriptor, filetime));
+	filetimes[0] = openfile->statinfo->st_atim;
+	filetimes[1] = openfile->statinfo->st_mtim;
+	IGNORE_CALL_RESULT(futimens(descriptor, filetimes));
 
 	if (fclose(backup_file) == 0) {
 		free(backupname);
