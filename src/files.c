@@ -1547,7 +1547,7 @@ int copy_file(FILE *inn, FILE *out, bool close_out)
 /* Create a backup of an existing file.  If the user did not request backups,
  * make a temporary one (trying first in the directory of the original file,
  * then in the user's home directory).  Return TRUE if the save can proceed. */
-bool make_backup_of(char *realname)
+bool make_backup_of(char *realname, struct stat fileinfo)
 {
 	FILE *original = NULL, *backup_file = NULL;
 	struct timespec filetimes[2];
@@ -1653,8 +1653,8 @@ bool make_backup_of(char *realname)
 
 	/* Set the backup's timestamps to those of the original file.
 	 * Failure is unimportant: saving the file apparently worked. */
-	filetimes[0] = openfile->statinfo->st_atim;
-	filetimes[1] = openfile->statinfo->st_mtim;
+	filetimes[0] = fileinfo.st_atim;
+	filetimes[1] = fileinfo.st_mtim;
 	IGNORE_CALL_RESULT(futimens(descriptor, filetimes));
 
 	if (fclose(backup_file) == 0) {
@@ -1756,7 +1756,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 						openfile->statinfo &&
 						(openfile->statinfo->st_mtime == fileinfo.st_mtime ||
 						method != OVERWRITE || openfile->mark)) {
-		if (!make_backup_of(realname))
+		if (!make_backup_of(realname, fileinfo))
 			goto cleanup_and_exit;
 	}
 
