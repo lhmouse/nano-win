@@ -330,8 +330,11 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 		light_from_col = xplustabs();
 		light_to_col = wideness(line->data, found_x + found_len);
 
-		/* When panning, ensure the end of the match will be visible too. */
-		if (united_sidescroll)
+		/* When panning, "unpan" when the match fits within an unpanned viewport,
+		   otherwise ensure that the end of the match will be visible too. */
+		if (united_sidescroll && light_to_col < editwincols - CUSHION)
+			openfile->brink = 0;
+		else if (united_sidescroll)
 			openfile->brink = get_page_start(light_to_col);
 
 		refresh_needed = TRUE;
@@ -592,7 +595,9 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 			light_to_col = wideness(openfile->current->data,
 										openfile->current_x + match_len);
 #ifndef NANO_TINY
-			if (united_sidescroll)
+			if (united_sidescroll && light_to_col < editwincols - CUSHION)
+				openfile->brink = 0;
+			else if (united_sidescroll)
 				openfile->brink = get_page_start(light_to_col);
 #endif
 			/* Refresh the edit window, scrolling it if necessary. */
