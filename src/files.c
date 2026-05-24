@@ -1962,14 +1962,12 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 #endif
 			openfile->filename = mallocstrcpy(openfile->filename, realname);
 #ifdef ENABLE_COLOR
-			const char *oldname, *newname;
+			syntaxtype *was_syntax = openfile->syntax;
 
-			oldname = openfile->syntax ? openfile->syntax->name : "";
 			find_and_prime_applicable_syntax();
-			newname = openfile->syntax ? openfile->syntax->name : "";
 
 			/* If the syntax changed, discard and recompute the multidata. */
-			if (strcmp(oldname, newname) != 0) {
+			if (openfile->syntax != was_syntax) {
 				for (line = openfile->filetop; line != NULL; line = line->next) {
 					free(line->multidata);
 					line->multidata = NULL;
