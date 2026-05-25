@@ -2597,7 +2597,9 @@ void do_linter(void)
 #if defined(HAVE_FORK) && defined(HAVE_WAITPID)
 	char *lintings, *pointer, *onelint;
 	long pipesize;
-	size_t buffersize, bytesread, totalread;
+	ssize_t bytesread;
+	size_t buffersize, totalread;
+	int errornumber;
 	bool parsesuccess = FALSE;
 	int lint_status, lint_fd[2];
 	pid_t pid_lint;
@@ -2698,9 +2700,14 @@ void do_linter(void)
 	}
 
 	*pointer = '\0';
+	errornumber = errno;
 	close(lint_fd[0]);
 
 	block_sigwinch(FALSE);
+
+	/* When reading from the pipe went wrong, skip the linting. */
+	if (bytesread < 0)
+		goto epilog;
 
 	pointer = lintings;
 	onelint = lintings;
@@ -2759,6 +2766,7 @@ void do_linter(void)
 		pointer++;
 	}
 
+  epilog:
 	free(lintings);
 
 	/* Process the end of the linting process. */
@@ -2773,6 +2781,9 @@ void do_linter(void)
 			free(tmplint->filename);
 			free(tmplint);
 		}
+		return;
+	} else if (bytesread < 0) {
+		statusline(ALERT, _("Error reading pipe: %s"), strerror(errornumber));
 		return;
 	}
 
