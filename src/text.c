@@ -2515,13 +2515,13 @@ void do_int_speller(const char *tempfile_name)
 	if (oneword != pointer)
 		fix_spello(oneword);
 
-	free(misspellings);
-	refresh_needed = TRUE;
-
 	/* Restore the settings of the global flags. */
 	memcpy(flags, stash, sizeof(flags));
 
   finale:
+	free(misspellings);
+	refresh_needed = TRUE;
+
 	/* Process the end of the three processes. */
 	waitpid(pid_spell, &spell_status, 0);
 	waitpid(pid_sort, &sort_status, 0);
