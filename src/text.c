@@ -2340,17 +2340,15 @@ bool fix_spello(const char *word)
 	return proceed;
 }
 
-/* Run a spell-check on the given file, using 'spell' to produce a list of all
- * misspelled words, then feeding those through 'sort' and 'uniq' to obtain an
- * alphabetical list, which words are then offered one by one to the user for
- * correction. */
-void do_int_speller(const char *tempfile_name)
+/* Use 'spell' to get a list of misspelled words, feed them through 'sort'
+ * and 'uniq', then offer them one by one to the user for correction. */
+void spell_check(const char *tempfile_name)
 {
 #if defined(HAVE_FORK) && defined(HAVE_WAITPID)
 	char *misspellings, *pointer, *oneword;
 	long pipesize;
-	ssize_t bytesread;
 	size_t buffersize, totalread;
+	ssize_t bytesread;
 	int errornumber;
 	int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
 	pid_t pid_spell, pid_sort, pid_uniq;
@@ -2471,9 +2469,9 @@ void do_int_speller(const char *tempfile_name)
 		pointer = misspellings + totalread;
 	}
 
-	*pointer = '\0';
 	errornumber = errno;
 	close(uniq_fd[0]);
+	*pointer = '\0';
 
 	block_sigwinch(FALSE);
 
@@ -2579,7 +2577,7 @@ void do_spell(void)
 	if (alt_speller && *alt_speller)
 		treat(temp_name, alt_speller, TRUE);
 	else
-		do_int_speller(temp_name);
+		spell_check(temp_name);
 
 	unlink(temp_name);
 	free(temp_name);
@@ -2597,8 +2595,8 @@ void do_linter(void)
 #if defined(HAVE_FORK) && defined(HAVE_WAITPID)
 	char *lintings, *pointer, *onelint;
 	long pipesize;
-	ssize_t bytesread;
 	size_t buffersize, totalread;
+	ssize_t bytesread;
 	int errornumber;
 	bool parsesuccess = FALSE;
 	int lint_status, lint_fd[2];
@@ -2699,9 +2697,9 @@ void do_linter(void)
 		pointer = lintings + totalread;
 	}
 
-	*pointer = '\0';
 	errornumber = errno;
 	close(lint_fd[0]);
+	*pointer = '\0';
 
 	block_sigwinch(FALSE);
 
