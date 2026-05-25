@@ -2349,7 +2349,9 @@ void do_int_speller(const char *tempfile_name)
 #if defined(HAVE_FORK) && defined(HAVE_WAITPID)
 	char *misspellings, *pointer, *oneword;
 	long pipesize;
-	size_t buffersize, bytesread, totalread;
+	ssize_t bytesread;
+	size_t buffersize, totalread;
+	int errornumber;
 	int spell_fd[2], sort_fd[2], uniq_fd[2], tempfile_fd = -1;
 	pid_t pid_spell, pid_sort, pid_uniq;
 	int spell_status, sort_status, uniq_status;
@@ -2470,6 +2472,7 @@ void do_int_speller(const char *tempfile_name)
 	}
 
 	*pointer = '\0';
+	errornumber = errno;
 	close(uniq_fd[0]);
 
 	block_sigwinch(FALSE);
@@ -2477,6 +2480,10 @@ void do_int_speller(const char *tempfile_name)
 	/* Re-enter curses mode. */
 	terminal_init();
 	doupdate();
+
+	/* When reading from the pipe went wrong, skip the spell fixes. */
+	if (bytesread < 0)
+		goto finale;
 
 	/* Save the settings of the global flags. */
 	memcpy(stash, flags, sizeof(flags));
@@ -2514,6 +2521,7 @@ void do_int_speller(const char *tempfile_name)
 	/* Restore the settings of the global flags. */
 	memcpy(flags, stash, sizeof(flags));
 
+  finale:
 	/* Process the end of the three processes. */
 	waitpid(pid_spell, &spell_status, 0);
 	waitpid(pid_sort, &sort_status, 0);
@@ -2525,6 +2533,8 @@ void do_int_speller(const char *tempfile_name)
 		statusline(ALERT, _("Error invoking \"sort\""));
 	else if (WIFEXITED(spell_status) == 0 || WEXITSTATUS(spell_status))
 		statusline(ALERT, _("Error invoking \"spell\""));
+	else if (bytesread < 0)
+		statusline(ALERT, _("Error reading pipe: %s"), strerror(errornumber));
 	else
 		statusline(REMARK, _("Finished checking spelling"));
 #endif
