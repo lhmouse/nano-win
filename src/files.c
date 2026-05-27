@@ -2300,7 +2300,7 @@ void do_writeout(void)
 		close_and_go();
 }
 
-/* If it has a name, write the current buffer to disk without prompting. */
+/* Write the current buffer to disk without prompting (if it has a name). */
 void do_savefile(void)
 {
 	if (write_it_out(FALSE, FALSE) == 2)

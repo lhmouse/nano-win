@@ -964,6 +964,7 @@ void parse_one_include(char *file, syntaxtype *syntax)
 		extra = extra->next;
 	}
 
+	/* Indicate that this syntax has been loaded. */
 	free(syntax->filename);
 	syntax->filename = NULL;
 

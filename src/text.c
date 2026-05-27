@@ -2684,12 +2684,12 @@ void do_linter(void)
 	/* Block resizing signals while reading from the pipe. */
 	block_sigwinch(TRUE);
 
-	/* Read in the returned syntax errors. */
 	totalread = 0;
 	buffersize = pipesize + 1;
 	lintings = nmalloc(buffersize);
 	pointer = lintings;
 
+	/* Read in the returned syntax errors. */
 	while ((bytesread = read(lint_fd[0], pointer, pipesize)) > 0) {
 		totalread += bytesread;
 		buffersize += pipesize;

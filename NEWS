@@ -1677,7 +1677,7 @@
              allow multiple syntax highlighting types, and a new -Y,
              --syntax flag to set a specific one if there's no
              filename regex to match it against (i.e. w/mutt).  The
-             ^space and M-space keys will now show up in the help
+             ^Space and M-Space keys will now show up in the help
              menu, which itself has been tweaked a bit, and many more
              configure options should now cooperate (like the odd
              pairing of --enable-tiny and --enable-multibuffer).  The
