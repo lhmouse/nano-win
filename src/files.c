@@ -1914,16 +1914,6 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 		}
 #endif
 
-#if !defined(NANO_TINY) && defined(HAVE_CHMOD) && defined(HAVE_CHOWN)
-	/* Change permissions and owner of an emergency save file to the values
-	 * of the original file, but ignore any failure as we are in a hurry. */
-	if (method == EMERGENCY && descriptor && openfile->statinfo) {
-		IGNORE_CALL_RESULT(fchmod(descriptor, openfile->statinfo->st_mode));
-		IGNORE_CALL_RESULT(fchown(descriptor, openfile->statinfo->st_uid,
-											openfile->statinfo->st_gid));
-	}
-#endif
-
 	if (fclose(thefile) != 0) {
 		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 
