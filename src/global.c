@@ -479,8 +479,7 @@ size_t shown_entries_for(int menu)
 	}
 
 	/* When --saveonexit is not used, widen the grid of the WriteOut menu. */
-	if (menu == MWRITEFILE && item == NULL &&
-						first_sc_for(menu, discard_buffer) == NULL)
+	if (menu == MWRITEFILE && item == NULL && first_sc_for(menu, discard_buffer) == NULL)
 		count--;
 
 	return count;

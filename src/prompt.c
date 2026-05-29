@@ -184,8 +184,7 @@ void paste_into_answer(void)
 	size_t pastelen = strlen(cutbuffer->data);
 
 	answer = nrealloc(answer, strlen(answer) + pastelen + 1);
-	memmove(answer + typing_x + pastelen, answer + typing_x,
-								strlen(answer) - typing_x + 1);
+	memmove(answer + typing_x + pastelen, answer + typing_x, strlen(answer) - typing_x + 1);
 	strncpy(answer + typing_x, cutbuffer->data, pastelen);
 
 	typing_x += pastelen;
@@ -223,8 +222,7 @@ void inject_into_answer(char *burst, size_t count)
 			burst[index] = '\n';
 
 	answer = nrealloc(answer, strlen(answer) + count + 1);
-	memmove(answer + typing_x + count, answer + typing_x,
-								strlen(answer) - typing_x + 1);
+	memmove(answer + typing_x + count, answer + typing_x, strlen(answer) - typing_x + 1);
 	strncpy(answer + typing_x, burst, count);
 
 	typing_x += count;
@@ -263,8 +261,7 @@ void absorb_character(int input, functionptrtype function)
 	if (!function) {
 		if ((input < 0x20 && input != '\t') || meta_key || input > 0xFF)
 			beep();
-		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE ||
-						openfile->filename[0] == '\0') {
+		else if (!ISSET(RESTRICTED) || currmenu != MWRITEFILE || openfile->filename[0] == '\0') {
 			/* When the input buffer (plus room for terminating NUL) is full,
 			 * extend it; otherwise, if it does not exist yet, create it. */
 			if (depth + 1 == capacity) {
@@ -305,8 +302,7 @@ bool handle_editing(functionptrtype function)
 		do_statusbar_end();
 	/* When in restricted mode at the "Write File" prompt and the
 	 * filename isn't blank, disallow any input and deletion. */
-	else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE &&
-							openfile->filename[0] &&
+	else if (ISSET(RESTRICTED) && currmenu == MWRITEFILE && openfile->filename[0] &&
 							(function == do_verbatim_input ||
 							function == do_delete || function == do_backspace ||
 							function == cut_text || function == paste_text))
@@ -494,8 +490,7 @@ functionptrtype acquire_an_answer(int *actual, bool *listed,
 					fragment_length = strlen(answer);
 
 				if (fragment_length > 0) {
-					answer = get_history_completion(history_list,
-													answer, fragment_length);
+					answer = get_history_completion(history_list, answer, fragment_length);
 					typing_x = strlen(answer);
 				}
 			} else

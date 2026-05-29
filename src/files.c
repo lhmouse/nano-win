@@ -131,8 +131,7 @@ char *crop_to_fit(const char *name, int room)
 bool delete_lockfile(const char *lockfilename)
 {
 	if (unlink(lockfilename) < 0 && errno != ENOENT) {
-		statusline(MILD, _("Error deleting lock file %s: %s"),
-							lockfilename, strerror(errno));
+		statusline(MILD, _("Error deleting lock file %s: %s"), lockfilename, strerror(errno));
 		return FALSE;
 	} else
 		return TRUE;
@@ -181,8 +180,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 		filestream = fdopen(fd, "wb");
 
 	if (filestream == NULL) {
-		statusline(MILD, _("Error writing lock file %s: %s"),
-							lockfilename, strerror(errno));
+		statusline(MILD, _("Error writing lock file %s: %s"), lockfilename, strerror(errno));
 		if (fd > 0)
 			close(fd);
 		return FALSE;
@@ -224,8 +222,7 @@ bool write_lockfile(const char *lockfilename, const char *filename, bool modifie
 	free(lockdata);
 
 	if (fclose(filestream) == EOF || wroteamt < LOCKSIZE) {
-		statusline(MILD, _("Error writing lock file %s: %s"),
-							lockfilename, strerror(errno));
+		statusline(MILD, _("Error writing lock file %s: %s"), lockfilename, strerror(errno));
 		return FALSE;
 	}
 #endif
@@ -240,8 +237,7 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 {
 	char *namecopy = copy_of(filename);
 	char *secondcopy = copy_of(filename);
-	size_t locknamesize = strlen(filename) + strlen(locking_prefix) +
-							strlen(locking_suffix) + 3;
+	size_t locknamesize = strlen(filename) + strlen(locking_prefix) + strlen(locking_suffix) + 3;
 	char *lockfilename = nmalloc(locknamesize);
 	struct stat fileinfo;
 
@@ -261,8 +257,7 @@ char *do_lockfile(const char *filename, bool ask_the_user)
 		ssize_t readamt;
 
 		if ((lockfd = open(lockfilename, O_RDONLY)) < 0) {
-			statusline(ALERT, _("Error opening lock file %s: %s"),
-								lockfilename, strerror(errno));
+			statusline(ALERT, _("Error opening lock file %s: %s"), lockfilename, strerror(errno));
 			free(lockfilename);
 			return NULL;
 		}
@@ -427,8 +422,7 @@ bool open_buffer(const char *filename, bool new_one)
 			return FALSE;
 		}
 #elif defined(HAVE_GETEUID)
-		if (new_one && !(fileinfo.st_mode & (S_IWUSR|S_IWGRP|S_IWOTH)) &&
-						geteuid() == ROOT_UID)
+		if (new_one && !(fileinfo.st_mode & (S_IWUSR|S_IWGRP|S_IWOTH)) && geteuid() == ROOT_UID)
 			statusline(ALERT, _("%s is meant to be read-only"), realname);
 #endif
 	}
@@ -529,8 +523,7 @@ void prepare_for_display(void)
 /* Show name of current buffer and its number of lines on the status bar. */
 void mention_name_and_linecount(void)
 {
-	size_t count = openfile->filebot->lineno -
-						(openfile->filebot->data[0] == '\0' ? 1 : 0);
+	size_t count = openfile->filebot->lineno - (openfile->filebot->data[0] == '\0' ? 1 : 0);
 
 #ifndef NANO_TINY
 	if (ISSET(MINIBAR)) {
@@ -802,12 +795,10 @@ void read_file(FILE *f, int fd, const char *filename, bool undoable)
 	else if (format == DOS_FILE)
 		/* TRANSLATORS: Keep the next two messages at most 78 characters. */
 		statusline(REMARK, P_("Read %zu line (converted from DOS format)",
-						"Read %zu lines (converted from DOS format)",
-						num_lines), num_lines);
+							"Read %zu lines (converted from DOS format)", num_lines), num_lines);
 #endif
 	else
-		statusline(REMARK, P_("Read %zu line", "Read %zu lines",
-						num_lines), num_lines);
+		statusline(REMARK, P_("Read %zu line", "Read %zu lines", num_lines), num_lines);
 
 	report_size = TRUE;
 
@@ -1382,8 +1373,7 @@ char *get_full_path(const char *origpath)
 	}
 
 	/* Ensure that a non-apex directory path ends with a slash. */
-	if (target && target[1] && stat(target, &fileinfo) == 0 &&
-								S_ISDIR(fileinfo.st_mode)) {
+	if (target && target[1] && stat(target, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode)) {
 		target = nrealloc(target, strlen(target) + 2);
 		strcat(target, "/");
 	}
@@ -1987,8 +1977,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 	else
 #endif
 	if (normal)
-		statusline(REMARK, P_("Wrote %zu line", "Wrote %zu lines",
-								lineswritten), lineswritten);
+		statusline(REMARK, P_("Wrote %zu line", "Wrote %zu lines", lineswritten), lineswritten);
 
 	free(tempname);
 	free(realname);
@@ -2179,8 +2168,7 @@ int write_it_out(bool exiting, bool withprompt)
 
 			full_answer = get_full_path(answer);
 			full_filename = get_full_path(openfile->filename);
-			name_exists = (stat((full_answer == NULL) ?
-								answer : full_answer, &fileinfo) == 0);
+			name_exists = (stat((full_answer == NULL) ? answer : full_answer, &fileinfo) == 0);
 
 			if (openfile->filename[0] == '\0')
 				do_warning = name_exists;
@@ -2207,8 +2195,7 @@ int write_it_out(bool exiting, bool withprompt)
 					if (exiting || !openfile->mark)
 #endif
 					{
-						if (ask_user(YESORNO, _("Save file under "
-												"DIFFERENT NAME? ")) != YES)
+						if (ask_user(YESORNO, _("Save file under DIFFERENT NAME? ")) != YES)
 							continue;
 						maychange = TRUE;
 					}
@@ -2251,8 +2238,7 @@ int write_it_out(bool exiting, bool withprompt)
 				if (ISSET(SAVE_ON_EXIT) && withprompt) {
 					free(given);
 					if (choice == YES)
-						return write_file(openfile->filename, NULL,
-											NORMAL, OVERWRITE, NONOTES);
+						return write_file(openfile->filename, NULL, NORMAL, OVERWRITE, NONOTES);
 					else if (choice == NO)  /* Discard buffer */
 						return 2;
 					else
@@ -2617,8 +2603,7 @@ char *input_tab(char *morsel, size_t *place, void (*refresh_func)(void), bool *l
 
 			wmove(midwin, row, (longest_name + 2) * (match % ncols));
 
-			if (row == lastrow && (match + 1) % ncols == 0 &&
-											match + 1 < num_matches) {
+			if (row == lastrow && (match + 1) % ncols == 0 && match + 1 < num_matches) {
 				waddstr(midwin, _("(more)"));
 				break;
 			}

@@ -263,8 +263,7 @@ void check_the_multis(linestruct *line)
 				continue;
 		} else if (line->multidata[ink->id] == WHOLELINE) {
 			/* Ensure that a detected start match is not actually an end match. */
-			if (!anend && (!astart || regexec(ink->end, line->data, 1,
-												&endmatch, 0) != 0))
+			if (!anend && (!astart || regexec(ink->end, line->data, 1, &endmatch, 0) != 0))
 				continue;
 		} else if (line->multidata[ink->id] == JUSTONTHIS) {
 			if (astart && anend && regexec(ink->start, line->data + startmatch.rm_eo +
@@ -347,8 +346,7 @@ void precalc_multicolorinfo(void)
 				/* Look for an end match on later lines. */
 				tailline = line->next;
 
-				while (tailline && regexec(ink->end, tailline->data,
-											1, &endmatch, 0) != 0)
+				while (tailline && regexec(ink->end, tailline->data, 1, &endmatch, 0) != 0)
 					tailline = tailline->next;
 
 				line->multidata[ink->id] = STARTSHERE;

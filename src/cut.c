@@ -58,8 +58,7 @@ void expunge(undo_type action)
 			refresh_needed = TRUE;
 
 		/* Adjust the mark if it is after the cursor on the current line. */
-		if (openfile->mark == openfile->current &&
-								openfile->mark_x > openfile->current_x)
+		if (openfile->mark == openfile->current && openfile->mark_x > openfile->current_x)
 			openfile->mark_x -= charlen;
 #endif
 	/* Otherwise, when not at end of buffer, join this line with the next. */
@@ -67,8 +66,7 @@ void expunge(undo_type action)
 		linestruct *joining = openfile->current->next;
 
 		/* If there is a magic line, and we're before it: don't eat it. */
-		if (joining == openfile->filebot && openfile->current_x != 0 &&
-													!ISSET(NO_NEWLINES)) {
+		if (joining == openfile->filebot && openfile->current_x != 0 && !ISSET(NO_NEWLINES)) {
 #ifndef NANO_TINY
 			if (action == BACK)
 				add_undo(BACK, NULL);

@@ -1048,8 +1048,7 @@ int parse_kbinput(WINDOW *frame)
 			if (keycode == '\t')
 				return SHIFT_TAB;
 #ifndef NANO_TINY
-			else if (keycode == KEY_BACKSPACE || keycode == '\b' ||
-												keycode == DEL_CODE)
+			else if (keycode == KEY_BACKSPACE || keycode == '\b' || keycode == DEL_CODE)
 				return CONTROL_SHIFT_DELETE;
 #endif
 #ifdef ENABLE_UTF8
@@ -1867,9 +1866,8 @@ char *display_string(const char *text, size_t column, size_t span,
 		/* Show a tab as a visible character plus spaces, or as just spaces. */
 		if (*text == '\t') {
 #ifndef NANO_TINY
-			if (ISSET(WHITESPACE_DISPLAY) && (index > 0 || !isdata ||
-						!ISSET(SOFTWRAP) || column % tabsize == 0 ||
-						column == start_col)) {
+			if (ISSET(WHITESPACE_DISPLAY) && (index > 0 || !isdata || !ISSET(SOFTWRAP) ||
+										column % tabsize == 0 || column == start_col)) {
 				for (int i = 0; i < whitelen[0];)
 					converted[index++] = whitespace[i++];
 			} else
@@ -2050,8 +2048,7 @@ void titlebar(const char *path)
 		/* If there are/were multiple buffers, show which out of how many. */
 		if (more_than_one) {
 			ranking = nmalloc(24);
-			sprintf(ranking, "[%i/%i]", buffer_number(openfile),
-										buffer_number(startfile->prev));
+			sprintf(ranking, "[%i/%i]", buffer_number(openfile), buffer_number(startfile->prev));
 			upperleft = ranking;
 		} else
 #endif
@@ -2105,8 +2102,7 @@ void titlebar(const char *path)
 
 	/* If we have side spaces left, center the path name. */
 	if (verlen > 0)
-		offset = verlen + (COLS - (verlen + pluglen + statelen) -
-										(prefixlen + pathlen)) / 2;
+		offset = verlen + (COLS - (verlen + pluglen + statelen) - (prefixlen + pathlen)) / 2;
 
 	/* Only print the prefix when there is room for it. */
 	if (verlen + prefixlen + pathlen + pluglen + statelen <= COLS) {
@@ -2920,8 +2916,7 @@ int update_softwrapped_line(linestruct *line)
 		sequel_column = (end_of_line) ? 0 : to_col;
 
 		/* Convert the chunk to its displayable form and draw it. */
-		converted = display_string(line->data, from_col, to_col - from_col,
-									TRUE, FALSE);
+		converted = display_string(line->data, from_col, to_col - from_col, TRUE, FALSE);
 		draw_row(row++, converted, line, from_col);
 		free(converted);
 
@@ -3133,8 +3128,7 @@ void edit_scroll(bool direction)
 	/* Draw new content on the blank row (and on the bordering row too
 	 * when it was deemed necessary). */
 	while (nrows > 0 && line) {
-		nrows -= update_line(line, (line == openfile->current) ?
-										openfile->current_x : 0);
+		nrows -= update_line(line, (line == openfile->current) ? openfile->current_x : 0);
 		line = line->next;
 	}
 }
@@ -3268,8 +3262,7 @@ size_t leftedge_for(size_t column, linestruct *line)
 void ensure_firstcolumn_is_aligned(void)
 {
 	if (ISSET(SOFTWRAP))
-		openfile->firstcolumn = leftedge_for(openfile->firstcolumn,
-														openfile->edittop);
+		openfile->firstcolumn = leftedge_for(openfile->firstcolumn, openfile->edittop);
 	else
 		openfile->firstcolumn = 0;
 
@@ -3374,8 +3367,7 @@ void edit_redraw(linestruct *old_current, update_type manner)
 		while (line != openfile->current) {
 			update_line(line, 0);
 
-			line = (line->lineno > openfile->current->lineno) ?
-						line->prev : line->next;
+			line = (line->lineno > openfile->current->lineno) ? line->prev : line->next;
 		}
 	} else
 #endif

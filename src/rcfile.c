@@ -197,8 +197,7 @@ void jot_error(const char *msg, ...)
 	}
 #ifdef ENABLE_NANORC
 	if (lineno > 0)
-		length = snprintf(textbuf, MAXSIZE, _("Error in %s on line %zu: "),
-											nanorc, lineno);
+		length = snprintf(textbuf, MAXSIZE, _("Error in %s on line %zu: "), nanorc, lineno);
 #endif
 	va_start(ap, msg);
 	length += vsnprintf(textbuf + length, MAXSIZE - length, _(msg), ap);
@@ -793,8 +792,7 @@ void parse_binding(char *ptr, bool dobind)
 
 	if (menuptr[0] == '\0') {
 		/* TRANSLATORS: Do not translate the word "all". */
-		jot_error(N_("Must specify a menu (or \"all\") "
-						"in which to bind/unbind the key"));
+		jot_error(N_("Must specify a menu (or \"all\") in which to bind/unbind the key"));
 		goto free_things;
 	}
 
@@ -857,8 +855,7 @@ void parse_binding(char *ptr, bool dobind)
 
 	if (!menu) {
 		if (!ISSET(RESTRICTED) && !ISSET(VIEW_MODE))
-			jot_error(N_("Function '%s' does not exist in menu '%s'"),
-								funcptr, menuptr);
+			jot_error(N_("Function '%s' does not exist in menu '%s'"), funcptr, menuptr);
 		goto free_things;
 	}
 
@@ -1500,8 +1497,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 								strcmp(keyword, "include") == 0 ||
 								strcmp(keyword, "extendsyntax") == 0)) {
 			if (intros_only)
-				jot_error(N_("Command \"%s\" not allowed in included file"),
-									keyword);
+				jot_error(N_("Command \"%s\" not allowed in included file"), keyword);
 			else
 				break;
 		} else if (intros_only && (strcmp(keyword, "color") == 0 ||
@@ -1511,8 +1507,7 @@ void parse_rcfile(FILE *rcstream, bool just_syntax, bool intros_only)
 								strcmp(keyword, "linter") == 0 ||
 								strcmp(keyword, "formatter") == 0)) {
 			if (!opensyntax)
-				jot_error(N_("A '%s' command requires a preceding "
-									"'syntax' command"), keyword);
+				jot_error(N_("A '%s' command requires a preceding 'syntax' command"), keyword);
 			if (strstr("icolor", keyword))
 				seen_color_command = TRUE;
 			continue;

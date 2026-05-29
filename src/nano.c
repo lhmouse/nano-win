@@ -513,16 +513,14 @@ void usage(void)
 #endif
 #ifdef ENABLE_MULTIBUFFER
 	if (!ISSET(RESTRICTED))
-		print_opt("-F", "--multibuffer",
-					N_("Read a file into a new buffer by default"));
+		print_opt("-F", "--multibuffer", N_("Read a file into a new buffer by default"));
 #endif
 #ifndef NANO_TINY
 	print_opt("-G", "--locking", N_("Use (vim-style) lock files"));
 #endif
 #ifdef ENABLE_HISTORIES
 	if (!ISSET(RESTRICTED))
-		print_opt("-H", "--historylog",
-					N_("Save & reload old search/replace strings"));
+		print_opt("-H", "--historylog", N_("Save & reload old search/replace strings"));
 #endif
 #ifdef ENABLE_NANORC
 	print_opt("-I", "--ignorercfiles", N_("Don't look at nanorc files"));
@@ -531,26 +529,20 @@ void usage(void)
 	print_opt(_("-J <number>"), _("--guidestripe=<number>"),
 					N_("Show a guiding bar at this column"));
 #endif
-	print_opt("-K", "--rawsequences",
-					N_("Fix numeric keypad key confusion problem"));
+	print_opt("-K", "--rawsequences", N_("Fix numeric keypad key confusion problem"));
 #ifndef NANO_TINY
-	print_opt("-L", "--nonewlines",
-					N_("Don't add an automatic newline"));
+	print_opt("-L", "--nonewlines", N_("Don't add an automatic newline"));
 #endif
 #ifdef ENABLED_WRAPORJUSTIFY
-	print_opt("-M", "--trimblanks",
-					N_("Trim tail spaces when hard-wrapping"));
+	print_opt("-M", "--trimblanks", N_("Trim tail spaces when hard-wrapping"));
 #endif
 #ifndef NANO_TINY
-	print_opt("-N", "--noconvert",
-					N_("Don't convert files from DOS format"));
-	print_opt("-O", "--bookstyle",
-					N_("Leading whitespace means new paragraph"));
+	print_opt("-N", "--noconvert", N_("Don't convert files from DOS format"));
+	print_opt("-O", "--bookstyle", N_("Leading whitespace means new paragraph"));
 #endif
 #ifdef ENABLE_HISTORIES
 	if (!ISSET(RESTRICTED))
-		print_opt("-P", "--positionlog",
-					N_("Save & restore position of the cursor"));
+		print_opt("-P", "--positionlog", N_("Save & restore position of the cursor"));
 #endif
 #ifdef ENABLE_JUSTIFY
 	print_opt(_("-Q <regex>"), _("--quotestr=<regex>"),
@@ -568,8 +560,7 @@ void usage(void)
 	print_opt("-U", "--quickblank", N_("Wipe status bar upon next keystroke"));
 	print_opt("-V", "--version", N_("Print version information and exit"));
 #ifndef NANO_TINY
-	print_opt("-W", "--wordbounds",
-					N_("Detect word boundaries more accurately"));
+	print_opt("-W", "--wordbounds", N_("Detect word boundaries more accurately"));
 	print_opt(_("-X <string>"), _("--wordchars=<string>"),
 					N_("Which other characters are word parts"));
 #endif
@@ -585,8 +576,7 @@ void usage(void)
 	print_opt("-b", "--breaklonglines", N_("Automatically hard-wrap overlong lines"));
 #endif
 	print_opt("-c", "--constantshow", N_("Constantly show cursor position"));
-	print_opt("-d", "--rebinddelete",
-					N_("Fix Backspace/Delete confusion problem"));
+	print_opt("-d", "--rebinddelete", N_("Fix Backspace/Delete confusion problem"));
 #ifndef NANO_TINY
 	print_opt("-e", "--emptyline", N_("Keep the line below the title bar empty"));
 #endif
@@ -870,8 +860,7 @@ bool scoop_stdin(void)
 
 	/* When input comes from a terminal, show a helpful message. */
 	if (isatty(STDIN_FILENO))
-		fprintf(stderr, _("Reading data from keyboard; "
-							"type ^D or ^D^D to finish.\n"));
+		fprintf(stderr, _("Reading data from keyboard; type ^D or ^D^D to finish.\n"));
 
 	/* Open standard input. */
 	stream = fopen("/dev/stdin", "rb");
@@ -1155,8 +1144,7 @@ void toggle_this(int flag)
 	if (flag == NO_HELP || flag == NO_SYNTAX)
 		enabled = !enabled;
 
-	statusline(REMARK, "%s %s", _(epithet_of_flag(flag)),
-									enabled ? _("enabled") : _("disabled"));
+	statusline(REMARK, "%s %s", _(epithet_of_flag(flag)), enabled ? _("enabled") : _("disabled"));
 }
 #endif /* !NANO_TINY */
 
@@ -2705,7 +2693,7 @@ int main(int argc, char **argv)
 		/* Update the displayed current cursor position only when there
 		 * is no message and no keys are waiting in the input buffer. */
 		if (ISSET(CONSTANT_SHOW) && lastmessage == VACUUM && LINES > 1 &&
-								!ISSET(ZERO) && waiting_keycodes() == 0)
+									!ISSET(ZERO) && waiting_keycodes() == 0)
 			report_cursor_position();
 
 		as_an_at = TRUE;

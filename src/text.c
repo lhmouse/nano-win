@@ -433,8 +433,7 @@ void handle_comment_action(undostruct *u, bool undoing, bool add_comment)
 		linestruct *line = line_from_number(group->top_line);
 
 		while (line && line->lineno <= group->bottom_line) {
-			comment_line(undoing ^ add_comment ?
-								COMMENT : UNCOMMENT, line, u->strdata);
+			comment_line(undoing ^ add_comment ? COMMENT : UNCOMMENT, line, u->strdata);
 			line = line->next;
 		}
 
@@ -937,8 +936,7 @@ void discard_until(const undostruct *thisitem)
 		group = dropit->grouping;
 		while (group) {
 			groupstruct *next = group->next;
-			free_chararray(group->indentations,
-								group->bottom_line - group->top_line + 1);
+			free_chararray(group->indentations, group->bottom_line - group->top_line + 1);
 			free(group);
 			group = next;
 		}
@@ -1250,8 +1248,7 @@ void do_wrap(void)
 		/* The length of the remainder. */
 
 	/* First find the last blank character where we can break the line. */
-	wrap_loc = break_line(line->data + lead_len,
-							wrap_at - wideness(line->data, lead_len), FALSE);
+	wrap_loc = break_line(line->data + lead_len, wrap_at - wideness(line->data, lead_len), FALSE);
 
 	/* If no wrapping point was found before end-of-line, we don't wrap. */
 	if (wrap_loc < 0 || lead_len + wrap_loc == line_len)
@@ -1567,8 +1564,7 @@ void concat_paragraph(linestruct *line, size_t count)
 		linestruct *next_line = line->next;
 		size_t next_line_len = strlen(next_line->data);
 		size_t next_quot_len = quote_length(next_line->data);
-		size_t next_lead_len = next_quot_len +
-							indent_length(next_line->data + next_quot_len);
+		size_t next_lead_len = next_quot_len + indent_length(next_line->data + next_quot_len);
 		size_t line_len = strlen(line->data);
 
 		/* We're just about to tack the next line onto this one.  If
@@ -1840,8 +1836,7 @@ void justify_text(bool whole_buffer)
 		secondary_lead = nmalloc(secondary_len + 1);
 
 		strncpy(secondary_lead, startline->data, quot_len);
-		strncpy(secondary_lead + quot_len, sampleline->data + other_quot_len,
-													other_white_len);
+		strncpy(secondary_lead + quot_len, sampleline->data + other_quot_len, other_white_len);
 		secondary_lead[secondary_len] = '\0';
 
 		/* Include preceding and succeeding leads into the marked region. */
@@ -2786,8 +2781,7 @@ void do_linter(void)
 	}
 
 	if (!parsesuccess) {
-		statusline(REMARK, _("Got 0 parsable lines from command: %s"),
-						openfile->syntax->linter);
+		statusline(REMARK, _("Got 0 parsable lines from command: %s"), openfile->syntax->linter);
 		return;
 	}
 
@@ -3220,8 +3214,7 @@ void complete_a_word(void)
 				continue;
 
 			/* If this match is the shard itself, ignore it. */
-			if (pletion_line == openfile->current &&
-								i == openfile->current_x - shard_length)
+			if (pletion_line == openfile->current && i == openfile->current_x - shard_length)
 				continue;
 
 			completion = copy_completion(pletion_line->data + i);

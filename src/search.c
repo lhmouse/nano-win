@@ -84,8 +84,7 @@ void search_init(bool replacing, bool retain_answer)
 
 		thedefault = nmalloc(strlen(disp) + 7);
 		/* We use (COLS / 3) here because we need to see more on the line. */
-		sprintf(thedefault, " [%s%s]", disp,
-					(breadth(last_search) > COLS / 3) ? "..." : "");
+		sprintf(thedefault, " [%s%s]", disp, (breadth(last_search) > COLS / 3) ? "..." : "");
 		free(disp);
 	} else
 		thedefault = copy_of("");
@@ -214,8 +213,7 @@ int findnextstr(const char *needle, bool whole_word_only, int modus,
 #ifdef ENABLE_SPELLER
 			/* When we're spell checking, a match should be a separate word;
 			 * if it's not, continue looking in the rest of the line. */
-			if (whole_word_only && !is_separate_word(found - line->data,
-												found_len, line->data)) {
+			if (whole_word_only && !is_separate_word(found - line->data, found_len, line->data)) {
 				from = found + char_length(found);
 				continue;
 			}
@@ -592,8 +590,7 @@ ssize_t do_replace_loop(const char *needle, bool whole_word_only,
 		if (!replaceall) {
 			spotlighted = TRUE;
 			light_from_col = xplustabs();
-			light_to_col = wideness(openfile->current->data,
-										openfile->current_x + match_len);
+			light_to_col = wideness(openfile->current->data, openfile->current_x + match_len);
 #ifndef NANO_TINY
 			if (united_sidescroll && light_to_col < editwincols - CUSHION)
 				openfile->brink = 0;
@@ -869,8 +866,7 @@ void goto_line_and_column(ssize_t line, ssize_t column, bool hugfloor)
 							editwinrows / 2, &currentline, &leftedge);
 	} else
 #endif
-		rows_from_tail = openfile->filebot->lineno -
-							openfile->current->lineno;
+		rows_from_tail = openfile->filebot->lineno - openfile->current->lineno;
 
 	/* If the target line is close to the tail of the file, put the last
 	 * line or chunk on the bottom line of the screen; otherwise, just
@@ -972,8 +968,7 @@ void do_find_bracket(void)
 	wanted_ch = ch;
 	while (charcount-- > 0) {
 		if (reverse)
-			wanted_ch = matchbrackets + step_left(matchbrackets,
-													wanted_ch - matchbrackets);
+			wanted_ch = matchbrackets + step_left(matchbrackets, wanted_ch - matchbrackets);
 		else
 			wanted_ch += char_length(wanted_ch);
 	}

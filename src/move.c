@@ -346,8 +346,7 @@ void do_prev_word(void)
 		}
 
 		/* Step back one character. */
-		openfile->current_x = step_left(openfile->current->data,
-												openfile->current_x);
+		openfile->current_x = step_left(openfile->current->data, openfile->current_x);
 
 		if (is_word_char(openfile->current->data + openfile->current_x,
 								punctuation_as_letters)) {
@@ -368,8 +367,7 @@ void do_prev_word(void)
 
 	if (step_forward)
 		/* Move one character forward again to sit on the start of the word. */
-		openfile->current_x = step_right(openfile->current->data,
-												openfile->current_x);
+		openfile->current_x = step_right(openfile->current->data, openfile->current_x);
 }
 
 /* Move to the next word.  If after_ends is TRUE, stop at the ends of words
@@ -396,8 +394,7 @@ bool do_next_word(bool after_ends)
 			seen_space = TRUE;
 		} else {
 			/* Step forward one character. */
-			openfile->current_x = step_right(openfile->current->data,
-												openfile->current_x);
+			openfile->current_x = step_right(openfile->current->data, openfile->current_x);
 		}
 
 #ifndef NANO_TINY
@@ -652,13 +649,11 @@ void do_left(void)
 	linestruct *was_current = openfile->current;
 
 	if (openfile->current_x > 0) {
-		openfile->current_x = step_left(openfile->current->data,
-												openfile->current_x);
+		openfile->current_x = step_left(openfile->current->data, openfile->current_x);
 #ifdef ENABLE_UTF8
 		while (openfile->current_x > 0 &&
 					is_zerowidth(openfile->current->data + openfile->current_x))
-			openfile->current_x = step_left(openfile->current->data,
-												openfile->current_x);
+			openfile->current_x = step_left(openfile->current->data, openfile->current_x);
 #endif
 	} else if (openfile->current != openfile->filetop) {
 		openfile->current = openfile->current->prev;
@@ -674,13 +669,11 @@ void do_right(void)
 	linestruct *was_current = openfile->current;
 
 	if (openfile->current->data[openfile->current_x]) {
-		openfile->current_x = step_right(openfile->current->data,
-												openfile->current_x);
+		openfile->current_x = step_right(openfile->current->data, openfile->current_x);
 #ifdef ENABLE_UTF8
 		while (openfile->current->data[openfile->current_x] &&
 					is_zerowidth(openfile->current->data + openfile->current_x))
-			openfile->current_x = step_right(openfile->current->data,
-												openfile->current_x);
+			openfile->current_x = step_right(openfile->current->data, openfile->current_x);
 #endif
 	} else if (openfile->current != openfile->filebot) {
 		openfile->current = openfile->current->next;
