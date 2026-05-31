@@ -391,6 +391,10 @@ int keycode_from_string(const char *keystring)
 			return ALT_UP;
 		else if (strcasecmp(keystring, "M-Down") == 0)
 			return ALT_DOWN;
+		else if (strcasecmp(keystring, "M-Ins") == 0)
+			return ALT_INSERT;
+		else if (strcasecmp(keystring, "M-Del") == 0)
+			return ALT_DELETE;
 		else
 			return -1;
 #ifdef ENABLE_NANORC
