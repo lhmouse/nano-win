@@ -553,19 +553,18 @@ char *parse_next_word(char *ptr)
  * end -- meaning that an argument can contain "'s either way. */
 char *parse_argument(char *ptr)
 {
-	const char *ptr_save = ptr;
+	const char *the_start = ptr;
 	char *last_quote = NULL;
 
 	if (*ptr != '"')
 		return parse_next_word(ptr);
 
-	while (*ptr) {
+	while (*ptr)
 		if (*++ptr == '"')
 			last_quote = ptr;
-	}
 
 	if (last_quote == NULL) {
-		jot_error(N_("Argument '%s' has an unterminated \""), ptr_save);
+		jot_error(N_("Argument '%s' has an unterminated \""), the_start);
 		return NULL;
 	}
 
