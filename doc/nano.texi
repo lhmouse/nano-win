@@ -1530,7 +1530,7 @@ Example: @code{^C}.
 
 @item @code{M-@var{X}}
 where @var{X} is any ASCII character (except [),
-or the word "Space", "Left", "Right", "Up", or "Down".
+or the word "Space", "Left", "Right", "Up", "Down", "Ins", or "Del".
 Example: @code{M-8}.
 
 @item @code{Sh-M-@var{X}}
