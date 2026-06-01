@@ -23,23 +23,23 @@ nanorc \- GNU nano's configuration file
 
 .SH DESCRIPTION
 The \fInanorc\fR files contain the default settings for \fBnano\fR,
-a small and friendly text editor.  During startup, if \fB\-\-rcfile\fR
+a small and friendly text editor.  During startup, if \fB\-\-\%rcfile\fR
 is not given, \fBnano\fR reads two files: first the system-wide settings,
 from \fI/etc/\:nanorc\fR (the exact path might be different on your system),
 and then the user-specific settings, either from \fI\[ti]/.nanorc\fR or from
 \fI\%$XDG_CONFIG_HOME/\:nano/\:nanorc\fR or from \fI\[ti]\%/.config/\:nano/\:nanorc\fR,
-whichever is encountered first.  If \fB\-\-rcfile\fR is given,
+whichever is encountered first.  If \fB\-\-\%rcfile\fR is given,
 \fBnano\fR reads just the specified settings file.
 
 .SH NOTICES
 Since version 9.0, all lines are scrolled horizontally together
 (when the cursor approaches the edge), by just the amount needed,
 instead of scrolling only the current line by a large step.
-If you prefer the old behavior, you can use \fB\-\-solo\fR on the
+If you prefer the old behavior, you can use \fB\-\-\%solo\fR on the
 command line or \fBset \%solosidescroll\fR in your \fInanorc\fR.
 .sp
 Also since version 9.0, keystrokes \fBM\-<\fR and \fBM\->\fR have
-been reassigned to the \fBscrollleft\fR and \fBscrollright\fR functions.
+been reassigned to the \fB\%scrollleft\fR and \fB\%scrollright\fR functions.
 If you want those keystrokes to do what they did before version 9.0,
 add these two lines at the end of your \fInanorc\fR file:
 .sp
@@ -67,7 +67,7 @@ four lines at the end of your \fInanorc\fR file:
 .sp
 
 .SH OPTIONS
-The configuration file accepts a series of \fBset\fR and \fBunset\fR
+The configuration file accepts a series of \fBset\fR and \fB\%unset\fR
 commands, which can be used to configure \fBnano\fR on startup without using
 command-line options.  Additionally, there are some commands to define
 syntax highlighting and to rebind keys \[em] see the two separate sections
@@ -76,12 +76,12 @@ All commands and keywords should be written in lowercase.
 .sp
 Options in \fInanorc\fR files take precedence over \fBnano\fR's defaults, and
 command-line options override \fInanorc\fR settings.  Also, options that
-do not take an argument are unset by default.  So using the \fBunset\fR
+do not take an argument are unset by default.  So using the \fB\%unset\fR
 command is only needed when wanting to override a setting of the system's
 \fInanorc\fR file in your own \fInanorc\fR.  Options that take an
 argument cannot be unset.
 .sp
-Quotes inside the \fIcharacters\fR  parameters below should not be escaped.
+Quotes inside the \fI\%characters\fR  parameters below should not be escaped.
 The last double quote on the line will be seen as the closing quote.
 .sp
 The supported commands and arguments are:
@@ -110,8 +110,8 @@ the file's name.
 .B set backupdir \fIdirectory\fR
 Make and keep not just one backup file, but make and keep a uniquely
 numbered one every time a file is saved \[em] when backups are enabled
-with \fBset \%backup\fR or \fB\-\-backup\fR or \fB\-B\fR.
-The uniquely numbered files are stored in the specified \fIdirectory\fR.
+with \fBset \%backup\fR or \fB\-\-\%backup\fR or \fB\-B\fR.
+The uniquely numbered files are stored in the specified \fI\%directory\fR.
 .TP
 .B set boldtext
 Use bold instead of reverse video for the title bar, status bar,
@@ -150,7 +150,7 @@ file, use \fB+1\fR or similar before the relevant filename.
 .TP
 .B set constantshow
 Constantly report the cursor position on the status bar.
-This overrides the option \fBquickblank\fR.
+This overrides the option \fB\%quickblank\fR.
 .TP
 .B set cutfromcursor
 Use cut-from-cursor-to-end-of-line by default, instead of cutting the whole line.
@@ -165,8 +165,8 @@ See \fBset \%titlecolor\fR for valid color names.
 .TP
 .B set fill \fInumber\fR
 Set the target width for justifying and automatic hard-wrapping at this
-\fInumber\fR of columns.  If the value is 0 or less, wrapping occurs
-at the width of the screen minus \fInumber\fR columns, allowing the wrap
+\fI\%number\fR of columns.  If the value is 0 or less, wrapping occurs
+at the width of the screen minus \fI\%number\fR columns, allowing the wrap
 point to vary along with the width of the screen if the screen is resized.
 The default value is \fB\-8\fR.
 .TP
@@ -259,14 +259,14 @@ Don't automatically add a newline when a text does not end with one.
 .TP
 .B set nowrap
 Deprecated option since it has become the default setting.
-When needed, use \fBunset \%breaklonglines\fR instead.
+When needed, use \fB\%unset \%breaklonglines\fR instead.
 .TP
 .B set numbercolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for line numbers.
 See \fBset \%titlecolor\fR for more details.
 .TP
 .B set operatingdir \fIdirectory\fR
-At startup, make \fBnano\fR change to the given \fIdirectory\fR, and allow
+At startup, make \fBnano\fR change to the given \fI\%directory\fR, and allow
 reading and writing files only in this directory and its subdirectories.
 .TP
 .B set positionlog
@@ -290,9 +290,9 @@ specified closing punctuation, optionally followed by closing brackets
 .TP
 .B set quickblank
 Make status-bar messages disappear after 1 keystroke instead of after 20.
-Note that option \fBconstantshow\fR overrides this.
-When option \fBminibar\fR or \fBzero\fR is in effect,
-\fBquickblank\fR makes a message disappear after
+Note that option \fB\%constantshow\fR overrides this.
+When option \fB\%minibar\fR or \fB\%zero\fR is in effect,
+\fB\%quickblank\fR makes a message disappear after
 0.8 seconds instead of after the default 1.5 seconds.
 .TP
 .BI "set quotestr """ regex """"
@@ -356,7 +356,7 @@ behavior \[em] the only behavior that \fBnano\fR knew.
 .TP
 .B set speller """\fIprogram\fR [\fIargument \fR...]\fB"""
 Use the given \fIprogram\fR to do spell checking and correcting, instead of
-using the built-in corrector that calls \fBhunspell\fR(1) or \fBspell\fR(1).
+using the built-in corrector that calls \fB\%hunspell\fR(1) or \fBspell\fR(1).
 .TP
 .B set spotlightcolor \fR[\fBbold,\fR][\fBitalic,\fR]\fIfgcolor\fB,\fIbgcolor\fR
 Use this color combination for highlighting a search match.
@@ -380,7 +380,7 @@ Use this color combination for the vertical guiding stripe.
 See \fBset \%titlecolor\fR for more details.
 .TP
 .B set tabsize \fInumber\fR
-Use a tab size of \fInumber\fR columns.  The value of \fInumber\fR must be
+Use a tab size of \fI\%number\fR columns.  The value of \fI\%number\fR must be
 greater than 0.  The default value is \fB8\fR.
 .TP
 .B set tabstospaces
@@ -437,7 +437,7 @@ characters as parts of words.
 .BI "set wordchars """ characters """"
 Specify which other characters (besides the normal alphanumeric ones)
 should be considered as parts of words.  When using this option, you
-probably want to unset \fBwordbounds\fR.
+probably want to unset \fB\%wordbounds\fR.
 .TP
 .B set zap
 Let an unmodified Backspace or Delete erase the marked region
@@ -453,7 +453,7 @@ With \fBM\-X\fR the help lines.
 
 .SH SYNTAX HIGHLIGHTING
 Coloring the different syntactic elements of a file
-is done via regular expressions (see the \fBcolor\fR command below).
+is done via regular expressions (see the \fB\%color\fR command below).
 This is inherently imperfect, because regular expressions are not
 powerful enough to fully parse a file.  Nevertheless, regular
 expressions can do a lot and are easy to make, so they are a
@@ -486,34 +486,34 @@ via the following commands:
 .TP
 .BI syntax " name \fR[" """" fileregex """ " \fR...]
 Start the definition of a syntax with this \fIname\fR.
-All subsequent \fBcolor\fR and other such commands
-are added to this syntax, until a new \fBsyntax\fR
+All subsequent \fB\%color\fR and other such commands
+are added to this syntax, until a new \fB\%syntax\fR
 command is encountered.
 .sp
 When \fBnano\fR is run, this syntax is automatically
 activated (for the relevant buffer) if the absolute filename
-matches the extended regular expression \fIfileregex\fR.
+matches the extended regular expression \fI\%fileregex\fR.
 Or the syntax can be explicitly activated (for all buffers)
-by using the \fB\-Y\fR or \fB\-\-syntax\fR
-command-line option followed by the \fIname\fR.
+by using the \fB\-Y\fR or \fB\-\-\%syntax\fR
+command-line option followed by the \fI\%name\fR.
 .sp
-The syntax \fBdefault\fR is special: it takes no \fIfileregex\fR,
+The syntax \fBdefault\fR is special: it takes no \fI\%fileregex\fR,
 and applies to files that don't match any syntax's regexes.
 The syntax \fBnone\fR is reserved; specifying it on the command line
 is the same as not having a syntax at all.
 .TP
 .BI "header """ regex """ " \fR...
-If from all defined syntaxes no \fIfileregex\fR matched, then compare
-this \fIregex\fR (or regexes) against the first line of the current file,
+If from all defined syntaxes no \fI\%fileregex\fR matched, then compare
+this \fI\%regex\fR (or regexes) against the first line of the current file,
 to determine whether this syntax should be used for it.
 .TP
 .BI "magic """ regex """ " \fR...
-If no \fIfileregex\fR matched and no \fBheader\fR regex matched
-either, then compare this \fIregex\fR (or regexes) against the
-result of querying the \fImagic\fR database about the current
+If no \fIfileregex\fR matched and no \fB\%header\fR regex matched
+either, then compare this \fI\%regex\fR (or regexes) against the
+result of querying the \fI\%magic\fR database about the current
 file, to determine whether this syntax should be used for it.
 (This querying is done only when \fI\%libmagic\fR is actually installed
-on the system and \fB\-\-magic\fR or \fBset \%magic\fR was given.)
+on the system and \fB\-\-\%magic\fR or \fBset \%magic\fR was given.)
 .TP
 .BI formatter " program " \fR[ "argument " \fR...]
 Run the given \fIprogram\fR on the full contents of the current buffer.
@@ -535,11 +535,11 @@ The default value is "\fB#\fR".
 .BI "tabgives """ string """"
 Make the <Tab> key produce the given \fIstring\fR.  Useful for languages like
 Python that want to see only spaces for indentation.
-This overrides the setting of the \fBtabstospaces\fR option.
+This overrides the setting of the \fB\%tabstospaces\fR option.
 .TP
 .BI "color \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " """ regex """ " \fR...
 Paint all pieces of text that match the extended regular expression
-\fIregex\fR with the given foreground and background colors, at least
+\fI\%regex\fR with the given foreground and background colors, at least
 one of which must be specified.  Valid color names are:
 .BR red ", " green ", " blue ", " \%magenta ", " \%yellow ", " \%cyan ,
 .BR white ", and " black .
@@ -573,20 +573,20 @@ Same as above, except that the matching is case insensitive.
 .TP
 .BI "color \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """"
 Paint all pieces of text whose start matches extended regular expression
-\fIfromrx\fR and whose end matches extended regular expression \fItorx\fR
+\fI\%fromrx\fR and whose end matches extended regular expression \fI\%torx\fR
 with the given foreground and background colors,
 at least one of which must be specified.  This means that, after an
-initial instance of \fIfromrx\fR, all text until the first instance of
-\fItorx\fR is colored.  This allows syntax highlighting to span
+initial instance of \fI\%fromrx\fR, all text until the first instance of
+\fI\%torx\fR is colored.  This allows syntax highlighting to span
 multiple lines.
 .TP
 .BI "icolor \fR[\fBbold,\fR][\fBitalic,\fR]" fgcolor , bgcolor " start=""" fromrx """ end=""" torx """"
 Same as above, except that the matching is case insensitive.
 .TP
 .BI "include """ syntaxfile """"
-Read in self-contained color syntaxes from \fIsyntaxfile\fR.  Note that
-\fIsyntaxfile\fR may contain only the above commands, from \fBsyntax\fR
-to \fBicolor\fR.
+Read in self-contained color syntaxes from \fI\%syntaxfile\fR.  Note that
+\fI\%syntaxfile\fR may contain only the above commands, from \fB\%syntax\fR
+to \fB\%icolor\fR.
 .TP
 .BI extendsyntax " name command argument " \fR...
 Extend the syntax previously defined as \fIname\fR with another
@@ -602,26 +602,26 @@ Key bindings can be changed via the following three commands:
 .RS 3
 .TP
 .BI bind " key function menu"
-Rebinds the given \fIkey\fR to the given \fIfunction\fR in the given \fImenu\fR
+Rebinds the given \fIkey\fR to the given \fI\%function\fR in the given \fI\%menu\fR
 (or in all menus where the function exists when \fBall\fR is used).
 .TP
 .BI bind " key " """" string """" " menu"
 Makes the given \fIkey\fR produce the given \fIstring\fR in the given
-\fImenu\fR (or in all menus where the key exists when \fBall\fR is used).
+\fI\%menu\fR (or in all menus where the key exists when \fBall\fR is used).
 Besides literal text and/or control codes, the \fIstring\fR may contain
 function names between braces.  These functions are invoked when
 the key is typed.  To include a literal opening brace, use \fB{{}\fR.
 .TP
 .BI unbind " key menu"
-Unbinds the given \fIkey\fR from the given \fImenu\fR (or from all
+Unbinds the given \fIkey\fR from the given \fI\%menu\fR (or from all
 menus where the key exists when \fBall\fR is used).
 .RE
 .sp
-Note that \fBbind \fIkey\fR \fB"{\fIfunction\fB}"\fR \fImenu\fR is equivalent
-to \fBbind \fIkey\fR \fIfunction\fR \fImenu\fR, except that for the latter form
-\fBnano\fR checks the availability of the \fIfunction\fR in the given \fImenu\fR
+Note that \fBbind \fIkey\fR \fB"{\fI\%function\fB}"\fR \fI\%menu\fR is equivalent
+to \fBbind \fIkey\fR \fI\%function\fR \fI\%menu\fR, except that for the latter form
+\fBnano\fR checks the availability of the \fI\%function\fR in the given \fI\%menu\fR
 at startup time (and reports an error if it does not exist there), whereas for the
-first form \fBnano\fR checks at execution time that the \fIfunction\fR exists
+first form \fBnano\fR checks at execution time that the \fI\%function\fR exists
 but not whether it makes any sense in the current menu.  The user has to take care
 that a function name between braces (or any sequence of them) is appropriate.
 Strange behavior or even a crash can result when the braced name is unfitting.
@@ -684,7 +684,7 @@ Writes the current file to disk without prompting.
 .TP
 .B insert
 Inserts a file into the current buffer (at the current cursor position),
-or into a new buffer when option \fBmultibuffer\fR is set.
+or into a new buffer when option \fB\%multibuffer\fR is set.
 .TP
 .B whereis
 Starts a forward search for text in the current buffer \[em] or for filenames
@@ -750,8 +750,8 @@ current buffer (or the marked region) is piped to the program, and the
 output of the program replaces the buffer (or the marked region).
 .TP
 .B speller
-Invokes a spell-checking program, either the default \fBhunspell\fR(1) or GNU
-\fBspell\fR(1), or the one defined by \fB\-\-speller\fR or \fBset \%speller\fR.
+Invokes a spell-checking program, either the default \fB\%hunspell\fR(1) or GNU
+\fBspell\fR(1), or the one defined by \fB\-\-\%speller\fR or \fBset \%speller\fR.
 .TP
 .B formatter
 Invokes a full-buffer-processing program (if the active syntax defines one).
@@ -1102,8 +1102,8 @@ The linter menu, which allows jumping through the linting messages.
 .TP
 .B all
 A special name that encompasses all menus.
-For \fBbind\fR it means all menus where the specified \fIfunction\fR exists;
-for \fBunbind\fR it means all menus where the specified \fIkey\fR exists.
+For \fBbind\fR it means all menus where the specified \fI\%function\fR exists;
+for \fB\%unbind\fR it means all menus where the specified \fIkey\fR exists.
 .RE
 
 .SH EXAMPLES
@@ -1130,7 +1130,7 @@ Per-user configuration file.
 .TP
 .I /usr/share/nano/*
 Syntax definitions for the syntax coloring of common file types
-(and for less common file types in the \fIextra/\fR subdirectory).
+(and for less common file types in the \fI\%extra/\fR subdirectory).
 
 .SH SEE ALSO
 .BR nano (1)
