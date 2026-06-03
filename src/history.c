@@ -512,7 +512,7 @@ void reload_positions_if_needed(void)
 	positionstruct *item, *nextone;
 	struct stat fileinfo;
 
-	if (stat(registername, &fileinfo) != 0 || fileinfo.st_mtime == latest_timestamp)
+	if (stat(registername, &fileinfo) < 0 || fileinfo.st_mtime == latest_timestamp)
 		return;
 
 	for (item = positions_register; item != NULL; item = nextone) {

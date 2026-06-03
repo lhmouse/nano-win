@@ -332,7 +332,7 @@ void stat_with_alloc(const char *filename, struct stat **pstat)
 	if (*pstat == NULL)
 		*pstat = nmalloc(sizeof(struct stat));
 
-	if (stat(filename, *pstat) != 0) {
+	if (stat(filename, *pstat) < 0) {
 		free(*pstat);
 		*pstat = NULL;
 	}
@@ -1904,7 +1904,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 		}
 #endif
 
-	if (fclose(thefile) != 0) {
+	if (fclose(thefile) == EOF) {
 		statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 
   cleanup_and_exit:
