@@ -376,6 +376,7 @@ void restore_anchors(char *string)
 			return;
 		*space = '\0';
 		number = atoi(string);
+		*space = ' ';
 		string = space + 1;
 
 		while (line->lineno < number)
