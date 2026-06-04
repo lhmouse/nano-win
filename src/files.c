@@ -2255,15 +2255,15 @@ int write_it_out(bool exiting, bool withprompt)
 		break;
 	}
 
+#ifndef NANO_TINY
 	/* When the mark is on (and we've prompted for a name and we're
 	 * not exiting and we're not in restricted mode), then write out
-	 * the marked region; otherwise, write out the whole buffer. */
-#ifndef NANO_TINY
+	 * the marked region instead of writing out the whole buffer. */
 	if (openfile->mark && withprompt && !exiting && !ISSET(RESTRICTED))
 		return write_region_to_file(answer, NULL, method);
-	else
 #endif
-		return write_file(answer, NULL, method, !exiting);
+
+	return write_file(answer, NULL, method, !exiting);
 }
 
 /* Write the current buffer to disk, or discard it. */
