@@ -1694,15 +1694,12 @@ bool make_backup_of(char *realname, struct stat fileinfo)
 }
 #endif /* !NANO_TINY */
 
-/* Write the current buffer to disk.  If thefile isn't NULL, we write to a
- * temporary file that is already open.  If normal is FALSE (for a spellcheck
- * or an emergency save, for example), we don't make a backup and don't give
- * feedback.  If method is APPEND or PREPEND, it means we will be appending
- * or prepending instead of overwriting the given file.  If annotate is TRUE
- * and when writing a normal file, we set the current filename and stat info.
- * Return TRUE on success, and FALSE otherwise. */
-bool write_file(const char *name, FILE *thefile, bool normal,
-		kind_of_writing_type method, bool annotate)
+/* Write the current buffer to disk.  If `thefile` isn't NULL, it is
+ * an already-open temporary file.  If `method` is APPEND or PREPEND,
+ * append or prepend to the given file, instead of overwriting it.
+ * If `annotate` is TRUE for writing a normal file, then set filename
+ * and stat info.  Return TRUE on success, and FALSE otherwise. */
+bool write_file(const char *name, FILE *thefile, writing_type method, bool annotate)
 {
 #ifndef NANO_TINY
 	bool is_existing_file;
@@ -1720,6 +1717,8 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 		/* An iterator for moving through the lines of the buffer. */
 	size_t lineswritten = 0;
 		/* The number of lines written, for feedback on the status bar. */
+	bool normal = (method != SPECIAL);
+		/* TRUE when it's not a temporary file nor an emergency file. */
 
 #ifdef ENABLE_OPERATINGDIR
 	/* If we're writing a temporary file, we're probably going outside
@@ -1988,8 +1987,7 @@ bool write_file(const char *name, FILE *thefile, bool normal,
 #ifndef NANO_TINY
 /* Write the marked region of the current buffer out to disk.
  * Return TRUE on success and FALSE on error. */
-bool write_region_to_file(const char *name, FILE *stream, bool normal,
-		kind_of_writing_type method)
+bool write_region_to_file(const char *name, FILE *stream, writing_type method)
 {
 	linestruct *birthline, *topline, *botline, *stopper, *afterline;
 	char *was_datastart, saved_byte;
@@ -1999,7 +1997,7 @@ bool write_region_to_file(const char *name, FILE *stream, bool normal,
 	get_region(&topline, &top_x, &botline, &bot_x);
 
 	/* When needed, prepare a magic end line for the region. */
-	if (normal && bot_x > 0 && !ISSET(NO_NEWLINES)) {
+	if (method != SPECIAL && bot_x > 0 && !ISSET(NO_NEWLINES)) {
 		stopper = make_new_node(botline);
 		stopper->data = copy_of("");
 	} else
@@ -2015,7 +2013,7 @@ bool write_region_to_file(const char *name, FILE *stream, bool normal,
 	birthline = openfile->filetop;
 	openfile->filetop = topline;
 
-	retval = write_file(name, stream, normal, method, NONOTES);
+	retval = write_file(name, stream, method, NONOTES);
 
 	/* Restore the proper state of the buffer. */
 	openfile->filetop = birthline;
@@ -2041,7 +2039,7 @@ int write_it_out(bool exiting, bool withprompt)
 		/* The filename we offer, or what the user typed so far. */
 	bool maychange = (openfile->filename[0] == '\0');
 		/* Whether it's okay to save the buffer under a different name. */
-	kind_of_writing_type method = OVERWRITE;
+	writing_type method = OVERWRITE;
 #ifdef ENABLE_EXTRA
 	static bool did_credits = FALSE;
 #endif
@@ -2238,7 +2236,7 @@ int write_it_out(bool exiting, bool withprompt)
 				if (ISSET(SAVE_ON_EXIT) && withprompt) {
 					free(given);
 					if (choice == YES)
-						return write_file(openfile->filename, NULL, NORMAL, OVERWRITE, NONOTES);
+						return write_file(openfile->filename, NULL, OVERWRITE, NONOTES);
 					else if (choice == NO)  /* Discard buffer */
 						return 2;
 					else
@@ -2262,10 +2260,10 @@ int write_it_out(bool exiting, bool withprompt)
 	 * the marked region; otherwise, write out the whole buffer. */
 #ifndef NANO_TINY
 	if (openfile->mark && withprompt && !exiting && !ISSET(RESTRICTED))
-		return write_region_to_file(answer, NULL, NORMAL, method);
+		return write_region_to_file(answer, NULL, method);
 	else
 #endif
-		return write_file(answer, NULL, NORMAL, method, ANNOTATE);
+		return write_file(answer, NULL, method, ANNOTATE);
 }
 
 /* Write the current buffer to disk, or discard it. */

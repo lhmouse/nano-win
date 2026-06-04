@@ -125,10 +125,6 @@
 #define REPLACING  1
 #define INREGION   2
 
-#define NORMAL  TRUE
-#define SPECIAL  FALSE
-#define TEMPORARY  FALSE
-
 #define ANNOTATE  TRUE
 #define NONOTES  FALSE
 
@@ -294,8 +290,8 @@ typedef enum {
 } message_type;
 
 typedef enum {
-	OVERWRITE, APPEND, PREPEND, EMERGENCY
-} kind_of_writing_type;
+	OVERWRITE, APPEND, PREPEND, SPECIAL
+} writing_type;
 
 typedef enum {
 	CENTERING, FLOWING, STATIONARY

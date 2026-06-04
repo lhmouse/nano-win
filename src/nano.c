@@ -337,7 +337,7 @@ void emergency_save(const char *filename)
 
 	if (*targetname == '\0')
 		fprintf(stderr, _("\nToo many .save files\n"));
-	else if (write_file(targetname, NULL, SPECIAL, EMERGENCY, NONOTES))
+	else if (write_file(targetname, NULL, SPECIAL, NONOTES))
 		fprintf(stderr, _("\nBuffer written to %s\n"), targetname);
 
 	free(targetname);
