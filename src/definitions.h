@@ -125,7 +125,6 @@
 #define REPLACING  1
 #define INREGION   2
 
-#define ANNOTATE  TRUE
 #define NONOTES  FALSE
 
 #define PRUNE_DUPLICATE  TRUE

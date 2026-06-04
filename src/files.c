@@ -2263,7 +2263,7 @@ int write_it_out(bool exiting, bool withprompt)
 		return write_region_to_file(answer, NULL, method);
 	else
 #endif
-		return write_file(answer, NULL, method, ANNOTATE);
+		return write_file(answer, NULL, method, !exiting);
 }
 
 /* Write the current buffer to disk, or discard it. */
