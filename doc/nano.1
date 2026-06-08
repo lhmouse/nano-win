@@ -27,6 +27,33 @@ nano \- Nano's ANOther text editor, inspired by Pico
 .sp
 .BR nano " [" \fIoptions "] [[" + [ crCR ]{ / | ? } \fIstring "] " \fIfile ]...
 
+.SH DESCRIPTION
+\fBnano\fR is a small and friendly text editor.  It copies the look and feel
+of Pico, but is free software, and implements several features that Pico
+lacks, such as: opening multiple files, scrolling per line, undo/redo,
+syntax coloring, line numbering, and soft-wrapping overlong lines.
+.sp
+When giving a filename on the command line, the cursor can be put on a
+specific line by adding the line number with a plus sign (\fB+\fR) before
+the filename, and even in a specific column by adding it with a comma.
+Negative numbers count from the end of the file or line.
+.sp
+The cursor can be put on the first or last occurrence of a specific string
+by specifying that string after \fB+/\fR or \fB+?\fR before the filename.
+The string can be made case sensitive and/or caused to be interpreted as a
+regular expression by inserting \fBc\fR and/or \fBr\fR after the \fB+\fR sign.
+These search modes can be explicitly disabled by using the uppercase variant
+of those letters: \fBC\fR and/or \fBR\fR.  When the string contains spaces,
+it needs to be enclosed in quotes.  To give an example: to open a file at
+the first occurrence of the word "Foo", you would do:
+.sp
+.RS 4
+.BI "nano +c/Foo " file
+.RE
+.sp
+As a special case: if instead of a filename a dash (\fB\-\fR) is given,
+\fBnano\fR will read data from standard input.
+
 .SH NOTICES
 Since version 9.0, all lines are scrolled horizontally together
 (when the cursor approaches the edge), by just the amount needed,
@@ -61,33 +88,6 @@ four lines at the end of your \fInanorc\fR file:
 .B bind M\-B linter main
 .RE
 .sp
-
-.SH DESCRIPTION
-\fBnano\fR is a small and friendly text editor.  It copies the look and feel
-of Pico, but is free software, and implements several features that Pico
-lacks, such as: opening multiple files, scrolling per line, undo/redo,
-syntax coloring, line numbering, and soft-wrapping overlong lines.
-.sp
-When giving a filename on the command line, the cursor can be put on a
-specific line by adding the line number with a plus sign (\fB+\fR) before
-the filename, and even in a specific column by adding it with a comma.
-Negative numbers count from the end of the file or line.
-.sp
-The cursor can be put on the first or last occurrence of a specific string
-by specifying that string after \fB+/\fR or \fB+?\fR before the filename.
-The string can be made case sensitive and/or caused to be interpreted as a
-regular expression by inserting \fBc\fR and/or \fBr\fR after the \fB+\fR sign.
-These search modes can be explicitly disabled by using the uppercase variant
-of those letters: \fBC\fR and/or \fBR\fR.  When the string contains spaces,
-it needs to be enclosed in quotes.  To give an example: to open a file at
-the first occurrence of the word "Foo", you would do:
-.sp
-.RS 4
-.BI "nano +c/Foo " file
-.RE
-.sp
-As a special case: if instead of a filename a dash (\fB\-\fR) is given,
-\fBnano\fR will read data from standard input.
 
 .SH EDITING
 Entering text and moving around in a file is straightforward: typing the
