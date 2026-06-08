@@ -425,6 +425,10 @@ bool open_buffer(const char *filename, bool new_one)
 		if (new_one && !(fileinfo.st_mode & (S_IWUSR|S_IWGRP|S_IWOTH)) && geteuid() == ROOT_UID)
 			statusline(ALERT, _("%s is meant to be read-only"), realname);
 #endif
+	} else if (*filename && filename[strlen(filename) - 1] == '/') {
+		statusline(ALERT, _("%s is an invalid name"), realname);
+		free(realname);
+		return FALSE;
 	}
 
 	/* When loading into a new buffer, first check the file's path is valid,
