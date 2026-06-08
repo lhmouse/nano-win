@@ -1112,13 +1112,13 @@ void execute_command(const char *command)
 		waitpid(pid_of_sender, &sender_status, 0);
 
 	/* If the command failed, show what the shell reported. */
-	if (WIFEXITED(command_status) == 0 || WEXITSTATUS(command_status))
+	if (!WIFEXITED(command_status) || WEXITSTATUS(command_status))
 		statusline(ALERT, WIFSIGNALED(command_status) ? _("Cancelled") :
 							_("Error: %s"), openfile->current->prev &&
 							strstr(openfile->current->prev->data, ": ") ?
 							strstr(openfile->current->prev->data, ": ") + 2 : "---");
 	else if (should_pipe && pid_of_sender > 0 &&
-				(WIFEXITED(sender_status) == 0 || WEXITSTATUS(sender_status)))
+				(!WIFEXITED(sender_status) || WEXITSTATUS(sender_status)))
 		statusline(ALERT, _("Piping failed"));
 
 	/* If there was an error, undo and discard what the command did. */
