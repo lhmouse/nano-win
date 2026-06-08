@@ -406,27 +406,27 @@ bool open_buffer(const char *filename, bool new_one)
 	/* Don't try to open directories, character files, or block files. */
 	if (*filename && stat(realname, &fileinfo) == 0) {
 		if (S_ISDIR(fileinfo.st_mode)) {
-			statusline(ALERT, _("\"%s\" is a directory"), realname);
+			statusline(ALERT, _("'%s' is a directory"), realname);
 			free(realname);
 			return FALSE;
 		}
 		if (S_ISCHR(fileinfo.st_mode) || S_ISBLK(fileinfo.st_mode)) {
-			statusline(ALERT, _("\"%s\" is a device file"), realname);
+			statusline(ALERT, _("'%s' is a device file"), realname);
 			free(realname);
 			return FALSE;
 		}
 #ifdef NANO_TINY
 		if (S_ISFIFO(fileinfo.st_mode)) {
-			statusline(ALERT, _("\"%s\" is a FIFO"), realname);
+			statusline(ALERT, _("'%s' is a FIFO"), realname);
 			free(realname);
 			return FALSE;
 		}
 #elif defined(HAVE_GETEUID)
 		if (new_one && !(fileinfo.st_mode & (S_IWUSR|S_IWGRP|S_IWOTH)) && geteuid() == ROOT_UID)
-			statusline(ALERT, _("%s is meant to be read-only"), realname);
+			statusline(ALERT, _("'%s' is meant to be read-only"), realname);
 #endif
 	} else if (*filename && filename[strlen(filename) - 1] == '/') {
-		statusline(ALERT, _("%s is an invalid name"), realname);
+		statusline(ALERT, _("'%s' is an invalid filename"), realname);
 		free(realname);
 		return FALSE;
 	}
