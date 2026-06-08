@@ -1356,11 +1356,20 @@ char *get_full_path(const char *origpath)
 
 	untilded = expand_leading_tilde(origpath);
 	target = realpath(untilded, NULL);
-	slash = strrchr(untilded, '/');
 
 	/* If realpath() returned NULL, try without the last component,
 	 * as this can be a file that does not exist yet. */
-	if (target == NULL && slash && slash[1]) {
+	if (target == NULL) {
+		slash = strrchr(untilded, '/');
+
+		/* If there is no slash, add "./" before the name. */
+		if (slash == NULL) {
+			untilded = nrealloc(untilded, strlen(untilded) + 3);
+			memmove(untilded + 2, untilded, strlen(untilded) + 1);
+			slash = untilded + 1;
+			untilded[0] = '.';  /* No need for the '/' -- see next statement. */
+		}
+
 		*slash = '\0';
 		target = realpath(untilded, NULL);
 
