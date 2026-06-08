@@ -2521,11 +2521,11 @@ void spell_check(const char *tempfile_name)
 	waitpid(pid_uniq, &uniq_status, 0);
 
 	if (!WIFEXITED(uniq_status) || WEXITSTATUS(uniq_status))
-		statusline(ALERT, _("Error invoking \"uniq\""));
+		statusline(ALERT, _("Error invoking '%s'"), "uniq");
 	else if (!WIFEXITED(sort_status) || WEXITSTATUS(sort_status))
-		statusline(ALERT, _("Error invoking \"sort\""));
+		statusline(ALERT, _("Error invoking '%s'"), "sort");
 	else if (!WIFEXITED(spell_status) || WEXITSTATUS(spell_status))
-		statusline(ALERT, _("Error invoking \"spell\""));
+		statusline(ALERT, _("Error invoking '%s'"), "spell");
 	else if (bytesread < 0)
 		statusline(ALERT, _("Error reading pipe: %s"), strerror(errornumber));
 	else
