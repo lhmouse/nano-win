@@ -1392,7 +1392,7 @@ char *check_writable_directory(const char *path)
 	if (full_path == NULL)
 		return NULL;
 
-	if (full_path[strlen(full_path) - 1] != '/' || access(full_path, W_OK) != 0) {
+	if (full_path[strlen(full_path) - 1] != '/' || access(full_path, W_OK) < 0) {
 		free(full_path);
 		return NULL;
 	}
@@ -1636,7 +1636,7 @@ bool make_backup_of(char *realname, struct stat fileinfo)
 
 	/* Since this backup is a newly created file, explicitly sync it to
 	 * permanent storage before starting to write out the actual file. */
-	if (fflush(backup_file) != 0 || fsync(fileno(backup_file)) != 0) {
+	if (fflush(backup_file) == EOF || fsync(fileno(backup_file)) < 0) {
 		fclose(backup_file);
 		goto problem;
 	}
@@ -1896,7 +1896,7 @@ bool write_file(const char *name, FILE *thefile, writing_type method, bool annot
 
 	if (!is_existing_file || !S_ISFIFO(fileinfo.st_mode))
 		/* Ensure the data has reached the disk before reporting it as written. */
-		if (fflush(thefile) != 0 || fsync(fileno(thefile)) != 0) {
+		if (fflush(thefile) == EOF || fsync(fileno(thefile)) < 0) {
 			statusline(ALERT, _("Error writing %s: %s"), realname, strerror(errno));
 			fclose(thefile);
 			goto cleanup_and_exit;

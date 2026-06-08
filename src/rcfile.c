@@ -891,7 +891,7 @@ bool is_good_file(char *file)
 	struct stat rcinfo;
 
 	/* First check that the file exists and is readable. */
-	if (access(file, R_OK) != 0)
+	if (access(file, R_OK) < 0)
 		return FALSE;
 
 	/* If the thing exists, it may be neither a directory nor a device. */
@@ -1727,7 +1727,7 @@ void do_rcfiles(void)
 {
 	if (custom_nanorc) {
 		nanorc = get_full_path(custom_nanorc);
-		if (nanorc == NULL || access(nanorc, F_OK) != 0)
+		if (nanorc == NULL || access(nanorc, F_OK) < 0)
 			die(_("Specified rcfile does not exist\n"));
 		if (is_good_file(nanorc))
 			parse_one_nanorc();
