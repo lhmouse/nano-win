@@ -1803,7 +1803,7 @@ char *display_string(const char *text, size_t column, size_t span,
 #ifndef NANO_TINY
 	if (span > HIGHEST_POSITIVE) {
 		statusline(ALERT, "Span has underflowed -- please report a bug");
-		converted[0] = '\0';
+		*converted = '\0';
 		return converted;
 	}
 #endif

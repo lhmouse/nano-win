@@ -1371,7 +1371,7 @@ char *get_full_path(const char *origpath)
 			untilded = nrealloc(untilded, strlen(untilded) + 3);
 			memmove(untilded + 2, untilded, strlen(untilded) + 1);
 			slash = untilded + 1;
-			untilded[0] = '.';  /* No need for the '/' -- see next statement. */
+			*untilded = '.';  /* No need for the '/' -- see next statement. */
 		}
 
 		*slash = '\0';
@@ -2147,7 +2147,7 @@ int write_it_out(bool exiting, bool withprompt)
 			else
 				method = (method == APPEND) ? OVERWRITE : APPEND;
 			if (strcmp(answer, openfile->filename) == 0)
-				given[0] = '\0';
+				*given = '\0';
 			continue;
 		} else
 #endif

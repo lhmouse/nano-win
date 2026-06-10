@@ -396,14 +396,14 @@ void draw_the_promptbar(void)
 /* Remove or add the pipe character at the answer's head. */
 void add_or_remove_pipe_symbol_from_answer(void)
 {
-	if (answer[0] == '|') {
+	if (*answer == '|') {
 		memmove(answer, answer + 1, strlen(answer));
 		if (typing_x > 0)
 			typing_x--;
 	} else {
 		answer = nrealloc(answer, strlen(answer) + 2);
 		memmove(answer + 1, answer, strlen(answer) + 1);
-		answer[0] = '|';
+		*answer = '|';
 		typing_x++;
 	}
 }
