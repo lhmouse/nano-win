@@ -367,15 +367,8 @@ size_t get_page_start(size_t column)
 		return column - (editwincols - 2);
 }
 
-/* Return the placewewant associated with current_x, i.e. the zero-based
- * column position of the cursor. */
-size_t xplustabs(void)
-{
-	return wideness(openfile->current->data, openfile->current_x);
-}
-
-/* Return the index in text of the character that (when displayed) will
- * not overshoot the given column. */
+/* Return the index in the given text of the character that (when displayed)
+ * will not overshoot the given column. */
 size_t actual_x(const char *text, size_t column)
 {
 	const char *start = text;
@@ -395,22 +388,21 @@ size_t actual_x(const char *text, size_t column)
 	return (text - start);
 }
 
-/* A strnlen() with tabs and multicolumn characters factored in:
- * how many columns wide are the first maxlen bytes of text? */
-size_t wideness(const char *text, size_t maxlen)
+/* Return the number of columns that the first count bytes of text occupy. */
+size_t wideness(const char *text, size_t count)
 {
 	size_t width = 0;
 
-	if (maxlen == 0)
+	if (count == 0)
 		return 0;
 
 	while (*text) {
 		size_t charlen = advance_over(text, &width);
 
-		if (maxlen <= charlen)
+		if (count <= charlen)
 			break;
 
-		maxlen -= charlen;
+		count -= charlen;
 		text += charlen;
 	}
 
@@ -426,6 +418,12 @@ size_t breadth(const char *text)
 		text += advance_over(text, &span);
 
 	return span;
+}
+
+/* Return the (zero-based) column position of the cursor. */
+size_t xplustabs(void)
+{
+	return wideness(openfile->current->data, openfile->current_x);
 }
 
 /* Append a new magic line to the end of the buffer. */
