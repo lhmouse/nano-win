@@ -302,8 +302,9 @@
 # bind Sh-M-U "{nextword}{mark}{prevword}{execute}| sed 's/.*/\U&/' {enter}" main
 # bind Sh-M-L "{nextword}{mark}{prevword}{execute}| sed 's/.*/\L&/' {enter}" main
 
-## For copying a marked region to the system clipboard:
+## Two ways of copying a marked region to the system clipboard:
 # bind Sh-M-C "{execute}| xsel -ib {enter}{undo}" main
+# bind Sh-M-P "{execute}| xclip -select clipboard 1>&- 2>&- {enter}{undo}" main
 
 ## For copying text to the local clipboard via OSC 52 (if terminal supports it):
 # bind M-* "{execute}|| printf "\033]52;c;%s\007" "$(base64 | tr -d '\n')" {enter}{undo}" main
