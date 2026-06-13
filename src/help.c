@@ -151,8 +151,8 @@ void help_init(void)
 #ifdef ENABLE_SPELLER
 	else if (currmenu == MSPELL) {
 		htx[0] = N_("Spell Check Help Text\n\n "
-				"The spell checker checks the spelling of all text in "
-				"the current file.  When an unknown word is "
+				"The spell checker examines the spelling of all text "
+				"in the current file.  When an unknown word is "
 				"encountered, it is highlighted and a replacement can "
 				"be edited.  It will then prompt to replace every "
 				"instance of the given misspelled word in the current "
