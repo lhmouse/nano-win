@@ -404,6 +404,9 @@ void show_help(void)
 	int was_margin = margin;
 #endif
 	ssize_t was_tabsize = tabsize;
+#ifndef NANO_TINY
+	bool was_lighted = spotlighted;
+#endif
 #ifdef ENABLE_COLOR
 	char *was_syntax = syntaxstr;
 #endif
@@ -437,6 +440,9 @@ void show_help(void)
 	margin = 0;
 #endif
 	tabsize = 8;
+#ifndef NANO_TINY
+	spotlighted = FALSE;
+#endif
 #ifdef ENABLE_COLOR
 	syntaxstr = "nanohelp";
 #endif
@@ -541,6 +547,9 @@ void show_help(void)
 	editwincols = COLS - margin - sidebar;
 #endif
 	tabsize = was_tabsize;
+#ifndef NANO_TINY
+	spotlighted = was_lighted;
+#endif
 #ifdef ENABLE_COLOR
 	syntaxstr = was_syntax;
 	have_palette = FALSE;
