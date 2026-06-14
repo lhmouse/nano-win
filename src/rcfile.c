@@ -897,8 +897,8 @@ bool is_good_file(char *file)
 	/* If the thing exists, it may be neither a directory nor a device. */
 	if (stat(file, &rcinfo) == 0 && (S_ISDIR(rcinfo.st_mode) ||
 				S_ISCHR(rcinfo.st_mode) || S_ISBLK(rcinfo.st_mode))) {
-		jot_error(S_ISDIR(rcinfo.st_mode) ? N_("\"%s\" is a directory") :
-										N_("\"%s\" is a device file"), file);
+		jot_error(S_ISDIR(rcinfo.st_mode) ? N_("'%s' is a directory") :
+										N_("'%s' is a device file"), file);
 		return FALSE;
 	} else
 		return TRUE;
