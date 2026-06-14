@@ -150,16 +150,14 @@ void help_init(void)
 #endif /* ENABLE_BROWSER */
 #ifdef ENABLE_SPELLER
 	else if (currmenu == MSPELL) {
-		htx[0] = N_("Spell Check Help Text\n\n "
-				"The spell checker examines the spelling of all text "
-				"in the current file.  When an unknown word is "
-				"encountered, it is highlighted and a replacement can "
-				"be edited.  It will then prompt to replace every "
-				"instance of the given misspelled word in the current "
-				"file, or, if you have selected text with the mark, in "
-				"the selected text.\n\n The following function keys "
-				"are available in Spell Check mode:\n\n");
-		htx[1] = NULL;
+		htx[0] = N_("=== Spelling correction ===\n\n "
+				"The spell checker has examined the spelling of all text "
+				"in the current buffer or marked region.  An unknown word "
+				"has been encountered -- it is highlighted and a replacement "
+				"can now be edited.  After this you will be asked whether "
+				"to replace each instance of that unknown word.\n\n");
+		htx[1] = N_(" The following function keys "
+				"are available at this prompt:\n\n");
 		htx[2] = NULL;
 	}
 #endif /* ENABLE_SPELLER */
