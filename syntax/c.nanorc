@@ -25,6 +25,9 @@ color magenta "\<(break|continue|goto|return)\>"
 # Single-quoted stuff (characters, backslash escapes, hex and octal byte codes).
 color brightmagenta "'([^'\]|\\(["'\abfnrtv]|x[[:xdigit:]]{1,2}|[0-3]?[0-7]{1,2}))'"
 
+# Hexadecimal, binary, and boolean values.
+color pink "\<(0[Xx][[:xdigit:]]('?[[:xdigit:]])*|0[Bb][01]('?[01])*|true|false|nullptr)\>"
+
 # GCC builtins.
 color cyan "__attribute__[[:blank:]]*\(\([^)]*\)\)|__(aligned|asm|builtin|hidden|inline|packed|restrict|section|typeof|weak)__"
 
