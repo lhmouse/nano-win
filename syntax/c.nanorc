@@ -12,10 +12,10 @@ color brightmagenta "^[[:blank:]]*[[:alpha:]_][[:alnum:]_]*:[[:blank:]]*$"
 color normal ":[[:blank:]]*$"
 
 # Types and related keywords.
-color green "\<(align(as|of)|auto|bool|char|const(expr)?|double|enum|extern|float|inline|int|long|restrict|short|(un)?signed|sizeof|static(_assert)?|struct|thread_local|typedef|typeof(_unqual)?|union|void)\>"
+color green "\<(bool|char|double|enum|float|int|short|(un)?signed|struct|union|void|((u_?)?int(8|16|32|64)|[[:lower:]][[:lower:]_]*)_t)\>"
+color green "\<(align(as|of)|auto|const(expr)?|extern|inline|register|restrict|sizeof|static(_assert)?|thread_local|typedef|typeof(_unqual)?|volatile)\>"
 color green "\<(_(Align(as|of)|Atomic|BitInt|Bool|Complex|Decimal(32|64|128)|Generic|Imaginary|Noreturn|Static_assert|Thread_local))\>"
-color green "\<([[:lower:]][[:lower:]_]*|(u_?)?int(8|16|32|64))_t\>"
-color green "\<(class|explicit|friend|mutable|namespace|override|private|protected|public|register|template|this|typename|using|virtual|volatile)\>"
+color green "\<(class|explicit|friend|mutable|namespace|override|private|protected|public|template|this|typename|using|virtual)\>"
 
 # Flow control.
 color brightyellow "\<(if|else|for|while|do|switch|case|default)\>"
@@ -26,7 +26,7 @@ color magenta "\<(break|continue|goto|return)\>"
 color brightmagenta "'([^'\]|\\(["'\abfnrtv]|x[[:xdigit:]]{1,2}|[0-3]?[0-7]{1,2}))'"
 
 # Hexadecimal, binary, and boolean values.
-color pink "\<(0[Xx][[:xdigit:]]('?[[:xdigit:]])*|0[Bb][01]('?[01])*|true|false|nullptr)\>"
+color pink "\<(0[Xx][[:xdigit:]]['[:xdigit:]]*|0[Bb][01]['01]*|true|false|nullptr)\>"
 
 # GCC builtins.
 color cyan "__attribute__[[:blank:]]*\(\([^)]*\)\)|__(aligned|asm|builtin|hidden|inline|packed|restrict|section|typeof|weak)__"
