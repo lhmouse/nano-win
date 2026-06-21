@@ -457,24 +457,22 @@ int replace_regexp(char *string)
 	while (*given) {
 		int digit = (given[1] - '0');
 
-		if (*given != '\\' || digit < 1 || digit > 9 || digit > search_regexp.re_nsub) {
-			if (string)
-				*string++ = *given;
-			given++;
-			replacement_size++;
-		} else {
+		/* When there is a valid backreference, use the relevant subexpression;
+		 * otherwise, use the literal given answer. */
+		if (*given == '\\' && 0 < digit && digit < 10 && digit <= search_regexp.re_nsub) {
 			size_t extent = regmatches[digit].rm_eo - regmatches[digit].rm_so;
-
-			/* Skip over the replacement expression. */
-			given += 2;
-
-			/* But add the length of the subexpression to new_size. */
-			replacement_size += extent;
 
 			if (string) {
 				strncpy(string, openfile->current->data + regmatches[digit].rm_so, extent);
 				string += extent;
 			}
+			replacement_size += extent;
+			given += 2;
+		} else {
+			if (string)
+				*string++ = *given;
+			replacement_size++;
+			given++;
 		}
 	}
 
