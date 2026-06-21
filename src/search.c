@@ -452,28 +452,28 @@ void go_looking(void)
 int replace_regexp(char *string)
 {
 	size_t replacement_size = 0;
-	const char *c = answer;
+	const char *given = answer;
 
-	while (*c) {
-		int num = (*(c + 1) - '0');
+	while (*given) {
+		int digit = (given[1] - '0');
 
-		if (*c != '\\' || num < 1 || num > 9 || num > search_regexp.re_nsub) {
+		if (*given != '\\' || digit < 1 || digit > 9 || digit > search_regexp.re_nsub) {
 			if (string)
-				*string++ = *c;
-			c++;
+				*string++ = *given;
+			given++;
 			replacement_size++;
 		} else {
-			size_t i = regmatches[num].rm_eo - regmatches[num].rm_so;
+			size_t extent = regmatches[digit].rm_eo - regmatches[digit].rm_so;
 
 			/* Skip over the replacement expression. */
-			c += 2;
+			given += 2;
 
 			/* But add the length of the subexpression to new_size. */
-			replacement_size += i;
+			replacement_size += extent;
 
 			if (string) {
-				strncpy(string, openfile->current->data + regmatches[num].rm_so, i);
-				string += i;
+				strncpy(string, openfile->current->data + regmatches[digit].rm_so, extent);
+				string += extent;
 			}
 		}
 	}
