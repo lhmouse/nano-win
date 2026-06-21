@@ -446,21 +446,19 @@ void go_looking(void)
 	edit_redraw(was_current, CENTERING);
 }
 
-/* Calculate the size of the replacement text, taking possible
- * subexpressions \1 to \9 into account.  Return the replacement
- * text in the passed string only when create is TRUE. */
-int replace_regexp(char *string, bool create)
+/* Return the size of the replacement text for the found regex, taking
+ * any references to subexpressions (\1 to \9) into account.  Copy the
+ * replacement text into `string` when this parameter isn't NULL. */
+int replace_regexp(char *string)
 {
 	size_t replacement_size = 0;
 	const char *c = answer;
 
-	/* Iterate through the replacement text to handle subexpression
-	 * replacement using \1, \2, \3, etc. */
 	while (*c) {
 		int num = (*(c + 1) - '0');
 
 		if (*c != '\\' || num < 1 || num > 9 || num > search_regexp.re_nsub) {
-			if (create)
+			if (string)
 				*string++ = *c;
 			c++;
 			replacement_size++;
@@ -473,16 +471,14 @@ int replace_regexp(char *string, bool create)
 			/* But add the length of the subexpression to new_size. */
 			replacement_size += i;
 
-			/* And if create is TRUE, append the result of the
-			 * subexpression match to the new line. */
-			if (create) {
+			if (string) {
 				strncpy(string, openfile->current->data + regmatches[num].rm_so, i);
 				string += i;
 			}
 		}
 	}
 
-	if (create)
+	if (string)
 		*string = '\0';
 
 	return replacement_size;
@@ -498,7 +494,7 @@ char *replace_line(const char *needle)
 	/* First adjust the size of the new line for the change. */
 	if (ISSET(USE_REGEXP)) {
 		match_len = regmatches[0].rm_eo - regmatches[0].rm_so;
-		new_size += replace_regexp(NULL, FALSE) - match_len;
+		new_size += replace_regexp(NULL) - match_len;
 	} else {
 		match_len = strlen(needle);
 		new_size += strlen(answer) - match_len;
@@ -511,7 +507,7 @@ char *replace_line(const char *needle)
 
 	/* Add the replacement text. */
 	if (ISSET(USE_REGEXP))
-		replace_regexp(copy + openfile->current_x, TRUE);
+		replace_regexp(copy + openfile->current_x);
 	else
 		strcpy(copy + openfile->current_x, answer);
 
