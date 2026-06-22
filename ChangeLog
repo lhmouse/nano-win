@@ -1,3 +1,108 @@
+Changes between v9.0 and v9.1:
+------------------------------
+
+Benno Schulenberg (83):
+      build: fix compilation when configured with --enable-tiny
+      bump version numbers and add a news item for the 9.1 release
+      docs: add an `xclip` example binding for copying text to system clipboard
+      docs: fix a typo made a month ago, in commit 269b96b7
+      docs: italicize 'nanorc' in the rnano manpage, like in the other manpages
+      docs: mention that M-Ins and M-Del are valid keynames
+      docs: more precisely describe what --restricted forbids and allows
+      docs: move the notices in the main man page to after the description
+      docs: prevent highlighted words in the man pages from getting hyphenated
+      docs: prevent some keywords and compound keywords from getting hyphenated
+      docs: remove all mention of the old Mac file format
+      docs: remove the description of the `flipgoto` toggle
+      docs: replace the e.g. and i.e. abbreviations with plain English words
+      docs: reword a description to make it clearer what typeface applies
+      docs: use curly double quotes when scare quotes are meant
+      files: allow editing a file named ~ (a lone tilde)
+      files: always make a backup when the WriteOut prompt says "[Backup]"
+      files: do not call chmod() and chown() on a .save emergency file
+      files: don't bother updating notes when closing the buffer right after
+      files: drop an unneeded call of real_dir_from_tilde()
+      files: for a backup, use the full timestamp, not just the seconds
+      files: make get_full_path() work properly also for nonexistent files
+      files: remove the code for reading and writing old Mac files
+      files: report an error when the given filename ends in a slash
+      files: use the correct timestamp for the backup file
+      gnulib: update to its current upstream state
+      help: further improve and modernize the Spellcheck help text
+      help: remember, clear, and restore the value of 'spotlighted'
+      help: reshuffle the Backup toggle, to keep Append and Prepend paired
+      help: unabbreviate three words, in three different help items
+      help: use a better word in the Spellcheck help text
+      history: don't leave NUL bytes in the string of anchors
+      linting: properly check for a negative return value from read()
+      menus: remove the ^T toggle between the Where-Is and Go-To-Line menus
+      rcfile: allow rebinding M-Ins and M-Del
+      search: place the viewport flush left when a match easily fits within it
+      spelling: properly check for a negative return value from read()
+      syntax: c: add several missing C++23 keywords
+      syntax: c: colorize hexadecimal and binary numbers, and boolean constants
+      syntax: default: colorize the release motto for the 9.* series too
+      syntax: lua: add new keywords and drop long-deprecated ones
+      syntax: lua: colorize also multiline strings
+      syntax: lua: colorize also various backslash escapes specially
+      syntax: man: colorize also the \[xx] special-character syntax
+      tweaks: adjust the suggested max help-item length in six translator hints
+      tweaks: adjust two translator hints and add two after the previous change
+      tweaks: avoid miscompilation on macOS, where 'st_atim' is unknown
+      tweaks: check calls of stat() for success instead of for not-failure
+      tweaks: compare two syntaxes directly, instead of comparing their names
+      tweaks: condense a comment, rename a function, and reshuffle four lines
+      tweaks: don't use index 0 when no higher indexes are used
+      tweaks: drop an inconsistent space before a closing parenthesis
+      tweaks: drop most `!= '\0'` comparisons
+      tweaks: drop most `!= NULL` comparisons
+      tweaks: elide an unneeded parameter, and improve the related comment
+      tweaks: elide a parameter from write_file() and write_region_to_file()
+      tweaks: fold two fragments of code together
+      tweaks: harmonize checking the exit status of a child process
+      tweaks: harmonize seven more error checks with similar ones
+      tweaks: harmonize the form of five error messages
+      tweaks: harmonize the form of two error messages with two others
+      tweaks: harmonize three error checks with those of similar calls
+      tweaks: improve a comment, add one, and move one
+      tweaks: in the C syntax, gather all type specifiers into one regex
+      tweaks: just check for negativeness instead of for exactly minus one
+      tweaks: make three different error messages identical to an existing one
+      tweaks: modernize a URL
+      tweaks: move a condition out of a function, to avoid unneeded calls
+      tweaks: move a function, improve three comments, and rename a parameter
+      tweaks: move two assignments to where they are used
+      tweaks: normalize the indentation after the previous change
+      tweaks: remove a fragment of code that is redundant since previous commit
+      tweaks: rename a few variables, to harmonize with the general scheme
+      tweaks: rename a function, to better describe what it does
+      tweaks: rename a variable, for aptness, and remove unneeded braces
+      tweaks: rename three variables, to be more descriptive
+      tweaks: reshuffle and adjust a comment while dropping an unneeded 'else'
+      tweaks: reshuffle two lines of code, to avoid a memory leak
+      tweaks: shorten four conditions, clarify a fifth, and improve a comment
+      tweaks: slightly adjust two wordings in the main man page
+      tweaks: slightly improve a sentence in the nanorc manpage
+      tweaks: swap the two arms of an 'if', to have the positive case first
+      tweaks: unwrap some seventy lines that don't need to be wrapped
+
+G. Branden Robinson (11):
+      docs: consistently set file names in italics
+      docs: consistently use minus sign for M- notation
+      docs: favor the `\[ti]` special character over a literal `~`
+      docs: fix three unescaped hyphens before option names
+      docs: more consistently set nano's name in bold
+      docs: set "foreign" software in italics, not bold
+      docs: style function names with bold, not backticks
+      docs: swap the left and middle footer of the man pages
+      docs: sync rnano's synopsis markup with nano's
+      docs: use a better word in the description of the 'locking' option
+      docs: use groff-style special-character syntax: \[xx] instead of \(xx
+
+Vincent Yang (1):
+      syntax: c: add new C23 keywords and preprocessor directives
+
+
 Changes between v8.7 and v9.0:
 ------------------------------
 

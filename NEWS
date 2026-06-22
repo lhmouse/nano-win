@@ -1,3 +1,14 @@
+2026.96.23 - GNU nano 9.1 "met een hongerig paard aan ons been"
+• When searching, the viewport is placed snug left where possible.
+• The ability to read and write files in old Mac format was removed
+  (that is: files that use a lone carriage return as line ending).
+• The ^T toggle between WhereIs and GotoLine has been dropped.
+• When --backup is active, in some situations no backup was made,
+  or it had a wrong timestamp.  Both issues are fixed now.
+• When nano crashes or is killed, any .save file is not chmodded
+  to the permissions of the base file, nor chowned to its owner.
+• M-Ins and M-Del have become rebindable.
+
 2026.04.08 - GNU nano 9.0 "Le bonheur est dans le pré"
 • When the cursor almost goes offscreen to the right, all lines are
   now scrolled sideways together, by just the amount needed to keep
