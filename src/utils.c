@@ -27,21 +27,19 @@
 #endif
 #include <string.h>
 #include <unistd.h>
+#include <shlobj.h>
 
 /* Set global variable `homedir` to the user's home directory.  First try
  * $HOME, otherwise consult the password database for the current UID. */
 void get_homedir(void)
 {
 	if (homedir == NULL) {
-		const char *homenv = getenv("HOME");
+		const char *homenv = getenv("USERPROFILE");
 
 #ifdef HAVE_PWD_H
 		/* When $HOME is unset, or when we're root, try the database. */
-		if (homenv == NULL || geteuid() == ROOT_UID) {
-			const struct passwd *userage = getpwuid(geteuid());
-
-			if (userage)
-				homenv = userage->pw_dir;
+		if (homenv == NULL || IsUserAnAdmin()) {
+			homenv = getenv("ALLUSERSPROFILE");
 		}
 #endif
 

@@ -30,6 +30,7 @@
 #include <glob.h>
 #include <string.h>
 #include <unistd.h>
+#include <shlobj.h>
 
 #ifndef RCFILE_NAME
 #define HOME_RC_NAME  ".nanorc"
@@ -1734,7 +1735,11 @@ void do_rcfiles(void)
 	} else {
 		const char *xdgconfdir;
 
-		if (have_nanorc(SYSCONFDIR, "/nanorc"))
+		/* First process the system-wide nanorc, if it exists and is suitable. */
+		const char* allusers = getenv("ALLUSERSPROFILE");
+		if(!allusers)
+			allusers = "C:/Windows";
+		if (have_nanorc(allusers, "/nanorc"))
 			parse_one_nanorc();
 
 		get_homedir();
