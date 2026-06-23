@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nano-7.0-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2026-04-08 17:05+0200\n"
+"POT-Creation-Date: 2026-06-23 07:31+0200\n"
 "PO-Revision-Date: 2023-07-18 23:06+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -45,32 +45,32 @@ msgstr "(ophavs-kat)"
 msgid "(huge)"
 msgstr "(enorm)"
 
-#: src/browser.c:269 src/browser.c:274 src/search.c:259
+#: src/browser.c:269 src/browser.c:274 src/search.c:254
 msgid "Search Wrapped"
 msgstr "Søgningen genstartet fra begyndelsen"
 
-#: src/browser.c:281 src/search.c:441
+#: src/browser.c:281 src/search.c:438
 msgid "This is the only occurrence"
 msgstr "Dette er det eneste tilfælde"
 
 #. TRANSLATORS: This is the main search prompt.
-#: src/browser.c:314 src/search.c:100
+#: src/browser.c:314 src/search.c:99
 msgid "Search"
 msgstr "Søg"
 
 #. TRANSLATORS: A modifier of the Search prompt.
-#: src/browser.c:316 src/search.c:104
+#: src/browser.c:316 src/search.c:103
 msgid " [Backwards]"
 msgstr " [Bagud]"
 
-#: src/browser.c:322 src/browser.c:563 src/files.c:1164 src/files.c:1257
-#: src/files.c:2195 src/nano.c:321 src/search.c:114 src/search.c:294
-#: src/search.c:731 src/search.c:798 src/text.c:2621 src/text.c:2820
+#: src/browser.c:322 src/browser.c:563 src/files.c:1120 src/files.c:1213
+#: src/files.c:2110 src/nano.c:321 src/search.c:113 src/search.c:289
+#: src/search.c:723 src/search.c:783 src/text.c:2622 src/text.c:2829
 #: src/winio.c:103
 msgid "Cancelled"
 msgstr "Afbrudt"
 
-#: src/browser.c:349 src/search.c:375
+#: src/browser.c:349 src/search.c:373
 msgid "No current search pattern"
 msgstr "Intet aktuelt søgemønster"
 
@@ -99,18 +99,18 @@ msgstr "Kan ikke gå uden for %s"
 msgid "Can't move up a directory"
 msgstr "Kan ikke gå et katalog op"
 
-#: src/browser.c:616 src/files.c:921 src/files.c:927 src/files.c:1830
-#: src/files.c:1845 src/history.c:263 src/history.c:291 src/history.c:397
-#: src/history.c:451 src/rcfile.c:933 src/rcfile.c:1719
+#: src/browser.c:616 src/files.c:877 src/files.c:883 src/files.c:1767
+#: src/files.c:1782 src/history.c:263 src/history.c:291 src/history.c:398
+#: src/history.c:452 src/rcfile.c:924 src/rcfile.c:1709
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "Fejl ved læsning af %s: %s"
 
-#: src/browser.c:643 src/help.c:510
+#: src/browser.c:643 src/help.c:514
 msgid "Paste is ignored"
 msgstr ""
 
-#: src/browser.c:691 src/files.c:364
+#: src/browser.c:691 src/files.c:359
 msgid "The working directory has disappeared"
 msgstr "Arbejdskataloget er forsvundet"
 
@@ -129,15 +129,15 @@ msgstr "magic_load() mislykkedes: %s"
 msgid "magic_file(%s) failed: %s"
 msgstr "magic_file(%s) mislykkedes: %s"
 
-#: src/cut.c:175 src/cut.c:240 src/cut.c:574
+#: src/cut.c:173 src/cut.c:237 src/cut.c:571
 msgid "Nothing was cut"
 msgstr "Intet blev klippet"
 
-#: src/cut.c:624 src/cut.c:678
+#: src/cut.c:621 src/cut.c:675
 msgid "Copied nothing"
 msgstr "Intet blev kopieret"
 
-#: src/cut.c:743
+#: src/cut.c:740
 msgid "Cutbuffer is empty"
 msgstr "Udklipsholderen er tom"
 
@@ -147,722 +147,708 @@ msgid "Error deleting lock file %s: %s"
 msgstr "Fejl ved sletning af låsefil %s: %s"
 
 #. TRANSLATORS: Keep the next seven messages at most 76 characters.
-#: src/files.c:163
+#: src/files.c:162
 msgid "Couldn't determine my identity for lock file"
 msgstr "Kunne ikke bestemme min identitet for låsefil"
 
-#: src/files.c:168
+#: src/files.c:167
 #, c-format
 msgid "Couldn't determine hostname: %s"
 msgstr "Kunne ikke bestemme værtsnavn: %s"
 
-#: src/files.c:184 src/files.c:227
+#: src/files.c:183 src/files.c:225
 #, c-format
 msgid "Error writing lock file %s: %s"
 msgstr "Fejl ved skrivning af låsefil %s: %s"
 
-#: src/files.c:255
+#: src/files.c:251
 msgid "Someone else is also editing this file"
 msgstr "Filen er også ved at blive redigeret af en anden"
 
-#: src/files.c:264
+#: src/files.c:260
 #, c-format
 msgid "Error opening lock file %s: %s"
 msgstr "Fejl ved åbning af låsefil %s: %s"
 
-#: src/files.c:279
+#: src/files.c:274
 #, c-format
 msgid "Bad lock file is ignored: %s"
 msgstr "Ignorerer ugyldig låsefil: %s"
 
 #. TRANSLATORS: The second %s is the name of the user, the third that of the editor.
-#: src/files.c:300
+#: src/files.c:295
 #, c-format
 msgid "File %s is being edited by %s (with %s, PID %s); open anyway?"
 msgstr "Filen %s bliver redigeret af %s (med %s, PID %s); åbn alligevel?"
 
 #. TRANSLATORS: Keep the next ten messages at most 76 characters.
-#: src/files.c:368
+#: src/files.c:363
 #, c-format
 msgid "Directory '%s' does not exist"
 msgstr "Kataloget “%s” findes ikke"
 
-#: src/files.c:370
+#: src/files.c:365
 #, c-format
 msgid "Path '%s': %s"
 msgstr "Sti “%s”: %s"
 
-#: src/files.c:372
+#: src/files.c:367
 #, c-format
 msgid "Path '%s' is not a directory"
 msgstr "Stien “%s” er ikke et katalog"
 
-#: src/files.c:374
+#: src/files.c:369
 #, c-format
 msgid "Path '%s' is not accessible"
 msgstr "Stien “%s” er ikke tilgængelig"
 
-#: src/files.c:377
+#: src/files.c:372
 #, c-format
 msgid "Directory '%s' is not writable"
 msgstr "Kataloget “%s” er skrivebeskyttet"
 
-#: src/files.c:404
+#: src/files.c:399
 #, c-format
 msgid "Can't read file from outside of %s"
 msgstr "Kan ikke læse fil fra uden for %s"
 
-#: src/files.c:414 src/rcfile.c:909
+#: src/files.c:409 src/rcfile.c:900
 #, c-format
-msgid "\"%s\" is a directory"
-msgstr "“%s” er et katalog"
+msgid "'%s' is a directory"
+msgstr ""
 
-#: src/files.c:419 src/rcfile.c:910
+#: src/files.c:414 src/rcfile.c:901
 #, c-format
-msgid "\"%s\" is a device file"
-msgstr "“%s” er en enhedsfil"
+msgid "'%s' is a device file"
+msgstr ""
 
-#: src/files.c:425
+#: src/files.c:420
 #, c-format
-msgid "\"%s\" is a FIFO"
-msgstr "“%s” er en FIFO"
+msgid "'%s' is a FIFO"
+msgstr ""
 
-#: src/files.c:432
+#: src/files.c:426
 #, c-format
-msgid "%s is meant to be read-only"
-msgstr "%s bør være skrivebeskyttet"
+msgid "'%s' is meant to be read-only"
+msgstr ""
+
+#: src/files.c:429
+#, c-format
+msgid "'%s' is an invalid filename"
+msgstr ""
 
 #. TRANSLATORS: First %s is file name, second %s is file format.
-#: src/files.c:544
+#: src/files.c:541
 #, c-format
 msgid "%s -- %zu line (%s)"
 msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu linje (%s)"
 msgstr[1] "%s -- %zu linjer (%s)"
 
-#: src/files.c:546 src/files.c:552 src/global.c:1132 src/winio.c:2062
+#: src/files.c:543 src/files.c:548 src/global.c:1132 src/winio.c:2058
 msgid "New Buffer"
 msgstr "Ny buffer"
 
-#: src/files.c:547
+#: src/files.c:543 src/winio.c:2211
 msgid "DOS"
 msgstr "DOS"
 
-#: src/files.c:547
-msgid "Mac"
-msgstr "Mac"
-
-#: src/files.c:550
+#: src/files.c:546
 #, c-format
 msgid "%s -- %zu line"
 msgid_plural "%s -- %zu lines"
 msgstr[0] "%s -- %zu linje"
 msgstr[1] "%s -- %zu linjer"
 
-#: src/files.c:560
+#: src/files.c:556
 msgid "No more open file buffers"
 msgstr "Ikke flere åbne filbuffere"
 
-#: src/files.c:787 src/files.c:919 src/files.c:1883
+#: src/files.c:770 src/files.c:875 src/files.c:1820
 msgid "Interrupted"
 msgstr "Afbrudt"
 
-#: src/files.c:833
+#: src/files.c:795
 #, c-format
 msgid "File '%s' is unwritable"
 msgstr "Filen “%s” er skrivebeskyttet"
 
-#. TRANSLATORS: Keep the next three messages at most 78 characters.
-#: src/files.c:839
-#, c-format
-msgid "Read %zu line (converted from Mac format)"
-msgid_plural "Read %zu lines (converted from Mac format)"
-msgstr[0] "Læste %zu linje (konverteret fra Mac-format)"
-msgstr[1] "Læste %zu linjer (konverteret fra Mac-format)"
-
-#: src/files.c:843
+#. TRANSLATORS: Keep the next two messages at most 78 characters.
+#: src/files.c:801
 #, c-format
 msgid "Read %zu line (converted from DOS format)"
 msgid_plural "Read %zu lines (converted from DOS format)"
 msgstr[0] "Læste %zu linje (konverteret fra DOS-format)"
 msgstr[1] "Læste %zu linjer (konverteret fra DOS-format)"
 
-#: src/files.c:848
+#: src/files.c:805
 #, c-format
 msgid "Read %zu line"
 msgid_plural "Read %zu lines"
 msgstr[0] "Læste %zu linje"
 msgstr[1] "Læste %zu linjer"
 
-#: src/files.c:893
+#: src/files.c:849
 msgid "New File"
 msgstr "Ny fil"
 
-#: src/files.c:896
+#: src/files.c:852
 #, c-format
 msgid "File \"%s\" not found"
 msgstr "Filen “%s” ikke fundet"
 
-#: src/files.c:903
+#: src/files.c:859
 msgid "Reading from FIFO..."
 msgstr "Læser fra FIFO …"
 
-#: src/files.c:931
+#: src/files.c:887
 msgid "Reading..."
 msgstr "Læser …"
 
-#: src/files.c:1038 src/text.c:2364 src/text.c:2629
+#: src/files.c:994 src/text.c:2355 src/text.c:2630
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "Kunne ikke oprette datakanal: %s"
 
-#: src/files.c:1079 src/files.c:1123 src/text.c:2178 src/text.c:2444
-#: src/text.c:2664
+#: src/files.c:1035 src/files.c:1079 src/text.c:2169 src/text.c:2435
+#: src/text.c:2665
 #, c-format
 msgid "Could not fork: %s"
 msgstr "Kunne ikke forgrene: %s"
 
-#: src/files.c:1084
+#: src/files.c:1040
 msgid "Executing..."
 msgstr "Kører …"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/files.c:1104 src/files.c:1154
+#: src/files.c:1060 src/files.c:1110
 msgid "filtering"
 msgstr "filtrering"
 
-#: src/files.c:1147
+#: src/files.c:1103
 #, c-format
 msgid "Failed to open pipe: %s"
 msgstr "Kunne ikke åbne datakanal: %s"
 
-#: src/files.c:1165
+#: src/files.c:1121
 #, c-format
 msgid "Error: %s"
 msgstr "Fejl: %s"
 
-#: src/files.c:1170
+#: src/files.c:1126
 msgid "Piping failed"
 msgstr "Datakanal fejlede"
 
 #. TRANSLATORS: The next six messages are prompts.
-#: src/files.c:1219
+#: src/files.c:1175
 msgid "Command to execute in new buffer"
 msgstr "Kommando der skal køres i ny buffer"
 
-#: src/files.c:1222
+#: src/files.c:1178
 msgid "Command to execute"
 msgstr "Kommando der skal køres"
 
-#: src/files.c:1230
+#: src/files.c:1186
 #, c-format
 msgid "File to read unconverted into new buffer [from %s]"
 msgstr "Fil der skal læses ind i ny buffer uden konvertering [fra %s]"
 
-#: src/files.c:1233
+#: src/files.c:1189
 #, c-format
 msgid "File to read into new buffer [from %s]"
 msgstr "Fil der skal læses ind i ny buffer [fra %s]"
 
-#: src/files.c:1238
+#: src/files.c:1194
 #, c-format
 msgid "File to insert unconverted [from %s]"
 msgstr "Fil der skal indsættes uden konvertering [fra %s]"
 
-#: src/files.c:1241
+#: src/files.c:1197
 #, c-format
 msgid "File to insert [from %s]"
 msgstr "Fil der skal indsættes [fra %s]"
 
-#: src/files.c:1510
+#: src/files.c:1468
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr "Ugyldigt arbejdskatalog: %s\n"
 
-#: src/files.c:1559
+#: src/files.c:1511
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr "Ugyldigt katalog til sikkerhedskopi: %s\n"
 
-#: src/files.c:1614
+#: src/files.c:1562
 msgid "Making backup..."
 msgstr "Sikkerhedskopierer …"
 
-#: src/files.c:1646
+#: src/files.c:1594
 msgid "Too many existing backup files"
 msgstr "For mange eksisterende sikkerhedskopifiler"
 
-#: src/files.c:1694
+#: src/files.c:1642
 msgid "Cannot read original file"
 msgstr "Kan ikke læse oprindelig fil"
 
-#: src/files.c:1726
+#: src/files.c:1676
 msgid "Cannot make regular backup"
 msgstr "Kan ikke oprette almindelig sikkerhedskopi"
 
-#: src/files.c:1727
+#: src/files.c:1677
 msgid "Trying again in your home directory"
 msgstr "Forsøger igen i dit hjemmekatalog"
 
-#: src/files.c:1739
+#: src/files.c:1689
 msgid "Cannot make backup"
 msgstr "Kan ikke oprette sikkerhedskopi"
 
 #. TRANSLATORS: Try to keep this message at most 76 characters.
-#: src/files.c:1750
+#: src/files.c:1700
 msgid "Cannot make backup; continue and save actual file? "
 msgstr "Kan ikke oprette sikkerhedskopi; fortsæt og gem den aktuelle fil?"
 
 #. TRANSLATORS: The %s is the reason of failure.
-#: src/files.c:1755
+#: src/files.c:1705
 #, c-format
 msgid "Cannot make backup: %s"
 msgstr "Kan ikke oprette sikkerhedskopi: %s"
 
-#: src/files.c:1791
+#: src/files.c:1740
 #, c-format
 msgid "Can't write outside of %s"
 msgstr "Kan ikke skrive uden for %s"
 
-#: src/files.c:1823 src/files.c:1885 src/files.c:1896 src/files.c:1917
-#: src/files.c:1934 src/files.c:1943 src/files.c:1971 src/files.c:1982
-#: src/files.c:1999 src/history.c:330 src/history.c:341 src/history.c:344
-#: src/history.c:468 src/history.c:482 src/history.c:496 src/history.c:502
+#: src/files.c:1760 src/files.c:1822 src/files.c:1833 src/files.c:1854
+#: src/files.c:1874 src/files.c:1902 src/files.c:1913 src/files.c:1920
+#: src/history.c:330 src/history.c:341 src/history.c:344 src/history.c:469
+#: src/history.c:483 src/history.c:497 src/history.c:503
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "Fejl ved skrivning af %s: %s"
 
-#: src/files.c:1837 src/files.c:1849 src/text.c:2553 src/text.c:2565
-#: src/text.c:2971
+#: src/files.c:1774 src/files.c:1786 src/text.c:2552 src/text.c:2564
+#: src/text.c:2980
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "Fejl ved skrivning af midlertidig fil: %s"
 
-#: src/files.c:1856
+#: src/files.c:1793
 msgid "Writing to FIFO..."
 msgstr "Skriver til FIFO …"
 
-#: src/files.c:1903
+#: src/files.c:1840
 msgid "Writing..."
 msgstr "Skriver …"
 
-#: src/files.c:1959 src/files.c:1967
+#: src/files.c:1890 src/files.c:1898
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr "Fejl ved læsning af midlertidig fil: %s"
 
 #. TRANSLATORS: This warns for data loss when the disk is full.
-#: src/files.c:2006
+#: src/files.c:1927
 msgid "File on disk has been truncated!"
 msgstr "Filen på disken er blevet afkortet!"
 
 #. TRANSLATORS: This is a suggestion to the user,
 #. * where "resume" means resuming from suspension.
 #. * Try to keep this at most 76 characters.
-#: src/files.c:2011
+#: src/files.c:1932
 msgid "Maybe ^T^Z, make room on disk, resume, then ^S^X"
 msgstr "Tryk evt. ^T^Z, frigør plads på disken, genoptag, og tryk så ^S^X"
 
-#: src/files.c:2073
+#: src/files.c:1992
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] "Skrev %zu linje"
 msgstr[1] "Skrev %zu linjer"
 
-#: src/files.c:2158
+#: src/files.c:2075
 msgid " [DOS Format]"
 msgstr " [DOS-format]"
 
-#: src/files.c:2159
-msgid " [Mac Format]"
-msgstr " [Mac-format]"
-
-#: src/files.c:2160
+#: src/files.c:2076
 msgid " [Backup]"
 msgstr " [Sikkerhedskopi]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2167
+#: src/files.c:2083
 msgid "Prepend Selection to File"
 msgstr "Foranstil udvalg til fil"
 
-#: src/files.c:2168
+#: src/files.c:2084
 msgid "Append Selection to File"
 msgstr "Tilføj udvalg til fil"
 
-#: src/files.c:2169
+#: src/files.c:2085
 msgid "Write Selection to File"
 msgstr "Skriv udvalg til fil"
 
 #. TRANSLATORS: Next three prompts are analogous to the above three.
-#: src/files.c:2172
+#: src/files.c:2088
 msgid "Prepend to File"
 msgstr ""
 
-#: src/files.c:2172
+#: src/files.c:2088
 msgid "Append to File"
 msgstr ""
 
-#: src/files.c:2175
+#: src/files.c:2091
 msgid "Write to File"
 msgstr ""
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2256 src/nano.c:1098 src/nano.c:1107
+#: src/files.c:2168 src/nano.c:1087 src/nano.c:1096
 msgid "Too tiny"
 msgstr "For lille"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2289
+#: src/files.c:2200
 msgid "File exists -- cannot overwrite"
 msgstr "Filen findes -- kan ikke overskrive"
 
-#: src/files.c:2298
+#: src/files.c:2209
 msgid "Save file under DIFFERENT NAME? "
 msgstr "Gem filen under ET ANDET NAVN? "
 
-#: src/files.c:2306
+#: src/files.c:2216
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr "Filen “%s” findes; OVERSKRIV? "
 
-#: src/files.c:2330
+#: src/files.c:2240
 msgid "File on disk has changed"
 msgstr "Filen på disken er blevet ændret"
 
 #. TRANSLATORS: Try to keep this at most 76 characters.
-#: src/files.c:2333
+#: src/files.c:2243
 msgid "File was modified since you opened it; continue saving? "
 msgstr "Filen er blevet ændret, siden du åbnede den; gem alligevel? "
 
-#: src/files.c:2710
+#: src/files.c:2618
 msgid "(more)"
 msgstr "(mere)"
 
 # max 10 tegn
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:573
+#: src/global.c:574
 msgid "Exit"
 msgstr "Afslut"
 
-#: src/global.c:574
+#: src/global.c:575
 msgid "Close"
 msgstr "Luk"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
-#: src/global.c:582
+#: src/global.c:583
 msgid "Cancel the current function"
 msgstr "Afbryd den aktuelle funktion"
 
-#: src/global.c:583
+#: src/global.c:584
 msgid "Display this help text"
 msgstr "Vis denne hjælpetekst"
 
-#: src/global.c:584
+#: src/global.c:585
 msgid "Close the current buffer / Exit from nano"
 msgstr "Luk nuværende buffer / afslut nano"
 
-#: src/global.c:586
+#: src/global.c:587
 msgid "Write the current buffer (or the marked region) to disk"
 msgstr "Skriv den nuværende buffer (eller det markerede område) til disken"
 
-#: src/global.c:588
+#: src/global.c:589
 msgid "Insert another file into current buffer (or into new buffer)"
 msgstr "Indsæt en anden fil i den nuværende buffer (eller i en ny buffer)"
 
-#: src/global.c:590
+#: src/global.c:591
 msgid "Search forward for a string or a regular expression"
 msgstr "Søg fremad efter en streng eller et regulært udtryk"
 
-#: src/global.c:592
+#: src/global.c:593
 msgid "Search backward for a string or a regular expression"
 msgstr "Søg bagud efter en streng eller et regulært udtryk"
 
-#: src/global.c:594
+#: src/global.c:595
 msgid "Cut current line (or marked region) and store it in cutbuffer"
 msgstr ""
 "Klip aktuelle linje (eller markerede område) ud og gem den i udklipsbufferen"
 
-#: src/global.c:596
+#: src/global.c:597
 msgid "Copy current line (or marked region) and store it in cutbuffer"
 msgstr ""
 "Kopiér aktuelle linje (eller markerede område) og gem den i udklipsbufferen"
 
-#: src/global.c:598
+#: src/global.c:599
 msgid "Paste the contents of cutbuffer at current cursor position"
 msgstr "Indsæt indholdet af udklipsholderen ved nuværende markørposition"
 
-#: src/global.c:599
+#: src/global.c:600
 msgid "Display the position of the cursor"
 msgstr "Vis markørens position"
 
-#: src/global.c:601
+#: src/global.c:602
 msgid "Invoke the spell checker, if available"
 msgstr "Start stavekontrollen, hvis tilgængelig"
 
-#: src/global.c:603
+#: src/global.c:604
 msgid "Replace a string or a regular expression"
 msgstr "Erstat en streng eller et regulært udtryk"
 
-#: src/global.c:604
+#: src/global.c:605
 msgid "Go to line and column number"
 msgstr "Gå til linje- og kolonnenummer"
 
-#: src/global.c:606
+#: src/global.c:607
 msgid "Go to the matching bracket"
 msgstr "Gå til modsvarende klamme"
 
-#: src/global.c:607
+#: src/global.c:608
 msgid "Mark text starting from the cursor position"
 msgstr "Markér tekst startende fra markørposition"
 
-#: src/global.c:608
+#: src/global.c:609
 msgid "Throw away the current line (or marked region)"
 msgstr "Smid den nuværende linje (eller det markerede område) væk"
 
-#: src/global.c:609
+#: src/global.c:610
 msgid "Indent the current line (or marked lines)"
 msgstr "Indryk aktuelle linje (eller markerede linjer)"
 
-#: src/global.c:610
+#: src/global.c:611
 msgid "Unindent the current line (or marked lines)"
 msgstr "Fjern indrykning for aktuelle linje (eller markerede linjer)"
 
-#: src/global.c:611
+#: src/global.c:612
 msgid "Undo the last operation"
 msgstr "Fortryd sidste handling"
 
-#: src/global.c:612
+#: src/global.c:613
 msgid "Redo the last undone operation"
 msgstr "Gentag sidste fortrudte handling"
 
-#: src/global.c:614
+#: src/global.c:615
 msgid "Go back one character"
 msgstr "Gå et tegn bagud"
 
-#: src/global.c:615
+#: src/global.c:616
 msgid "Go forward one character"
 msgstr "Gå et tegn fremad"
 
-#: src/global.c:616
+#: src/global.c:617
 msgid "Go back one word"
 msgstr "Gå et ord bagud"
 
-#: src/global.c:617
+#: src/global.c:618
 msgid "Go forward one word"
 msgstr "Gå et ord fremad"
 
-#: src/global.c:618
+#: src/global.c:619
 msgid "Go to previous line"
 msgstr "Gå til forrige linje"
 
-#: src/global.c:619
+#: src/global.c:620
 msgid "Go to next line"
 msgstr "Gå til næste linje"
 
-#: src/global.c:620
+#: src/global.c:621
 msgid "Go to beginning of current line"
 msgstr "Gå til begyndelsen af aktuel linje"
 
-#: src/global.c:621
+#: src/global.c:622
 msgid "Go to end of current line"
 msgstr "Gå til enden af aktuel linje"
 
-#: src/global.c:622
+#: src/global.c:623
 msgid "Go to previous block of text"
 msgstr "Gå til forrige tekstblok"
 
-#: src/global.c:623
+#: src/global.c:624
 msgid "Go to next block of text"
 msgstr "Gå til næste tekstblok"
 
-#: src/global.c:626
+#: src/global.c:627
 msgid "Go to beginning of paragraph; then of previous paragraph"
 msgstr "Gå til afsnittets begyndelse; dernæst forrige afsnits"
 
 # må være præcist nok i denne lidt korte form.  Ellers bliver linjen for lang
-#: src/global.c:628
+#: src/global.c:629
 msgid "Go just beyond end of paragraph; then of next paragraph"
 msgstr "Gå til afsnittets slutning; dernæst næste afsnits"
 
-#: src/global.c:631
+#: src/global.c:632
 msgid "Go to first row in the viewport"
 msgstr ""
 
-#: src/global.c:632
+#: src/global.c:633
 msgid "Go to last row in the viewport"
 msgstr ""
 
-#: src/global.c:633
+#: src/global.c:634
 msgid "Center the line where the cursor is"
 msgstr "Centrér markørens linje"
 
-#: src/global.c:634
+#: src/global.c:635
 msgid "Push the cursor line to the center, then top, then bottom"
 msgstr ""
 
-#: src/global.c:636
+#: src/global.c:637
 msgid "Go one screenful up"
 msgstr "Gå en skærm op"
 
-#: src/global.c:637
+#: src/global.c:638
 msgid "Go one screenful down"
 msgstr "Gå en skærm ned"
 
-#: src/global.c:638
+#: src/global.c:639
 msgid "Go to the first line of the file"
 msgstr "Gå til filens første linje"
 
-#: src/global.c:639
+#: src/global.c:640
 msgid "Go to the last line of the file"
 msgstr "Gå til filens sidste linje"
 
-#: src/global.c:641
+#: src/global.c:642
 msgid "Scroll the viewport a tabsize to the left"
 msgstr ""
 
-#: src/global.c:642
+#: src/global.c:643
 msgid "Scroll the viewport a tabsize to the right"
 msgstr ""
 
-#: src/global.c:646
+#: src/global.c:647
 msgid "Scroll up one line without moving the cursor textually"
 msgstr "Rul en linje op uden at flytte markøren i teksten"
 
-#: src/global.c:648
+#: src/global.c:649
 msgid "Scroll down one line without moving the cursor textually"
 msgstr "Rul en linje ned uden at flytte markøren i teksten"
 
-#: src/global.c:651
+#: src/global.c:652
 msgid "Switch to the previous file buffer"
 msgstr "Gå til forrige filbuffer"
 
-#: src/global.c:652
+#: src/global.c:653
 msgid "Switch to the next file buffer"
 msgstr "Gå til næste filbuffer"
 
-#: src/global.c:654
+#: src/global.c:655
 msgid "Insert the next keystroke verbatim"
 msgstr "Indsæt næste tasteanslag ordret"
 
-#: src/global.c:655
+#: src/global.c:656
 msgid "Insert a tab at the cursor position (or indent marked lines)"
 msgstr ""
 "Indsæt et tabulatortegn ved markørposition (eller indryk markerede linjer)"
 
-#: src/global.c:656
+#: src/global.c:657
 msgid "Insert a newline at the cursor position"
 msgstr "Indsæt et linjeskift ved markørpositionen"
 
-#: src/global.c:657
+#: src/global.c:658
 msgid "Delete the character under the cursor"
 msgstr "Fjern tegnet under markøren"
 
-#: src/global.c:659
+#: src/global.c:660
 msgid "Delete the character to the left of the cursor"
 msgstr "Fjern tegnet til venstre for markøren"
 
-#: src/global.c:662
+#: src/global.c:663
 msgid "Delete backward from cursor to word start"
 msgstr "Slet bagud fra markøren til ordets begyndelse"
 
-#: src/global.c:664
+#: src/global.c:665
 msgid "Delete forward from cursor to next word start"
 msgstr "Slet fremad fra markøren til næste ords begyndelse"
 
-#: src/global.c:666
+#: src/global.c:667
 msgid "Cut from the cursor position to the end of the file"
 msgstr "Klip fra markørpositionen til filens slutning"
 
-#: src/global.c:669
+#: src/global.c:670
 msgid "Justify the current paragraph"
 msgstr "Ombryd den aktuelle paragraf"
 
-#: src/global.c:670
+#: src/global.c:671
 msgid "Justify the entire file"
 msgstr "Ombryd hele filen"
 
-#: src/global.c:674
+#: src/global.c:675
 msgid "Count the number of lines, words, and characters"
 msgstr "Tæl linjer, ord og tegn"
 
-#: src/global.c:675
+#: src/global.c:676
 msgid "Suspend the editor (return to the shell)"
 msgstr "Kør i baggrunden (vend tilbage til skallen)"
 
-#: src/global.c:677
+#: src/global.c:678
 msgid "Refresh (redraw) the current screen"
 msgstr "Opdatér (genskriv) den aktuelle skærm"
 
-#: src/global.c:679
+#: src/global.c:680
 msgid "Try and complete the current word"
 msgstr "Forsøg at fuldføre nuværende ord"
 
-#: src/global.c:683
+#: src/global.c:684
 msgid "Comment/uncomment the current line (or marked lines)"
 msgstr "Kommentér/fjern kommentar for nuværende linje (eller markerede linjer)"
 
-#: src/global.c:685
+#: src/global.c:686
 msgid "Save file without prompting"
 msgstr "Gem fil uden at spørge"
 
-#: src/global.c:686
+#: src/global.c:687
 msgid "Search next occurrence backward"
 msgstr "Søg bagud efter næste forekomst"
 
-#: src/global.c:687
+#: src/global.c:688
 msgid "Search next occurrence forward"
 msgstr "Søg fremad efter næste forekomst"
 
-#: src/global.c:689
+#: src/global.c:690
 msgid "Start/stop recording a macro"
 msgstr "Start/stop optagelse af en makro"
 
-#: src/global.c:690
+#: src/global.c:691
 msgid "Run the last recorded macro"
 msgstr "Kør sidst optagede makro"
 
-#: src/global.c:691
+#: src/global.c:692
 msgid "Place or remove an anchor at the current line"
 msgstr "Placér eller fjern anker ved nuværende linje"
 
-#: src/global.c:692
+#: src/global.c:693
 msgid "Jump backward to the nearest anchor"
 msgstr "Hop bagud til nærmeste anker"
 
-#: src/global.c:693
+#: src/global.c:694
 msgid "Jump forward to the nearest anchor"
 msgstr "Hop frem til nærmeste anker"
 
-#: src/global.c:695
+#: src/global.c:696
 msgid "Toggle the case sensitivity of the search"
 msgstr "Slå forskel på store og små bogstaver til eller fra"
 
-#: src/global.c:696
+#: src/global.c:697
 msgid "Reverse the direction of the search"
 msgstr "Omvend søgeretning"
 
-#: src/global.c:697
+#: src/global.c:698
 msgid "Toggle the use of regular expressions"
 msgstr "Slå brug af regulære udtryk til eller fra"
 
-#: src/global.c:699
+#: src/global.c:700
 msgid "Recall the previous search/replace string"
 msgstr "Husk de foregående søg og erstat-strenge"
 
-#: src/global.c:700
+#: src/global.c:701
 msgid "Recall the next search/replace string"
 msgstr "Husk de følgende søg og erstat-strenge"
 
-#: src/global.c:703
+#: src/global.c:704
 msgid "Toggle the use of DOS format"
 msgstr "Slå DOS-format til eller fra"
-
-#: src/global.c:704
-msgid "Toggle the use of Mac format"
-msgstr "Slå Mac-format til eller fra"
 
 #: src/global.c:705
 msgid "Toggle appending"
@@ -895,8 +881,8 @@ msgid "Recall the next command"
 msgstr ""
 
 #: src/global.c:715
-msgid "Do not convert from DOS/Mac format"
-msgstr "Konvertér ikke fra DOS/Mac-format"
+msgid "Do not convert from DOS format"
+msgstr ""
 
 #: src/global.c:718
 msgid "Toggle the use of a new buffer"
@@ -983,95 +969,96 @@ msgstr "Kald et program som formaterer/arrangerer/manipulerer bufferen"
 msgid "Help"
 msgstr "Hjælp"
 
-#: src/global.c:768 src/prompt.c:711
+#: src/global.c:768 src/prompt.c:706
 msgid "Cancel"
 msgstr "Annullér"
 
-#: src/global.c:790
+#: src/global.c:788
 msgid "Write Out"
 msgstr "Gem"
 
-#: src/global.c:798
+#: src/global.c:796
 msgid "Read File"
 msgstr "Læs fil"
 
-#: src/global.c:802 src/global.c:841
+#: src/global.c:800 src/global.c:839
 msgid "Justify"
 msgstr "Ombryd"
 
 # max 10 tegn
-#: src/global.c:808 src/global.c:900 src/global.c:1116
+#: src/global.c:806 src/global.c:900 src/global.c:1116
 msgid "Refresh"
 msgstr "Opdatér"
 
 # max 10 tegn
-#: src/global.c:813 src/global.c:903
+#: src/global.c:811 src/global.c:903
 msgid "Where Is"
 msgstr "Hvor er"
 
 # max 10 tegn
-#: src/global.c:816 src/global.c:877
+#: src/global.c:814 src/global.c:876
 msgid "Replace"
 msgstr "Erstat"
 
-#: src/global.c:829
+#: src/global.c:827
 msgid "Cut"
 msgstr "Klip"
 
-#: src/global.c:832
+#: src/global.c:830
 msgid "Paste"
 msgstr "Indsæt"
 
-#: src/global.c:837 src/global.c:1108
+#: src/global.c:835 src/global.c:1108
 msgid "Execute"
 msgstr "Kør"
 
 #. TRANSLATORS: This refers to the position of the cursor.
-#: src/global.c:847
+#: src/global.c:845
 msgid "Location"
 msgstr "Placering"
 
-#: src/global.c:853 src/global.c:1018 src/global.c:1158
+#: src/global.c:851 src/global.c:1018
 msgid "Go To Line"
 msgstr "Til linje"
 
-#. TRANSLATORS: Try to keep the next ten strings at most 12 characters.
-#: src/global.c:859
+#. TRANSLATORS: Try to keep the next four strings at most 12 characters.
+#: src/global.c:857
 msgid "Undo"
 msgstr "Fortryd"
 
-#: src/global.c:861
+#: src/global.c:859
 msgid "Redo"
 msgstr "Gentag"
 
 # Ikke helt sikker på hvad denne handling dækker over
-#: src/global.c:864
+#: src/global.c:862
 msgid "Set Mark"
 msgstr "Sæt mærke"
 
-#: src/global.c:866 src/global.c:1052
+#: src/global.c:864 src/global.c:1052
 msgid "Copy"
 msgstr "Kopiér"
 
-# max 10 tegn
-#: src/global.c:870
-msgid "Case Sens"
-msgstr "VersalFøls"
+#. TRANSLATORS: Try to keep the next four strings at most 16 characters.
+#: src/global.c:869
+msgid "Case sensitive"
+msgstr ""
 
-#: src/global.c:872
-msgid "Reg.exp."
-msgstr "Reg.udtryk"
+#: src/global.c:871
+msgid "Reg.expression"
+msgstr ""
 
 # max 10 tegn
-#: src/global.c:874
+#: src/global.c:873
 msgid "Backwards"
 msgstr "Baglæns"
 
 # max 10 tegn
-#: src/global.c:879
+#: src/global.c:878
 msgid "No Replace"
 msgstr "ErstatIkke"
 
+#. TRANSLATORS: Try to keep the next two strings at most 10 characters.
 #: src/global.c:883 src/global.c:888
 msgid "Older"
 msgstr "Ældre"
@@ -1113,7 +1100,7 @@ msgstr "Bagud"
 msgid "Forward"
 msgstr "Fremad"
 
-#. TRANSLATORS: Try to keep the next four strings at most 12 characters.
+#. TRANSLATORS: Try to keep the next four strings at most 13 characters.
 #: src/global.c:948
 msgid "Prev Word"
 msgstr "Forrige ord"
@@ -1131,7 +1118,7 @@ msgstr "Hjem"
 msgid "End"
 msgstr "Slut"
 
-#. TRANSLATORS: Try to keep the next two strings at most 12 characters.
+#. TRANSLATORS: Try to keep the next two strings at most 13 characters.
 #: src/global.c:960
 msgid "Scroll Left"
 msgstr ""
@@ -1149,7 +1136,7 @@ msgstr "Forrige linje"
 msgid "Next Line"
 msgstr "Næste linje"
 
-#. TRANSLATORS: Try to keep the next four strings at most 12 characters.
+#. TRANSLATORS: Try to keep the next four strings at most 13 characters.
 #: src/global.c:973
 msgid "Scroll Up"
 msgstr "Rul op"
@@ -1166,29 +1153,29 @@ msgstr "Forrige blok"
 msgid "Next Block"
 msgstr "Næste blok"
 
-#. TRANSLATORS: Try to keep these two strings at most 16 characters.
+#. TRANSLATORS: Try to keep these two strings at most 23 characters.
 #: src/global.c:985
-msgid "Begin of Paragr."
-msgstr "Start på afsnit"
+msgid "Start of Paragraph"
+msgstr ""
 
 #: src/global.c:987
 msgid "End of Paragraph"
 msgstr "Slut på afsnit"
 
-#: src/global.c:992 src/global.c:1224
+#: src/global.c:992 src/global.c:1215
 msgid "Top Row"
 msgstr "Øverste række"
 
-#: src/global.c:994 src/global.c:1226
+#: src/global.c:994 src/global.c:1217
 msgid "Bottom Row"
 msgstr "Nederste række"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:999 src/global.c:1209
+#: src/global.c:999 src/global.c:1200
 msgid "Prev Page"
 msgstr "Forrige side"
 
-#: src/global.c:1001 src/global.c:1211
+#: src/global.c:1001 src/global.c:1202
 msgid "Next Page"
 msgstr "Næste side"
 
@@ -1200,7 +1187,7 @@ msgstr "Første linje"
 msgid "Last Line"
 msgstr "Sidste linje"
 
-#. TRANSLATORS: Try to keep these two strings at most 15 characters.
+#. TRANSLATORS: Try to keep these two strings at most 14 characters.
 #: src/global.c:1011
 msgid "Prev File"
 msgstr "Forrige fil"
@@ -1235,7 +1222,7 @@ msgstr "Slet til venstre"
 msgid "Chop Right"
 msgstr "Slet til højre"
 
-#: src/global.c:1039 src/global.c:1192
+#: src/global.c:1039 src/global.c:1183
 msgid "Cut Till End"
 msgstr "Klip resten"
 
@@ -1294,7 +1281,7 @@ msgstr "Op til anker"
 msgid "Down to anchor"
 msgstr "Ned til anker"
 
-#. TRANSLATORS: Try to keep the next four strings at most 12 characters.
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
 #: src/global.c:1095 src/global.c:1141
 msgid "Spell Check"
 msgstr "Stavekontrol"
@@ -1310,7 +1297,7 @@ msgid "Formatter"
 msgstr "Formatering"
 
 # max 10 tegn
-#: src/global.c:1111 src/global.c:1195
+#: src/global.c:1111 src/global.c:1186
 msgid "Suspend"
 msgstr "I baggrund"
 
@@ -1330,129 +1317,120 @@ msgstr "Gem"
 msgid "Pipe Text"
 msgstr "Send tekst gennem datakanal"
 
-#: src/global.c:1160
-msgid "Go To Text"
-msgstr "Gå til tekst"
-
 # max 16 tegn
-#: src/global.c:1165
+#: src/global.c:1158
 msgid "DOS Format"
 msgstr "DOS-format"
 
 # max 16 tegn
-#: src/global.c:1167
-msgid "Mac Format"
-msgstr "Mac-format"
+#: src/global.c:1166
+msgid "Backup File"
+msgstr "SikrKopiér fil"
 
 # max 16 tegn
-#: src/global.c:1175
+#: src/global.c:1169
 msgid "Append"
 msgstr "Tilføj ved enden"
 
 # max 16 tegn
-#: src/global.c:1177
+#: src/global.c:1171
 msgid "Prepend"
 msgstr "Tilføj ved start"
 
-# max 16 tegn
-#: src/global.c:1180
-msgid "Backup File"
-msgstr "SikrKopiér fil"
-
-#: src/global.c:1184
+#: src/global.c:1175
 msgid "No Conversion"
 msgstr "Konvertér ikke"
 
 # max 16 tegn
-#: src/global.c:1189
+#: src/global.c:1180
 msgid "Execute Command"
 msgstr "Kør kommando"
 
-#: src/global.c:1199
+#: src/global.c:1190
 msgid "Discard buffer"
 msgstr "Forkast buffer"
 
 #. TRANSLATORS: This invokes the file browser.
-#: src/global.c:1206
+#: src/global.c:1197
 msgid "Browse"
 msgstr "Filer"
 
-#: src/global.c:1214
+#: src/global.c:1205
 msgid "First File"
 msgstr "Første fil"
 
-#: src/global.c:1216
+#: src/global.c:1207
 msgid "Last File"
 msgstr "Sidste fil"
 
-#: src/global.c:1220
+#: src/global.c:1211
 msgid "Left Column"
 msgstr "Venstre kolonne"
 
-#: src/global.c:1222
+#: src/global.c:1213
 msgid "Right Column"
 msgstr "Højre kolonne"
 
 #. TRANSLATORS: The next two strings may be up to 37 characters each.
-#: src/global.c:1233
+#: src/global.c:1224
 msgid "Previous Linter message"
 msgstr "Forrige Linter-besked"
 
-#: src/global.c:1235
+#: src/global.c:1226
 msgid "Next Linter message"
 msgstr "Næste Linter-besked"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1629
+#: src/global.c:1617
 msgid "Hidden interface"
 msgstr "Skjult grænseflade"
 
-#: src/global.c:1631
+#: src/global.c:1619
 msgid "Help mode"
 msgstr "Hjælpetilstand"
 
-#: src/global.c:1633
+#: src/global.c:1621
 msgid "Constant cursor position display"
 msgstr "Konstant visning af markørposition"
 
-#: src/global.c:1635
+#: src/global.c:1623
 msgid "Soft wrapping of overlong lines"
 msgstr "Blød ombrydning af for lange linjer"
 
-#: src/global.c:1637
+#: src/global.c:1625
 msgid "Line numbering"
 msgstr "Linjenumre"
 
-#: src/global.c:1639
+#: src/global.c:1627
 msgid "Whitespace display"
 msgstr "Visning af mellemrum"
 
-#: src/global.c:1641
+#: src/global.c:1629
 msgid "Color syntax highlighting"
 msgstr "Farvefremhævelse af syntaks"
 
-#: src/global.c:1643
+#: src/global.c:1631
 msgid "Smart home key"
 msgstr "Smart home-tast"
 
-#: src/global.c:1645
+#: src/global.c:1633
 msgid "Auto indent"
 msgstr "Automatisk indrykning"
 
-#: src/global.c:1647
+#: src/global.c:1635
 msgid "Cut to end"
 msgstr "Klip ud til enden"
 
-#: src/global.c:1649
+#: src/global.c:1637
 msgid "Hard wrapping of overlong lines"
 msgstr "Hård ombrydning af for lange linjer"
 
-#: src/global.c:1651
+#: src/global.c:1639
 msgid "Conversion of typed tabs to spaces"
 msgstr "Konvertering af skrevne tab-tegn til mellemrum"
 
-#: src/global.c:1653
+#: src/global.c:1641
 msgid "Mouse support"
 msgstr "Museunderstøttelse"
 
@@ -1500,7 +1478,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/help.c:72 src/help.c:136 src/help.c:177
+#: src/help.c:72 src/help.c:136 src/help.c:159 src/help.c:175
 msgid ""
 " The following function keys are available at this prompt:\n"
 "\n"
@@ -1662,29 +1640,16 @@ msgstr ""
 
 #: src/help.c:153
 msgid ""
-"Spell Check Help Text\n"
+"=== Spelling correction ===\n"
 "\n"
-" The spell checker checks the spelling of all text in the current file.  "
-"When an unknown word is encountered, it is highlighted and a replacement can "
-"be edited.  It will then prompt to replace every instance of the given "
-"misspelled word in the current file, or, if you have selected text with the "
-"mark, in the selected text.\n"
-"\n"
-" The following function keys are available in Spell Check mode:\n"
+" The spell checker has examined the spelling of all text in the current "
+"buffer or marked region.  An unknown word has been encountered -- it is "
+"highlighted and a replacement can now be edited.  After this you will be "
+"asked whether to replace each instance of that unknown word.\n"
 "\n"
 msgstr ""
-"Hjælpetekst for stavekontrol\n"
-"\n"
-" Stavekontrollen kontrollerer stavningen af al tekst i den nuværende fil.  "
-"Når et ukendt ord findes, fremhæves det og en erstatning kan redigeres.  Den "
-"vil så spørge om at erstatte alle tilfælde af det givne fejlstavede ord i "
-"den nuværende fil eller, hvis du har valgt tekst ved markering, i den valgte "
-"tekst.\n"
-"\n"
-" Stavekontroltilstanden har følgende funktionstaster:\n"
-"\n"
 
-#: src/help.c:168
+#: src/help.c:166
 msgid ""
 "Execute Command Help Text\n"
 "\n"
@@ -1700,7 +1665,7 @@ msgstr ""
 "efter “|” (tegnet for datakanal), vil bufferens nuværende indhold blive "
 "sendt til kommandoen via datakanal.  "
 
-#: src/help.c:174
+#: src/help.c:172
 msgid ""
 "If you just need another blank buffer, do not enter any command.\n"
 "\n"
@@ -1715,7 +1680,7 @@ msgstr ""
 "bufferen eller sætte redigeringen i hviletilstand.\n"
 "\n"
 
-#: src/help.c:180
+#: src/help.c:178
 msgid ""
 "=== Linter ===\n"
 "\n"
@@ -1731,7 +1696,7 @@ msgstr ""
 "kan du skifte til tidligere og senere meddelelser.\n"
 "\n"
 
-#: src/help.c:185
+#: src/help.c:183
 msgid ""
 " The following function keys are available in Linter mode:\n"
 "\n"
@@ -1739,7 +1704,7 @@ msgstr ""
 " Lintertilstanden har følgende funktionstaster:\n"
 "\n"
 
-#: src/help.c:192
+#: src/help.c:190
 msgid ""
 "Main nano help text\n"
 "\n"
@@ -1759,7 +1724,7 @@ msgstr ""
 "hovedvinduet som viser filen der redigeres. Statuslinjen er tredje linje fra "
 "underkanten og viser vigtige meddelelser.  "
 
-#: src/help.c:202
+#: src/help.c:200
 msgid ""
 "The bottom two lines show the most commonly used shortcuts in the editor.\n"
 "\n"
@@ -1775,7 +1740,7 @@ msgstr ""
 "tastekombinationer noteres med “M-” og kan tastes enten med Alt, Cmd eller "
 "Esc afhængigt af tastaturopsætningen.  "
 
-#: src/help.c:209
+#: src/help.c:207
 msgid ""
 "Also, pressing Esc twice and then typing a three-digit decimal number from "
 "000 to 255 will enter the character with the corresponding value.  The "
@@ -1789,11 +1754,11 @@ msgstr ""
 "Alternative taster vises i parenteser:\n"
 "\n"
 
-#: src/help.c:241 src/help.c:313
+#: src/help.c:239 src/help.c:311
 msgid "enable/disable"
 msgstr "aktivér/deaktivér"
 
-#: src/help.c:585 src/nano.c:1672
+#: src/help.c:592 src/nano.c:1660
 msgid "^W = Ctrl+W    M-W = Alt+W"
 msgstr "^W = Ctrl+W    M-W = Alt+W"
 
@@ -1816,13 +1781,13 @@ msgstr ""
 "Nano vil ikke kunne indlæse eller gemme søge- eller "
 "markørpositionshistorik.\n"
 
-#: src/history.c:337 src/history.c:474
+#: src/history.c:337 src/history.c:475
 #, c-format
 msgid "Cannot limit permissions on %s: %s"
 msgstr "Kan ikke begrænse rettigheder på %s: %s"
 
 #. TRANSLATORS: The %s is the name of an option.
-#: src/move.c:703 src/move.c:727
+#: src/move.c:694 src/move.c:718
 #, c-format
 msgid "Not possible with '%s'"
 msgstr ""
@@ -1937,486 +1902,486 @@ msgstr "Brug fed frem for omvendt video-tekst"
 msgid "Convert typed tabs to spaces"
 msgstr "Konvertér skrevne tabulatortegn til mellemrum"
 
-#: src/nano.c:517
+#: src/nano.c:516
 msgid "Read a file into a new buffer by default"
 msgstr "Læs en fil ind i en ny buffer som standard"
 
-#: src/nano.c:520
+#: src/nano.c:519
 msgid "Use (vim-style) lock files"
 msgstr "Brug (vim-stil) låsefiler"
 
-#: src/nano.c:525
+#: src/nano.c:523
 msgid "Save & reload old search/replace strings"
 msgstr "Gem & genindlæs gamle søg/erstat-strenge"
 
-#: src/nano.c:528
+#: src/nano.c:526
 msgid "Don't look at nanorc files"
 msgstr "Se ikke på nanorc-filer"
 
-#: src/nano.c:531
+#: src/nano.c:529
 msgid "-J <number>"
 msgstr "-J <tal>"
 
-#: src/nano.c:531
+#: src/nano.c:529
 msgid "--guidestripe=<number>"
 msgstr "--guidestripe=<tal>"
 
-#: src/nano.c:532
+#: src/nano.c:530
 msgid "Show a guiding bar at this column"
 msgstr "Vis en guidelinje i denne kolonne"
 
-#: src/nano.c:535
+#: src/nano.c:532
 msgid "Fix numeric keypad key confusion problem"
 msgstr "Fiks forvirringsproblem med numerisk tastatur"
 
-#: src/nano.c:538
+#: src/nano.c:534
 msgid "Don't add an automatic newline"
 msgstr "Tilføj ikke automatisk linjeskift"
 
-#: src/nano.c:542
+#: src/nano.c:537
 msgid "Trim tail spaces when hard-wrapping"
 msgstr "Fjern afsluttende mellemrum ved hård ombrydning"
 
-#: src/nano.c:546
-msgid "Don't convert files from DOS/Mac format"
-msgstr "Konvertér ikke fra DOS/Mac-format"
+#: src/nano.c:540
+msgid "Don't convert files from DOS format"
+msgstr ""
 
-#: src/nano.c:548
+#: src/nano.c:541
 msgid "Leading whitespace means new paragraph"
 msgstr "Indledende blanktegn betyder nyt afsnit"
 
-#: src/nano.c:553
+#: src/nano.c:545
 msgid "Save & restore position of the cursor"
 msgstr "Gem & gendan markørens position"
 
-#: src/nano.c:556
+#: src/nano.c:548
 msgid "-Q <regex>"
 msgstr "-Q <regex>"
 
-#: src/nano.c:556
+#: src/nano.c:548
 msgid "--quotestr=<regex>"
 msgstr "--quotestr=<regex>"
 
 #. TRANSLATORS: This refers to email quoting,
 #. * like the > in: > quoted text.
-#: src/nano.c:559
+#: src/nano.c:551
 msgid "Regular expression to match quoting"
 msgstr "Regulært udtryk til at matche citationstegn"
 
-#: src/nano.c:562
+#: src/nano.c:554
 msgid "Restrict access to the filesystem"
 msgstr "Begræns adgang til filsystemet"
 
-#: src/nano.c:564
+#: src/nano.c:556
 msgid "Display overlong lines on multiple rows"
 msgstr "Vis lange tekstlinjer over flere terminallinjer"
 
-#: src/nano.c:565
+#: src/nano.c:557
 msgid "-T <number>"
 msgstr "-T <tal>"
 
-#: src/nano.c:565
+#: src/nano.c:557
 msgid "--tabsize=<number>"
 msgstr "--tabsize=<tal>"
 
-#: src/nano.c:566
+#: src/nano.c:558
 msgid "Make a tab this number of columns wide"
 msgstr "Angiv dette antal kolonner som tabulatortegns bredde"
 
-#: src/nano.c:568
+#: src/nano.c:560
 msgid "Wipe status bar upon next keystroke"
 msgstr "Ryd statuslinjen ved næste tastetryk"
 
-#: src/nano.c:569
+#: src/nano.c:561
 msgid "Print version information and exit"
 msgstr "Udskriv versionsinformation og afslut"
 
-#: src/nano.c:572
+#: src/nano.c:563
 msgid "Detect word boundaries more accurately"
 msgstr "Find ordgrænser mere præcist"
 
-#: src/nano.c:573
+#: src/nano.c:564
 msgid "-X <string>"
 msgstr "-X <streng>"
 
-#: src/nano.c:573
+#: src/nano.c:564
 msgid "--wordchars=<string>"
 msgstr "--wordchars=<streng>"
 
-#: src/nano.c:574
+#: src/nano.c:565
 msgid "Which other characters are word parts"
 msgstr "Hvilke andre tegn er dele af ord"
 
-#: src/nano.c:577
+#: src/nano.c:568
 msgid "-Y <name>"
 msgstr "-Y <navn>"
 
-#: src/nano.c:577
+#: src/nano.c:568
 msgid "--syntax=<name>"
 msgstr "--syntax=<navn>"
 
-#: src/nano.c:578
+#: src/nano.c:569
 msgid "Syntax definition to use for coloring"
 msgstr "Syntaksdefinition for farvelægning"
 
 # bsp=backspace.  Har vi et andet brugbart navn?
-#: src/nano.c:581
+#: src/nano.c:572
 msgid "Let Bsp and Del erase a marked region"
 msgstr "Lad Bsp og Del slette en markeret region"
 
-#: src/nano.c:582
+#: src/nano.c:573
 msgid "When soft-wrapping, do it at whitespace"
 msgstr "Brug kun blød ombrydning omkring blanktegn"
 
-#: src/nano.c:585
+#: src/nano.c:576
 msgid "Automatically hard-wrap overlong lines"
 msgstr "Brug automatisk hård ombrydning af lange linjer"
 
-#: src/nano.c:587
+#: src/nano.c:578
 msgid "Constantly show cursor position"
 msgstr "Vis markørposition hele tiden"
 
-#: src/nano.c:589
+#: src/nano.c:579
 msgid "Fix Backspace/Delete confusion problem"
 msgstr "Fiks forvirringsproblem med Tilbagetast/Slettetast"
 
-#: src/nano.c:591
+#: src/nano.c:581
 msgid "Keep the line below the title bar empty"
 msgstr "Lad linjen under titellinjen være tom"
 
-#: src/nano.c:594
+#: src/nano.c:584
 msgid "-f <file>"
 msgstr "-f <fil>"
 
-#: src/nano.c:594
+#: src/nano.c:584
 msgid "--rcfile=<file>"
 msgstr "--rcfile=<fil>"
 
-#: src/nano.c:595
+#: src/nano.c:585
 msgid "Use only this file for configuring nano"
 msgstr "Brug kun denne fil til konfiguration af nano"
 
-#: src/nano.c:598
+#: src/nano.c:588
 msgid "Show cursor in file browser & help text"
 msgstr "Vis markør i filbrowser og hjælpetekst"
 
-#: src/nano.c:600
+#: src/nano.c:590
 msgid "Show this help text and exit"
 msgstr "Vis denne hjælpetekst og afslut"
 
-#: src/nano.c:602
+#: src/nano.c:592
 msgid "Automatically indent new lines"
 msgstr "Indryk automatisk nye linjer"
 
-#: src/nano.c:603
+#: src/nano.c:593
 msgid "Scroll per half-screen, not per line"
 msgstr "Rul halve skærme frem for linjevis"
 
-#: src/nano.c:604
+#: src/nano.c:594
 msgid "Cut from cursor to end of line"
 msgstr "Klip fra markøren til linjens slutning"
 
-#: src/nano.c:607
+#: src/nano.c:597
 msgid "Show line numbers in front of the text"
 msgstr "Vis linjenumre foran teksten"
 
-#: src/nano.c:610
+#: src/nano.c:600
 msgid "Enable the use of the mouse"
 msgstr "Aktivér styring med mus"
 
-#: src/nano.c:613
+#: src/nano.c:603
 msgid "Do not read the file (only write it)"
 msgstr "Læs ikke filen (skriv den kun)"
 
-#: src/nano.c:616
+#: src/nano.c:606
 msgid "-o <dir>"
 msgstr "-o <kat>"
 
-#: src/nano.c:616
+#: src/nano.c:606
 msgid "--operatingdir=<dir>"
 msgstr "--operatingdir=<kat>"
 
-#: src/nano.c:617
+#: src/nano.c:607
 msgid "Set operating directory"
 msgstr "Angiv arbejdskatalog"
 
-#: src/nano.c:619
+#: src/nano.c:609
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
 msgstr "Behold XON- (^Q) og XOFF- (^S) taster"
 
-#: src/nano.c:621
+#: src/nano.c:611
 msgid "Show a position+portion indicator"
 msgstr "Vis en position+portion-indikator"
 
-#: src/nano.c:624
+#: src/nano.c:614
 msgid "-r <number>"
 msgstr "-r <tal>"
 
-#: src/nano.c:624
+#: src/nano.c:614
 msgid "--fill=<number>"
 msgstr "--fill=<tal>"
 
 # justify ~ linjeombryde over f.eks. et afsnit
-#: src/nano.c:625
+#: src/nano.c:615
 msgid "Set width for hard-wrap and justify"
 msgstr "Sæt bredden for hård ombrydning af linjer og områder"
 
-#: src/nano.c:629
+#: src/nano.c:619
 msgid "-s <program>"
 msgstr "-s <program>"
 
-#: src/nano.c:629
+#: src/nano.c:619
 msgid "--speller=<program>"
 msgstr "--speller=<program>"
 
-#: src/nano.c:630
+#: src/nano.c:620
 msgid "Use this alternative spell checker"
 msgstr "Brug denne alternative stavekontrol"
 
-#: src/nano.c:632
+#: src/nano.c:622
 msgid "Save changes on exit, don't prompt"
 msgstr "Gem ændringer ved afslutning, spørg ikke"
 
-#: src/nano.c:634
+#: src/nano.c:624
 msgid "Save a file by default in Unix format"
 msgstr "Gem en fil i Unix-format som standard"
 
-#: src/nano.c:636
+#: src/nano.c:626
 msgid "View mode (read-only)"
 msgstr "Visningstilstand (skrivebeskyttet)"
 
-#: src/nano.c:638
+#: src/nano.c:628
 msgid "Don't hard-wrap long lines [default]"
 msgstr "Ingen hård ombrydning for lange linjer [standard]"
 
-#: src/nano.c:640
+#: src/nano.c:630
 msgid "Don't show the two help lines"
 msgstr "Vis ikke de to hjælpelinjer"
 
-#: src/nano.c:642
+#: src/nano.c:632
 msgid "Make Ctrl+Right stop at word ends"
 msgstr "Lad Ctrl+Højre standse ved slutning af ord"
 
-#: src/nano.c:645
+#: src/nano.c:635
 msgid "List the names of available syntaxes"
 msgstr ""
 
-#: src/nano.c:648
+#: src/nano.c:638
 msgid "Also try magic to determine syntax"
 msgstr "Forsøg også magi for at bestemme syntaks"
 
-#: src/nano.c:651
+#: src/nano.c:641
 msgid "Accept 'filename:linenumber' notation"
 msgstr ""
 
-#: src/nano.c:652
+#: src/nano.c:642
 msgid "Show some states on the title bar"
 msgstr "Vis tilstandsinformation i titellinjen"
 
-#: src/nano.c:653
+#: src/nano.c:643
 msgid "Show a feedback bar at the bottom"
 msgstr "Vis en feedbacklinje nederst"
 
-#: src/nano.c:654
+#: src/nano.c:644
 msgid "Hide all bars, use whole terminal"
 msgstr "Skjul alle status-/værktøjslinjer og brug hele terminalen"
 
-#: src/nano.c:655
+#: src/nano.c:645
 msgid "Scroll only the current line sideways"
 msgstr ""
 
-#: src/nano.c:657
+#: src/nano.c:647
 msgid "Use better-known key bindings"
 msgstr ""
 
-#: src/nano.c:667
+#: src/nano.c:657
 #, c-format
 msgid " GNU nano, version %s\n"
 msgstr " GNU nano version %s\n"
 
 #. TRANSLATORS: The %s is the year of the latest release.
-#: src/nano.c:671
+#: src/nano.c:661
 #, c-format
 msgid " (C) %s the Free Software Foundation and various contributors\n"
 msgstr " © %s Free Software Foundation samt forskellige bidragsydere\n"
 
-#: src/nano.c:673
+#: src/nano.c:663
 #, c-format
 msgid " Compiled options:"
 msgstr " Kompileringstilvalg:"
 
-#: src/nano.c:808
+#: src/nano.c:798
 #, c-format
 msgid "Available syntaxes:\n"
 msgstr ""
 
-#: src/nano.c:855
+#: src/nano.c:845
 msgid "Could not reconnect stdin to keyboard\n"
 msgstr "Kunne ikke genforbinde stdin fra tastaturet\n"
 
-#: src/nano.c:873
+#: src/nano.c:863
 #, c-format
 msgid "Reading data from keyboard; type ^D or ^D^D to finish.\n"
 msgstr "Læser data fra tastaturet; skriv ^D eller ^D^D for at afslutte.\n"
 
-#: src/nano.c:883
+#: src/nano.c:872
 #, c-format
 msgid "Failed to open stdin: %s"
 msgstr "Kunne ikke åbne stdin: %s"
 
-#: src/nano.c:965
+#: src/nano.c:954
 msgid "Received SIGHUP or SIGTERM\n"
 msgstr "Modtog SIGHUP eller SIGTERM\n"
 
-#: src/nano.c:972
+#: src/nano.c:961
 #, c-format
 msgid "Sorry! Nano crashed!  Code: %d.  Please report a bug.\n"
 msgstr ""
 "Beklager!  Nano gik ned.  Kode: %d.  Indsend venligst en fejlrapport.\n"
 
-#: src/nano.c:988
+#: src/nano.c:977
 #, c-format
 msgid "Use \"fg\" to return to nano.\n"
 msgstr "Brug “fg” for at vende tilbage til nano.\n"
 
-#: src/nano.c:1131
+#: src/nano.c:1120
 msgid "Current syntax determines Tab"
 msgstr "Nuværende syntaks angiver tabulator"
 
-#: src/nano.c:1159
+#: src/nano.c:1147
 msgid "enabled"
 msgstr "aktiveret"
 
-#: src/nano.c:1159
+#: src/nano.c:1147
 msgid "disabled"
 msgstr "deaktiveret"
 
 #. TRANSLATORS: This refers to a sequence of escape codes
 #. * (from the keyboard) that nano does not recognize.
-#: src/nano.c:1302
+#: src/nano.c:1290
 msgid "Unknown sequence"
 msgstr "Ukendt sekvens"
 
-#: src/nano.c:1305 src/rcfile.c:826
+#: src/nano.c:1293 src/rcfile.c:818
 #, c-format
 msgid "Unknown function: %s"
 msgstr "Ukendt funktion: %s"
 
-#: src/nano.c:1307
+#: src/nano.c:1295
 msgid "Missing }"
 msgstr "Mangler }"
 
 #. TRANSLATORS: This refers to an unbound function key.
-#: src/nano.c:1312
+#: src/nano.c:1300
 #, c-format
 msgid "Unbound key: F%i"
 msgstr "Tasten har ingen funktion: F%i"
 
-#: src/nano.c:1315
+#: src/nano.c:1303
 msgid "Unbound key"
 msgstr "Tasten har ingen funktion"
 
-#: src/nano.c:1319
+#: src/nano.c:1307
 #, c-format
 msgid "Unbindable key: M-^%c"
 msgstr "Tast kan ikke tilordnes: M-^%c"
 
-#: src/nano.c:1324 src/nano.c:1327 src/nano.c:1331 src/nano.c:1334
+#: src/nano.c:1312 src/nano.c:1315 src/nano.c:1319 src/nano.c:1322
 #, c-format
 msgid "Unbound key: %s%c"
 msgstr "Tasten har ingen funktion: %s%c"
 
-#: src/nano.c:1329
+#: src/nano.c:1317
 msgid "Unbindable key: ^["
 msgstr "Tast kan ikke tilordnes: ^["
 
-#: src/nano.c:1469
+#: src/nano.c:1457
 msgid "Flawed paste"
 msgstr ""
 
-#: src/nano.c:1937 src/rcfile.c:1685
+#: src/nano.c:1925 src/rcfile.c:1675
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr "Kolonnen “%s” er ugyldig som guidelinje"
 
-#: src/nano.c:1983 src/rcfile.c:1690
+#: src/nano.c:1971 src/rcfile.c:1680
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr "Ønsket tab-størrelse “%s” er ugyldig"
 
-#: src/nano.c:2087 src/rcfile.c:1635
+#: src/nano.c:2075 src/rcfile.c:1625
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr "Ønsket fyld-størrelse “%s” er ugyldig"
 
-#: src/nano.c:2162
+#: src/nano.c:2150
 #, c-format
 msgid "Type '%s -h' for a list of available options.\n"
 msgstr "Tast “%s -h” for en liste over tilgængelige tilvalg.\n"
 
-#: src/nano.c:2364
+#: src/nano.c:2352
 #, c-format
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr "Ugyldigt regulært udtryk for citation “%s”: %s\n"
 
 # mener de modifier key (Ctrl, Shift, ...)?  I så fald modifikationstast.  Men jeg er ikke sikker
-#: src/nano.c:2532
+#: src/nano.c:2520
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr "Ugyldig søgemodifikator “%c”"
 
-#: src/nano.c:2543
+#: src/nano.c:2531
 msgid "Empty search string"
 msgstr "Tom søgestreng"
 
-#: src/nano.c:2552 src/search.c:809
+#: src/nano.c:2540 src/search.c:794
 msgid "Invalid line or column number"
 msgstr "Ugyldigt linje- eller kolonnenummer"
 
-#: src/nano.c:2588
+#: src/nano.c:2576
 msgid "Invalid number\n"
 msgstr ""
 
-#: src/nano.c:2634
+#: src/nano.c:2622
 msgid "Standard input is not a terminal\n"
 msgstr "Standard input er ikke en terminal\n"
 
-#: src/nano.c:2653
+#: src/nano.c:2641
 msgid "Can open just one file\n"
 msgstr "Kan kun åbne én fil\n"
 
-#: src/nano.c:2671
+#: src/nano.c:2659
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
 msgstr "Velkommen til nano.  Tast Ctrl+G for at vise kortfattet hjælp."
 
-#: src/nano.c:2718
+#: src/nano.c:2706
 msgid "Byte Order Mark"
 msgstr ""
 
 #. TRANSLATORS: For the next three strings, specify the starting letters
 #. * of the translations for "Yes"/"No"/"All".  The first letter of each of
 #. * these strings MUST be a single-byte letter; others may be multi-byte.
-#: src/prompt.c:670
+#: src/prompt.c:665
 msgid "Yy"
 msgstr "JjYy"
 
-#: src/prompt.c:671
+#: src/prompt.c:666
 msgid "Nn"
 msgstr "Nn"
 
-#: src/prompt.c:672
+#: src/prompt.c:667
 msgid "Aa"
 msgstr "Aa"
 
-#: src/prompt.c:698
+#: src/prompt.c:693
 msgid "Yes"
 msgstr "Ja"
 
-#: src/prompt.c:702
+#: src/prompt.c:697
 msgid "No"
 msgstr "Nej"
 
-#: src/prompt.c:707
+#: src/prompt.c:702
 msgid "All"
 msgstr "Alle"
 
@@ -2434,245 +2399,245 @@ msgstr "Problemer med historikfil"
 msgid "Error in %s on line %zu: "
 msgstr "Fejl i %s i linje %zu: "
 
-#: src/rcfile.c:573
+#: src/rcfile.c:567
 #, c-format
 msgid "Argument '%s' has an unterminated \""
 msgstr "Argumentet “%s” har et uafsluttet \""
 
-#: src/rcfile.c:594 src/rcfile.c:605
+#: src/rcfile.c:588 src/rcfile.c:598
 msgid "Regex strings must begin and end with a \" character"
 msgstr "Regex-strenge skal begynde og ende med et \"-tegn"
 
-#: src/rcfile.c:610
+#: src/rcfile.c:603
 msgid "Empty regex string"
 msgstr "Tom regex-streng"
 
-#: src/rcfile.c:635 src/search.c:45
+#: src/rcfile.c:628 src/search.c:45
 #, c-format
 msgid "Bad regex \"%s\": %s"
 msgstr "Ugyldigt regulært udtryk “%s”: %s"
 
-#: src/rcfile.c:655
+#: src/rcfile.c:648
 msgid "Missing syntax name"
 msgstr "Mangler syntaksnavn"
 
-#: src/rcfile.c:663
+#: src/rcfile.c:656
 msgid "Unpaired quote in syntax name"
 msgstr "Citationstegn i syntaksnavn mangler modpart"
 
-#: src/rcfile.c:675
+#: src/rcfile.c:668
 msgid "The \"none\" syntax is reserved"
 msgstr "“none”-syntaksen er reserveret"
 
 # Extension skal her forstås som f.eks. 'nano --something extension', altså en slags argument, der kræves af et andet argument
-#: src/rcfile.c:706
+#: src/rcfile.c:699
 msgid "The \"default\" syntax does not accept extensions"
 msgstr "“default”-syntaksen kan ikke tage udvidelser"
 
-#: src/rcfile.c:724
+#: src/rcfile.c:717
 #, c-format
 msgid "Syntax \"%s\" has no color commands"
 msgstr "Syntaksen “%s” har ingen farvekommandoer"
 
-#: src/rcfile.c:757
+#: src/rcfile.c:750
 msgid "Missing key name"
 msgstr "Mangler tastenavn"
 
-#: src/rcfile.c:774 src/rcfile.c:781
+#: src/rcfile.c:767 src/rcfile.c:774
 #, c-format
 msgid "Key name %s is invalid"
 msgstr "Tastenavnet %s er ugyldigt"
 
-#: src/rcfile.c:790
+#: src/rcfile.c:783
 msgid "Must specify a function to bind the key to"
 msgstr "Der skal angives en funktion for at tilordne tasten"
 
 #. TRANSLATORS: Do not translate the word "all".
-#: src/rcfile.c:801
+#: src/rcfile.c:794
 msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
 msgstr ""
 "Der skal angives en menu (eller “all”) for at tilordne/fjerne genvejstast"
 
-#: src/rcfile.c:808
+#: src/rcfile.c:800
 #, c-format
 msgid "Unknown menu: %s"
 msgstr "Ukendt menu: %s"
 
-#: src/rcfile.c:865
+#: src/rcfile.c:857
 #, c-format
 msgid "Function '%s' does not exist in menu '%s'"
 msgstr "Funktionen “%s” findes ikke i menuen “%s”"
 
-#: src/rcfile.c:876
+#: src/rcfile.c:867
 #, c-format
 msgid "Keystroke %s may not be rebound"
 msgstr "Tastetrykket %s kan ikke ændre funktion"
 
-#: src/rcfile.c:967 src/rcfile.c:1538
+#: src/rcfile.c:958 src/rcfile.c:1528
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr "Kommandoen “%s” ikke forstået"
 
-#: src/rcfile.c:994
+#: src/rcfile.c:986
 msgid "Path is too long"
 msgstr ""
 
-#: src/rcfile.c:1008
+#: src/rcfile.c:1000
 #, c-format
 msgid "Error expanding %s: %s"
 msgstr "Fejl ved udvidelse af %s: %s"
 
-#: src/rcfile.c:1078 src/rcfile.c:1089
+#: src/rcfile.c:1070 src/rcfile.c:1081
 #, c-format
 msgid "Color '%s' takes no prefix"
 msgstr "Farven “%s” tager ikke noget præfiks"
 
-#: src/rcfile.c:1097
+#: src/rcfile.c:1089
 #, c-format
 msgid "Color \"%s\" not understood"
 msgstr "Farven “%s” ikke forstået"
 
-#: src/rcfile.c:1113 src/rcfile.c:1124
+#: src/rcfile.c:1105 src/rcfile.c:1116
 msgid "An attribute requires a subsequent comma"
 msgstr "En attribut kræver efterfølgende komma"
 
-#: src/rcfile.c:1168
+#: src/rcfile.c:1160
 msgid "Missing color name"
 msgstr "Mangler farvenavn"
 
-#: src/rcfile.c:1179 src/rcfile.c:1279
+#: src/rcfile.c:1171 src/rcfile.c:1271
 #, c-format
 msgid "Missing regex string after '%s' command"
 msgstr "Mangler regex-streng efter “%s”-kommando"
 
-#: src/rcfile.c:1205
+#: src/rcfile.c:1197
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr "“start=” kræver et tilsvarende “end=”"
 
-#: src/rcfile.c:1268 src/rcfile.c:1518
+#: src/rcfile.c:1260 src/rcfile.c:1509
 #, c-format
 msgid "A '%s' command requires a preceding 'syntax' command"
 msgstr "En “%s”-kommando kræver forudgående “syntax”-kommando"
 
-#: src/rcfile.c:1274
+#: src/rcfile.c:1266
 #, c-format
 msgid "The \"default\" syntax does not accept '%s' regexes"
 msgstr "“default”-syntaksen kan ikke tage “%s”-regexer"
 
-#: src/rcfile.c:1321
+#: src/rcfile.c:1313
 #, c-format
 msgid "Missing argument after '%s'"
 msgstr "Mangler argument efter “%s”"
 
-#: src/rcfile.c:1331
+#: src/rcfile.c:1323
 #, c-format
 msgid "Argument of '%s' lacks closing \""
 msgstr "Argument til “%s” mangler afsluttende \""
 
-#: src/rcfile.c:1381
+#: src/rcfile.c:1373
 #, c-format
 msgid "No key is bound to function '%s' in menu '%s'.  Exiting.\n"
 msgstr "Ingen tast tilordnet funktionen “%s” i menuen “%s”.  Afslutter.\n"
 
-#: src/rcfile.c:1383
+#: src/rcfile.c:1375
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr ""
 "Hvis krævet, så brug nano med tilvalget -I for at justere dine nanorc-"
 "indstillinger.\n"
 
-#: src/rcfile.c:1450
+#: src/rcfile.c:1442
 #, c-format
 msgid "Could not find syntax \"%s\" to extend"
 msgstr "Kunne ikke finde syntaks “%s” at udvide"
 
-#: src/rcfile.c:1507
+#: src/rcfile.c:1499
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr "Kommandoen “%s” tillades ikke i inkluderet fil"
 
-#: src/rcfile.c:1550
+#: src/rcfile.c:1540
 msgid "Missing option"
 msgstr "Mangler tilvalg"
 
-#: src/rcfile.c:1564
+#: src/rcfile.c:1554
 #, c-format
 msgid "Unknown option: %s"
 msgstr "Ukendt tilvalg: %s"
 
-#: src/rcfile.c:1579
+#: src/rcfile.c:1569
 #, c-format
 msgid "Cannot unset option \"%s\""
 msgstr "Kan ikke fjerne tilvalget “%s”"
 
-#: src/rcfile.c:1584
+#: src/rcfile.c:1574
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr "Tilvalget “%s” kræver et argument"
 
-#: src/rcfile.c:1596
+#: src/rcfile.c:1586
 msgid "Argument is not a valid multibyte string"
 msgstr "Argument er ikke en gyldig multibytestreng"
 
-#: src/rcfile.c:1643 src/rcfile.c:1661 src/rcfile.c:1666
+#: src/rcfile.c:1633 src/rcfile.c:1651 src/rcfile.c:1656
 msgid "Non-blank characters required"
 msgstr "Kræver ikke-blanke tegn"
 
-#: src/rcfile.c:1645
+#: src/rcfile.c:1635
 msgid "Even number of characters required"
 msgstr "Der kræves et lige antal tegn"
 
-#: src/rcfile.c:1650
+#: src/rcfile.c:1640
 msgid "Two single-column characters required"
 msgstr "Der kræves to enkelt-kolonnetegn"
 
-#: src/rcfile.c:1741
+#: src/rcfile.c:1731
 msgid "Specified rcfile does not exist\n"
 msgstr "Angivne rc-fil findes ikke\n"
 
-#: src/rcfile.c:1760
+#: src/rcfile.c:1750
 msgid "I can't find my home directory!  Wah!"
 msgstr "Jeg kan ikke finde mit hjemmekatalog!  Hulk!"
 
 #. TRANSLATORS: The next four modify the search prompt.
+#: src/search.c:101
+msgid " [Case sensitive]"
+msgstr ""
+
 #: src/search.c:102
-msgid " [Case Sensitive]"
-msgstr " [Versalfølsom]"
+msgid " [Reg.exp.]"
+msgstr ""
 
-#: src/search.c:103
-msgid " [Regexp]"
-msgstr " [Regex]"
-
-#: src/search.c:107
+#: src/search.c:106
 msgid " (to replace) in selection"
 msgstr " (at erstatte) i markering"
 
-#: src/search.c:109
+#: src/search.c:108
 msgid " (to replace)"
 msgstr " (at erstatte)"
 
 #. TRANSLATORS: This is shown when searching takes
 #. * more than half a second.
-#: src/search.c:235 src/search.c:308
+#: src/search.c:230 src/search.c:303
 msgid "Searching..."
 msgstr "Søger …"
 
-#: src/search.c:414
+#: src/search.c:412
 #, c-format
 msgid "\"%.*s%s\" not found"
 msgstr "“%.*s%s” ikke fundet"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:606
+#: src/search.c:598
 msgid "Replace this instance?"
 msgstr "Erstat denne forekomst?"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:717
+#: src/search.c:709
 msgid "Replace with"
 msgstr "Erstat med"
 
-#: src/search.c:747
+#: src/search.c:739
 #, c-format
 msgid "Replaced %zd occurrence"
 msgid_plural "Replaced %zd occurrences"
@@ -2680,310 +2645,304 @@ msgstr[0] "Erstattede %zd forekomst"
 msgstr[1] "Erstattede %zd forekomster"
 
 #. TRANSLATORS: This is a prompt.
-#: src/search.c:786
+#: src/search.c:778
 msgid "Enter line number, column number"
 msgstr "Indtast linjenummer, kolonnenummer"
 
-#: src/search.c:964
+#: src/search.c:948
 msgid "Not a bracket"
 msgstr "Ikke en klamme"
 
-#: src/search.c:1007
+#: src/search.c:990
 msgid "No matching bracket"
 msgstr "Ingen modsvarende klamme"
 
-#: src/search.c:1026
+#: src/search.c:1009
 msgid "Placed anchor"
 msgstr "Anker placeret"
 
-#: src/search.c:1028
+#: src/search.c:1011
 msgid "Removed anchor"
 msgstr "Anker fjernet"
 
-#: src/search.c:1047
+#: src/search.c:1030
 msgid "Jumped to anchor"
 msgstr "Hoppede til anker"
 
-#: src/search.c:1049
+#: src/search.c:1032
 msgid "This is the only anchor"
 msgstr "Dette er det eneste anker"
 
-#: src/search.c:1051
+#: src/search.c:1034
 msgid "There are no anchors"
 msgstr "Der er ingen ankre"
 
-#: src/text.c:47
+#: src/text.c:43
 msgid "Mark Set"
 msgstr "Markering sat"
 
-#: src/text.c:50
+#: src/text.c:46
 msgid "Mark Unset"
 msgstr "Markering fjernet"
 
-#: src/text.c:380
+#: src/text.c:376
 msgid "Commenting is not supported for this file type"
 msgstr "Kommentarer understøttes ikke for denne filtype"
 
-#: src/text.c:390
+#: src/text.c:386
 msgid "Cannot comment past end of file"
 msgstr "Kan ikke kommentere efter filafslutning"
 
-#: src/text.c:511
+#: src/text.c:506
 msgid "Nothing to undo"
 msgstr "Intet at fortryde"
 
 #. TRANSLATORS: The next thirteen strings describe actions
 #. * that are undone or redone.  They are all nouns, not verbs.
-#: src/text.c:522 src/text.c:582 src/text.c:707 src/text.c:767
+#: src/text.c:517 src/text.c:577 src/text.c:702 src/text.c:762
 msgid "addition"
 msgstr "addition"
 
-#: src/text.c:530 src/text.c:719
+#: src/text.c:525 src/text.c:714
 msgid "line break"
 msgstr "linjeskift"
 
-#: src/text.c:547 src/text.c:729
+#: src/text.c:542 src/text.c:724
 msgid "deletion"
 msgstr "sletning"
 
-#: src/text.c:557 src/text.c:735
+#: src/text.c:552 src/text.c:730
 msgid "line join"
 msgstr "linjesammenslutning"
 
-#: src/text.c:574 src/text.c:751
+#: src/text.c:569 src/text.c:746
 msgid "replacement"
 msgstr "erstatning"
 
 # hvorfor både deletion og erasure?
-#: src/text.c:592 src/text.c:771
+#: src/text.c:587 src/text.c:766
 msgid "erasure"
 msgstr "fjernelse"
 
 #. TRANSLATORS: Remember: these are nouns, NOT verbs.
-#: src/text.c:598 src/text.c:776
+#: src/text.c:593 src/text.c:771
 msgid "cut"
 msgstr "udskæring"
 
-#: src/text.c:602 src/text.c:780
+#: src/text.c:597 src/text.c:775
 msgid "paste"
 msgstr "indsættelse"
 
-#: src/text.c:609 src/text.c:784
+#: src/text.c:604 src/text.c:779
 msgid "insertion"
 msgstr "indsættelse"
 
-#: src/text.c:638 src/text.c:807
+#: src/text.c:633 src/text.c:802
 msgid "indent"
 msgstr "indrykning"
 
-#: src/text.c:642 src/text.c:811
+#: src/text.c:637 src/text.c:806
 msgid "unindent"
 msgstr "fjernelse af indrykning"
 
-#: src/text.c:647 src/text.c:816
+#: src/text.c:642 src/text.c:811
 msgid "comment"
 msgstr "kommentar"
 
-#: src/text.c:651 src/text.c:820
+#: src/text.c:646 src/text.c:815
 msgid "uncomment"
 msgstr "fjernelse af kommentar"
 
-#: src/text.c:659
+#: src/text.c:654
 #, c-format
 msgid "Undid %s"
 msgstr "Fortrød %s"
 
-#: src/text.c:694
+#: src/text.c:689
 msgid "Nothing to redo"
 msgstr "Intet at gentage"
 
-#: src/text.c:828
+#: src/text.c:823
 #, c-format
 msgid "Redid %s"
 msgstr "Gentog %s"
 
 #. TRANSLATORS: This one goes with Undid/Redid messages.
-#: src/text.c:1780 src/text.c:2001
+#: src/text.c:1772 src/text.c:1992
 msgid "justification"
 msgstr "ombrydning"
 
-#: src/text.c:1791 src/text.c:2130
+#: src/text.c:1783 src/text.c:2121
 msgid "Selection is empty"
 msgstr "Markeringen er tom"
 
-#: src/text.c:2005
+#: src/text.c:1996
 msgid "Justified selection"
 msgstr "Ombrød markeringen"
 
-#: src/text.c:2009
+#: src/text.c:2000
 msgid "Justified file"
 msgstr "Ombrød filen"
 
-#: src/text.c:2011
+#: src/text.c:2002
 msgid "Justified paragraph"
 msgstr "Ombrød afsnittet"
 
-#: src/text.c:2133
+#: src/text.c:2124
 msgid "Buffer is empty"
 msgstr "Bufferen er tom"
 
-#: src/text.c:2145
+#: src/text.c:2136
 msgid "Invoking formatter..."
 msgstr "Kalder formateringsfunktion …"
 
-#: src/text.c:2182 src/text.c:2762
+#: src/text.c:2173 src/text.c:2524 src/text.c:2526 src/text.c:2528
+#: src/text.c:2769
 #, c-format
 msgid "Error invoking '%s'"
 msgstr "Fejl ved kald af “%s”"
 
-#: src/text.c:2186
+#: src/text.c:2177
 #, c-format
 msgid "Program '%s' complained"
 msgstr "Programmet “%s” brokkede sig"
 
-#: src/text.c:2194
+#: src/text.c:2185
 msgid "Nothing changed"
 msgstr "Ingen ændring"
 
 #. TRANSLATORS: The next two go with Undid/Redid messages.
-#: src/text.c:2219
+#: src/text.c:2210
 msgid "spelling correction"
 msgstr "rettelse af stavning"
 
-#: src/text.c:2219
+#: src/text.c:2210
 msgid "formatting"
 msgstr "formatering"
 
-#: src/text.c:2237 src/text.c:2533
+#: src/text.c:2228 src/text.c:2532
 msgid "Finished checking spelling"
 msgstr "Stavekontrol færdiggjort"
 
-#: src/text.c:2239
+#: src/text.c:2230
 msgid "Buffer has been processed"
 msgstr "Bufferen er blevet behandlet"
 
-#: src/text.c:2283
+#: src/text.c:2274
 #, c-format
 msgid "Unfindable word: %s"
 msgstr "Ord kan ikke findes: %s"
 
 #. TRANSLATORS: This is a prompt.
-#: src/text.c:2302
+#: src/text.c:2293
 msgid "Edit a replacement"
 msgstr "Redigér en erstatning"
 
 #. TRANSLATORS: Shown after fixing misspellings in one word.
-#: src/text.c:2315
+#: src/text.c:2306
 msgid "Next word..."
 msgstr "Næste ord …"
 
-#: src/text.c:2368
+#: src/text.c:2359
 msgid "Invoking spell checker..."
 msgstr "Starter stavekontrollen …"
 
-#: src/text.c:2453 src/text.c:2673
+#: src/text.c:2444 src/text.c:2674
 msgid "Could not get size of pipe buffer"
 msgstr "Kunde ikke få størrelse af datakanals-buffer"
 
-#: src/text.c:2527
-msgid "Error invoking \"uniq\""
-msgstr "Fejl ved kald af “uniq”"
+#: src/text.c:2530 src/text.c:2779
+#, c-format
+msgid "Error reading pipe: %s"
+msgstr ""
 
-#: src/text.c:2529
-msgid "Error invoking \"sort\""
-msgstr "Fejl ved kald af “sort”"
-
-#: src/text.c:2531
-msgid "Error invoking \"spell\""
-msgstr "Fejl ved kald af “spell”"
-
-#: src/text.c:2608
+#: src/text.c:2609
 msgid "No linter is defined for this type of file"
 msgstr "Ingen linter defineret for denne filtype"
 
-#: src/text.c:2618
+#: src/text.c:2619
 msgid "Save modified buffer before linting?"
 msgstr "Gem ændret buffer før linting?"
 
-#: src/text.c:2635
+#: src/text.c:2636
 msgid "Invoking linter..."
 msgstr "Starter linter …"
 
-#: src/text.c:2774
+#: src/text.c:2784
 #, c-format
 msgid "Got 0 parsable lines from command: %s"
 msgstr "Fik 0 linjer der kunne fortolkes fra kommando: %s"
 
-#: src/text.c:2813
+#: src/text.c:2822
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr "Denne besked er for uåbnet fil %s, åbn den i en ny buffer?"
 
-#: src/text.c:2852
+#: src/text.c:2861
 msgid "No messages for this file"
 msgstr "Ingen beskeder for denne fil"
 
-#: src/text.c:2902
+#: src/text.c:2911
 msgid "At first message"
 msgstr "Ved første besked"
 
-#: src/text.c:2912
+#: src/text.c:2921
 msgid "At last message"
 msgstr "Ved sidste besked"
 
-#: src/text.c:2957
+#: src/text.c:2966
 msgid "No formatter is defined for this type of file"
 msgstr "Ingen formateringsfunktion defineret for denne filtype"
 
-#: src/text.c:3031
+#: src/text.c:3040
 #, c-format
 msgid "%s%zd %s,  %zu %s,  %zu %s"
 msgstr "%s%zd %s,  %zu %s,  %zu %s"
 
-#: src/text.c:3032
+#: src/text.c:3041
 msgid "In Selection:  "
 msgstr "I markering:  "
 
-#: src/text.c:3033
+#: src/text.c:3042
 msgid "line"
 msgid_plural "lines"
 msgstr[0] "linje"
 msgstr[1] "linjer"
 
-#: src/text.c:3034
+#: src/text.c:3043
 msgid "word"
 msgid_plural "words"
 msgstr[0] "ord"
 msgstr[1] "ord"
 
-#: src/text.c:3035
+#: src/text.c:3044
 msgid "character"
 msgid_plural "characters"
 msgstr[0] "tegn"
 msgstr[1] "tegn"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:3053
+#: src/text.c:3062
 msgid "Verbatim Input"
 msgstr "Ordret input"
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3077
+#: src/text.c:3086
 msgid "Invalid code"
 msgstr "Ugyldig kode"
 
 # ?
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3163
+#: src/text.c:3172
 msgid "No word fragment"
 msgstr "Intet ordfragment"
 
-#: src/text.c:3267
+#: src/text.c:3275
 msgid "No further matches"
 msgstr "Ingen yderligere match"
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3270
+#: src/text.c:3278
 msgid "No matches"
 msgstr "Ingen match"
 
@@ -3017,89 +2976,89 @@ msgstr "For mange fejl fra stdin\n"
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1424
+#: src/winio.c:1423
 #, c-format
 msgid "Unicode Input: %s"
 msgstr "Unicode-input: %s"
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:2040
+#: src/winio.c:2037
 msgid "Linting --"
 msgstr "Linter --"
 
-#: src/winio.c:2046
+#: src/winio.c:2043
 msgid "DIR:"
 msgstr "KAT:"
 
-#: src/winio.c:2067
+#: src/winio.c:2063
 msgid "View"
 msgstr "Se"
 
-#: src/winio.c:2073 src/winio.c:2077
+#: src/winio.c:2069 src/winio.c:2073
 msgid "Modified"
 msgstr "Ændret"
 
-#: src/winio.c:2075
+#: src/winio.c:2071
 msgid "Restricted"
 msgstr "Begrænset"
 
-#: src/winio.c:2181
+#: src/winio.c:2176
 msgid "(nameless)"
 msgstr "(unavngivet)"
 
-#: src/winio.c:2213
+#: src/winio.c:2208
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] " (%zu linje)"
 msgstr[1] " (%zu linjer)"
 
-#: src/winio.c:2215
+#: src/winio.c:2210
 #, c-format
 msgid " (%zu line, %s)"
 msgid_plural " (%zu lines, %s)"
 msgstr[0] " (%zu linje, %s)"
 msgstr[1] " (%zu linjer, %s)"
 
-#: src/winio.c:3541
+#: src/winio.c:3532
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 "linje %*zd/%zd (%2d %%), kol %2zu/%2zu (%3d %%), tegn %*zu/%zu (%2d %%)"
 
-#: src/winio.c:3695
+#: src/winio.c:3686
 msgid "The nano text editor"
 msgstr "Tekstredigereren nano"
 
-#: src/winio.c:3696
+#: src/winio.c:3687
 msgid "version"
 msgstr "version"
 
-#: src/winio.c:3697
+#: src/winio.c:3688
 msgid "Brought to you by:"
 msgstr "Præsenteres af:"
 
-#: src/winio.c:3698
+#: src/winio.c:3689
 msgid "Special thanks to:"
 msgstr "Særlig tak til:"
 
-#: src/winio.c:3699
+#: src/winio.c:3690
 msgid "The Free Software Foundation"
 msgstr "Free Software Foundation"
 
-#: src/winio.c:3700
+#: src/winio.c:3691
 msgid "the many translators and the TP"
 msgstr "de mange oversættere og TP"
 
-#: src/winio.c:3701
+#: src/winio.c:3692
 msgid "For ncurses:"
 msgstr "For ncurses:"
 
-#: src/winio.c:3702
+#: src/winio.c:3693
 msgid "and anyone else we forgot..."
 msgstr "og alle andre som vi har glemt …"
 
-#: src/winio.c:3703
+#: src/winio.c:3694
 msgid "Thank you for using nano!"
 msgstr "Tak for at du bruger nano!"
 
@@ -3138,74 +3097,74 @@ msgstr "%s: ugyldigt tilvalg -- “%c”\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: tilvalget kræver et argument -- “%c”\n"
 
-#: lib/regcomp.c:122
+#: lib/regcomp.c:128
 msgid "Success"
 msgstr "Gennemført"
 
-#: lib/regcomp.c:125
+#: lib/regcomp.c:131
 msgid "No match"
 msgstr "Ingen match"
 
-#: lib/regcomp.c:128
+#: lib/regcomp.c:134
 msgid "Invalid regular expression"
 msgstr "Ugyldigt regulært udtryk"
 
-#: lib/regcomp.c:131
+#: lib/regcomp.c:137
 msgid "Invalid collation character"
 msgstr "Ugyldigt kollationstegn"
 
-#: lib/regcomp.c:134
+#: lib/regcomp.c:140
 msgid "Invalid character class name"
 msgstr "Ugyldigt navn på tegnklasse"
 
-#: lib/regcomp.c:137
+#: lib/regcomp.c:143
 msgid "Trailing backslash"
 msgstr "Afsluttende backslash"
 
-#: lib/regcomp.c:140
+#: lib/regcomp.c:146
 msgid "Invalid back reference"
 msgstr "Ugyldig bagudreference"
 
-#: lib/regcomp.c:143
+#: lib/regcomp.c:149
 msgid "Unmatched [, [^, [:, [., or [="
 msgstr "Uparret [, [^, [:, [. eller [="
 
-#: lib/regcomp.c:146
+#: lib/regcomp.c:152
 msgid "Unmatched ( or \\("
 msgstr "Uparret ( eller \\("
 
-#: lib/regcomp.c:149
+#: lib/regcomp.c:155
 msgid "Unmatched \\{"
 msgstr "Uparret \\{"
 
-#: lib/regcomp.c:152
+#: lib/regcomp.c:158
 msgid "Invalid content of \\{\\}"
 msgstr "Ugyldigt indhold af \\{\\}"
 
-#: lib/regcomp.c:155
+#: lib/regcomp.c:161
 msgid "Invalid range end"
 msgstr "Ugyldig afslutning af interval"
 
-#: lib/regcomp.c:158
+#: lib/regcomp.c:164
 msgid "Memory exhausted"
 msgstr "Hukommelsen opbrugt"
 
-#: lib/regcomp.c:161
+#: lib/regcomp.c:167
 msgid "Invalid preceding regular expression"
 msgstr "Ugyldigt forudgående regulært udtryk"
 
-#: lib/regcomp.c:164
+#: lib/regcomp.c:170
 msgid "Premature end of regular expression"
 msgstr "Uventet afslutning af regulært udtryk"
 
-#: lib/regcomp.c:167
+#: lib/regcomp.c:173
 msgid "Regular expression too big"
 msgstr "Regulært udtryk er for stort"
 
-#: lib/regcomp.c:170
+#: lib/regcomp.c:176
 msgid "Unmatched ) or \\)"
 msgstr "Uparret ) eller \\)"
 
-#: lib/regcomp.c:650
+#: lib/regcomp.c:669
 msgid "No previous regular expression"
 msgstr "Intet tidligere regulært udtryk"
