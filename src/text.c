@@ -2959,6 +2959,7 @@ void do_linter(void)
 /* Run a manipulation program on the contents of the buffer. */
 void do_formatter(void)
 {
+#if defined(HAVE_FORK) && defined(HAVE_WAITPID)
 	FILE *stream;
 	char *temp_name;
 	bool okay = FALSE;
@@ -2989,6 +2990,7 @@ void do_formatter(void)
 
 	unlink(temp_name);
 	free(temp_name);
+#endif
 }
 #endif /* ENABLE_FORMATTER */
 

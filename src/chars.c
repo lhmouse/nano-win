@@ -26,6 +26,7 @@
 #ifdef ENABLE_UTF8
 #include <wchar.h>
 #include <wctype.h>
+extern int _nc_wcwidth(wchar_t);
 #endif
 
 #ifdef ENABLE_SPELLER
@@ -221,7 +222,7 @@ bool is_doublewidth(const char *ch)
 	if (mbtowide(&wc, ch) < 0)
 		return FALSE;
 
-	return (wcwidth(wc) == 2);
+	return (_nc_wcwidth(wc) == 2);
 }
 
 /* Return TRUE when the given character occupies zero cells. */
@@ -242,7 +243,7 @@ bool is_zerowidth(const char *ch)
 		return FALSE;
 #endif
 
-	return (wcwidth(wc) == 0);
+	return (_nc_wcwidth(wc) == 0);
 }
 #endif /* ENABLE_UTF8 */
 
@@ -328,7 +329,7 @@ int advance_over(const char *string, size_t *column)
 				return 1;
 			}
 
-			int width = wcwidth(wc);
+			int width = _nc_wcwidth(wc);
 
 #if defined(__OpenBSD__)
 			*column += (width < 0 || wc >= 0xF0000) ? 1 : width;
