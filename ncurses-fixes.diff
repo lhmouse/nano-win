@@ -1,0 +1,46 @@
+diff --git a/ncurses-6.6.orig/ncurses/curses.priv.h b/ncurses-6.6/ncurses/curses.priv.h
+index 8999ecdf..4f412b8e 100644
+--- a/ncurses-6.6.orig/ncurses/curses.priv.h
++++ b/ncurses-6.6/ncurses/curses.priv.h
+@@ -2291,7 +2291,7 @@ extern NCURSES_EXPORT(int) _nc_eventlist_timeout(_nc_eventlist *);
+  */
+ #if USE_WIDEC_SUPPORT
+ 
+-#if defined(_NC_WINDOWS_NATIVE) && !defined(_NC_MSC) && !USE_NAMED_PIPES
++#if 0
+ /*
+  * MinGW has wide-character functions, but they do not work correctly.
+  */
+diff --git a/ncurses-6.6.orig/ncurses/widechar/widechars.c b/ncurses-6.6/ncurses/widechar/widechars.c
+index 6ea008dd..30c27646 100644
+--- a/ncurses-6.6.orig/ncurses/widechar/widechars.c
++++ b/ncurses-6.6/ncurses/widechar/widechars.c
+@@ -33,7 +33,7 @@
+ 
+ MODULE_ID("$Id: widechars.c,v 1.11 2025/02/20 01:02:09 tom Exp $")
+ 
+-#if defined(_NC_MINGW)
++#if 0
+ /*
+  * MinGW has wide-character functions, but they do not work correctly.
+  */
+diff --git a/ncurses-6.6.orig/ncurses/win32con/win32_driver.c b/ncurses-6.6/ncurses/win32con/win32_driver.c
+index 8e2bba44..775bfc6a 100644
+--- a/ncurses-6.6.orig/ncurses/win32con/win32_driver.c
++++ b/ncurses-6.6/ncurses/win32con/win32_driver.c
+@@ -171,8 +171,14 @@ con_write16(TERMINAL_CONTROL_BLOCK * TCB,
+ 
+     for (i = actual = 0; i < limit; i++) {
+ 	ch = str[i];
+-	if (isWidecExt(ch))
++	if (isWidecExt(ch)) {
++            /* Skip trailing cell of a double-width character.  */
++            ci[actual].CharInfoChar = ' ';
++            ci[actual].Attributes = MapAttr(WINCONSOLE.SBI.wAttributes,
++                                            AttrOf(ch));
++            ++actual;
+             continue;
++        }
+         ci[actual].CharInfoChar = CharOf(ch);
+         ci[actual].Attributes = MapAttr(WINCONSOLE.SBI.wAttributes,
+                                         AttrOf(ch));

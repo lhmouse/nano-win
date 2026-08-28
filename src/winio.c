@@ -29,7 +29,10 @@
 #include <string.h>
 #ifdef ENABLE_UTF8
 #include <wchar.h>
+extern int _nc_wcwidth(wchar_t);
 #endif
+#define WIN32_LEAN_AND_MEAN 1
+#include <windows.h>
 
 #ifdef REVISION
 #define BRANDING  REVISION
@@ -263,10 +266,13 @@ void read_keys_from(WINDOW *frame)
 	if (!key_buffer)
 		reserve_space_for(capacity);
 
-	key_buffer[0] = input;
-
 	nextcodes = key_buffer;
-	waiting_codes = 1;
+	waiting_codes = 0;
+
+	if (GetAsyncKeyState(VK_LMENU) < 0)
+		key_buffer[waiting_codes++] = ESC_CODE;
+
+	key_buffer[waiting_codes++] = input;
 
 #ifndef NANO_TINY
 	/* Cancel the highlighting of a search match, if there still is one. */
@@ -303,8 +309,11 @@ void read_keys_from(WINDOW *frame)
 			break;
 
 		/* When the keystroke buffer is full, extend it. */
-		if (waiting_codes == capacity)
+		if (waiting_codes + 1 >= capacity)
 			reserve_space_for(2 * capacity);
+
+		if (GetAsyncKeyState(VK_LMENU) < 0)
+			key_buffer[waiting_codes++] = ESC_CODE;
 
 		key_buffer[waiting_codes++] = input;
 	}
@@ -1197,13 +1206,18 @@ int parse_kbinput(WINDOW *frame)
 		return FOREIGN_SEQUENCE;
 #endif
 
-#ifdef __linux__
 	/* When not running under X, check for the bare arrow keys whether
 	 * Shift/Ctrl/Alt are being held together with them. */
-	unsigned char modifiers = 6;
+	unsigned char modifiers = 0;
 
 	/* Modifiers are: Alt (8), Ctrl (4), Shift (1). */
-	if (on_a_vt && !mute_modifiers && ioctl(0, TIOCLINUX, &modifiers) >= 0) {
+	if(GetAsyncKeyState(VK_SHIFT) < 0)
+		modifiers |= 0x01;
+	if(GetAsyncKeyState(VK_CONTROL) < 0)
+		modifiers |= 0x04;
+	if(GetAsyncKeyState(VK_LMENU) < 0)
+		modifiers |= 0x08;
+	if (!mute_modifiers) {
 #ifndef NANO_TINY
 		/* Is Shift being held? */
 		if (modifiers & 0x01) {
@@ -1254,7 +1268,6 @@ int parse_kbinput(WINDOW *frame)
 		}
 #endif
 	}
-#endif /* __linux__ */
 
 	switch (keycode) {
 		case KEY_SLEFT:
@@ -1529,12 +1542,6 @@ char *get_verbatim_kbinput(WINDOW *frame, size_t *count)
 	if (!ISSET(RAW_SEQUENCES))
 		keypad(frame, FALSE);
 
-#ifndef NANO_TINY
-	/* Turn bracketed-paste mode off. */
-	printf("\x1B[?2004l");
-	fflush(stdout);
-#endif
-
 	linger_after_escape = TRUE;
 
 	/* Read in a single byte or two escapes. */
@@ -1551,12 +1558,6 @@ char *get_verbatim_kbinput(WINDOW *frame, size_t *count)
 	}
 
 	linger_after_escape = FALSE;
-
-#ifndef NANO_TINY
-	/* Turn bracketed-paste mode back on. */
-	printf("\x1B[?2004h");
-	fflush(stdout);
-#endif
 
 	/* Turn flow control characters back on if necessary and turn the
 	 * keypad back on if necessary now that we're done. */
@@ -1908,7 +1909,7 @@ char *display_string(const char *text, size_t column, size_t span,
 		}
 
 		/* Determine whether the character takes zero, one, or two columns. */
-		charwidth = wcwidth(wc);
+		charwidth = _nc_wcwidth(wc);
 
 		/* Watch the number of zero-widths, to keep ample memory reserved. */
 		if (charwidth == 0 && --stowaways == 0) {
