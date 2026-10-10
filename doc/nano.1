@@ -318,11 +318,14 @@ Display line numbers to the left of the text area.
 (Any line with an anchor additionally gets a mark in the margin.)
 .TP
 .BR \-m ", " \-\-mouse
-Enable mouse support, if available for your system.  When enabled, mouse
-clicks can be used to place the cursor, set the mark (with a double
-click), and execute shortcuts.  The mouse works in the X Window
-System, and on the console when gpm is running.  Text can still be
-selected through dragging by holding down the Shift key.
+Enable mouse support.  This means: a click in the edit window places
+the cursor, two clicks at the same spot toggle the mark, a click in the
+help lines executes the touched shortcut, a click in the “scrollbar”
+scrolls the buffer to roughly that position, and rolling the wheel
+scrolls the viewport instead of moving the cursor.  (The mouse works
+in the X Window System, and on the console when \fIgpm\fR is running.
+Under X, text can still be selected through dragging by holding down
+the Shift key.)
 .TP
 .BR \-n ", " \-\-noread
 Treat any name given on the command line as a new file.  This allows

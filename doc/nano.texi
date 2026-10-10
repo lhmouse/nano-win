@@ -351,15 +351,19 @@ can contain a newline (LF).
 @node Using the mouse
 @section Using the mouse
 
-When mouse support has been configured and enabled, a single mouse click
-places the cursor at the indicated position.  Clicking a second time in
-the same position toggles the mark.  Clicking in the two help lines
-executes the selected shortcut.  To be able to select text with the
-left button, or paste text with the middle button, hold down the
-Shift key during those actions.
+When mouse support is enabled, a single mouse click places the cursor
+at the indicated position.  Clicking a second time in the same position
+toggles the mark.  Clicking in the two help lines executes the touched
+shortcut.  Clicking in the “scrollbar” scrolls the buffer to roughly
+the corresponding position.  And rolling the wheel scrolls the viewport
+instead of moving the cursor.
 
-The mouse works in the X Window System, and on the console when gpm
-is running.
+To still be able to select text by dragging with the left button,
+or paste text with the middle button, hold down the Shift key during
+those actions.
+
+The mouse works in the X Window System, and on the console when
+@command{gpm} is running.
 
 @node Anchors
 @section Anchors
@@ -673,11 +677,14 @@ Display line numbers to the left of the text area.
 
 @item -m
 @itemx --mouse
-Enable mouse support, if available for your system.  When enabled, mouse
-clicks can be used to place the cursor, set the mark (with two clicks),
-and execute shortcuts.  The mouse works in the X Window System, and on
-the console when gpm is running.  Text can still be selected through
-dragging by holding down the Shift key.
+Enable mouse support.  This means: a click in the edit window places
+the cursor, two clicks at the same spot toggle the mark, a click in the
+help lines executes the touched shortcut, a click in the “scrollbar”
+scrolls the buffer to roughly that position, and rolling the wheel
+scrolls the viewport instead of moving the cursor.  (The mouse works
+in the X Window System, and on the console when @command{gpm} is running.
+Under X, text can still be selected through dragging by holding down
+the Shift key.)
 
 @item -n
 @itemx --noread
