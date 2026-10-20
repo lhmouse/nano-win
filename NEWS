@@ -1,3 +1,7 @@
+2026.10.21 - GNU nano 9.3 "Damiana"
+• On the mini bar, an overlong filename gets properly clipped.
+• The keypad operator keys produce their inscribed characters.
+
 2026.07.31 - GNU nano 9.2 "Alquézar"
 • Nano refuses to start when standard output is not a terminal.
 • Options --newbuffer and 'set newbuffer' were added as better

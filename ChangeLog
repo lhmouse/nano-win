@@ -1,3 +1,60 @@
+Changes between v9.2 and v9.3:
+------------------------------
+
+Benno Schulenberg (51):
+      build: do not call define_key() when compiling against PDCurses
+      build: do not call tgetstr() when compiling against PDCurses
+      build: exclude a workaround for spurious keycodes when not needed
+      build: fix compilation when configured with --enable-tiny
+      build: list for distribution only the M4 files that are in nano's repo
+      build: prevent compilation failures when cross-compiling for Windows
+      bump version numbers and add a news item for the 9.3 release
+      copyright: update the years for significantly changed files
+      docs: complete the enumeration of the newly rebindable keys
+      docs: improve the description of --mouse
+      docs: improve the description of the --cutfromcursor option
+      docs: say thanks to the Latvian and Georgian translators
+      docs: slightly reword three descriptions in the cheatsheet
+      feedback: make a linter message more concise
+      gnulib: update to its current upstream state
+      help: add a second blank line, to divide the toggles into three groups
+      help: reshuffle the toggles to divide them into four groups
+      input: do not discard a multibyte character when <Alt> is being held
+      input: recognize the operator keys from the numeric keypad
+      minibar: don't call display_string() twice to make the filename fit
+      minibar: properly convert also upper control codes in a filename
+      syntax: c: colorize also the _fast and _least integer types from C99
+      syntax: c: restore the coloring of 'long', that was accidentally lost
+      syntax: javascript: recognize also the .ts extension of Typescript files
+      syntax: po: recognize the obsolete marker (#~) only at start-of-line
+      tweaks: add `const` markers before two string constants
+      tweaks: drop two unneeded symbol definitions
+      tweaks: elide an unneeded auxiliary variable
+      tweaks: elide a parameter that is purposeless after the previous commit
+      tweaks: factor out a repeated code fragment into its own function
+      tweaks: improve a comment, and add a symbol to make a statement clearer
+      tweaks: initialize a variable, to invert an 'if' and elide an 'else'
+      tweaks: move and change some conditions, to make two fragments the same
+      tweaks: move an intervening fragment of code out of the way
+      tweaks: normalize the indentation after the previous change
+      tweaks: preferably initialize a single variable per line
+      tweaks: put the thirteen togglable flags first in the enumeration
+      tweaks: rearrange a fragment of code, to be more concise
+      tweaks: reduce the scope of another variable
+      tweaks: reduce the scope of three variables to their respective areas
+      tweaks: rename a variable, to be more meaningful
+      tweaks: rename a variable, to reduce the number of occurrences of "lint"
+      tweaks: reshuffle a fragment, placing it together with similar code
+      tweaks: reshuffle one of the toggles, to group them better
+      tweaks: reshuffle the flags, grouping related ones together
+      tweaks: reshuffle three declarations, for esthetics
+      tweaks: reshuffle two assignments, to elide an 'if'
+      tweaks: return a keycode as soon as it needs no further parsing
+      tweaks: use separate function for adding toggles to the list of shortcuts
+      tweaks: use the flag itself for determining the order of the toggles
+      weeding: remove two old workarounds for ancient libvte bugs
+
+
 Changes between v9.1 and v9.2:
 ------------------------------
 

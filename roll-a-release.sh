@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="9.2"
+VERSION="9.3"
 
 ./configure -C --enable-tiny &&  make &&  ./configure -C &&
 
