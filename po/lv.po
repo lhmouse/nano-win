@@ -1,0 +1,3169 @@
+# Latvian translation for GNU nano.
+# Copyright (C) 2026 Free Software Foundation, Inc.
+# This file is distributed under the same license as the nano package.
+#
+# Rihards Prieditis <rprieditis@gmail.com>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nano 9.3-pre1\n"
+"Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
+"POT-Creation-Date: 2026-10-21 08:38+0200\n"
+"PO-Revision-Date: 2026-10-09 20:28+0300\n"
+"Last-Translator: Rihards Priedītis <rprieditis@gmail.com>\n"
+"Language-Team: Latvian <translation-team-lv@lists.sourceforge.net>\n"
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==0 || (n%100>=11 && n%100<=19) ? 0 : "
+"n%10==1 && n%100!=11 ? 1 : 2);\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
+"X-Generator: Poedit 3.9\n"
+
+#. TRANSLATORS: Anything more than 7 cells gets clipped.
+#: src/browser.c:186 src/browser.c:193
+msgid "(dir)"
+msgstr "(dir)"
+
+#. TRANSLATORS: Anything more than 12 cells gets clipped.
+#: src/browser.c:190
+msgid "(parent dir)"
+msgstr "(augš. dir.)"
+
+#. TRANSLATORS: Anything more than 7 cells gets clipped.
+#. * If necessary, you can leave out the parentheses.
+#: src/browser.c:220
+msgid "(huge)"
+msgstr "(liels)"
+
+#: src/browser.c:269 src/browser.c:274 src/search.c:257
+msgid "Search Wrapped"
+msgstr "No gala"
+
+#: src/browser.c:281 src/search.c:441
+msgid "This is the only occurrence"
+msgstr "Šī ir vienīgā atbilstība"
+
+#. TRANSLATORS: This is the main search prompt.
+#: src/browser.c:314 src/search.c:99
+msgid "Search"
+msgstr "Meklēt"
+
+#. TRANSLATORS: A modifier of the Search prompt.
+#: src/browser.c:316 src/search.c:103
+msgid " [Backwards]"
+msgstr " [Atpakaļ]"
+
+#: src/browser.c:322 src/browser.c:563 src/files.c:1120 src/files.c:1213
+#: src/files.c:2101 src/nano.c:321 src/search.c:113 src/search.c:292
+#: src/search.c:726 src/search.c:793 src/text.c:2640 src/text.c:2841
+#: src/winio.c:98
+msgid "Cancelled"
+msgstr "Atcelts"
+
+#: src/browser.c:349 src/search.c:376
+msgid "No current search pattern"
+msgstr "Nav pašreizējā meklēšanas raksta"
+
+#: src/browser.c:404
+#, c-format
+msgid "Cannot open directory: %s"
+msgstr "Neizdevās atvērt direktoriju: %s"
+
+#: src/browser.c:444
+msgid "No entries"
+msgstr "Nav ierakstu"
+
+#. TRANSLATORS: This is a prompt.
+#: src/browser.c:562
+msgid "Go To Directory"
+msgstr "Doties uz direktoriju"
+
+#. TRANSLATORS: This refers to the confining effect of
+#. * the option --operatingdir, not of --restricted.
+#: src/browser.c:579 src/browser.c:610
+#, c-format
+msgid "Can't go outside of %s"
+msgstr "Nevar iziet ārpus %s"
+
+#: src/browser.c:601
+msgid "Can't move up a directory"
+msgstr "Nevar pārvietoties uz augšējo direktoriju"
+
+#: src/browser.c:616 src/files.c:877 src/files.c:883 src/files.c:1767
+#: src/files.c:1779 src/history.c:264 src/history.c:292 src/history.c:399
+#: src/history.c:453 src/rcfile.c:916 src/rcfile.c:1701
+#, c-format
+msgid "Error reading %s: %s"
+msgstr "Kļūda, nolasot %s: %s"
+
+#: src/browser.c:643 src/help.c:506
+msgid "Paste is ignored"
+msgstr "Ielīmēšana ignorēta"
+
+#: src/browser.c:691 src/files.c:359
+msgid "The working directory has disappeared"
+msgstr "Darba direktorija ir pazudusi"
+
+#: src/color.c:156
+#, c-format
+msgid "Unknown syntax name: %s"
+msgstr "Nezināms sintakses nosaukums: %s"
+
+#: src/color.c:196
+#, c-format
+msgid "magic_load() failed: %s"
+msgstr "magic_load() neizdevās: %s"
+
+#: src/color.c:200
+#, c-format
+msgid "magic_file(%s) failed: %s"
+msgstr "magic_file(%s) neizdevās: %s"
+
+#: src/cut.c:173 src/cut.c:237 src/cut.c:571
+msgid "Nothing was cut"
+msgstr "Nekas netika izgriezts"
+
+#: src/cut.c:621 src/cut.c:675
+msgid "Copied nothing"
+msgstr "Nekas nav nokopēts"
+
+#: src/cut.c:740
+msgid "Cutbuffer is empty"
+msgstr "Griešanas buferis ir tukšs"
+
+#: src/files.c:134
+#, c-format
+msgid "Error deleting lock file %s: %s"
+msgstr "Neizdevās dzēst bloķēšanas failu %s: %s"
+
+#. TRANSLATORS: Keep the next seven messages at most 76 characters.
+#: src/files.c:162
+msgid "Couldn't determine my identity for lock file"
+msgstr "Neizdevās noteikt manu identitāti bloķēšanas failam"
+
+#: src/files.c:167
+#, c-format
+msgid "Couldn't determine hostname: %s"
+msgstr "Neizdevās noteikt resursdatora nosaukumu: %s"
+
+#: src/files.c:183 src/files.c:225
+#, c-format
+msgid "Error writing lock file %s: %s"
+msgstr "Neizdevās ierakstīt bloķēšanas failu %s: %s"
+
+#: src/files.c:251
+msgid "Someone else is also editing this file"
+msgstr "Kāds cits arī rediģē šo failu"
+
+#: src/files.c:260
+#, c-format
+msgid "Error opening lock file %s: %s"
+msgstr "Neizdevās atvērt bloķēšanas failu %s: %s"
+
+#: src/files.c:274
+#, c-format
+msgid "Bad lock file is ignored: %s"
+msgstr "Nederīgs bloķēšanas fails tiek ignorēts: %s"
+
+#. TRANSLATORS: The second %s is the name of the user, the third that of the editor.
+#: src/files.c:295
+#, c-format
+msgid "File %s is being edited by %s (with %s, PID %s); open anyway?"
+msgstr "Failu %s rediģē %s (ar %s, PID %s); vai tomēr atvērt?"
+
+#. TRANSLATORS: Keep the next ten messages at most 76 characters.
+#: src/files.c:363
+#, c-format
+msgid "Directory '%s' does not exist"
+msgstr "Direktorija '%s' neeksistē"
+
+#: src/files.c:365
+#, c-format
+msgid "Path '%s': %s"
+msgstr "Ceļš '%s': %s"
+
+#: src/files.c:367
+#, c-format
+msgid "Path '%s' is not a directory"
+msgstr "Ceļš '%s' nav direktorija"
+
+#: src/files.c:369
+#, c-format
+msgid "Path '%s' is not accessible"
+msgstr "Ceļš '%s' nav pieejams"
+
+#: src/files.c:372
+#, c-format
+msgid "Directory '%s' is not writable"
+msgstr "Direktorija '%s' nav rakstāma"
+
+#: src/files.c:399
+#, c-format
+msgid "Can't read file from outside of %s"
+msgstr "Nevar nolasīt failu ārpus %s"
+
+#: src/files.c:409 src/rcfile.c:892
+#, c-format
+msgid "'%s' is a directory"
+msgstr "'%s' ir direktorija"
+
+#: src/files.c:414 src/rcfile.c:893
+#, c-format
+msgid "'%s' is a device file"
+msgstr "'%s' ir ierīces fails"
+
+#: src/files.c:420
+#, c-format
+msgid "'%s' is a FIFO"
+msgstr "'%s' ir FIFO"
+
+#: src/files.c:426
+#, c-format
+msgid "'%s' is meant to be read-only"
+msgstr "'%s' ir paredzēts tikai lasīšanai"
+
+#: src/files.c:429
+#, c-format
+msgid "'%s' is an invalid filename"
+msgstr "'%s' ir nederīgs faila nosaukums"
+
+#. TRANSLATORS: First %s is file name, second %s is file format.
+#: src/files.c:541
+#, c-format
+msgid "%s -- %zu line (%s)"
+msgid_plural "%s -- %zu lines (%s)"
+msgstr[0] "%s -- %zu rindu (%s)"
+msgstr[1] "%s -- %zu rinda (%s)"
+msgstr[2] "%s -- %zu rindas (%s)"
+
+#: src/files.c:543 src/files.c:548 src/global.c:1147 src/winio.c:2056
+msgid "New Buffer"
+msgstr "Jauns"
+
+#: src/files.c:543 src/winio.c:2203
+msgid "DOS"
+msgstr "DOS"
+
+#: src/files.c:546
+#, c-format
+msgid "%s -- %zu line"
+msgid_plural "%s -- %zu lines"
+msgstr[0] "%s -- %zu rindu"
+msgstr[1] "%s -- %zu rinda"
+msgstr[2] "%s -- %zu rindas"
+
+#: src/files.c:556
+msgid "No more open file buffers"
+msgstr "Vairs nav atvērtu failu buferu"
+
+#: src/files.c:770 src/files.c:875 src/files.c:1817
+msgid "Interrupted"
+msgstr "Pārtraukts"
+
+#: src/files.c:795
+#, c-format
+msgid "File '%s' is unwritable"
+msgstr "Fails '%s' nav rakstāms"
+
+#. TRANSLATORS: Keep the next two messages at most 78 characters.
+#: src/files.c:801
+#, c-format
+msgid "Read %zu line (converted from DOS format)"
+msgid_plural "Read %zu lines (converted from DOS format)"
+msgstr[0] "Nolasītas %zu rindas (konvertēta no DOS formāta)"
+msgstr[1] "Nolasīta %zu rinda (konvertētas no DOS formāta)"
+msgstr[2] "Nolasītas %zu rindas (konvertēts no DOS formāta)"
+
+#: src/files.c:805
+#, c-format
+msgid "Read %zu line"
+msgid_plural "Read %zu lines"
+msgstr[0] "Nolasītas %zu rindas"
+msgstr[1] "Nolasīta %zu rinda"
+msgstr[2] "Nolasītas %zu rindas"
+
+#: src/files.c:849
+msgid "New File"
+msgstr "Jauns fails"
+
+#: src/files.c:852
+#, c-format
+msgid "File \"%s\" not found"
+msgstr "Fails \"%s\" nav atrasts"
+
+#: src/files.c:859
+msgid "Reading from FIFO..."
+msgstr "Notiek lasīšana no FIFO..."
+
+#: src/files.c:887
+msgid "Reading..."
+msgstr "Notiek lasīšana..."
+
+#: src/files.c:994 src/text.c:2365 src/text.c:2648
+#, c-format
+msgid "Could not create pipe: %s"
+msgstr "Neizdevās izveidot cauruli: %s"
+
+#: src/files.c:1035 src/files.c:1079 src/text.c:2179 src/text.c:2445
+#: src/text.c:2683
+#, c-format
+msgid "Could not fork: %s"
+msgstr "Neizdevās izveidot sazarojumu: %s"
+
+#: src/files.c:1040
+msgid "Executing..."
+msgstr "Notiek izpilde..."
+
+#. TRANSLATORS: This one goes with Undid/Redid messages.
+#: src/files.c:1060 src/files.c:1110
+msgid "filtering"
+msgstr "filtrēšanu"
+
+#: src/files.c:1103
+#, c-format
+msgid "Failed to open pipe: %s"
+msgstr "Neizdevās atvērt cauruli: %s"
+
+#: src/files.c:1121
+#, c-format
+msgid "Error: %s"
+msgstr "Kļūda: %s"
+
+#: src/files.c:1126
+msgid "Piping failed"
+msgstr "Caurplūde neizdevās"
+
+#. TRANSLATORS: The next six messages are prompts.
+#: src/files.c:1175
+msgid "Command to execute in new buffer"
+msgstr "Komanda, kas jāizpilda jaunā buferī"
+
+#: src/files.c:1178
+msgid "Command to execute"
+msgstr "Komanda, kas jāizpilda"
+
+#: src/files.c:1186
+#, c-format
+msgid "File to read unconverted into new buffer [from %s]"
+msgstr "Fails, ko nolasīt nepārveidotu jaunā buferī [no %s]"
+
+#: src/files.c:1189
+#, c-format
+msgid "File to read into new buffer [from %s]"
+msgstr "Fails, ko nolasīt jaunā buferī [no %s]"
+
+#: src/files.c:1194
+#, c-format
+msgid "File to insert unconverted [from %s]"
+msgstr "Fails, ko ievietot nekonvertētu [no %s]"
+
+#: src/files.c:1197
+#, c-format
+msgid "File to insert [from %s]"
+msgstr "Fails, ko ievietot [no %s]"
+
+#: src/files.c:1469
+#, c-format
+msgid "Invalid operating directory: %s\n"
+msgstr "Nederīga darba direktorija: %s\n"
+
+#: src/files.c:1512
+#, c-format
+msgid "Invalid backup directory: %s\n"
+msgstr "Nederīga rezerves kopijas direktorija: %s\n"
+
+#: src/files.c:1563
+msgid "Making backup..."
+msgstr "Veido rezerves kopiju..."
+
+#: src/files.c:1595
+msgid "Too many existing backup files"
+msgstr "Pārāk daudz esošu rezerves kopiju failu"
+
+#: src/files.c:1643
+msgid "Cannot read original file"
+msgstr "Neizdevās nolasīt oriģinālo failu"
+
+#: src/files.c:1677
+msgid "Cannot make regular backup"
+msgstr "Neizdevās izveidot parasto rezerves kopiju"
+
+#: src/files.c:1678
+msgid "Trying again in your home directory"
+msgstr "Mēģinu vēlreiz jūsu mājas direktorijā"
+
+#: src/files.c:1690
+msgid "Cannot make backup"
+msgstr "Neizdevās izveidot rezerves kopiju"
+
+#. TRANSLATORS: Try to keep this message at most 76 characters.
+#: src/files.c:1701
+msgid "Cannot make backup; continue and save actual file? "
+msgstr ""
+"Neizdevās izveidot rezerves kopiju; turpināt un saglabāt pašreizējo failu? "
+
+#. TRANSLATORS: The %s is the reason of failure.
+#: src/files.c:1706
+#, c-format
+msgid "Cannot make backup: %s"
+msgstr "Neizdevās izveidot rezerves kopiju: %s"
+
+#: src/files.c:1741
+#, c-format
+msgid "Can't write outside of %s"
+msgstr "Nevar rakstīt ārpus %s"
+
+#: src/files.c:1760 src/files.c:1819 src/files.c:1830 src/files.c:1851
+#: src/files.c:1871 src/files.c:1894 src/files.c:1905 src/files.c:1912
+#: src/history.c:331 src/history.c:342 src/history.c:345 src/history.c:470
+#: src/history.c:484 src/history.c:498 src/history.c:504
+#, c-format
+msgid "Error writing %s: %s"
+msgstr "Kļūda, rakstot %s: %s"
+
+#: src/files.c:1783 src/text.c:2570 src/text.c:2983
+#, c-format
+msgid "Error writing temp file: %s"
+msgstr "Kļūda, rakstot pagaidu failu: %s"
+
+#: src/files.c:1790
+msgid "Writing to FIFO..."
+msgstr "Raksta uz FIFO..."
+
+#: src/files.c:1837
+msgid "Writing..."
+msgstr "Raksta..."
+
+#: src/files.c:1890
+#, c-format
+msgid "Error reading temp file: %s"
+msgstr "Kļūda, nolasot pagaidu failu: %s"
+
+#. TRANSLATORS: This warns for data loss when the disk is full.
+#: src/files.c:1919
+msgid "File on disk has been truncated!"
+msgstr "Fails diskā ir saīsināts!"
+
+#. TRANSLATORS: This is a suggestion to the user,
+#. * where "resume" means resuming from suspension.
+#. * Try to keep this at most 76 characters.
+#: src/files.c:1924
+msgid "Maybe ^T^Z, make room on disk, resume, then ^S^X"
+msgstr "Varbūt ^T^Z, atbrīvo vietu diskā, atsāc, pēc tam ^S^X"
+
+#: src/files.c:1984
+#, c-format
+msgid "Wrote %zu line"
+msgid_plural "Wrote %zu lines"
+msgstr[0] "Ierakstīja %zu rindas"
+msgstr[1] "Ierakstīja %zu rindu"
+msgstr[2] "Ierakstīja %zu rindas"
+
+#: src/files.c:2066
+msgid " [DOS Format]"
+msgstr " [DOS formāts]"
+
+#: src/files.c:2067
+msgid " [Backup]"
+msgstr " [Rezerves kopija]"
+
+#. TRANSLATORS: The next six strings are prompts.
+#: src/files.c:2074
+msgid "Prepend Selection to File"
+msgstr "Pievienot atlasi faila sākumam"
+
+#: src/files.c:2075
+msgid "Append Selection to File"
+msgstr "Pievienot atlasi failam"
+
+#: src/files.c:2076
+msgid "Write Selection to File"
+msgstr "Ierakstīt atlasi failā"
+
+#. TRANSLATORS: Next three prompts are analogous to the above three.
+#: src/files.c:2079
+msgid "Prepend to File"
+msgstr "Pievienot faila sākumam"
+
+#: src/files.c:2079
+msgid "Append to File"
+msgstr "Pievienot failam"
+
+#: src/files.c:2082
+msgid "Write to File"
+msgstr "Ierakstīt failā"
+
+#. TRANSLATORS: Concisely say the screen is too small.
+#: src/files.c:2159 src/nano.c:1087 src/nano.c:1096
+msgid "Too tiny"
+msgstr "Pārāk mazs"
+
+#. TRANSLATORS: Restricted mode forbids overwriting.
+#: src/files.c:2191
+msgid "File exists -- cannot overwrite"
+msgstr "Fails jau pastāv — nevar pārrakstīt"
+
+#: src/files.c:2200
+msgid "Save file under DIFFERENT NAME? "
+msgstr "Saglabāt failu ar CITU NOSAUKUMU? "
+
+#: src/files.c:2207
+#, c-format
+msgid "File \"%s\" exists; OVERWRITE? "
+msgstr "Fails \"%s\" jau pastāv; PĀRRAKSTĪT? "
+
+#: src/files.c:2231
+msgid "File on disk has changed"
+msgstr "Fails diskā ir mainījies"
+
+#. TRANSLATORS: Try to keep this at most 76 characters.
+#: src/files.c:2234
+msgid "File was modified since you opened it; continue saving? "
+msgstr "Fails ir mainīts kopš tā atvēršanas; turpināt saglabāšanu? "
+
+#: src/files.c:2609
+msgid "(more)"
+msgstr "(vairāk)"
+
+#. TRANSLATORS: Try to keep the next two strings at most 10 characters.
+#: src/global.c:585
+msgid "Exit"
+msgstr "Iziet"
+
+#: src/global.c:586
+msgid "Close"
+msgstr "Aizvērt"
+
+#. TRANSLATORS: The next long series of strings are shortcut descriptions;
+#. * they are best kept shorter than 56 characters, but may be longer.
+#: src/global.c:594
+msgid "Cancel the current function"
+msgstr "Atcelt pašreizējo funkciju"
+
+#: src/global.c:595
+msgid "Display this help text"
+msgstr "Parādīt šo palīdzības tekstu"
+
+#: src/global.c:596
+msgid "Close the current buffer / Exit from nano"
+msgstr "Aizvērt pašreizējo buferi / Iziet no nano"
+
+#: src/global.c:598
+msgid "Write the current buffer (or the marked region) to disk"
+msgstr "Ierakstīt pašreizējo buferi (vai iezīmēto reģionu) diskā"
+
+#: src/global.c:600
+msgid "Insert another file into current buffer (or into new buffer)"
+msgstr "Ievietot citu failu pašreizējā buferī (vai jaunā buferī)"
+
+#: src/global.c:602
+msgid "Search forward for a string or a regular expression"
+msgstr "Meklēt uz priekšu virkni vai regulāro izteiksmi"
+
+#: src/global.c:604
+msgid "Search backward for a string or a regular expression"
+msgstr "Meklēt atpakaļ virkni vai regulāro izteiksmi"
+
+#: src/global.c:606
+msgid "Cut current line (or marked region) and store it in cutbuffer"
+msgstr ""
+"Izgriezt pašreizējo rindu (vai iezīmēto apgabalu) un saglabāt to "
+"starpliktuferī"
+
+#: src/global.c:608
+msgid "Copy current line (or marked region) and store it in cutbuffer"
+msgstr ""
+"Kopēt pašreizējo rindu (vai iezīmēto apgabalu) un saglabāt to starpliktuferī"
+
+#: src/global.c:610
+msgid "Paste the contents of cutbuffer at current cursor position"
+msgstr "Ielīmēt starpliktufera saturu pašreizējā kursora pozīcijā"
+
+#: src/global.c:611
+msgid "Display the position of the cursor"
+msgstr "Parādīt kursora pozīciju"
+
+#: src/global.c:613
+msgid "Invoke the spell checker, if available"
+msgstr "Izsaukt pareizrakstības pārbaudi, ja tā ir pieejama"
+
+#: src/global.c:615
+msgid "Replace a string or a regular expression"
+msgstr "Aizvietot virkni vai regulāro izteiksmi"
+
+#: src/global.c:616
+msgid "Go to line and column number"
+msgstr "Pāriet uz rindu un kolonnu"
+
+#: src/global.c:618
+msgid "Go to the matching bracket"
+msgstr "Pāriet uz atbilstošo iekavu"
+
+#: src/global.c:619
+msgid "Mark text starting from the cursor position"
+msgstr "Iezīmēt tekstu, sākot no kursora pozīcijas"
+
+#: src/global.c:620
+msgid "Throw away the current line (or marked region)"
+msgstr "Atmest pašreizējo rindu (vai iezīmēto apgabalu)"
+
+#: src/global.c:621
+msgid "Indent the current line (or marked lines)"
+msgstr "Palielināt atkāpi pašreizējai rindai (vai iezīmētajām rindām)"
+
+#: src/global.c:622
+msgid "Unindent the current line (or marked lines)"
+msgstr "Samazināt atkāpi pašreizējai rindai (vai iezīmētajām rindām)"
+
+#: src/global.c:623
+msgid "Undo the last operation"
+msgstr "Atsaukt pēdējo darbību"
+
+#: src/global.c:624
+msgid "Redo the last undone operation"
+msgstr "Atkārtot pēdējo atsaukto darbību"
+
+#: src/global.c:626
+msgid "Go back one character"
+msgstr "Vienu rakstzīmi atpakaļ"
+
+#: src/global.c:627
+msgid "Go forward one character"
+msgstr "Vienu rakstzīmi uz priekšu"
+
+#: src/global.c:628
+msgid "Go back one word"
+msgstr "Vienu vārdu atpakaļ"
+
+#: src/global.c:629
+msgid "Go forward one word"
+msgstr "Vienu vārdu uz priekšu"
+
+#: src/global.c:630
+msgid "Go to previous line"
+msgstr "Pāriet uz iepriekšējo rindu"
+
+#: src/global.c:631
+msgid "Go to next line"
+msgstr "Pāriet uz nākamo rindu"
+
+#: src/global.c:632
+msgid "Go to beginning of current line"
+msgstr "Pāriet uz pašreizējās rindas sākumu"
+
+#: src/global.c:633
+msgid "Go to end of current line"
+msgstr "Pāriet uz pašreizējās rindas beigām"
+
+#: src/global.c:634
+msgid "Go to previous block of text"
+msgstr "Pāriet uz iepriekšējo teksta bloku"
+
+#: src/global.c:635
+msgid "Go to next block of text"
+msgstr "Pāriet uz nākamo teksta bloku"
+
+#: src/global.c:638
+msgid "Go to beginning of paragraph; then of previous paragraph"
+msgstr "Pāriet uz rindkopas sākumu; pēc tam uz iepriekšējās rindkopas sākumu"
+
+#: src/global.c:640
+msgid "Go just beyond end of paragraph; then of next paragraph"
+msgstr "Pāriet aiz rindkopas beigām; pēc tam aiz nākamās rindkopas beigām"
+
+#: src/global.c:643
+msgid "Go to first row in the viewport"
+msgstr "Pāriet uz skata lauka pirmo rindu"
+
+#: src/global.c:644
+msgid "Go to last row in the viewport"
+msgstr "Pāriet uz skata lauka pēdējo rindu"
+
+#: src/global.c:645
+msgid "Center the line where the cursor is"
+msgstr "Centrēt rindu, kurā atrodas kursors"
+
+#: src/global.c:646
+msgid "Push the cursor line to the center, then top, then bottom"
+msgstr "Novietot kursora rindu centrā, pēc tam augšā, tad apakšā"
+
+#: src/global.c:648
+msgid "Go one screenful up"
+msgstr "Vienu ekrānu uz augšu"
+
+#: src/global.c:649
+msgid "Go one screenful down"
+msgstr "Vienu ekrānu uz leju"
+
+#: src/global.c:650
+msgid "Go to the first line of the file"
+msgstr "Pāriet uz faila pirmo rindu"
+
+#: src/global.c:651
+msgid "Go to the last line of the file"
+msgstr "Pāriet uz faila pēdējo rindu"
+
+#: src/global.c:653
+msgid "Scroll the viewport a tabsize to the left"
+msgstr "Pārritināt skatu pa kreisi par tabulācijas platumu"
+
+#: src/global.c:654
+msgid "Scroll the viewport a tabsize to the right"
+msgstr "Pārritināt skatu pa labi par tabulācijas platumu"
+
+#: src/global.c:658
+msgid "Scroll up one line without moving the cursor textually"
+msgstr ""
+"Pārritināt skatu par vienu rindu uz augšu, nemainot kursora pozīciju tekstā"
+
+#: src/global.c:660
+msgid "Scroll down one line without moving the cursor textually"
+msgstr ""
+"Pārritināt skatu par vienu rindu uz leju, nemainot kursora pozīciju tekstā"
+
+#: src/global.c:663
+msgid "Switch to the previous file buffer"
+msgstr "Pārslēgties uz iepriekšējo faila buferi"
+
+#: src/global.c:664
+msgid "Switch to the next file buffer"
+msgstr "Pārslēgties uz nākamo faila buferi"
+
+#: src/global.c:666
+msgid "Insert the next keystroke verbatim"
+msgstr "Ievietot nākamo taustiņa spiedienu burtiski"
+
+#: src/global.c:667
+msgid "Insert a tab at the cursor position (or indent marked lines)"
+msgstr ""
+"Ievietot tabulāciju kursora pozīcijā (vai palielināt atkāpi atzīmētajām "
+"rindām)"
+
+#: src/global.c:668
+msgid "Insert a newline at the cursor position"
+msgstr "Ievietot jaunu rindu kursora pozīcijā"
+
+#: src/global.c:669
+msgid "Delete the character under the cursor"
+msgstr "Dzēst rakstzīmi zem kursora"
+
+#: src/global.c:671
+msgid "Delete the character to the left of the cursor"
+msgstr "Dzēst rakstzīmi pa kreisi no kursora"
+
+#: src/global.c:674
+msgid "Delete backward from cursor to word start"
+msgstr "Dzēst no kursora atpakaļ līdz vārda sākumam"
+
+#: src/global.c:676
+msgid "Delete forward from cursor to next word start"
+msgstr "Dzēst no kursora uz priekšu līdz nākamā vārda sākumam"
+
+#: src/global.c:678
+msgid "Cut from the cursor position to the end of the file"
+msgstr "Izgriezt no kursora pozīcijas līdz faila beigām"
+
+#: src/global.c:681
+msgid "Justify the current paragraph"
+msgstr "Izlīdzināt pašreizējo rindkopu"
+
+#: src/global.c:682
+msgid "Justify the entire file"
+msgstr "Izlīdzināt visu failu"
+
+#: src/global.c:686
+msgid "Count the number of lines, words, and characters"
+msgstr "Saskaitīt rindas, vārdus un rakstzīmes"
+
+#: src/global.c:687
+msgid "Suspend the editor (return to the shell)"
+msgstr "Apturēt redaktora darbību (atgriezties čaulā)"
+
+#: src/global.c:689
+msgid "Refresh (redraw) the current screen"
+msgstr "Atsvaidzināt (pārzīmēt) pašreizējo ekrānu"
+
+#: src/global.c:691
+msgid "Try and complete the current word"
+msgstr "Mēģināt pabeigt pašreizējo vārdu"
+
+#: src/global.c:695
+msgid "Comment/uncomment the current line (or marked lines)"
+msgstr "Komentēt/atkomentēt pašreizējo rindu (vai iezīmētās rindas)"
+
+#: src/global.c:697
+msgid "Save file without prompting"
+msgstr "Saglabāt failu bez pieprasīšanas"
+
+#: src/global.c:698
+msgid "Search next occurrence backward"
+msgstr "Meklēt nākamo atbilstību atpakaļvirzienā"
+
+#: src/global.c:699
+msgid "Search next occurrence forward"
+msgstr "Meklēt nākamo atbilstību uz priekšu"
+
+#: src/global.c:701
+msgid "Start/stop recording a macro"
+msgstr "Sākt/pārtraukt makro ierakstīšanu"
+
+#: src/global.c:702
+msgid "Run the last recorded macro"
+msgstr "Palaist pēdējo ierakstīto makro"
+
+#: src/global.c:703
+msgid "Place or remove an anchor at the current line"
+msgstr "Novietot vai noņemt enkuru pašreizējā rindā"
+
+#: src/global.c:704
+msgid "Jump backward to the nearest anchor"
+msgstr "Pāriet atpakaļ uz tuvāko enkuru"
+
+#: src/global.c:705
+msgid "Jump forward to the nearest anchor"
+msgstr "Pāriet uz priekšu uz tuvāko enkuru"
+
+#: src/global.c:707
+msgid "Toggle the case sensitivity of the search"
+msgstr "Pārslēgt meklēšanas reģistrjutību"
+
+#: src/global.c:708
+msgid "Reverse the direction of the search"
+msgstr "Mainīt meklēšanas virzienu"
+
+#: src/global.c:709
+msgid "Toggle the use of regular expressions"
+msgstr "Pārslēgt regulāro izteiksmju izmantošanu"
+
+#: src/global.c:711
+msgid "Recall the previous search/replace string"
+msgstr "Atsaukt iepriekšējo meklēšanas/aizvietošanas virkni"
+
+#: src/global.c:712
+msgid "Recall the next search/replace string"
+msgstr "Atsaukt nākamo meklēšanas/aizvietošanas virkni"
+
+#: src/global.c:715
+msgid "Toggle the use of DOS format"
+msgstr "Pārslēgt DOS formāta izmantošanu"
+
+#: src/global.c:716
+msgid "Toggle appending"
+msgstr "Pārslēgt pievienošanu beigās"
+
+#: src/global.c:717
+msgid "Toggle prepending"
+msgstr "Pārslēgt pievienošanu sākumā"
+
+#: src/global.c:718
+msgid "Toggle backing up of the original file"
+msgstr "Pārslēgt oriģinālā faila dublēšanu"
+
+#: src/global.c:719
+msgid "Execute a function or an external command"
+msgstr "Izpildīt funkciju vai ārējo komandu"
+
+#: src/global.c:721
+msgid "Pipe the current buffer (or marked region) to the command"
+msgstr "Pašreizējo buferi (vai iezīmēto apgabalu) padot komandai"
+
+#: src/global.c:723
+msgid "Recall the previous command"
+msgstr "Atsaukt iepriekšējo komandu"
+
+#: src/global.c:724
+msgid "Recall the next command"
+msgstr "Atsaukt nākamo komandu"
+
+#: src/global.c:726
+msgid "Do not convert from DOS format"
+msgstr "Nekonvertēt no DOS formāta"
+
+#: src/global.c:729
+msgid "Toggle the use of a new buffer"
+msgstr "Pārslēgt jauna bufera izmantošanu"
+
+#: src/global.c:731
+msgid "Close buffer without saving it"
+msgstr "Aizvērt buferi, to nesaglabājot"
+
+#: src/global.c:733
+msgid "Go to file browser"
+msgstr "Pāriet uz failu pārlūku"
+
+#: src/global.c:734
+msgid "Exit from the file browser"
+msgstr "Iziet no failu pārlūka"
+
+#: src/global.c:735
+msgid "Go to the first file in the list"
+msgstr "Pāriet uz pirmo failu sarakstā"
+
+#: src/global.c:736
+msgid "Go to the last file in the list"
+msgstr "Pāriet uz pēdējo failu sarakstā"
+
+#: src/global.c:737
+msgid "Go to the previous file in the list"
+msgstr "Pāriet uz iepriekšējo failu sarakstā"
+
+#: src/global.c:738
+msgid "Go to the next file in the list"
+msgstr "Pāriet uz nākamo failu sarakstā"
+
+#: src/global.c:740
+msgid "Go to lefthand column"
+msgstr "Pāriet uz kreiso kolonnu"
+
+#: src/global.c:741
+msgid "Go to righthand column"
+msgstr "Pāriet uz labo kolonnu"
+
+#: src/global.c:742
+msgid "Go to first row in this column"
+msgstr "Pāriet uz pirmo rindu šajā kolonnā"
+
+#: src/global.c:743
+msgid "Go to last row in this column"
+msgstr "Pāriet uz pēdējo rindu šajā kolonnā"
+
+#: src/global.c:745
+msgid "Search forward for a string"
+msgstr "Meklēt virkni uz priekšu"
+
+#: src/global.c:746
+msgid "Search backward for a string"
+msgstr "Meklēt virkni atpakaļ"
+
+#: src/global.c:747
+msgid "Refresh the file list"
+msgstr "Atjaunot failu sarakstu"
+
+#: src/global.c:748
+msgid "Go to directory"
+msgstr "Pāriet uz direktoriju"
+
+#: src/global.c:751
+msgid "Invoke the linter, if available"
+msgstr "Izsaukt linteri, ja tas ir pieejams"
+
+#: src/global.c:752
+msgid "Go to previous linter msg"
+msgstr "Pāriet uz iepriekšējo lintera ziņojumu"
+
+#: src/global.c:753
+msgid "Go to next linter msg"
+msgstr "Pāriet uz nākamo lintera ziņojumu"
+
+#: src/global.c:757
+msgid "Invoke a program to format/arrange/manipulate the buffer"
+msgstr "Izsaukt programmu, lai formatētu/sakārtotu/manipulētu ar buferi"
+
+#. TRANSLATORS: Try to keep the next thirteen strings at most 10 characters.
+#: src/global.c:779
+msgid "Help"
+msgstr "Palīdzība"
+
+#: src/global.c:783 src/prompt.c:706
+msgid "Cancel"
+msgstr "Atcelt"
+
+#: src/global.c:803
+msgid "Write Out"
+msgstr "Saglabāt"
+
+#: src/global.c:811
+msgid "Read File"
+msgstr "Lasīt"
+
+#: src/global.c:815 src/global.c:854
+msgid "Justify"
+msgstr "Izlīdzināt"
+
+#: src/global.c:821 src/global.c:915 src/global.c:1131
+msgid "Refresh"
+msgstr "Atjaunināt"
+
+#: src/global.c:826 src/global.c:918
+msgid "Where Is"
+msgstr "Meklēt"
+
+#: src/global.c:829 src/global.c:891
+msgid "Replace"
+msgstr "Aizvietot"
+
+#: src/global.c:842
+msgid "Cut"
+msgstr "Izgriezt"
+
+#: src/global.c:845
+msgid "Paste"
+msgstr "Ielīmēt"
+
+#: src/global.c:850 src/global.c:1123
+msgid "Execute"
+msgstr "Izpildīt"
+
+#. TRANSLATORS: This refers to the position of the cursor.
+#: src/global.c:860
+msgid "Location"
+msgstr "Lokācija"
+
+#: src/global.c:866 src/global.c:1033
+msgid "Go To Line"
+msgstr "Doties uz"
+
+#. TRANSLATORS: Try to keep the next four strings at most 12 characters.
+#: src/global.c:872
+msgid "Undo"
+msgstr "Atsaukt"
+
+#: src/global.c:874
+msgid "Redo"
+msgstr "Atkārtot"
+
+#: src/global.c:877
+msgid "Set Mark"
+msgstr "Atzīmēt"
+
+#: src/global.c:879 src/global.c:1067
+msgid "Copy"
+msgstr "Kopēt"
+
+#. TRANSLATORS: Try to keep the next four strings at most 16 characters.
+#: src/global.c:884
+msgid "Case sensitive"
+msgstr "Reģistru jutīgs"
+
+#: src/global.c:886
+msgid "Reg.expression"
+msgstr "Regulārā izteiksme"
+
+#: src/global.c:888
+msgid "Backwards"
+msgstr "Pretēji"
+
+#: src/global.c:893
+msgid "No Replace"
+msgstr "Neaizstāt"
+
+#. TRANSLATORS: Try to keep the next two strings at most 10 characters.
+#: src/global.c:898 src/global.c:903
+msgid "Older"
+msgstr "Vecāks"
+
+#: src/global.c:900 src/global.c:905
+msgid "Newer"
+msgstr "Jaunāks"
+
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
+#: src/global.c:912
+msgid "Go To Dir"
+msgstr "Direktoriju"
+
+#. TRANSLATORS: This starts a backward search.
+#: src/global.c:920 src/global.c:939
+msgid "Where Was"
+msgstr "Meklēt atpakaļ"
+
+#. TRANSLATORS: This refers to searching the preceding occurrence.
+#: src/global.c:923 src/global.c:943
+msgid "Previous"
+msgstr "Iepriekš"
+
+#: src/global.c:925 src/global.c:945
+msgid "Next"
+msgstr "Nākamais"
+
+#: src/global.c:935
+msgid "To Bracket"
+msgstr "Uz iekavu"
+
+#. TRANSLATORS: This means move the cursor one character back.
+#: src/global.c:950 src/global.c:955
+msgid "Back"
+msgstr "Atpakaļ"
+
+#: src/global.c:952 src/global.c:957
+msgid "Forward"
+msgstr "Uz priekšu"
+
+#. TRANSLATORS: Try to keep the next four strings at most 13 characters.
+#: src/global.c:963
+msgid "Prev Word"
+msgstr "Iep. vārds"
+
+#: src/global.c:965
+msgid "Next Word"
+msgstr "Nāk. vārds"
+
+#. TRANSLATORS: These two mean: "to beginning of line", "to end of line".
+#: src/global.c:969
+msgid "Home"
+msgstr "Sākums"
+
+#: src/global.c:971
+msgid "End"
+msgstr "Beigas"
+
+#. TRANSLATORS: Try to keep the next two strings at most 13 characters.
+#: src/global.c:975
+msgid "Scroll Left"
+msgstr "Pa kreisi"
+
+#: src/global.c:977
+msgid "Scroll Right"
+msgstr "Pa labi"
+
+#. TRANSLATORS: Try to keep the next two strings at most 10 characters.
+#: src/global.c:982
+msgid "Prev Line"
+msgstr "Iep. rinda"
+
+#: src/global.c:984
+msgid "Next Line"
+msgstr "Nāk. rinda"
+
+#. TRANSLATORS: Try to keep the next four strings at most 13 characters.
+#: src/global.c:988
+msgid "Scroll Up"
+msgstr "Uz augšu"
+
+#: src/global.c:990
+msgid "Scroll Down"
+msgstr "Uz leju"
+
+#: src/global.c:994
+msgid "Prev Block"
+msgstr "Iep. bloks"
+
+#: src/global.c:996
+msgid "Next Block"
+msgstr "Nāk. bloks"
+
+#. TRANSLATORS: Try to keep these two strings at most 23 characters.
+#: src/global.c:1000
+msgid "Start of Paragraph"
+msgstr "Rindkopas sākums"
+
+#: src/global.c:1002
+msgid "End of Paragraph"
+msgstr "Rindkopas beigas"
+
+#: src/global.c:1007 src/global.c:1230
+msgid "Top Row"
+msgstr "Augšējā rinda"
+
+#: src/global.c:1009 src/global.c:1232
+msgid "Bottom Row"
+msgstr "Apakšējā rinda"
+
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
+#: src/global.c:1014 src/global.c:1215
+msgid "Prev Page"
+msgstr "Iep. lapa"
+
+#: src/global.c:1016 src/global.c:1217
+msgid "Next Page"
+msgstr "Nāk. lapa"
+
+#: src/global.c:1019
+msgid "First Line"
+msgstr "Uz sākumu"
+
+#: src/global.c:1021
+msgid "Last Line"
+msgstr "Uz beigām"
+
+#. TRANSLATORS: Try to keep these two strings at most 14 characters.
+#: src/global.c:1026
+msgid "Prev File"
+msgstr "Iep. fails"
+
+#: src/global.c:1028
+msgid "Next File"
+msgstr "Nāk. fails"
+
+#. TRANSLATORS: The next four strings are names of keyboard keys.
+#: src/global.c:1038
+msgid "Tab"
+msgstr "Tabulācija"
+
+#: src/global.c:1040
+msgid "Enter"
+msgstr "Enter"
+
+#: src/global.c:1043
+msgid "Backspace"
+msgstr "Atpakaļatkāpe"
+
+#: src/global.c:1045
+msgid "Delete"
+msgstr "Dzēst"
+
+#. TRANSLATORS: The next two strings refer to deleting words.
+#: src/global.c:1050
+msgid "Chop Left"
+msgstr "Dzēst pa kreisi"
+
+#: src/global.c:1052
+msgid "Chop Right"
+msgstr "Dzēst pa labi"
+
+#: src/global.c:1054 src/global.c:1198
+msgid "Cut Till End"
+msgstr "Dzēst beigas"
+
+#: src/global.c:1059 src/global.c:1164
+msgid "Full Justify"
+msgstr "Taisnot"
+
+#: src/global.c:1064
+msgid "Word Count"
+msgstr "Vārdu skaits"
+
+#: src/global.c:1071
+msgid "Verbatim"
+msgstr "Burtiski"
+
+#: src/global.c:1078
+msgid "Indent"
+msgstr "Palielināt atkāpi"
+
+#: src/global.c:1080
+msgid "Unindent"
+msgstr "Samazināt atkāpi"
+
+#: src/global.c:1084
+msgid "Comment Lines"
+msgstr "Iekomentēt rindas"
+
+#: src/global.c:1088
+msgid "Complete"
+msgstr "Pabeigt"
+
+#: src/global.c:1093
+msgid "Record"
+msgstr "Ierakstīt"
+
+#: src/global.c:1095
+msgid "Run Macro"
+msgstr "Palaist makro"
+
+#. TRANSLATORS: This refers to deleting a line or marked region.
+#: src/global.c:1099
+msgid "Zap"
+msgstr "Dzēst visu rindu"
+
+#: src/global.c:1102
+msgid "Anchor"
+msgstr "Iestatīt enkuru"
+
+#: src/global.c:1104
+msgid "Up to anchor"
+msgstr "Augšup līdz enkuram"
+
+#: src/global.c:1106
+msgid "Down to anchor"
+msgstr "Lejup līdz enkuram"
+
+#. TRANSLATORS: Try to keep the next four strings at most 10 characters.
+#: src/global.c:1110 src/global.c:1156
+msgid "Spell Check"
+msgstr "Pārbaudīt"
+
+#: src/global.c:1114 src/global.c:1160
+msgid "Linter"
+msgstr "Linteris"
+
+#: src/global.c:1118 src/global.c:1168
+msgid "Formatter"
+msgstr "Formatēt"
+
+#: src/global.c:1126 src/global.c:1201
+msgid "Suspend"
+msgstr "Apturēt"
+
+#: src/global.c:1135
+msgid "Center"
+msgstr "Centrēt"
+
+#: src/global.c:1137
+msgid "Cycle"
+msgstr "Cikls"
+
+#: src/global.c:1141
+msgid "Save"
+msgstr "Saglabāt"
+
+#: src/global.c:1151
+msgid "Pipe Text"
+msgstr "Novirzīt"
+
+#: src/global.c:1173
+msgid "DOS Format"
+msgstr "DOS formāts"
+
+#: src/global.c:1181
+msgid "Backup File"
+msgstr "Dublējuma fails"
+
+#: src/global.c:1184
+msgid "Append"
+msgstr "Pievienot"
+
+#: src/global.c:1186
+msgid "Prepend"
+msgstr "Pievienot sākumā"
+
+#: src/global.c:1190
+msgid "No Conversion"
+msgstr "Bez konvertēšanas"
+
+#: src/global.c:1195
+msgid "Execute Command"
+msgstr "Izpildīt komandu"
+
+#: src/global.c:1205
+msgid "Discard buffer"
+msgstr "Atmest buferi"
+
+#. TRANSLATORS: This invokes the file browser.
+#: src/global.c:1212
+msgid "Browse"
+msgstr "Pārlūkot"
+
+#: src/global.c:1220
+msgid "First File"
+msgstr "Pirmais fails"
+
+#: src/global.c:1222
+msgid "Last File"
+msgstr "Pēdējais fails"
+
+#: src/global.c:1226
+msgid "Left Column"
+msgstr "Kreisā kolonna"
+
+#: src/global.c:1228
+msgid "Right Column"
+msgstr "Labā kolonna"
+
+#. TRANSLATORS: The next two strings may be up to 37 characters each.
+#: src/global.c:1239
+msgid "Previous Linter message"
+msgstr "Iepriekšējais lintera ziņojums"
+
+#: src/global.c:1241
+msgid "Next Linter message"
+msgstr "Nākamais lintera ziņojums"
+
+#. TRANSLATORS: The next thirteen strings are toggle descriptions;
+#. * they are best kept shorter than 40 characters, but may be longer.
+#: src/global.c:1635
+msgid "Hidden interface"
+msgstr "Slēptā saskarne"
+
+#: src/global.c:1637
+msgid "Help mode"
+msgstr "Palīdzības režīms"
+
+#: src/global.c:1639
+msgid "Constant cursor position display"
+msgstr "Pastāvīga kursora pozīcijas attēlošana"
+
+#: src/global.c:1641
+msgid "Line numbering"
+msgstr "Rindu numerācija"
+
+#: src/global.c:1643
+msgid "Whitespace display"
+msgstr "Tukšumzīmju attēlošana"
+
+#: src/global.c:1645
+msgid "Color syntax highlighting"
+msgstr "Krāsu sintakses izcelšana"
+
+#: src/global.c:1647
+msgid "Soft wrapping of overlong lines"
+msgstr "Pārāk garu rindu mīkstā aplaušana"
+
+#: src/global.c:1649
+msgid "Hard wrapping of overlong lines"
+msgstr "Pārāk garu rindu cietā aplaušana"
+
+#: src/global.c:1651
+msgid "Conversion of typed tabs to spaces"
+msgstr "Ievadīto tabulācijas zīmju pārveidošana par atstarpēm"
+
+#: src/global.c:1653
+msgid "Auto indent"
+msgstr "Automātiska atkāpe"
+
+#: src/global.c:1655
+msgid "Smart home key"
+msgstr "Viedā sākuma taustiņa darbība"
+
+#: src/global.c:1657
+msgid "Cut to end"
+msgstr "Dzēst beigas"
+
+#: src/global.c:1659
+msgid "Mouse support"
+msgstr "Peles atbalsts"
+
+#: src/help.c:54
+msgid ""
+"Search Command Help Text\n"
+"\n"
+" Enter the words or characters you would like to search for, and then press "
+"Enter.  If there is a match for the text you entered, the screen will be "
+"updated to the location of the nearest match for the search string.\n"
+"\n"
+" The previous search string will be shown in brackets after the search "
+"prompt.  Hitting Enter without entering any text will perform the previous "
+"search.  "
+msgstr ""
+"Meklēšanas komandas palīdzība\n"
+"\n"
+" Ievadiet meklējamos vārdus vai rakstzīmes un nospiediet Enter.  Ja tiks "
+"atrasta ievadītā teksta atbilstība, ekrānā tiks parādīta tuvākā meklēšanas "
+"virknes atrašanās vieta.\n"
+"\n"
+" Iepriekšējā meklēšanas virkne tiks parādīta iekavās aiz meklēšanas "
+"uzvednes.  Nospiežot Enter bez teksta ievadīšanas, tiks atkārtota "
+"iepriekšējā meklēšana.  "
+
+#: src/help.c:63
+msgid ""
+"If you have selected text with the mark and then search to replace, only "
+"matches in the selected text will be replaced.\n"
+"\n"
+" The following function keys are available in Search mode:\n"
+"\n"
+msgstr ""
+"Ja esat iezīmējis tekstu ar atzīmi un tad meklējat, lai aizvietotu, tiks "
+"aizvietotas tikai atbilstības iezīmētajā tekstā.\n"
+"\n"
+" Meklēšanas režīmā ir pieejami šādi funkciju taustiņi:\n"
+"\n"
+
+#: src/help.c:69
+msgid ""
+"=== Replacement ===\n"
+"\n"
+" Type the characters that should replace what you typed at the previous "
+"prompt, and press Enter.\n"
+"\n"
+msgstr ""
+"=== Aizstāšana ===\n"
+"\n"
+" Ievadiet tekstu, ar ko aizstāt meklēto, un nospiediet Enter.\n"
+"\n"
+
+#: src/help.c:72 src/help.c:136 src/help.c:159 src/help.c:175
+msgid ""
+" The following function keys are available at this prompt:\n"
+"\n"
+msgstr ""
+" Pie šīs uzvednes ir pieejami šādi funkciju taustiņi:\n"
+"\n"
+
+#: src/help.c:76
+msgid ""
+"Go To Line Help Text\n"
+"\n"
+" Enter the line number that you wish to go to and hit Enter.  If there are "
+"fewer lines of text than the number you entered, you will be brought to the "
+"last line of the file.\n"
+"\n"
+" The following function keys are available in Go To Line mode:\n"
+"\n"
+msgstr ""
+"Pārejas uz rindiņu palīdzības teksts\n"
+"\n"
+" Ievadiet rindiņas numuru, uz kuru vēlaties pāriet, un nospiediet Enter.  Ja "
+"teksta rindiņu ir mazāk nekā jūsu ievadītais numurs, jūs tiksiet novirzīts "
+"uz faila pēdējo rindiņu.\n"
+"\n"
+" Pārejas uz rindiņu režīmā ir pieejami šādi funkciju taustiņi:\n"
+"\n"
+
+#: src/help.c:85
+msgid ""
+"Insert File Help Text\n"
+"\n"
+" Type in the name of a file to be inserted into the current file buffer at "
+"the current cursor location.\n"
+"\n"
+" If you have compiled nano with multiple file buffer support, and enable "
+"multiple file buffers with the -F or --multibuffer command line flags, the "
+"Meta-F toggle, or a nanorc file, inserting a file will cause it to be loaded "
+"into a separate buffer (use Meta-< and > to switch between file buffers).  "
+msgstr ""
+"Faila ievietošanas palīdzības teksts\n"
+"\n"
+" Ievadiet faila nosaukumu, kuru vēlaties ievietot pašreizējā faila buferī "
+"pašreizējā kursora atrašanās vietā.\n"
+"\n"
+" Ja esat kompilējis nano ar vairāku failu buferu atbalstu un iespējojis "
+"vairākus failu buferus, izmantojot -F vai --multibuffer komandrindas "
+"karogus, Meta-F pārslēgu vai nanorc failu, faila ievietošana izraisīs tā "
+"ielādi atsevišķā buferī (izmantojiet M-, un M-., lai pārslēgtos starp failu "
+"buferiem).  "
+
+#: src/help.c:94
+msgid ""
+"If you need another blank buffer, do not enter any filename, or type in a "
+"nonexistent filename at the prompt and press Enter.\n"
+"\n"
+" The following function keys are available in Insert File mode:\n"
+"\n"
+msgstr ""
+"Ja nepieciešams vēl viens tukšs buferis, neievadiet faila nosaukumu vai "
+"ievadiet neeksistējošu faila nosaukumu un nospiediet Enter.\n"
+"\n"
+" Faila ievietošanas režīmā ir pieejami šādi funkciju taustiņi:\n"
+"\n"
+
+#: src/help.c:100
+msgid ""
+"Write File Help Text\n"
+"\n"
+" Type the name that you wish to save the current file as and press Enter to "
+"save the file.\n"
+"\n"
+" If you have selected text with the mark, you will be prompted to save only "
+"the selected portion to a separate file.  To reduce the chance of "
+"overwriting the current file with just a portion of it, the current filename "
+"is not the default in this mode.\n"
+"\n"
+" The following function keys are available in Write File mode:\n"
+"\n"
+msgstr ""
+"Faila ierakstīšanas palīdzības teksts\n"
+"\n"
+" Ievadiet nosaukumu, ar kādu vēlaties saglabāt pašreizējo failu, un "
+"nospiediet Enter, lai saglabātu failu.\n"
+"\n"
+" Ja esat iezīmējis tekstu ar atzīmi, jums tiks piedāvāts saglabāt tikai "
+"iezīmēto daļu atsevišķā failā.  Lai samazinātu iespēju pārrakstīt pašreizējo "
+"failu tikai ar tā daļu, pašreizējais faila nosaukums šajā režīmā nav "
+"iestatīts kā noklusējuma.\n"
+"\n"
+" Faila ierakstīšanas režīmā ir pieejami šādi funkciju taustiņi:\n"
+"\n"
+
+#: src/help.c:114
+msgid ""
+"File Browser Help Text\n"
+"\n"
+" The file browser is used to visually browse the directory structure to "
+"select a file for reading or writing.  You may use the arrow keys or Page Up/"
+"Down to browse through the files, and S or Enter to choose the selected file "
+"or enter the selected directory.  To move up one level, select the directory "
+"called \"..\" at the top of the file list.\n"
+"\n"
+" The following function keys are available in the file browser:\n"
+"\n"
+msgstr ""
+"Failu pārlūka palīdzības teksts\n"
+"\n"
+" Failu pārlūks tiek izmantots, lai vizuāli pārlūkotu direktoriju struktūru "
+"un atlasītu failu lasīšanai vai rakstīšanai.  Varat izmantot bultiņu "
+"taustiņus vai Page Up/Down, lai pārvietotos pa failiem, un S vai Enter, lai "
+"izvēlētos atlasīto failu vai ieietu atlasītajā direktorijā.  Lai pārvietotos "
+"par vienu līmeni augstāk, failu saraksta augšgalā atlasiet direktoriju ar "
+"nosaukumu \"..\".\n"
+"\n"
+" Failu pārlūkā ir pieejami šādi funkciju taustiņi:\n"
+"\n"
+
+#: src/help.c:127
+msgid ""
+"Browser Search Command Help Text\n"
+"\n"
+" Enter the words or characters you would like to search for, and then press "
+"Enter.  If there is a match for the text you entered, the screen will be "
+"updated to the location of the nearest match for the search string.\n"
+"\n"
+" The previous search string will be shown in brackets after the search "
+"prompt.  Hitting Enter without entering any text will perform the previous "
+"search.\n"
+"\n"
+msgstr ""
+"Pārlūka meklēšanas komandas palīdzības teksts\n"
+"\n"
+" Ievadiet vārdus vai rakstzīmes, kuras vēlaties meklēt, un pēc tam "
+"nospiediet Enter.  Ja jūsu ievadītajam tekstam ir atbilstība, ekrāns tiks "
+"atjaunināts, parādot tuvāko meklēšanas virknes atbilstības vietu.\n"
+"\n"
+" Iepriekšējā meklēšanas virkne tiks parādīta iekavās aiz meklēšanas "
+"uzaicinājuma.  Nospiežot Enter, neievadot nekādu tekstu, tiks izpildīta "
+"iepriekšējā meklēšana.\n"
+"\n"
+
+#: src/help.c:140
+msgid ""
+"Browser Go To Directory Help Text\n"
+"\n"
+" Enter the name of the directory you would like to browse to.\n"
+"\n"
+" If tab completion has not been disabled, you can use the Tab key to "
+"(attempt to) automatically complete the directory name.\n"
+"\n"
+" The following function keys are available in Browser Go To Directory mode:\n"
+"\n"
+msgstr ""
+"Pārlūka pārejas uz direktoriju palīdzības teksts\n"
+"\n"
+" Ievadiet tās direktorijas nosaukumu, uz kuru vēlaties pārlūkot.\n"
+"\n"
+" Ja cilnes papildināšana nav atspējota, varat izmantot Tab taustiņu, lai "
+"(mēģinātu) automātiski pabeigt direktorijas nosaukumu.\n"
+"\n"
+" Pārlūka pārejas uz direktoriju režīmā ir pieejami šādi funkciju taustiņi:\n"
+"\n"
+
+#: src/help.c:153
+msgid ""
+"=== Spelling correction ===\n"
+"\n"
+" The spell checker has examined the spelling of all text in the current "
+"buffer or marked region.  An unknown word has been encountered -- it is "
+"highlighted and a replacement can now be edited.  After this you will be "
+"asked whether to replace each instance of that unknown word.\n"
+"\n"
+msgstr ""
+"=== Pareizrakstības korekcija ===\n"
+"\n"
+" Pareizrakstības pārbaudītājs ir pārbaudījis visa teksta pareizrakstību "
+"pašreizējā buferī vai iezīmētajā apgabalā.  Ir atrasts nezināms vārds — tas "
+"ir izcelts, un tagad var rediģēt aizstājēju.  Pēc tam jums tiks jautāts, vai "
+"aizstāt katru šī nezināmā vārda gadījumu.\n"
+"\n"
+
+#: src/help.c:166
+msgid ""
+"Execute Command Help Text\n"
+"\n"
+" This mode allows you to insert the output of a command run by the shell "
+"into the current buffer (or into a new buffer).  If the command is preceded "
+"by '|' (the pipe symbol), the current contents of the buffer (or marked "
+"region) will be piped to the command.  "
+msgstr ""
+"Komandas izpildes palīdzības teksts\n"
+"\n"
+" Šis režīms ļauj ievadīt čaulas (shell) izpildītās komandas izvadi "
+"pašreizējā buferī (vai jaunā buferī).  Ja pirms komandas ir simbols "
+"'|' (kanāls jeb pipe), pašreizējais bufera saturs (vai iezīmētais apgabals) "
+"tiks novirzīts caur kanālu uz šo komandu.  "
+
+#: src/help.c:172
+msgid ""
+"If you just need another blank buffer, do not enter any command.\n"
+"\n"
+" You can also pick one of four tools, or cut a large piece of the buffer, or "
+"put the editor to sleep.\n"
+"\n"
+msgstr ""
+"Ja jums vienkārši nepieciešams vēl viens tukšs buferis, neievadiet nevienu "
+"komandu.\n"
+"\n"
+" Varat arī izvēlēties vienu no četriem rīkiem, izgriezt lielu bufera daļu "
+"vai apturēt redaktora darbību.\n"
+"\n"
+
+#: src/help.c:178
+msgid ""
+"=== Linter ===\n"
+"\n"
+" In this mode, the status bar shows an error message or warning, and the "
+"cursor is put at the corresponding position in the file.  With PageUp and "
+"PageDown you can switch to earlier and later messages.\n"
+"\n"
+msgstr ""
+"=== Linter ===\n"
+"\n"
+" Šajā režīmā statusa joslā tiek rādīts kļūdas ziņojums vai brīdinājums, un "
+"kursors tiek novietots atbilstošajā pozīcijā failā.  Ar taustiņiem PageUp un "
+"PageDown var pārslēgties uz iepriekšējiem un nākamajiem ziņojumiem.\n"
+"\n"
+
+#: src/help.c:183
+msgid ""
+" The following function keys are available in Linter mode:\n"
+"\n"
+msgstr ""
+" Linter režīmā ir pieejami šādi funkciju taustiņi:\n"
+"\n"
+
+#: src/help.c:190
+msgid ""
+"Main nano help text\n"
+"\n"
+" The nano editor is designed to emulate the functionality and ease-of-use of "
+"the UW Pico text editor.  There are four main sections of the editor.  The "
+"top line shows the program version, the current filename being edited, and "
+"whether or not the file has been modified.  Next is the main editor window "
+"showing the file being edited.  The status line is the third line from the "
+"bottom and shows important messages.  "
+msgstr ""
+"Galvenais nano palīdzības teksts\n"
+"\n"
+" Redaktors nano ir izstrādāts, lai atdarinātu UW Pico teksta redaktora "
+"funkcionalitāti un ērtumu.  Redaktoram ir četras galvenās daļas.  Augšējajā "
+"rindiņā ir redzama programmas versija, pašreiz rediģētais faila nosaukums un "
+"tas, vai fails ir modificēts.  Tālāk atrodas galvenais redaktora logs, kurā "
+"tiek rādīts rediģētais fails.  Statusa rindiņa ir trešā rindiņa no apakšas, "
+"un tajā tiek parādīti svarīgi ziņojumi.  "
+
+#: src/help.c:200
+msgid ""
+"The bottom two lines show the most commonly used shortcuts in the editor.\n"
+"\n"
+" Shortcuts are written as follows: Control-key sequences are notated with a "
+"'^' and can be entered either by using the Ctrl key or pressing the Esc key "
+"twice.  Meta-key sequences are notated with 'M-' and can be entered using "
+"either the Alt, Cmd, or Esc key, depending on your keyboard setup.  "
+msgstr ""
+"Apakšējās divās rindās ir redzami redaktorā visbiežāk lietotie īsceļi.\n"
+"\n"
+" Īsceļi tiek apzīmēti šādi: Vadības taustiņu (Ctrl) secības tiek apzīmētas "
+"ar '^' simbolu, un tās var ievadīt, izmantojot Ctrl taustiņu vai divreiz "
+"nospiežot Esc taustiņu.  Meta taustiņu secības tiek apzīmētas ar 'M-' un tās "
+"var ievadīt, izmantojot Alt, Cmd vai Esc taustiņu, atkarībā no jūsu "
+"tastatūras iestatījumiem.  "
+
+#: src/help.c:207
+msgid ""
+"Also, pressing Esc twice and then typing a three-digit decimal number from "
+"000 to 255 will enter the character with the corresponding value.  The "
+"following keystrokes are available in the main editor window.  Alternative "
+"keys are shown in parentheses:\n"
+"\n"
+msgstr ""
+"Tāpat, divreiz nospiežot Esc un pēc tam ierakstot trīsciparu decimālskaitli "
+"no 000 līdz 255, tiks ievadīta rakstzīme ar atbilstošo vērtību.  Galvenajā "
+"redaktora logā ir pieejamas šādas taustiņu komandas.  Alternatīvie taustiņi "
+"ir norādīti iekavās:\n"
+"\n"
+
+#: src/help.c:239 src/help.c:303
+msgid "enable/disable"
+msgstr "ieslēgt/izslēgt"
+
+#: src/help.c:584 src/nano.c:1660
+msgid "^W = Ctrl+W    M-W = Alt+W"
+msgstr "^W = Ctrl+W    M-W = Alt+W"
+
+#: src/history.c:238
+#, c-format
+msgid ""
+"Unable to create directory %s: %s\n"
+"It is required for saving/loading search history or cursor positions.\n"
+msgstr ""
+"Neizdevās izveidot direktoriju %s: %s\n"
+"Tā ir nepieciešama, lai saglabātu un ielādētu meklēšanas vēsturi vai kursora "
+"pozīcijas.\n"
+
+#: src/history.c:245
+#, c-format
+msgid ""
+"Path %s is not a directory and needs to be.\n"
+"Nano will be unable to load or save search history or cursor positions.\n"
+msgstr ""
+"Ceļš %s nav direktorija, un tam ir jābūt direktorijai.\n"
+"Nano nespēs ielādēt vai saglabāt meklēšanas vēsturi vai kursoru pozīcijas.\n"
+
+#: src/history.c:338 src/history.c:476
+#, c-format
+msgid "Cannot limit permissions on %s: %s"
+msgstr "Neizdodas ierobežot atļaujas %s: %s"
+
+#. TRANSLATORS: The %s is the name of an option.
+#: src/move.c:694 src/move.c:718
+#, c-format
+msgid "Not possible with '%s'"
+msgstr "Neiespējami ar '%s'"
+
+#: src/nano.c:201
+msgid "Key is invalid in view mode"
+msgstr "Taustiņš ir nederīgs skata režīmā"
+
+#: src/nano.c:208
+msgid "This function is disabled in restricted mode"
+msgstr "Šī funkcija ir atspējota ierobežotajā režīmā"
+
+#: src/nano.c:223
+msgid "To suspend, type ^T^Z"
+msgstr "Lai apturētu, ierakstiet ^T^Z"
+
+#: src/nano.c:312
+msgid "No file name"
+msgstr "Nav norādīts faila nosaukums"
+
+#: src/nano.c:314
+msgid "Save modified buffer? "
+msgstr "Saglabāt modificēto buferi? "
+
+#: src/nano.c:339
+#, c-format
+msgid ""
+"\n"
+"Too many .save files\n"
+msgstr ""
+"\n"
+"Pārāk daudz .save failu\n"
+
+#: src/nano.c:341
+#, c-format
+msgid ""
+"\n"
+"Buffer written to %s\n"
+msgstr ""
+"\n"
+"Buferis ierakstīts failā %s\n"
+
+#: src/nano.c:492
+#, c-format
+msgid ""
+"Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n"
+"\n"
+msgstr "Lietošana: nano [OPCIJAS] [[+RINDA[,KOLONNA]] FAILS]...\n"
+
+#. TRANSLATORS: The next two strings are part of the --help output.
+#. * It's best to keep its lines within 80 characters.
+#: src/nano.c:496
+#, c-format
+msgid ""
+"To place the cursor on a specific line of a file, put the line number with\n"
+"a '+' before the filename.  The column number can be added after a comma.\n"
+msgstr ""
+"Lai novietotu kursoru uz noteiktas faila rindas, norādiet rindas numuru ar\n"
+"'+' pirms faila nosaukuma.  Kolonnas numuru var pievienot pēc komata.\n"
+
+#: src/nano.c:498
+#, c-format
+msgid ""
+"When a filename is '-', nano reads data from standard input.\n"
+"\n"
+msgstr ""
+"Ja faila nosaukums ir '-', nano nolasa datus no standarta ievades.\n"
+"\n"
+
+#. TRANSLATORS: The next three are column headers of the --help output.
+#: src/nano.c:500
+msgid "Option"
+msgstr "Opcija"
+
+#: src/nano.c:500
+msgid "Long option"
+msgstr "Garā opcija"
+
+#: src/nano.c:500
+msgid "Meaning"
+msgstr "Nozīme"
+
+#. TRANSLATORS: The next forty or so strings are option descriptions
+#. * for the --help output.  Try to keep them at most 40 characters.
+#: src/nano.c:503
+msgid "Enable smart home key"
+msgstr "Iespējot viedo sākuma taustiņu"
+
+#: src/nano.c:505
+msgid "Save backups of existing files"
+msgstr "Saglabāt esošo failu rezerves kopijas"
+
+#: src/nano.c:506
+msgid "-C <dir>"
+msgstr "-C <dir>"
+
+#: src/nano.c:506
+msgid "--backupdir=<dir>"
+msgstr "--backupdir=<dir>"
+
+#: src/nano.c:507
+msgid "Directory for saving unique backup files"
+msgstr "Direktorija unikālu dublējumfailu saglabāšanai"
+
+#: src/nano.c:510
+msgid "Use bold instead of reverse video text"
+msgstr "Izmantot treknrakstu pretējas video krāsas vietā"
+
+#: src/nano.c:512
+msgid "Convert typed tabs to spaces"
+msgstr "Pārvērst tabulācijas zīmes par atstarpēm"
+
+#: src/nano.c:516
+msgid "Read a file into a new buffer by default"
+msgstr "Pēc noklusējuma nolasīt failu jaunā buferī"
+
+#: src/nano.c:519
+msgid "Use (vim-style) lock files"
+msgstr "Izmantot (vim-stila) slēgfailus"
+
+#: src/nano.c:523
+msgid "Save & reload old search/replace strings"
+msgstr "Saglabāt un pārlādēt vecās meklēšanas/aizvietošanas virknes"
+
+#: src/nano.c:526
+msgid "Don't look at nanorc files"
+msgstr "Ignorēt nanorc failus"
+
+#: src/nano.c:529
+msgid "-J <number>"
+msgstr "-J <cipars>"
+
+#: src/nano.c:529
+msgid "--guidestripe=<number>"
+msgstr "--guidestripe=<cipars>"
+
+#: src/nano.c:530
+msgid "Show a guiding bar at this column"
+msgstr "Rādīt vadjoslu norādītajā kolonnā"
+
+#: src/nano.c:532
+msgid "Fix numeric keypad key confusion problem"
+msgstr "Novērst ciparu bloka taustiņu jukšanu"
+
+#: src/nano.c:534
+msgid "Don't add an automatic newline"
+msgstr "Nepievienot automātiski jaunu rindu"
+
+#: src/nano.c:537
+msgid "Trim tail spaces when hard-wrapping"
+msgstr "Apgriezt beigu atstarpes pie stingrās aplaušanas"
+
+#: src/nano.c:540
+msgid "Don't convert files from DOS format"
+msgstr "Nepārveidot failus no DOS formāta"
+
+#: src/nano.c:541
+msgid "Leading whitespace means new paragraph"
+msgstr "Sākuma atstarpes nozīmē jaunu rindkopu"
+
+#: src/nano.c:545
+msgid "Save & restore position of the cursor"
+msgstr "Saglabāt un atjaunot kursora pozīciju"
+
+#: src/nano.c:548
+msgid "-Q <regex>"
+msgstr "-Q <regex>"
+
+#: src/nano.c:548
+msgid "--quotestr=<regex>"
+msgstr "--quotestr=<regex>"
+
+#. TRANSLATORS: This refers to email quoting,
+#. * like the > in: > quoted text.
+#: src/nano.c:551
+msgid "Regular expression to match quoting"
+msgstr "Regulārā izteiksme citējuma noteikšanai"
+
+#: src/nano.c:554
+msgid "Restrict access to the filesystem"
+msgstr "Ierobežot piekļuvi failu sistēmai"
+
+#: src/nano.c:556
+msgid "Display overlong lines on multiple rows"
+msgstr "Rādīt pārāk garas rindas, aplaužot tās vairākās rindās"
+
+#: src/nano.c:557
+msgid "-T <number>"
+msgstr "-T <cipars>"
+
+#: src/nano.c:557
+msgid "--tabsize=<number>"
+msgstr "--tabsize=<cipars>"
+
+#: src/nano.c:558
+msgid "Make a tab this number of columns wide"
+msgstr "Iestatīt tabulācijas platumu norādītajā kolonnu skaitā"
+
+#: src/nano.c:560
+msgid "Wipe status bar upon next keystroke"
+msgstr "Notīrīt statusa joslu līdz ar nākamo taustiņa spiedienu"
+
+#: src/nano.c:561
+msgid "Print version information and exit"
+msgstr "Izvadīt versijas informāciju un iziet"
+
+#: src/nano.c:563
+msgid "Detect word boundaries more accurately"
+msgstr "Noteikt vārdu robežas precīzāk"
+
+#: src/nano.c:564
+msgid "-X <string>"
+msgstr "-X <virkne>"
+
+#: src/nano.c:564
+msgid "--wordchars=<string>"
+msgstr "--wordchars=<virkne>"
+
+#: src/nano.c:565
+msgid "Which other characters are word parts"
+msgstr "Nosaka, kuras citas rakstzīmes ir vārda daļas"
+
+#: src/nano.c:568
+msgid "-Y <name>"
+msgstr "-Y <nosaukums>"
+
+#: src/nano.c:568
+msgid "--syntax=<name>"
+msgstr "--syntax=<nosaukums>"
+
+#: src/nano.c:569
+msgid "Syntax definition to use for coloring"
+msgstr "Sintakses definīcija, ko izmantot krāsošanai"
+
+#: src/nano.c:572
+msgid "Let Bsp and Del erase a marked region"
+msgstr "Ļauj Bsp un Del dzēst iezīmēto apgabalu"
+
+#: src/nano.c:573
+msgid "When soft-wrapping, do it at whitespace"
+msgstr "Veicot mīksto aplaušanu, aplauzt rindu pie tukšumzīmēm"
+
+#: src/nano.c:576
+msgid "Automatically hard-wrap overlong lines"
+msgstr "Automātiski aplauzt pārāk garas rindas"
+
+#: src/nano.c:578
+msgid "Constantly show cursor position"
+msgstr "Pastāvīgi rādīt kursora pozīciju"
+
+#: src/nano.c:579
+msgid "Fix Backspace/Delete confusion problem"
+msgstr "Novērst neskaidrības ar Backspace/Delete taustiņiem"
+
+#: src/nano.c:581
+msgid "Keep the line below the title bar empty"
+msgstr "Atstāt tukšu rindu zem virsrakstjoslas"
+
+#: src/nano.c:584
+msgid "-f <file>"
+msgstr "-f <fails>"
+
+#: src/nano.c:584
+msgid "--rcfile=<file>"
+msgstr "--rcfile=<fails>"
+
+#: src/nano.c:585
+msgid "Use only this file for configuring nano"
+msgstr "Izmantot tikai šo failu nano konfigurēšanai"
+
+#: src/nano.c:588
+msgid "Show cursor in file browser & help text"
+msgstr "Rādīt kursoru failu pārlūkā un palīdzības tekstā"
+
+#: src/nano.c:590
+msgid "Show this help text and exit"
+msgstr "Rādīt šo palīdzības tekstu un iziet"
+
+#: src/nano.c:592
+msgid "Automatically indent new lines"
+msgstr "Automātiski veikt atkāpi jaunām rindām"
+
+#: src/nano.c:593
+msgid "Scroll per half-screen, not per line"
+msgstr "Ritināt pa pusekrānam, nevis pa rindai"
+
+#: src/nano.c:594
+msgid "Cut from cursor to end of line"
+msgstr "Izgriezt no kursora līdz rindas beigām"
+
+#: src/nano.c:597
+msgid "Show line numbers in front of the text"
+msgstr "Rādīt rindu numurus teksta priekšā"
+
+#: src/nano.c:600
+msgid "Enable the use of the mouse"
+msgstr "Iespējot peles lietošanu"
+
+#: src/nano.c:603
+msgid "Do not read the file (only write it)"
+msgstr "Nelasīt failu (tikai ierakstīt)"
+
+#: src/nano.c:606
+msgid "-o <dir>"
+msgstr "-o <dir>"
+
+#: src/nano.c:606
+msgid "--operatingdir=<dir>"
+msgstr "--operatingdir=<dir>"
+
+#: src/nano.c:607
+msgid "Set operating directory"
+msgstr "Iestatīt darba direktoriju"
+
+#: src/nano.c:609
+msgid "Preserve XON (^Q) and XOFF (^S) keys"
+msgstr "Saglabāt XON (^Q) un XOFF (^S) taustiņus"
+
+#: src/nano.c:611
+msgid "Show a position+portion indicator"
+msgstr "Rādīt pozīcijas+daļas indikatoru"
+
+#: src/nano.c:614
+msgid "-r <number>"
+msgstr "-r <cipars>"
+
+#: src/nano.c:614
+msgid "--fill=<number>"
+msgstr "--fill=<cipars>"
+
+#: src/nano.c:615
+msgid "Set width for hard-wrap and justify"
+msgstr "Iestatīt platumu cietajai aplaušanai un izlīdzināšanai"
+
+#: src/nano.c:619
+msgid "-s <program>"
+msgstr "-s <programma>"
+
+#: src/nano.c:619
+msgid "--speller=<program>"
+msgstr "--speller=<programma>"
+
+#: src/nano.c:620
+msgid "Use this alternative spell checker"
+msgstr "Izmantot šo alternatīvo pareizrakstības pārbaudītāju"
+
+#: src/nano.c:622
+msgid "Save changes on exit, don't prompt"
+msgstr "Saglabāt izmaiņas izejot, nejautājot"
+
+#: src/nano.c:624
+msgid "Save a file by default in Unix format"
+msgstr "Pēc noklusējuma saglabāt failu Unix formātā"
+
+#: src/nano.c:626
+msgid "View mode (read-only)"
+msgstr "Skatīšanas režīms (tikai lasīšanai)"
+
+#: src/nano.c:628
+msgid "Don't hard-wrap long lines [default]"
+msgstr "Neaplauzt garas rindas [noklusējums]"
+
+#: src/nano.c:630
+msgid "Don't show the two help lines"
+msgstr "Nerādīt divas palīdzības rindas"
+
+#: src/nano.c:632
+msgid "Make Ctrl+Right stop at word ends"
+msgstr "Ctrl+Labā apstājas pie vārdu beigām"
+
+#: src/nano.c:635
+msgid "List the names of available syntaxes"
+msgstr "Pieejamo sintakšu nosaukumu saraksts"
+
+#: src/nano.c:638
+msgid "Also try magic to determine syntax"
+msgstr "Arī izmantot 'magic', lai noteiktu sintaksi"
+
+#: src/nano.c:641
+msgid "Accept 'filename:linenumber' notation"
+msgstr "Pieņemt 'faila_nosaukums:rindas_numurs' apzīmējumu"
+
+#: src/nano.c:642
+msgid "Show some states on the title bar"
+msgstr "Rādīt dažus statusus virsraksta joslā"
+
+#: src/nano.c:643
+msgid "Show a feedback bar at the bottom"
+msgstr "Rādīt informācijas joslu apakšā"
+
+#: src/nano.c:644
+msgid "Hide all bars, use whole terminal"
+msgstr "Paslēpt visas joslas, izmantot visu termināli"
+
+#: src/nano.c:645
+msgid "Scroll only the current line sideways"
+msgstr "Ritināt tikai pašreizējo rindu sāniski"
+
+#: src/nano.c:647
+msgid "Use better-known key bindings"
+msgstr "Izmantot labāk zināmās taustiņu kombinācijas"
+
+#: src/nano.c:657
+#, c-format
+msgid " GNU nano, version %s\n"
+msgstr " GNU nano, versija %s\n"
+
+#. TRANSLATORS: The %s is the year of the latest release.
+#: src/nano.c:661
+#, c-format
+msgid " (C) %s the Free Software Foundation and various contributors\n"
+msgstr " (C) %s Brīvās programmatūras fonds un dažādi līdzautori\n"
+
+#: src/nano.c:663
+#, c-format
+msgid " Compiled options:"
+msgstr " Kompilētās opcijas:"
+
+#: src/nano.c:798
+#, c-format
+msgid "Available syntaxes:\n"
+msgstr "Pieejamās sintakses:\n"
+
+#: src/nano.c:845
+msgid "Could not reconnect stdin to keyboard\n"
+msgstr "Neizdevās atkārtoti savienot standarta ievadi ar tastatūru\n"
+
+#: src/nano.c:863
+#, c-format
+msgid "Reading data from keyboard; type ^D or ^D^D to finish.\n"
+msgstr "Datu nolasīšana no tastatūras; rakstiet ^D vai ^D^D, lai pabeigtu.\n"
+
+#: src/nano.c:872
+#, c-format
+msgid "Failed to open stdin: %s"
+msgstr "Neizdevās atvērt standarta ievadi: %s"
+
+#: src/nano.c:954
+msgid "Received SIGHUP or SIGTERM\n"
+msgstr "Saņemts SIGHUP vai SIGTERM\n"
+
+#: src/nano.c:961
+#, c-format
+msgid "Sorry! Nano crashed!  Code: %d.  Please report a bug.\n"
+msgstr "Atvainojiet! Nano avarēja!  Kods: %d.  Lūdzu, ziņojiet par kļūdu.\n"
+
+#: src/nano.c:977
+#, c-format
+msgid "Use \"fg\" to return to nano.\n"
+msgstr "Lai atgrieztos nano, izmantojiet \"fg\".\n"
+
+#: src/nano.c:1120
+msgid "Current syntax determines Tab"
+msgstr "Pašreizējā sintakse nosaka Tabulatora darbību"
+
+#: src/nano.c:1147
+msgid "enabled"
+msgstr "ieslēgts"
+
+#: src/nano.c:1147
+msgid "disabled"
+msgstr "atslēgts"
+
+#. TRANSLATORS: This refers to a sequence of escape codes
+#. * (from the keyboard) that nano does not recognize.
+#: src/nano.c:1290
+msgid "Unknown sequence"
+msgstr "Nezināma secība"
+
+#: src/nano.c:1293 src/rcfile.c:819
+#, c-format
+msgid "Unknown function: %s"
+msgstr "Nezināma funkcija: %s"
+
+#: src/nano.c:1295
+msgid "Missing }"
+msgstr "Trūkst }"
+
+#. TRANSLATORS: This refers to an unbound function key.
+#: src/nano.c:1300
+#, c-format
+msgid "Unbound key: F%i"
+msgstr "Nepiesaistīts taustiņš: F%i"
+
+#: src/nano.c:1303
+msgid "Unbound key"
+msgstr "Nepiesaistīts taustiņš"
+
+#: src/nano.c:1307
+#, c-format
+msgid "Unbindable key: M-^%c"
+msgstr "Neatvienojama taustiņu kombinācija: M-^%c"
+
+#: src/nano.c:1312 src/nano.c:1315 src/nano.c:1319 src/nano.c:1322
+#, c-format
+msgid "Unbound key: %s%c"
+msgstr "Nepiesaistīts taustiņš: %s%c"
+
+#: src/nano.c:1317
+msgid "Unbindable key: ^["
+msgstr "Neatvienojams taustiņš: ^["
+
+#: src/nano.c:1457
+msgid "Flawed paste"
+msgstr "Kļūdains ielīmējums"
+
+#: src/nano.c:1926 src/rcfile.c:1667
+#, c-format
+msgid "Guide column \"%s\" is invalid"
+msgstr "Vadlīnijas kolonna \"%s\" ir nederīga"
+
+#: src/nano.c:1972 src/rcfile.c:1672
+#, c-format
+msgid "Requested tab size \"%s\" is invalid"
+msgstr "Pieprasītais tabulācijas izmērs \"%s\" ir nederīgs"
+
+#: src/nano.c:2076 src/rcfile.c:1617
+#, c-format
+msgid "Requested fill size \"%s\" is invalid"
+msgstr "Pieprasītais aizpildījuma izmērs \"%s\" ir nederīgs"
+
+#: src/nano.c:2151
+#, c-format
+msgid "Type '%s -h' for a list of available options.\n"
+msgstr "Ierakstiet '%s -h', lai iegūtu pieejamo opciju sarakstu.\n"
+
+#: src/nano.c:2162
+msgid "Standard output is not a terminal\n"
+msgstr "Standarta izvade nav terminālis\n"
+
+#: src/nano.c:2357
+#, c-format
+msgid "Bad quoting regex \"%s\": %s\n"
+msgstr "Nepareizi citēta regulārā izteiksme \"%s\": %s\n"
+
+#: src/nano.c:2534
+#, c-format
+msgid "Invalid search modifier '%c'"
+msgstr "Nederīgs meklēšanas modificētājs '%c'"
+
+#: src/nano.c:2545
+msgid "Empty search string"
+msgstr "Tukša meklēšanas virkne"
+
+#: src/nano.c:2554 src/search.c:804
+msgid "Invalid line or column number"
+msgstr "Nederīgs rindas vai kolonnas numurs"
+
+#: src/nano.c:2590
+msgid "Invalid number\n"
+msgstr "Nederīgs numurs\n"
+
+#: src/nano.c:2636
+msgid "Standard input is not a terminal\n"
+msgstr "Standarta ievade nav terminālis\n"
+
+#: src/nano.c:2655
+msgid "Can open just one file\n"
+msgstr "Var atvērt tikai vienu failu\n"
+
+#: src/nano.c:2673
+msgid "Welcome to nano.  For basic help, type Ctrl+G."
+msgstr "Sveicināti nano.  Lai saņemtu pamata palīdzību, nospiediet Ctrl+G."
+
+#: src/nano.c:2720
+msgid "Byte Order Mark"
+msgstr "Baita secības marķieris"
+
+#. TRANSLATORS: For the next three strings, specify the starting letters
+#. * of the translations for "Yes"/"No"/"All".  The first letter of each of
+#. * these strings MUST be a single-byte letter; others may be multi-byte.
+#: src/prompt.c:665
+msgid "Yy"
+msgstr "Jj"
+
+#: src/prompt.c:666
+msgid "Nn"
+msgstr "Nn"
+
+#: src/prompt.c:667
+msgid "Aa"
+msgstr "Vv"
+
+#: src/prompt.c:693
+msgid "Yes"
+msgstr "Jā"
+
+#: src/prompt.c:697
+msgid "No"
+msgstr "Nē"
+
+#: src/prompt.c:702
+msgid "All"
+msgstr "Visi"
+
+#: src/rcfile.c:193
+#, c-format
+msgid "Mistakes in '%s'"
+msgstr "Kļūdas '%s'"
+
+#: src/rcfile.c:197
+msgid "Problems with history file"
+msgstr "Problēmas ar vēstures failu"
+
+#: src/rcfile.c:201
+#, c-format
+msgid "Error in %s on line %zu: "
+msgstr "Kļūda %s, rindā %zu: "
+
+#: src/rcfile.c:568
+#, c-format
+msgid "Argument '%s' has an unterminated \""
+msgstr "Argumentā '%s' nav aizvērta pēdiņa \""
+
+#: src/rcfile.c:589 src/rcfile.c:599
+msgid "Regex strings must begin and end with a \" character"
+msgstr "Regulārās izteiksmes virknēm jāsākas un jābeidzas ar \" rakstzīmi"
+
+#: src/rcfile.c:604
+msgid "Empty regex string"
+msgstr "Tukša regulārās izteiksmes virkne"
+
+#: src/rcfile.c:629 src/search.c:45
+#, c-format
+msgid "Bad regex \"%s\": %s"
+msgstr "Nepareiza regulārā izteiksme \"%s\": %s"
+
+#: src/rcfile.c:649
+msgid "Missing syntax name"
+msgstr "Trūkst sintakses nosaukuma"
+
+#: src/rcfile.c:657
+msgid "Unpaired quote in syntax name"
+msgstr "Nesapārota pēdiņas zīme sintakses nosaukumā"
+
+#: src/rcfile.c:669
+msgid "The \"none\" syntax is reserved"
+msgstr "Sintakse \"none\" ir rezervēta"
+
+#: src/rcfile.c:700
+msgid "The \"default\" syntax does not accept extensions"
+msgstr "Sintakse \"default\" nepieņem paplašinājumus"
+
+#: src/rcfile.c:718
+#, c-format
+msgid "Syntax \"%s\" has no color commands"
+msgstr "Sintakse \"%s\" nesatur krāsu komandas"
+
+#: src/rcfile.c:751
+msgid "Missing key name"
+msgstr "Trūkst atslēgas nosaukuma"
+
+#: src/rcfile.c:768 src/rcfile.c:775
+#, c-format
+msgid "Key name %s is invalid"
+msgstr "Atslēgas nosaukums %s ir nederīgs"
+
+#: src/rcfile.c:784
+msgid "Must specify a function to bind the key to"
+msgstr "Jānorāda funkcija, kurai piesaistīt taustiņu"
+
+#. TRANSLATORS: Do not translate the word "all".
+#: src/rcfile.c:795
+msgid "Must specify a menu (or \"all\") in which to bind/unbind the key"
+msgstr "Jānorāda izvēlne (vai \"all\"), kurā saistīt/atsaistīt taustiņu"
+
+#: src/rcfile.c:801
+#, c-format
+msgid "Unknown menu: %s"
+msgstr "Nezināma izvēlne: %s"
+
+#: src/rcfile.c:858
+#, c-format
+msgid "Function '%s' does not exist in menu '%s'"
+msgstr "Funkcija '%s' neeksistē izvēlnē '%s'"
+
+#: src/rcfile.c:868
+#, c-format
+msgid "Keystroke %s may not be rebound"
+msgstr "Taustiņu %s nedrīkst pārsiet"
+
+#: src/rcfile.c:950 src/rcfile.c:1520
+#, c-format
+msgid "Command \"%s\" not understood"
+msgstr "Komanda \"%s\" nav atpazīta"
+
+#: src/rcfile.c:978
+msgid "Path is too long"
+msgstr "Ceļš ir pārāk garš"
+
+#: src/rcfile.c:992
+#, c-format
+msgid "Error expanding %s: %s"
+msgstr "Kļūda izvēršot %s: %s"
+
+#: src/rcfile.c:1062 src/rcfile.c:1073
+#, c-format
+msgid "Color '%s' takes no prefix"
+msgstr "Krāsa '%s' nepieņem prefiksu"
+
+#: src/rcfile.c:1081
+#, c-format
+msgid "Color \"%s\" not understood"
+msgstr "Krāsa \"%s\" nav atpazīta"
+
+#: src/rcfile.c:1097 src/rcfile.c:1108
+msgid "An attribute requires a subsequent comma"
+msgstr "Pēc atribūta nepieciešams komats"
+
+#: src/rcfile.c:1152
+msgid "Missing color name"
+msgstr "Trūkst krāsas nosaukuma"
+
+#: src/rcfile.c:1163 src/rcfile.c:1263
+#, c-format
+msgid "Missing regex string after '%s' command"
+msgstr "Trūkst regulārās izteiksmes virknes pēc komandas '%s'"
+
+#: src/rcfile.c:1189
+msgid "\"start=\" requires a corresponding \"end=\""
+msgstr "\"start=\" pieprasa atbilstošu \"end=\""
+
+#: src/rcfile.c:1252 src/rcfile.c:1501
+#, c-format
+msgid "A '%s' command requires a preceding 'syntax' command"
+msgstr "Pirms komandas '%s' jābūt komandai 'syntax'"
+
+#: src/rcfile.c:1258
+#, c-format
+msgid "The \"default\" syntax does not accept '%s' regexes"
+msgstr "Noklusējuma sintakse (\"default\") nepieņem '%s' regulārās izteiksmes"
+
+#: src/rcfile.c:1305
+#, c-format
+msgid "Missing argument after '%s'"
+msgstr "Trūkst argumenta pēc '%s'"
+
+#: src/rcfile.c:1315
+#, c-format
+msgid "Argument of '%s' lacks closing \""
+msgstr "Argumentam '%s' trūkst noslēdzošās \""
+
+#: src/rcfile.c:1365
+#, c-format
+msgid "No key is bound to function '%s' in menu '%s'.  Exiting.\n"
+msgstr ""
+"Funkcijai '%s' izvēlnē '%s' nav piesaistīta neviena taustiņa kombinācija.  "
+"Izeju.\n"
+
+#: src/rcfile.c:1367
+msgid ""
+"If needed, use nano with the -I option to adjust your nanorc settings.\n"
+msgstr ""
+"Ja nepieciešams, izmantojiet nano ar opciju -I, lai pielāgotu savus nanorc "
+"iestatījumus.\n"
+
+#: src/rcfile.c:1434
+#, c-format
+msgid "Could not find syntax \"%s\" to extend"
+msgstr "Neizdevās atrast sintaksi \"%s\" paplašināšanai."
+
+#: src/rcfile.c:1491
+#, c-format
+msgid "Command \"%s\" not allowed in included file"
+msgstr "Komanda \"%s\" nav atļauta iekļautajā failā"
+
+#: src/rcfile.c:1532
+msgid "Missing option"
+msgstr "Trūkst opcijas"
+
+#: src/rcfile.c:1546
+#, c-format
+msgid "Unknown option: %s"
+msgstr "Nezināma opcija: %s"
+
+#: src/rcfile.c:1561
+#, c-format
+msgid "Cannot unset option \"%s\""
+msgstr "Neizdevās atiestatīt opciju \"%s\"."
+
+#: src/rcfile.c:1566
+#, c-format
+msgid "Option \"%s\" requires an argument"
+msgstr "Opcijai \"%s\" nepieciešams arguments"
+
+#: src/rcfile.c:1578
+msgid "Argument is not a valid multibyte string"
+msgstr "Arguments ir nederīga daudzbaitu virkne"
+
+#: src/rcfile.c:1625 src/rcfile.c:1643 src/rcfile.c:1648
+msgid "Non-blank characters required"
+msgstr "Nepieciešamas rakstzīmes, kas nav tukšumzīmes"
+
+#: src/rcfile.c:1627
+msgid "Even number of characters required"
+msgstr "Nepieciešams pāra skaits rakstzīmju"
+
+#: src/rcfile.c:1632
+msgid "Two single-column characters required"
+msgstr "Nepieciešamas divas vienkolonnas rakstzīmes"
+
+#: src/rcfile.c:1723
+msgid "Specified rcfile does not exist\n"
+msgstr "Norādītais rc fails neeksistē.\n"
+
+#: src/rcfile.c:1742
+msgid "I can't find my home directory!  Wah!"
+msgstr "Nevaru atrast savu mājas direktoriju!  Ak, vai!"
+
+#. TRANSLATORS: The next four modify the search prompt.
+#: src/search.c:101
+msgid " [Case sensitive]"
+msgstr " [Reģistrjutīgs]"
+
+#: src/search.c:102
+msgid " [Reg.exp.]"
+msgstr " [Reg.izs.]"
+
+#: src/search.c:106
+msgid " (to replace) in selection"
+msgstr " (aizstāt) atlasē"
+
+#: src/search.c:108
+msgid " (to replace)"
+msgstr " (aizstāt)"
+
+#. TRANSLATORS: This is shown when searching takes
+#. * more than half a second.
+#: src/search.c:233 src/search.c:306
+msgid "Searching..."
+msgstr "Meklē..."
+
+#: src/search.c:415
+#, c-format
+msgid "\"%.*s%s\" not found"
+msgstr "\"%.*s%s\" nav atrasts"
+
+#. TRANSLATORS: This is a prompt.
+#: src/search.c:601
+msgid "Replace this instance?"
+msgstr "Aizstāt šo instanci?"
+
+#. TRANSLATORS: This is a prompt.
+#: src/search.c:712
+msgid "Replace with"
+msgstr "Aizstāt ar"
+
+#: src/search.c:742
+#, c-format
+msgid "Replaced %zd occurrence"
+msgid_plural "Replaced %zd occurrences"
+msgstr[0] "Aizvietots %zd gadījumu"
+msgstr[1] "Aizvietots %zd gadījums"
+msgstr[2] "Aizvietoti %zd gadījumi"
+
+#. TRANSLATORS: This is a prompt.
+#: src/search.c:781
+msgid "Enter line number, column number"
+msgstr "Ievadiet rindas numuru, kolonnas numuru"
+
+#: src/search.c:958
+msgid "Not a bracket"
+msgstr "Nav iekava"
+
+#: src/search.c:1000
+msgid "No matching bracket"
+msgstr "Nav atbilstošas iekavas"
+
+#: src/search.c:1019
+msgid "Placed anchor"
+msgstr "Novietots enkurs"
+
+#: src/search.c:1021
+msgid "Removed anchor"
+msgstr "Noņemts enkurs"
+
+#: src/search.c:1040
+msgid "Jumped to anchor"
+msgstr "Pāriets uz enkuru"
+
+#: src/search.c:1042
+msgid "This is the only anchor"
+msgstr "Šis ir vienīgais enkurs"
+
+#: src/search.c:1044
+msgid "There are no anchors"
+msgstr "Nav enkuru"
+
+#: src/text.c:43
+msgid "Mark Set"
+msgstr "Atzīme iestatīta"
+
+#: src/text.c:46
+msgid "Mark Unset"
+msgstr "Atzīme noņemta"
+
+#: src/text.c:376
+msgid "Commenting is not supported for this file type"
+msgstr "Šim faila tipam komentēšana netiek atbalstīta"
+
+#: src/text.c:386
+msgid "Cannot comment past end of file"
+msgstr "Nevar komentēt aiz faila beigu"
+
+#: src/text.c:506
+msgid "Nothing to undo"
+msgstr "Nav ko atsaukt"
+
+#. TRANSLATORS: The next thirteen strings describe actions
+#. * that are undone or redone.  They are all nouns, not verbs.
+#: src/text.c:517 src/text.c:577 src/text.c:702 src/text.c:762
+msgid "addition"
+msgstr "pievienošanu"
+
+#: src/text.c:525 src/text.c:714
+msgid "line break"
+msgstr "rindas pārtraukumu"
+
+#: src/text.c:542 src/text.c:724
+msgid "deletion"
+msgstr "dzēšanu"
+
+#: src/text.c:552 src/text.c:730
+msgid "line join"
+msgstr "rindu apvienošanu"
+
+#: src/text.c:569 src/text.c:746
+msgid "replacement"
+msgstr "aizvietošanu"
+
+#: src/text.c:587 src/text.c:766
+msgid "erasure"
+msgstr "dzēšanu"
+
+#. TRANSLATORS: Remember: these are nouns, NOT verbs.
+#: src/text.c:593 src/text.c:771
+msgid "cut"
+msgstr "izgriešanu"
+
+#: src/text.c:597 src/text.c:775
+msgid "paste"
+msgstr "ielīmēšanu"
+
+#: src/text.c:604 src/text.c:779
+msgid "insertion"
+msgstr "ievietošanu"
+
+#: src/text.c:633 src/text.c:802
+msgid "indent"
+msgstr "atkāpi"
+
+#: src/text.c:637 src/text.c:806
+msgid "unindent"
+msgstr "atkāpes noņemšanu"
+
+#: src/text.c:642 src/text.c:811
+msgid "comment"
+msgstr "iekomentēšanu"
+
+#: src/text.c:646 src/text.c:815
+msgid "uncomment"
+msgstr "atkomentēšanu"
+
+#: src/text.c:654
+#, c-format
+msgid "Undid %s"
+msgstr "Atcēla %s"
+
+#: src/text.c:689
+msgid "Nothing to redo"
+msgstr "Nav ko atkārtot"
+
+#: src/text.c:823
+#, c-format
+msgid "Redid %s"
+msgstr "Pārdarīts %s"
+
+#. TRANSLATORS: This one goes with Undid/Redid messages.
+#: src/text.c:1782 src/text.c:2002
+msgid "justification"
+msgstr "līdzināšanu"
+
+#: src/text.c:1793 src/text.c:2131
+msgid "Selection is empty"
+msgstr "Atlase ir tukša"
+
+#: src/text.c:2006
+msgid "Justified selection"
+msgstr "Līdzināja atlasi"
+
+#: src/text.c:2010
+msgid "Justified file"
+msgstr "Līdzināja failu"
+
+#: src/text.c:2012
+msgid "Justified paragraph"
+msgstr "Līdzināja rindkopu"
+
+#: src/text.c:2134
+msgid "Buffer is empty"
+msgstr "Buferis ir tukšs"
+
+#: src/text.c:2146
+msgid "Invoking formatter..."
+msgstr "Izsauc formatētāju..."
+
+#: src/text.c:2183 src/text.c:2534 src/text.c:2536 src/text.c:2538
+#: src/text.c:2786
+#, c-format
+msgid "Error invoking '%s'"
+msgstr "Neizdevās izsaukt '%s'"
+
+#: src/text.c:2187
+#, c-format
+msgid "Program '%s' complained"
+msgstr "Programma '%s' ziņoja par problēmu"
+
+#: src/text.c:2195
+msgid "Nothing changed"
+msgstr "Nekas nav mainīts"
+
+#. TRANSLATORS: The next two go with Undid/Redid messages.
+#: src/text.c:2220
+msgid "spelling correction"
+msgstr "pareizrakstības labojumu"
+
+#: src/text.c:2220
+msgid "formatting"
+msgstr "formatēšanu"
+
+#: src/text.c:2238 src/text.c:2542
+msgid "Finished checking spelling"
+msgstr "Pabeigta pareizrakstības pārbaude"
+
+#: src/text.c:2240
+msgid "Buffer has been processed"
+msgstr "Buferis ir apstrādāts"
+
+#: src/text.c:2284
+#, c-format
+msgid "Unfindable word: %s"
+msgstr "Neatrodams vārds: %s"
+
+#. TRANSLATORS: This is a prompt.
+#: src/text.c:2303
+msgid "Edit a replacement"
+msgstr "Rediģēt aizvietojumu"
+
+#. TRANSLATORS: Shown after fixing misspellings in one word.
+#: src/text.c:2316
+msgid "Next word..."
+msgstr "Nākamais vārds..."
+
+#: src/text.c:2369
+msgid "Invoking spell checker..."
+msgstr "Izsauc pareizrakstības pārbaudītāju..."
+
+#: src/text.c:2454 src/text.c:2692
+msgid "Could not get size of pipe buffer"
+msgstr "Neizdevās iegūt cauruļvada bufera izmēru"
+
+#: src/text.c:2540 src/text.c:2791
+#, c-format
+msgid "Error reading pipe: %s"
+msgstr "Kļūda, nolasot cauruļvadu: %s"
+
+#: src/text.c:2627
+msgid "No linter is defined for this type of file"
+msgstr "Šim faila tipam nav definēts linteris"
+
+#: src/text.c:2637
+msgid "Save modified buffer before linting?"
+msgstr "Saglabāt modificēto buferi pirms pārbaudes?"
+
+#: src/text.c:2654
+msgid "Invoking linter..."
+msgstr "Izsauc linteri..."
+
+#: src/text.c:2796
+#, c-format
+msgid "Zero messages from '%s'"
+msgstr "Nulle ziņojumu no '%s'"
+
+#: src/text.c:2834
+#, c-format
+msgid "This message is for unopened file %s, open it in a new buffer?"
+msgstr "Šis paziņojums attiecas uz neatvērtu failu %s, atvērt to jaunā buferī?"
+
+#: src/text.c:2869
+msgid "No messages for this file"
+msgstr "Šim failam nav ziņu"
+
+#: src/text.c:2919
+msgid "At first message"
+msgstr "Sasniegts pirmais ziņojums"
+
+#: src/text.c:2929
+msgid "At last message"
+msgstr "Sasniegts pēdējais ziņojums"
+
+#: src/text.c:2969
+msgid "No formatter is defined for this type of file"
+msgstr "Šim faila tipam nav definēts formatētājs"
+
+#: src/text.c:3044
+#, c-format
+msgid "%s%zd %s,  %zu %s,  %zu %s"
+msgstr "%s%zd %s,  %zu %s,  %zu %s"
+
+#: src/text.c:3045
+msgid "In Selection:  "
+msgstr "Atlasē:  "
+
+#: src/text.c:3046
+msgid "line"
+msgid_plural "lines"
+msgstr[0] "rindu"
+msgstr[1] "rinda"
+msgstr[2] "rindas"
+
+#: src/text.c:3047
+msgid "word"
+msgid_plural "words"
+msgstr[0] "vārdu"
+msgstr[1] "vārds"
+msgstr[2] "vārdi"
+
+#: src/text.c:3048
+msgid "character"
+msgid_plural "characters"
+msgstr[0] "rakstzīmju"
+msgstr[1] "rakstzīme"
+msgstr[2] "rakstzīmes"
+
+#. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
+#: src/text.c:3066
+msgid "Verbatim Input"
+msgstr "Burtiska ievade"
+
+#. TRANSLATORS: An invalid verbatim Unicode code was typed.
+#: src/text.c:3090
+msgid "Invalid code"
+msgstr "Nederīgs kods"
+
+#. TRANSLATORS: Shown when no text is directly left of the cursor.
+#: src/text.c:3177
+msgid "No word fragment"
+msgstr "Nav vārda fragmenta"
+
+#: src/text.c:3280
+msgid "No further matches"
+msgstr "Vairāk atbilstību nav"
+
+#. TRANSLATORS: Shown when there are zero possible completions.
+#: src/text.c:3283
+msgid "No matches"
+msgstr "Nav atbilstību"
+
+#: src/utils.c:288 src/utils.c:299
+msgid "Nano is out of memory!\n"
+msgstr "Nano nepietiek atmiņas!\n"
+
+#: src/winio.c:93
+msgid "Recording a macro..."
+msgstr "Ieraksta makro..."
+
+#: src/winio.c:103
+msgid "Stopped recording"
+msgstr "Ierakstīšana apturēta"
+
+#: src/winio.c:123
+msgid "Cannot run macro while recording"
+msgstr "Nevar palaist makro ierakstīšanas laikā"
+
+#: src/winio.c:129
+msgid "Macro is empty"
+msgstr "Makro ir tukšs"
+
+#: src/winio.c:144
+msgid "Too much input at once\n"
+msgstr "Pārāk daudz ievades uzreiz\n"
+
+#: src/winio.c:257
+msgid "Too many errors from stdin\n"
+msgstr "Pārāk daudz kļūdu no stdin\n"
+
+#. TRANSLATORS: This is shown while a six-digit hexadecimal
+#. * Unicode character code (%s) is being typed in.
+#: src/winio.c:1421
+#, c-format
+msgid "Unicode Input: %s"
+msgstr "Unikoda ievade: %s"
+
+#. TRANSLATORS: The next five are "labels" in the title bar.
+#: src/winio.c:2035
+msgid "Linting --"
+msgstr "Pārbaude --"
+
+#: src/winio.c:2041
+msgid "DIR:"
+msgstr "DIREKTORIJA:"
+
+#: src/winio.c:2061
+msgid "View"
+msgstr "Skatīt"
+
+#: src/winio.c:2067 src/winio.c:2071
+msgid "Modified"
+msgstr "Rediģēts"
+
+#: src/winio.c:2069
+msgid "Restricted"
+msgstr "Ierobežots"
+
+#: src/winio.c:2166
+msgid "(nameless)"
+msgstr "(nenosaukts)"
+
+#: src/winio.c:2200
+#, c-format
+msgid " (%zu line)"
+msgid_plural " (%zu lines)"
+msgstr[0] " (%zu rindu)"
+msgstr[1] " (%zu rinda)"
+msgstr[2] " (%zu rindas)"
+
+#: src/winio.c:2202
+#, c-format
+msgid " (%zu line, %s)"
+msgid_plural " (%zu lines, %s)"
+msgstr[0] " (%zu rindu, %s)"
+msgstr[1] " (%zu rinda, %s)"
+msgstr[2] " (%zu rindas, %s)"
+
+#: src/winio.c:3511
+#, c-format
+msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
+msgstr ""
+"rinda %*zd/%zd (%2d%%), kolonna %2zu/%2zu (%3d%%), rakstzīme %*zu/%zu (%2d%%)"
+
+#: src/winio.c:3665
+msgid "The nano text editor"
+msgstr "Teksta redaktors nano"
+
+#: src/winio.c:3666
+msgid "version"
+msgstr "versija"
+
+#: src/winio.c:3667
+msgid "Brought to you by:"
+msgstr "Piedāvā:"
+
+#: src/winio.c:3668
+msgid "Special thanks to:"
+msgstr "Īpaša pateicība:"
+
+#: src/winio.c:3669
+msgid "The Free Software Foundation"
+msgstr "Brīvās programmatūras fonds"
+
+#: src/winio.c:3670
+msgid "the many translators and the TP"
+msgstr "daudzie tulki un TP"
+
+#: src/winio.c:3671
+msgid "For ncurses:"
+msgstr "Par ncurses:"
+
+#: src/winio.c:3672
+msgid "and anyone else we forgot..."
+msgstr "un ikvienam citam, ko aizmirsām..."
+
+#: src/winio.c:3673
+msgid "Thank you for using nano!"
+msgstr "Paldies, ka izmantojat nano!"
+
+#: lib/getopt.c:283
+#, c-format
+msgid "%s: option '%s%s' is ambiguous\n"
+msgstr "%s: opcija '%s%s' ir neskaidra\n"
+
+#: lib/getopt.c:289
+#, c-format
+msgid "%s: option '%s%s' is ambiguous; possibilities:"
+msgstr "%s: opcija '%s%s' ir neskaidra; iespējas:"
+
+#: lib/getopt.c:323
+#, c-format
+msgid "%s: unrecognized option '%s%s'\n"
+msgstr "%s: neatpazīta opcija '%s%s'\n"
+
+#: lib/getopt.c:349
+#, c-format
+msgid "%s: option '%s%s' doesn't allow an argument\n"
+msgstr "%s: opcija '%s%s' nepieļauj argumentu\n"
+
+#: lib/getopt.c:364
+#, c-format
+msgid "%s: option '%s%s' requires an argument\n"
+msgstr "%s: opcijai '%s%s' nepieciešams arguments\n"
+
+#: lib/getopt.c:624
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: nederīga opcija -- '%c'\n"
+
+#: lib/getopt.c:639 lib/getopt.c:685
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: opcijai nepieciešams arguments -- '%c'\n"
+
+#: lib/regcomp.c:128
+msgid "Success"
+msgstr "Veiksmīgi"
+
+#: lib/regcomp.c:131
+msgid "No match"
+msgstr "Nav atbilstību"
+
+#: lib/regcomp.c:134
+msgid "Invalid regular expression"
+msgstr "Nederīga regulārā izteiksme"
+
+#: lib/regcomp.c:137
+msgid "Invalid collation character"
+msgstr "Nederīgs salīdzināšanas simbols"
+
+#: lib/regcomp.c:140
+msgid "Invalid character class name"
+msgstr "Nederīgs rakstzīmju klases nosaukums"
+
+#: lib/regcomp.c:143
+msgid "Trailing backslash"
+msgstr "Noslēdzošā atpakaļsvītra"
+
+#: lib/regcomp.c:146
+msgid "Invalid back reference"
+msgstr "Nederīga atpakaļatsauce"
+
+#: lib/regcomp.c:149
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "Neatbilstošs [, [^, [:, [., vai [="
+
+#: lib/regcomp.c:152
+msgid "Unmatched ( or \\("
+msgstr "Neatbilstoša ( vai \\("
+
+#: lib/regcomp.c:155
+msgid "Unmatched \\{"
+msgstr "Neatbilstoša \\{"
+
+#: lib/regcomp.c:158
+msgid "Invalid content of \\{\\}"
+msgstr "Nederīgs \\{\\} saturs"
+
+#: lib/regcomp.c:161
+msgid "Invalid range end"
+msgstr "Nederīgs diapazona beigu punkts"
+
+#: lib/regcomp.c:164
+msgid "Memory exhausted"
+msgstr "Pietrūkst atmiņas"
+
+#: lib/regcomp.c:167
+msgid "Invalid preceding regular expression"
+msgstr "Nederīga iepriekšējā regulārā izteiksme"
+
+#: lib/regcomp.c:170
+msgid "Premature end of regular expression"
+msgstr "Pāragras regulārās izteiksmes beigas"
+
+#: lib/regcomp.c:173
+msgid "Regular expression too big"
+msgstr "Regulārā izteiksme ir pārāk liela"
+
+#: lib/regcomp.c:176
+msgid "Unmatched ) or \\)"
+msgstr "Neatbilstoša ) vai \\)"
+
+#: lib/regcomp.c:669
+msgid "No previous regular expression"
+msgstr "Nav iepriekšējas regulārās izteiksmes"

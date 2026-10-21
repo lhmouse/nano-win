@@ -1,14 +1,14 @@
-# Georgian translation for nano.
-# Copyright (C) 2022 Free Software Foundation, Inc.
+# Georgian translation for GNU nano.
+# Copyright (C) 2026 Free Software Foundation, Inc.
 # This file is distributed under the same license as the nano package.
-# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2024.
 #
+# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2024, 2026.
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU nano 7.0-pre1\n"
+"Project-Id-Version: nano 9.2-pre1\n"
 "Report-Msgid-Bugs-To: nano-devel@gnu.org\n"
-"POT-Creation-Date: 2026-07-31 08:17+0200\n"
-"PO-Revision-Date: 2024-03-16 13:12+0100\n"
+"POT-Creation-Date: 2026-10-21 08:38+0200\n"
+"PO-Revision-Date: 2026-10-07 13:33+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.9\n"
 
 #. TRANSLATORS: Anything more than 7 cells gets clipped.
 #: src/browser.c:186 src/browser.c:193
@@ -54,9 +54,9 @@ msgid " [Backwards]"
 msgstr " [უკან]"
 
 #: src/browser.c:322 src/browser.c:563 src/files.c:1120 src/files.c:1213
-#: src/files.c:2100 src/nano.c:321 src/search.c:113 src/search.c:292
-#: src/search.c:726 src/search.c:793 src/text.c:2628 src/text.c:2835
-#: src/winio.c:103
+#: src/files.c:2101 src/nano.c:321 src/search.c:113 src/search.c:292
+#: src/search.c:726 src/search.c:793 src/text.c:2640 src/text.c:2841
+#: src/winio.c:98
 msgid "Cancelled"
 msgstr "შეწყვეტილია"
 
@@ -71,7 +71,7 @@ msgstr "საქაღალდის გახსნის შეცდომ�
 
 #: src/browser.c:444
 msgid "No entries"
-msgstr ""
+msgstr "ჩანაწერების გარეშე"
 
 #. TRANSLATORS: This is a prompt.
 #: src/browser.c:562
@@ -89,16 +89,16 @@ msgstr "%s-ის გარეთ გასვლა შეუძლებელ
 msgid "Can't move up a directory"
 msgstr "ზედა საქაღალდეში გადასვლის შეცდომა"
 
-#: src/browser.c:616 src/files.c:877 src/files.c:883 src/files.c:1766
-#: src/files.c:1778 src/history.c:264 src/history.c:292 src/history.c:399
-#: src/history.c:453 src/rcfile.c:925 src/rcfile.c:1710
+#: src/browser.c:616 src/files.c:877 src/files.c:883 src/files.c:1767
+#: src/files.c:1779 src/history.c:264 src/history.c:292 src/history.c:399
+#: src/history.c:453 src/rcfile.c:916 src/rcfile.c:1701
 #, c-format
 msgid "Error reading %s: %s"
 msgstr "შეცდომა '%s'-ის კითხვისას: %s"
 
-#: src/browser.c:643 src/help.c:514
+#: src/browser.c:643 src/help.c:506
 msgid "Paste is ignored"
-msgstr ""
+msgstr "ჩასმა დაიგნორებულია"
 
 #: src/browser.c:691 src/files.c:359
 msgid "The working directory has disappeared"
@@ -175,7 +175,7 @@ msgstr ""
 #: src/files.c:363
 #, c-format
 msgid "Directory '%s' does not exist"
-msgstr ""
+msgstr "საქაღალდე '%s' არ არსებობს"
 
 #: src/files.c:365
 #, c-format
@@ -190,7 +190,7 @@ msgstr "ბილიკი %s საქაღალდეს არ წარმ
 #: src/files.c:369
 #, c-format
 msgid "Path '%s' is not accessible"
-msgstr ""
+msgstr "ბილიკი '%s' ხელმისაწვდომი არაა"
 
 #: src/files.c:372
 #, c-format
@@ -202,20 +202,20 @@ msgstr "%s საქაღალდე ჩაწერადი არაა"
 msgid "Can't read file from outside of %s"
 msgstr ""
 
-#: src/files.c:409 src/rcfile.c:901
+#: src/files.c:409 src/rcfile.c:892
 #, c-format
 msgid "'%s' is a directory"
-msgstr ""
+msgstr "'%s' საქაღალდეა"
 
-#: src/files.c:414 src/rcfile.c:902
+#: src/files.c:414 src/rcfile.c:893
 #, c-format
 msgid "'%s' is a device file"
-msgstr ""
+msgstr "'%s' მოწყობილობის ფაილია"
 
 #: src/files.c:420
 #, c-format
 msgid "'%s' is a FIFO"
-msgstr ""
+msgstr "'%s' FIFO-ია"
 
 #: src/files.c:426
 #, c-format
@@ -225,7 +225,7 @@ msgstr ""
 #: src/files.c:429
 #, c-format
 msgid "'%s' is an invalid filename"
-msgstr ""
+msgstr "'%s' არასწორი ფაილის სახელია"
 
 #. TRANSLATORS: First %s is file name, second %s is file format.
 #: src/files.c:541
@@ -235,11 +235,11 @@ msgid_plural "%s -- %zu lines (%s)"
 msgstr[0] "%s -- %zu ხაზი (%s)"
 msgstr[1] "%s -- %zu ხაზი (%s)"
 
-#: src/files.c:543 src/files.c:548 src/global.c:1133 src/winio.c:2058
+#: src/files.c:543 src/files.c:548 src/global.c:1147 src/winio.c:2056
 msgid "New Buffer"
 msgstr "ახალი ბუფერი"
 
-#: src/files.c:543 src/winio.c:2211
+#: src/files.c:543 src/winio.c:2203
 msgid "DOS"
 msgstr "DOS"
 
@@ -254,7 +254,7 @@ msgstr[1] "%s - %zu ხაზი"
 msgid "No more open file buffers"
 msgstr ""
 
-#: src/files.c:770 src/files.c:875 src/files.c:1816
+#: src/files.c:770 src/files.c:875 src/files.c:1817
 msgid "Interrupted"
 msgstr "შეწყვეტილია"
 
@@ -275,8 +275,8 @@ msgstr[1] ""
 #, c-format
 msgid "Read %zu line"
 msgid_plural "Read %zu lines"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "წაკითხულია %zu ხაზი"
+msgstr[1] "წაკითხულია %zu ხაზი"
 
 #: src/files.c:849
 msgid "New File"
@@ -295,13 +295,13 @@ msgstr "FIFO-დან წაკითხვა..."
 msgid "Reading..."
 msgstr "კითხვა..."
 
-#: src/files.c:994 src/text.c:2365 src/text.c:2636
+#: src/files.c:994 src/text.c:2365 src/text.c:2648
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr ""
 
 #: src/files.c:1035 src/files.c:1079 src/text.c:2179 src/text.c:2445
-#: src/text.c:2671
+#: src/text.c:2683
 #, c-format
 msgid "Could not fork: %s"
 msgstr "პროცესის განტოტვის შეცდომა (%s)"
@@ -358,1044 +358,1048 @@ msgstr ""
 msgid "File to insert [from %s]"
 msgstr ""
 
-#: src/files.c:1468
+#: src/files.c:1469
 #, c-format
 msgid "Invalid operating directory: %s\n"
 msgstr "არასწორი სამუშაო საქაღალდე: %s\n"
 
-#: src/files.c:1511
+#: src/files.c:1512
 #, c-format
 msgid "Invalid backup directory: %s\n"
 msgstr "მარქაფის არასწორი საქაღალდე: %s\n"
 
-#: src/files.c:1562
+#: src/files.c:1563
 msgid "Making backup..."
 msgstr "მარქაფი..."
 
-#: src/files.c:1594
+#: src/files.c:1595
 msgid "Too many existing backup files"
 msgstr ""
 
-#: src/files.c:1642
+#: src/files.c:1643
 msgid "Cannot read original file"
 msgstr ""
 
-#: src/files.c:1676
+#: src/files.c:1677
 msgid "Cannot make regular backup"
 msgstr ""
 
-#: src/files.c:1677
+#: src/files.c:1678
 msgid "Trying again in your home directory"
 msgstr ""
 
-#: src/files.c:1689
+#: src/files.c:1690
 msgid "Cannot make backup"
-msgstr ""
+msgstr "მარქაფის შექმნა შეუძლებელია"
 
 #. TRANSLATORS: Try to keep this message at most 76 characters.
-#: src/files.c:1700
+#: src/files.c:1701
 msgid "Cannot make backup; continue and save actual file? "
 msgstr ""
 
 #. TRANSLATORS: The %s is the reason of failure.
-#: src/files.c:1705
+#: src/files.c:1706
 #, c-format
 msgid "Cannot make backup: %s"
-msgstr ""
+msgstr "მარქაფის შექმნა შეუძლებელია: %s"
 
-#: src/files.c:1740
+#: src/files.c:1741
 #, c-format
 msgid "Can't write outside of %s"
 msgstr ""
 
-#: src/files.c:1759 src/files.c:1818 src/files.c:1829 src/files.c:1850
-#: src/files.c:1870 src/files.c:1893 src/files.c:1904 src/files.c:1911
+#: src/files.c:1760 src/files.c:1819 src/files.c:1830 src/files.c:1851
+#: src/files.c:1871 src/files.c:1894 src/files.c:1905 src/files.c:1912
 #: src/history.c:331 src/history.c:342 src/history.c:345 src/history.c:470
 #: src/history.c:484 src/history.c:498 src/history.c:504
 #, c-format
 msgid "Error writing %s: %s"
 msgstr "%s-ის ჩაწერის შეცდომა: %s"
 
-#: src/files.c:1782 src/text.c:2570 src/text.c:2986
+#: src/files.c:1783 src/text.c:2570 src/text.c:2983
 #, c-format
 msgid "Error writing temp file: %s"
 msgstr "როებითი ფაილის ჩაწერის შეცდომა: %s"
 
-#: src/files.c:1789
+#: src/files.c:1790
 msgid "Writing to FIFO..."
 msgstr "FIFO-ში ჩაწერა..."
 
-#: src/files.c:1836
+#: src/files.c:1837
 msgid "Writing..."
 msgstr "ჩაწერა…"
 
-#: src/files.c:1889
+#: src/files.c:1890
 #, c-format
 msgid "Error reading temp file: %s"
 msgstr ""
 
 #. TRANSLATORS: This warns for data loss when the disk is full.
-#: src/files.c:1918
+#: src/files.c:1919
 msgid "File on disk has been truncated!"
 msgstr ""
 
 #. TRANSLATORS: This is a suggestion to the user,
 #. * where "resume" means resuming from suspension.
 #. * Try to keep this at most 76 characters.
-#: src/files.c:1923
+#: src/files.c:1924
 msgid "Maybe ^T^Z, make room on disk, resume, then ^S^X"
 msgstr ""
 
-#: src/files.c:1983
+#: src/files.c:1984
 #, c-format
 msgid "Wrote %zu line"
 msgid_plural "Wrote %zu lines"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/files.c:2065
+#: src/files.c:2066
 msgid " [DOS Format]"
 msgstr " [DOS ფორმატი]"
 
-#: src/files.c:2066
+#: src/files.c:2067
 msgid " [Backup]"
 msgstr " [მარქაფი]"
 
 #. TRANSLATORS: The next six strings are prompts.
-#: src/files.c:2073
+#: src/files.c:2074
 msgid "Prepend Selection to File"
 msgstr "მონიშნულის ფაილის თავში მიწერა"
 
-#: src/files.c:2074
+#: src/files.c:2075
 msgid "Append Selection to File"
 msgstr "მონიშნულის ფაილის ბოლოში მიწერა"
 
-#: src/files.c:2075
+#: src/files.c:2076
 msgid "Write Selection to File"
 msgstr "მონიშნულის ფაილში ჩაერა"
 
 #. TRANSLATORS: Next three prompts are analogous to the above three.
-#: src/files.c:2078
+#: src/files.c:2079
 msgid "Prepend to File"
-msgstr ""
+msgstr "ფაილის თავში მიწერა"
 
-#: src/files.c:2078
+#: src/files.c:2079
 msgid "Append to File"
-msgstr ""
+msgstr "ფაილის ბოლოში მიწერა"
 
-#: src/files.c:2081
+#: src/files.c:2082
 msgid "Write to File"
-msgstr ""
+msgstr "ფაილში ჩაწერა"
 
 #. TRANSLATORS: Concisely say the screen is too small.
-#: src/files.c:2158 src/nano.c:1087 src/nano.c:1096
+#: src/files.c:2159 src/nano.c:1087 src/nano.c:1096
 msgid "Too tiny"
 msgstr "მეისმეტად პატარაა"
 
 #. TRANSLATORS: Restricted mode forbids overwriting.
-#: src/files.c:2190
+#: src/files.c:2191
 msgid "File exists -- cannot overwrite"
 msgstr "ფაილი არსებობს -- თავზე გადაწერა შეუძლებელია"
 
-#: src/files.c:2199
+#: src/files.c:2200
 msgid "Save file under DIFFERENT NAME? "
 msgstr ""
 
-#: src/files.c:2206
+#: src/files.c:2207
 #, c-format
 msgid "File \"%s\" exists; OVERWRITE? "
 msgstr ""
 
-#: src/files.c:2230
+#: src/files.c:2231
 msgid "File on disk has changed"
 msgstr "დისკზე ფაილი შეიცვალა"
 
 #. TRANSLATORS: Try to keep this at most 76 characters.
-#: src/files.c:2233
+#: src/files.c:2234
 msgid "File was modified since you opened it; continue saving? "
 msgstr "ფაილი შეიცვალა გახსნის შემდეგ. მაინც გნებავთ, ჩავწეროთ? "
 
-#: src/files.c:2608
+#: src/files.c:2609
 msgid "(more)"
 msgstr "(მეტი)"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:575
+#: src/global.c:585
 msgid "Exit"
 msgstr "გასვლა"
 
-#: src/global.c:576
+#: src/global.c:586
 msgid "Close"
 msgstr "დაკეტვა"
 
 #. TRANSLATORS: The next long series of strings are shortcut descriptions;
 #. * they are best kept shorter than 56 characters, but may be longer.
-#: src/global.c:584
+#: src/global.c:594
 msgid "Cancel the current function"
 msgstr "მიმდინარე ფუნქციის გაუქმება"
 
-#: src/global.c:585
+#: src/global.c:595
 msgid "Display this help text"
 msgstr "ამ დახმარების ტექსტის ჩვენება"
 
-#: src/global.c:586
+#: src/global.c:596
 msgid "Close the current buffer / Exit from nano"
 msgstr "მიმდინარე ბუფერის დახურვა / nano-დან გასვლა"
 
-#: src/global.c:588
-msgid "Write the current buffer (or the marked region) to disk"
-msgstr ""
-
-#: src/global.c:590
-msgid "Insert another file into current buffer (or into new buffer)"
-msgstr ""
-
-#: src/global.c:592
-msgid "Search forward for a string or a regular expression"
-msgstr ""
-
-#: src/global.c:594
-msgid "Search backward for a string or a regular expression"
-msgstr ""
-
-#: src/global.c:596
-msgid "Cut current line (or marked region) and store it in cutbuffer"
-msgstr ""
-
 #: src/global.c:598
-msgid "Copy current line (or marked region) and store it in cutbuffer"
-msgstr ""
+msgid "Write the current buffer (or the marked region) to disk"
+msgstr "მიმდინარე ბუფერის (ან მარკირებული რეგიონის) დისკზე ჩაწერა"
 
 #: src/global.c:600
-msgid "Paste the contents of cutbuffer at current cursor position"
-msgstr ""
+msgid "Insert another file into current buffer (or into new buffer)"
+msgstr "კიდევ ერთი ფაილის ჩასმა მიმდინარე ბუფერში (ან ახალ ბუფერში)"
 
-#: src/global.c:601
-msgid "Display the position of the cursor"
-msgstr ""
+#: src/global.c:602
+msgid "Search forward for a string or a regular expression"
+msgstr "სტრიქონის, ან რეგულარული გამოსახულების წინ ძებნა"
 
-#: src/global.c:603
-msgid "Invoke the spell checker, if available"
-msgstr ""
-
-#: src/global.c:605
-msgid "Replace a string or a regular expression"
-msgstr ""
+#: src/global.c:604
+msgid "Search backward for a string or a regular expression"
+msgstr "სტრიქონის, ან რეგულარული გამოსახულების უკან ძებნა"
 
 #: src/global.c:606
-msgid "Go to line and column number"
+msgid "Cut current line (or marked region) and store it in cutbuffer"
 msgstr ""
+"მიმდინარე ხაზის (ან მარკირებული რეგიონის) ამოჭრა და ამოჭრისბუფერში "
+"დამახსოვრება"
 
 #: src/global.c:608
-msgid "Go to the matching bracket"
+msgid "Copy current line (or marked region) and store it in cutbuffer"
 msgstr ""
-
-#: src/global.c:609
-msgid "Mark text starting from the cursor position"
-msgstr ""
+"მიმდინარე ხაზის (ან მარკირებული რეგიონის) კოპირება და ამოჭრისბუფერში "
+"დამახსოვრება"
 
 #: src/global.c:610
-msgid "Throw away the current line (or marked region)"
-msgstr ""
+msgid "Paste the contents of cutbuffer at current cursor position"
+msgstr "ამოჭრისბუფერის შემცველობის ჩასმა კურსორის მიმდინარე პოზიციაზე"
 
 #: src/global.c:611
-msgid "Indent the current line (or marked lines)"
-msgstr ""
-
-#: src/global.c:612
-msgid "Unindent the current line (or marked lines)"
-msgstr ""
+msgid "Display the position of the cursor"
+msgstr "კურსორის მდებარეობის ჩვენება"
 
 #: src/global.c:613
+msgid "Invoke the spell checker, if available"
+msgstr "მართლწერის შემმოწმებლის გამოძახება, თუ ხელმისაწვდომია"
+
+#: src/global.c:615
+msgid "Replace a string or a regular expression"
+msgstr "სტრიქონის, ან რეგულარული გამოსახულების ჩანაცვლება"
+
+#: src/global.c:616
+msgid "Go to line and column number"
+msgstr "ხაზზე და სვეტის ნომერზე გადასვლა"
+
+#: src/global.c:618
+msgid "Go to the matching bracket"
+msgstr "შესაბამის ბრჭყალზე გადასვლა"
+
+#: src/global.c:619
+msgid "Mark text starting from the cursor position"
+msgstr "ტექსტის მარკირების დაწყება მიმდინარე პოზიციიდან"
+
+#: src/global.c:620
+msgid "Throw away the current line (or marked region)"
+msgstr "მიმდინარე ხაზის (ან მარკირებული რეგიონის) გადაგდება"
+
+#: src/global.c:621
+msgid "Indent the current line (or marked lines)"
+msgstr "მიმდინარე ხაზის (ან მარკირებული ხაზების) შეწევა"
+
+#: src/global.c:622
+msgid "Unindent the current line (or marked lines)"
+msgstr "მიმდინარე ხაზის (ან მარკირებული ხაზების) შეწევის გაუქმება"
+
+#: src/global.c:623
 msgid "Undo the last operation"
 msgstr "ბოლო ცვლილების დაბრუნება"
 
-#: src/global.c:614
+#: src/global.c:624
 msgid "Redo the last undone operation"
-msgstr ""
+msgstr "ბოლო გაუქმებული ოპერაციის გამეორება"
 
-#: src/global.c:616
+#: src/global.c:626
 msgid "Go back one character"
 msgstr "ერთი სიმბოლოთი უკან გადასვლა"
 
-#: src/global.c:617
+#: src/global.c:627
 msgid "Go forward one character"
 msgstr "ერთი სიმბოლოთი წინ გადასვლა"
 
-#: src/global.c:618
+#: src/global.c:628
 msgid "Go back one word"
 msgstr "ერთი სიტყვით უკან გადასვლა"
 
-#: src/global.c:619
+#: src/global.c:629
 msgid "Go forward one word"
 msgstr "ერთი სიტყვით წინ გადასვლა"
 
-#: src/global.c:620
+#: src/global.c:630
 msgid "Go to previous line"
 msgstr "წინა ხაზზე გადასვლა"
 
-#: src/global.c:621
+#: src/global.c:631
 msgid "Go to next line"
 msgstr "შემდეგ ხაზზე გადასვლა"
 
-#: src/global.c:622
+#: src/global.c:632
 msgid "Go to beginning of current line"
 msgstr "მიმდინარე ხაზის დასაწყისში გადასვლა"
 
-#: src/global.c:623
+#: src/global.c:633
 msgid "Go to end of current line"
 msgstr "მიმდინარე ხაზის ბოლოში გადასვლა"
 
-#: src/global.c:624
+#: src/global.c:634
 msgid "Go to previous block of text"
 msgstr "წინა ტექსტის ბლოკზე გადასვლა"
 
-#: src/global.c:625
+#: src/global.c:635
 msgid "Go to next block of text"
 msgstr "შემდეგ ტექსტის ბლოკზე გადასვლა"
 
-#: src/global.c:628
-msgid "Go to beginning of paragraph; then of previous paragraph"
-msgstr ""
-
-#: src/global.c:630
-msgid "Go just beyond end of paragraph; then of next paragraph"
-msgstr ""
-
-#: src/global.c:633
-msgid "Go to first row in the viewport"
-msgstr ""
-
-#: src/global.c:634
-msgid "Go to last row in the viewport"
-msgstr ""
-
-#: src/global.c:635
-msgid "Center the line where the cursor is"
-msgstr ""
-
-#: src/global.c:636
-msgid "Push the cursor line to the center, then top, then bottom"
-msgstr ""
-
 #: src/global.c:638
+msgid "Go to beginning of paragraph; then of previous paragraph"
+msgstr "აბზაცის დასაწყისში გადასვლა. შემდეგ წინა აბზაცის"
+
+#: src/global.c:640
+msgid "Go just beyond end of paragraph; then of next paragraph"
+msgstr "აბზაცის დასასრულის შემდეგ გადასვლა. შემდეგ შემდეგი აბზაცის"
+
+#: src/global.c:643
+msgid "Go to first row in the viewport"
+msgstr "ხედის წერტილის პირველ მწკრივზე გადასვლა"
+
+#: src/global.c:644
+msgid "Go to last row in the viewport"
+msgstr "ხედის წერტილის ბოლო მწკრივზე გადასვლა"
+
+#: src/global.c:645
+msgid "Center the line where the cursor is"
+msgstr "კურსორის შემცველი ხაზის დაცენტრება"
+
+#: src/global.c:646
+msgid "Push the cursor line to the center, then top, then bottom"
+msgstr "მიმდინარე აზის დაყენება ცენტრზე, შემდეგ მაღლა, შემდეგ დაბლა"
+
+#: src/global.c:648
 msgid "Go one screenful up"
 msgstr "ერთი ეკრანით მაღლა აწევა"
 
-#: src/global.c:639
+#: src/global.c:649
 msgid "Go one screenful down"
 msgstr "ერთი ეკრანით დაბლა ჩამოწევა"
 
-#: src/global.c:640
+#: src/global.c:650
 msgid "Go to the first line of the file"
 msgstr "ფაილის პირველ ხაზზე გადასვლა"
 
-#: src/global.c:641
+#: src/global.c:651
 msgid "Go to the last line of the file"
 msgstr "ფაილის ბოლო ხაზზე გადასვლა"
 
-#: src/global.c:643
+#: src/global.c:653
 msgid "Scroll the viewport a tabsize to the left"
-msgstr ""
+msgstr "ხედის წერტილის გადახვევა ტაბულაციის ზომით მარჯვნივ"
 
-#: src/global.c:644
+#: src/global.c:654
 msgid "Scroll the viewport a tabsize to the right"
-msgstr ""
+msgstr "ხედის წერტილის გადახვევა ტაბულაციის ზომით მარცხნივ"
 
-#: src/global.c:648
+#: src/global.c:658
 msgid "Scroll up one line without moving the cursor textually"
 msgstr ""
 
-#: src/global.c:650
+#: src/global.c:660
 msgid "Scroll down one line without moving the cursor textually"
 msgstr ""
 
-#: src/global.c:653
+#: src/global.c:663
 msgid "Switch to the previous file buffer"
-msgstr ""
+msgstr "გადართვა წინა ფაილის ბუფერზე"
 
-#: src/global.c:654
+#: src/global.c:664
 msgid "Switch to the next file buffer"
-msgstr ""
+msgstr "გადართვა შემდეგი ფაილის ბუფერზე"
 
-#: src/global.c:656
+#: src/global.c:666
 msgid "Insert the next keystroke verbatim"
-msgstr ""
+msgstr "ღილაკის შემდეგი დაჭერის სიტყვასიტყვით ჩასმა"
 
-#: src/global.c:657
+#: src/global.c:667
 msgid "Insert a tab at the cursor position (or indent marked lines)"
-msgstr ""
+msgstr "ტაბულაციის ჩასმა კურსორის პოზიციაზე (ან შეწევის მარკირების ხაზებზე)"
 
-#: src/global.c:658
+#: src/global.c:668
 msgid "Insert a newline at the cursor position"
-msgstr ""
+msgstr "ხაზის გადატანის ჩასმა კურსორის პოზიციაზე"
 
-#: src/global.c:659
+#: src/global.c:669
 msgid "Delete the character under the cursor"
 msgstr "კურსორის ქვეშ მდებარე სიმბოლოს წაშლა"
 
-#: src/global.c:661
-msgid "Delete the character to the left of the cursor"
-msgstr ""
-
-#: src/global.c:664
-msgid "Delete backward from cursor to word start"
-msgstr ""
-
-#: src/global.c:666
-msgid "Delete forward from cursor to next word start"
-msgstr ""
-
-#: src/global.c:668
-msgid "Cut from the cursor position to the end of the file"
-msgstr ""
-
 #: src/global.c:671
-msgid "Justify the current paragraph"
-msgstr ""
+msgid "Delete the character to the left of the cursor"
+msgstr "კურსორის მარცხნივ მდებარე სიმბოლოს წაშლა"
 
-#: src/global.c:672
-msgid "Justify the entire file"
-msgstr ""
+#: src/global.c:674
+msgid "Delete backward from cursor to word start"
+msgstr "წაშლა კურსორიდან უკან სიტყვის დასაწყისამდე"
 
 #: src/global.c:676
-msgid "Count the number of lines, words, and characters"
-msgstr ""
+msgid "Delete forward from cursor to next word start"
+msgstr "წაშლა კურსორიდან წინ შემდეგი სიტყვის დასაწყისამდე"
 
-#: src/global.c:677
-msgid "Suspend the editor (return to the shell)"
-msgstr ""
-
-#: src/global.c:679
-msgid "Refresh (redraw) the current screen"
-msgstr ""
+#: src/global.c:678
+msgid "Cut from the cursor position to the end of the file"
+msgstr "ამოჭრა კურსოის პოზიციიდან ფაილის ბოლომდე"
 
 #: src/global.c:681
-msgid "Try and complete the current word"
-msgstr ""
+msgid "Justify the current paragraph"
+msgstr "მიმდინარე აბზაცის გასწორება"
 
-#: src/global.c:685
-msgid "Comment/uncomment the current line (or marked lines)"
-msgstr ""
+#: src/global.c:682
+msgid "Justify the entire file"
+msgstr "მთელი ფაილის გასწორება"
+
+#: src/global.c:686
+msgid "Count the number of lines, words, and characters"
+msgstr "ხაზების, სიტყვებისა და სიმბოლოების რაოდენობის დათვლა"
 
 #: src/global.c:687
-msgid "Save file without prompting"
-msgstr ""
-
-#: src/global.c:688
-msgid "Search next occurrence backward"
-msgstr ""
+msgid "Suspend the editor (return to the shell)"
+msgstr "რედაქტორის შეჩერება (გარსზე დაბრუნება)"
 
 #: src/global.c:689
-msgid "Search next occurrence forward"
-msgstr ""
+msgid "Refresh (redraw) the current screen"
+msgstr "მიმდინარე ეკრანის განახლება (თავიდან დახატვა)"
 
 #: src/global.c:691
-msgid "Start/stop recording a macro"
-msgstr ""
-
-#: src/global.c:692
-msgid "Run the last recorded macro"
-msgstr ""
-
-#: src/global.c:693
-msgid "Place or remove an anchor at the current line"
-msgstr ""
-
-#: src/global.c:694
-msgid "Jump backward to the nearest anchor"
-msgstr ""
+msgid "Try and complete the current word"
+msgstr "მიმდინარე სიტყვის დასრულების ცდა"
 
 #: src/global.c:695
-msgid "Jump forward to the nearest anchor"
-msgstr ""
+msgid "Comment/uncomment the current line (or marked lines)"
+msgstr "მიმდინარე ხაზის (ან მარკირებული ხაზების კომენტარი/კომენტარის გაუქმება"
 
 #: src/global.c:697
+msgid "Save file without prompting"
+msgstr "ფაილის შენახვა კითხვის გარეშე"
+
+#: src/global.c:698
+msgid "Search next occurrence backward"
+msgstr "შემდეგი აღმოჩენების ძებნა უკან"
+
+#: src/global.c:699
+msgid "Search next occurrence forward"
+msgstr "შემდეგი აღმოჩენების ძებნა წინ"
+
+#: src/global.c:701
+msgid "Start/stop recording a macro"
+msgstr "მაკროს ჩაწერის დაწყება/დასასრული"
+
+#: src/global.c:702
+msgid "Run the last recorded macro"
+msgstr "ბოლოს ჩაწერილი მაკროს გაშვება"
+
+#: src/global.c:703
+msgid "Place or remove an anchor at the current line"
+msgstr "მიმაგრების დასმა, ა მოცილება მიმდინარე ხაზზე"
+
+#: src/global.c:704
+msgid "Jump backward to the nearest anchor"
+msgstr "უკან გადახტომა უახლოეს მიმაგრებაზე"
+
+#: src/global.c:705
+msgid "Jump forward to the nearest anchor"
+msgstr "წინ გადახტომა უახლოეს მიმაგრებაზე"
+
+#: src/global.c:707
 msgid "Toggle the case sensitivity of the search"
 msgstr ""
 
-#: src/global.c:698
+#: src/global.c:708
 msgid "Reverse the direction of the search"
 msgstr ""
 
-#: src/global.c:699
+#: src/global.c:709
 msgid "Toggle the use of regular expressions"
 msgstr ""
 
-#: src/global.c:701
+#: src/global.c:711
 msgid "Recall the previous search/replace string"
 msgstr ""
 
-#: src/global.c:702
+#: src/global.c:712
 msgid "Recall the next search/replace string"
 msgstr ""
 
-#: src/global.c:705
+#: src/global.c:715
 msgid "Toggle the use of DOS format"
 msgstr "DOS ფორმატის გამოყენების გადართვა"
 
-#: src/global.c:706
+#: src/global.c:716
 msgid "Toggle appending"
 msgstr "ბოლოში მიწერის გადართვა"
 
-#: src/global.c:707
+#: src/global.c:717
 msgid "Toggle prepending"
 msgstr "თავში მიწერის გადართვა"
 
-#: src/global.c:708
+#: src/global.c:718
 msgid "Toggle backing up of the original file"
 msgstr "საწყისი ფაილის მარქაფის გადართვა"
 
-#: src/global.c:709
+#: src/global.c:719
 msgid "Execute a function or an external command"
-msgstr ""
+msgstr "ფუნქციის, ან გარე ბრძანების შესრულება"
 
-#: src/global.c:711
+#: src/global.c:721
 msgid "Pipe the current buffer (or marked region) to the command"
 msgstr ""
 
-#: src/global.c:713
+#: src/global.c:723
 msgid "Recall the previous command"
 msgstr ""
 
-#: src/global.c:714
+#: src/global.c:724
 msgid "Recall the next command"
 msgstr ""
 
-#: src/global.c:716
+#: src/global.c:726
 msgid "Do not convert from DOS format"
-msgstr ""
+msgstr "DOS ფორმატიდან არ გადაყვანა"
 
-#: src/global.c:719
+#: src/global.c:729
 msgid "Toggle the use of a new buffer"
 msgstr ""
 
-#: src/global.c:721
+#: src/global.c:731
 msgid "Close buffer without saving it"
 msgstr ""
 
-#: src/global.c:723
+#: src/global.c:733
 msgid "Go to file browser"
 msgstr "ფაილების ბრაუზერზე გადასვლა"
 
-#: src/global.c:724
+#: src/global.c:734
 msgid "Exit from the file browser"
 msgstr "ფაილების ბრაუზერიდან გასვლა"
 
-#: src/global.c:725
+#: src/global.c:735
 msgid "Go to the first file in the list"
 msgstr "სიაში პირველ ფაილზე გადასვლა"
 
-#: src/global.c:726
+#: src/global.c:736
 msgid "Go to the last file in the list"
 msgstr "სიაში ბოლო ფაილზე გადასვლა"
 
-#: src/global.c:727
+#: src/global.c:737
 msgid "Go to the previous file in the list"
 msgstr "სიაში წინა ფაილზე გადასვლა"
 
-#: src/global.c:728
+#: src/global.c:738
 msgid "Go to the next file in the list"
 msgstr "სიაში შემდეგ ფაილზე გადასვლა"
 
-#: src/global.c:730
+#: src/global.c:740
 msgid "Go to lefthand column"
 msgstr ""
 
-#: src/global.c:731
+#: src/global.c:741
 msgid "Go to righthand column"
 msgstr ""
 
-#: src/global.c:732
+#: src/global.c:742
 msgid "Go to first row in this column"
-msgstr ""
+msgstr "ამ სვეტის პირველ მწკრივზე გადასვლა"
 
-#: src/global.c:733
+#: src/global.c:743
 msgid "Go to last row in this column"
-msgstr ""
+msgstr "ამ სვეტის ბოლო მწკრივზე გადასვლა"
 
-#: src/global.c:735
+#: src/global.c:745
 msgid "Search forward for a string"
-msgstr ""
+msgstr "სტრიქონის ძებნა წინა მიმართულებით"
 
-#: src/global.c:736
+#: src/global.c:746
 msgid "Search backward for a string"
-msgstr ""
+msgstr "სტრიქონის ძებნა უკანა მიმართულებით"
 
-#: src/global.c:737
+#: src/global.c:747
 msgid "Refresh the file list"
-msgstr ""
+msgstr "ფაილების სიის განახლება"
 
-#: src/global.c:738
+#: src/global.c:748
 msgid "Go to directory"
 msgstr "საქაღალდეზე გადასვლა"
 
-#: src/global.c:741
+#: src/global.c:751
 msgid "Invoke the linter, if available"
-msgstr ""
+msgstr "linter-ის გამოძახება, თუ ხელმისაწვდომია"
 
-#: src/global.c:742
+#: src/global.c:752
 msgid "Go to previous linter msg"
 msgstr ""
 
-#: src/global.c:743
+#: src/global.c:753
 msgid "Go to next linter msg"
 msgstr ""
 
-#: src/global.c:747
+#: src/global.c:757
 msgid "Invoke a program to format/arrange/manipulate the buffer"
-msgstr ""
+msgstr "ბუფერის დაფორმატების/დალაგების/მანიპულაციის პროგრამის გამოძახება"
 
 #. TRANSLATORS: Try to keep the next thirteen strings at most 10 characters.
-#: src/global.c:765
+#: src/global.c:779
 msgid "Help"
 msgstr "დახმარება"
 
-#: src/global.c:769 src/prompt.c:706
+#: src/global.c:783 src/prompt.c:706
 msgid "Cancel"
 msgstr "გაუქმება"
 
-#: src/global.c:789
+#: src/global.c:803
 msgid "Write Out"
 msgstr "ჩაწერა"
 
-#: src/global.c:797
+#: src/global.c:811
 msgid "Read File"
 msgstr "ფაილის წაკითხვა"
 
-#: src/global.c:801 src/global.c:840
+#: src/global.c:815 src/global.c:854
 msgid "Justify"
 msgstr "გადამრთეველი"
 
-#: src/global.c:807 src/global.c:901 src/global.c:1117
+#: src/global.c:821 src/global.c:915 src/global.c:1131
 msgid "Refresh"
 msgstr "განახლება"
 
-#: src/global.c:812 src/global.c:904
+#: src/global.c:826 src/global.c:918
 msgid "Where Is"
 msgstr "სადაა"
 
-#: src/global.c:815 src/global.c:877
+#: src/global.c:829 src/global.c:891
 msgid "Replace"
 msgstr "ჩანაცვლება"
 
-#: src/global.c:828
+#: src/global.c:842
 msgid "Cut"
 msgstr "ამოჭრა"
 
-#: src/global.c:831
+#: src/global.c:845
 msgid "Paste"
 msgstr "ჩასმა"
 
-#: src/global.c:836 src/global.c:1109
+#: src/global.c:850 src/global.c:1123
 msgid "Execute"
 msgstr "გაშვება"
 
 #. TRANSLATORS: This refers to the position of the cursor.
-#: src/global.c:846
+#: src/global.c:860
 msgid "Location"
 msgstr "მდებარეობა"
 
-#: src/global.c:852 src/global.c:1019
+#: src/global.c:866 src/global.c:1033
 msgid "Go To Line"
 msgstr "ხაზზე გადასვლა"
 
 #. TRANSLATORS: Try to keep the next four strings at most 12 characters.
-#: src/global.c:858
+#: src/global.c:872
 msgid "Undo"
 msgstr "დაბრუნება"
 
-#: src/global.c:860
+#: src/global.c:874
 msgid "Redo"
 msgstr "გამეორება"
 
-#: src/global.c:863
+#: src/global.c:877
 msgid "Set Mark"
 msgstr "ნიშნულის დასმა"
 
-#: src/global.c:865 src/global.c:1053
+#: src/global.c:879 src/global.c:1067
 msgid "Copy"
 msgstr "დააკოპირე"
 
 #. TRANSLATORS: Try to keep the next four strings at most 16 characters.
-#: src/global.c:870
+#: src/global.c:884
 msgid "Case sensitive"
-msgstr ""
+msgstr "დიდი და პატარა ასოების განსხვავება"
 
-#: src/global.c:872
+#: src/global.c:886
 msgid "Reg.expression"
-msgstr ""
+msgstr "რეგ. გამოსახულება"
 
-#: src/global.c:874
+#: src/global.c:888
 msgid "Backwards"
 msgstr "უკან"
 
-#: src/global.c:879
+#: src/global.c:893
 msgid "No Replace"
 msgstr "ჩანაცვლების გარეშე"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:884 src/global.c:889
+#: src/global.c:898 src/global.c:903
 msgid "Older"
 msgstr "უფრო ძველია"
 
-#: src/global.c:886 src/global.c:891
+#: src/global.c:900 src/global.c:905
 msgid "Newer"
 msgstr "უფრო ახალია"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:898
+#: src/global.c:912
 msgid "Go To Dir"
 msgstr "საქაღალდეზე გადასვლა"
 
 #. TRANSLATORS: This starts a backward search.
-#: src/global.c:906 src/global.c:925
+#: src/global.c:920 src/global.c:939
 msgid "Where Was"
 msgstr "სად იყო"
 
 #. TRANSLATORS: This refers to searching the preceding occurrence.
-#: src/global.c:909 src/global.c:929
+#: src/global.c:923 src/global.c:943
 msgid "Previous"
 msgstr "წინა"
 
-#: src/global.c:911 src/global.c:931
+#: src/global.c:925 src/global.c:945
 msgid "Next"
 msgstr "შემდეგი"
 
-#: src/global.c:921
+#: src/global.c:935
 msgid "To Bracket"
-msgstr ""
+msgstr "ფრჩხილზე"
 
 #. TRANSLATORS: This means move the cursor one character back.
-#: src/global.c:936 src/global.c:941
+#: src/global.c:950 src/global.c:955
 msgid "Back"
 msgstr "უკან"
 
-#: src/global.c:938 src/global.c:943
+#: src/global.c:952 src/global.c:957
 msgid "Forward"
 msgstr "წინ"
 
 #. TRANSLATORS: Try to keep the next four strings at most 13 characters.
-#: src/global.c:949
+#: src/global.c:963
 msgid "Prev Word"
 msgstr "წინა სიტყვა"
 
-#: src/global.c:951
+#: src/global.c:965
 msgid "Next Word"
 msgstr "შემდეგი სიტყვა"
 
 #. TRANSLATORS: These two mean: "to beginning of line", "to end of line".
-#: src/global.c:955
+#: src/global.c:969
 msgid "Home"
 msgstr "საწყისი"
 
-#: src/global.c:957
+#: src/global.c:971
 msgid "End"
 msgstr "დასასრული"
 
 #. TRANSLATORS: Try to keep the next two strings at most 13 characters.
-#: src/global.c:961
+#: src/global.c:975
 msgid "Scroll Left"
-msgstr ""
+msgstr "მარცხნივ გაწევა"
 
-#: src/global.c:963
+#: src/global.c:977
 msgid "Scroll Right"
-msgstr ""
+msgstr "მარჯვნივ გაწევა"
 
 #. TRANSLATORS: Try to keep the next two strings at most 10 characters.
-#: src/global.c:968
+#: src/global.c:982
 msgid "Prev Line"
 msgstr "წინა ხაზი"
 
-#: src/global.c:970
+#: src/global.c:984
 msgid "Next Line"
 msgstr "შემდეგი ხაზი"
 
 #. TRANSLATORS: Try to keep the next four strings at most 13 characters.
-#: src/global.c:974
+#: src/global.c:988
 msgid "Scroll Up"
 msgstr "მაღლა აქაჩვა"
 
-#: src/global.c:976
+#: src/global.c:990
 msgid "Scroll Down"
 msgstr "ქვემოთ ჩამოწევა"
 
-#: src/global.c:980
+#: src/global.c:994
 msgid "Prev Block"
 msgstr "წინა ბლოკი"
 
-#: src/global.c:982
+#: src/global.c:996
 msgid "Next Block"
 msgstr "შემდეგი ბლოკი"
 
 #. TRANSLATORS: Try to keep these two strings at most 23 characters.
-#: src/global.c:986
+#: src/global.c:1000
 msgid "Start of Paragraph"
-msgstr ""
+msgstr "აბზაცის დასაწყისი"
 
-#: src/global.c:988
+#: src/global.c:1002
 msgid "End of Paragraph"
-msgstr "პარაგრაფის დასასრული"
+msgstr "აბზაცის დასასრული"
 
-#: src/global.c:993 src/global.c:1216
+#: src/global.c:1007 src/global.c:1230
 msgid "Top Row"
 msgstr "ზედა მწკრივი"
 
-#: src/global.c:995 src/global.c:1218
+#: src/global.c:1009 src/global.c:1232
 msgid "Bottom Row"
 msgstr "ქვედა მწკრივი"
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:1000 src/global.c:1201
+#: src/global.c:1014 src/global.c:1215
 msgid "Prev Page"
 msgstr "წინა გვერდი"
 
-#: src/global.c:1002 src/global.c:1203
+#: src/global.c:1016 src/global.c:1217
 msgid "Next Page"
 msgstr "შემდეგი გვერდი"
 
-#: src/global.c:1005
+#: src/global.c:1019
 msgid "First Line"
 msgstr "პირველი ხაზი"
 
-#: src/global.c:1007
+#: src/global.c:1021
 msgid "Last Line"
 msgstr "ბოლო ხაზი"
 
 #. TRANSLATORS: Try to keep these two strings at most 14 characters.
-#: src/global.c:1012
+#: src/global.c:1026
 msgid "Prev File"
 msgstr "წინა ფაილი"
 
-#: src/global.c:1014
+#: src/global.c:1028
 msgid "Next File"
 msgstr "შემდეგი ფაილი"
 
 #. TRANSLATORS: The next four strings are names of keyboard keys.
-#: src/global.c:1024
+#: src/global.c:1038
 msgid "Tab"
 msgstr "Tab"
 
-#: src/global.c:1026
+#: src/global.c:1040
 msgid "Enter"
 msgstr "Enter"
 
-#: src/global.c:1029
+#: src/global.c:1043
 msgid "Backspace"
 msgstr "Backspace"
 
-#: src/global.c:1031
+#: src/global.c:1045
 msgid "Delete"
 msgstr "წაშლა"
 
 #. TRANSLATORS: The next two strings refer to deleting words.
-#: src/global.c:1036
-msgid "Chop Left"
-msgstr ""
-
-#: src/global.c:1038
-msgid "Chop Right"
-msgstr ""
-
-#: src/global.c:1040 src/global.c:1184
-msgid "Cut Till End"
-msgstr ""
-
-#: src/global.c:1045 src/global.c:1150
-msgid "Full Justify"
-msgstr ""
-
 #: src/global.c:1050
+msgid "Chop Left"
+msgstr "მარცხნივ დაკუწა"
+
+#: src/global.c:1052
+msgid "Chop Right"
+msgstr "მარჯვნივ დაკუწვა"
+
+#: src/global.c:1054 src/global.c:1198
+msgid "Cut Till End"
+msgstr "ბოლომდე ამოჭრის"
+
+#: src/global.c:1059 src/global.c:1164
+msgid "Full Justify"
+msgstr "სრული გასწორება"
+
+#: src/global.c:1064
 msgid "Word Count"
 msgstr "სიტყვების რაოდენობა"
 
-#: src/global.c:1057
+#: src/global.c:1071
 msgid "Verbatim"
 msgstr "ასლი"
 
-#: src/global.c:1064
+#: src/global.c:1078
 msgid "Indent"
 msgstr "შეწევა"
 
-#: src/global.c:1066
+#: src/global.c:1080
 msgid "Unindent"
 msgstr "შეწევის გაუქმება"
 
-#: src/global.c:1070
+#: src/global.c:1084
 msgid "Comment Lines"
 msgstr "კომენტარების ხაზები"
 
-#: src/global.c:1074
+#: src/global.c:1088
 msgid "Complete"
 msgstr "დასრულებულია"
 
-#: src/global.c:1079
+#: src/global.c:1093
 msgid "Record"
 msgstr "ჩაწერა"
 
-#: src/global.c:1081
+#: src/global.c:1095
 msgid "Run Macro"
 msgstr "მაკროს გაშვება"
 
 #. TRANSLATORS: This refers to deleting a line or marked region.
-#: src/global.c:1085
+#: src/global.c:1099
 msgid "Zap"
-msgstr ""
+msgstr "ზიგზაგი"
 
-#: src/global.c:1088
+#: src/global.c:1102
 msgid "Anchor"
 msgstr "ბმული"
 
-#: src/global.c:1090
+#: src/global.c:1104
 msgid "Up to anchor"
 msgstr ""
 
-#: src/global.c:1092
+#: src/global.c:1106
 msgid "Down to anchor"
 msgstr ""
 
 #. TRANSLATORS: Try to keep the next four strings at most 10 characters.
-#: src/global.c:1096 src/global.c:1142
+#: src/global.c:1110 src/global.c:1156
 msgid "Spell Check"
 msgstr "მართლწერის შემოწმება"
 
-#: src/global.c:1100 src/global.c:1146
+#: src/global.c:1114 src/global.c:1160
 msgid "Linter"
-msgstr ""
+msgstr "ლინტერი"
 
-#: src/global.c:1104 src/global.c:1154
+#: src/global.c:1118 src/global.c:1168
 msgid "Formatter"
-msgstr ""
+msgstr "დამფორმატებელი"
 
-#: src/global.c:1112 src/global.c:1187
+#: src/global.c:1126 src/global.c:1201
 msgid "Suspend"
 msgstr "ძილი"
 
-#: src/global.c:1121
+#: src/global.c:1135
 msgid "Center"
 msgstr "ცენტრი"
 
-#: src/global.c:1123
+#: src/global.c:1137
 msgid "Cycle"
-msgstr ""
+msgstr "ციკლი"
 
-#: src/global.c:1127
+#: src/global.c:1141
 msgid "Save"
 msgstr "შენახვა"
 
-#: src/global.c:1137
+#: src/global.c:1151
 msgid "Pipe Text"
-msgstr "Pipe ტექსტი"
+msgstr "ტექსტის გად არხით"
 
-#: src/global.c:1159
+#: src/global.c:1173
 msgid "DOS Format"
 msgstr "DOS ფორმატი"
 
-#: src/global.c:1167
+#: src/global.c:1181
 msgid "Backup File"
 msgstr "ფაილის მარქაფი"
 
-#: src/global.c:1170
+#: src/global.c:1184
 msgid "Append"
 msgstr "მიმატება"
 
-#: src/global.c:1172
+#: src/global.c:1186
 msgid "Prepend"
 msgstr "თავში მიწერა"
 
-#: src/global.c:1176
+#: src/global.c:1190
 msgid "No Conversion"
 msgstr "გადაყვანის გარეშე"
 
-#: src/global.c:1181
+#: src/global.c:1195
 msgid "Execute Command"
 msgstr "ბრძანების შესრულება"
 
-#: src/global.c:1191
+#: src/global.c:1205
 msgid "Discard buffer"
 msgstr "ბუფერის მოცილება"
 
 #. TRANSLATORS: This invokes the file browser.
-#: src/global.c:1198
+#: src/global.c:1212
 msgid "Browse"
 msgstr "დათვალიერება"
 
-#: src/global.c:1206
+#: src/global.c:1220
 msgid "First File"
 msgstr "პირველი ფაილი"
 
-#: src/global.c:1208
+#: src/global.c:1222
 msgid "Last File"
 msgstr "ბოლო ფაილი"
 
-#: src/global.c:1212
+#: src/global.c:1226
 msgid "Left Column"
 msgstr "მარცხენა სვეტი"
 
-#: src/global.c:1214
+#: src/global.c:1228
 msgid "Right Column"
 msgstr "მარჯვენა სვეტი"
 
 #. TRANSLATORS: The next two strings may be up to 37 characters each.
-#: src/global.c:1225
+#: src/global.c:1239
 msgid "Previous Linter message"
-msgstr ""
+msgstr "წინა ლინტერის შეტყობინებაზე"
 
-#: src/global.c:1227
+#: src/global.c:1241
 msgid "Next Linter message"
-msgstr ""
+msgstr "შემდეგ ლინტერის შეტყობინებაზე"
 
 #. TRANSLATORS: The next thirteen strings are toggle descriptions;
 #. * they are best kept shorter than 40 characters, but may be longer.
-#: src/global.c:1620
+#: src/global.c:1635
 msgid "Hidden interface"
-msgstr "დამალული ინტერფეისი"
+msgstr "დამალული ინტერფეისის"
 
-#: src/global.c:1622
+#: src/global.c:1637
 msgid "Help mode"
-msgstr "დახმარების რეჟიმი"
+msgstr "დახმარების რეჟიმის"
 
-#: src/global.c:1624
+#: src/global.c:1639
 msgid "Constant cursor position display"
-msgstr ""
+msgstr "კურსორის მუდმივი პოზიციის ჩვენების"
 
-#: src/global.c:1626
-msgid "Soft wrapping of overlong lines"
-msgstr ""
-
-#: src/global.c:1628
+#: src/global.c:1641
 msgid "Line numbering"
-msgstr "ხაზების დანომრვა"
+msgstr "ხაზების დანომრვის"
 
-#: src/global.c:1630
+#: src/global.c:1643
 msgid "Whitespace display"
-msgstr ""
+msgstr "თეთრი ჰარეს ჩვენების"
 
-#: src/global.c:1632
+#: src/global.c:1645
 msgid "Color syntax highlighting"
-msgstr "ფერადი სინტაქსის გამოკვეთა"
+msgstr "ფერადი სინტაქსის გამოკვეთის"
 
-#: src/global.c:1634
-msgid "Smart home key"
-msgstr "ჭკვიანი დასაწყისში გადასვლის ღილაკი"
+#: src/global.c:1647
+msgid "Soft wrapping of overlong lines"
+msgstr "ძალიან გრძელი ხაზების რბილი გადატანის"
 
-#: src/global.c:1636
+#: src/global.c:1649
+msgid "Hard wrapping of overlong lines"
+msgstr "ძალიან გრძელი ხაზების მაგარი გადატანის"
+
+#: src/global.c:1651
+msgid "Conversion of typed tabs to spaces"
+msgstr "აკრეფილი ტაბულაციების გადაკეთება ჰარედ"
+
+#: src/global.c:1653
 msgid "Auto indent"
-msgstr "ავტომატური სწორება"
+msgstr "ავტომატური შეწევის"
 
-#: src/global.c:1638
+#: src/global.c:1655
+msgid "Smart home key"
+msgstr "ჭკვიანი დასაწყისში გადასვლის ღილაკის"
+
+#: src/global.c:1657
 msgid "Cut to end"
 msgstr "ბოლომდე ამოჭრა"
 
-#: src/global.c:1640
-msgid "Hard wrapping of overlong lines"
-msgstr ""
-
-#: src/global.c:1642
-msgid "Conversion of typed tabs to spaces"
-msgstr ""
-
-#: src/global.c:1644
+#: src/global.c:1659
 msgid "Mouse support"
 msgstr "თაგუნას მხარდაჭერა"
 
@@ -1584,6 +1588,14 @@ msgid ""
 "showing the file being edited.  The status line is the third line from the "
 "bottom and shows important messages.  "
 msgstr ""
+"nano-ს მთავარი დახმარების ტექსტი\n"
+"\n"
+"რედაქტორი nano შექმნილია, რომ სცადოს UW Pico რედაქტორის ფუნქციონალის და "
+"სიიოლის ემულაცია.  რედაქტორში ოთხი მთავარი სექციაა.  ზედა ხაზი აჩვენებს "
+"პროგრამის ვერსიას, ამჟამად ჩასწორებადი ფაილის სახელს და შეიცვალა, თუ არა "
+"ფაილი.  შემდეგია მთავარი რედაქტორის ფანჯარა, რომელიც აჩვენებს ფაილს, რომლის "
+"ჩასწორებაც ხდება.  სტატუსის ხაზი მესამეა ქვემოდან და აჩვენებს მნიშვნელოვან "
+"შეტყობინებებს.  "
 
 #: src/help.c:200
 msgid ""
@@ -1594,6 +1606,12 @@ msgid ""
 "twice.  Meta-key sequences are notated with 'M-' and can be entered using "
 "either the Alt, Cmd, or Esc key, depending on your keyboard setup.  "
 msgstr ""
+"ბოლო ორი ხაზი აჩვენებს რედაქტორის ყველაზე ხშირად გამოყენებულ მალსახმობებს.\n"
+"\n"
+" მალსახმობები იწერება ასე: მიმდევრობები Ctrl+ღილაკის ნოტაციაა '^' და მათი "
+"შეყვანა შესაძლებელია, ან Ctrl ღილაკით, ან Esc ღილაკზე ორჯერ დაჭერით.  Meta-"
+"ღილაკის მიმდევრობების ნოტაცია ხდება სტრიქონით 'M-' და მისი შეყვანა, თქვენს "
+"კლავიატურაზე დამოკიდებულებით, შეიძლება იყოს Alt, Cmd, ან Esc.  "
 
 #: src/help.c:207
 msgid ""
@@ -1603,14 +1621,19 @@ msgid ""
 "keys are shown in parentheses:\n"
 "\n"
 msgstr ""
+"ასევე, ღილაკზე Esc ორჯერ დაჭერით და შემდეგ სამციფრიანი ათობითი რიცხვის "
+"აკრეფით შუალედიდან 000-255 შეიყვანს შესაბამისი ნომრის მქონე სიმბოლოს.  "
+"მთავარი რედაქტორის ფანჯრიდან ხელმისაწვდომია შემდეგი ღილაკის კომბინაციები.  "
+"ალტერნატიული ღილაკები ფრჩხილებშია ნაჩვენები:\n"
+"\n"
 
-#: src/help.c:239 src/help.c:311
+#: src/help.c:239 src/help.c:303
 msgid "enable/disable"
-msgstr ""
+msgstr "ჩართვა/გამორთვა"
 
-#: src/help.c:592 src/nano.c:1660
+#: src/help.c:584 src/nano.c:1660
 msgid "^W = Ctrl+W    M-W = Alt+W"
-msgstr ""
+msgstr "^W = Ctrl+W    M-W = Alt+W"
 
 #: src/history.c:238
 #, c-format
@@ -1635,27 +1658,27 @@ msgstr ""
 #: src/move.c:694 src/move.c:718
 #, c-format
 msgid "Not possible with '%s'"
-msgstr ""
+msgstr "'%s'-სთან ერთად შეუძლებელია"
 
 #: src/nano.c:201
 msgid "Key is invalid in view mode"
-msgstr ""
+msgstr "ღილაკი არასწორია ხედის რეჟიმში"
 
 #: src/nano.c:208
 msgid "This function is disabled in restricted mode"
-msgstr ""
+msgstr "ეს ფუნქცია შეზღუდულ რეჟიმში გათიშულია"
 
 #: src/nano.c:223
 msgid "To suspend, type ^T^Z"
-msgstr ""
+msgstr "შესაჩერებლად აკრიფეთ ^T^Z"
 
 #: src/nano.c:312
 msgid "No file name"
-msgstr ""
+msgstr "ფაილის სახელის გარეშე"
 
 #: src/nano.c:314
 msgid "Save modified buffer? "
-msgstr ""
+msgstr "შევინახო შეცვლილი ბუფერი? "
 
 #: src/nano.c:339
 #, c-format
@@ -1663,6 +1686,8 @@ msgid ""
 "\n"
 "Too many .save files\n"
 msgstr ""
+"\n"
+"მეტისმეტად ბევრი .save ფაილი\n"
 
 #: src/nano.c:341
 #, c-format
@@ -1670,6 +1695,8 @@ msgid ""
 "\n"
 "Buffer written to %s\n"
 msgstr ""
+"\n"
+"ბუფერი ჩაიწერა ფაილში %s\n"
 
 #: src/nano.c:492
 #, c-format
@@ -1677,6 +1704,8 @@ msgid ""
 "Usage: nano [OPTIONS] [[+LINE[,COLUMN]] FILE]...\n"
 "\n"
 msgstr ""
+"გამოყენება: nano [პარამეტრები] [[+ხაზი[,სვეტი]] ფაილი]...\n"
+"\n"
 
 #. TRANSLATORS: The next two strings are part of the --help output.
 #. * It's best to keep its lines within 80 characters.
@@ -1686,6 +1715,9 @@ msgid ""
 "To place the cursor on a specific line of a file, put the line number with\n"
 "a '+' before the filename.  The column number can be added after a comma.\n"
 msgstr ""
+"კურსორის ფაილის სასურველ ხაზზე მოსათავსებლად, მიუთითეთ ხაზის ნომერი\n"
+"წინ სიმბოლოთი '+' ფაილის სახელის წინ. სვეტის ნომრის მითითება მძიმის\n"
+"შემდეგ შეგიძლიათ.\n"
 
 #: src/nano.c:498
 #, c-format
@@ -1693,6 +1725,8 @@ msgid ""
 "When a filename is '-', nano reads data from standard input.\n"
 "\n"
 msgstr ""
+"როცა ფაილის სახელია '-', nano მონაცემებს სტანდარტული შეყვანიდან წაიკითხავს.\n"
+"\n"
 
 #. TRANSLATORS: The next three are column headers of the --help output.
 #: src/nano.c:500
@@ -1701,131 +1735,131 @@ msgstr "მორგება"
 
 #: src/nano.c:500
 msgid "Long option"
-msgstr ""
+msgstr "გრძელი პარამეტრი"
 
 #: src/nano.c:500
 msgid "Meaning"
-msgstr ""
+msgstr "მნიშვნელობა"
 
 #. TRANSLATORS: The next forty or so strings are option descriptions
 #. * for the --help output.  Try to keep them at most 40 characters.
 #: src/nano.c:503
 msgid "Enable smart home key"
-msgstr ""
+msgstr "ჭკვიანი home ღილაკის ჩართვა"
 
 #: src/nano.c:505
 msgid "Save backups of existing files"
-msgstr ""
+msgstr "არსებული ფაილების მარქაფის შენახვა"
 
 #: src/nano.c:506
 msgid "-C <dir>"
-msgstr ""
+msgstr "-C <სქღლდ>"
 
 #: src/nano.c:506
 msgid "--backupdir=<dir>"
-msgstr ""
+msgstr "--backupdir=<სქღლდ>"
 
 #: src/nano.c:507
 msgid "Directory for saving unique backup files"
-msgstr ""
+msgstr "საქაღალდე უნიკალური მარქაფის ფაილების შესანახად"
 
 #: src/nano.c:510
 msgid "Use bold instead of reverse video text"
-msgstr ""
+msgstr "სქელის გამოყენება შებრუნებული ვიდეოტექსტის მაგიერ"
 
 #: src/nano.c:512
 msgid "Convert typed tabs to spaces"
-msgstr ""
+msgstr "აკრეფილი ტაბულაციების გადაკეთება ჰარედ"
 
 #: src/nano.c:516
 msgid "Read a file into a new buffer by default"
-msgstr ""
+msgstr "ფაილის ნაგულისხმევად წაკითხვა ახალ ბუფერში"
 
 #: src/nano.c:519
 msgid "Use (vim-style) lock files"
-msgstr ""
+msgstr "ფაილების დაბლოკვის გამოყენება (vim-ის სტილში)"
 
 #: src/nano.c:523
 msgid "Save & reload old search/replace strings"
-msgstr ""
+msgstr "ძველი ძებნის/ჩანაცვლების სტრიქონების შენახვა & თავიდან ჩატვირთვა"
 
 #: src/nano.c:526
 msgid "Don't look at nanorc files"
-msgstr ""
+msgstr "nanorc ფაილების ძებნა არ მოხდება"
 
 #: src/nano.c:529
 msgid "-J <number>"
-msgstr ""
+msgstr "-J <რიცხვი>"
 
 #: src/nano.c:529
 msgid "--guidestripe=<number>"
-msgstr ""
+msgstr "--guidestripe=<რიცხვი>"
 
 #: src/nano.c:530
 msgid "Show a guiding bar at this column"
-msgstr ""
+msgstr "მიმმართველი პანელის ჩვენება ამ სვეტთან"
 
 #: src/nano.c:532
 msgid "Fix numeric keypad key confusion problem"
-msgstr ""
+msgstr "ციფრებიანი კლავიატურის ღილაკების არევის პრობლემის გადაწყვეტა"
 
 #: src/nano.c:534
 msgid "Don't add an automatic newline"
-msgstr ""
+msgstr "ახალი ხაზი ავტომატურად არ დაემატება"
 
 #: src/nano.c:537
 msgid "Trim tail spaces when hard-wrapping"
-msgstr ""
+msgstr "ბოლოში არსებული ჰარეების წაკვეთა მყარი გადატანისას"
 
 #: src/nano.c:540
 msgid "Don't convert files from DOS format"
-msgstr ""
+msgstr "ფაილების DOS ფორმატიდან არ გადაყვანა"
 
 #: src/nano.c:541
 msgid "Leading whitespace means new paragraph"
-msgstr ""
+msgstr "თეთრი ჰარეთი დაწყება ახალ აბზაცს ნიშნავს"
 
 #: src/nano.c:545
 msgid "Save & restore position of the cursor"
-msgstr ""
+msgstr "კურსორის მდებარეობის შენახვა & აღდგენა"
 
 #: src/nano.c:548
 msgid "-Q <regex>"
-msgstr ""
+msgstr "-Q <რეგგამოსი>"
 
 #: src/nano.c:548
 msgid "--quotestr=<regex>"
-msgstr ""
+msgstr "--quotestr=<რეგგამოსი>"
 
 #. TRANSLATORS: This refers to email quoting,
 #. * like the > in: > quoted text.
 #: src/nano.c:551
 msgid "Regular expression to match quoting"
-msgstr ""
+msgstr "რეგულარული გამოსახულება ციტირებისთვის"
 
 #: src/nano.c:554
 msgid "Restrict access to the filesystem"
-msgstr ""
+msgstr "ფაილურ სისტემასთან წვდომის აკრძალვა"
 
 #: src/nano.c:556
 msgid "Display overlong lines on multiple rows"
-msgstr ""
+msgstr "ძალიან გრძელი ხაზების ჩვენება ერთზე მეტ მწკრივზე"
 
 #: src/nano.c:557
 msgid "-T <number>"
-msgstr ""
+msgstr "-T <რიცხვი>"
 
 #: src/nano.c:557
 msgid "--tabsize=<number>"
-msgstr ""
+msgstr "--tabsize=<რიცხვი>"
 
 #: src/nano.c:558
 msgid "Make a tab this number of columns wide"
-msgstr ""
+msgstr "ტაბულაცია ამ რაოდენობის სვეტების სიგანის ტოლი იქნება"
 
 #: src/nano.c:560
 msgid "Wipe status bar upon next keystroke"
-msgstr ""
+msgstr "სტატუსის ზოლის გასუფთავება შემდეგი ღილაკის დაჭერისას"
 
 #: src/nano.c:561
 msgid "Print version information and exit"
@@ -1833,204 +1867,204 @@ msgstr "ვერსიის ჩვენება და გასვლა"
 
 #: src/nano.c:563
 msgid "Detect word boundaries more accurately"
-msgstr ""
+msgstr "სიტყვის საზღვრების უფრო ზუსტად დადგენა"
 
 #: src/nano.c:564
 msgid "-X <string>"
-msgstr ""
+msgstr "-X <სტრიქონი>"
 
 #: src/nano.c:564
 msgid "--wordchars=<string>"
-msgstr ""
+msgstr "--wordchars=<სტრიქონი>"
 
 #: src/nano.c:565
 msgid "Which other characters are word parts"
-msgstr ""
+msgstr "რომელი სხვა სიმბოლოა სიტყვის ნაწილი"
 
 #: src/nano.c:568
 msgid "-Y <name>"
-msgstr ""
+msgstr "-Y <სახელი>"
 
 #: src/nano.c:568
 msgid "--syntax=<name>"
-msgstr ""
+msgstr "--syntax=<სახელი>"
 
 #: src/nano.c:569
 msgid "Syntax definition to use for coloring"
-msgstr ""
+msgstr "სინტაქსის აღწერა გაფერადებისთვის"
 
 #: src/nano.c:572
 msgid "Let Bsp and Del erase a marked region"
-msgstr ""
+msgstr "Bsp და del მონიშნულ რეგიონს წაშლიან"
 
 #: src/nano.c:573
 msgid "When soft-wrapping, do it at whitespace"
-msgstr ""
+msgstr "რბილი გადატანისას ეს თეთრ ჰარესთან მოხდება"
 
 #: src/nano.c:576
 msgid "Automatically hard-wrap overlong lines"
-msgstr ""
+msgstr "ძალიან გრძელი ხაზების ავტომატური მყარი გადატანა"
 
 #: src/nano.c:578
 msgid "Constantly show cursor position"
-msgstr ""
+msgstr "კურსორის მდებარეობის ყოველთვის ჩვენება"
 
 #: src/nano.c:579
 msgid "Fix Backspace/Delete confusion problem"
-msgstr ""
+msgstr "Backspace/Delete-ის არევის პრობლემის გადაწყეტა"
 
 #: src/nano.c:581
 msgid "Keep the line below the title bar empty"
-msgstr ""
+msgstr "სათაურის ზოლის ქვემოთ ხაზის ცარიელად შენარჩუნება"
 
 #: src/nano.c:584
 msgid "-f <file>"
-msgstr ""
+msgstr "-f <ფაილი>"
 
 #: src/nano.c:584
 msgid "--rcfile=<file>"
-msgstr ""
+msgstr "--rcfile=<ფაილი>"
 
 #: src/nano.c:585
 msgid "Use only this file for configuring nano"
-msgstr ""
+msgstr "მხოლოდ, ამ ფაილის გამოყენება nano-ის მოსარგებად"
 
 #: src/nano.c:588
 msgid "Show cursor in file browser & help text"
-msgstr ""
+msgstr "კურსორის ჩვენება ფაილის პოვნისას და დახმარების ტექსტში"
 
 #: src/nano.c:590
 msgid "Show this help text and exit"
-msgstr ""
+msgstr "ამ დახმარების ტექსტის ჩვენება და გასვლა"
 
 #: src/nano.c:592
 msgid "Automatically indent new lines"
-msgstr ""
+msgstr "ახალი ხაზების ავტომატური სწორება"
 
 #: src/nano.c:593
 msgid "Scroll per half-screen, not per line"
-msgstr ""
+msgstr "გადახვევა ნახევარი ეკრანით და არა ერთი ხაზით"
 
 #: src/nano.c:594
 msgid "Cut from cursor to end of line"
-msgstr ""
+msgstr "ამოჭრა კურსორიდან ხაზის ბოლომდე"
 
 #: src/nano.c:597
 msgid "Show line numbers in front of the text"
-msgstr ""
+msgstr "ხაზის ნომრების ჩვენება ტექსტის წინ"
 
 #: src/nano.c:600
 msgid "Enable the use of the mouse"
-msgstr ""
+msgstr "თაგუნას გამოყენების ჩართვა"
 
 #: src/nano.c:603
 msgid "Do not read the file (only write it)"
-msgstr ""
+msgstr "ფაილის არწაკითხვა (მხოლოდ ჩაწერა)"
 
 #: src/nano.c:606
 msgid "-o <dir>"
-msgstr ""
+msgstr "-o <სქღლდ>"
 
 #: src/nano.c:606
 msgid "--operatingdir=<dir>"
-msgstr ""
+msgstr "--operatingdir=<სქღლდ>"
 
 #: src/nano.c:607
 msgid "Set operating directory"
-msgstr ""
+msgstr "სამუშაო საქაღალდის დაყენება"
 
 #: src/nano.c:609
 msgid "Preserve XON (^Q) and XOFF (^S) keys"
-msgstr ""
+msgstr "XON (^Q) და XOFF (^S) ღილაკების შენარჩუნება"
 
 #: src/nano.c:611
 msgid "Show a position+portion indicator"
-msgstr ""
+msgstr "პოზიციის+ნაწილის მაჩვენებლის ჩვენება"
 
 #: src/nano.c:614
 msgid "-r <number>"
-msgstr ""
+msgstr "-r <რიცხვი>"
 
 #: src/nano.c:614
 msgid "--fill=<number>"
-msgstr ""
+msgstr "--fill=<რიცხვი>"
 
 #: src/nano.c:615
 msgid "Set width for hard-wrap and justify"
-msgstr ""
+msgstr "სიგანის დაყენება მყარი გადატანისთვის და დადასტუება"
 
 #: src/nano.c:619
 msgid "-s <program>"
-msgstr ""
+msgstr "-s <პროგრამა>"
 
 #: src/nano.c:619
 msgid "--speller=<program>"
-msgstr ""
+msgstr "--speller=<პროგრამა>"
 
 #: src/nano.c:620
 msgid "Use this alternative spell checker"
-msgstr ""
+msgstr "ალტერნატიული მართლწერის შემოწმების პროგრამის გამოყენება"
 
 #: src/nano.c:622
 msgid "Save changes on exit, don't prompt"
-msgstr ""
+msgstr "გასვლისას ცვლილებების შენახვა კითხვის გარეშე"
 
 #: src/nano.c:624
 msgid "Save a file by default in Unix format"
-msgstr ""
+msgstr "ფაილის ნაგულისხმევი შენახვა Unix ფორმატში"
 
 #: src/nano.c:626
 msgid "View mode (read-only)"
-msgstr ""
+msgstr "ნახვის რეჟიმი (მხოლოდ წაკითხვა)"
 
 #: src/nano.c:628
 msgid "Don't hard-wrap long lines [default]"
-msgstr ""
+msgstr "გრძელი ხაზების მყარი გადატანა არ მოხდება [ნაგულისხმევი]"
 
 #: src/nano.c:630
 msgid "Don't show the two help lines"
-msgstr ""
+msgstr "ორი დახმარების ხაზის არჩვენება"
 
 #: src/nano.c:632
 msgid "Make Ctrl+Right stop at word ends"
-msgstr ""
+msgstr "Ctrl+მარჯვნივ გაჩერდება სიტყვის დასასრულთან"
 
 #: src/nano.c:635
 msgid "List the names of available syntaxes"
-msgstr ""
+msgstr "ხელმისაწვდომი სინტაქსის სახელების ჩამოთვლა"
 
 #: src/nano.c:638
 msgid "Also try magic to determine syntax"
-msgstr ""
+msgstr "ჯადოსნობის ცდა სინტაქსის ამოცნობისას"
 
 #: src/nano.c:641
 msgid "Accept 'filename:linenumber' notation"
-msgstr ""
+msgstr "'ფაილისსახელი:ხაზისნომერი' ნოტაციის მიღება"
 
 #: src/nano.c:642
 msgid "Show some states on the title bar"
-msgstr ""
+msgstr "ზოგიერთი მდგომარეობის ჩვენება სათაურის ზოლზე"
 
 #: src/nano.c:643
 msgid "Show a feedback bar at the bottom"
-msgstr ""
+msgstr "უკუკავშირის ზოლის ჩვენება დაბლა"
 
 #: src/nano.c:644
 msgid "Hide all bars, use whole terminal"
-msgstr ""
+msgstr "ყველა პანელის დამალვა და ტერმინალის სრულად გამოყენება"
 
 #: src/nano.c:645
 msgid "Scroll only the current line sideways"
-msgstr ""
+msgstr "გვერდზე, მხოლოდ, მიმდინარე ხაზის გადახვევა"
 
 #: src/nano.c:647
 msgid "Use better-known key bindings"
-msgstr ""
+msgstr "უფრო ცნობილი კლავიატურის მალსახმობების გამოყენება"
 
 #: src/nano.c:657
 #, c-format
 msgid " GNU nano, version %s\n"
-msgstr ""
+msgstr " GNU nano, ვერსია %s\n"
 
 #. TRANSLATORS: The %s is the year of the latest release.
 #: src/nano.c:661
@@ -2041,12 +2075,12 @@ msgstr ""
 #: src/nano.c:663
 #, c-format
 msgid " Compiled options:"
-msgstr ""
+msgstr " აგების პარამეტრები:"
 
 #: src/nano.c:798
 #, c-format
 msgid "Available syntaxes:\n"
-msgstr ""
+msgstr "ხელმისაწვდომი სინტაქსები:\n"
 
 #: src/nano.c:845
 msgid "Could not reconnect stdin to keyboard\n"
@@ -2092,16 +2126,16 @@ msgstr "გამორთულია"
 #. * (from the keyboard) that nano does not recognize.
 #: src/nano.c:1290
 msgid "Unknown sequence"
-msgstr ""
+msgstr "უცნობი მიმდევრობა"
 
 #: src/nano.c:1293 src/rcfile.c:819
 #, c-format
 msgid "Unknown function: %s"
-msgstr ""
+msgstr "უცნობი ფუნქცია: %s"
 
 #: src/nano.c:1295
 msgid "Missing }"
-msgstr ""
+msgstr "ნაკლული }"
 
 #. TRANSLATORS: This refers to an unbound function key.
 #: src/nano.c:1300
@@ -2131,17 +2165,17 @@ msgstr ""
 msgid "Flawed paste"
 msgstr ""
 
-#: src/nano.c:1926 src/rcfile.c:1676
+#: src/nano.c:1926 src/rcfile.c:1667
 #, c-format
 msgid "Guide column \"%s\" is invalid"
 msgstr ""
 
-#: src/nano.c:1972 src/rcfile.c:1681
+#: src/nano.c:1972 src/rcfile.c:1672
 #, c-format
 msgid "Requested tab size \"%s\" is invalid"
 msgstr ""
 
-#: src/nano.c:2076 src/rcfile.c:1626
+#: src/nano.c:2076 src/rcfile.c:1617
 #, c-format
 msgid "Requested fill size \"%s\" is invalid"
 msgstr ""
@@ -2160,36 +2194,36 @@ msgstr ""
 msgid "Bad quoting regex \"%s\": %s\n"
 msgstr ""
 
-#: src/nano.c:2525
+#: src/nano.c:2534
 #, c-format
 msgid "Invalid search modifier '%c'"
 msgstr ""
 
-#: src/nano.c:2536
+#: src/nano.c:2545
 msgid "Empty search string"
-msgstr ""
+msgstr "ცარიელი საძიებო სტრიქონი"
 
-#: src/nano.c:2545 src/search.c:804
+#: src/nano.c:2554 src/search.c:804
 msgid "Invalid line or column number"
 msgstr ""
 
-#: src/nano.c:2581
+#: src/nano.c:2590
 msgid "Invalid number\n"
-msgstr ""
+msgstr "არასწორი რიცხვი\n"
 
-#: src/nano.c:2627
+#: src/nano.c:2636
 msgid "Standard input is not a terminal\n"
 msgstr ""
 
-#: src/nano.c:2646
+#: src/nano.c:2655
 msgid "Can open just one file\n"
 msgstr ""
 
-#: src/nano.c:2664
+#: src/nano.c:2673
 msgid "Welcome to nano.  For basic help, type Ctrl+G."
-msgstr ""
+msgstr "მოგესალმებათ nano.  ძირითადი დახმარებისთვის აკრიფეთ Ctrl+G."
 
-#: src/nano.c:2711
+#: src/nano.c:2720
 msgid "Byte Order Mark"
 msgstr ""
 
@@ -2214,7 +2248,7 @@ msgstr "დიახ"
 
 #: src/prompt.c:697
 msgid "No"
-msgstr ""
+msgstr "არა"
 
 #: src/prompt.c:702
 msgid "All"
@@ -2223,11 +2257,11 @@ msgstr "&ყველა"
 #: src/rcfile.c:193
 #, c-format
 msgid "Mistakes in '%s'"
-msgstr ""
+msgstr "შეცდომები ფაილში '%s'"
 
 #: src/rcfile.c:197
 msgid "Problems with history file"
-msgstr ""
+msgstr "პრობლემები ისტორიის ფაილთან"
 
 #: src/rcfile.c:201
 #, c-format
@@ -2306,138 +2340,138 @@ msgstr ""
 msgid "Keystroke %s may not be rebound"
 msgstr ""
 
-#: src/rcfile.c:959 src/rcfile.c:1529
+#: src/rcfile.c:950 src/rcfile.c:1520
 #, c-format
 msgid "Command \"%s\" not understood"
 msgstr ""
 
-#: src/rcfile.c:987
+#: src/rcfile.c:978
 msgid "Path is too long"
 msgstr ""
 
-#: src/rcfile.c:1001
+#: src/rcfile.c:992
 #, c-format
 msgid "Error expanding %s: %s"
 msgstr ""
 
-#: src/rcfile.c:1071 src/rcfile.c:1082
+#: src/rcfile.c:1062 src/rcfile.c:1073
 #, c-format
 msgid "Color '%s' takes no prefix"
 msgstr ""
 
-#: src/rcfile.c:1090
+#: src/rcfile.c:1081
 #, c-format
 msgid "Color \"%s\" not understood"
 msgstr ""
 
-#: src/rcfile.c:1106 src/rcfile.c:1117
+#: src/rcfile.c:1097 src/rcfile.c:1108
 msgid "An attribute requires a subsequent comma"
 msgstr ""
 
-#: src/rcfile.c:1161
+#: src/rcfile.c:1152
 msgid "Missing color name"
 msgstr ""
 
-#: src/rcfile.c:1172 src/rcfile.c:1272
+#: src/rcfile.c:1163 src/rcfile.c:1263
 #, c-format
 msgid "Missing regex string after '%s' command"
 msgstr ""
 
-#: src/rcfile.c:1198
+#: src/rcfile.c:1189
 msgid "\"start=\" requires a corresponding \"end=\""
 msgstr ""
 
-#: src/rcfile.c:1261 src/rcfile.c:1510
+#: src/rcfile.c:1252 src/rcfile.c:1501
 #, c-format
 msgid "A '%s' command requires a preceding 'syntax' command"
 msgstr ""
 
-#: src/rcfile.c:1267
+#: src/rcfile.c:1258
 #, c-format
 msgid "The \"default\" syntax does not accept '%s' regexes"
 msgstr ""
 
-#: src/rcfile.c:1314
+#: src/rcfile.c:1305
 #, c-format
 msgid "Missing argument after '%s'"
 msgstr ""
 
-#: src/rcfile.c:1324
+#: src/rcfile.c:1315
 #, c-format
 msgid "Argument of '%s' lacks closing \""
 msgstr ""
 
-#: src/rcfile.c:1374
+#: src/rcfile.c:1365
 #, c-format
 msgid "No key is bound to function '%s' in menu '%s'.  Exiting.\n"
 msgstr ""
 
-#: src/rcfile.c:1376
+#: src/rcfile.c:1367
 msgid ""
 "If needed, use nano with the -I option to adjust your nanorc settings.\n"
 msgstr ""
 
-#: src/rcfile.c:1443
+#: src/rcfile.c:1434
 #, c-format
 msgid "Could not find syntax \"%s\" to extend"
 msgstr ""
 
-#: src/rcfile.c:1500
+#: src/rcfile.c:1491
 #, c-format
 msgid "Command \"%s\" not allowed in included file"
 msgstr ""
 
-#: src/rcfile.c:1541
+#: src/rcfile.c:1532
 msgid "Missing option"
 msgstr ""
 
-#: src/rcfile.c:1555
+#: src/rcfile.c:1546
 #, c-format
 msgid "Unknown option: %s"
 msgstr "უცნობი პარამეტრი %s"
 
-#: src/rcfile.c:1570
+#: src/rcfile.c:1561
 #, c-format
 msgid "Cannot unset option \"%s\""
 msgstr ""
 
-#: src/rcfile.c:1575
+#: src/rcfile.c:1566
 #, c-format
 msgid "Option \"%s\" requires an argument"
 msgstr ""
 
-#: src/rcfile.c:1587
+#: src/rcfile.c:1578
 msgid "Argument is not a valid multibyte string"
 msgstr ""
 
-#: src/rcfile.c:1634 src/rcfile.c:1652 src/rcfile.c:1657
+#: src/rcfile.c:1625 src/rcfile.c:1643 src/rcfile.c:1648
 msgid "Non-blank characters required"
 msgstr ""
 
-#: src/rcfile.c:1636
+#: src/rcfile.c:1627
 msgid "Even number of characters required"
 msgstr ""
 
-#: src/rcfile.c:1641
+#: src/rcfile.c:1632
 msgid "Two single-column characters required"
 msgstr ""
 
-#: src/rcfile.c:1732
+#: src/rcfile.c:1723
 msgid "Specified rcfile does not exist\n"
 msgstr ""
 
-#: src/rcfile.c:1751
+#: src/rcfile.c:1742
 msgid "I can't find my home directory!  Wah!"
 msgstr ""
 
 #. TRANSLATORS: The next four modify the search prompt.
 #: src/search.c:101
 msgid " [Case sensitive]"
-msgstr ""
+msgstr " [დიდი და პატარა ასოები განსხვავდება]"
 
 #: src/search.c:102
 msgid " [Reg.exp.]"
-msgstr ""
+msgstr " [რეგ. გამოს.]"
 
 #: src/search.c:106
 msgid " (to replace) in selection"
@@ -2466,7 +2500,7 @@ msgstr ""
 #. TRANSLATORS: This is a prompt.
 #: src/search.c:712
 msgid "Replace with"
-msgstr ""
+msgstr "_ჩანაცვლება"
 
 #: src/search.c:742
 #, c-format
@@ -2548,7 +2582,7 @@ msgstr "ხაზების შეერთება"
 
 #: src/text.c:569 src/text.c:746
 msgid "replacement"
-msgstr ""
+msgstr "შემცვლელი"
 
 #: src/text.c:587 src/text.c:766
 msgid "erasure"
@@ -2561,7 +2595,7 @@ msgstr "ამოჭრა"
 
 #: src/text.c:597 src/text.c:775
 msgid "paste"
-msgstr ""
+msgstr "ჩასმა"
 
 #: src/text.c:604 src/text.c:779
 msgid "insertion"
@@ -2627,7 +2661,7 @@ msgid "Invoking formatter..."
 msgstr ""
 
 #: src/text.c:2183 src/text.c:2534 src/text.c:2536 src/text.c:2538
-#: src/text.c:2775
+#: src/text.c:2786
 #, c-format
 msgid "Error invoking '%s'"
 msgstr ""
@@ -2671,107 +2705,107 @@ msgstr ""
 #. TRANSLATORS: Shown after fixing misspellings in one word.
 #: src/text.c:2316
 msgid "Next word..."
-msgstr ""
+msgstr "შემდეგი სიტყვა..."
 
 #: src/text.c:2369
 msgid "Invoking spell checker..."
 msgstr ""
 
-#: src/text.c:2454 src/text.c:2680
+#: src/text.c:2454 src/text.c:2692
 msgid "Could not get size of pipe buffer"
 msgstr ""
 
-#: src/text.c:2540 src/text.c:2785
+#: src/text.c:2540 src/text.c:2791
 #, c-format
 msgid "Error reading pipe: %s"
-msgstr ""
+msgstr "წაკითხვის შეცდომა საკომუნიკაციო არხისთვის %s"
 
-#: src/text.c:2615
+#: src/text.c:2627
 msgid "No linter is defined for this type of file"
 msgstr ""
 
-#: src/text.c:2625
+#: src/text.c:2637
 msgid "Save modified buffer before linting?"
 msgstr ""
 
-#: src/text.c:2642
+#: src/text.c:2654
 msgid "Invoking linter..."
 msgstr ""
 
-#: src/text.c:2790
+#: src/text.c:2796
 #, c-format
-msgid "Got 0 parsable lines from command: %s"
+msgid "Zero messages from '%s'"
 msgstr ""
 
-#: src/text.c:2828
+#: src/text.c:2834
 #, c-format
 msgid "This message is for unopened file %s, open it in a new buffer?"
 msgstr ""
 
-#: src/text.c:2867
+#: src/text.c:2869
 msgid "No messages for this file"
 msgstr ""
 
-#: src/text.c:2917
+#: src/text.c:2919
 msgid "At first message"
 msgstr ""
 
-#: src/text.c:2927
+#: src/text.c:2929
 msgid "At last message"
 msgstr ""
 
-#: src/text.c:2972
+#: src/text.c:2969
 msgid "No formatter is defined for this type of file"
 msgstr ""
 
-#: src/text.c:3046
+#: src/text.c:3044
 #, c-format
 msgid "%s%zd %s,  %zu %s,  %zu %s"
 msgstr ""
 
-#: src/text.c:3047
+#: src/text.c:3045
 msgid "In Selection:  "
 msgstr ""
 
-#: src/text.c:3048
+#: src/text.c:3046
 msgid "line"
 msgid_plural "lines"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ხაზი"
+msgstr[1] "ხაზი"
 
-#: src/text.c:3049
+#: src/text.c:3047
 msgid "word"
 msgid_plural "words"
 msgstr[0] "სიტყვა"
 msgstr[1] "სიტყვა"
 
-#: src/text.c:3050
+#: src/text.c:3048
 msgid "character"
 msgid_plural "characters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "სიმბოლო"
+msgstr[1] "სიმბოლოები"
 
 #. TRANSLATORS: Shown when the next keystroke will be inserted verbatim.
-#: src/text.c:3068
+#: src/text.c:3066
 msgid "Verbatim Input"
 msgstr ""
 
 #. TRANSLATORS: An invalid verbatim Unicode code was typed.
-#: src/text.c:3092
+#: src/text.c:3090
 msgid "Invalid code"
 msgstr "არასწორი კოდი"
 
 #. TRANSLATORS: Shown when no text is directly left of the cursor.
-#: src/text.c:3178
+#: src/text.c:3177
 msgid "No word fragment"
 msgstr ""
 
-#: src/text.c:3281
+#: src/text.c:3280
 msgid "No further matches"
 msgstr ""
 
 #. TRANSLATORS: Shown when there are zero possible completions.
-#: src/text.c:3284
+#: src/text.c:3283
 msgid "No matches"
 msgstr "დათხვევა არ არსებობს"
 
@@ -2779,114 +2813,114 @@ msgstr "დათხვევა არ არსებობს"
 msgid "Nano is out of memory!\n"
 msgstr ""
 
-#: src/winio.c:98
+#: src/winio.c:93
 msgid "Recording a macro..."
 msgstr ""
 
-#: src/winio.c:108
+#: src/winio.c:103
 msgid "Stopped recording"
 msgstr "ჩაწერა შეჩერებულია"
 
-#: src/winio.c:128
+#: src/winio.c:123
 msgid "Cannot run macro while recording"
 msgstr ""
 
-#: src/winio.c:134
+#: src/winio.c:129
 msgid "Macro is empty"
 msgstr ""
 
-#: src/winio.c:149
+#: src/winio.c:144
 msgid "Too much input at once\n"
 msgstr ""
 
-#: src/winio.c:262
+#: src/winio.c:257
 msgid "Too many errors from stdin\n"
 msgstr ""
 
 #. TRANSLATORS: This is shown while a six-digit hexadecimal
 #. * Unicode character code (%s) is being typed in.
-#: src/winio.c:1423
+#: src/winio.c:1421
 #, c-format
 msgid "Unicode Input: %s"
 msgstr ""
 
 #. TRANSLATORS: The next five are "labels" in the title bar.
-#: src/winio.c:2037
+#: src/winio.c:2035
 msgid "Linting --"
 msgstr ""
 
-#: src/winio.c:2043
+#: src/winio.c:2041
 msgid "DIR:"
 msgstr ""
 
-#: src/winio.c:2063
+#: src/winio.c:2061
 msgid "View"
-msgstr ""
+msgstr "ხედი"
 
-#: src/winio.c:2069 src/winio.c:2073
+#: src/winio.c:2067 src/winio.c:2071
 msgid "Modified"
 msgstr "შეცვლილია"
 
-#: src/winio.c:2071
+#: src/winio.c:2069
 msgid "Restricted"
 msgstr "შეზღუდული"
 
-#: src/winio.c:2176
+#: src/winio.c:2166
 msgid "(nameless)"
 msgstr ""
 
-#: src/winio.c:2208
+#: src/winio.c:2200
 #, c-format
 msgid " (%zu line)"
 msgid_plural " (%zu lines)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/winio.c:2210
+#: src/winio.c:2202
 #, c-format
 msgid " (%zu line, %s)"
 msgid_plural " (%zu lines, %s)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " (%zu ხაზი, %s)"
+msgstr[1] " (%zu ხაზი, %s)"
 
-#: src/winio.c:3531
+#: src/winio.c:3511
 #, c-format
 msgid "line %*zd/%zd (%2d%%), col %2zu/%2zu (%3d%%), char %*zu/%zu (%2d%%)"
 msgstr ""
 
-#: src/winio.c:3685
+#: src/winio.c:3665
 msgid "The nano text editor"
 msgstr ""
 
-#: src/winio.c:3686
+#: src/winio.c:3666
 msgid "version"
 msgstr "version"
 
-#: src/winio.c:3687
+#: src/winio.c:3667
 msgid "Brought to you by:"
-msgstr ""
+msgstr "ქმნილების ავტორია:"
 
-#: src/winio.c:3688
+#: src/winio.c:3668
 msgid "Special thanks to:"
 msgstr ""
 
-#: src/winio.c:3689
+#: src/winio.c:3669
 msgid "The Free Software Foundation"
 msgstr ""
 
-#: src/winio.c:3690
+#: src/winio.c:3670
 msgid "the many translators and the TP"
 msgstr ""
 
-#: src/winio.c:3691
+#: src/winio.c:3671
 msgid "For ncurses:"
 msgstr ""
 
-#: src/winio.c:3692
+#: src/winio.c:3672
 msgid "and anyone else we forgot..."
 msgstr ""
 
-#: src/winio.c:3693
+#: src/winio.c:3673
 msgid "Thank you for using nano!"
 msgstr ""
 
