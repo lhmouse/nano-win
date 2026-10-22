@@ -40,16 +40,15 @@ static size_t location;
  * and concatenate the different pieces of text into it. */
 void help_init(void)
 {
-	size_t allocsize = 0;
-		/* Space needed for help_text. */
 	const char *htx[3];
-		/* Untranslated help introduction.  We break it up into three chunks
-		 * in case the full string is too long for the compiler to handle. */
+		/* Holds the introductory part of the help text -- broken into three
+		 * chunks to avoid a single string getting too long for the compiler. */
+	size_t textsize = 0;
 	const funcstruct *f;
 	const keystruct *s;
 	char *ptr;
 
-	/* First, set up the initial help text for the current function. */
+	/* Pick the introduction appropriate for the current menu. */
 	if (currmenu & (MWHEREIS|MREPLACE)) {
 		htx[0] = N_("Search Command Help Text\n\n "
 				"Enter the words or characters you would like to "
@@ -184,7 +183,6 @@ void help_init(void)
 		htx[2] = NULL;
 #endif
 	} else {
-		/* Default to the main help list. */
 		htx[0] = N_("Main nano help text\n\n "
 				"The nano editor is designed to emulate the "
 				"functionality and ease-of-use of the UW Pico text "
@@ -210,24 +208,18 @@ void help_init(void)
 				"parentheses:\n\n");
 	}
 
-	htx[0] = _(htx[0]);
-	if (htx[1])
-		htx[1] = _(htx[1]);
-	if (htx[2])
-		htx[2] = _(htx[2]);
-
-	allocsize += strlen(htx[0]);
-	if (htx[1])
-		allocsize += strlen(htx[1]);
-	if (htx[2])
-		allocsize += strlen(htx[2]);
+	/* Translate the introduction and determine its total size. */
+	for (int k = 0; k < 3 && htx[k]; k++) {
+		htx[k] = _(htx[k]);
+		textsize += strlen(htx[k]);
+	}
 
 	/* Calculate the length of the descriptions of the shortcuts.
 	 * Each entry has one or two keystrokes, which fill 17 cells,
 	 * plus translated text, plus one or two \n's. */
 	for (f = allfuncs; f != NULL; f = f->next)
 		if (f->menus & currmenu)
-			allocsize += strlen(_(f->phrase)) + 21;
+			textsize += strlen(_(f->phrase)) + 21;
 
 #ifndef NANO_TINY
 	/* If we're on the main list, we also count the toggle help text.
@@ -238,12 +230,12 @@ void help_init(void)
 
 		for (s = sclist; s != NULL; s = s->next)
 			if (s->func == do_toggle)
-				allocsize += strlen(_(epithet_of_flag(s->toggle))) + onoff_len + 9;
+				textsize += strlen(_(epithet_of_flag(s->toggle))) + onoff_len + 9;
 	}
 #endif
 
 	/* Allocate memory for the help text. */
-	help_text = nmalloc(allocsize + 1);
+	help_text = nmalloc(textsize + 1);
 
 	/* Now add the text we want. */
 	strcpy(help_text, htx[0]);
