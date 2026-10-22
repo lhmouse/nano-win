@@ -519,7 +519,7 @@ void do_enter(void);
 #ifndef NANO_TINY
 void discard_until(const undostruct *thisitem);
 void add_undo(undo_type action, const char *message);
-void update_multiline_undo(ssize_t lineno, char *indentation);
+void update_multiline_undo(ssize_t lineno, const char *indentation);
 void update_undo(undo_type action);
 #endif /* !NANO_TINY */
 #ifdef ENABLE_WRAPPING

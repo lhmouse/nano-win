@@ -1097,7 +1097,7 @@ void add_undo(undo_type action, const char *message)
 /* Update a multiline undo item.  This should be called once for each line
  * affected by a multiple-line-altering feature.  The indentation that is
  * added or removed is saved separately for each line in the undo item. */
-void update_multiline_undo(ssize_t lineno, char *indentation)
+void update_multiline_undo(ssize_t lineno, const char *indentation)
 {
 	undostruct *u = openfile->current_undo;
 

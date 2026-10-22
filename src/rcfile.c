@@ -494,7 +494,7 @@ keystruct *strtosc(const char *input)
 }
 
 #define NUMBER_OF_MENUS  16
-char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
+const char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
 									"yesno", "gotoline", "writeout", "insert",
 									"execute", "help", "spell", "linter",
 									"browser", "whereisfile", "gotodir",
@@ -518,7 +518,7 @@ int name_to_menu(const char *name)
 }
 
 /* Return the name that corresponds to the given menu symbol. */
-char *menu_to_name(int menu)
+const char *menu_to_name(int menu)
 {
 	int index = -1;
 
