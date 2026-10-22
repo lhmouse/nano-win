@@ -108,9 +108,8 @@ void help_init(void)
 				"are available in Write File mode:\n\n");
 		htx[1] = NULL;
 		htx[2] = NULL;
-	}
 #ifdef ENABLE_BROWSER
-	else if (currmenu == MBROWSER) {
+	} else if (currmenu == MBROWSER) {
 		htx[0] = N_("File Browser Help Text\n\n "
 				"The file browser is used to visually browse the "
 				"directory structure to select a file for reading "
@@ -146,10 +145,9 @@ void help_init(void)
 				"To Directory mode:\n\n");
 		htx[1] = NULL;
 		htx[2] = NULL;
-	}
-#endif /* ENABLE_BROWSER */
+#endif
 #ifdef ENABLE_SPELLER
-	else if (currmenu == MSPELL) {
+	} else if (currmenu == MSPELL) {
 		htx[0] = N_("=== Spelling correction ===\n\n "
 				"The spell checker has examined the spelling of all text "
 				"in the current buffer or marked region.  An unknown word "
@@ -159,10 +157,9 @@ void help_init(void)
 		htx[1] = N_(" The following function keys "
 				"are available at this prompt:\n\n");
 		htx[2] = NULL;
-	}
-#endif /* ENABLE_SPELLER */
+#endif
 #ifndef NANO_TINY
-	else if (currmenu == MEXECUTE) {
+	} else if (currmenu == MEXECUTE) {
 		htx[0] = N_("Execute Command Help Text\n\n "
 				"This mode allows you to insert the output of a "
 				"command run by the shell into the current buffer (or "
@@ -174,6 +171,8 @@ void help_init(void)
 				"large piece of the buffer, or put the editor to sleep.\n\n");
 		htx[2] = N_(" The following function keys "
 				"are available at this prompt:\n\n");
+#endif
+#ifdef ENABLE_LINTER
 	} else if (currmenu == MLINTER) {
 		htx[0] = N_("=== Linter ===\n\n "
 				"In this mode, the status bar shows an error message or "
@@ -183,9 +182,8 @@ void help_init(void)
 		htx[1] = N_(" The following function keys are "
 				"available in Linter mode:\n\n");
 		htx[2] = NULL;
-	}
-#endif /* !NANO_TINY */
-	else {
+#endif
+	} else {
 		/* Default to the main help list. */
 		htx[0] = N_("Main nano help text\n\n "
 				"The nano editor is designed to emulate the "
