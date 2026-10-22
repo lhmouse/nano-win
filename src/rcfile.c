@@ -495,10 +495,10 @@ keystruct *strtosc(const char *input)
 
 #define NUMBER_OF_MENUS  16
 const char *menunames[NUMBER_OF_MENUS] = { "main", "search", "replace", "replacewith",
-									"yesno", "gotoline", "writeout", "insert",
-									"execute", "help", "spell", "linter",
-									"browser", "whereisfile", "gotodir",
-									"all" };
+											"yesno", "gotoline", "writeout", "insert",
+											"execute", "help", "spell", "linter",
+											"browser", "whereisfile", "gotodir",
+											"all" };
 int menusymbols[NUMBER_OF_MENUS] = { MMAIN, MWHEREIS, MREPLACE, MREPLACEWITH,
 									MYESNO, MGOTOLINE, MWRITEFILE, MINSERTFILE,
 									MEXECUTE, MHELP, MSPELL, MLINTER,
