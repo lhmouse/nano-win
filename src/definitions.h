@@ -567,8 +567,6 @@ typedef struct openfilestruct {
 		/* From which column the edit window is drawn (when panning). */
 	ssize_t cursor_row;
 		/* The row in the edit window that the cursor is on. */
-	struct stat *statinfo;
-		/* The file's stat information from when it was opened or last saved. */
 #ifdef ENABLE_WRAPPING
 	linestruct *spillage_line;
 		/* The line for prepending stuff to during automatic hard-wrapping. */
@@ -582,6 +580,8 @@ typedef struct openfilestruct {
 		/* Whether a marked region was made by holding Shift. */
 	format_type fmt;
 		/* The file's format -- Unix or DOS. */
+	struct stat *statinfo;
+		/* The file's stat information from when it was opened or last saved. */
 	char *lock_filename;
 		/* The path of the lockfile, if we created one. */
 	undostruct *undotop;

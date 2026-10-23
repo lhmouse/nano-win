@@ -2813,6 +2813,7 @@ void do_linter(void)
 	while (TRUE) {
 		int kbinput;
 		functionptrtype function;
+#ifndef NANO_TINY
 		struct stat lintfileinfo;
 
 		if (stat(curlint->filename, &lintfileinfo) == 0 &&
@@ -2877,6 +2878,7 @@ void do_linter(void)
 			}
 #endif
 		}
+#endif /* !NANO_TINY */
 
 		if (lastone != curlint) {
 			/* Put the cursor at the reported position, but don't go beyond EOL
