@@ -146,18 +146,6 @@ void help_init(void)
 		htx[1] = NULL;
 		htx[2] = NULL;
 #endif
-#ifdef ENABLE_SPELLER
-	} else if (currmenu == MSPELL) {
-		htx[0] = N_("=== Spelling correction ===\n\n "
-				"The spell checker has examined the spelling of all text "
-				"in the current buffer or marked region.  An unknown word "
-				"has been encountered -- it is highlighted and a replacement "
-				"can now be edited.  After this you will be asked whether "
-				"to replace each instance of that unknown word.\n\n");
-		htx[1] = N_(" The following function keys "
-				"are available at this prompt:\n\n");
-		htx[2] = NULL;
-#endif
 #ifndef NANO_TINY
 	} else if (currmenu == MEXECUTE) {
 		htx[0] = N_("Execute Command Help Text\n\n "
@@ -171,6 +159,18 @@ void help_init(void)
 				"large piece of the buffer, or put the editor to sleep.\n\n");
 		htx[2] = N_(" The following function keys "
 				"are available at this prompt:\n\n");
+#endif
+#ifdef ENABLE_SPELLER
+	} else if (currmenu == MSPELL) {
+		htx[0] = N_("=== Spelling correction ===\n\n "
+				"The spell checker has examined the spelling of all text "
+				"in the current buffer or marked region.  An unknown word "
+				"has been encountered -- it is highlighted and a replacement "
+				"can now be edited.  After this you will be asked whether "
+				"to replace each instance of that unknown word.\n\n");
+		htx[1] = N_(" The following function keys "
+				"are available at this prompt:\n\n");
+		htx[2] = NULL;
 #endif
 #ifdef ENABLE_LINTER
 	} else if (currmenu == MLINTER) {
